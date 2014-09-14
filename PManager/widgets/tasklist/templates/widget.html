@@ -130,6 +130,7 @@
 
         <hr> 
 {% endif %}
+{% if not asklist.isInvite %}
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
         <div class="row tasks-toolbar">
             <div class="col-xs-4">
@@ -242,6 +243,7 @@
                 </ul>
             </div>
         </div>
+{% endif %}
         <hr class="no-top-magin-hr">
         <script language="javascript">
         var aTaskList = [],taskRespSummary = {};

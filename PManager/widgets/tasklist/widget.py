@@ -123,7 +123,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             arBIsManager[task.id] = cur_prof.isManager(task.project)
 
         if task.resp and \
-                not task.id in arBets and \
                 task.planTime and \
                 task.status and \
                 task.status.code == 'not_approved' and \
