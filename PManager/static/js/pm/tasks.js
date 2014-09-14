@@ -416,8 +416,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                     }else{
                         timer.stop();
                     }
-
-
                 }
 
                 if (playBtnStatus == 'disabled') {
@@ -510,7 +508,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 
                 $('.js_task_responsibles .dropdown-menu').remove();
                 var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
-//                this.$('.js_task_responsibles .dropdown').append(userList);
+
                 userList.appendTo('body').css({
                     'position':'absolute',
                     'top':(position.top + position.height + 5),

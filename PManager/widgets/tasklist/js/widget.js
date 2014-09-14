@@ -814,7 +814,7 @@ var widget_tl, currentGroup;
                     }
                 }
 
-                taskRespSummary[task.id] = taskInfo.resp;
+                taskRespSummary[task.id] = taskInfo.responsibleList;
 
                 arTimers[task.id] = new PM_Timer(taskInfo.time);
                 arTimers[task.id].container = view.$el.find('.js-time').eq(0);

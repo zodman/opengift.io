@@ -20,7 +20,7 @@ baseConnectorClass.prototype = {
             this.emit("connect", {
                     sessionid: $.cookie("sessionid")
                 }, function(data){
-                    console.log(data);
+//                    console.log(data);
             });
         });
     },
@@ -53,8 +53,8 @@ var baseConnector = {};
 
 $(function(){
     baseConnector = new baseConnectorClass({
-//        'url':'http://127.0.0.1:8001'
-        'url':'http://heliard.ru:8081'
+        'url':'http://127.0.0.1:8001'
+//        'url':'http://heliard.ru:8081'
     });
 });
 (function($){

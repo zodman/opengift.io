@@ -77,10 +77,10 @@ def taskListAjax(request):
             )
             redisSendTaskUpdate(
                 {
-                    'resp': {
+                    'resp': [{
                         'id': resp.id,
                         'name': responseText
-                    },
+                    }],
                     'viewedOnly': request.user.id,
                     'id': task.id
                 }
