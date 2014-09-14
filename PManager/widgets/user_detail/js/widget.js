@@ -67,7 +67,7 @@ $(function(){
                         'role': $(this).attr('name'),
                         'project': $(this).data('project'),
                         'user': $(this).data('user-id'),
-                        'set': $(this).is(':checked')
+                        'set': ($(this).is(':checked') ? 1 : 0)
                     },
                     function(data){
                         alert(data);
