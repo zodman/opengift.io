@@ -53,7 +53,12 @@ urlpatterns = patterns('',
                        # Examples:
                        url(r'^$', MainPage.indexRender,
                            {'widgetList': ["project_graph", "tasklist", "chat"], 'activeMenuItem': 'main'}),
-                       url(r'^invite/$', MainPage.indexRender, {'widgetList': ["tasklist"]}),
+                       url(r'^invite/$', MainPage.indexRender,
+                           {
+                               'widgetList': ["tasklist"],
+                               'widgetParams': {'invite': True}
+                           }
+                       ),
                        url(r'^gantt/$', MainPage.indexRender, {'widgetList': ["gantt"], 'activeMenuItem': 'main'}),
                        url(r'^widgets/js/(?P<widget_name>[A-z_]+)/(?P<script_name>[A-z_\.]+)\.js', MainPage.jsWidgetProxy),
                        url(r'^widget_update/(?P<widget_name>[A-z_]+)', MainPage.widgetUpdate),

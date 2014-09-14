@@ -819,7 +819,7 @@ class PM_Task(models.Model):
         return PM_Task.objects.filter(*filterForUser).distinct().count()
 
     @staticmethod
-    def getQArgsFilterForUser(user, project=None):
+    def getQArgsFilterForUser(user, project=None, invite=False):
         from django.db.models import Count
 
         filterQArgs = []
@@ -848,11 +848,11 @@ class PM_Task(models.Model):
         if not bExist:
             # userProjects = user.get_profile().getProjects()
             mProjects = user.get_profile().managedProjects
+            q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
+            if project and invite:
+                q = q | Q(onPlanning=True) & Q(closed=False) & Q(resp__isnull=True)
             filterQArgs.append(
-                Q(
-                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects) |
-                    Q(onPlanning=True) & Q(closed=False) & Q(resp__isnull=True)
-                )
+                Q(q)
             )
 
         return filterQArgs

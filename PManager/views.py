@@ -34,7 +34,7 @@ class Brains:
 
 class MainPage:
     @staticmethod
-    def indexRender(request, widgetList=None, activeMenuItem=None):
+    def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}):
         #agents
         from PManager.models import Agent
         from django.db.models import Q
@@ -108,9 +108,9 @@ class MainPage:
                 str = 'widget = widgets.%s' % widgetName
                 exec (str)
                 if widgetName == 'tasklist':
-                    widget = widget.widget(request, headerValues, {}, [], arPageParams)
+                    widget = widget.widget(request, headerValues, widgetParams, [], arPageParams)
                 else:
-                    widget = widget.widget(request, headerValues, {}, [])
+                    widget = widget.widget(request, headerValues, widgetParams, [])
 
                 if widget:
                     if 'redirect' in widget:

@@ -167,7 +167,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if 'parentTask' not in filter:
             # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
-            filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project)
+            filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project, widgetParams.get('invite', False))
             filterQArgs = PM_Task.mergeFilterObjAndArray({'parentTask': task, 'active': True}, filterQArgs)
             subtasksQuery = PM_Task.objects.filter(*filterQArgs)
             subtasksQty = subtasksQuery.count()
