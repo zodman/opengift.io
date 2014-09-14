@@ -56,7 +56,9 @@ urlpatterns = patterns('',
                        url(r'^invite/$', MainPage.indexRender,
                            {
                                'widgetList': ["tasklist"],
-                               'widgetParams': {'invite': True}
+                               'widgetParams': {
+                                   'invite': True
+                               }
                            }
                        ),
                        url(r'^gantt/$', MainPage.indexRender, {'widgetList': ["gantt"], 'activeMenuItem': 'main'}),

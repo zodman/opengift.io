@@ -851,6 +851,7 @@ class PM_Task(models.Model):
             q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
             if project and invite:
                 q = q | Q(onPlanning=True) & Q(closed=False) & Q(resp__isnull=True)
+
             filterQArgs.append(
                 Q(q)
             )
@@ -883,7 +884,7 @@ class PM_Task(models.Model):
             }
             filterQArgs = []
 
-        filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
+        filterQArgs += PM_Task.getQArgsFilterForUser(user, project, arPageParams.get('invite', False))
 
         excludeFilter = {}
         if 'exclude' in filter:
