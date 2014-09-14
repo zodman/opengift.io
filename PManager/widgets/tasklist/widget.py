@@ -104,7 +104,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     else:
         arPageParams = {} #выводим все подзадачи, а не только кусок, как для задач
 
-    arPageParams['invite'] = widgetManager.get('invite', False)
+    arPageParams['invite'] = widgetParams.get('invite', False)
     if 'exclude' in widgetParams:
         filter['exclude'] = widgetParams['exclude']
 
