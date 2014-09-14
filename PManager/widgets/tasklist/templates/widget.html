@@ -359,7 +359,15 @@
     </div>
   </div>
 </div>
-
+{% if tasklist.invite %}
+<script>
+$(function(){
+    widget_tl.ready(function(){
+        $('.js-task-checkbox').remove();
+    });
+});
+</script>
+{% endif %}
 <script src="/static/js/fileup/header.js"></script>
 <script src="/static/js/fileup/util.js"></script>
 <script src="/static/js/fileup/promise.js"></script>
