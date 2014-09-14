@@ -235,6 +235,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'project': {
                 'name': task.project.name
             },
+            'canEdit': task.canEdit(cur_user),
             'canRemove': task.canPMUserRemove(cur_prof),
             'canSetOnPlanning': arBIsManager[task.id] or False,
             'canApprove': arBIsManager[task.id] or request.user.id == task.author.id,

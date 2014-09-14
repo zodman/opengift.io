@@ -43,12 +43,14 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'getMenuItems': function () {
             var arItems = [];
-            arItems.push({
-                'itemClass': 'Edit',
-                'itemText': 'Изменить',
-                'itemMethod': 'editTask',
-                'icon': 'edit'
-            });
+            if (this.model.get('canEdit')) {
+                arItems.push({
+                    'itemClass': 'Edit',
+                    'itemText': 'Изменить',
+                    'itemMethod': 'editTask',
+                    'icon': 'edit'
+                });
+            }
 
             if (this.get('observer')) {
                 arItems.push({
