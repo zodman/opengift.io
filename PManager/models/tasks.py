@@ -729,15 +729,9 @@ class PM_Task(models.Model):
 
         task = PM_Task(**arSaveFields)
 
-        task.save()
-
-        for file in arFiles:
-            task.files.add(file)
-
-        task.observers.add(task.author)
-
         if resp:
             task.resp = resp
+
             #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
             roles = resp.get_profile().getRoles(task.project)
             if not roles:
@@ -746,6 +740,12 @@ class PM_Task(models.Model):
         #     for resp in task.parentTask.responsible.all():
     #         task.responsible.add(resp) #17.04.2014 task #553
 
+        task.save()
+
+        for file in arFiles:
+            task.files.add(file)
+
+        task.observers.add(task.author)
 
         PM_Task.saveTaskTags(task)
 

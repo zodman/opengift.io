@@ -22,7 +22,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'success':function(model, data){
                         try {
                             data = $.parseJSON(data);
-                            console.log(data);
                             if (typeof(data) == typeof({}) && data.id){
                                 for (var i in data){
                                     model.set(i, data[i]);
