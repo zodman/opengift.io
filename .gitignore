@@ -1,0 +1,5 @@
+.vagrant/*
+.idea/*
+PManager/migrations/*
+PManager/static/upload/*
+PManager/static/project_comments/*
