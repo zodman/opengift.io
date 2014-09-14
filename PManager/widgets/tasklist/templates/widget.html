@@ -247,7 +247,7 @@
         var aTaskList = [],taskRespSummary = {};
         {% for task in tasklist.tasks %}
             aTaskList.push({{ task|jsonify|safe }});
-            taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+            taskRespSummary['{{ task.id }}'] = {{ task.resp|jsonify|safe }}
             {% if task.time %}
                 arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
                 {% if task.startedTimerExist %}
