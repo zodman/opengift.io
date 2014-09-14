@@ -1242,8 +1242,8 @@ class PM_Task_Message(models.Model):
                 changed = True
         if 'hidden_from_clients' in data:
             r = not not data['hidden_from_clients']
-            if self.hidden_from_author != r:
-                self.hidden_from_author = r
+            if self.hidden_from_clients != r:
+                self.hidden_from_clients = r
                 changed = True
 
         if 'text' in data and not changed:
@@ -1302,7 +1302,7 @@ class PM_Task_Message(models.Model):
             'text': TextFilters.getFormattedText(escape(self.text)),
             'date': templateTools.dateTime.convertToSite(timezone.localtime(self.dateCreate)),
             'files': taskExtensions.getFileList(self.files.all()),
-            # 'hidden_from_author': self.hidden_from_author,
+            # 'hidden_from_clients': self.hidden_from_clients,
             # 'hidden_from_responsible': self.hidden_from_responsible,
             'hidden': self.hidden,
             'system': self.isSystemLog,
