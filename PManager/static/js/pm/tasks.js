@@ -291,12 +291,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                 taskInfo.planTime = '';
 
             var sPlanTime = '';
-            if (!taskInfo.subtasksQty && (taskInfo.planTime || taskInfo.onPlanning || taskInfo.canSetPlanTime)) {
+            if ((!taskInfo.subtasksQty || taskInfo.planTime) && (taskInfo.onPlanning || taskInfo.canSetPlanTime)) {
                 sPlanTime += '<span class="dropdown">&nbsp;[ ~ </span>' +
                     '<span class="dropdown">' +
-                    '<a data-toggle="dropdown" class="jsPlanTimeHolder">'
+                    (taskInfo.subtasksQty ? '':'<a data-toggle="dropdown" class="jsPlanTimeHolder">')
                     + (taskInfo.planTime || 'Оценить')
-                    + '</a>';
+                    + (taskInfo.subtasksQty ? '':'</a>');
                 sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
 
                 for (var i in this.arPlanTimes) {
