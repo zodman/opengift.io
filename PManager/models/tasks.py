@@ -407,7 +407,7 @@ class PM_Task(models.Model):
                 userBet = prof.getBet(self.project)
                 curtime = time
                 if type == 'real_time':
-                    curtime = aUserTimeAndRating.get(self.resp.id,{}).get('time', 0)
+                    curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
                     if curtime:
                         time += curtime
                         prof.rating = (prof.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
@@ -427,7 +427,6 @@ class PM_Task(models.Model):
         #clients debt
         userRoles = PM_ProjectRoles.objects.filter(
             project=self.project,
-            rate__isnull=False,
             payment_type=type
         )
 
