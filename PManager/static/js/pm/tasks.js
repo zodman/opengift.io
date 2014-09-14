@@ -43,7 +43,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'getMenuItems': function () {
             var arItems = [];
-            if (this.model.get('canEdit')) {
+            if (this.get('canEdit')) {
                 arItems.push({
                     'itemClass': 'Edit',
                     'itemText': 'Изменить',
