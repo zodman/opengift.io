@@ -19,7 +19,8 @@ def register(request):
         user.save()
         project.author = user
         project.save()
-        user.get_profile().setRole('manager', project, 'payment_type')
+        user.get_profile().setRole('manager', project)
+        user.get_profile().setRole('client', project, 'plan_time')
         task = PM_Task(
             name=u'Ознакомиться с системой',
             author=user,
