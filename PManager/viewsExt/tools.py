@@ -10,7 +10,7 @@ class emailMessage:
     templateName = ''
     context = None
     subject = ''
-    u_from = 'info@heliard.ru'
+    u_from = 'admin@heliard.ru'
 
     def __init__(self, templateName, context, subject, u_from=''):
         setattr(self, 'templateName', templateName)
