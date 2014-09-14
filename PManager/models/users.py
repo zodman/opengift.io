@@ -203,7 +203,7 @@ class PM_User(models.Model):
 
     def deleteRole(self, role, project):
         if self.user:
-            userRole = PM_ProjectRoles.objects.get(user=self.user, role=role, project=project)
+            userRole = PM_ProjectRoles.objects.get(user=self.user, role__code=role, project=project)
             if userRole:
                 userRole.delete()
 
