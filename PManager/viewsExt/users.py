@@ -18,7 +18,7 @@ class userHandlers:
                 for p in managedProjects:
                     if projectId == p.id:
                         roleCode = request.POST.get('role', None)
-                        set = request.POST.get('set', None)
+                        set = int(request.POST.get('set', 0))
                         user = User.objects.get(pk=userId)
                         prof = user.get_profile()
 
@@ -27,7 +27,7 @@ class userHandlers:
                         else:
                             prof.deleteRole(roleCode, p)
 
-        return HttpResponse('ok')
+                return HttpResponse('ok')
 
 class usersActions:
     def set_user_roles(self):

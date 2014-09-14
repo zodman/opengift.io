@@ -70,7 +70,7 @@ $(function(){
                         'set': ($(this).is(':checked') ? 1 : 0)
                     },
                     function(data){
-                        alert(data);
+//                        alert(data);
                     }
                 )
             });
