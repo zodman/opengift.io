@@ -28,13 +28,13 @@ var CRITICALLY_THRESHOLD = 0.7;
                             }
                         }
                     } catch (e) {
-//                            console.log('Parse error');
+                            console.log('Parse error');
                     }
                     try {
                         if (callback)
                             callback.call(t);
                     } catch (e) {
-//                            console.log('Callback error');
+                            console.log('Callback error');
                     }
                 },
                 'error': function (model, data) {
