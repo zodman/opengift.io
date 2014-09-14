@@ -211,6 +211,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'name': task.project.name
             },
             'canRemove': task.canPMUserRemove(cur_user.get_profile()),
+            'canSetOnPlanning': arBIsManager[task.id] or False,
             'canSetPlanTime': task.canPMUserSetPlanTime(cur_user.get_profile()),
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,

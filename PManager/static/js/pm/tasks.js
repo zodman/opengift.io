@@ -65,21 +65,22 @@ var CRITICALLY_THRESHOLD = 0.7;
                         'icon':'eye'
                     });
                 }
-
-                if (this.get('onPlanning')) {
-                    arItems.push({
-                        'itemClass':'ResetPlanning',
-                        'itemText':'Завершить планирование',
-                        'itemMethod':'closePlanning',
-                        'icon':'list-alt'
-                    });
-                } else {
-                    arItems.push({
-                        'itemClass':'BringPlanning',
-                        'itemText':'Вывести на планирование',
-                        'itemMethod':'addToPlaning',
-                        'icon':'users'
-                    });
+                if (this.get('canSetOnPlanning')) {
+                    if (this.get('onPlanning')) {
+                        arItems.push({
+                            'itemClass':'ResetPlanning',
+                            'itemText':'Завершить планирование',
+                            'itemMethod':'closePlanning',
+                            'icon':'list-alt'
+                        });
+                    } else {
+                        arItems.push({
+                            'itemClass':'BringPlanning',
+                            'itemText':'Вывести на планирование',
+                            'itemMethod':'addToPlaning',
+                            'icon':'users'
+                        });
+                    }
                 }
 
                 if (!this.get('closed') && !this.get('subtasksQty')){

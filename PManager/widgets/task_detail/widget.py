@@ -53,6 +53,8 @@ def widget(request, headerValues, arFilter, q):
                     cur_user,
                     'CONFIRM_ESTIMATION'
                 )
+
+                task.sendTaskEmail('new_task', [planTime.user.email])
                 return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:
                 pass
@@ -126,7 +128,6 @@ def widget(request, headerValues, arFilter, q):
 
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.getDefaultTaskTemplate()
-
 
         #test
         # resultTimeIndex = []
@@ -214,6 +215,7 @@ def widget(request, headerValues, arFilter, q):
         #             task.critically
         #         ])
         #/test
+
         brain = TaskMind()
         return {
             'title': task.name,

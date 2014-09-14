@@ -1089,14 +1089,15 @@ class PM_Task(models.Model):
 
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                                                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
-                                                                    arTagsId) + ') AND object_id=' + str(
-                                                    user.id) + ' AND content_type_id=' + str(
-                                    ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
+                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
+                                    arTagsId) + ') AND object_id=' + str(
+                    user.id) + ' AND content_type_id=' + str(
+                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
 
             return userTagSums.get(str(user.id), 0)
+        return 0
 
     def systemMessage(self, text, user=None, code=None):
         message = PM_Task_Message(text=text, task=self, author=user, isSystemLog=True, code=code)
