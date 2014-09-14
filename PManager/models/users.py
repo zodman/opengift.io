@@ -174,7 +174,7 @@ class PM_User(models.Model):
 
         return False
 
-    def setRole(self, roleCode, project):
+    def setRole(self, roleCode, project, type):
         if self.user and project and roleCode:
             try:
                 clientRole = PM_Role.objects.get(code=roleCode, tracker=headers.TRACKER)
@@ -182,7 +182,7 @@ class PM_User(models.Model):
                 return False
 
             if clientRole:
-                userRole = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole, project=project)
+                userRole = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole, project=project, payment_type=type)
 
         return self
 
