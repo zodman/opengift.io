@@ -94,12 +94,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                             'icon':'thumbs-down'
                         });
                     }else if(status == 'not_approved'){
-                        arItems.push({
-                            'itemClass':'SetRevision',
-                            'itemText':'Подтвердить выполнение',
-                            'itemMethod':'setRevision',
-                            'icon':'check-square-o'
-                        });
+                        if (this.get('canApprove')) {
+                            arItems.push({
+                                'itemClass':'SetRevision',
+                                'itemText':'Подтвердить выполнение',
+                                'itemMethod':'setRevision',
+                                'icon':'check-square-o'
+                            });
+                        }
                     }else{
                         arItems.push({
                             'itemClass':'SetReady',

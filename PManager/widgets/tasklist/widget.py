@@ -88,6 +88,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         #@var HttpRequest request
         cur_user = request.user
 
+    cur_prof = cur_user.get_profile()
+
     if not 'pageCount' in arPageParams:
         arPageParams['pageCount'] = 100
         arPageParams['page'] = 1
@@ -116,7 +118,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     arBIsManager = {}
     for task in tasks:
         if not task.id in arBIsManager:
-            arBIsManager[task.id] = cur_user.get_profile().isManager(task.project)
+            arBIsManager[task.id] = cur_prof.isManager(task.project)
 
         task.time = task.getAllTime()
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
@@ -210,9 +212,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'project': {
                 'name': task.project.name
             },
-            'canRemove': task.canPMUserRemove(cur_user.get_profile()),
+            'canRemove': task.canPMUserRemove(cur_prof),
             'canSetOnPlanning': arBIsManager[task.id] or False,
-            'canSetPlanTime': task.canPMUserSetPlanTime(cur_user.get_profile()),
+            'canApprove': arBIsManager[task.id] or request.user.id == task.author.id,
+            'canSetCritically': arBIsManager[task.id] or request.user.id == task.author.id,
+            'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'status': task.status.code if task.status else '',
