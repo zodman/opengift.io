@@ -1,0 +1,41 @@
+<!--
+HTML tenmplate for message
+#ID#
+#AUTHOR_ID#
+#AVATAR_SRC#
+#AUTHOR_NAME#
+#AUTHOR_LAST_NAME#
+#AUTHOR_USERNAME#
+#DATE_CREATE#
+#TEXT#
+#FILE_LIST#
+#USER_TO_NAME#
+-->
+<div class="chatString">
+<div class="pull-left Avatar js-avatarBlock">
+    <a href="/user_detail/?id=#AUTHOR_ID#"> #AVATAR# </a>
+</div>
+<div class="DetailCommentInfo Img">
+    <div class="pull-left author js-author-block">
+        <a href="/user_detail/?id=#AUTHOR_ID#">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a> <span>(#AUTHOR_USERNAME#)</span>#USER_TO_NAME# 
+    </div>
+    <a title="Удалить" class="task-message-icon pull-right js-removeTaskMessage" style="display:none;margin-left:10px;"><i class="fa fa-times-circle"></i></a>
+    <a title="Изменить" class="task-message-icon pull-right js-editTaskMessage" style="display:none;margin-left:10px;"><i class="fa fa-edit"></i></a>
+
+    <div class="pull-right time">#DATE_CREATE# #HIDDEN_LABEL#</div>
+</div>
+<div class="DetailCommentText Img js-taskMessageText">
+        <div>
+            <div class="js-messageDetailText">#TEXT#</div>
+            <div class="js-filesList">
+
+            </div>
+        </div>        
+        <div align="right">
+        	<a href="#" class="DetailCommentInfo-quote js-quote btn btn-default btn-xs">Цитировать</a>
+        	<a href="#" rel="#AUTHOR_ID#" class="js-reply btn btn-success btn-xs">Ответить</a>
+        </div>
+</div>
+
+
+</div>

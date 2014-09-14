@@ -1,0 +1,93 @@
+{% load jsonify %}
+<script type="text/javascript" src="/widgets/js/project_calendar/script.js"></script>
+<div class="widget tasklist">
+    <div id="taskform" style="position:absolute;display:none;width:300px;padding:7px;background-color:white;border:1px dashed blue;" >
+        <h3 id="header_form"></h3>
+        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform">
+            <input type="hidden" name="GROUP_ID" value="" />
+            <input type="hidden" name="ID" value="" />
+            <table width="100%" cellpadding="0" cellspacing="0" style="table-layout:fixed;">
+                <tr>
+                    <td>Наименование:</td><td><input id='title_inp' type="text" name="TITLE" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Ответственный:</td>
+                    <td>
+                        <select name="RESPONSIBLE_ID" >
+                            {% for resp_user in project_calendar.users %}
+                                <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
+                            {% endfor %}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Критичность:</td>
+                    <td>
+                        <select name="PRIORITY" >
+                            <option value="0">Низкая</option>
+                            <option value="1">Нормальная</option>
+                            <option value="2">Высокая</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Дедлайн:</td>
+                    <td><input type="text" name="DEADLINE" value="" /></td>
+                </tr>
+                <tr>
+                    <td>Завершить:</td><td><input type="checkbox" name="STATUS" value="5" /></td>
+                </tr>
+            </table>
+            <p><input type="button" name="submit" value="Ok" />&nbsp;<input type="button" name="close" value="Отмена" onClick="$('#taskform').hide();flagcool=false;" /></p>
+        </form>
+    </div>
+    <div class="widget-control">
+        <a href="#" class="w-collapse">Свернуть</a>
+        <a href="#" class="w-close">Закрыть</a>
+    </div>
+
+    <h3>Календарь ответственности</h3>
+    <hr>
+
+<style>
+.sonet-user-profile-friend-box {table-layout:fixed;}
+.sonet-user-profile-friend-box.table th {text-align:center;}
+</style>
+
+    <table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
+        <tr>
+            <th>Проект</th>
+            {% for day in project_calendar.arDays %}
+            <th width="{{ project_calendar.daysCount }}%">{{ day.weekday }}</th>
+            {% endfor %}
+        </tr>
+        {% for project in project_calendar.projects %}
+        <tr>
+        <td>
+            {{ project.name }}
+        </td>
+        {% for day in project_calendar.arDays %}
+        <td>
+            <div>
+            {% for milestone in project.milestoneSet %}
+                {% if milestone.date|date:'d.m.Y' == day.date %}
+                <div class="critically_{{ milestone.critically }}" id="task_" style="width:100%;padding:2px;display:block;border-bottom:1px solid #eee;{{ color }}">
+                    <div class="date" style="color:#555;font-size:9px;">Создана: {{ milestone.date_create.date }}</div>
+                    <div class="bxec-event-actions">
+                        <div class="bxec-icon-cont-tl">
+                            <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>&nbsp;<a href="#" onClick="return ShowForm(this,{'deadline':'{{day.date}}','project_id':{{ project.id }}});" style="background-image: url('/bitrix/images/intranet/event_calendar/iconkit.gif');background-position: -20px -47px;height: 18px;width: 18px;display:inline-block;">&nbsp;</a>
+                        </div>
+                    </div>
+                    {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <a href="#" onMouseOver="$(this).find('span').show();" onMouseOut="$(this).find('span').hide();" onClick="return ShowForm(this,{'deadline':'{{day.date}}','project_id':{{ project.id }}});" style="text-align:center;vertical-align:middle;width:100%;display:block;height:50px;"><span style="display:none">Добавить</span></a>
+            </div>
+        </td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+        </table>
+
+</div>

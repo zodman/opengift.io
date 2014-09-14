@@ -1,0 +1,131 @@
+{% load jsonify thumbnail %}
+<script type="text/javascript" src="/widgets/js/life/script.js"></script>
+<script type="text/javascript" src="/static/js/libs/charts.js"></script>
+{#<script type="text/javascript" src="/static/js/bootstrap/bootstrap-tooltip.js"></script>#}
+<style>
+    .t {
+        color: #0bd145;
+    }
+</style>
+<script type="text/javascript">
+var data = {};
+{% for project in life.projects %}
+data['{{ project.id }}'] = {
+        labels : [{% for event in project.events %}'{{ event.date }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+        datasets : [
+            {
+                fillColor : "#0bd145",
+                strokeColor : "rgba(220,220,220,1)",
+                data : [{% for event in project.events %}{{ event.qty }}{% if not forloop.last %},{% endif %}{% endfor %}]
+            }
+        ]
+    }
+{% endfor %}
+$(function() {
+    {% for user in life.users %}
+        {% if user.taskTime %}
+            var timer = new PM_Timer({'seconds':{{ user.taskTime|jsonify|safe }}});
+            timer.container = $('.task_time[data-taskid={{ user.startedTask.id }}]');
+            timer.start();
+            arTimers['{{ user.startedTask.id }}'] = timer;
+        {% endif %}
+    {% endfor %}
+    var curDS = [];
+    {% for project in life.projects %}
+    var canvas = $('#project_graph_{{ project.id }}').get(0);
+    var ctx{{ project.id }} = canvas.getContext("2d");
+    new Chart(ctx{{ project.id }}).Bar(data['{{ project.id }}'],{'scaleShowLabels':false});
+
+    curDS = data['{{ project.id }}']['datasets'][0]['data'];
+    if (curDS[curDS.length - 1] == 0 && curDS[curDS.length - 2] == 0) {
+        $(canvas).closest('tr').addClass('danger');
+    }else{
+        $(canvas).closest('tr').addClass('success');
+    }
+    {% endfor %}
+});
+</script>
+<div class="widget">
+    <div class="widget-control">
+        <a href="#" class="w-collapse">Свернуть</a>
+        <a href="#" class="w-close">Закрыть</a>
+    </div>
+
+    <h3>Текущая активность <a href="?show_all=Y">показать всех</a></h3>
+    <hr>
+
+    <div class="row-fluid user-list">
+        <div class="container-fluid">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Задача</th>
+                    <th>Плановое время</th>
+                    <th>Потраченное время</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for user in life.users %}
+                        <tr class="info">
+            	        <td style="white-space: nowrap" >
+                            <img src="{% if user.profile.avatar %}{{ user.profile.avatarSrc|thumbnail:"30x30" }}{% else %}{{ "/static/images/avatar_unknown.png"|thumbnail:"30x30"}}{% endif %}"
+                                 class="img-thumbnail" width="30px" style="margin-right: 5px;" /><a href="/user_detail/?id={{ user.id }}"><b{% if user.activity == 0 %} style="color: lightgrey;"{% endif %}>{% if user.last_name %}{{ user.last_name }}&nbsp;{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a>
+                            {% if user.id == life.topUser %}
+                                &nbsp;<img class="top_user_medal" src="/static/ico/gold.png" title="Лучший работник месяца" />
+                            {% endif %}
+                            <div class="progress" style="margin-top: 7px;margin-bottom: 3px;">
+                                <div class="progress-bar progress-bar-success" style="width: {{ user.activity }}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{ user.activity }}" role="progressbar">
+                                    <span class="sr-only">{{ user.activity }}% activity</span>
+                                </div>
+                            </div>
+            	        </td>
+                        <td>
+                            {% if user.startedTask %}
+                                <a href='/?project={{ user.startedTask.project.id }}'>{{ user.startedTask.project.name }}</a> / {% if user.startedTask.parentTask %}<a href='{{  user.startedTask.parentTask.url }}'>{{  user.startedTask.parentTask.number }}.&nbsp;{{ user.startedTask.parentTask.name }}</a> / {% endif %}<b><a href='{{  user.startedTask.url }}'>{{  user.startedTask.number }}.&nbsp;{{ user.startedTask.name }}</a></b>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if user.startedTask.planTime  %}{{ user.startedTask.planTime }}{% endif %}
+                        </td>
+                        <td>
+                            <div class="task_time" data-taskid="{{ user.startedTask.id }}"></div>
+                        </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <h3>Проекты</h3>
+    <hr>
+
+    <div class="row-fluid user-list">
+        <div class="container-fluid">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th style="width: 60px;"></th>
+                    <th>Проект</th>
+                    <th>Активность</th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for project in life.projects %}
+                        <tr>
+                            <td>
+                                <a href="/?project={{ project.id }}"><img src="{{ project.imagePath|thumbnail:"40x40" }}" class="thumbnail" /></a>
+                            </td>
+                            <td>
+                                <a href="/?project={{ project.id }}">{{ project.name }}</a>
+                            </td>
+                            <td>
+                                <canvas id="project_graph_{{ project.id }}" width="400px" height="50px"></canvas>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

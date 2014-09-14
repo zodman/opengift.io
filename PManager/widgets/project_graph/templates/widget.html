@@ -1,0 +1,38 @@
+{% load floattags %}
+<script type="text/javascript" src="/widgets/js/project_graph/script.js"></script>
+
+<div class="widget">
+    <div class="widget-control">
+{#        <a href="#" class="w-collapse">Свернуть</a>#}
+        <a href="#" class="w-close">Закрыть</a>
+    </div>
+
+    <h3>Статистика</h3>
+    <hr>
+    <div>
+        <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}"
+              method="POST" name="robo">
+            <span>Ваш баланс: <strong>{{ project_graph.allProjectPrice }} sp.</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
+            <input class="btn btn-success"
+                   onclick="$.fancybox({'content':$('.js-payment').html()}); return false;"
+                   type="submit" value="Пополнить">&nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>&nbsp;&nbsp;
+            <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
+            <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;
+
+            <div class="js-payment" style="display: none">
+                <h2>Введите сумму</h2>
+                <label class="pull-left">
+                <input type="hidden" name="pay" value="1" />
+                <input type="text" class="form-control temp-summ" name="summ" value="5000" />
+                </label>
+                <input class="btn btn-success js-pay" type="submit" value="Пополнить" />
+            </div>
+        </form>
+        <script type="text/javascript">
+            var ACCOUNT_TOTAL = {{ project_graph.allProjectPrice }};
+        {% if project_graph.bPay %}
+            document.robo.submit();
+        {% endif %}
+        </script>
+    </div>
+</div>

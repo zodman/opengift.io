@@ -1,0 +1,450 @@
+{% load sekizai_tags i18n wiki_tags jsonify less %}{% load url from future %}
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="utf-8">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
+{#  <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script> #}
+    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
+    <script type="text/javascript" src="/static/js/libs/html5shiv.js"></script>
+    <script type="text/javascript" src="/static/js/libs/jquery.history.min.js"></script>
+    <script type="text/javascript" src="/static/js/pm/script.js"></script>
+    <script type="text/javascript" src="/static/js/pm/main.js"></script>
+
+    <script type="text/javascript" src="/static/js/libs/backbone.js"></script>
+    <script type="text/javascript" src="/static/js/libs/backbone.iobind.js"></script>
+    <script type="text/javascript" src="/static/js/libs/backbone.iosync.js"></script>
+    <script type="text/javascript" src="/static/js/pm/panel.js"></script>
+    <script type="text/javascript" src="/static/js/pm/tasks.js"></script>
+    <script type="text/javascript" src="/static/js/pm/files.js"></script>
+{#    <script type="text/javascript" src="/static/js/pm/beep.js"></script>#}
+    <script type="text/javascript" src="/static/js/pm/hint.js"></script>
+    <script type="text/javascript" src="/static/js/pm/user_dynamics.js"></script>
+    <script type="text/javascript" src="/static/js/pm/sock_connector.js"></script>
+    <script type="text/javascript" src="/static/js/pm/user-notice.js"></script>
+    <script type="text/javascript" src="/static/js/libs/socket.io.js"></script>
+    <script type="text/javascript" src="/static/js/pm/current_timer.js"></script>
+    <script type="text/javascript" src="/static/js/pm/drowCanvas.js" xmlns="http://www.w3.org/1999/html"></script>
+
+{#    <script type="text/javascript" src="/static/js/libs/icheck/icheck.min.js"></script>#}
+
+    <link type="text/css" rel="stylesheet" href="/static/css/reset.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/imgareaselect-animated.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/carousel.css" />
+
+    <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap-responsive.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap3.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="/static/css/external/linecons/linecons.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/font-awesome.min.css" />
+
+    <link type="text/css" rel="stylesheet" href="/static/css/styles.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/add.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/panel.css" />
+    <link rel="stylesheet" media="all" href="/static/wiki/markitup/skins/simple/style.css" />
+    <link rel="stylesheet" media="all" href="/static/wiki/markitup/sets/frontend/style.css" />
+    <link rel="stylesheet" media="all" href="/static/wiki/css/all.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
+{#    <link href="/static/js/libs/icheck/skins/flat/grey.css" rel="stylesheet">#}
+{#    <link href="/{% less "PManager/static/css/main.less" %}" rel="stylesheet" type="text/css">#}
+    {% block header %}{% endblock %}
+    <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+    <script type="text/javascript">
+        var CURRENT_TASK_VIEW;
+        var CURRENT_TASK_DATA;
+        var arTimers = {};
+        window.backurl = '{{ backurl }}';
+        {% if currentProject %}
+        window.currentProject = {{ currentProject.id }};
+        {% endif %}
+        window.baseUserParams = {
+            'userId':{{ user.id }}
+        }
+        WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
+        $(function() {
+            APNG.ifNeeded(function() {
+                $("img.loader").each(function() { APNG.animateImage(this); });
+            });
+{#            $('.fnc').fancybox();#}
+        });
+        {% if user.is_authenticated %}
+            document.mainController = new mainControllerClass({
+                'userId':{{ user.id }},
+                'widgetsData':{}
+            });
+        {% endif %}
+        var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
+        {% if userTimer %}
+        CURRENT_TASK_DATA = {
+                'id':{{ userTimer.task.id }},
+                'started':{{ userTimer.task.started|jsonify }},
+                'closed':{{ userTimer.task.closed|jsonify }},
+                'name':{{ userTimer.task.name|jsonify|safe }},
+                'project': {
+                    'name': {{ userTimer.task.project.name|jsonify|safe }}
+                }
+            }
+        {% if userTimer.task.parentTask %}
+            CURRENT_TASK_DATA['parentTask'] = {
+                'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+            }
+        {% endif %}
+        {% endif %}
+    </script>
+    <link rel="shortcut icon" href="/static/ico/favicon.png" />
+</head>
+<body>
+{% if not user.first_name and main.FIRST_STEP_FORM %}
+    <div class="overflow"></div>
+    <div class="popup">
+        <h3>Здравствуйте! Как вас зовут?</h3>
+        <div class="border-wrapper">
+            <form method="POST">
+                {% csrf_token %}
+                <div class="border">
+                    <div class="row">
+                        <div class="span1">Имя</div>
+                        <div class="span3"><input required maxlength="200" name="name" type="text" class="input-block-level"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span1">Фамилия</div>
+                        <div class="span3"><input required maxlength="200" name="last_name" type="text" class="input-block-level"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span1">ICQ</div>
+                        <div class="span3"><input maxlength="20" type="text" name="icq" class="input-block-level"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span1">Skype</div>
+                        <div class="span3"><input maxlength="200" type="text" name="skype" class="input-block-level"></div>
+                    </div>
+                    <div class="row">
+                        <div class="span1">&nbsp;</div>
+                        <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success"></div>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </form>
+        </div>
+    </div>
+{% elif userAchievement %}
+    <div class="overflow"></div>
+    <div class="popup">
+        <h3 class="text-center">Новое достижение!</h3>
+        <img class="pull-left" style="margin: 0 10px 10px 0;" src="{{ userAchievement.smallImageUrl }}" alt="{{ userAchievement.name }}" /><h4>{{ userAchievement.name }}</h4>
+        <p>{{ userAchievement.description }}</p>
+        <div class="clearfix"></div>
+
+        <p class="text-center">
+            <input type="button" onclick="document.location.href=window.backurl;" value="Продолжить" class="btn  btn-large btn-success">
+        </p>
+
+    </div>
+{% endif %}
+<header>
+    <div class="header clearfix">
+        <div class="logo">
+            <a href="/">
+                <img src="/static/images/logo.png" alt="Heliard" />
+            </a>
+        </div>
+		{% if user.is_authenticated %}
+        <nav class="menu">
+            <ul>
+                <li class="{% if activeMenuItem == 'main' %} active{% endif %}">
+                    <a href="/">
+                        <span aria-hidden="true" class="fa fa-desktop"></span>
+                        <span>ГЛАВНАЯ</span>
+                    </a>
+                </li>
+                <!--<li class="{% if activeMenuItem == 'profile' %} active{% endif %}">
+                    <a href="/profile/edit/">
+                        <span aria-hidden="true" class="fa fa-user"></span>
+                        <span>ПРОФИЛЬ</span>
+                    </a>
+                </li>-->
+                <li class="{% if is_wiki == 'Y' %} active{% endif %}">
+                    <a href="/wiki/">
+                        <span aria-hidden="true" class="fa fa-file-text"></span>
+                        <span>ВИКИ</span>
+                    </a>
+                </li>
+                <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">
+                    <a href="/calendar/">
+                        <span aria-hidden="true" class="fa fa-calendar-o"></span>
+                        <span>КАЛЕНДАРЬ</span>
+                    </a>
+                </li>
+                <li class="{% if activeMenuItem == 'statistic' %} active{% endif %}">
+                    <a href="/statistic/">
+                        <span aria-hidden="true" class="fa fa-bar-chart-o"></span>
+                        <span>СТАТИСТИКА</span>
+                    </a>
+                </li>
+                <li class="{% if activeMenuItem == 'life' %} active{% endif %}">
+                    <a href="/life/">
+                        <span aria-hidden="true" class="fa fa-bolt"></span>
+                        <span>АКТИВНОСТЬ</span>
+                    </a>
+                </li>
+                <li class="{% if activeMenuItem == 'gantt' %} active{% endif %}">
+                    <a href="/gantt/">
+                        <span aria-hidden="true" class="fa fa-tasks"></span>
+                        <span>ГРАФИК</span>
+                    </a>
+                </li>
+                <li class="dropdown notifications">
+                    <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
+                        <span class="js-notificator fa fa-sun-o {% if messages_qty > 0 %}fa-spin{% endif %}"></span><!--<span class="fa fa-sun-o fa-spin"></span>--><b class="js-mes_qty">{{ messages_qty }}</b>
+                    </a>
+                    <div class="dropdown-menu">
+                        <div class="container js-pmessages-list_empty {% if messages_qty > 0 %}hidden{% endif %}">Список сообщений пуст</div>
+                        {% if messages|length > 0 %}
+                      	<ul class="js-pmessages-dropdown">
+                        	<li class="clearfix">
+                            	<div class="pull-left title">Обновления</div>
+                                <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
+                            </li>
+                            {% for mess in messages %}
+                        	<li class="js-message">
+                            	<div class="clearfix">
+                                	<div class="pull-left"><span class="label label-warning">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% else %}{{ mess.code }}{% endif %}</span></div>
+                                	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
+                                </div>
+                                <h5><a href="{{mess.task.url}}">{{ mess.text|safe }}</a></h5>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                    </div>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="timer-wrapper clearfix">
+                <div class="timer js-currentTask">
+                    <span>
+                        <span class="Time js-mainTimer" >{% if userTimer %}{{ userTimer }}{% else %}00:00:00{% endif %}</span>
+                        &nbsp;&nbsp;<a class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play{% endif %}" ></a>
+
+                        <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">
+                            <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>
+                            <hr>
+                            <h5><a class="js-parentTaskName" href="{% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.url }}{% else %}{{ userTimer.task.url }}{% endif %}">
+                                {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.name }}{% else %}{{ userTimer.task.name }}{% endif %}
+                            </a></h5>
+                            {% if userTimer.task.parentTask %}
+                            <ul><li><h6><a class="js-taskName" href="{{ userTimer.task.url }}">{{ userTimer.task.name }}</a></h6></li></ul>
+                            <hr>
+                            {% else %}
+                            {% endif %}
+                            <p class="js-description">{{ userTimer.task.text }}</p>
+                            <hr>
+                            <p class="js-onlystarted"><textarea placeholder="Оставить комментарий" name="comment" class="form-control" rows="3"></textarea></p>
+                            <label class="js-onlystarted checkbox"><input type="checkbox" checked  name="addComment" value="Y" > Опубликовать в задаче</label>
+                            <a class="js-onlystarted js-stop-timer pause_comment_success btn btn-success">Остановить таймер</a><a class="js-onlystarted js-cancel-timer pause_comment_cancel btn btn-danger">Отменить таймер</a>
+                        </div>
+                    </span>
+                </div>
+                <div class="user-menu">
+                    <a href="/user_detail/?id={{ user.id }}" class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
+                    <a class="btn btn-danger btn-xs" href="/?logout=Y"><span>Выход<i class="fa fa-power-off"></i></span></a>
+                </div>
+    	</div><!--timer-->
+        {% endif %}
+	</div><!--header-->
+</header>
+
+
+{# -=========== ПОДМЕНЮ: пользователи, файлы ===========- #}
+<div class="container sub-menu">
+    <div class="row sub-menu_line">
+        {% if user.is_authenticated %}
+        <div class="sub-menu_line_section-user col-xs-6">
+            <ul class="list-inline">
+                <li><a href="/user_list/" class="users-and-groups">Пользователи&nbsp;и&nbsp;группы</a></li>
+                {% if main.CURRENT_PROJECT.id %}
+                <li><a href="/files/" class="files">Файлы проекта</a></li>
+                {% endif %}
+            </ul>
+        </div>
+
+        <div class="sub-menu_line_section-tracker col-xs-6">
+            <ul class="list-inline navbar-right">
+                <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
+                <li class="projects-list-menu">
+                    <div class="dropdown">
+                        <button type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
+                        <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
+                            <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">
+                                <a href="/?project=0">Все проекты</a>
+                            </li>
+                            {% for project in projects %}
+                            <li id="{{ project.id }}" class="{% if project.id == main.CURRENT_PROJECT.id %}active{% endif %}">
+                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">{{ project.name }}</a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% if main.CURRENT_PROJECT.id %}
+                            <a href="/project/{{ currentProject.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
+                        {% endif %}
+                        {% if user.is_staff %}
+                            <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
+                        {% endif %}
+                    </div>
+                    
+                </li>
+                <li class="projects-list-select">
+                	<select class="form-control" onchange="document.location.href='/?project='+$(this).val();">
+                            <option{% if not main.CURRENT_PROJECT.id %} selected{% endif %} value="0">
+                                Все проекты
+                            </option>
+                         {% for project in projects %}
+                         <option{% if project.id == main.CURRENT_PROJECT.id %} selected{% endif %} value="{{ project.id }}">{{ project.name }}</option>
+                         {% endfor %}
+                   </select>   
+                </li>
+                
+{#                <li>#}
+{#                    <div class="dropdown">#}
+{#                        <button type="button" class="btn btn-primary btn-sm dropdown-toggle" data-toggle="dropdown">#}
+{#                            Мои виджеты <span class="caret"></span>#}
+{#                        </button>#}
+{#                        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">#}
+{#                            <li role="presentation"><a role="menuitem" tabindex="-1" >Виджет “Диаграмма”</a></li>#}
+{#                            <li role="presentation"><a role="menuitem" tabindex="-1" >Виджет “Список задач”</a></li>#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                </li>#}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div> <!-- /container -->
+
+<hr>
+
+{# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
+
+<div class="container">
+
+{% block content %}{% endblock %}
+{% block wiki_body %}{% endblock %}
+
+{% if is_wiki == 'Y' %}
+    <div class="widget wiki">
+    {% block wiki_navbar %}
+
+        <div class="navbar" >
+            <form class="navbar-search pull-right" id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
+                <div class="input-group">
+                    <input type="search" class="form-control search-query" name="q" placeholder="{% trans "Поиск..." %}" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-default" type="button">
+                                <span class="fa fa-search"></span>
+                            </button>
+                        </span>
+                </div><!-- /input-group -->
+            </form>
+
+            <div class="nav-collapse collapse navbar-responsive-collapse">
+                <div class="pull-right-block-on-responsive">
+                    {% if user.is_authenticated %}
+{#                            <ul class="nav navbar-nav">                                               #}
+{#                                <li class="dropdown">                                                 #}
+{#                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">       #}
+{#                                        <span class="badge notification-cnt">0</span>                 #}
+{#                                        {{ user }}                                                    #}
+{#                                        <b class="caret"></b>                                         #}
+{#                                    </a>                                                              #}
+{#                                    <ul class="dropdown-menu">                                        #}
+{#                                        <li>                                                          #}
+{#                                            <a href="{% url 'wiki:logout' %}">                        #}
+{#                                                <i class="icon-off"></i>                              #}
+{#                                                {% trans "Log out" %}                                 #}
+{#                                            </a>                                                      #}
+{#                                        </li>                                                         #}
+{#                                        {% include "wiki/plugins/notifications/menubaritem.html" %}   #}
+{#                                    </ul>                                                             #}
+{#                                </li>                                                                 #}
+{#                            </ul>                                                                     #}
+                    {% else %}
+
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="{% login_url as wiki_login_url %}{{ wiki_login_url }}">{% trans "Log in" %}</a>
+                            </li>
+                            <li>
+                                <a href="{% url 'wiki:signup' %}">{% trans "Sign up" %}</a>
+                            </li>
+                        </ul>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}
+        {% block wiki_breadcrumbs %}{% endblock %}
+        {% block wiki_contents %}{% endblock %}
+
+    </div>
+{% endif %}
+
+{% if current_notice %}
+    <script language="javascript">
+    $(function(){
+        var popup = new hintObject({
+            'title':'{{ current_notice.name }}',
+            'text':'{{ current_notice.html|safe }}',
+            'image':'{{ current_notice.src }}',
+            'id':'{{ current_notice.id }}'
+        });
+        popup.show($('{{ current_notice.itemClass }}').get(0));
+    });
+    </script>
+{% endif %}
+<img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium" />
+<img src="/static/images/loaders/loader_4.png" alt="Loader" class="loader small" />
+<img src="/static/images/loaders/loader_5.png" alt="Loader" class="loader tiny" />
+{% block outspace %}{% endblock %}
+{% block jstests %}{% endblock %}
+<iframe id="fileinput" src="" style="display:none;"></iframe>
+
+<script src="/static/js/bootstrap/bootstrap.min.js"></script>
+<script src="/static/js/bootstrap/typehead.js"></script>
+<script src="/static/js/libs/boostrap.growl.js"></script>
+
+
+<link type="text/css" rel="stylesheet" href="/static/css/bootstrap-combobox.css" />
+<script type="text/javascript" src="/static/js/bootstrap/bootstrap-combobox.js"></script>
+
+{#<script src="/static/js/bootstrap/bootstrap-transition.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-alert.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-modal.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-dropdown.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-scrollspy.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-tab.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-tooltip.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-popover.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-button.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-collapse.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-carousel.js"></script>#}
+{#<script src="/static/js/bootstrap/bootstrap-typeahead.js"></script>#}
+
+
+<script src="/static/js/libs/jquery.event.outside.min.js"></script>
+<script src="/static/js/libs/apng-canvas.js"></script>
+<script src="/static/js/libs/jquery.imgareaselect.min.js"></script>
+<script src="/static/js/libs/jquery.form.js"></script>
+<script src="/static/js/libs/jquery.cookie.js"></script>
+<script src="/static/js/libs/fancybox.js"></script>
+<!--[if lte IE 7]>
+    <link type="text/css" rel="stylesheet" href="/static/css/external/linecons/linecons-ie7.css" />
+    <script src="/static/js/linecons/lte-ie7.js"></script>
+<![endif]-->
+{% render_block "js" %}
+</body>
+</html>

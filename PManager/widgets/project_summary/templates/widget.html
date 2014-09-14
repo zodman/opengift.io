@@ -1,0 +1,28 @@
+<script type="text/javascript" src="/widgets/js/project_summary/script.js"></script>
+<div class="widget project_summary">
+    <h1>Сводка по проектам</h1>
+        <table class="table">
+            <tr>
+                <th>
+                    Проект
+                </th>
+                <th>
+                    На проверку
+                </th>
+                <th>
+                    Просроченных
+                </th>
+                <th>
+                    Закрытых сегодня
+                </th>
+            </tr>
+            {% for project in project_summary.projects %}
+                <tr>
+                    <td>{{ project.name }}</td>
+                    <td><a href='/?project={{ project.id }}#{"taskListFilter"%3A{"action"%3A"ready"}}'>{{ project.readyTaskQty }}</a></td>
+                    <td><a href='/?project={{ project.id }}#{"taskListFilter"%3A{"action"%3A"deadline"}}'>{{ project.overdueTaskQty }}</a></td>
+                    <td>{{ project.todayClosed }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+</div>

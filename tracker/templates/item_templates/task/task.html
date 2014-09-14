@@ -1,0 +1,79 @@
+<div id="taskLine_#TASK_ID#" class="task clearfix input-group" data-taskid="#TASK_ID#" >
+
+<!-- ===== НОМЕР ЗАДАЧИ -->
+    <div class="task_number">
+    	<i class="fa fa-ellipsis-v js-drag-task"></i>
+        <div><input class="js-task-checkbox" type="checkbox" name="#TASK_ID#" /><span class="js-number-link">#TASK_NUMBER#</span></div>
+    </div>
+
+<!-- ===== ИМЯ ЗАДАЧИ -->
+    <div class="task_name">
+       <div>
+        <a title="#LAST_MESSAGE#" class="js-name-link" href="#TASK_URL#" >
+            #TASK_NAME#
+        </a>
+        #FILE_LIST#
+        #DEADLINE#
+      </div>
+    </div>
+
+<!-- ===== ДОБАВИТЬ ПОДЗАДАЧУ -->
+    <div class="task_add-subtask">
+        <div><a class="add-subtask" rel="#TASK_ID#" href="#">#ACTIVE_SUBTASK_QTY# <span class="fa fa-plus"></span></a></div>
+    </div>
+
+<!-- ===== СТАТУСЫ -->
+    <div class="task_status">
+        <div><div class="task-name_status">&nbsp;</div></div>
+    </div>
+
+<!-- ===== ОТВЕТСТВЕННЫЙ -->
+    <div class="task_responsibles js_task_responsibles">
+        <div><div class="dropdown"></div></div>
+    </div>
+
+<!-- ЗАПУСК ЗАДАЧИ -->
+    <div class="task_play-wrap" >
+        <div>
+        <div class="btn-group dropdown" >
+            <a class="task_play-wrap_btn dropdown-toggle js-task_play" rel="#TASK_ID#">
+                <span class="fa fa-play"></span>
+            </a>
+            <div class="pause_dialog dropdown-menu pull-right">
+                <h5>Что сделано?</h5>
+                <textarea class="form-control" name="comment"></textarea>
+                <label class="checkbox">
+                    <input type="checkbox" checked="checked" name="addComment" value="Y"> Опубликовать в задаче </label>
+                <a class="pause_comment_success btn btn-success">Ок</a>
+                <a class="pause_comment_cancel btn btn-danger">Отменить таймер</a>
+            </div>
+        </div>
+        </div>
+    </div>
+<!-- ===== ТАЙМЕР -->
+    <div class="task_time">
+    	<div>
+        <div class="dropdown">
+            <a data-toggle="dropdown" class="js-time" href="#"></a>
+        </div>
+        <div class="inline task-plantime"></div>
+        </div>
+    </div>
+
+    <!-- УПРАВЛЕНИЕ -->
+    <div class="task_manage text-right">
+    	<div>
+            <div class="btn-group">
+                <a class="btn_manage task_manage_btn-done js-task_done">
+                    <span class="fa fa-check"></span>
+                </a>
+                <span class="js-options_popup">
+                    <a class="btn_manage dropdown-toggle js-task_menu">
+                        <span class="fa fa-gear"></span>
+                    </a>
+                </span>
+            </div>
+        </div>
+    </div>
+
+</div>

@@ -1,0 +1,325 @@
+{% load floattags jsonify %}
+<style>
+    #static_graph {
+        width: 400px;
+        height: 320px;
+        display: block;
+    }
+</style>
+<script type="text/javascript" src="/static/js/libs/raphael-min.js"></script>
+{#<script type="text/javascript" src="/static/js/libs/g.raphael.js"></script>#}
+{#<script type="text/javascript" src="/static/js/libs/g.line.js"></script>#}
+<script type="text/javascript" src="/static/js/libs/charts.js"></script>
+<script type="text/javascript" src="/widgets/js/user_detail/script.js"></script>
+<script>
+    var global_user_id = {{ user_detail.user.id }};
+    window.taskHtml = {{ user_detail.taskTemplate|jsonify|safe }};
+    $(function(){
+{#       var r = Raphael("static_graph");#}
+        var data = {
+            labels : [{% for vals in user_detail.timeGraph %}'{{ vals.date }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+            datasets : [
+                {
+                    fillColor : "rgba(0,0,220,0.5)",
+                    strokeColor : "rgba(220,220,220,1)",
+                    data : [{% for vals in user_detail.timeGraph %}{{ vals.time }}{% if not forloop.last %},{% endif %}{% endfor %}]
+                },
+                {
+                    fillColor : "rgba(10,220,10,0.5)",
+                    strokeColor : "rgba(151,187,205,1)",
+                    data : [{% for vals in user_detail.timeGraph %}{{ vals.tasksClosed }}{% if not forloop.last %},{% endif %}{% endfor %}]
+                }
+            ]
+        }
+{#        var lines = r.linechart(20, 20, 380, 280,#}
+{#                [#}
+{#                    [{% for vals in user_detail.timeGraph %}{{ forloop.counter }}{% if not forloop.last %},{% endif %}{% endfor %}],#}
+{#                ],#}
+{#                [#}
+{#                    [{% for vals in user_detail.timeGraph %}{{ vals.time }}{% if not forloop.last %},{% endif %}{% endfor %}],#}
+{#                    [{% for vals in user_detail.timeGraph %}{{ vals.tasksClosed }}{% if not forloop.last %},{% endif %}{% endfor %}],#}
+{#                ], { nostroke: false, axis: "0 0 1 1", symbol: "circle", smooth: true })#}
+{#            .hoverColumn(function () {#}
+{#                this.tags = r.set();#}
+{#                for (var i = 0, ii = this.y.length; i < ii; i++) {#}
+{#                    this.tags.push(r.tag(this.x, this.y[i], this.values[i], 160, 10).insertBefore(this).attr([{ fill: "#fff" }, { fill: this.symbols[i].attr("fill") }]));#}
+{#                }#}
+{#            }, function () {#}
+{#                this.tags && this.tags.remove();#}
+{#            });#}
+        var ctx = document.getElementById("myChart").getContext("2d");
+        new Chart(ctx).Bar(data,{});
+    });
+</script>
+<div class="widget inner" id="user_detail">
+
+    <div class="widget-title clearfix userInfo">
+        <div class="pull-left">
+        <i class="statusImg"></i>&nbsp;&nbsp;{{ user_detail.user.last_name }} {{ user_detail.user.first_name }} {% if user_detail.profile.vocation %}<small>({{ user_detail.profile.vocation }})</small>{% endif %}
+        {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
+            <small>/ <a href="/profile/edit/?id={{ user_detail.user.id }}">Редактировать профиль</a></small>
+        {% endif %}
+        </div>
+        <div class="user-profile-menu pull-right">
+{#            	<i class="icon-comment icon-white"></i>&nbsp;<a href="#">Написать сообщение</a>#}
+{#                &nbsp;&nbsp;<i class="icon-tag icon-white"></i>&nbsp;<a href="#">Дать задание</a>#}
+{#                &nbsp;&nbsp;<i class="icon-wrench icon-white"></i>&nbsp;<a href="#">Редактировать профиль</a>#}
+        </div>
+    </div><!--widget-title-->
+
+    <div class="widget-body">
+        <div class="user-personal row-fluid clearfix">
+
+            <div class="user-avatar pull-left">
+                <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+            </div>
+
+            <div class="user-contacts pull-left">
+                <ul>
+                    {% if user_detail.user.email %}
+                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>
+                    {% else %}
+                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>
+                    {% endif %}
+                    {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
+                    {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
+                </ul>
+            </div>
+            <div class="user-tasks-info pull-left">
+                  <ul>
+                    <li><b>Открытых задач:</b> <a href="#">{{ user_detail.taskSumm }}</a></li>
+                    <li><b>Закрыто за последний месяц:</b> <a href="#">{{ user_detail.taskLastMonth }}</a></li>
+                  </ul>
+             </div>
+
+             <div class="user-prizes pull-right">
+                    <ul>
+{#                            <li><img src="/static/images/primero_57.png" alt=""><br>работник месяца</li>#}
+{#                            <li><img src="/static/images/primero_59.png" alt=""><br>мастер "Флеш"</li>#}
+                        {% if user_detail.achievements %}
+                            {% for c in user_detail.achievements %}
+                                <li><img src="{{ c.smallImageUrl }}" alt=""><br>{{ c.name }}</li>
+                            {% endfor %}
+                        {% endif %}
+                        <li><img src="/static/images/primero_61.png" alt=""><br>Хорошее начало</li>
+                  </ul>
+            </div>
+
+        </div><!--user-personal-->
+        <hr>
+
+        <div class="row-fluid clearfix" id="myTab">
+            <div class="pull-left">
+                <ul class="nav nav-pills">
+                    <li class="active"><a href="#svodka">Сводка</a></li>
+                    <li><a href="#ychastvyet">Участвует в проектах</a></li>
+                    <li><a href="#tekyshie_zadachi">Текущие задачи</a></li>
+                    <li><a href="#observer">Наблюдатель</a></li>
+{#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
+                    <li><a href="#dostizheniya">Достижения</a></li>
+                    <li><a href="#activity">Активность</a></li>
+                </ul>
+            </div>
+            <div class="pull-right"><a href="#add-project" class="btn btn-success">Добавить в проект</a></div>
+            {% if user_detail.current_user_is_admin %}
+            <div class="pull-right"><form method="POST" action=""><input name="action" type="hidden" value="delete_user" /><input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form></div>
+            {% endif %}
+        </div><!--ТАБЫ-->
+        <hr>
+            <div class="tab-content">
+                <div class="tab-pane active" id="svodka">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="statistic-list">
+                                {% if user_detail.user.last_activity %}
+                                <p>Последняя активность: <strong>{{ user_detail.user.last_activity }}</strong></p>
+                                {% endif %}
+                                {% if user_detail.user.birthday %}
+                                <p>Дата рождения: <strong>{{ user_detail.user.birthday }}</strong></p>
+                                <hr />
+                                {% endif %}
+                                <h4>Набрал баллов</h4>
+                                <p>Бонус: {% if user_detail.profile.rating <= 0 %}<span style="color: red"> -{% else %}<span style="color:green"> +{% endif %}
+                                {% if user_detail.profile.rating %}
+                                {{ user_detail.profile.rating }}
+                                {% else %}
+                                    0
+                                {% endif %}
+                                </span>
+                                </p>
+                                <hr />
+                                {% if user_detail.profile.sp_price and user_detail.current_user_is_admin or user_detail.profile.sp_price and user_detail.userIsEqualCurrentUser %}
+                                <h4>Заработано</h4>
+                                <p>Цена за SP: {{ user_detail.profile.sp_price }} руб.</p>
+                                <div class="sp">
+                                    Всего SP:
+                                    <span class="dropdown dropup">
+                                        <a data-toggle="dropdown" href="javascript:void(0);">{{ user_detail.profile.sp.summ }}</a>
+                                        <ul class="dropdown-menu">
+                                            {% for arBet in user_detail.bets %}
+                                            <li>{{ arBet.project }} —  <b>{{ arBet.price }} руб. ({{ arBet.bet }} руб./ч.)</b></li>
+                                            {% endfor %}
+                                        </ul>
+                                    </span>
+                                </div>
+                                <p>Неоплачено: {{ user_detail.profile.sp.rest }}</p>
+                                {% endif %}
+                            </td>
+                          <td class="statistic-graph"><h3>Затраченное время</h3><div id="static_graph"><canvas id="myChart" width="750" height="320"></canvas></div></td>
+                          <td class="statistic-detail"><p><span style="display: inline-block;width: 5px; height:5px;background-color:#0000c0"></span> Время, ч.</p>
+                            <p><span style="display: inline-block;width: 5px; height:5px;background-color:#afd064"></span> Закрытые задачи</p></td>
+                        </tr>
+                    </table>
+                </div><!--ВКЛАДКА "СВОДКА" - svodka-->
+                <div class="tab-pane" id="ychastvyet">
+                    {% for project in user_detail.user_projects %}
+                        <div class="media clearfix">
+                        	<img src="/static/images/avatar_unknown.png" class="img-thumbnail pull-left" width="100" />
+                            <h3>{{ project.name }}</h3>
+                            {% for role in user_detail.project_roles %}
+                                {% if role.project.id == project.id %}
+                                    <p>{{ role.role.name }}</p>
+                                {% endif %}
+                            {% endfor %}
+                            <div class="btn-group">
+                              <a href="#" data-toggle="dropdown">Изменить группу<span class="caret"></span></a>
+                              <ul class="dropdown-menu choose-group-popup" role="menu">
+                                <li><div class="checkbox"><label><input {% if 'client' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="client" type="checkbox">Клиент</label></div></li>
+                                <li><div class="checkbox"><label><input {% if 'manager' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="manager" type="checkbox">Менеджер</label></div></li>
+                                <li><div class="checkbox"><label><input {% if 'employee' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="employee" type="checkbox">Разработчик</label></div></li>
+                                <li class="divider"></li>
+                                <li><a href="#" class="btn btn-success">ОК</a></li>
+                              </ul>
+                            </div>
+                        </div><!--ychastvyet-item-->
+                        {% if not forloop.last %}<hr />{% endif %}
+                    {% endfor %}
+                </div><!--ВКЛАДКА "УЧАСТВУЕТ" ychastvyet-->
+                <div class="js-tasks tab-pane" id="tekyshie_zadachi">
+                    <script language="javascript">
+                    var aTaskList = [], arTimers = {}, taskRespSummary = {};
+                    {% for task in user_detail.task.list.tasks %}
+                        aTaskList.push({{ task|jsonify|safe }});
+                        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+                        {% if task.time %}
+                            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                            {% if task.startedTimerExist %}
+                                arTimers['{{ task.id }}'].start();
+                            {% endif %}
+                        {% endif %}
+                    {% empty %}
+                       document.write('<p>Нет ни одной задачи</p>')
+                    {% endfor %}
+                    </script>
+                </div>
+                <div class="js-tasks-observers tab-pane" id="observer">
+                    <script language="javascript">
+                    var aTaskListObservers = [], arTimers = {}, taskRespSummary = {};
+                    {% for task in user_detail.task.observers.tasks %}
+                        aTaskListObservers.push({{ task|jsonify|safe }});
+                        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+                        {% if task.time %}
+                            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                            {% if task.startedTimerExist %}
+                                arTimers['{{ task.id }}'].start();
+                            {% endif %}
+                        {% endif %}
+                    {% empty %}
+                       document.write('<p>Нет ни одной задачи</p>')
+                    {% endfor %}
+                    </script>
+                </div>
+                <div class="tab-pane" id="dostizheniya">
+                    <div class="dostizheniya-item">
+                        <table width="100%" cellpadding="0" cellspacing="0">
+                            <tr>
+                            <td class="dostizheniya-item-img"><a href="#"><img src="/static/images/primero_61.png" alt="Работник месяца" /></a></td>
+                            <td class="dostizheniya-item-text">
+                            <h4>Хорошее начало</h4>
+                            <p class="date">10.06.2013</p>
+                            <p>Закрыть минимум одну задачу</p>
+                            </td>
+                            </tr>
+                        </table>
+                    </div>
+{#                        <hr />#}
+
+                </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
+
+                <div class="tab-pane" id="activity">
+                    <table class="table table-bordered table-striped">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Время</th>
+                          <th>Задача</th>
+                          <th>Комментарий</th>
+                          <th>Добавлено</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                      {% for timer in user_detail.timers %}
+                          <tr>
+                              <td>{{ timer.id }}</td>
+                              <td>{{ timer.time }}</td>
+                              <td><a href="{{ timer.task_url }}">{{ timer.task }}</a></td>
+                              <td>{{ timer.comment|safe }}</td>
+                              <td>{{ timer.date }}</td>
+                          </tr>
+                      {% endfor %}
+                      </tbody>
+                    </table>
+                    <div align="center">
+{#                            <ul class="pagination pagination-centered">#}
+{#                                <li class="disabled"><a href="#">&laquo;</a></li>#}
+{#                                <li class="active"><a href="#">1</a></li>#}
+{#                                <li><a href="#">1</a></li>#}
+{#                                <li><a href="#">2</a></li>#}
+{#                                <li><a href="#">3</a></li>#}
+{#                                <li><a href="#">4</a></li>#}
+{#                                <li><a href="#">5</a></li>#}
+{#                                <li><a href="#">&raquo;</a></li>#}
+{#                            </ul>#}
+                	</div>
+                </div><!--ВКЛАДКА "Активность"-->
+
+
+                <div class="tab-pane" id="add-project">
+                    <h2>Добавить пользователя в проект</h2>
+                    {% if user_detail.projectsForAddUser %}
+                        <form name="add_to_project" method="POST" action="" role="form">
+                            <input type="hidden" name="action" value="add_to_project" />
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Проект</label>
+                                <select name="project" class="form-control">
+                                    <option>Выберите проект</option>
+                                    {% for project in user_detail.projectsForAddUser %}
+                                        <option value="{{ project.id }}">{{ project.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">Права</label>
+                                <select name="role" class="form-control">
+                                    <option>Выберите роль</option>
+                                    {% for role in user_detail.roles %}
+                                        <option value="{{ role.id }}">{{ role.name }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <input type="submit" class="btn-default btn" name="" value="Добавить" />
+                        </form>
+                    {% else %}
+                        <p>Пользователь уже состоит во всех ваших проектах</p>
+                    {% endif %}
+                </div> <!--ВКЛАДКА "ДОБАВИТЬ ПРОЕКТ"-->
+            </div>
+
+            <script>
+               $('#myTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+               });
+            </script>
+    </div><!--widget-body-->
+</div><!--widget-->

@@ -1,0 +1,58 @@
+{% load less %}
+<!DOCTYPE HTML>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Heliard</title>
+    <meta name="google-site-verification" content="uddfRxdcRR2NDnfmHExoyIUC2P9v5i2ZrRn3yUiGGjg" />
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
+
+    <meta name="keywords" content="">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>-->
+    <script type="text/javascript" src="/static/js/libs/jquery.js"></script>
+    <link href="/static/css/reset.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap-responsive.css" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap3.min.css" />
+{#    <link href="{% less "PManager/static/css/import.less" %}" rel="stylesheet" type="text/css">#}
+    <link href="/static/css/styles.css" rel="stylesheet" />
+    <!--[if lte IE 7]><link href="/static/css/external/bootstrap.css" rel="stylesheet"><![endif]-->
+    <link type="text/css" href="/static/css/style_unauth.css" rel="stylesheet" />
+    <link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
+
+    <script src="/static/js/libs/fancybox.js"></script>
+    {% block header %}{% endblock %}
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="shortcut icon" href="/static/ico/favicon.png" />
+</head>
+<body>
+<div class="container">
+    <div class="loginPage">
+
+            <div class="loginPage-logoBig"><a href="/"><img src="/static/images/logo-big.png" alt="" class="img-responsive"></a></div>
+            <div class="loginPage-helloText">
+                <h2>Работайте, как вам хочется.</h2>
+                <p class="h6">Выполняйте задачи вместе со своими коллегами и клиентами. Организуйте совместную проектную работу любых групп людей как в офисе, так и вне его.</p>
+                <p align="center">
+                    <br><a class="fancybox-media" href="/static/swf/video.swf"><img src="/static/images/video_small.png" class="img-responsive"/></a><br><br>
+                </p>
+            </div>
+
+            <div class="loginPage-loginBlock well text-center clearfix">
+                <form class="form-inline loginPage-loginBlock-form" name="authform" action="/" method="POST">
+                        <input class="input-medium form-control" type="text" name="username" value="Логин" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
+                        <input class="input-medium form-control" type="password" name="password" value="Пароль" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
+                        <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти" />
+                </form>
+            </div>
+            <p class="footer-links"><a href="/static/promo.html">Описание сервиса</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/payment_info/">Информация об обслуживании</a></p>
+	</div>
+</div>
+<script>
+    $(function(){
+        $('.fancybox-media').fancybox();
+    });
+</script>
+</body>
+</html>

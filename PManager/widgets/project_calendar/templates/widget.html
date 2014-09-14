@@ -1,0 +1,133 @@
+{% load jsonify %}
+{% load thumbnail %}
+<script type="text/javascript" src="/widgets/js/project_calendar/script.js"></script>
+
+<div class="widget tasklist">
+    <div id="taskform" class="modal add-task" style="display:none;">
+        <div class="modal-header">
+        	<button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+        	<h3>Создать задачу</h3>
+        </div>
+        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
+            <input type="hidden" name="GROUP_ID" value="" />
+            <input type="hidden" name="ID" value="" />
+       		<div class="modal-body">
+                <div class="control-group">
+                    <label class="control-label">Заголовок:</label>
+                    <div class="controls">
+                    <input id='title_inp' type="text" name="TITLE" value="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Ответственный:</label>
+                    <div class="controls">
+                    <select name="RESPONSIBLE_ID" >
+                            {% for resp_user in project_calendar.users %}
+                                <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
+                            {% endfor %}
+                    </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Критичность:</label>
+                    <div class="controls">
+                        <select name="PRIORITY" >
+                            <option value="0">Низкая</option>
+                            <option value="1">Нормальная</option>
+                            <option value="2">Высокая</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label class="control-label">Дедлайн:</label>
+                    <div class="controls">
+                    <input type="text" name="DEADLINE" value="" />
+                    </div>
+                </div>
+                <div class="control-group">
+                    <div class="controls">
+                    <label class="checkbox">
+                    <input type="checkbox" name="STATUS" value="5" > Завершить:
+                    </label>
+                    </div>
+                </div>
+        	</div>
+            <div class="modal-footer">
+                <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
+                <a class="btn btn-primary submit" href="#">Сохранить</a>
+              </div>
+        </form>
+    </div>
+    <div class="widget-control">
+        <a href="#" class="w-collapse">Свернуть</a>
+        <a href="#" class="w-close">Закрыть</a>
+    </div>
+
+    <h3>Календарь ответственности</h3>
+    <hr>
+    <ul class="nav nav-pills">
+              <li><a href="#"><b>Все проекты</b></a></li>
+              <li class="active"><a href="#"><b>Только мои</b></a></li>
+            </ul>
+            <br />
+            
+
+<style>
+.sonet-user-profile-friend-box {table-layout:fixed;}
+.sonet-user-profile-friend-box.table th {text-align:center;}
+.calendar-task {padding:5px 7px;display:block;border-bottom:1px solid #eee; position:relative; margin-bottom:10px;}
+.calendar-task .delete-task {opacity:0.3; -webkit-opacity:0.3; -moz-opacity:0.3; position:absolute; top:5px; right:7px; z-index:1;}
+.critically_1 {background:#e8f3f7; border-bottom:1px solid #cbe7f2}
+.critically_2 {background:#F4F2E4; border-bottom:1px solid #ece8cf;}
+.critically_3 {background:#f8ece9; border-bottom:1px solid #efd2cc;}
+.calendar-add-task {margin-top:10px; display: block; height: 32px; text-align: center; vertical-align: middle;}
+.calendar-add-task span {width:74%;}
+.calendar-task-date {font-size:11px; opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5; position:relative; z-index:0;}
+.calendar-task-date i {margin-top:0px; opacity:0.6; -moz-opacity:0.6; -webkit-opacity:0.6;}
+.bxec-event-actions {margin:5px 0;}
+.calendar-project-title h4 {margin-bottom:5px; font-weight:bold; font-size:18px;}
+.calendar-project-title img {border-radius:50px; -moz-border-radius:50px; -webkit-border-radius:50px; height:100px; width:100px;}
+.holiday {background:#fff7f7 !important; color:#e38787 !important;}
+</style>
+
+    <table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
+        <tr>
+            <th>Проект</th>
+            {% for day in project_calendar.arDays %}
+            <!--<th width="{{ project_calendar.daysCount }}%">{{ day.weekday }}</th>-->
+            <th {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>{{ day.weekday }}</th>
+            {% endfor %}
+        </tr>
+        {% for project in project_calendar.projects %}
+        <tr>
+        <td style="vertical-align:middle !important; text-align:center !important;" class="calendar-project-title">
+            <h4>{{ project.name }}</h4>
+
+            <img src="{{ project.imagePath|thumbnail:"100x100" }}" />
+        </td>
+        {% for day in project_calendar.arDays %}
+        <td onMouseOver="$(this).find('span').show();" onMouseOut="$(this).find('span').hide();" {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>
+            <div>
+            {% for milestone in project.milestoneSet %}
+                {% if milestone.date|date:'d.m.Y' == day.date %}
+                <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
+                	<a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
+                    <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
+                    <div class="bxec-event-actions">
+                        <div class="bxec-icon-cont-tl">
+                            <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
+                        </div>
+                    </div>
+                    {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
+                </div>
+                {% endif %}
+            {% endfor %}
+            <a href="#" onClick="return ShowForm(this,{'deadline':'{{day.date}}','project_id':{{ project.id }}});" class="calendar-add-task"><span style="display:none;" class="btn btn-success">Добавить</span></a>
+            </div>
+        </td>
+        {% endfor %}
+        </tr>
+        {% endfor %}
+        </table>
+
+</div>

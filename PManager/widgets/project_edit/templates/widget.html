@@ -1,0 +1,39 @@
+{% load floattags %}
+<script type="text/javascript" src="/widgets/js/project_edit/script.js"></script>
+    <div class="widget">
+        <div class="widget-control">
+            <a href="#" class="w-collapse">Свернуть</a>
+            <a href="#" class="w-close">Закрыть</a>
+        </div>
+
+        <h3>Изменение проекта</h3>
+        <hr>
+            <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
+                {% for field in project_edit.form %}
+                    {% if field.name == 'author' or field.name == 'tracker' %}
+                    {% else %}
+                    <div class="row show-grid">
+                      <div class="col-xs-2"><label class="col-xs-2 control-label">{{ field.label_tag }}</label></div>
+                      <div class="col-xs-6">{{ field }}</div>
+                      <div class="col-xs-4">{{ field.errors }}</div>
+                    </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="row show-grid">
+                      <div class="col-xs-2"><label class="col-xs-2 control-label">Не разрешать выполнять не подтвержденные задачи</label></div>
+                      <div class="col-xs-6"><input type="checkbox" name="settings_not_start_unapproved" {% if project_edit.settings.not_start_unapproved %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-4"></div>
+                </div>
+                <div class="row show-grid">
+                      <div class="col-xs-2"><label class="col-xs-2 control-label">Скрывать сообщения клиента и исполнителя друг от друга</label></div>
+                      <div class="col-xs-6"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.not_start_unapproved %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-4"></div>
+                </div>
+                <div class="row show-grid">
+                	 <div class="col-xs-2"></div>
+                     <div class="col-xs-6">
+                        <input type="submit" value="Сохранить" class="btn btn-success">
+                     </div>
+                </div>
+            </form>
+    </div>

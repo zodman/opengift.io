@@ -1,0 +1,19 @@
+.panel {
+
+}
+
+.bt-panel.bottom {
+    position: fixed;
+    bottom: 0;
+    border-radius: 0;
+    margin:0;
+    width: 100%;
+    z-index: 9999;
+}
+
+.bt-panel.bottom ul {
+    list-style: none;
+}
+.bt-panel.bottom ul li {
+    display: inline-block;
+}

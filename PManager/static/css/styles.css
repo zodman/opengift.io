@@ -1,0 +1,1471 @@
+body {
+    background:#F0F0F0;
+    margin: 0;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 20px;
+    color: #333333;
+}
+
+h1, .h1 {font-size:26px; line-height:28px;}
+h2, .h2 {font-size:23px; line-height:26px;}
+h3, .h3 {font-size:20px; line-height:22px;}
+h4, .h4 {font-size:18px; line-height:20px;}
+h5, .h5 {font-size:16px; line-height:18px;}
+h6, .h6 {font-size:13px; line-height:16px; margin:0 0 5px;}
+
+.clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
+
+hr {padding:0px; margin:10px 0; border:0px; border-bottom:1px solid #fff; border-top:1px solid #ddd; height:0px; }
+hr.no-top-magin-hr {margin-top:0px;}
+
+.fa-pause, .fa-pause:hover {color: #FFA500; text-decoration:none;}
+.fa-play, .fa-play:hover {color:#47A447; text-decoration:none;}
+
+.wrapper {
+    margin: 0 auto;
+    min-width: 974px;
+    padding:0 25px;
+    max-width:1640px;
+}
+
+/* bootstrap custom */
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 { margin:0px 0px 10px; }
+.dropdown-menu { z-index: 1001; }
+.navbar { margin-bottom: 10px; }
+
+/***/
+
+
+/*  ###############################################################
+                                LOGIN PAGE
+    ###############################################################*/
+@font-face {
+	font-family: 'pt_sansregular';
+	src: url('../fonts/pts55f-webfont.eot');
+	src: url('../fonts/pts55f-webfont.eot?#iefix') format('embedded-opentype'),
+	url('../fonts/pts55f-webfont.ttf') format('truetype'),
+	url('../fonts/pts55f-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+.loginPage-logoBig {margin:30px 20%; }
+.loginPage-helloText{ font-family: 'pt_sansregular'; }
+.loginPage-loginBlock {}
+.loginPage-loginBlock input {height:35px; width:205px; display:block; float:left;}
+.loginPage-loginBlock input.input-medium {margin-right:10px;}
+.btn.btn-success.loginPage-loginBt {width:100px;}
+.loginPage-loginBlock-form { margin: 0px; }
+.loginPage-loginBtn { padding: 4px 20px; }
+
+.loginPage {padding:0 15px; max-width:600px; text-align:center; margin:0 auto;}
+
+@media only screen and (max-width: 568px) { 
+.loginPage-loginBlock input {height:35px; width:100%; display:block;}
+.loginPage-loginBlock input.input-medium {margin-bottom:10px;}
+.btn.btn-success.loginPage-loginBt {width:100%;}
+}
+
+
+/*  ###############################################################
+		ПЕРЕОПРЕДЕЛЯЕМ BOOTSTRAP 2.0 И BOOTSTRAP-RESPONSIVE -
+			КОГДА ОНИ УДАЛЯТСЯ, МОЖНО УДАЛИТЬ И ЭТОТ КОД
+    ###############################################################*/
+
+.container { width:auto; }
+.btn .caret { margin-top: 0; }
+
+/*########### закончили переопределять  #############*/
+
+.errorlist {padding:7px 15px;margin-bottom:15px;border-radius:4px; background-color:#fff2f2; color:#b94a48; list-style:none}
+
+/*  ###############################################################
+                                ШАПКА
+    ###############################################################*/
+
+header {background:#fff; box-shadow:0px 0px 15px #ccc; -moz-box-shadow:0px 0px 15px #ccc; -ms-box-shadow:0px 0px 15px #ccc; -o-box-shadow:0px 0px 15px #ccc; -webkit-box-shadow:0px 0px 15px #ccc; margin-bottom:15px; padding:15px;}
+header .header {position:relative; max-width:1600px; margin:0 auto;}
+/*ЛОГО*/
+header .header .logo {float:left; width:15%;}
+/*МЕНЮ*/
+header .header >nav {float:left; width:60%; text-align:center; height:29px; line-height:29px;}
+	header .header > nav > ul {display: inline-block;//display: inline;zoom: 1; margin:0px; height:29px; line-height:29px;}
+	header .header > nav > ul > li {float: left; display:inline; height:29px; line-height:29px;}
+	header .header > nav > ul > li > a {display: block; float:left; padding:0 20px 0 0 ; font-size:13px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; text-transform:uppercase; color:#494949;}
+	header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus {background-color: #fff; color:#cd0000; text-decoration:none; }
+	header .header > nav > ul > li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:3px;}
+	
+	header .header .notifications {text-align:left;}
+	header .header .notifications .fa-spin, header .header .notifications .fa-spin + b {color:#800000;}
+	header .header > nav > ul > li.notifications > a:hover {color:#800000;}
+	header .header .notifications:hover .fa-spin, header .header .notifications:hover b, header .header .notifications.open .fa-spin, header .header .notifications.open b {color:#800000;}
+	header .header .notifications b {font-size:13px !important;}
+	header .header .notifications .dropdown-menu {width:300px; right:0px; left:auto;}
+	header .header .notifications .dropdown-menu:after {border-right: 6px solid transparent; border-bottom: 6px solid #FFFFFF; border-left: 6px solid transparent; right:26px; top:-6px; left:auto; content: ''; position:absolute; display:inline-block;}
+	header .header .notifications .dropdown-menu:before {border-right: 7px solid transparent; border-bottom: 7px solid rgba(0, 0, 0, 0.2); border-left: 7px solid transparent; right:25px; top:-7px; left:auto; content: ''; position:absolute; display:inline-block;}
+	header .header .notifications .dropdown-menu li {padding:5px 15px; border-bottom:1px solid #eee;}
+	header .header .notifications .dropdown-menu li .fa.fa-times {color:#DDDDDD; text-decoration:none;}
+	header .header .notifications .dropdown-menu li .fa.fa-times:hover {color:#CD0000;}
+	header .header .notifications .dropdown-menu li:last-child {border-bottom:0;}
+	header .header .notifications .dropdown-menu li .title {font-size:16px; font-weight:bold;}
+	header .header .notifications .dropdown-menu li h5 {font-size:12px; display:block;}
+	header .header .notifications .dropdown-menu li h5 a {color:#222; display:block;}
+	header .header .notifications .dropdown-menu li h5 a:hover {color:#57A957;}
+	header .header .notifications .more-notifications {width:100%;}
+
+/*ТАЙМЕР*/
+header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:29px; text-align:right;}
+	header .header .timer-wrapper > div {display:inline-block; margin-left:15px;}
+	header .header .timer-wrapper .timer {margin-left:0px; position:relative; top:-1px;}
+	header .header .timer-wrapper .timer span {font-size:11px; color:#666; margin-left:5px; cursor:pointer; position:relative;}
+	header .header .timer-wrapper .timer span.open span {color:#57A957;}
+	header .header .timer-wrapper .timer span a.fa {font-size:17px; position:relative; top:2px;}
+	
+		/*ВЫПАДАЮЩИЙ БЛОК В ТАЙМЕРЕ*/
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup {padding:15px 20px; width:350px; top:20px; right:-27px; left:auto; text-align:left; line-height:20px;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup:after {border-right: 6px solid transparent; border-bottom: 6px solid #FFFFFF; border-left: 6px solid transparent; right:65px; top:-6px; left:auto; content: ''; position:absolute; display:inline-block;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup:before {border-right: 7px solid transparent; border-bottom: 7px solid rgba(0, 0, 0, 0.2); border-left: 7px solid transparent; right:64px; top:-7px; left:auto; content: ''; position:absolute; display:inline-block;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup p {font-size:12px;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup ul {margin-left:15px; list-style:disc;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup a {color:#57A957;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn {color:#fff; font-size:13px; width:48%; margin-right:2%;}
+			header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn:last-child {margin-bottom:0px;}
+	
+	header .header .timer-wrapper .user-menu a {line-height:1.42857; padding:2px 7px; position:relative; top:-2px; display:inline-block; vertical-align:middle;}
+	header .header .timer-wrapper .user-menu a i {display:none;}
+
+@media (max-width: 1340px) {
+	header .header .logo {width:20%;}
+	header .header > nav {width:55.5%;}
+	header .header > nav > ul > li > a {font-size:12px; padding-right:13px;}
+	header .header > nav > ul > li > a > .fa { font-size: 18px; margin-right:3px;}
+	
+	header .header .timer-wrapper {width:24.5%;}
+}
+	
+@media (max-width: 1190px) {
+	header .header .logo {width:25%;}
+	header .header > nav {width:40%;}
+	header .header > nav > ul > li > a { font-size: 0px; }
+	header .header > nav > ul > li > a > .fa { font-size: 22px;}
+	header .header .timer-wrapper {width:35%;}
+	header .header .timer-wrapper .user-menu a span {font-size:0px;}
+	header .header .timer-wrapper .user-menu a i {display:inline-block; font-size:13px;}
+}
+
+
+@media (max-width: 738px) {
+	header .header .logo {width:50%;}
+	header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:50%; line-height:22px; height:22px;}
+	header .header .logo img {max-width:100%; display:block;}
+	header .header > nav {width:100%; float:none; margin-top:40px; clear:both;}
+	header .header > nav:before {content:""; display:block; clear:both;}
+}
+
+
+@media (max-width: 568px) {
+		header .header .timer-wrapper .user-menu a.user-name {display:none;}
+}
+@media (max-width: 450px) {
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup {width:260px;}
+		header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn {width:100%; margin-right:0; margin-bottom:5px;}
+}
+
+/*
+header {background:#fff; box-shadow:0px 0px 15px #ccc; margin-bottom:15px; border: 0px; }
+header .navbar-right { float: right; }
+header .navbar-nav { margin: 0px; }
+header .nav > li { float: left; line-height: 45px; }
+header .nav > li > a { display: inline-block; line-height: 1.2; padding: 17px 10px; vertical-align: middle; text-transform:uppercase; color:#494949; font-size:13px; font-weight:bold; }
+header .nav > .active a { color:#cd0000; text-decoration:none; }
+header .nav > li > a:hover,
+header .nav > li > a:focus { background-color: #fff; color:#cd0000; text-decoration:none; }
+header .nav > li > .timer,
+header .nav > li > .user-menu { margin: 6px 10px 0;}
+header .nav > li > .user-menu a:first-child { margin-right: 10px; }
+header .nav > li > .user-menu a.btn-xs {margin-top:-2px;}
+header ul li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:2px;}*/
+
+/* главное меню - оставляем только иконки когда >1134px */
+/*
+header .nav > li .timer a {background-position:0px -100px;}
+header .nav > li .timer.active a,
+header .nav > li .timer a:hover {background-position:0px -225px;}
+header .nav > li .timer span {font-size:11px; color:#666; margin-left:5px; height:25px; line-height:25px; cursor:pointer;}
+header .nav > li .timer span.open span {color:#57A957;}
+header .nav > li .timer span a.fa {font-size:17px; position:relative; top:2px;}
+header .nav > li .timer span a.play,
+header .nav > li .timer span a.pause {cursor:pointer;background-image:url(../images/sprite.png); background-repeat:no-repeat; display:inline-block; vertical-align:sub; margin-left:5px; height:16px; width:16px;}
+header .nav > li .timer span a.play {background-position:0px -266px;}
+header .nav > li .timer span a.pause {background-position:0px -282px;}
+
+header .nav > li .timer .dropdown-menu.timer-popup {padding:15px 20px; width:350px; top:45px; right:-20px; }
+header .nav > li .timer .dropdown-menu.timer-popup:after {border-right: 6px solid transparent; border-bottom: 6px solid #FFFFFF; border-left: 6px solid transparent; right:65px; top:-6px; left:auto; content: ''; position:absolute; display:inline-block;}
+header .nav > li .timer .dropdown-menu.timer-popup:before {border-right: 7px solid transparent; border-bottom: 7px solid rgba(0, 0, 0, 0.2); border-left: 7px solid transparent; right:64px; top:-7px; left:auto; content: ''; position:absolute; display:inline-block;}
+header .nav > li .timer .dropdown-menu.timer-popup p {font-size:12px;}
+header .nav > li .timer .dropdown-menu.timer-popup ul {margin-left:15px; list-style:disc;}
+header .nav > li .timer .dropdown-menu.timer-popup a {color:#57A957;}
+header .nav > li .timer .dropdown-menu.timer-popup a.btn {color:#fff;}
+
+header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
+
+.user-menu span {font-size:13px; font-weight:bold;}
+.user-menu i {display:none;}
+.user-menu .exit {margin-top:-3px; margin-left:10px; text-shadow:0px 1px #7C0000;}
+
+@media (max-width: 1190px) {
+	header .nav > li > a { font-size: 0px; }
+	.user-menu span {font-size:0px;}
+	.user-menu i {display:inline-block; font-size:13px;}
+}*/
+
+
+/*  ###############################################################
+                          ПОДМЕНЮ ПОД ШАПКОЙ
+    ###############################################################*/
+
+.sub-menu {}
+.sub-menu ul.list-inline {margin-bottom:0px !important;}
+.sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
+.sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
+.sub-menu_line_section-user .users-and-groups { background-position: 0px -311px; }
+.sub-menu_line_section-user .files { background-position: 0px -344px; }
+
+.sub-menu_line_section-tracker > .navbar-right { float: right; }
+.sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
+.sub-menu_line_section-tracker .tracker-choose {  padding-left: 0px; font-size:13px;}
+.section-tracker_menu_name {font-size:13px; font-weight:bold; margin:0;}
+
+.sub-menu_line_section-tracker .fa {font-size:22px; margin-right:10px; position:relative; text-decoration:none; top:5px; color:#409003;}
+.sub-menu_line_section-tracker .fa.fa-plus {top:7px; font-size:24px;} 
+
+.list-inline > li.projects-list-select {display:none;}
+
+
+/*  ###############################################################
+                             ВИДЖЕТ
+    ###############################################################*/
+
+div.widget {background:#fff; border-radius: 5px;box-shadow:0px 0px 5px #ddd;  padding:15px 20px 20px;  -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; margin-bottom:25px; position:relative; z-index:1;}
+div.widget:hover,
+div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #aaa; -o-box-shadow:0px 0px 5px #aaa; -moz-box-shadow:0px 0px 5px #aaa;}
+
+div.widget-control {position:absolute; right:20px; }
+div.widget-control .w-collapse, div.widget-control .w-close {background-image:url(../images/sprite.png); background-repeat:no-repeat; text-indent:-99999em; width:15px; height:15px; display:inline-block; margin-left:2px;}
+div.widget-control .w-collapse {background-position:0px -397px;}
+div.widget-control .w-close {background-position:-15px -397px;}
+
+/* фикс issue#611 */
+.tasklist + .gantt { position: inherit; }
+.tasklist + .gantt .diagramma > .scroll-bar,
+.tasklist + .gantt .diagramma > .dates-subtasks { z-index: 0; }
+/***/
+
+.choose-date {position:relative;}
+.choose-date .fa-calendar {position:absolute; right:10px; top:7px; color:#47A447; font-size:20px;}
+
+.input-group .fa-plus {padding-right:5px;}
+
+/*  ###############################################################
+                             ЗДРАВСТВУЙТЕ!
+    ###############################################################*/
+
+div.overflow {background:#000; opacity:0.7; position:fixed; width:100%; height:100%; z-index:1000;}
+div.popup {background:#f0f0f0; position:fixed; margin-left:-190px; left:50%; top:150px; width:385px; box-shadow:0px 0px 25px #000; -webkit-box-shadow:0px 0px 25px #000; -moz-box-shadow:0px 0px 25px #000; padding:25px 35px; z-index:9999;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; behavior: url(../pie/PIE.htc);}
+div.popup .row {margin-bottom:15px; line-height:30px;}
+div.popup .row input[type="text"] {display:block; float:left; margin:0px;}
+
+
+div.add-message .radio.inline, div.add-message .checkbox.inline {float:left;}
+div.add-message select, input[type="file"] {height:auto;}
+
+.add-message-hidden {margin-top: -12px; position: relative;}
+.with-arrow:after {border-bottom: 6px solid #F5F8FA; border-left: 6px solid transparent; border-right: 6px solid transparent; content: ""; display: inline-block; position: absolute; right: 58px; top: -5px;}
+.with-arrow:before {border-bottom: 7px solid rgba(0, 0, 0, 0.2); border-left: 7px solid transparent; border-right: 7px solid transparent; content: ""; display: inline-block; position: absolute; right: 57px; top: -6px;}
+
+div.messages h4 {padding:0 20px;}
+div.messages .row-fluid.show-grid {}
+
+div.messages .row-fluid.show-grid .author {color:#999;}
+div.messages .row-fluid.show-grid .author span {font-style:italic;}
+div.messages .row-fluid.show-grid .author a {color:#51A351; text-decoration:underline;}
+div.messages .row-fluid.show-grid .author a:hover {color:#222;}
+
+div.messages .row-fluid.show-grid .time {color:#999; font-size:12px;}
+div.messages .row-fluid.show-grid p, div.messages .js-messageDetailText {margin-top:5px;}
+
+a.show {color:#51A351; text-decoration:none; border-bottom:1px dashed #51A351; display:inline-block;}
+a.show:hover {color:#222; text-decoration:none;border-bottom:1px dashed #222;}
+
+/*  ###############################################################
+                             ЗАДАЧА. ВНУТРЕННЯЯ
+    ############################################################### */
+
+.Task_Detail_breadcrumb { padding: 0px; margin: 0px; list-style: none; background-color: transparent; border-radius: 0px; }
+
+.widget.inner {padding:0px;}
+.widget.inner .widget-title { width:100%; background: #555; padding:10px 20px; line-height:16px; border-radius:0px;border-top-left-radius: 4px;border-top-right-radius: 4px; color: #fff; }
+.widget.inner.span4 {height:200px;}
+.widget.inner .widget-title .pull-left a {color:#fff;}
+.widget.inner .widget-title .pull-left .time {color:#ccc;}
+.widget.inner .widget-title .pull-left .author {display:inline-block;}
+.widget.inner .widget-title .pull-left .author > a {color:#fff;}
+
+.asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
+.asked {background-position:0px -412px;}
+.no-asked {background-position:-12px -412px;}
+
+.nav-pills > li > a > .asked,
+.nav-pills > li > a > .no-asked {margin-top:1px; margin-right:5px;}
+
+.widget.inner .widget-body {padding:15px 20px 20px;}
+.widget.inner .widget-body .subtask .add-task-input {margin-top:5px;}
+
+.subtask .task {border-bottom:1px solid #FFFFFF; box-shadow:0px -1px 0px #DDDDDD inset; -moz-box-shadow:0px -1px 0px #DDDDDD inset; -webkit-box-shadow:0px -1px 0px #DDDDDD inset; -ms-box-shadow:0px -1px 0px #DDDDDD inset; margin:0 5px; padding:5px 0;}
+.subtask .task:last-child {border:0px !important; box-shadow:none !important;}
+
+.show-closed-task a {display:block; height:25px; line-height:25px; color:#666; background:#ddd; transition:all ease-in-out 0.1s; -moz-transition:all ease-in-out 0.1s; -webkit-transition:all ease-in-out 0.1s;}
+.show-closed-task a:hover {background:#ccc; color:#333;}
+
+/*  ###############################################################
+	#                          ДОБАВИТЬ ЗАДАЧУ,					  #
+	#				  		   ФИЛЬТР ПО ЗАДАЧАМ				  #
+    ############################################################### */
+
+/* ====================== ДОБАВИТЬ ЗАДАЧУ */
+
+.tasks-toolbar .search-filter input.search-input {display:block; float:left; 
+-webkit-border-top-right-radius: 0px; 
+-webkit-border-bottom-right-radius: 0px; 
+-moz-border-radius-topright: 0px; 
+-moz-border-radius-bottomright: 0px; 
+-o-border-radius-topright: 0px; 
+-o-border-radius-bottomright: 0px; 
+border-top-right-radius: 0px; 
+border-bottom-right-radius: 0px;}
+.tasks-toolbar .search-filter .btn-default {width:40px;}
+.tasks-toolbar .search-filter .btn-success {width:105px;}
+.tasks-toolbar .search-filter .btn-success .name {padding-left:10px;}
+.tasks-toolbar .search-filter .btn-info {width:40px; margin-left:0px;}
+.tasks-toolbar .search-filter .btn {margin-bottom:0px;}
+.tasks-toolbar .search-filter .dropdown-menu {margin:0px;}
+
+.big-input { float:left; width:100%; position:relative; }
+.big-input .input-block-level { padding:4px 12px; }
+.task-create-wrapper > ul,
+.add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
+
+.task-create-wrapper ul li,
+.add-task-input ul li { display:block; margin-bottom:-1px; position:relative; }
+
+.task-create-wrapper ul li a,
+.add-task-input ul a { display:block;border:1px solid #CCCCCC; color:#222; padding:4px 11px; text-decoration:none; }
+
+.task-create-wrapper ul li a:hover,
+.task-create-wrapper ul li.active a,
+.add-task-input ul li a:hover,
+.add-task-input ul li.active a  { background:#DFF0D8; color:#468847; }
+
+.task-create-wrapper ul li:last-child > a,
+.add-task-input ul li:last-child > a { border-radius: 4px; }
+
+/* добавить файл */
+.file-upload {float:left;}
+.file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
+.file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
+
+/* ====================== ФИЛЬТРЫ */
+
+.search_items_holder {overflow:hidden; height:100%; margin-top:10px; line-height:20px; font-size:13px;}
+.search_items_holder h6 {line-height:20px; display:inline-block; clear:both; margin:0 5px 0 0;}
+.search_items_holder span {margin-right:10px;display:inline-block; margin-bottom:3px;}
+.search_items_holder span .close {float:none; color:#CD0000; font-size:13px; display:inline-block; }
+
+/* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
+
+.task-tab-filter { margin: 0px; }
+.task-tab-filter > li { padding: 0px; display:block; float:left;}
+.task-tab-filter a { padding: 8px 10px; display:block; float:left; position:relative;}
+.task-tab-filter a span {  background: none repeat scroll 0 0 #4cae4c;
+    border-radius: 10px;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    color: #fff;
+    display: inline-block;
+	font-size:10px;
+    height: 20px;
+    position: absolute;
+    right: -8px;
+    text-align: center;
+    top: -8px;
+    width: 20px;
+    z-index: 1;}
+.task-tab-filter > .active > a { background-color: #999999; color: #fff; text-align: center; border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; -webkit-border-radius:3px;}
+.task-tab-filter a:hover { text-decoration: none; }
+
+/* убираем в ИЕ кнопку сброса фильтра */
+
+.search-input::-ms-clear { display: none; }
+.tasks-toolbar .icon-remove { position:absolute; right:205px; top:10px; opacity:0.4; display:none; }
+.tasks-toolbar .icon-remove:hover { text-decoration: none; }
+
+.search-input {border-right:0px;}
+
+/* кнопка сохранить фильтр*/
+.btn.add-search-tab.js-save-search-tab { position: absolute; }
+
+
+/* Управления задачами */
+
+
+/*  ###############################################################
+	#                          СПИСОК ЗАДАЧ - TASKLIST			  #
+    ############################################################### */
+
+/* ====================== КОНТЕЙНЕР ЗАДАЧИ */
+
+.widget.tasklist {z-index:2;}
+
+.task-wrapper { display: table; width: 100%;  border:1px solid #ddd; transition: border-radius:5px; margin-bottom:5px; background:#eee;/*padding: 0 5px;*/border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px;}
+.Task_Detail .task-wrapper {margin-bottom:15px;}
+.Task_Detail .task-wrapper .subtask .task {margin:0 5px;}
+.Task_Detail h2 {margin:10px 0 20px;}
+.task-wrapper:hover {box-shadow:0px 0px 3px #ddd; transition: box-shadow 0.2s linear 0s; -moz-box-shadow:0px 0px 3px #ddd; -o-box-shadow:0px 0px 3px #ddd; -webkit-box-shadow:0px 0px 3px #ddd;}
+
+.subtask {}
+.subtask .add-task-input {margin-top:10px;}
+.subtask hr {margin:5px;}
+.subtask hr:first-child {margin:0px 5px 5px;}
+/* ====================== ЗАДАЧА */
+
+.task {padding:5px;}
+
+.task_number,
+.task_name,
+.task_add-subtask,
+.task_status,
+.task_responsibles,
+.task_play-wrap,
+.task_time,
+.task_manage { display: block; float:left;}
+
+.task_number > div,
+.task_name > div,
+.task_add-subtask > div,
+.task_status > div,
+.task_responsibles > div,
+.task_play-wrap > div,
+.task_time > div,
+.task_manage > div {border-right: 1px solid #ddd; border-left: 1px solid #fff; padding:5px 10px;}
+
+.task_number > div {border:none; display:table-cell; vertical-align:middle; width:100%; width:82px;}
+.task_number > div input[type="checkbox"] {margin-top:-4px; margin-right:5px;}
+.task_name > div {box-shadow:-1px 0px 0px #ddd; -moz-box-shadow:-1px 0px 0px #ddd; -ms-box-shadow:-1px 0px 0px #ddd; -o-box-shadow:-1px 0px 0px #ddd; -webkit-box-shadow:-1px 0px 0px #ddd;}
+.task_manage > div {border-right:none;}
+
+/*.task_manage .task_manage_btn-done {padding-right:5px;}*/
+
+
+/* определяем размеры ячеек */
+.task_number {position:relative;}
+.task_number .fa.fa-ellipsis-v {
+    color: #666666;
+    font-size: 18px;
+    left: 5px;
+    margin-top: -9px;
+    position: absolute;
+    top: 50%;
+	opacity:0.5;
+}
+.task_number:hover .fa.fa-ellipsis-v {opacity:1;}
+
+	.task_number {width:5.5%; text-align:right;}
+	.task_name {width:49%;}
+	.task_add-subtask {width:4.5%; text-align:center;}
+	.task_status {width:5%; white-space:nowrap;}
+	.task_responsibles {width:10%; overflow:hidden; position:relative;}
+		.dropdown-menu.responsibles {padding:5px 0 15px;}
+		.dropdown-menu.responsibles .dropdown-header {border-bottom:1px solid #DDDDDD; margin:0 20px 7px; padding:7px 0; font-weight:bold;}
+		.dropdown-menu.responsibles > li > a {padding:1px 20px 6px;}
+		.dropdown-menu.responsibles > li > a .progress {margin:2px 0 0; height:5px;}
+		.dropdown-menu.responsibles > li > a span.user-name {font-size:13px;}
+		.progress-bar-success {border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px;}
+		
+	.task_responsibles:after {
+    background: -moz-linear-gradient(right center , #EEEEEE 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(right center , #EEEEEE 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(right center , #EEEEEE 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    bottom: 0;
+    content: "";
+    height: 100%;
+    right: 0;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+	width:10px;
+	border-right:1px solid #ddd;
+	}
+	.task-wrapper.critically .task_responsibles:after {
+    background: -moz-linear-gradient(right center , #FFECEC 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(right center , #FFECEC 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(right center , #FFECEC 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+	}
+	.task-wrapper.active .task_responsibles:after {
+    background: -moz-linear-gradient(right center , #F9F9F9 0%, rgba(255, 255, 255, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(right center , #F9F9F9 0%, rgba(255, 255, 255, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(right center , #F9F9F9 0%, rgba(255, 255, 255, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);}
+	
+	.task_play-wrap {width:4%;}
+	.task_time {width:14%; text-align:left;}
+		.task_time .dropdown {display:inline-block;}
+	.task_manage {width:8%; white-space:nowrap;}
+	
+
+
+/*.task_manage .js-options_popup {margin-left:0px !important;}
+.task_manage .js-options_popup ul li {padding:5px 20px;}
+.task_manage .js-options_popup ul li a i.fa-exclamation {text-align:center; width:13px;}*/
+
+
+/* ====================== НАСТРОЙКИ ОТДЕЛЬНЫХ БЛОКОВ ЗАДАЧИ: typography */
+
+/* ===== номер задачи */
+
+/* ===== имя задачи */
+.task .task_name a { color: #555; }
+.task .task_name:first-letter { text-transform: uppercase; }
+
+/* ===== добавить подзадачу */
+.task .task_add-subtask {}
+/* инпут подзадачи */
+.task-wrapper .add-task-input { padding:0 5px 5px; }
+
+/* ===== статусы */
+.task .task_status { text-align: center; }
+
+/* ===== ответственный */
+.task .task_responsibles { text-align: right; vertical-align: middle; }
+.task .task_responsibles a { font-size:12px; color:#57A957; }
+.task .task_responsibles a.recommended { color:#C11600; }
+.task .task_responsibles .fa.fa-thumbs-o-up { color: #57A957; }
+.task .task_responsibles .fa.fa-thumbs-o-up:hover { text-decoration: none; }
+.task .task_responsibles a span.user-name {display:block; margin-bottom:3px;}
+
+
+.task-details .task_responsibles a {color:#51A351; text-decoration:underline;}
+.task-details .task_responsibles a:hover {color:#222;}
+
+.task-details .task-manage a {color:#2a6496;}
+.task-details a.fa-times-circle-o {color:#cd0000;}
+
+/* ===== запуск таймера */
+.task .task_play-wrap { padding: 0px; text-align: center; white-space: nowrap;}
+.task .task_play-wrap > div, .task_manage > div, .task_status > div, div.task_add-subtask > div {padding:5px 0px;}
+.task .task_play-wrap_btn { border: none; border-radius: 0px; background: none; color: #47a447; padding:10px; }
+.task .task_play-wrap_btn:hover { color: #5c8050; }
+
+.task .task_play-wrap .btn-group.dropdown {} 
+
+.task .task_play-wrap .open .task_play-wrap_btn,
+.task .task_play-wrap_btn:active { box-shadow: none; }
+.task .task_play-timer span { font-size: 30px; }
+
+.task .task_play-wrap .dropdown-menu { width: 215px; padding: 10px; }
+
+/* ===== время */
+.task .task_time {vertical-align: middle; font-size:12px; }
+.task .task_time .fa { font-size:14px; }
+.task .task_time a {color:#555; }
+.task .task_time div.dropdown-menu { width: 215px; padding: 10px; font-size: 12px; text-align: center; }
+
+/* ===== управление, статусы */
+a.add-subtask {
+    display: inline;
+    padding: 10px 7px;
+    white-space: nowrap;
+	text-decoration:none;
+}
+.task .task_manage .btn_manage { background: none; border: none; text-decoration:none; float:none; margin: 0px; padding:10px;}
+.task_manage_btn-done.btn.btn-default {}
+.task .task_manage .btn_manage:hover { color: #4588cc; }
+.task .task_manage .open .btn_manage,
+.task .task_manage .btn_manage:active { box-shadow: none; }
+.task .task_manage .dropdown-menu .fa { margin-right: 5px; }
+
+/* ===== приглушаем неактивные задачи */
+.task.closed .task_number,
+.task.closed .task_name,
+.task.closed .task_add-subtask,
+.task.closed .task_status,
+.task.closed .task_time,
+.task.closed .task_manage {opacity:0.6;}
+.task.closed .task_responsibles span > a { color: #c3dbc3; }
+/***/
+
+/* ====================== СТАТУСЫ ЗАДАЧ */
+
+/* критическая */
+.task-wrapper.milestone {font-weight:bold; font-size:14px; text-align:center; border:none; background:none; color:#CD0000; padding:10px 14px; box-shadow:none !important; -moz-box-shadow:none !important; -ms-box-shadow:none !important; -o-box-shadow:none !important; -webkit-box-shadow:none !important;}
+.task-wrapper.critically { background:#FFECEC; border: 1px solid #D3BCBC; }
+.task-wrapper.active {background:none repeat scroll 0 0 #F9F9F9; border:1px solid #DDDDDD; box-shadow:0 0 5px #EEEEEE; -moz-box-shadow:0 0 5px #EEEEEE; -ms-box-shadow:0 0 5px #EEEEEE; -o-box-shadow:0 0 5px #EEEEEE; -webkit-box-shadow:0 0 5px #EEEEEE;}
+
+.milestone-icons a {margin:0 -5px 0 27px; color:#CD0000; font-size:18px; text-decoration:none;}
+.milestone-icons a:hover {opacity:0.7;}
+
+/* иконки статусов */
+.task-icon.onplan,
+.task-icon.ready,
+.task-icon.overdue { display:inline-block; zoom: 1; *display: inline; margin:2px; height:12px; width:12px; background-image:url(../images/task-icons.png); background-repeat:no-repeat; }
+.task-icon.onplan { background-position:0px 0px; height:11px; }
+.task-icon.overdue { background-position:-12px 0px; }
+.task-icon.ready { background-position:-12px -12px; }
+
+
+/*  ###############################################################
+	#                          ЗАДАЧА			  				  #
+    ############################################################### */
+
+/* ====================== ДОБАВЛЕНИЕ СООБЩЕНИЯ К ЗАДАЧЕ */
+
+.task_add-message { background:#F5F8FA; text-align:left; padding:20px; border-radius: 7px; }
+.task_add-message_message-detail {}
+.task_add-message_message-detail .col-sm-2 { float: left; }
+.task_add-message_message-detail input[type="file"] { margin-top: 6px; }
+.message-detail_add-file a:hover { text-decoration: none; }
+.task_add-message .btn {margin-bottom:5px;}
+
+.task_add-message .form-horizontal .left {display: inline-block; height: 14px; line-height: 14px; margin-left: 13px; position: relative; top: -10px;}
+.task_add-message .form-horizontal .left input[type="checkbox"] {margin-top:-4px; margin-right:5px;}
+
+.withstyles input, .withstyles textarea, input.combobox {display:block;width:100%;height:34px;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555555;vertical-align:middle;background-color:#ffffff;border:1px solid #cccccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
+.withstyles input:focus, .withstyles textarea:focus, input.combobox:focus {border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);}
+
+.task_add-message h4 {display:inline-block; margin:3px 10px 0 0 !important; float:left;}
+.combobox-container {display:inline-block; margin:0px !important;}
+.task_add-message .combobox-container .btn {margin-bottom:0px !important;}
+input.combobox {display:inline-block; height:30px; width:auto;}
+
+
+
+
+/*  ############################################################### НЕОТСОРТИРОВАННО ############################################################### */
+
+
+/*  ###############################################################
+                             ЗАДАЧА
+    ###############################################################*/
+
+/*Управление задачей */
+/*.task-manage > a,
+.task-manage > span > a,
+.task-manage > span,
+.task-manage > span > span { width:16px; height:16px; display:block; float:right; margin-left:3px; background-image:url(../images/sprite.png); background-repeat:no-repeat; }*/
+
+.task-manage > a,
+.task-manage > span > a,
+.task-manage > span,
+.task-manage > span > span {display:block; float:right; font-size:18px; text-decoration:none !important; color:#afd064;}
+.task-manage > a, .task-manage > span {color:#afd064 ; display:block; float:right; font-size:18px; text-decoration:none !important; margin-left:10px;}
+
+.task-manage > span.dropdown {background:none;}
+.plus {background-position:-16px -266px;}
+.play {background-position:0px -266px;}
+.pause,.task_play.started {background-position:0 -282px;}
+.ready {background-position:-32px -266px;}
+.pause.disabled,.task_play.started.disabled {background-position:-48px -282px;}
+.ready.closed {background-position:-32px -250px;}
+
+.task-manage .dropdown-menu:after {border-bottom: 6px solid transparent; border-left: 6px solid #FFFFFF; border-top: 6px solid transparent; right:-12px; top:15px; left:auto;}
+.task-manage .dropdown-menu:before {border-bottom: 7px solid transparent; border-left: 7px solid rgba(0, 0, 0, 0.2); border-top: 7px solid transparent; right:-14px; top:14px; left:auto; }
+.task-manage .dropdown-menu { width: 225px; top:-20px; right:23px; }
+.task-manage .dropdown-menu textarea { width: 100%; }
+
+
+/* Подзадачи */
+.subtask_line { padding: 0px 0px 15px; }
+.subtask .subtask_line:last-child { margin-bottom: 15px; }
+.subtask_line_task-title {font-size:13px;}
+.subtask_line_task-title a {color:#222;}
+.subtask_line_task-title a:hover {color:#57A957;}
+
+/* если есть подзадачи, чуть отбиваем инпут вниз */
+.subtask_line + .clearfix + .add-task-input { margin-top: 10px; }
+
+/* показать ещё подазадачи */
+.tasks a.show-more {width:150px; margin:15px auto; display:block; font-size:14px; font-weight:bold; padding:5px 25px;}
+
+.show-closed-task { margin-bottom:5px; text-align: center; }
+.show-closed-task a { font-size: 90%; }
+.show-closed-task a:hover { text-decoration: none; }
+
+/*  ###############################################################
+                             РЕДАКТИРОВАНИЕ ЗАДАЧИ
+    ###############################################################*/
+
+.task-edit_choose-time { margin-bottom: 10px; line-height: 35px; }
+/*.task-edit_choose-time .fa { position: relative; left: -20px; }*/
+/*.task-edit_choose-time input[type="text"] { width: 250px;  }*/
+.task-edit_choose-time span a { margin-right: 15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
+
+.progress {overflow:visible; height:8px; position:relative; margin-top:36px;}
+.progress .btn { padding:0px 15px; position:absolute; cursor:ew-resize; margin-top:-10px; border-radius:25px; }
+.add-tags a { text-decoration: none; }
+
+.datepicker-days table {border-collapse:separate; border-spacing:2px;}
+.datepicker-days .datepicker td.old, .datepicker-days .datepicker td.new {background:#DDDDDD;}
+
+td .widget ul { list-style: none; }
+
+/*  ###############################################################
+                             СТАТИСТИКА
+    ###############################################################*/
+
+div.statistic-filter_user-list label {
+  display: inline-block;
+  padding-left: 20px;
+  margin-bottom: 0;
+  font-weight: normal;
+  vertical-align: middle;
+  cursor: pointer;}
+  
+.choose-date td, .choose-date label {vertical-align:middle; padding:0 0 6px;}
+.form-horizontal .choose-date label {padding-right:10px; padding-top:0px; float:left; margin-top:6px;}
+  
+div.statistic-filter_user-list label + div.statistic-filter_user-list label {
+  margin-top: 0;
+  margin-left: 10px;
+}
+
+div.statistic-filter_user-list li {padding-right:15px;}
+
+div.statistic-filter_user-list label input[type="checkbox"] {
+	float:left;
+	margin-left:-20px;
+}
+	
+
+/*  ###############################################################
+                             ЧАТ
+    ###############################################################*/
+
+.task-message {margin-bottom:10px;}
+.task-message .alert, .task-message .chatString {padding: 10px 15px;}
+.task-message .chatString > span img {max-width:90px; position:relative; top:2px;}
+.alert-warning, .alert-success, .alert-info, .alert-danger, .chatString {margin:0px;}
+
+.chatString {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
+.alert-warning, .for_current_user .chatString {border-color:#F5F3EA; background:#FFFDF1;}
+.alert-success {border-color:#DEECD8; background:#edf8ed;}
+.alert-info {border-color:#D9EDF7; background:#ecf5f9;}
+a.message_task_name {color:#555555; text-decoration:underline;}
+
+.task-message .chatDate {
+    border-right: 1px solid #CCCCCC;
+    color: #999999;
+    font-size: 11px;
+    font-style: italic;
+    margin-right: 5px;
+    padding-right: 10px;
+  }
+
+.new-message .alert-success {box-shadow:0 0 5px #BEE4AD; border:1px solid #a7e48d;}
+.new-message .alert-warning {box-shadow:0 0 5px #EDD76E; border:1px solid #EDD76E;}
+.new-message .alert-info {box-shadow:0 0 5px #a1daf7; border:1px solid #a1daf7;}
+.new-message .chatString {box-shadow:0 0 5px #DDDDDD; border:1px solid #CCCCCC;}
+.new-message {border:none !important;}
+
+#chat .InputBlock {display:none;}
+
+.chat-nav {border:1px solid #ddd; border-radius:4px; -moz-border-radius:4px; -ms-border-radius:4px; -o-border-radius:4px; -webkit-border-radius:4px;box-shadow:1px -1px 0px #fff inset; -moz-box-shadow:1px -1px 0px #fff inset; -ms-box-shadow:1px -1px 0px #fff inset;-o-box-shadow:1px -1px 0px #fff inset; -webkit-box-shadow:1px -1px 0px #fff inset; }
+.chat-nav .pull-left {padding:10px 0 10px 15px; border-radius:4px; -moz-border-radius:4px; -ms-border-radius:4px; -o-border-radius:4px; -webkit-border-radius:4px;}
+.chat-nav .pull-right {padding:10px 15px; -webkit-border-top-right-radius: 4px; -webkit-border-bottom-right-radius: 4px; -moz-border-radius-topright: 4px; -moz-border-radius-bottomright: 4px; border-top-right-radius: 4px; border-bottom-right-radius: 4px; box-shadow:1px -1px 0px #fff inset; -moz-box-shadow:1px -1px 0px #fff inset; -ms-box-shadow:1px -1px 0px #fff inset;-o-box-shadow:1px -1px 0px #fff inset; -webkit-box-shadow:1px -1px 0px #fff inset; border-left:1px solid #ddd;}
+
+.chat-nav .nav > li > a {padding:5px 12px;}
+
+/*  ###############################################################
+                             КАЛЕНДАРЬ
+    ###############################################################*/
+
+/* мод. окно добавление задачи */
+.modal.add-task .modal-dialog { left: 50%; right: auto; width: 600px; padding-top: 70px; padding-bottom: 30px; }
+
+
+/*  ###############################################################
+                             ПОЛЬЗОВАТЕЛИ И ГРУППЫ
+    ###############################################################*/
+
+.user-list .userInfo { display: inline-block; float: none; vertical-align: top; margin: 0px 10px 15px 0px; height:140px;}
+.user-list .userInfo .dl-horizontal dt { width: 100px; }
+.user-list .userInfo .dl-horizontal dd { margin-left: 110px; }
+.user-list .userInfo img { width: 100px; float: left; margin-right: 10px; }
+
+.choose-group-popup, .choose-task-popup {padding:10px 15px;}
+.choose-group-popup .btn-success, .choose-task-popup .btn-success {color:#fff;}
+.choose-group-popup .btn-success:hover, .choose-task-popup .btn-success:hover {background:#47A447; border-color:#398439;}
+
+.choose-task-popup {width:540px; margin-left:-1px;}
+.choose-task-popup .overflow-y {overflow-y:auto; max-height:100px; margin:15px 0 10px;}
+
+.user-list-filer hr {margin:0 0 15px;}
+.user-list-filer .span4 {margin-bottom:15px;}
+.user-list .widget.span4:nth-child(3n+1) {margin-left:0px;} 
+.user-list .widget.span4 small {margin:5px 0 0; line-height:14px; display:block; color:#ccc;}
+.user-list .user td {vertical-align:top;}
+.user-list .user td.avatar {width:100px;}
+.user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden;}
+.user-list .user td.avatar a img {width:100px;}
+.user-list .user td.about-user {padding-left:15px;}
+.user-list .user td.about-user a:not(.startedTask) {vertical-align:middle; display:block; text-decoration:none; color:#57A957;}
+.user-list .user td.about-user a.startedTask {color:#D43F3A; cursor:pointer; font-weight:bold;}
+
+@media screen and (max-width: 992px) {
+	.user-list .widget.span4 {width:100%; margin-left:0px;}
+	}
+@media only screen and (max-width: 768px) {
+.list-inline > li.projects-list-menu, .list-inline > li.section-tracker_menu_name  {display:none;}
+.list-inline > li.projects-list-select {display:inline-block;}
+}
+@media only screen and (max-width: 568px) {
+	.user-list .user td.avatar {width:50px;}
+	.user-list .user td.avatar a {width:50px;}}
+@media only screen and (max-width: 480px) {}
+@media only screen and (max-width: 320px) {}
+
+
+/*  ###############################################################
+                             ГАНТ - ТАЙМЛАЙН
+    ###############################################################*/
+
+div.form-with-inputs .row-fluid {margin-top:15px;}
+
+/* div.progress-bar {height:80px;} */
+
+div.progress-bar .btn-toolbar {margin:20px 0 0 0; float:left;}
+.row-fluid div.progress-bar .span1 {width:80px;}
+
+table.table-graph-task-details td {vertical-align:top;}
+
+div.progress-items {padding:25px 0;}
+
+div.progress-bar .diagramma {
+   /* margin:0 160px 0 100px; */
+    position:relative;
+    overflow:hidden;
+    height:95px;
+}
+div.progress-bar .diagramma-l {background:url(../images/diagramma.png) left 0px no-repeat; position:absolute; left:0px; top:0px; height:75px; width:17px;}
+div.progress-bar .diagramma-r {background:url(../images/diagramma.png) right -75px no-repeat; position:absolute; right:0px; top:0px; height:75px; width:17px;}
+
+div.progress-bar .diagramma .progress {height:8px; border-radius:0px; margin-top:33px;}
+
+div.scroll-bar {position:absolute; height:61px; top:50%; margin-top:-31px; width:100px; background:url(../images/diagramma.png) 0px -61px repeat-x; left:100px; cursor:move; z-index:5;}
+.scroll-bar-left {position:absolute; left:-8px; top:0px; width:8px; height:61px; background:url(../images/diagramma.png) 0px 0px no-repeat; cursor:col-resize;}
+.scroll-bar-right {position:absolute; right:-8px; top:0px; width:8px; height:61px; background:url(../images/diagramma.png) 0px -122px no-repeat; cursor:col-resize;}
+
+div.dates-subtasks {position:absolute; left:0px; top:0px; width:100%; height:100%;}
+
+div.dates-bar {position:absolute; top:40px; font-size:11px; height:26px; overflow:hidden; width:100%; z-index:1;}
+div.dates-bar-item {width:200px; position:absolute; display:inline-block; color:#818181; text-align:center; top:1px; padding-top:5px;}
+.dates-bar-item-border {height:8px; width:1px; background:#818181; font:0px/0px Tahoma, Geneva, sans-serif; position:absolute; top:0px; left:50%;}
+
+div.tasks-and-deals-control-buttons {float:right !important; width:64px; text-align:center;}
+div.tasks-and-deals-control-buttons a {vertical-align:middle;}
+div.tasks-and-deals-control-buttons > a.btn {border-radius:500px; -moz-border-radius:500px; -webkit-border-radius:500px; padding:2px 6px; margin-right:5px;}
+
+div.planlet-container {position:absolute; width:100%; top:41px; overflow:hidden; z-index:1;}
+div.planlet-container .marker {height:1px; width:100px; font:0px/0px "Trebuchet MS", Arial, Helvetica, sans-serif; position:absolute;}
+div.planlet-container .category1 {background:#8bb804;}
+div.planlet-container .category2 {background:#a93406;}
+div.planlet-container .category3 {background:#04a9e8;}
+div.planlet-container .category4 {background:#e3aa00;}
+
+
+.control-section {color:#999; margin-bottom:5px;}
+.control-section .task-manage > a, 
+.control-section .task-manage > span > a, 
+.control-section .task-manage > span, 
+.control-section .task-manage > span > span {color:#47A447;}
+.popup-task a {color:#47A447;}
+
+.bottom-border-style {border-bottom:1px solid #DDDDDD !important; box-shadow:0px 1px 0px #fff; -moz-box-shadow:0px 1px 0px #fff; -ms-box-shadow:0px 1px 0px #fff; -o-box-shadow:0px 1px 0px #fff; -webkit-box-shadow:0px 1px 0px #fff; display:block !important; padding-bottom:10px !important; margin-bottom:10px !important;}
+
+
+div.calendar-bar-tools {margin-bottom:15px;}
+div.calendar-bar-tools .btn-toolbar {margin:0px;}
+
+div.calendar-bar {margin-bottom:15px; height:518px; overflow-y:auto; overflow-x:hidden;}
+div.calendar-bar table {width:100%;}
+div.calendar-bar table td {text-align:center;}
+div.calendar-bar .monthName td {padding-top:5px;}
+div.calendar-bar .month {padding:0; background:#f0f9e9;}
+div.calendar-bar .month .monthDate {font-size:11px; margin-top:5px;}
+div.calendar-bar .month .monthDate td {border-right:1px solid #C7C7C7;}
+div.calendar-bar .month .monthDate td:last-child {border:0px;}
+
+div.progress-item {margin-bottom:15px; font-size:11px; display:inline-block; position:relative;}
+div.progress-item .progress {height:5px; margin-bottom:5px;}
+
+.progress-task-desc, .project_hint {background-color: rgba(0, 0, 0, 0.8); box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); width:350px; line-height:16px; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; position:absolute; font-size:12px; padding:10px 15px 15px; z-index:10; color:#fff;}
+.progress-task-desc img, .project_hint img {float:left; margin-right:10px; margin-top:5px; width:150px;}
+.progress-task-desc h5, .project_hint h5 {color:#93d9ff; margin:0px 0px 5px; font-weight:bold; font-size:14px;}
+.progress-task-desc p, .project_hint p {margin:0px 0px 10px; display:block;}
+.progress-task-desc a, .project_hint a {color:#93d9ff; text-decoration:underline;}
+
+.progress-task-desc:after {
+    border-bottom: 6px solid rgba(0, 0, 0, 0.8);
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    content: "";
+    display: inline-block;
+    left: 10px;
+    position: absolute;
+    top: -6px;
+}
+
+
+/*Стрелочка внизу*/
+.project_hint.bottom:after { top: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.project_hint.bottom:after { border-color: rgba(0, 0, 0, 0); border-top-color: rgba(0, 0, 0, 0.8); border-width: 6px; left: 50%; margin-left: -6px; }
+
+/*Стрелочка слева*/
+.project_hint.left:after { right: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.project_hint.left:after { border-color: rgba(0, 0, 0, 0); border-right-color: rgba(0, 0, 0, 0.8); border-width: 6px; top: 50%; margin-top: -6px; } 
+
+/*Стрелочка справа*/
+.project_hint.right:after { left: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; } 
+.project_hint.right:after { border-color: rgba(0, 0, 0, 0); border-left-color: rgba(0, 0, 0, 0.8); border-width: 6px; top: 50%; margin-top: -6px; } 
+
+/*Стрелочка вверху*/
+.project_hint.top:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+.project_hint.top:after { border-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0.8); border-width: 6px; left: 50%; margin-left: -6px; }
+
+
+
+div.task-details {background: none repeat scroll 0 0 #f0f0f0;
+    box-shadow: -2px 0 2px rgba(1, 1, 1, 0.1);
+    -moz-box-shadow: -2px 0 2px rgba(1, 1, 1, 0.1);
+    -webkit-box-shadow: -2px 0 2px rgba(1, 1, 1, 0.1);
+    height: 600px;
+    padding: 20px;
+    position: absolute;
+    right: 0px;
+    top: 48px;
+    width: 400px;
+    z-index: 10;
+	border-left:1px solid #ccc;}
+div.task-details h3 {margin:0 0 5px; display:block;}
+div.task-details .task-details-time-user {color:#555; font-size:12px;}
+
+.border-shadow {padding-bottom:15px; margin-bottom:15px; border-bottom:1px solid #fff; box-shadow:0px -1px 0px #ddd inset;}
+
+div.last-message {
+    background-color: #FFFFFF;
+    border: 1px solid #DDDDDD;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 20px 20px 0px;
+    position: relative;}
+p.last-message-info {margin-bottom:5px;}
+p.last-message-text {margin-bottom:0px;}
+div.last-message small {font-size:11px; color:#999;}
+
+div.last-message [class^="icon-"], div.last-message [class*=" icon-"] {margin-top:4px;}
+
+div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px;}
+
+
+/*  ###############################################################
+                             ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
+    ###############################################################*/
+
+.user-avatar,
+.user-contacts,
+.user-tasks-info {margin-right:20px;}
+
+.user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:20px; line-height:20px; padding-left:26px; margin-bottom:5px; list-style:none;}
+.user-contacts li.mailto {background-position:0px -440px;}
+.user-contacts li.user-icq {background-position:0px -460px;}
+.user-contacts li.user-skype {background-position:0px -480px;}
+
+.user-tasks-info li {line-height:20px; margin-bottom:5px; list-style:none;}
+
+.user-prizes ul {display:block; overflow:hidden; height:100%;}
+.user-prizes ul li {display:block; float:left; text-align:center; margin:0 10px; font-weight:bold; text-transform:uppercase; font-size:11px;}
+
+td.statistic-list, td.statistic-graph, td.statistic-detail {vertical-align:top;}
+td.statistic-list {background-color: #eee; padding: 15px; border-radius:10px; -moz-border-radius:10px; width:250px; -webkit-border-radius:10px;}
+
+td.statistic-graph {padding:0 25px;}
+
+.sp .dropdown-menu:after {top:auto !important; bottom: -6px; border-bottom:none; border-top:6px solid #FFFFFF;}
+.sp .dropdown-menu:before {top:auto !important; bottom: -7px; border-bottom: none; border-top: 7px solid rgba(0, 0, 0, 0.2);}
+.sp .dropdown-menu li {padding:4px 10px; white-space:nowrap;}
+
+.dostizheniya-item {border:1px solid #ffcd0e; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; }
+.dostizheniya-item-img {background:#ffcd0e; padding:15px 10px; vertical-align:top; width:60px; text-align:center;}
+.dostizheniya-item-text {vertical-align:top;padding:15px;}
+.dostizheniya-item-text h4 {margin:0px 0px 5px;}
+.dostizheniya-item-text p.date {color:#777; margin:0px 0px 5px; font-size:11px;}
+
+div.sub-user-menu a {color:#222; text-decoration:none;}
+div.sub-user-menu a:hover {text-decoration:underline;}
+
+span.close-task-wrapper .dropdown-menu {padding:10px 15px; color:#222;}
+span.close-task-wrapper .dropdown-menu h3 {font-size:16px; font-weight:bold; margin:0px 0px 5px;}
+span.close-task-wrapper .dropdown-menu a {text-decoration:none !important; margin-top:10px;}
+
+div.rate a {margin-top:0 !important; color:#999;}
+div.rate a:hover, div.rate a.active {color:#FFA500;}
+
+.profile-edit-responsible .dropdown > a {display:inline-block; margin-left:15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
+.profile-edit-responsible .dropdown-menu {padding:10px 15px; white-space:nowrap; left:10px; margin-top:10px;}
+.profile-edit-responsible .dropdown-menu label {margin-bottom:5px; color:#888;}
+
+.add-tags {border:1px solid #CCCCCC; border-radius:4px 4px 4px 4px; line-height:20px; overflow:hidden; -moz-border-radius:4px 4px 4px 4px; -webkit-border-radius:4px 4px 4px 4px; padding:1px 4px 4px; margin: 0px; }
+.add-tags li {display:inline-block; float:left; padding-top:3px; margin-right:3px;}
+.add-tags li > span {background:#EDF4F8;  border-radius:4px 4px 4px 4px; -moz-border-radius:4px 4px 4px 4px; -webkit-border-radius:4px 4px 4px 4px; padding:2px 5px; display:inline-block;}
+.add-tags li .icon-remove {opacity:0.4; filter: alpha(opacity=40); cursor:pointer;}
+.add-tags li input {border:0px !important; padding:0px !important; float:left !important; margin:2px 0 0 5px !important; height:20px !important;  line-height:20px !important; box-shadow:none !important;}
+
+div.params-item {margin-bottom:35px;}
+div.params-item .row-fluid {margin-top:5px;}
+div.params-item h5 span {color:#429C03;}
+.choose-time span a {display:inline-block; margin-left:15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
+
+.hideFilter i {opacity:0.7; filter: alpha(opacity=70); }
+
+/* редактирование профиля */
+.profile-edit input[type="text"], .profile-edit input[type="file"], .profile-edit textarea { display: block; width: 100%; padding: 6px 12px; font-size: 14px; color: #555555; border: 1px solid #cccccc; border-radius: 4px; }
+.profile-edit .row.show-grid {margin-bottom:10px;}
+.profile-edit .errorlist {margin-bottom:0px; padding:7px 0 0 0; background:none;}
+
+/*  ###############################################################
+                            ПАПКИ
+    ###############################################################*/
+h3.file_upload_button {position:relative;display:block;width:100%;height:50px; line-height:44px; background:#eee; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; text-align:center; color:#CCCCCC; opacity:0.5; -moz-opacity:0.5; -o-opacity:0.5; -ms-opacity:0.5; -webkit-opacity:0.5; margin-bottom:20px; border:2px dashed #ccc; font-weight:normal;}
+
+div.fixed-buttons-wrapper {position:fixed; bottom:0px; left:0px; width:100%;}
+div.fixed-buttons {position:absolute; left:40px; padding:15px 20px; right:40px; bottom:0px; background:#fff; box-shadow:0 -3px 5px rgba(0, 0, 0, 0.1); -moz-box-shadow:0 -3px 5px rgba(0, 0, 0, 0.1); -ms-box-shadow:0 -3px 5px rgba(0, 0, 0, 0.1); -o-box-shadow:0 -3px 5px rgba(0, 0, 0, 0.1); -webkit-box-shadow:0 -3px 5px rgba(0, 0, 0, 0.1);}
+
+div.tree ul {-moz-user-select: none; list-style: none outside none; margin: 0;  padding: 0;}
+div.tree ul li {margin: 0; padding: 0; vertical-align: middle;}
+div.tree ul li div.tree-row {padding:5px; border-radius:5px; margin:0 0 5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px;}
+div.tree ul li.open > div.tree-row div.tree-image {background: url("../images/icons.png") no-repeat scroll 0 -560px transparent;}
+div.tree ul li > ul {display:none;}
+div.tree ul li.open > ul {display:block;}
+div.tree ul li div.tree-row div.tree-image {cursor: pointer; float: left; width: 20px; margin-right:25px;}
+div.tree ul li div.tree-row span {background: url("../images/icons.png") no-repeat scroll 0 0 transparent; cursor: pointer; display: block;}
+div.tree ul li div.tree-row span a:visited, div.tree ul li div.tree-row span a:active, div.tree ul li div.tree-row span a:link {color: black;  text-decoration: none;}
+div.tree ul li ul li div.tree-row div.tree-image {background: url("../images/icons.png") no-repeat scroll 0 -540px transparent; cursor: pointer; float: left; height: 20px; width: 20px;}
+
+div.tree ul li div.tree-row span.root { background: url("../images/folder-icons.png") 0px 0px no-repeat; font-weight:bold; cursor: pointer; display: block; padding-left:25px; padding-right:20px;}
+div.tree ul li div.tree-row span.folder { background: url("../images/folder-icons.png") 20px -60px no-repeat; cursor: pointer; display: block; padding-left:45px; position:relative;}
+	div.tree ul li div.tree-row span.folder a.del_dir {position:absolute; right:4px; top:0px; display:none;}
+	div.tree ul li.active > div.tree-row > span.folder > a.del_dir {display:block;}
+
+
+
+div.tree ul li ul li {margin:0 0 0 15px;}
+div.tree ul li ul li.open.active > .tree-row {background-color:#EDF8ED}
+
+div.tree ul li div.tree-row span a { display: inline-block;  line-height: 20px; margin: 0;  text-decoration: none; }
+
+/*  ###############################################################
+                            ФАЙЛЫ
+    ###############################################################*/
+
+div.item-list ul {list-style: none outside none; margin: 0; overflow: hidden; padding: 0; text-overflow: ellipsis; vertical-align: middle; white-space: nowrap; width: 100%;}
+div.item-list ul li.folder-up { background: url("../images/icons.png") no-repeat scroll 0 -200px transparent;}
+div.item-list ul li.folder {background: url("../images/icons.png") no-repeat scroll 0 -220px transparent;}
+div.item-list ul li {cursor: pointer; height: 20px; line-height: 20px; margin: 0 0 5px; padding: 0; position: relative;}
+div.item-list ul li .radio, div.item-list ul li .checkbox {margin-left:25px;margin-right:40px;}
+div.item-list ul li a {display: inline-block; line-height: 20px; margin-left: 30px; overflow: hidden; text-decoration: none; text-overflow: ellipsis; width: 200px; color:#000;}
+div.item-list ul li a:hover {color:#0088CC;}
+div.item-list ul li span.checkbox { height: 20px; left: -30px; position: absolute; top: 0; width: 30px;}
+span.checkbox { background: url("../images/icons.png") no-repeat scroll 0 -740px transparent; cursor: pointer; display: inline-block; margin: 0 0 0 3px; width: 30px;}
+span.checkbox.checked {background: url("../images/icons.png") no-repeat scroll 0 -760px transparent;}
+
+li.file, li.file label {
+    cursor: pointer;
+}
+li.file:hover {
+    background-color: #ECF5F9;
+}
+li.file a.file-name {
+	display:inline-block;
+	white-space:normal;
+}
+li.file label {
+    background-image: url("../images/ext.png");
+    background-repeat: no-repeat;
+    background-position: 0 -60px;
+    background-attachment: scroll;
+    padding-left: 50px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+li.file[data-type='jpg'] label,
+li.file[data-type='jpeg'] label,
+li.file[data-type='png'] label,
+li.file[data-type='bmp'] label {
+    background-position: 0 -420px;
+}
+li.file[data-type='zip'] label,
+li.file[data-type='rar'] label {
+    background-position: 0 -120px;
+}
+li.file[data-type='html'] label,
+li.file[data-type='xml'] label {
+    background-position: 0 -180px;
+}
+li.file[data-type='txt'] label,
+li.file[data-type='doc'] label,
+li.file[data-type='docx'] label {
+    background-position: 0 0px;
+}
+li.file[data-type='js'] label,
+li.file[data-type='css'] label {
+    background-position: 0 -620px;
+}
+
+li.file.selected { background-color: #EDF8ED;}
+
+li.file.list-group-item .fa {
+    margin: 4px;
+    font-size: 1.3em;
+    float: right;
+}
+li.file.list-group-item .fa:hover {
+    text-decoration: none;
+}
+li.file .checkbox {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+
+div.about-file {}
+div.about-file hr {margin:5px 0;}
+div.about-file > div span {font-weight:bold;}
+
+input.alert-error, textarea.alert-error {border-color:#B94A48; background:#F2DEDE;}
+input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; -moz-box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; -webkit-box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; }
+
+/*  ###############################################################
+                            WIKI
+    ###############################################################*/
+
+/* заголовок статьи */
+#article-menu { margin-left: 0px; }
+
+/* тело статьи */
+.wiki-article ul, .wiki-article ol { margin-left: 40px; }
+
+/* дерево статей */
+.wiki-article .article-list ul { margin-left: 30px; }
+
+/* костыль - делаем импуты-text как бтсрпе */
+.wiki input[type="text"] { display: block;
+	width: 100%;
+	height: 34px;
+	padding: 6px 12px;
+	font-size: 14px;
+	line-height: 1.428571429;
+	color: #555555;
+	vertical-align: middle;
+	background-color: #ffffff;
+	border: 1px solid #cccccc;
+	border-radius: 4px;
+	-webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+	-webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+	transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
+
+/***/
+
+/* ### СТРАНИЦА РЕДАКТИРОВАНИЯ СТАТЬИ ### */
+
+/* заголовок + меню */
+.wiki .navbar .brand { margin: 0px; padding: 0px; }
+.wiki .navbar .divider-vertical { margin: 0px; }
+
+/* предпросмотр - модальное окно */
+.wiki .modal.custom-modal iframe { width: 100%; }
+/***/
+
+div.markItUpContainer { margin-right: 0px;}
+
+
+/*  ###############################################################
+                            SOME HELPER CLASS
+    ###############################################################*/
+
+/* обязательное поле в форме */
+.requiredField:after { content: "*"; color: red; }
+/***/
+
+.btn-default { background: #ececec;}
+
+.inline { display:inline-block; }
+
+/* САБМЕНЮ ИЗ ВТОРОГО БУТСТРАПА  */
+.dropdown-submenu {position:relative;}
+.dropdown-submenu >.dropdown-menu {top:0; right:auto; left:100%;margin-top:-6px;margin-left:-1px;-webkit-border-radius: 6px;
+-webkit-border-top-left-radius: 0;
+-moz-border-radius: 6px;
+-moz-border-radius-topleft: 0;
+border-radius: 6px;
+border-top-left-radius: 0;}
+.dropdown-submenu:hover >.dropdown-menu {display:block;}
+.dropdown-submenu >a:after {display:block;content:" ";float:right;width:0;height:0; border-style:solid; border-width: 5px 0 5px 5px; border-color: transparent #dedede transparent; margin-top:5px;margin-left:-15px;}
+.dropdown-submenu:hover >a:after {border-left-color:#ffffff;}
+.dropdown-submenu.pull-left {float:none;}
+.dropdown-submenu.pull-left > .dropdown-menu {left:-100%;margin-left:10px;-webkit-border-radius:6px 0 6px 6px;-moz-border-radius:6px 0 6px 6px;border-radius:6px 0 6px 6px;}
+/***/
+
+
+@media screen and (max-width: 992px) {
+.dropdown-submenu >.dropdown-menu  {left:auto; right:100%;-webkit-border-radius: 6px;
+-webkit-border-top-right-radius: 0;
+-moz-border-radius: 6px;
+-moz-border-radius-topright: 0;
+border-radius: 6px;
+border-top-right-radius: 0;}
+.dropdown-submenu >a {padding-left:25px !important;}
+.dropdown-submenu >a:after  {border-width: 5px 5px 5px 0; float:left;}
+
+}
+
+
+.task-message-icon { color: #333; }
+.task-message-icon:hover .fa-times-circle { color:red; }
+.task-message-icon:hover .fa-edit { color:green; }
+.DetailCommentText textarea { width: 100%; }
+
+@media screen and (max-width: 992px) {
+
+.tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
+
+.tasks-toolbar > div {width:100%;}
+	
+	
+	.task_number > div,
+.task_add-subtask > div,
+.task_status > div,
+.task_responsibles > div,
+.task_play-wrap > div,
+.task_time > div,
+.task_manage > div {border-right: none; border-left: none;}
+	
+	.task {position:relative;}
+	.task_number, .task_add-subtask {width:5%;}
+	.task_name {width:95%;}
+		.task_name > div {padding-right:15.5%;}
+	.task_add-subtask, .task_status, .task_responsibles, .task_play-wrap, .task_time {border-top:1px solid #fff; box-shadow:0 -1px 0 #DDDDDD; -moz-box-shadow:0 -1px 0 #DDDDDD;-ms-box-shadow:0 -1px 0 #DDDDDD; -o-box-shadow:0 -1px 0 #DDDDDD; -webkit-box-shadow:0 -1px 0 #DDDDDD;}
+	
+	.task_status {width:10%;}
+	.task_responsibles {width:33%;}
+	.task_play-wrap {width:5%;}
+	.task_time {width:32%;}
+	.task_manage {width:15%; position:absolute; right:0px; top:50%; margin-top:-23px; border-left:1px solid #DDDDDD; box-shadow:-1px 0 0 #FFFFFF; -moz-box-shadow:-1px 0 0 #FFFFFF; -ms-box-shadow:-1px 0 0 #FFFFFF; -o-box-shadow:-1px 0 0 #FFFFFF; -webkit-box-shadow:-1px 0 0 #FFFFFF;}
+	
+		.task_name > div, .task_time > div {border-right:0px;}
+		.task_add-subtask > div {border-left:0px;}
+		.task_manage > div {border:0px; }
+		
+		.task_manage .task_manage_btn-done {padding-right:0px;}
+		
+	.task .task_manage span.fa {font-size:24px;}
+}
+
+
+@media only screen and (max-width: 768px) {
+.sub-menu_line_section-user li > a {text-indent:-99999em; padding-left:33px;}
+
+ 
+	.task_number, .task_add-subtask {width:8%;}
+	.task_name {width:92%;}	
+		.task_name > div {padding-right:16%;}
+	.task_play-wrap {width:7%;}
+	.task_responsibles {width:30%;}
+	.task_time {width:30%;}
+	.task_manage {width:15.4%;}
+ 
+}
+
+
+
+
+@media only screen and (max-width: 568px) {
+	.tasks-toolbar .search-filter .btn-success {width:40px;}
+	.input-group .fa-plus {padding-right:0px;}
+	.input-group-btn .name {text-indent:-9999em; display:inline-block; display:none;}
+	
+.sub-menu_line_section-tracker > .navbar-right {text-align:right; padding-right:10px;}
+
+.profile-edit .col-xs-2, .profile-edit .col-xs-4, .profile-edit .col-xs-6 {padding-right:0px;}
+.profile-edit .col-xs-2 {width:20.6667%;}
+.profile-edit .col-xs-6 {width:44%;}
+
+
+
+	
+ div.widget {padding-left:15px; padding-right:15px; margin:0 -15px;}
+ 
+	.task_number, .task_add-subtask {width:9%;}
+		.task_number > div, .task_add-subtask > div {padding-left:0px;}
+	.task_name {width:91%;}	
+		.task_name > div {padding-right:19.5%;}
+	.task_play-wrap {width:7%;}
+	.task_responsibles {width:28%;}
+	.task_time {width:28.5%; }
+	.task_manage {width:18%;}
+	
+	
+/**** ДЕТАЛЬНАЯ ЗАДАЧИ ****/
+.widget.inner .widget-title .author {display:block;}
+
+.task-manage > a,
+.task-manage > span > a,
+.task-manage > span,
+.task-manage > span > span {font-size:24px;}
+.task-manage > a, .task-manage > span {font-size:24px; margin-left:20px; margin-top:5px;}
+}
+
+@media only screen and (max-width: 480px) {
+
+ 
+	.task_number, .task_add-subtask {width:11%;}
+		.task_number > div, .task_add-subtask > div {padding-left:0px;}
+	.task_name {width:89%;}	
+		.task_name > div {padding-right:24.5%;}
+	.task_play-wrap {width:7%;}
+	.task_responsibles {width:25.5%;}
+	.task_time {width:25.5%;}
+	.task_manage {width:22%;}
+}
+
+
+@media only screen and (max-width: 320px) {
+	
+.profile-edit .col-xs-2, .profile-edit .col-xs-6 {padding-right:15px;}
+	.profile-edit .col-xs-2 {width:35%;-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
+.profile-edit .col-xs-6 {width:65%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
+.profile-edit .col-xs-4 {width:100%; float:none; clear:both; padding:5px 15px 0;}
+.profile-edit .errorlist {background:#FFF2F2; padding:5px 0; text-align:center; margin-top:5px;}
+ 
+.sub-menu_line_section-user .list-inline {margin-left:10px; margin-top:10px;}
+.sub-menu_line_section-user .list-inline > li {padding:0px;}
+.list-inline > li.section-tracker_menu_name {display:none;}
+
+.task-tab-filter a {padding:5px 8px;}
+
+
+	.task .task_time {font-size:11px;}
+	.task_number > div,
+.task_add-subtask > div,
+.task_status > div,
+.task_responsibles > div,
+.task_play-wrap > div,
+.task_time > div,
+.task_manage > div {padding:5px;}
+ 
+	.task_number, .task_add-subtask {width:15%;}
+		.task_number > div, .task_add-subtask > div {padding-left:0px;}
+	.task_name {width:85%;}	
+		.task_name > div {padding-right:27.5%;}
+	.task_status {width:10.5%;}
+	.task_play-wrap {width:10%;}
+	.task_responsibles {width:31%;}
+	.task_time {width:33%;}
+		.task_time > div {padding-right:0px;}
+		.task_manage {
+			border-left: none;
+			box-shadow: none;
+			margin-top: 0px;
+			position: absolute;
+			right: 5px;
+			top: 5px;
+			width: 22%;
+		}
+		.task .task_manage .btn_manage {width:30px; float:left; display:block;}
+		
+		.task_manage > div {padding:0px;}
+		.task .task_manage span.fa {font-size:20px;}
+
+/**** ДЕТАЛЬНАЯ ЗАДАЧИ ****/
+.widget.inner .widget-title {padding:10px 15px;}
+.widget.inner .widget-body {padding:15px 15px 20px;}
+.newMessage .btn {margin-bottom:3px;}
+}
+
+/**** ЗАГРУЗКА ФАЙЛОВ ****/
+
+/* В файлах */
+.qq-upload-button, .qq-drop-processing {display:none;}
+.qq-uploader {width:99%; left:2px; text-align:center; position:absolute; z-index:1; top:2px;}
+.qq-uploader .btn-group {position:relative; top:-4px; left:10px;}
+.qq-upload-list {background:none repeat scroll 0 0 #F7F7F7;}
+.qq-upload-drop-area {background:none repeat scroll 0 0 #f7f7f7; color:#999; font-size:20px; left:4px; height:24px; position:absolute; text-align:center; top:12px; z-index:1; width:99%; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}
+/*.qq-upload-drop-area > span {left:0px; width:100%; margin-top:-10px; top:50%; position:absolute;}*/
+.qq-upload-list li {display:block; margin: 10px 0;}
+.qq-upload-list li span {margin: 0 3px 3px 3px; display: inline;}
+.qq-upload-file {font-weight: bold;}
+.qq-upload-succes .btn-group {margin-left:8px; margin-top:-4px;}
+.qq-upload-success .btn {padding:1px 7px; color:#999999;}
+.qq-upload-success .btn .icon-white {color:#fff;}
+
+.qq-upload-button-hover {background:#FFFDF1 !important; border-color:#F5F3EA !important; opacity:1 !important; color:#C09853 !important;}
+.qq-upload-button-hover .qq-upload-drop-area, .qq-upload-button-hover .file_upload_button {color:#C09853 !important; background:#FFFDF1 !important;}
+ .qq-upload-button-hover .file_upload_button {opacity:1 !important; border-color:#F5F3EA !important;}
+/* В списке задач 
+.tasklist .qq-uploader {background:none repeat scroll 0 0 #F7F7F7; border:2px dashed #E6E6E6; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; left:0px; margin:10px 0 0; padding:5px 0 0; position:relative; top:0px; width:100%;}*/
+
+.task-wrapper.task_over {
+    border: 1px solid #FFE0A6;
+	box-shadow:0 0 5px #FFE0A6;
+	-moz-box-shadow:0 0 5px #FFE0A6;
+	-o-box-shadow:0 0 5px #FFE0A6;
+	-webkit-box-shadow:0 0 5px #FFE0A6;
+	-moz-box-shadow:0 0 5px #FFE0A6;
+	background:#FFFDF1;
+}
+
+.task-wrapper.task_over .task_responsibles:after {
+    background: -moz-linear-gradient(right center , #FFFDF1 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -o-linear-gradient(right center , #FFFDF1 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);
+    background: -webkit-linear-gradient(right center , #FFFDF1 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);}
+
+.widget.tasklist .temp_task {
+    border: 1px dashed #ddd;
+	background:#f9f9f9;
+    width: 100%;
+    height: 45px;
+    margin: 0 0 5px;
+	border-radius:5px;
+	-moz-border-radius:5px;
+	-ms-border-radius:5px;
+	-o-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+.fa-star {position:absolute; left:0px; top:-1px; margin-top:-20px; outline:none !important; text-decoration:none; width:39px; height:46px; background:url(/static/images/stars.png) -39px 0px no-repeat;}
+
+.fa-star:before {content:normal !important;}
+.fa-star.red {color:#cd0000; background:url(/static/images/stars.png) -39px -92px no-repeat;}
+.fa-star.green {color:#57a957; background:url(/static/images/stars.png) -39px -46px no-repeat;}
+
+.fa-star.highlighted {background:url(/static/images/stars.png) 0px 0px no-repeat; margin-top:-23px;}
+.fa-star.red.highlighted {background:url(/static/images/stars.png) 0px -92px no-repeat;}
+.fa-star.green.highlighted {background:url(/static/images/stars.png) 0px -46px no-repeat;}
+
+.fa-star.mini {background:url(/static/images/stars-mini.png) -24px 0px no-repeat !important; position:absolute; left:0px; top:50%; margin-top:-12px !important; z-index:1; text-decoration:none; width:24px !important; height:24px !important;}
+.fa-star.mini:before {content:normal !important;}
+.fa-star.mini.red {color:#cd0000; background:url(/static/images/stars-mini.png) -24px -48px no-repeat !important;}
+.fa-star.mini.green {color:#57a957; background:url(/static/images/stars-mini.png) -24px -24px no-repeat !important;}
+
+.gantt.fa-star {z-index: 1000;}

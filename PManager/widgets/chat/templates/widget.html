@@ -1,0 +1,107 @@
+{% load jsonify %}
+<script>
+    var widget_chat,
+        widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
+</script>
+<script type="text/javascript" src="/static/js/pm/comments.js" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript" src="/widgets/js/chat/script.js"></script>
+<div class="widget" id="chat">
+    <h4>Лента событий</h4>
+    <div class="TopPanel">
+        <a href="#" class="RollUp"></a>
+        <a href="#" class="Close"></a>
+    </div>
+    <hr>
+    
+    <div class="clearfix chat-nav js-feed-options">
+    	<div class="pull-left">
+        	<label class="checkbox-inline">
+              <input type="checkbox" name="SYSTEM_MESSAGES" value="Y" {% if chat.options.SYSTEM_MESSAGES %}checked="checked"{% endif %}> Системные сообщения
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
+            </label>
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox2" value="option2" checked="checked"> Изменен ответственный#}
+{#            </label>#}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox3" value="option3" checked="checked"> Задача открыта#}
+{#            </label>#}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox4" value="option4" checked="checked"> Задача создана#}
+{#            </label>#}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox5" value="option5" checked="checked"> Критичность понижена#}
+{#            </label>#}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox6" value="option6" checked="checked"> Критичность повышена#}
+{#            </label>    #}
+        </div>
+{#    temporary condition while only one item in this list #}
+        {% if main.CURRENT_PROJECT %}
+        <div class="pull-right">
+            {% if main.CURRENT_PROJECT %}
+        	<label class="checkbox-inline">
+              <input type="checkbox" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
+            </label>
+            {% endif %}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox8" value="option8" checked="checked"> Я автор#}
+{#            </label>#}
+{#        	<label class="checkbox-inline">#}
+{#              <input type="checkbox" id="inlineCheckbox9" value="option9" checked="checked"> Я наблюдатель#}
+{#            </label>    #}
+        </div>
+        {% endif %}
+    </div>
+    
+    <hr>
+    
+    <div class="Chat">
+        <table width="100%">
+            <tr>
+                <td class="UserListTD" style="display:none;">
+                    <div id="ScrollBar" class="UserList">
+                        <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+                        <div class="viewport">
+                            <div class="overview userList">
+                                <ul>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="ChatWindowWrap">
+                        <div id="ScrollBarCat" class="ChatWindow">
+                            <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
+                            <div class="viewport">
+                                <div class="overview" id="chatWindow">
+                                    <script>
+                                        widget_chat_arLogMessages = [];
+                                        {% for message in chat.messages %}
+                                            widget_chat_arLogMessages.push({{ message|jsonify|safe }});
+                                        {% endfor %}
+                                    </script>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="InputBlock">
+                            <input type="text" id="wc_chat_message" data-blur="Напишите текст или перетащите файл (Enter)" value="Напишите текст или перетащите файл (Enter)" />
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<script>
+    $(function(){
+        $('#wc_chat_message').addFilePaste(function(data){
+            data = $.parseJSON(data);
+            $(this).val('#'+data.fid+'#');
+        });
+    })
+</script>

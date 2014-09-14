@@ -1,0 +1,281 @@
+{% load jsonify thumbnail arraytags %}
+<script type="text/javascript" src="/static/js/pm/comments.js" xmlns="http://www.w3.org/1999/html"></script>
+<script type="text/javascript" src="/widgets/js/task_detail/script.js" xmlns="http://www.w3.org/1999/html"></script>
+<div class="widget inner Task_Detail" id="task_detail" >
+    <div class="widget-title clearfix">
+{# ---- TASK INFO #}
+        <div class="pull-left">
+            <span class="{{ task_detail.lamp }}">Вы ответили</span>
+            <span class="time">{{ task_detail.task.dateModify }}</span>
+            <span class="author"><!--({{ task_detail.task.author.username }})-->
+            Автор: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></span>
+        </div>
+{# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
+        <div class="task-manage pull-right">
+        {% if task_detail.subtasks|length == 0 %}
+            <a href="javascript:void(0);" class="js-task_done  fa fa-check {% if task_detail.task.closed %}closed{% endif %}"></a>
+        {% endif %}
+{#            <span class="dropdown pull-right close-task-wrapper">#}
+{#            	<a href="#" class="fa fa-thumbs-up" data-toggle="dropdown"></a>#}
+{#                <div class="dropdown-menu pull-right pause_dialog">#}
+{#                      <h3>Закрываем задачу</h3>#}
+{#                      <hr>#}
+{#                      <select class="form-control">#}
+{#                        <option>Причина закрытия</option>#}
+{#                        <option>2</option>#}
+{#                        <option>3</option>#}
+{#                        <option>4</option>#}
+{#                        <option>5</option>#}
+{#                      </select>#}
+{#                      <hr>#}
+{#                      <textarea placeholder="Оставьте свой комментарий" class="form-control" name="comment"></textarea>#}
+{#                      <hr>#}
+{#                      <p class="text-muted">Оценка выполнения</p>#}
+{#                      <div class="rate"><a class="fa fa-star" href="#"></a>&nbsp;&nbsp;<a class="fa fa-star" href="#"></a>&nbsp;&nbsp;<a class="fa fa-star" href="#"></a>&nbsp;&nbsp;<a class="fa fa-star" href="#"></a>&nbsp;&nbsp;<a class="fa fa-star" href="#"></a></div>#}
+{#                      <hr>#}
+{#                      <a class="btn btn-danger pause_comment_cancel" style="margin-top:0px; width:100%;">Закрыть</a>#}
+{#                  </div>#}
+{##}
+{#            </span>#}
+            
+          	<span class="dropdown pull-right close-task-wrapper">
+            	<a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>
+                <div class="dropdown-menu pull-right pause_dialog">
+                	<h3>Введите комментарий</h3>
+                    <textarea name="comment" class="form-control"></textarea>
+                    <label class="checkbox">
+                        <input type="checkbox" checked="checked" name="addComment" value="Y"> Опубликовать в задаче
+                    </label>
+                    <a class="btn btn-success pause_comment_success" >Ок</a>
+                    <a class="btn btn-danger pause_comment_cancel" >Отменить таймер</a>
+                </div>
+            </span>
+            
+            <!--<span class="dropdown pull-right js-options_popup">
+                <a data-toggle="dropdown" href="javascript:void(0);" class="plus js-task_menu"></a>
+            </span>-->
+            <span class="dropdown pull-right js-options_popup">
+                <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-plus-circle js-task_menu"></a>
+            </span>
+            
+            
+        </div><!--task-manage-->
+    </div><!--widget-title-->
+
+    {# ---- TASK BODY #}
+    <div class="widget-body">
+
+        <ol class="Task_Detail_breadcrumb breadcrumb">
+            <li><a href="/">{{ task_detail.task.project.name }}</a></li>
+            {% if task_detail.task.parentTask %}
+                {% with task_detail.task.parentTask as parent %}
+                <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+                {% endwith %}
+            {% endif %}
+            <li class="active">Задача №{{ task_detail.task.number }}</li>
+        </ol>
+
+        <hr>
+        <h2>{{ task_detail.task.name }}</h2>
+        <p>{{ task_detail.task.text_formatted|safe }} </p>
+        {% if task_detail.files %}
+            <p>
+                {% for file in task_detail.files %}
+                    {% if file.is_picture %}
+                        <a class="fnc" href="{{ file.url }}"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                    {% endif %}
+                {% endfor %}
+            </p>
+
+            <p>
+                {% for file in task_detail.files %}
+                    {% if not file.is_picture %}
+                        <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}" ></span> {{ file.name }}</a><br />
+                    {% endif %}
+                {% endfor %}
+            </p>
+        {% endif %}
+{#        {{ task_detail.params }}#}
+        Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
+        Затраченное время: <span id="js-td_time"></span>
+        {% if task_detail.task.responsibleList %}
+        <hr />
+        <p class="text-success">
+            Ответственный: <strong>{% for resp in task_detail.task.responsibleList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %} </strong>
+        </p>
+        {% endif %}
+        {% if task_detail.task.observersList %}
+        <hr />
+        <p class="text-success">
+            Наблюдатели: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
+        </p>
+        {% endif %}
+        {% if not task_detail.task.parentTask %}
+            <div class="tasks">
+                <div class="task-wrapper">
+                    <div class="subtask">
+                        {% if task_detail.hiddenSubTasksExist %}
+                            <div class="show-closed-task">
+                                <a class="js-ShowClosedSubtasks">Показать закрытые подзадачи</a>
+                            </div>
+                        {% endif %}
+                        {# ---- ДОБАВИТЬ ПОДЗАДАЧУ #}
+                        <div class="add-task-input js-addTaskInput">
+                            <input class="input-block-level form-control" data-parent="{{ task.id }}" type="text" placeholder="Добавить подзадачу...">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <hr>
+        <a href="#" class="js-show-all" style="display: none;">Показать предыдущие сообщения</a>
+        <div class="messages js-commentsContainer"></div>
+
+        {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
+        <div class="task_add-message">
+            <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
+                <h4>Добавить сообщение</h4>
+                <select class="combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
+                    <option value="">Кому</option>
+                    {% for resp_user in task_detail.users %}
+                        <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
+                    {% endfor %}
+                </select><label class="left"><input type="checkbox" name="hidden" value="Y" /> Лично</label>
+                <hr>
+                {% csrf_token %}
+                <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <textarea name="task_message" rows="5" class="form-control" ></textarea>
+                    </div>
+                </div>
+
+                <div class="uploaded_file"></div>
+
+                <div class="task_add-message_message-detail form-group">
+
+                    <label class="col-sm-2 control-label">Прикрепить файл</label>
+                    <div class="col-sm-2">
+                        <input name="file" type="file">
+                        <span class="message-detail_add-file help-block">
+                            <a class="fa fa-plus-square"
+                               href="#"
+                               onclick="d=$(this).parent().prev();d.clone().insertAfter(d);return false;" >
+                                Добавить
+                            </a>
+                        </span>
+                    </div>
+                    {% if task_detail.is_manager or task_detail.project.id != 5 %}
+                    <label class="col-sm-2 control-label">Скрыть сообщение:</label>
+                    <div class="col-sm-2">
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="hidden_from_author" value="Y"> для автора
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input type="checkbox" name="hidden_from_responsible" value="Y"> для ответственного
+                            </label>
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% if task_detail.task.status.code != 'not_approved' %}
+                    <label class="col-sm-2 control-label">Установить статус:</label>
+                    <div class="col-sm-2">
+                        <div class="checkbox">
+                            <label>
+                                <input onclick="$('input[name=status]').eq(1).attr('checked',false);"
+                                       type="checkbox"
+                                       name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
+                                на проверку
+                            </label>
+                        </div>
+                        <div class="checkbox">
+                            <label>
+                                <input onclick="$('input[name=status]').eq(0).attr('checked',false);"
+                                       type="checkbox" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
+                                на доработку
+                            </label>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="row-fluid show-grid">
+                    <button class="btn btn-success sendTaskMessage" type="button">Отправить (Ctrl+Enter)</button>
+                    {% if not task_detail.task.closed and False %}
+                    <input type="hidden" name="close" value="" />
+                    <button class="btn btn-danger btn-close sendTaskMessage" type="button">Отправить и закрыть</button>
+                    {% endif %}
+                    <input type="hidden" name="responsible_change" value="" />
+                    <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Отправить и сменить ответственного</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<ul class="dropdown-menu responsibles" style="display:none;">
+    {% for resp_user in task_detail.users %}
+        <li>
+            <a rel="{{ resp_user.id }}" href="#">
+                <span class="user-name">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</span>
+                <span class="progress progress-success">
+                    <span style="width: {% widthratio resp_user.id 1 10 %}%;" class="bar"></span>
+                </span>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<script type="text/javascript" class="temp_scripts">
+    var taskDetail = {
+        'id':{{ task_detail.task.id }},
+        'text':{{ task_detail.task.text|jsonify|safe }},
+        'title':{{ task_detail.task.title|jsonify|safe }},
+        'startedTimerExist':{{ task_detail.startedTimerExist|jsonify }},
+        'startedTimerUserId':'{{ task_detail.task.startedTimerUserId }}',
+        'closed':{{ task_detail.task.closed|jsonify }},
+        'critically':{{ task_detail.task.critically|jsonify }},
+        'onPlanning':{{ task_detail.task.onPlanning|jsonify }},
+        'status':'{{ task_detail.task.status.code }}',
+        'started': {{ task_detail.task.started|jsonify }}
+    }
+    window.taskHtml = {{ task_detail.taskTemplate|jsonify|safe }};
+    var arJSParams = {
+        'taskId':{{ task_detail.task.id }},
+        'messages':[]
+    }
+    {% for message in task_detail.messages %}
+        arJSParams.messages.push({{ message.json|safe }});
+    {% endfor %}
+    var arTimers = {
+        '{{ task_detail.task.id }}': (new PM_Timer({
+                'seconds': {{ task_detail.time|jsonify|safe }},
+                'container': '#js-td_time'
+            }))
+    }, taskRespSummary = {}, aSubTasks = [];
+    {% for task in task_detail.subtasks %}
+        aSubTasks.push({{ task|jsonify|safe }});
+        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+        {% if task.time %}
+            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+            {% if task.startedTimerExist %}
+                arTimers['{{ task.id }}'].start();
+            {% endif %}
+        {% endif %}
+    {% endfor %}
+    task_detail_message_tpl = {{ task_detail.templates|jsonify|safe }};
+
+{#TODO: удалить#}
+    $(function(){
+        $('.js-task-checkbox').remove();
+    });
+</script>
+{#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
+{#<div id="qunit"></div>#}
+{#<div id="qunit-fixture"></div>#}
+{#<script src="/static/js/libs/QUnit/qunitjs.js"></script>#}
+{#<script src="/static/js/pm/tests/fakeModelSyncServer.js"></script>#}
+{#<script src="/static/js/pm/tests/messageManagerTest.js"></script>#}

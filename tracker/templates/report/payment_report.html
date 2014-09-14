@@ -1,0 +1,99 @@
+{% extends "main/base.html" %}
+{% block header %}
+{% endblock %}
+{% block content %}
+<div class="widget" id="chat">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Задача</th>
+                <th>Ответственный</th>
+                {% if is_manager %}
+                <th>Плановые расходы</th>
+                <th>Расходы</th>
+                {% endif %}
+                <th>Была дана оценка</th>
+
+                <th>К оплате</th>
+                {% if is_manager %}
+                <th>% проджекта</th>
+                <th>Ожидаемая прибыль</th>
+                <th>Прибыль</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% for task in tasks %}
+            <tr {% if task.payment %}style="color:red;"{% endif %}>
+                <td><a href='{{ task.url }}'>{% if task.parentTask %}{{ task.parentTask.name }} / {% endif %}{{ task.name }}</a></td>
+                <td><a href='?resp={{ task.resp.id }}'>
+                    {{ task.resp.last_name }}</a></td>
+                {% if is_manager %}
+                <td>{{ task.plan_cost }}</td>
+                <td>{{ task.cost }}</td>
+                {% endif %}
+                <td>{{ task.plan_payment }}</td>
+
+                <td>{{ task.payment }}</td>
+                {% if is_manager %}
+                <td>{{ task.project_cost }}</td>
+                <td>{{ task.plan_profit }}</td>
+                <td>{{ task.profit }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td></td>
+                <th>Итого</th>
+                {% if is_manager %}
+                <th>{{ sum.plan_cost }}</th>
+                <th>{{ sum.cost }}</th>
+                {% endif %}
+                <th>{{ sum.plan_payment }}</th>
+
+                <th>{{ sum.payment }}</th>
+                {% if is_manager %}
+                <th>{{ sum.project_cost }}</th>
+                <th>{{ sum.plan_profit }}</th>
+                <th>{{ sum.profit }}</th>
+                {% endif %}
+            </tr>
+
+            <tr>
+                <td></td>
+
+                <th></th>
+                {% if is_manager %}
+                <th></th>
+                <th></th>
+                {% endif %}
+                <th>Из них оплачено</th>
+                <th>{{ payed }}</th>
+                {% if is_manager %}
+                <th></th>
+                <th></th>
+                <th></th>
+                {% endif %}
+            </tr>
+            <tr>
+                <td></td>
+
+                <th></th>
+                {% if is_manager %}
+                <th></th>
+                <th></th>
+                {% endif %}
+                <th>Долг</th>
+                <th>{{ debt }}</th>
+                {% if is_manager %}
+                <th></th>
+                <th></th>
+                <th></th>
+                {% endif %}
+            </tr>
+        </tfoot>
+    </table>
+</div>
+{% endblock %}

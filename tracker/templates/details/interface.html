@@ -1,0 +1,21 @@
+<div class="alert alert-{% if interface.check %}success{% else %}danger{% endif %} clearfix alert-dismissible js-interface-block" role="alert" data-id="{{ interface.id }}">
+{% if canDelete %}
+    <button type="button" class="close js-interface-remove" data-dismiss="alert">
+        <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+    </button>
+{% endif %}
+    <div class="pull-left">
+        <i class="fa {% if interface.check %}fa-check-circle-o{% else %}fa-exclamation-circle{% endif %} pull-left" style="font-size:64px;"></i>
+    </div>
+    <div class="pull-left">
+        <h4>{{ interface.name }}:</h4>
+        {{ interface.protocol }}://{{ interface.address }}<br />
+        {% if interface.username %}
+        Пользователь: {{ interface.username }} <br />
+        {% endif %}
+        {% if interface.password %}
+        Пароль: <a href="#" class="js-copy-password" data-password="{{ interface.password }}">cкопировать пароль</a>
+        {% endif %}
+    </div>
+</div>
+<br />

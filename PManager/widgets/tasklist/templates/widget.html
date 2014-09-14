@@ -1,0 +1,387 @@
+{% load jsonify %}
+<script type="text/javascript" src="/widgets/js/tasklist/script.js"></script>
+<script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
+<script language="JavaScript">
+    window.taskHtml = {{ tasklist.template|jsonify|safe }};
+</script>
+<div class="widget tasklist">
+    <!--<div class="row">
+        <div class="col-xs-12">-->
+
+        <div class="widget-control">
+{#            <a class="w-collapse">Свернуть</a>#}
+            <a class="w-close">Закрыть</a>
+        </div>
+
+        <h3>Задачи</h3>
+        <hr>
+{% if tasklist.project %}
+        {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
+        <!--<form class="form-group" role="form">-->
+        <form role="form">
+            	<table width="100%" cellpadding="0" cellspacing="0">
+                	<tr>
+                    	<td style="vertical-align:top;">
+             			<div class="big-input task-create-wrapper">
+                    <input class="input-block-level task-create form-control" type="text" placeholder="Добавить задачу (Ctrl+K)...">
+                    
+                    <div class="dropdown-menu" style="display:none;">
+                        <div class="row">
+                          <div class="col-md-3">
+                          	<ul>
+                            	<li><a href="#">Программисты</a></li>
+                            	<li><a href="#">Менеджеры</a></li>
+                            	<li><a href="#">Верстальщики</a></li>
+                            </ul>
+                          </div><!--col-md-3-->
+                          <div class="col-md-9">
+                          	<div class="row">
+                                <img width="30px" style="margin-right: 5px;" class="img-thumbnail" src="/static/upload/mister_30x30.jpg"><a href="/user_detail/?id=2"><b>Васютин&nbsp;Евгений</b></a>
+                                
+                                <div style="margin-top: 7px;margin-bottom: 3px;" class="progress">
+                                    <div role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%" class="progress-bar progress-bar-success">
+                                        <span class="sr-only">90% activity</span>
+                                    </div>
+                                </div>
+                            </div><!--row-->
+                          </div><!--col-md-9-->
+                        </div><!--row-->
+                    </div><!--dropdown-menu-->
+                    <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
+                        <li>
+                            <a rel="new" href="javascript:void(0)"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">
+                                Новый пользователь
+                            </a>
+                        </li>
+                        {% for user in tasklist.users %}
+                            <li><a href="javascript:void(0)" rel="{{ user.username }}"
+                                   onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">
+                                    [{{ user.username }}] {{ user.last_name }} {{ user.first_name }}
+                            </a></li>
+                        {% endfor %}
+                    </ul>
+
+                    <ul id="TL_author_list" class="TL_author_list SelectBlock">
+                        <li>
+                            <a rel="new" href="javascript:void(0)"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Author',false,$(this).closest('ul').prev());">
+                                Новый пользователь
+                            </a>
+                        </li>
+
+                    {% for user in tasklist.users %}
+                        <li>
+                            <a href="javascript:void(0)" rel="{{ user.username }}"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Author',false,$(this).closest('ul').prev());">
+                                [{{ user.username }}] {{ user.last_name }} {{ user.first_name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                    </ul>
+
+                    <ul id="TL_date_select_list" class="TL_date_select_list SelectBlock">
+                        <li>
+                            <a href="javascript:void(0)" rel="today"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
+                                Сегодня</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" rel="tomorrow"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
+                                Завтра</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" rel="aftertomorrow"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),false,'Date',$(this).closest('ul').prev());">
+                                Послезавтра</a>
+                        </li>
+                        <li>
+                            <a href="javascript:void(0)" rel="week"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
+                                Неделя</a>
+                        </li>
+                    </ul>
+                    <ul id="TL_deadline_select_list" class="TL_deadline_select_list SelectBlock">
+                        <li><a href="javascript:void(0)" rel="1"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">1 час</a></li>
+                        <li><a href="javascript:void(0)" rel="4"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">4 ч</a></li>
+                        <li><a href="javascript:void(0)" rel="8"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">8 ч.</a></li>
+                        <li><a href="javascript:void(0)" rel="16"
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">16 ч.</a></li>
+                    </ul>
+               			 </div>
+               			</td>
+                        <td width="135" style="vertical-align:top;">
+                        <div class="file-upload">
+                            <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
+                            <button class="btn btn-success task-create" type="submit">Создать</button>
+                        </div>
+                        </td>
+                   </tr>
+               </table>
+        </form>
+
+        <div class="clearfix"></div>
+        <div class="task-file-upload" style="position:relative;"></div>
+
+        <hr> 
+{% endif %}
+        {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
+        <div class="row tasks-toolbar">
+            <div class="col-xs-4">
+                <!--<div class="input-group">-->
+                	<div class="search-filter js-searchFilterBlock">
+                    <table width="100%" cellpadding="0" cellspacing="0">
+                    	<tr>
+                        	<td style="vertical-align:top;"><input type="text" placeholder="Поиск" class="search-input form-control" /><a class="icon-remove fa fa-times"></a> </td>
+                            <td style="vertical-align:top;" width="181">
+                            <div class="input-group-btn" style="position:relative;">
+                                <button type="button" class="btn btn-default js-search-btn" tabindex="-1">
+                                    <span class="fa fa-search"></span>
+                                </button>
+                                <button class="btn btn-success" type="button" data-toggle="dropdown">
+                                    <span class="fa fa-plus"></span><span class="name">Фильтры</span>
+                                </button>
+                                <ul role="menu" class="dropdown-menu pull-right js-search-menu" style="position:absolute; top:33px; right:-2px;">
+                                        <li data-code="responsible" class="dropdown-submenu">
+                                            <a >Ответственный</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="{{ user.id }}">Я</a></li>
+                                                {% for resp_user in tasklist.users %}
+                                                <li><a rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li data-code="author" data-toggle="dropdown" class="dropdown-toggle dropdown-submenu">
+                                            <a>Кем назначена</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="{{ user.id }}">Я</a></li>
+                                                {% for resp_user in tasklist.users %}
+                                                <li><a rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li data-code="observers" class="dropdown-submenu">
+                                            <a >Наблюдатель</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="{{ user.id }}">Я</a></li>
+                                                {% for resp_user in tasklist.users %}
+                                                <li><a rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li  data-code="closed" data-toggle="dropdown" class="dropdown-toggle dropdown-submenu">
+                                            <a>Закрытые</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="Y">Закрытые</a></li>
+                                                <li><a rel="N">Открытые</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li data-code="viewed" data-toggle="dropdown" class="dropdown-toggle dropdown-submenu">
+                                            <a>Новые события</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="Y">Прочитанные</a></li>
+                                                <li><a rel="N">Непрочитанные</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li data-code="date_create" data-toggle="dropdown" class="dropdown-toggle dropdown-submenu">
+                                            <a>Дата создания</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="{{ tasklist.filterDates.today }}">Сегодня</a></li>
+                                                <li><a rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                <li class="divider"></li>
+                                                <li><a rel="range">Диапазон</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="divider"></li>
+                                        <li data-code="date_modify" data-toggle="dropdown" class="dropdown-toggle dropdown-submenu">
+                                            <a>Дата изменения</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a rel="{{ tasklist.filterDates.today }}">Сегодня</a></li>
+                                                <li><a rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                <li class="divider"></li>
+                                                <li><a rel="range">Диапазон</a></li>
+                                            </ul>
+                                        </li>
+                                	</ul>
+                                <!-- сохранить поиск -->
+                                <a class="btn btn-info add-search-tab js-save-search-tab hidden" title="Сохранить параметры поиска" >
+                                    <i class="fa fa-save"></i>
+                                </a>
+                                <!------>
+                                
+                            </div>
+                            </td>
+                            <td style="width:39px;" width="39">
+                             <div class="checkbox" style="position:relative;">{% if main.CURRENT_PROJECT %}<label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label>{% endif %}</div>
+                            </td>
+                        </tr>
+                    </table>
+                    </div>
+                <!--</div><!-- /.input-group -->
+                <div class="search_items_holder" ></div>
+            </div>
+
+
+            <div class="col-xs-7">
+                <ul class="task-tab-filter list-inline pull-right">
+                    <li class="active"><a>Все</a></li>
+                    <li><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
+                    <li><a rel="ready">На проверке{% if tasklist.qty.ready %}<span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
+                    <li><a rel="critically">Горят{% if tasklist.qty.critically %}<span>{{ tasklist.qty.critically }}</span>{% endif %}</a></li>
+                    <li><a rel="not_ready">Не готовые</a></li>
+                    <li><a rel="deadline">Просроченные</a></li>
+                    <li><a rel="arc">Архив</a></li>
+                </ul>
+            </div>
+        </div>
+        <hr class="no-top-magin-hr">
+        <script language="javascript">
+        var aTaskList = [],taskRespSummary = {};
+        {% for task in tasklist.tasks %}
+            aTaskList.push({{ task|jsonify|safe }});
+            taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+            {% if task.time %}
+                arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                {% if task.startedTimerExist %}
+                    arTimers['{{ task.id }}'].start();
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        </script>
+
+        <div class="js-tasks">
+
+        </div>
+
+        {% if not tasklist.paginator.lastPage and tasklist.tasks %}
+            <br /><p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
+        {% endif %}
+    <!--</div>
+  </div>-->
+
+</div>
+
+<ul class="dropdown-menu responsibles" style="display:none;text-align: left;">
+    <li class="dropdown-header" >Выбор ответственного</li>
+    {% for resp_user in tasklist.users %}
+        <li>
+            <a rel="{{ resp_user.id }}">
+                <span class="user-name">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</span>
+                <div class="progress">
+                    <div class="js-progress-success progress-bar progress-bar-success"></div>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+</ul>
+<div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2 class="modal-title" id="myModalLabel">Приглашения отправлены</h2>
+          <p>В течение нескольких минут в разделе "Отклики" у вас появятся оценки наших разработчиков!</p>
+          <center>
+            <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
+          </center>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Добавить веху</h2>
+      </div>
+      <form role="form" class="js-milestone-form" method="post">
+          <div class="modal-body">
+              <div class="form-group">
+                <select class="form-control js-select-milestone" name="milestone">
+                    <option value="">Новая веха</option>
+                    {% for milestone in tasklist.milestones %}
+                    <option value="{{ milestone.id }}">{{ milestone.name }}</option>
+                    {% endfor %}
+                </select>
+              <br />
+              <label>
+              <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
+              </label>
+              <label style="position: relative">
+              <input type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
+                  <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
+              </label>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <div class="js-tasks-for-milestone"></div>
+            <input type="submit" name="add-to-milestone" class="btn btn-success js-create-milestone" value="Добавить" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>
+      </div>
+      <form role="form" class="js-observers-form" method="post">
+          <div class="modal-body">
+              <div class="form-group">
+                <select class="form-control" name="observer">
+                    <option value="">Выбрать</option>
+                    {% for resp_user in tasklist.users %}
+                        <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>
+                    {% endfor %}
+                </select>
+              </div>
+          </div>
+          <div class="modal-footer">
+            <div class="js-tasks-for-observers"></div>
+            <input type="submit" name="add-observers" class="btn btn-success js-add-observers" value="Добавить" />
+            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="/static/js/fileup/header.js"></script>
+<script src="/static/js/fileup/util.js"></script>
+<script src="/static/js/fileup/promise.js"></script>
+<script src="/static/js/fileup/button.js"></script>
+<script src="/static/js/fileup/ajax.requester.js"></script>
+<script src="/static/js/fileup/deletefile.ajax.requester.js"></script>
+<script src="/static/js/fileup/handler.base.js"></script>
+<script src="/static/js/fileup/handler.base.js"></script>
+<script src="/static/js/fileup/window.receive.message.js"></script>
+<script src="/static/js/fileup/handler.form.js"></script>
+<script src="/static/js/fileup/handler.xhr.js"></script>
+<script src="/static/js/fileup/paste.js"></script>
+<script src="/static/js/fileup/uploader.basic.js"></script>
+<script src="/static/js/fileup/dnd.js"></script>
+<script src="/static/js/fileup/uploader.js"></script>
+<script src="/static/js/fileup/jquery-plugin.js"></script>
+<script src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
+<script src="/static/js/libs/timepicker/base.js"></script>
+{#{% if user.is_superuser %}#}
+{#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
+{#<div id="qunit"></div>#}
+{#<div id="qunit-fixture"></div>#}
+{#<script src="/static/js/libs/QUnit/qunitjs.js"></script>#}
+{#<script src="/static/js/pm/tests/taskCreateTest.js"></script>#}
+{#{% endif %}#}
+<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
+<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
