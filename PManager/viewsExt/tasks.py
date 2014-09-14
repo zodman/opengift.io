@@ -320,7 +320,7 @@ def taskListAjax(request):
                 #         arEmail.remove(email)
 
             else:
-                if hidden_from_author:
+                if hidden_from_clients:
                     while task.author and \
                             task.author.is_active and \
                             task.author.email and \
