@@ -2,10 +2,11 @@
 __author__ = 'Gvammer'
 from django.db import models
 from django.contrib.auth.models import User
-from PManager.models.tasks import PM_Tracker,PM_ProjectRoles,PM_Role,PM_Project
+from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import emailMessage
 from django.db.models.signals import post_save
+
 
 class Specialty(models.Model):
     code = models.CharField(max_length=255, null=True, blank=True)
@@ -17,10 +18,13 @@ class Specialty(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
 def get_random_color():
     import random
-    v = random.randint(0, len(PM_User.color_choices)-1)
+
+    v = random.randint(0, len(PM_User.color_choices) - 1)
     return PM_User.color_choices[v][0]
+
 
 class PM_User(models.Model):
     color_choices = (
@@ -47,17 +51,19 @@ class PM_User(models.Model):
         ('#ab82ff', '#ab82ff'),
     )
     user = models.OneToOneField(User)
-    trackers = models.ManyToManyField(PM_Tracker,null=True)
-    icq = models.CharField(max_length=70,null=True,blank=True)
-    skype = models.CharField(max_length=70,null=True,blank=True)
-    birthday = models.DateTimeField(blank=True,null=True)
-    avatar = models.ImageField(blank=True,upload_to="PManager/static/upload/users/")
-    sp_price = models.IntegerField(blank=True,null=True,default=0,verbose_name='Ставка')
-    paid = models.IntegerField(blank=True,null=True,default=0)
+    trackers = models.ManyToManyField(PM_Tracker, null=True)
+    icq = models.CharField(max_length=70, null=True, blank=True)
+    skype = models.CharField(max_length=70, null=True, blank=True)
+    birthday = models.DateTimeField(blank=True, null=True)
+    avatar = models.ImageField(blank=True, upload_to="PManager/static/upload/users/")
+    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Ставка')
+    paid = models.IntegerField(blank=True, null=True, default=0)
     specialty = models.ForeignKey(Specialty, blank=True, null=True) #TODO: deprecated
-    specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',verbose_name='Специальности')
+    specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
+                                         verbose_name='Специальности')
     #all_sp = models.IntegerField(null=True,blank=True)
-    avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices, max_length=20)
+    avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
+                                    max_length=20)
 
     account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
 
@@ -65,11 +71,11 @@ class PM_User(models.Model):
 
     @property
     def url(self):
-        return "/user_detail/?id="+str(self.user.id)
+        return "/user_detail/?id=" + str(self.user.id)
 
     @property
     def avatarSrc(self):
-        return str(self.avatar).replace('PManager','')
+        return str(self.avatar).replace('PManager', '')
 
     @property
     def managedProjects(self):
@@ -90,7 +96,7 @@ class PM_User(models.Model):
     def getByUser(user):
         if headers.TRACKER and user:
             try:
-                pm_user = PM_User.objects.get(user=user,trackers=headers.TRACKER)
+                pm_user = PM_User.objects.get(user=user, trackers=headers.TRACKER)
             except PM_User.DoesNotExist:
                 try:
                     pm_user = PM_User.objects.get(user=user)
@@ -118,8 +124,8 @@ class PM_User(models.Model):
             }
 
             message = emailMessage('hello_new_user',
-                context,
-                'Система ведения проектов. Добро пожаловать!'
+                                   context,
+                                   'Система ведения проектов. Добро пожаловать!'
             )
 
             message.send([email])
@@ -158,7 +164,7 @@ class PM_User(models.Model):
             try:
                 clientRole = PM_Role.objects.get(code=roleCode)
                 try:
-                    userRole = PM_ProjectRoles.objects.filter(user=self.user,role=clientRole,project=project)
+                    userRole = PM_ProjectRoles.objects.filter(user=self.user, role=clientRole, project=project)
                     if userRole and userRole[0]:
                         return True
                 except PM_ProjectRoles.DoesNotExist:
@@ -188,14 +194,16 @@ class PM_User(models.Model):
         return PM_Project.objects.filter(id__in=[role.project.id for role in userRoles], closed=False).distinct()
 
     def getRoles(self, project):
-        return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user,project=project)]
+        return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user, project=project)]
 
-    def getProjectUsers(self,project):
-        return User.objects.filter(pk_in = [role.user__id for role in PM_ProjectRoles.objects.filter(project=project).values('user__id')]).distinct()
+    def getProjectUsers(self, project):
+        return User.objects.filter(pk_in=[role.user__id for role in
+                                          PM_ProjectRoles.objects.filter(project=project).values(
+                                              'user__id')]).distinct()
 
-    def deleteRole(self,role,project):
+    def deleteRole(self, role, project):
         if self.user:
-            userRole = PM_ProjectRoles.objects.get(user=self.user,role=role,project=project)
+            userRole = PM_ProjectRoles.objects.get(user=self.user, role=role, project=project)
             if userRole:
                 userRole.delete()
 
@@ -215,14 +223,14 @@ class PM_User(models.Model):
 
                 return (task.resp and self.user.id == task.resp.id) \
                            or self.user.id in [u.id for u in task.observers.all()] \
-                        or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
-                        or task.subTasks.filter(author=self.user.id, active=True).count() > 0
+                           or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
+                    or task.subTasks.filter(author=self.user.id, active=True).count() > 0
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
-                            or self.user.id == self.task.resp
+                    or self.user.id == self.task.resp
 
     def getBet(self, project):
         try:
@@ -230,7 +238,8 @@ class PM_User(models.Model):
             if projectRole:
                 projectRole = projectRole[0]
 
-            rate = projectRole.rate if projectRole and projectRole.rate else (int(self.sp_price) if self.sp_price else 0)
+            rate = projectRole.rate if projectRole and projectRole.rate else (
+            int(self.sp_price) if self.sp_price else 0)
             if self.rating:
                 rate += self.rating
             return rate
@@ -254,5 +263,6 @@ class PM_User(models.Model):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = PM_User.objects.get_or_create(user=instance)
+
 
 post_save.connect(create_user_profile, sender=User)

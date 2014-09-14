@@ -15,6 +15,7 @@ def widget(request, headerValues, ar, qargs):
         try:
             user = User.objects.get(pk=int(get['id']))
             profile = user.get_profile()
+            cur_prof = request.user.get_profile()
             if 'action' in post:
                 #add this user to project
                 if post['action'] == 'add_to_project':
@@ -25,7 +26,7 @@ def widget(request, headerValues, ar, qargs):
                             project = PM_Project.objects.get(id=project)
                             role = PM_Role.objects.get(id=role)
 
-                            if request.user.get_profile().isManager(project):
+                            if cur_prof.isManager(project):
                                 profile.setRole(role.code, project)
                                 return {
                                     'redirect': u'/user_detail/?id=' + unicode(get['id'])
@@ -49,8 +50,8 @@ def widget(request, headerValues, ar, qargs):
             if profile.avatar:
                 profile.avatar = str(profile.avatar).replace('PManager', '')
             #проекты, к которым пользователь имеет доступ
-            currentUserAccessProjects = request.user.get_profile().getProjects()
-            currentUserManagedProjects = request.user.get_profile().getProjects(only_managed=True)
+            currentUserAccessProjects = cur_prof.getProjects()
+            currentUserManagedProjects = cur_prof.getProjects(only_managed=True)
 
             tasksResult = taskList(
                 request,
@@ -146,8 +147,9 @@ def widget(request, headerValues, ar, qargs):
             for task in tasksObserverResult['tasks']:
                 task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']
 
-            userProjects = user.get_profile().getProjects().filter(pk__in=currentUserAccessProjects)
+            userProjects = profile.getProjects().filter(pk__in=currentUserAccessProjects)
             for project in userProjects:
+                setattr(project, 'canEdit', cur_prof.isManager(project))
                 setattr(project, 'roles', [role.role.code for role in userRoles if role.project.id == project.id])
 
 
@@ -219,7 +221,7 @@ def widget(request, headerValues, ar, qargs):
                 },
                 'taskSumm': taskSum,
                 'taskLastMonth': taskSumPerMonth,
-                'projectsForAddUser': request.user.get_profile().getProjects(only_managed=True).exclude(id__in=[k.project.id for k in userRoles]),
+                'projectsForAddUser': currentUserManagedProjects.exclude(id__in=[k.project.id for k in userRoles]),
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph

@@ -59,6 +59,21 @@ $(function(){
             $('.js-delete-user').click(function(){
                 return confirm('Вы действительно хотите удалить данного пользователя?');
             });
+            $('.js-role-check').click(function(){
+                PM_AjaxPost(
+                    '/users_ajax/',
+                    {
+                        'action': 'setRole',
+                        'role': $(this).attr('name'),
+                        'project': $(this).data('project'),
+                        'user': $(this).data('user-id'),
+                        'set': $(this).is(':checked')
+                    },
+                    function(data){
+                        alert(data);
+                    }
+                )
+            });
         },
         'addTaskLine':function(taskData, $container){
             var task = widget_ud.taskList.get(taskData.id);
@@ -66,10 +81,15 @@ $(function(){
 
             widget_ud.taskTemplates[task.id] = view;
             view.createEl().render();
-            console.log($task_el);
+
             var $task_el = $('<div></div>').addClass('task-wrapper')
-                                .append(view.$el);
+                                .append(view.$el)
+                                    .append('<div class="subtask" style="display: none;"></div>');
             $container.append($task_el);
+            view.$('.js-select_resp, .add-subtask').each(function(){
+                $(this).replaceWith($('<strong></strong>').append($(this).find('.fa-plus').remove().end().html()));
+            });
+            view.delegateEvents();
         },
         'addOnlineStatusListeners': function(){
             baseConnector.addListener('connect', function(){

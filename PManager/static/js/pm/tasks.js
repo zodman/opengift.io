@@ -22,6 +22,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'success':function(model, data){
                         try {
                             data = $.parseJSON(data);
+                            console.log(data);
                             if (typeof(data) == typeof({}) && data.id){
                                 for (var i in data){
                                     model.set(i, data[i]);
@@ -340,7 +341,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     var respName = taskInfo.resp[0];
 
                     $respLink.text(respName['name']);
-                }else if(taskInfo.recommendedUser && taskInfo.needRespRecommendation){
+                }else if(taskInfo.recommendedUser && taskInfo.needRespRecommendation && !taskInfo.subtasksQty){
                     var restRec = $respLink.text(taskInfo.recommendedUser.name + '?').addClass('recommended');
                     $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
                         .attr('rel',taskInfo.recommendedUser.id).insertAfter(restRec);

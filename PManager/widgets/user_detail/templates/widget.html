@@ -94,14 +94,11 @@
 
              <div class="user-prizes pull-right">
                     <ul>
-{#                            <li><img src="/static/images/primero_57.png" alt=""><br>работник месяца</li>#}
-{#                            <li><img src="/static/images/primero_59.png" alt=""><br>мастер "Флеш"</li>#}
                         {% if user_detail.achievements %}
                             {% for c in user_detail.achievements %}
                                 <li><img src="{{ c.smallImageUrl }}" alt=""><br>{{ c.name }}</li>
                             {% endfor %}
                         {% endif %}
-                        <li><img src="/static/images/primero_61.png" alt=""><br>Хорошее начало</li>
                   </ul>
             </div>
 
@@ -122,7 +119,7 @@
             </div>
             <div class="pull-right"><a href="#add-project" class="btn btn-success">Добавить в проект</a></div>
             {% if user_detail.current_user_is_admin %}
-            <div class="pull-right"><form method="POST" action=""><input name="action" type="hidden" value="delete_user" /><input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form></div>
+            <div class="pull-right" style="margin-right: 10px;"><form method="POST" action=""><input name="action" type="hidden" value="delete_user" /><input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form></div>
             {% endif %}
         </div><!--ТАБЫ-->
         <hr>
@@ -139,7 +136,7 @@
                                 <hr />
                                 {% endif %}
                                 <h4>Набрал баллов</h4>
-                                <p>Бонус: {% if user_detail.profile.rating <= 0 %}<span style="color: red"> -{% else %}<span style="color:green"> +{% endif %}
+                                <p>Бонус: {% if user_detail.profile.rating < 0 %}<span style="color: red"> -{% else %}<span style="color:green"> +{% endif %}
                                 {% if user_detail.profile.rating %}
                                 {{ user_detail.profile.rating }}
                                 {% else %}
@@ -176,21 +173,26 @@
                         <div class="media clearfix">
                         	<img src="/static/images/avatar_unknown.png" class="img-thumbnail pull-left" width="100" />
                             <h3>{{ project.name }}</h3>
-                            {% for role in user_detail.project_roles %}
-                                {% if role.project.id == project.id %}
-                                    <p>{{ role.role.name }}</p>
-                                {% endif %}
-                            {% endfor %}
-                            <div class="btn-group">
-                              <a href="#" data-toggle="dropdown">Изменить группу<span class="caret"></span></a>
-                              <ul class="dropdown-menu choose-group-popup" role="menu">
-                                <li><div class="checkbox"><label><input {% if 'client' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="client" type="checkbox">Клиент</label></div></li>
-                                <li><div class="checkbox"><label><input {% if 'manager' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="manager" type="checkbox">Менеджер</label></div></li>
-                                <li><div class="checkbox"><label><input {% if 'employee' in project.roles %}checked{% endif %} name="roles_of_project[{{ project.id }}]" value="employee" type="checkbox">Разработчик</label></div></li>
-                                <li class="divider"></li>
-                                <li><a href="#" class="btn btn-success">ОК</a></li>
-                              </ul>
-                            </div>
+                            <ul class="list-inline" >
+                                <li><div class="checkbox"><label>
+                                    {% if project.canEdit %}
+                                    <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
+                                         data-user-id="{{ user_detail.user.id }}" name="client" value="1" type="checkbox">
+                                    {% endif %}
+                                    Клиент</label></div></li>
+                                <li><div class="checkbox"><label>
+                                    {% if project.canEdit %}
+                                    <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
+                                           data-user-id="{{ user_detail.user.id }}" name="manager" value="1" type="checkbox">
+                                    {% endif %}
+                                    Менеджер</label></div></li>
+                                <li><div class="checkbox"><label>
+                                    {% if project.canEdit %}
+                                    <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
+                                           data-user-id="{{ user_detail.user.id }}" name="employee" value="1" type="checkbox">
+                                    {% endif %}
+                                    Разработчик</label></div></li>
+                          </ul>
                         </div><!--ychastvyet-item-->
                         {% if not forloop.last %}<hr />{% endif %}
                     {% endfor %}
@@ -225,23 +227,28 @@
                             {% endif %}
                         {% endif %}
                     {% empty %}
-                       document.write('<p>Нет ни одной задачи</p>')
+                       document.write('<p>Нет ни одной задачи</p>');
                     {% endfor %}
                     </script>
                 </div>
                 <div class="tab-pane" id="dostizheniya">
-                    <div class="dostizheniya-item">
-                        <table width="100%" cellpadding="0" cellspacing="0">
-                            <tr>
-                            <td class="dostizheniya-item-img"><a href="#"><img src="/static/images/primero_61.png" alt="Работник месяца" /></a></td>
-                            <td class="dostizheniya-item-text">
-                            <h4>Хорошее начало</h4>
-                            <p class="date">10.06.2013</p>
-                            <p>Закрыть минимум одну задачу</p>
-                            </td>
-                            </tr>
-                        </table>
-                    </div>
+                    {% if user_detail.achievements %}
+                        {% for c in user_detail.achievements %}
+                            <div class="dostizheniya-item">
+                                <table width="100%" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                    <td class="dostizheniya-item-img"><a href="#"><img src="{{ c.smallImageUrl }}" alt="{{ c.name }}" /></a></td>
+                                    <td class="dostizheniya-item-text">
+                                    <h4>{{ c.name }}</h4>
+                                    <p class="date">{{ c.date }}</p>
+                                    <p>{{ c.description }}</p>
+                                    </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
 {#                        <hr />#}
 
                 </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
