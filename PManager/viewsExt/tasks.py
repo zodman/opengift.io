@@ -389,7 +389,9 @@ def taskListAjax(request):
                     task.setPlanTime(value, request)
 
                     task.systemMessage(
-                        u'оценил задачу в ' + str(value) + u'ч. с опытом ' + str(task.getUserRating(request.user)),
+                        u'оценил задачу в ' + str(value) + u'ч. с опытом '
+                        + str(task.getUserRating(request.user))
+                        + ' (' + str(request.user.get_profile().getBet(task.project) * settings.COMISSION) + ' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
