@@ -60,7 +60,6 @@ class PM_User(models.Model):
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices, max_length=20)
 
     account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
-    account_freeze = models.IntegerField(blank=True, null=True, verbose_name='Замороженные средства')
 
     rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
 
