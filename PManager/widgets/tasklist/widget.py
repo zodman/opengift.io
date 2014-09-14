@@ -125,6 +125,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if task.resp and \
                 not task.id in arBets and \
                 task.planTime and \
+                task.status and \
                 task.status.code == 'not_approved' and \
                 not task.resp.is_staff:
 
