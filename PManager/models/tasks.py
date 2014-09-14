@@ -401,18 +401,21 @@ class PM_Task(models.Model):
             aClientsAndResponsibles.append(self.resp.id)
             prof = self.resp.get_profile()
             paymentType = prof.getPaymentType(self.project)
+
+            allRespPrice = 0
             if paymentType == type:
                 userBet = prof.getBet(self.project)
                 curtime = time
                 if type == 'real_time':
                     curtime = aUserTimeAndRating.get(self.resp.id,{}).get('time', 0)
                     if curtime:
-                        time += curtime;
+                        time += curtime
                         prof.rating = (prof.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
                         prof.save()
 
                 if curtime:
                     curPrice = userBet * float(curtime)
+                    allRespPrice += curPrice
                     credit = Credit(
                         user=self.resp,
                         value=curPrice,
@@ -432,7 +435,11 @@ class PM_Task(models.Model):
 
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
-            price = client.rate * float(time)
+            if client.rate:
+                price = client.rate * float(time)
+            else:
+                price = allRespPrice * COMISSION
+
             credit = Credit(
                 payer=client.user,
                 value=price,

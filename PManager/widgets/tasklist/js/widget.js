@@ -352,8 +352,8 @@ var widget_tl, currentGroup;
                         bottomPanel.addBlock('addObservers', $block);
                         $block = menuTaskBlock('Пригласить разработчиков', '#invite-developers', function(){
                             var tasks = [];
-                            if (!ACCOUNT_TOTAL) {
-                                alert('Данная услуга доступна только при положительном балансе.');
+                            if (ACCOUNT_TOTAL <= 0) {
+                                alert('Данная услуга доступна только при положительном балансе. Пожалуйста, пополните ваш счет.');
                                 return false;
                             }else{
                                 $('.js-task-checkbox:checked').each(function(){

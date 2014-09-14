@@ -1,4 +1,4 @@
-{% load floattags %}
+{% load floattags jsonify %}
 <script type="text/javascript" src="/widgets/js/project_graph/script.js"></script>
 
 <div class="widget">
@@ -29,7 +29,7 @@
             </div>
         </form>
         <script type="text/javascript">
-            var ACCOUNT_TOTAL = {{ project_graph.allProjectPrice }};
+            var ACCOUNT_TOTAL = {{ project_graph.allProjectPrice|jsonify|safe }};
         {% if project_graph.bPay %}
             document.robo.submit();
         {% endif %}

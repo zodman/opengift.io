@@ -676,6 +676,22 @@ class taskAjaxManagerCreator(object):
         return HttpResponse(json.dumps({'result':'OK'}))
 
     @task_ajax_action
+    def process_baneUser(self):
+        from PManager.models import Credit
+        t = self.taskManager.task
+        user = self.currentUser
+        if t.canEdit(user):
+            for timer in PM_Timer.objects.filter(user=t.resp, task=t):
+                timer.delete()
+            for credit in Credit.objects.filter(user=t.resp, task=t):
+                credit.delete()
+            t.resp = None
+            t.save()
+            return HttpResponse(json.dumps({'result': 'OK'}))
+
+        return HttpResponse(json.dumps({'result': 'ERROR'}))
+
+    @task_ajax_action
     def process_ganttAjax(self):
         from PManager.widgets.gantt.widget import widget as gantt
 

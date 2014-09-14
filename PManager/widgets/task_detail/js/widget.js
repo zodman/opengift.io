@@ -79,7 +79,13 @@ $(function(){
                 this.undelegateEvents();
                 this.delegateEvents();
             }
-            t.view.render();
+
+            baseConnector.addListener('connect', function(){
+                    console.log(t.model);
+                    t.view.checkModel(function(){
+                    t.view.render();
+                }, true)
+            });
 
             $('.sendTaskMessage').on("click", function(){
                 var closeTask = $(this).hasClass('btn-close'),

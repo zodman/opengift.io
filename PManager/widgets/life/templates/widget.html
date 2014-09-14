@@ -114,7 +114,9 @@ $(function() {
                     {% for project in life.projects %}
                         <tr>
                             <td>
+                                {% if project.imagePath %}
                                 <a href="/?project={{ project.id }}"><img src="{{ project.imagePath|thumbnail:"40x40" }}" class="thumbnail" /></a>
+                                {% endif %}
                             </td>
                             <td>
                                 <a href="/?project={{ project.id }}">{{ project.name }}</a>

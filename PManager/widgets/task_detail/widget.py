@@ -18,7 +18,7 @@ def widget(request, headerValues, arFilter, q):
     task = None
     if 'id' in request.GET or 'number' in request.GET:
         if 'id' in request.GET:
-            task = PM_Task.objects.filter(id=request.GET.get('id'), active=True).get()
+            task = PM_Task.objects.filter(id=int(request.GET.get('id')), active=True).get()
         elif 'number' in request.GET and 'project' in request.GET:
             task = PM_Task.objects.filter(
                 number=int(request.GET.get('number')),
@@ -26,7 +26,7 @@ def widget(request, headerValues, arFilter, q):
                 parentTask__isnull=True,
                 active=True
             )[0]
-            
+
         if not task:
             raise Exception(u'Задача удалена')
 
@@ -64,6 +64,8 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text))
         # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
+        # setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
+        # setattr(task, 'canSetCritically', task.canEdit(cur_user))
 
         allTime = task.getAllTime()
         files = taskExtensions.getFileList(task.files.all())

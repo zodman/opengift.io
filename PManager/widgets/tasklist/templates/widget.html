@@ -16,7 +16,7 @@
 
         <h3>Задачи</h3>
         <hr>
-{% if tasklist.project %}
+        {% if tasklist.project and not tasklist.isInvite %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <!--<form class="form-group" role="form">-->
         <form role="form">

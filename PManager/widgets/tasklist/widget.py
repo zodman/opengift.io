@@ -7,7 +7,7 @@ from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from PManager.viewsExt.tasks import TaskWidgetManager
-# from tracker import settings
+from tracker.settings import COMISSION
 
 #This function are used in many controllers.
 #It must return only json serializeble values in 'tasks' array
@@ -116,9 +116,19 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
     currentRecommendedUser = None
     arBIsManager = {}
+
+    arBets = {}
     for task in tasks:
         if not task.id in arBIsManager:
             arBIsManager[task.id] = cur_prof.isManager(task.project)
+
+        if task.resp and \
+                not task.id in arBets and \
+                task.planTime and \
+                task.status.code == 'not_approved' and \
+                not task.resp.is_staff:
+
+            arBets[task.id] = task.resp.get_profile().getBet(task.project) * task.planTime * COMISSION
 
         task.time = task.getAllTime()
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
@@ -206,6 +216,19 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                 'name': respName
                             })
 
+        bCanBaneUser = False
+        if arBIsManager[task.id] and task.resp:
+            lastRespMessageDate = last_message_q.filter(author=task.resp)
+            lastRespMessageDate = lastRespMessageDate[0] if lastRespMessageDate else None
+            if lastRespMessageDate:
+                lastRespMessageDateCreate = lastRespMessageDate.dateCreate
+            else:
+                lastRespMessageDateCreate = task.realDateStart or task.dateCreate
+
+            bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
+                datetime.datetime.now(), timezone.get_current_timezone()
+            ) - datetime.timedelta(days=2)
+
         addTasks[task.id] = {
             'url': task.url,
             'time': subtaskTime,
@@ -217,6 +240,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'canApprove': arBIsManager[task.id] or request.user.id == task.author.id,
             'canSetCritically': arBIsManager[task.id] or request.user.id == task.author.id,
             'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
+            'canBaneUser': bCanBaneUser,
+            'planPrice': arBets.get(task.id, 0),
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'status': task.status.code if task.status else '',
@@ -344,5 +369,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                              {'realDateStart__isnull': False, 'closed': False, 'active': True}),
             'critically': PM_Task.getQtyForUser(cur_user, project,
                                              {'critically__gt': 0.7, 'closed': False, 'active': True})
-        }
+        },
+        'isInvite': arPageParams['invite']
     }
