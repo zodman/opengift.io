@@ -28,13 +28,13 @@ var CRITICALLY_THRESHOLD = 0.7;
                                 }
                             }
                         }catch(e){
-                            console.log('Parse error');
+//                            console.log('Parse error');
                         }
                         try {
                             if (callback)
                                 callback.call(t);
                         } catch(e) {
-                            console.log('Callback error');
+//                            console.log('Callback error');
                         }
                     },
                     'error':function(model, data){
@@ -288,7 +288,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                         for (i in taskInfo.planTimes){
                             var oPlanTime = taskInfo.planTimes[i];
 
-                            sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;ч';
+                            sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;ч<br />';
                         }
                         sPlanTime += '</div>';
                         sPlanTime += '</span>';
@@ -478,12 +478,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 
                 taskManager.SetTaskProperty(this.model.id, 'planTime', time, function(data){
                     obj.checkModel(function(){
+                        obj.planTime = time;
                         obj.render();
                     }, true);
                 });
-                this.$el.find('.jsPlanTimeHolder').text(
-                    this.$el.find('.jsPlanTimeList a[rel="'+time+'"]').text()
-                );
+//                this.$el.find('.jsPlanTimeHolder').text(
+//                    this.$el.find('.jsPlanTimeList a[rel="'+time+'"]').text()
+//                );
                 this.$('.task-plantime > .dropdown > .dropdown-menu').hide();
                 return false;
             },

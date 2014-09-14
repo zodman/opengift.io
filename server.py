@@ -50,7 +50,8 @@ class PM_Tasks_Connector():
                     task = list(tasks)[0]
 
                     return json.dumps(task)
-
+                else:
+                    return 'Not exist'
         except PM_Task.DoesNotExist:
             pass
 

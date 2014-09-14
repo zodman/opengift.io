@@ -837,7 +837,7 @@ class PM_Task(models.Model):
                     aExternalId.append(obj['parentTask__id'])
 
                 filterQArgs.append((
-                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(onPlanning=True) | Q(
+                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
                         id__in=aExternalId)
                 ))
                 bExist = True
@@ -849,6 +849,7 @@ class PM_Task(models.Model):
             # userProjects = user.get_profile().getProjects()
             mProjects = user.get_profile().managedProjects
             q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
+
             if project and invite:
                 q = q | Q(onPlanning=True) & Q(closed=False) & Q(resp__isnull=True)
 

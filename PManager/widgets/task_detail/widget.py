@@ -39,8 +39,8 @@ def widget(request, headerValues, arFilter, q):
                 message = PM_Task_Message.objects.get(pk=cid, task=task)
                 planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
                 prof = message.author.get_profile()
-                if not prof.hasRole(project):
-                    prof.setRole('employee', project)
+                if not prof.hasRole(task.project):
+                    prof.setRole('employee', task.project)
                 task.onPlanning = False
                 task.planTime = planTime.time
                 task.resp = planTime.user
