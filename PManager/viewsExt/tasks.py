@@ -2,6 +2,7 @@
 __author__ = 'Gvammer'
 from django.db.models import Q
 from django.db import transaction
+from tracker.settings import COMISSION
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import HttpResponse
@@ -391,7 +392,7 @@ def taskListAjax(request):
                     task.systemMessage(
                         u'оценил задачу в ' + str(value) + u'ч. с опытом '
                         + str(task.getUserRating(request.user))
-                        + ' (' + str(request.user.get_profile().getBet(task.project) * settings.COMISSION) + ' sp)',
+                        + ' (' + str(request.user.get_profile().getBet(task.project) * COMISSION) + ' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
