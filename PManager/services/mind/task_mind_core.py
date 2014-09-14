@@ -46,7 +46,7 @@ class TaskMind:
                 if task_time <= 0: task_time = 0.1
 
                 a.append(task_time)
-                if task.resp.id == t.resp.id:
+                if t.resp and task.resp.id == t.resp.id:
                     similarQtyUser += 1
                     similarTimeUser += task_time
             if a:

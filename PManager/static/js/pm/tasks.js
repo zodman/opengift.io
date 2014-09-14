@@ -22,7 +22,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'success':function(model, data){
                         try {
                             data = $.parseJSON(data);
-                            console.log(data);
                             if (typeof(data) == typeof({}) && data.id){
                                 for (var i in data){
                                     model.set(i, data[i]);
@@ -898,7 +897,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         'ChangeResponsible': function (id, uid, call) {
             if (!id) return false;
             if (!uid) return false;
-            this.taskAjaxRequest({
+            return this.taskAjaxRequest({
                 'id': id,
                 'resp': uid
             }, call);
