@@ -26,7 +26,7 @@ def register(request):
             project=project
         )
         task.save()
-        task.responsible.add(user)
+        task.resp = user
 
     return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
 

@@ -30,9 +30,8 @@ class TaskMind:
 
     def getInputParams(self, task):
         similar = PM_Task.getSimilar(task.name+task.text, task.project)
-        taskResp = task.responsible.all()
-        taskResp = taskResp[0].id if taskResp.count() else 0
-        if taskResp and len(similar):
+
+        if task.resp and len(similar):
             f = lambda x: 1 if (float(x) / self._threshold) > 1 else (float(x) / self._threshold)
 
             similarQty = len(similar)
@@ -47,7 +46,7 @@ class TaskMind:
                 if task_time <= 0: task_time = 0.1
 
                 a.append(task_time)
-                if taskResp in t.responsible.all().values('id').values():
+                if task.resp.id == t.resp.id:
                     similarQtyUser += 1
                     similarTimeUser += task_time
             if a:
@@ -58,16 +57,17 @@ class TaskMind:
 
             timeUser = 0
             for l in LogData.objects.raw(
-                    'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' + str(int(taskResp)) + '' +
+                    'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' +
+                            str(int(task.resp.id)) + '' +
                     ' AND code = \'DAILY_TIME\''
                 ):
                 timeUser += l.summ if l.summ else 0
             timeUser = float(timeUser) / 3600.
-            tasksUserQty = PM_Task.objects.filter(responsible=taskResp, realDateStart__isnull=False).count()
+            tasksUserQty = PM_Task.objects.filter(resp=task.resp, realDateStart__isnull=False).count()
             if tasksUserQty:
                 timeUser = timeUser / float(tasksUserQty)
 
-            userQuality = task.getUserQuality(taskResp)
+            userQuality = task.getUserQuality(task.resp)
 
             return (
                 f(similarQty),

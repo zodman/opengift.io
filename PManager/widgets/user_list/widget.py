@@ -47,7 +47,7 @@ def widget(request, headerValues, a, b):
         userJoinTime = now - datetime.timedelta(days=30)
         # userJoinTime = userJoinTime.days if userJoinTime.days > 0 else 1
         # userJoinTime = 30
-        taskClosedQty = PM_Task.objects.filter(closed=True, responsible=user, dateClose__gte=userJoinTime, active=True).count()
+        taskClosedQty = PM_Task.objects.filter(closed=True, resp=user, dateClose__gte=userJoinTime, active=True).count()
         userRoles = user.userRoles.filter(project__in=projects)
         setattr(user, 'roles_in_projects', userRoles)
 

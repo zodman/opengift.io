@@ -336,12 +336,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'data-toggle':'dropdown'
                 }).addClass('js-select_resp').appendTo(oTaskContainers.$responsibleLink);
 
-                if (taskInfo.responsible && typeof(taskInfo.responsible)=='object' && taskInfo.responsible[0]){
-                    var aRespName = [];
-                    for (var i in taskInfo.responsible){
-                        aRespName.push(taskInfo.responsible[i]['name']);
-                    }
-                    $respLink.text(aRespName.join(', '));
+                if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']){
+                    var respName = taskInfo.resp[0];
+
+                    $respLink.text(respName['name']);
                 }else if(taskInfo.recommendedUser && taskInfo.needRespRecommendation){
                     var restRec = $respLink.text(taskInfo.recommendedUser.name + '?').addClass('recommended');
                     $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
@@ -762,7 +760,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 taskManager.ChangeResponsible(this.model.id, uid, function(data){
                     obj.checkModel(function(){
                         obj.model.set('recommendedUser',false);
-                        obj.model.set('responsible',[{'name':''+data+''}]);
+                        obj.model.set('resp',[{'name':data}]);
                         obj.render();
                     });
                 })
@@ -901,7 +899,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (!uid) return false;
             this.taskAjaxRequest({
                 'id': id,
-                'responsible_id': uid
+                'resp': uid
             }, call);
         }
     };

@@ -33,20 +33,23 @@
             {# -------- НАЗНАЧИТЬ ОТВЕТСТВЕННОГО #}
                         <div class="profile-edit-responsible row">
                             <div class="col-xs-6">
-                                <select class="form-control">
+                                <select class="form-control js-select-resp" name="resp">
                                     <option value="">Назначить ответственного</option>
                                     {% for user in task_edit.users %}
-                                        <option value="{{ user.id }}">{{ user.last_name }} {{ user.first_name }}</option>
+                                        <option {% if task_edit.post.resp.id == user.id %}selected {% endif %}value="{{ user.id }}">{{ user.last_name }} {{ user.first_name }}</option>
                                     {% endfor %}
                                 </select>
                             </div>
                             <div class="col-xs-6">
                                <span class="dropdown">
-                                    <a href="javascript:void(0);" class="showPopup">Пригласить в проект</a>
+                                    <a href="javascript:void(0);" class="showPopup">Пригласить исполнителя</a>
                                     <span class="dropdown-menu pull-left" style="width: 345px;">
-                                        <label>Введите E-mail</label>
-                                        <input type="text" style="width: 260px;" placeholder=" Введите E-mail" class="input-block-level">
-                                        <a href="javascript:void(0);" onclick="addResponsible(this);" class="btn  exit"><span>Добавить</span></a>
+                                        <div class="form-group">
+                                        <label>Введите E-mail
+                                        <input type="text" style="width: 260px;" placeholder="Введите E-mail" class="input-block-level js-invite form-control" />
+                                        </label>
+                                        </div>
+                                        <a href="javascript:void(0);" onclick="return addResponsible();" class="btn btn-success exit"><span>Добавить</span></a>
                                     </span>
                                </span>
                                <span class="dropdown">
@@ -73,21 +76,6 @@
                             {% endfor %}
                         </ul>
             {# -------- ОТВЕТСТВЕННЫЕ #}
-                        <h5>Ответственные:</h5>
-                        <ul class="add-tags js-responsibles form-control">
-                            {% for resp_user in task_edit.post.responsible %}
-                            <li>
-                                <span>
-                                    {% if resp_user.first_name %}
-                                        {{ resp_user.first_name }} {{ resp_user.last_name }}
-                                    {% else %}
-                                        {{ resp_user.username }}
-                                    {% endif %} <a class="js-icon-remove fa fa-times"></a>
-                                </span>
-                                <input class="form-control" name='responsibles' type='hidden' value='{{ resp_user.id }}'>
-                            </li>
-                            {% endfor %}
-                        </ul>
                     </div>
             {# -------- НАБЛЮДАТЕЛИ #}
                        <h5>Наблюдатели:</h5>

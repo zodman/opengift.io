@@ -56,12 +56,12 @@ def widget(request, headerValues, ar, qargs):
                 request,
                 headerValues, {
                     'filter': {
-                        'responsible': user,
+                        'resp': user,
                         'closed': False,
                         'allProjects': True
                     }
                 },
-                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(responsible=request.user))]
+                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
             )
 
             tasksObserverResult = taskList(
@@ -73,12 +73,12 @@ def widget(request, headerValues, ar, qargs):
                         'allProjects': True
                     }
                 },
-                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(responsible=request.user))]
+                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
             )
 
-            taskSum = PM_Task.objects.filter(responsible=user, closed=False, dateClose__isnull=True, active=True, project__in=currentUserAccessProjects).count()
+            taskSum = PM_Task.objects.filter(resp=user, closed=False, dateClose__isnull=True, active=True, project__in=currentUserAccessProjects).count()
             taskSumPerMonth = PM_Task.objects.filter(
-                responsible=user,
+                resp=user,
                 active=True,
                 dateClose__gt=(datetime.datetime.now()-datetime.timedelta(weeks=4)),
                 project__in=currentUserAccessProjects

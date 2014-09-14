@@ -34,9 +34,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         return {'redirect': ''}
 
     def getTaskResponsibleDates(aDates, task, endTime):
-        if task['responsible']:
-            if not aDates.get(task['responsible'], None) or endTime > aDates[task['responsible']]:
-                aDates[task['responsible']] = endTime
+        if task['resp__id']:
+            if not aDates.get(task['resp__id'], None) or endTime > aDates[task['resp__id']]:
+                aDates[task['resp__id']] = endTime
         return aDates
 
     startHours = 9
@@ -52,7 +52,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     if hasattr(request, 'GET'):
         if request.GET.get('filter', '') == 'Y':
             if request.GET.get('my', '') == 'Y':
-                filter['responsible'] = cur_user
+                filter['resp'] = cur_user
             if request.GET.get('overdue', '') == 'Y':
                 filter['deadline__lte'] = datetime.datetime.now()
 
@@ -98,13 +98,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         'planTime',
         'closed',
         'dateCreate',
-        'responsible',
         'dateClose',
         'dateModify',
         'project__name',
         'status__code',
         'milestone__id',
-        'parentTask__name'
+        'parentTask__name',
+        'resp__id'
     )
 
     tasks = tasks[:200]
@@ -146,9 +146,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             task['dateCreateGantt'] = now
             #если ответственный занят, выстраиваем в ряд
             # for resp in task['responsible']:
-            if task['responsible'] in responsibleLastDates:
+            if task['resp__id'] in responsibleLastDates:
                 task['dateCreateGantt'] = task['dateCreateGantt'] if task['dateCreateGantt'] > responsibleLastDates[
-                    task['responsible']] else responsibleLastDates[task['responsible']] + datetime.timedelta(hours=1)
+                    task['resp__id']] else responsibleLastDates[task['resp__id']] + datetime.timedelta(hours=1)
 
         if task['dateClose']:
             endTime = task['dateClose']
@@ -182,7 +182,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             task['title'] = task['project__name'] + task['name']
 
         task['full'] = True
-        task['responsible'] = task['responsible'] if task['responsible'] else 0
+        task['resp__id'] = task['resp__id'] if task['resp__id'] else 0
 
         if task['milestone__id']:
             if task['milestone__id'] not in aTaskMilestones:

@@ -156,7 +156,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         last_message_q = task.messages
         if not arBIsManager[task.id]:
             last_message_q = last_message_q.filter(
-                hidden=False, hidden_from_author=False, hidden_from_responsible=False
+                hidden=False, hidden_from_clients=False, hidden_from_employee=False
             )
         last_message_q = last_message_q.order_by("-pk")
 
@@ -193,13 +193,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 responsibleSequence = []
                 idSequence = []
                 for stask in subtasksActiveQuery:
-                    for u in stask.responsible.all():
-                        respName = u.first_name + ' ' + u.last_name \
-                            if u.first_name else u.username
-                        if not u.id in idSequence:
-                            idSequence.append(u.id)
+                    if stask.resp:
+                        respName = stask.resp.first_name + ' ' + stask.resp.last_name \
+                            if stask.resp.first_name else stask.resp.username
+                        if not stask.resp.id in idSequence:
+                            idSequence.append(stask.resp.id)
                             responsibleSequence.append({
-                                'id': u.id,
+                                'id': stask.resp.id,
                                 'name': respName
                             })
 
@@ -214,9 +214,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'status': task.status.code if task.status else '',
-            'responsible': responsibleSequence if responsibleSequence else [
-                {'id': u.id, 'name': u.first_name + ' ' + u.last_name if u.first_name else u.username} for u in
-                task.responsible.all()
+            'resp': responsibleSequence if responsibleSequence else [
+                {'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
             ],
             'last_message': {
                 'text': TextFilters.escapeText(last_message_q[0].text),
@@ -250,7 +249,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if subtasksQty:
             addTasks[task.id]['planTime'] = subtaskPlanTime
-        addTasks[task.id]['needRespRecommendation'] = now > task_delta and len(addTasks[task.id]['responsible']) <= 0
+        addTasks[task.id]['needRespRecommendation'] = now > task_delta and len(addTasks[task.id]['resp']) <= 0
 
         if addTasks[task.id]['needRespRecommendation']:
             if currentRecommendedUser:

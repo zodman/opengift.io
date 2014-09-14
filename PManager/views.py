@@ -284,15 +284,15 @@ class MainPage:
             # planTime__isnull=False
         )
         if resp_id:
-            tasks = tasks.filter(responsible=resp_id)
+            tasks = tasks.filter(resp=resp_id)
 
         tasks = tasks.order_by('-dateCreate')
         for task in tasks:
             if task.subTasks.filter(active=True).count():
                 continue
-            resp = task.responsible.all()
-            if resp and resp[0]:
-                resp = resp[0]
+
+            if task.resp:
+                resp = task.resp
                 if resp.id in userBets:
                     userBet = userBets[resp.id]
                 else:

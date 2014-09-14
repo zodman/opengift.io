@@ -17,14 +17,11 @@ def widget(request, headerValues=None, ar=None, qargs=None):
             Q(hidden=False) &
             Q(
                 Q(task__observers=request.user) &
-                    Q(hidden_from_author=False) &
-                    Q(hidden_from_responsible=False) |
+                    Q(hidden_from_clients=False) &
+                    Q(hidden_from_employee=False) |
 
-                Q(hidden_from_responsible=False)
-                    & Q(task__responsible=request.user) |
-
-                Q(hidden_from_author=False)
-                    & Q(task__author=request.user)
+                Q(task__resp=request.user) |
+                Q(task__author=request.user)#todo: add hidden from clients and hidden from employee
             )
         )
     ).filter(task__active=True)
@@ -60,8 +57,8 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         addParams = {}
         if request.user.get_profile().isManager(message.task.project):
             addParams = {
-                'hidden_from_responsible': message.hidden_from_responsible,
-                'hidden_from_author': message.hidden_from_author
+                'hidden_from_employee': message.hidden_from_employee,
+                'hidden_from_clients': message.hidden_from_clients
             }
         messages.append(message.getJson(addParams, request.user))
 

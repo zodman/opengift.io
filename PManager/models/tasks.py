@@ -227,6 +227,7 @@ class PM_Milestone(models.Model):
     critically = models.IntegerField(blank=True, null=True, default=2, choices=crit_choices)
     project = models.ForeignKey(PM_Project, related_name='milestones')
     overdue = models.BooleanField(blank=True)
+
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
 
@@ -265,6 +266,7 @@ class PM_Task(models.Model):
     text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст')
     number = models.IntegerField()
     project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True)
+    resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')
     responsible = models.ManyToManyField(User, related_name='hisTasks', null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdTasks', null=True, blank=True)
     status = models.ForeignKey(PM_Task_Status, related_name='tasksByStatus', null=True, blank=True,
@@ -329,16 +331,13 @@ class PM_Task(models.Model):
         self.status = None
         self.onPlanning = False
         self.dateClose = datetime.datetime.now()
-        responsibles = self.responsible.all()
 
-        if not responsibles and user:
-            self.responsible.add(user)
+        if not self.resp and user:
+            self.resp = user
 
-        responsibles = self.responsible.all()
-
-        if responsibles:
+        if self.resp:
             #save user experiance
-            if responsibles[0].id != self.author.id:
+            if self.resp.id != self.author.id:
                 tagRelArray = ObjectTags.objects.filter(
                     object_id=self.id,
                     content_type=ContentType.objects.get_for_model(PM_Task)
@@ -346,21 +345,19 @@ class PM_Task(models.Model):
                 for tagRel in tagRelArray:
                     tagRelUser = ObjectTags.objects.filter(
                         tag=tagRel.tag,
-                        object_id=responsibles[0].id,
+                        object_id=self.resp.id,
                         content_type=ContentType.objects.get_for_model(user)
                     )
                     if tagRelUser:
                         tagRelUser = tagRelUser[0]
                     else:
-                        tagRelUser = ObjectTags(tag=tagRel.tag, content_object=responsibles[0])
+                        tagRelUser = ObjectTags(tag=tagRel.tag, content_object=self.resp)
 
                     tagRelUser.weight = int(tagRelUser.weight) + 1
 
                     tagRelUser.save()
 
-            #log user activity
-            for user in responsibles:
-                logger.log(user, 'DAILY_TASKS_CLOSED', 1)
+            logger.log(self.resp, 'DAILY_TASKS_CLOSED', 1)
 
         if not self.wasClosed and not self.subTasks.count():
             if self.planTime:
@@ -400,24 +397,24 @@ class PM_Task(models.Model):
 
                     aUserTimeAndRating[obj.user_id] = ob
 
-        for user in self.responsible.all():
-            aClientsAndResponsibles.append(user.id)
-            prof = user.get_profile()
+        if self.resp:
+            aClientsAndResponsibles.append(self.resp.id)
+            prof = self.resp.get_profile()
             paymentType = prof.getPaymentType(self.project)
             if paymentType == type:
                 userBet = prof.getBet(self.project)
                 curtime = time
                 if type == 'real_time':
-                    curtime = aUserTimeAndRating.get(user.id,{}).get('time', 0)
+                    curtime = aUserTimeAndRating.get(self.resp.id,{}).get('time', 0)
                     if curtime:
                         time += curtime;
-                        prof.rating = (prof.rating or 0) + aUserTimeAndRating[user.id]['rating']
+                        prof.rating = (prof.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
                         prof.save()
 
                 if curtime:
                     curPrice = userBet * float(curtime)
                     credit = Credit(
-                        user=user,
+                        user=self.resp,
                         value=curPrice,
                         project=self.project,
                         task=self
@@ -658,14 +655,13 @@ class PM_Task(models.Model):
         if project:
             arSaveFields['project'] = project
 
-        responsibles = []
         arFiles = []
 
         if uploadedFiles:
             uploadedFiles = PM_Files.objects.filter(pk__in=uploadedFiles)
             for file in uploadedFiles:
                 arFiles.append(file)
-
+        resp = None
         if len(taskName) > 0:
             for tagname, tag in arTags.iteritems():
                 aritems = taskName.split(tagname)
@@ -676,9 +672,7 @@ class PM_Task(models.Model):
                         tagSpliced = tagSpliced[1:tagSpliced.find('#', 1)]
 
                         if tag == 'responsible':
-                            user = PM_User.getOrCreateByEmail(tagSpliced, arSaveFields['project'], 'employee')
-
-                            responsibles.append(user) #добавим ответственного в массив
+                            resp = PM_User.getOrCreateByEmail(tagSpliced, arSaveFields['project'], 'employee')
 
                         elif tag == 'deadline':
                             def dateFromTag(tag):
@@ -742,25 +736,25 @@ class PM_Task(models.Model):
 
         task.observers.add(task.author)
 
-        if len(responsibles) > 0:
-            for responsible in responsibles:
-                task.responsible.add(responsible)
-                #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
-                roles = responsible.get_profile().getRoles(task.project)
-                if not roles:
-                    responsible.get_profile().setRole(task.project, 'employee')
-                    # elif task.parentTask:
-            #     for resp in task.parentTask.responsible.all():
-        #         task.responsible.add(resp) #17.04.2014 task #553
+        if resp:
+            task.resp = resp
+            #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
+            roles = resp.get_profile().getRoles(task.project)
+            if not roles:
+                resp.get_profile().setRole(task.project, 'employee')
+                # elif task.parentTask:
+        #     for resp in task.parentTask.responsible.all():
+    #         task.responsible.add(resp) #17.04.2014 task #553
 
 
         PM_Task.saveTaskTags(task)
 
         task.setChangedForUsers(currentUser)
+        arEmail = []
+        if task.resp:
+            arEmail.append(task.resp.email if task.resp.email is not currentUser.email else None)
 
-        arEmail = [resp.email if resp.email is not currentUser.email else None for resp in task.responsible.all()]
-
-        task.sendTaskEmail('new_task', arEmail)
+            task.sendTaskEmail('new_task', arEmail)
 
         return task
 
@@ -836,19 +830,19 @@ class PM_Task(models.Model):
                 bExist = True
             elif pm_user.isEmployee(project):
                 subtasksSubQuery = PM_Task.objects.exclude(parentTask__isnull=True) \
-                    .filter(responsible=user, closed=False).values('parentTask__id') \
+                    .filter(resp=user, closed=False).values('parentTask__id') \
                     .annotate(dcount=Count('parentTask__id'))
                 aExternalId = []
                 for obj in subtasksSubQuery:
                     aExternalId.append(obj['parentTask__id'])
 
                 filterQArgs.append((
-                    Q(author=user) | Q(responsible=user) | Q(observers=user) | Q(onPlanning=True) | Q(
+                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(onPlanning=True) | Q(
                         id__in=aExternalId)
                 ))
                 bExist = True
             elif pm_user.isClient(project):
-                filterQArgs.append((Q(author=user) | Q(responsible=user) | Q(observers=user)))
+                filterQArgs.append((Q(author=user) | Q(resp=user) | Q(observers=user)))
                 bExist = True
 
         if not bExist:
@@ -856,8 +850,8 @@ class PM_Task(models.Model):
             mProjects = user.get_profile().managedProjects
             filterQArgs.append(
                 Q(
-                    Q(author=user) | Q(responsible=user) | Q(observers=user) | Q(project__in=mProjects) |
-                    Q(onPlanning=True) & Q(closed=False) & Q(responsible__isnull=True)
+                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects) |
+                    Q(onPlanning=True) & Q(closed=False) & Q(resp__isnull=True)
                 )
             )
 
@@ -1030,17 +1024,12 @@ class PM_Task(models.Model):
             else:
                 arEmail.append(self.author.username)
 
-        if not isinstance(self.responsible, list):
-            responsible = self.responsible.all()
-        else:
-            responsible = self.responsible
-
-        for resp in responsible:
-            if resp.id not in excludeUsers and resp.is_active:
-                if resp.email:
-                    arEmail.append(resp.email)
+        if self.resp:
+            if self.resp.id not in excludeUsers and self.resp.is_active:
+                if self.resp.email:
+                    arEmail.append(self.resp.email)
                 else:
-                    arEmail.append(resp.username)
+                    arEmail.append(self.resp.username)
 
         if not isinstance(self.observers, list):
             observers = self.observers.all()
@@ -1223,8 +1212,8 @@ class PM_Task_Message(models.Model):
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
     hidden = models.BooleanField(default=False)
-    hidden_from_author = models.BooleanField(default=False)
-    hidden_from_responsible = models.BooleanField(default=False)
+    hidden_from_clients = models.BooleanField(default=False)
+    hidden_from_employee = models.BooleanField(default=False)
     isSystemLog = models.BooleanField(blank=True)
     code = models.CharField(max_length=255, null=True, blank=True)
     read = models.BooleanField(blank=True)
@@ -1246,13 +1235,13 @@ class PM_Task_Message(models.Model):
 
     def updateFromRequestData(self, data):
         changed = False
-        if 'hidden_from_responsible' in data:
-            r = not not data['hidden_from_responsible']
-            if self.hidden_from_responsible != r:
-                self.hidden_from_responsible = r
+        if 'hidden_from_employee' in data:
+            r = not not data['hidden_from_employee']
+            if self.hidden_from_employee != r:
+                self.hidden_from_employee = r
                 changed = True
-        if 'hidden_from_author' in data:
-            r = not not data['hidden_from_author']
+        if 'hidden_from_clients' in data:
+            r = not not data['hidden_from_clients']
             if self.hidden_from_author != r:
                 self.hidden_from_author = r
                 changed = True
@@ -1366,16 +1355,14 @@ class PM_Task_Message(models.Model):
         if self.hidden:
             return False
 
-        if not self.hidden_from_author and not self.hidden_from_responsible:
+        if not self.hidden_from_clients and not self.hidden_from_employee:
             if user.id in [u.id for u in self.task.observers.all()]:
                 return True
 
         return (
-                   not self.hidden_from_author and (self.task.author.id == user.id)
+                   not self.hidden_from_clients and prof.isClient(self.project)
                ) or (
-                   not self.hidden_from_responsible and (
-                       user.id in [u.id for u in self.task.responsible.all()]
-                   )
+                   not self.hidden_from_employee and prof.isEmployee(self.project)
                )
 
     def getUsersForNotice(self):

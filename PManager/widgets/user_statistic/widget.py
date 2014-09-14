@@ -97,7 +97,7 @@ def widget(request,headerValues,a,b):
         setattr(user, 'all_comments_qty', allCommentsQty)
         setattr(user, 'all_files_qty', allFilesQty)
 
-        closedTaskQty = PM_Task.objects.filter(responsible=user, active=True)
+        closedTaskQty = PM_Task.objects.filter(resp=user, active=True)
         commentsQty = PM_Task_Message.objects.filter(author=user)
         if dateEnd:
             closedTaskQty = closedTaskQty.filter(dateClose__lt = dateEnd)

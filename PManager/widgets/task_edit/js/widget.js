@@ -65,7 +65,7 @@ $(function(){
         });
         return false;
     });
-     $(".js-responsibles, .js-observers").on('click', '.js-icon-remove', function(){
+     $(".js-observers").on('click', '.js-icon-remove', function(){
             var li = $(this).closest("li");
             var flag = true;
             if(isNaN(parseInt(li.find('input').val()))){
@@ -81,14 +81,7 @@ $(function(){
             }
             li.remove();
         });
-       $(".profile-edit-responsible select").change(function(){
-           var selected = $(".profile-edit-responsible select option:selected");
-           if(selected.val() != ""){
-               addResponsibleTag(selected.text(), selected.val(), selected.index());
-               $(".profile-edit-responsible select option:nth-child(0)").attr('selected', 'selected');
-               selected.remove();
-           }
-       });
+
         $('.js-select-observer').click(function(){
            if($(this).data('id')){
                addObserverTag($(this).text(), $(this).data('id'));
@@ -139,16 +132,16 @@ $(function(){
         return false;
     });
 });
-function addResponsibleTag(name, val, index){
-    $(".js-responsibles").append("<li data-indexoption='"+index+"'><span>"+name+"&nbsp;<a class='js-icon-remove fa fa-times'></a></span><input name='responsibles' type='hidden' value='"+val+"'></li>");
-}
+
 function addObserverTag(name, id){
     $(".js-observers").append("<li><span>"+name+"&nbsp;<a class='js-icon-remove fa fa-times'></a></span><input name='observers' type='hidden' value='"+id+"'></li>");
 }
-function addResponsible(obj){
-    var val = $(obj).closest('span').find('input').val();
-    if(val!=""){
-       addResponsibleTag(val, val)
-    }
+function addResponsible(email) {
+    var $inviteRow = $('.js-invite');
+    var email = $inviteRow.val();
+    email = email.replace('"','\'');
+    $('.js-select-resp').find(':selected').attr('selected',false).end()
+        .append('<option selected value="'+email+'">'+email+'</option>');
+    $inviteRow.val('').closest('.dropdown-menu').toggle();
     return false;
 }

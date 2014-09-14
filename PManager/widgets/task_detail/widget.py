@@ -14,6 +14,7 @@ from PManager.services.mind.task_mind_core import TaskMind
 def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
     cur_user = request.user
+    prof = request.user.get_profile()
     task = None
     if 'id' in request.GET or 'number' in request.GET:
         if 'id' in request.GET:
@@ -42,7 +43,7 @@ def widget(request, headerValues, arFilter, q):
                     prof.setRole('employee', project)
                 task.onPlanning = False
                 task.planTime = planTime.time
-                task.responsible.add(planTime.user)
+                task.resp = planTime.user
                 task.save()
 
                 task.systemMessage(
@@ -59,7 +60,7 @@ def widget(request, headerValues, arFilter, q):
                 pass
 
         setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text))
-        setattr(task, 'responsibleList', task.responsible.all())
+        # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
 
         allTime = task.getAllTime()
@@ -90,12 +91,12 @@ def widget(request, headerValues, arFilter, q):
 
         messages = task.messages.order_by('dateCreate')
         # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
-        if not request.user.get_profile().isManager(task.project):
+        if not prof.isManager(task.project):
             messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id))
-            if task.author.id == request.user.id:
-                messages = messages.filter(Q(hidden_from_author=False) | Q(author=request.user.id))
-            if request.user.id in [u.id for u in task.responsibleList]:
-                messages = messages.filter(Q(hidden_from_responsible=False) | Q(author=request.user.id))
+            if prof.isClient(task.project):
+                messages = messages.filter(hidden_from_clients=False)
+            if prof.isEmployee(task.project):
+                messages = messages.filter(hidden_from_employee=False)
 
         lamp, iMesCount = 'no-asked', messages.count()
 
@@ -114,8 +115,8 @@ def widget(request, headerValues, arFilter, q):
             }
             if cur_user.get_profile().isManager(task.project):
                 ob.update({
-                    'hidden_from_author': mes.hidden_from_author,
-                    'hidden_from_responsible': mes.hidden_from_responsible
+                    'hidden_from_clients': mes.hidden_from_clients,
+                    'hidden_from_employee': mes.hidden_from_employee
                 })
             setattr(mes, 'json', json.dumps(mes.getJson(ob, request.user)))
         try:

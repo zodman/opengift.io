@@ -98,10 +98,10 @@
 {#        {{ task_detail.params }}#}
         Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
         Затраченное время: <span id="js-td_time"></span>
-        {% if task_detail.task.responsibleList %}
+        {% if task_detail.task.resp %}
         <hr />
         <p class="text-success">
-            Ответственный: <strong>{% for resp in task_detail.task.responsibleList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %} </strong>
+            Ответственный: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
         </p>
         {% endif %}
         {% if task_detail.task.observersList %}

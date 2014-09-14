@@ -55,18 +55,21 @@ def taskListAjax(request):
         ajaxTaskManager.process()
         responseText = ajaxTaskManager.getResponse()
 
-    elif request.POST.get('responsible_id', False): #смена ответственного
+    elif request.POST.get('resp', False): #смена ответственного
         task_id = int(request.POST.get('id', 0)) #переданный id задачи
         if task_id:
             task = PM_Task.objects.filter(id=task_id).get() #вот она, задачка
-            task.responsible = [request.POST.get('responsible_id', False)]
+            task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
             task.save()
 
-            resp = task.responsible.all()[0]
+            resp = task.resp
             responseText = ' '.join([resp.first_name, resp.last_name])
 
-            arEmail = [resp.email if resp.id != request.user.id else None for resp in task.responsible.all()]
+            if task.resp.email:
+                arEmail = [task.resp.email if task.resp.id != request.user.id else None]
+
             task.sendTaskEmail('new_task', arEmail)
+
             task.systemMessage(
                 u'изменен ответственный на ' + responseText,
                 request.user,
@@ -74,12 +77,10 @@ def taskListAjax(request):
             )
             redisSendTaskUpdate(
                 {
-                    'responsible': [
-                        {
-                            'id': resp.id,
-                            'name': responseText
-                        }
-                    ],
+                    'resp': {
+                        'id': resp.id,
+                        'name': responseText
+                    },
                     'viewedOnly': request.user.id,
                     'id': task.id
                 }
@@ -134,7 +135,7 @@ def taskListAjax(request):
             pass
 
         if 'responsible[]' in request.POST:
-            arFilter['responsible__in'] = request.POST.getlist('responsible[]')
+            arFilter['resp__in'] = request.POST.getlist('responsible[]')
         if 'observers[]' in request.POST:
             arFilter['observers__in'] = request.POST.getlist('observers[]')
         if 'author[]' in request.POST:
@@ -225,18 +226,18 @@ def taskListAjax(request):
         files = request.FILES.getlist('file') if 'file' in request.FILES else []
         profile = request.user.get_profile()
         bIsManager = profile.isManager(task.project)
-        hidden_from_responsible = False
-        hidden_from_author = False
+        hidden_from_employee = False
+        hidden_from_clients = False
         if bIsManager: #TODO: разобраться с тем, как должно работать скрытие от автора
-            hidden_from_author = request.POST.get('hidden_from_author', '') == 'Y'
-            hidden_from_responsible = request.POST.get('hidden_from_responsible', '') == 'Y'
+            hidden_from_clients = request.POST.get('hidden_from_clients', '') == 'Y'
+            hidden_from_employee = request.POST.get('hidden_from_employee', '') == 'Y'
 
         settings = task.project.getSettings()
         if settings.get('autohide_messages', False):
             if profile.isEmployee(task.project):
-                hidden_from_author = True
+                hidden_from_clients = True
             elif profile.isClient(task.project):
-                hidden_from_responsible = True
+                hidden_from_employee = True
 
         status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
         uploaded_files = request.POST.getlist('uploaded_files') if 'uploaded_files' in request.POST else []
@@ -246,15 +247,15 @@ def taskListAjax(request):
             text = text.replace('<', '&lt;').replace('>', '&gt;')
             message = PM_Task_Message(text=text, task=task, author=author)
             message.hidden = hidden
-            message.hidden_from_author = hidden_from_author
-            message.hidden_from_responsible = hidden_from_responsible
+            message.hidden_from_clients = hidden_from_clients
+            message.hidden_from_employee = hidden_from_employee
             if to:
                 try:
                     to = User.objects.get(pk=int(to))
                     if b_resp_change:
-                        task.responsible = [to]
+                        task.resp = to
                         task.save()
-                        task.observers.add(to) #TODO: подумать, надо ли добавлять в наблюдатели
+                    task.observers.add(to) #TODO: подумать, надо ли добавлять в наблюдатели
                     message.userTo = to
                 except User.DoesNotExist:
                     pass
@@ -326,10 +327,10 @@ def taskListAjax(request):
                                     task.author.email in arEmail:
                         arEmail.remove(task.author.email)
 
-                if hidden_from_responsible:
-                    for resp in task.responsible.all():
-                        while resp.email and resp.email in arEmail:
-                            arEmail.remove(resp.email)
+                if hidden_from_employee:
+                    if task.resp:
+                        while task.resp.email and task.resp.email in arEmail:
+                            arEmail.remove(task.resp.email)
 
             if to and hasattr(to, 'email'):
                 arEmail.append(to.email)
@@ -700,9 +701,10 @@ class taskAjaxManagerCreator(object):
         user = self.currentUser
         if t.closed:
             t.Open()
-            for userResp in t.responsible.all():
-                if not userResp.is_active:
-                    t.responsible.remove(userResp)
+            if t.resp:
+                if not t.resp.is_active:
+                    t.resp = False
+                    t.save()
 
             if t.parentTask and t.parentTask.closed:
                 t.parentTask.Open()
@@ -856,7 +858,7 @@ class taskAjaxManagerCreator(object):
             closed=False,
             active=True,
             realDateStart__isnull=False,
-            responsible=self.currentUser.id,
+            resp=self.currentUser.id,
             dateModify__lt=(datetime.datetime.now() - datetime.timedelta(minutes=1))
         ).exclude(
             status__code='ready'

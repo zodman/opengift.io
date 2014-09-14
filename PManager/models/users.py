@@ -210,19 +210,19 @@ class PM_User(models.Model):
                 return True
 
             if rule == 'view':
-                if task.onPlanning and not task.responsible.count():
+                if task.onPlanning and not task.resp:
                     return True
 
-                return (self.user.id in [u.id for u in task.responsible.all()]) \
+                return (task.resp and self.user.id == task.resp.id) \
                            or self.user.id in [u.id for u in task.observers.all()] \
-                        or task.subTasks.filter(responsible=self.user.id, active=True).count() > 0 \
+                        or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
                         or task.subTasks.filter(author=self.user.id, active=True).count() > 0
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
-                return self.isEmployee(task.project) and not task.responsible \
-                            or self.user.id in [u.id for u in task.responsible.all()]
+                return self.isEmployee(task.project) and not task.resp \
+                            or self.user.id == self.task.resp
 
     def getBet(self, project):
         try:

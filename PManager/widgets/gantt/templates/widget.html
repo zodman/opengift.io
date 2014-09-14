@@ -451,7 +451,7 @@ var GANTT_TASKS = [
                 date_create: "{{ task.dateCreate }}",
                 status: "{{ task.status__code }}",
                 planTime: {{ task.planTime|jsonify|safe }},
-                responsible: {{ task.responsible }},
+                responsible: {{ task.resp__id|jsonify|safe }},
                 description: {{ task.text|jsonify|safe }},
                 section: 1,
                 closed: {{ task.closed|yesno:"true,false" }},

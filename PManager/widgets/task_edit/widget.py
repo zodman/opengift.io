@@ -42,17 +42,18 @@ def widget(request, headerValues, ar, qargs):
             arSaveFields['author'] = request.user
             task = PM_Task(**arSaveFields)
 
+
+
+        respId = post.get('resp', '')
+
+        if resp.find('@') > -1:
+            oUserProfile = PM_User.getOrCreateByEmail(respId, task.project, 'employee')
+            respId = oUserProfile.id
+        if resp:
+            task.resp = User.objects.get(pk=respId)
+            arSaveFields['resp'] = resp
+
         task.save()
-
-        aResponsibles = post.getlist('responsibles')
-        for (counter, resp) in enumerate(aResponsibles):
-            if resp.find('@') > -1:
-                oUserProfile = PM_User.getOrCreateByEmail(resp, task.project, 'employee')
-                aResponsibles[counter] = oUserProfile.id
-
-        task.responsible.clear()
-        task.responsible.add(*aResponsibles)
-
         aObservers = post.getlist('observers')
         for (counter, observer) in enumerate(aObservers):
             if observer.find('@') > -1:
@@ -77,7 +78,7 @@ def widget(request, headerValues, ar, qargs):
             tagsRelations = []
             aSimilarTasks = []
 
-            responsible = arSaveFields.responsible.all()
+            resp = arSaveFields.resp
             observers = arSaveFields.observers.all()
             tags = arSaveFields.tags.all()
             arSaveFields = arSaveFields.__dict__
@@ -93,7 +94,7 @@ def widget(request, headerValues, ar, qargs):
 
             arSaveFields.update({
                 'tags': tags,
-                'responsible': responsible,
+                'resp': resp,
                 'observers': observers,
                 'critically': arSaveFields.get('critically', 0.5),
                 'hardness': arSaveFields.get('hardness', 0.5),

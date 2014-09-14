@@ -91,8 +91,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     'AVATAR_SRC': ''
                 }
                 arKeys['HIDDEN_LABEL'] = '';
-                if (messageInfo.hidden_from_responsible) {
-                    arKeys['HIDDEN_LABEL'] += 'Скрыто от ответственного <a href="#"><i class="fa fa-ban js-cancel-resp-hide"></i></a>';
+                if (messageInfo.hidden_from_employee) {
+                    arKeys['HIDDEN_LABEL'] += 'Скрыто от персонала <a href="#"><i class="fa fa-ban js-cancel-resp-hide"></i></a>';
                 }
                 arKeys['AVATAR'] = '';
                 if (messageInfo.author.avatar) {
@@ -124,8 +124,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (messageInfo.hidden) {
                     arKeys['HIDDEN_LABEL'] += 'Личное ';
                 }
-                if (messageInfo.hidden_from_author) {
-                    arKeys['HIDDEN_LABEL'] += 'Скрыто от автора <a href="#"><i class="fa fa-ban js-cancel-author-hide"></i></a>';
+                if (messageInfo.hidden_from_clients) {
+                    arKeys['HIDDEN_LABEL'] += 'Скрыто от клиентов <a href="#"><i class="fa fa-ban js-cancel-author-hide"></i></a>';
                 }
                 if (messageInfo.userTo.id) {
                     arKeys['USER_TO_NAME'] = ' для <b>' + messageInfo.userTo.name + '</b>';
@@ -349,7 +349,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             'cancelAuthorHidden': function () {
                 var view = this;
-                this.model.set('hidden_from_author', false);
+                this.model.set('hidden_from_clients', false);
                 this.model.saveToServer(function (data) {
                     view.render();
                 });
@@ -357,7 +357,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             'cancelRespHidden': function () {
                 var view = this;
-                this.model.set('hidden_from_responsible', false);
+                this.model.set('hidden_from_employee', false);
                 this.model.saveToServer(function (data) {
                     view.render();
                 });
