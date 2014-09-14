@@ -469,7 +469,7 @@ class taskManagerCreator:
         self.task = PM_Task.createByString(text, self.currentUser, self.fileList, self.parentTask, project=self.project)
         self.task.systemMessage(u'Задача создана', self.currentUser, 'TASK_CREATE')
         settings = self.task.project.getSettings()
-        if settings.get('not_start_unapproved', False):
+        if not settings.get('start_unapproved', False):
             self.task.status = PM_Task_Status.objects.get(code='not_approved')
             self.task.save()
         return self.task
