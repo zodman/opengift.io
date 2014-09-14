@@ -515,9 +515,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                     obj.render();
                 }, true);
             });
-//                this.$el.find('.jsPlanTimeHolder').text(
-//                    this.$el.find('.jsPlanTimeList a[rel="'+time+'"]').text()
-//                );
+            this.$el.find('.jsPlanTimeHolder').text(
+                this.$el.find('.jsPlanTimeList a[rel="'+time+'"]').text()
+            );
             this.$('.task-plantime > .dropdown > .dropdown-menu').hide();
             return false;
         },
