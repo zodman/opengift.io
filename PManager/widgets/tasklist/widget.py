@@ -125,8 +125,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if task.resp and \
                 task.planTime and \
                 task.status and \
-                task.status.code == 'not_approved' and \
-                not task.resp.is_staff:
+                task.status.code == 'not_approved':
 
             arBets[task.id] = task.resp.get_profile().getBet(task.project) * task.planTime * COMISSION
 
