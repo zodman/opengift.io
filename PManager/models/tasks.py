@@ -1285,7 +1285,7 @@ class PM_Task_Message(models.Model):
                     or
                             cur_profile.isManager(p) and profile.isEmployee(p)
                 ):
-                    bet = cur_profile.getBet(self.project) or self.author.get_prfile().getBet(self.project) * COMISSION
+                    bet = cur_profile.getBet(self.project) or self.author.get_profile().getBet(self.project) * COMISSION
                     addParams.update({
                         'confirmation': (
                             '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
