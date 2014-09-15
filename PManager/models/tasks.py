@@ -398,6 +398,30 @@ class PM_Task(models.Model):
 
                         aUserTimeAndRating[obj.user_id] = ob
 
+        #clients debt
+        userRoles = PM_ProjectRoles.objects.filter(
+            project=self.project,
+            payment_type=type
+        )
+
+        clients = userRoles.filter(role__code='client')
+
+        for client in clients:
+            aClientsAndResponsibles.append(client.user.id)
+            if client.rate:
+                rate = client.rate * float(time)
+            else:
+                price = self.resp.get_profile().getBet(self.project) * COMISSION
+
+            credit = Credit(
+                payer=client.user,
+                value=price,
+                project=self.project,
+                task=self
+            )
+            credit.save()
+            break
+
         if self.resp:
             aClientsAndResponsibles.append(self.resp.id)
             profResp = self.resp.get_profile()
@@ -425,30 +449,6 @@ class PM_Task(models.Model):
                     )
                     credit.save()
 
-        #clients debt
-        userRoles = PM_ProjectRoles.objects.filter(
-            project=self.project,
-            payment_type=type
-        )
-
-        clients = userRoles.filter(role__code='client')
-
-        for client in clients:
-            aClientsAndResponsibles.append(client.user.id)
-            if client.rate:
-                rate = client.rate * float(time)
-            else:
-                price = self.resp.get_profile().getBet(self.project) * COMISSION
-
-            credit = Credit(
-                payer=client.user,
-                value=price,
-                project=self.project,
-                task=self
-            )
-            credit.save()
-            break
-
         #managers pay (only observers without clients and responsibles)
         managers = PM_ProjectRoles.objects.filter(
             project=self.project,
@@ -468,8 +468,6 @@ class PM_Task(models.Model):
             )
             credit.save()
             break
-
-        profResp.save()
 
     def Open(self):
         self.closed = False

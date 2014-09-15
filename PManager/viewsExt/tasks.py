@@ -70,7 +70,7 @@ def taskListAjax(request):
             if task.resp.email:
                 arEmail = [task.resp.email if task.resp.id != request.user.id else None]
 
-            task.sendTaskEmail('new_task', arEmail)
+                task.sendTaskEmail('new_task', arEmail)
 
             task.systemMessage(
                 u'изменен ответственный на ' + responseText,
