@@ -309,7 +309,7 @@ class PM_Task(models.Model):
     currentTimer = False
     startedTimerExist = False
 
-    @project
+    @property
     def planPrice(self):
         pass
 
