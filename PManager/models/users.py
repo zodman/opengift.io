@@ -50,7 +50,7 @@ class PM_User(models.Model):
         ('#cd5555', '#cd5555'),
         ('#ab82ff', '#ab82ff'),
     )
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(User, db_index=True)
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
