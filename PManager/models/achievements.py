@@ -21,6 +21,7 @@ class PM_Achievement(models.Model):
     def addToUser(self, user):
         acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
         acc.save()
+        return created
 
     def checkForUser(self, user):
         challenges = PM_Achievement.objects.exclude(
