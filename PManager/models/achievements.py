@@ -3,18 +3,23 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+from PManager.models.tasks import PM_Task
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
 class PM_Achievement(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="PManager/static/upload/achievement/", null=True)
     description = models.TextField()
     condition = models.TextField()
+    code = models.CharField(max_length=100)
 
     @property
     def smallImageUrl(self):
         return str(self.image).replace('PManager', '')
 
     def addToUser(self, user):
-        acc = PM_User_Achievement(user=user, achievement=self)
+        acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
         acc.save()
 
     def checkForUser(self, user):
@@ -32,6 +37,15 @@ class PM_Achievement(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
+@receiver(pre_save, sender=PM_Task)
+def addAchievement(sender, instance, **kwargs):
+    if instance.id:
+        oldTask = PM_Task.objects.get(pk=instance.id)
+        if not oldTask.wasClosed and instance.closed:
+            acc = PM_Achievement.objects.get(code='first_closed_task')
+            acc.addToUser(instance.resp)
+
 
 class PM_User_Achievement(models.Model):
     user = models.ForeignKey(User, related_name='user_achievements')

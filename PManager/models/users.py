@@ -242,7 +242,7 @@ class PM_User(models.Model):
 
             rate = projectRole.rate if projectRole and projectRole.rate else (
             int(self.sp_price) if self.sp_price else 0)
-            if self.rating:
+            if self.rating and not self.user.is_staff:
                 rate += self.rating
             return rate
         except PM_ProjectRoles.DoesNotExist:
