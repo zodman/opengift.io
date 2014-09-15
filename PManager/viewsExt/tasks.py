@@ -5,6 +5,7 @@ from django.db import transaction
 from tracker.settings import COMISSION
 from django.conf import settings
 from django.contrib.auth.models import User
+from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status
 import datetime, json, redis
@@ -389,10 +390,11 @@ def taskListAjax(request):
                 if property == "planTime" and value:
                     task.setPlanTime(value, request)
 
+                    taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
                     task.systemMessage(
                         u'оценил задачу в ' + str(value) + u'ч. с опытом '
                         + str(task.getUserRating(request.user)),
-                        # + ' (' + str(request.user.get_profile().getBet(task.project) * COMISSION * float(value)) + ' sp)',
+                        + ' (' + intcomma(taskPlanPrice).replace(',', ' ') + ' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
