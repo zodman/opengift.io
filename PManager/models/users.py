@@ -174,7 +174,7 @@ class PM_User(models.Model):
 
         return False
 
-    def setRole(self, roleCode, project, type):
+    def setRole(self, roleCode, project, type=None):
         if self.user and project and roleCode:
             try:
                 clientRole = PM_Role.objects.get(code=roleCode, tracker=headers.TRACKER)

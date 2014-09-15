@@ -13,6 +13,10 @@ class PM_Achievement(models.Model):
     def smallImageUrl(self):
         return str(self.image).replace('PManager', '')
 
+    def addToUser(self, user):
+        acc = PM_User_Achievement(user=user, achievement=self)
+        acc.save()
+
     def checkForUser(self, user):
         challenges = PM_Achievement.objects.exclude(
             id__in=PM_User_Achievement.objects.filter(user=user).values('achievement__id')
@@ -32,7 +36,7 @@ class PM_Achievement(models.Model):
 class PM_User_Achievement(models.Model):
     user = models.ForeignKey(User, related_name='user_achievements')
     achievement = models.ForeignKey(PM_Achievement)
-    date = models.DateTimeField(default=datetime.now())
+    date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(blank=True, default=False)
 
     class Meta:
