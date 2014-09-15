@@ -393,10 +393,10 @@ class PM_Task(models.Model):
                 if obj.summ:
                     if self.planTime and (round(float(obj.summ) / 3600.)) > self.planTime * 1.5:
                         ob['time'] = self.planTime * 1.5
-                        ob['rating'] = -1
+                        ob['rating'] = -5
                     else:
                         ob['time'] = float(obj.summ) / 3600.
-                        ob['rating'] = 1
+                        ob['rating'] = 2
 
                     aUserTimeAndRating[obj.user_id] = ob
 
