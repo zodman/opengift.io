@@ -309,6 +309,9 @@ class PM_Task(models.Model):
     currentTimer = False
     startedTimerExist = False
 
+    @project
+    def planPrice(self):
+        pass
 
     @property
     def url(self):
@@ -1287,7 +1290,7 @@ class PM_Task_Message(models.Model):
                     addParams.update({
                         'confirmation': (
                             '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                            '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой</a>'
+                            '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой в ' + (self.task.planPrice) + ' sp</a>'
                         )
                     })
 

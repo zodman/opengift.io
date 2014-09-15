@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone
+from PManager.models import PM_Task, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -126,8 +126,19 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 task.planTime and \
                 task.status and \
                 task.status.code == 'not_approved':
+            #if client have fix price
+            try:
+                clientBet = PM_ProjectRoles.objects.get(
+                    rate__isnull=False,
+                    role__code='client',
+                    project=tas.project,
+                    payment_type='plan_time'
+                )
+                rate = clientBet.rate
+            except PM_ProjectRoles.DoesNotExist:
+                rate = task.resp.get_profile().getBet(task.project) * COMISSION
 
-            arBets[task.id] = task.resp.get_profile().getBet(task.project) * task.planTime * COMISSION
+            arBets[task.id] =  task.planTime * rate
 
         task.time = task.getAllTime()
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
