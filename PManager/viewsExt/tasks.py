@@ -432,6 +432,7 @@ def taskListAjax(request):
                             request.user,
                             'STATUS_' + status.code.upper()
                         )
+                        sendData['status'] = status.code
                         logger = Logger()
                         logger.log(request.user, 'STATUS_' + status.code.upper(), 1, task.project.id)
                     except PM_Task_Status.DoesNotExist:
