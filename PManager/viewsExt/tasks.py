@@ -424,17 +424,15 @@ def taskListAjax(request):
                     )
                 elif property == "status":
                     try:
-                        status = PM_Task_Status.objects.get(code=str(value))
-                        task.status = status
-                        task.save()
+                        task.setStatus(str(value))
                         task.systemMessage(
-                            u'Статус изменен на "' + status.name + u'"',
+                            u'Статус изменен на "' + task.status.name + u'"',
                             request.user,
-                            'STATUS_' + status.code.upper()
+                            'STATUS_' + task.status.code.upper()
                         )
-                        sendData['status'] = status.code
+                        sendData['status'] = task.status.code
                         logger = Logger()
-                        logger.log(request.user, 'STATUS_' + status.code.upper(), 1, task.project.id)
+                        logger.log(request.user, 'STATUS_' + task.status.code.upper(), 1, task.project.id)
                     except PM_Task_Status.DoesNotExist:
                         pass
 

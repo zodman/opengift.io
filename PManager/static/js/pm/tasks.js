@@ -271,11 +271,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                 $('<span class="task-icon onplan" title="На планировании">')
                     .appendTo(oTaskContainers.$statusContainer);
             }
+            this.$('.task-icon').remove();
             if (taskInfo.status == 'ready') {
                 $('<span class="task-icon ready" title="Готова к проверке"></span>')
                     .appendTo(oTaskContainers.$statusContainer);
             } else if (taskInfo.status == 'not_approved') {
-                $('<i class="fa fa-comments" style="color:#ee4343;cursor:default;" title="Задача не подтверждена"></i>')
+                $('<i class="task-icon fa fa-comments" style="color:#ee4343;cursor:default;" title="Задача не подтверждена"></i>')
                     .appendTo(oTaskContainers.$statusContainer);
             } else if (taskInfo.overdue) {
                 $('<span class="task-icon overdue" title="Просрочена"></span>')
