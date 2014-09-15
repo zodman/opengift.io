@@ -131,7 +131,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 clientBet = PM_ProjectRoles.objects.get(
                     rate__isnull=False,
                     role__code='client',
-                    project=tas.project,
+                    project=task.project,
                     payment_type='plan_time'
                 )
                 rate = clientBet.rate
