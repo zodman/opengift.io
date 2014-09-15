@@ -182,7 +182,7 @@ class PM_User(models.Model):
                 return False
 
             if clientRole:
-                userRole = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole, project=project)
+                userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole, project=project)
                 if type:
                     userRole.payment_type = type
                     userRole.save()
