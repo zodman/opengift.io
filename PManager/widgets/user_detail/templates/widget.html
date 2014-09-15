@@ -175,18 +175,21 @@
                             <h3>{{ project.name }}</h3>
                             <ul class="list-inline" >
                                 <li><div class="checkbox"><label>
+                                    <span class="fa fa-user"></span>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                          data-user-id="{{ user_detail.user.id }}" name="client" value="1" type="checkbox">
                                     {% endif %}
                                     Клиент</label></div></li>
                                 <li><div class="checkbox"><label>
+                                    <span class="fa fa-bar-chart"></span>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                            data-user-id="{{ user_detail.user.id }}" name="manager" value="1" type="checkbox">
                                     {% endif %}
                                     Менеджер</label></div></li>
                                 <li><div class="checkbox"><label>
+                                    <span class="fa fa-wrench"></span>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                            data-user-id="{{ user_detail.user.id }}" name="employee" value="1" type="checkbox">
