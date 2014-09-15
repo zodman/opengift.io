@@ -493,7 +493,7 @@ class PM_Task(models.Model):
 
     def setPlanTime(self, val, request):
         if request.user.is_authenticated():
-            if not self.onPlanning and task.canPMUserSetPlanTime(request.user.get_rofile()):
+            if not self.onPlanning and self.canPMUserSetPlanTime(request.user.get_rofile()):
                 self.planTime = float(val)
                 self.save()
             else:
