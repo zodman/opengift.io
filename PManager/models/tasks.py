@@ -492,13 +492,14 @@ class PM_Task(models.Model):
         self.save()
 
     def setPlanTime(self, val, request):
-        if not self.onPlanning:
-            self.planTime = float(val)
-            self.save()
-        elif request.user.is_authenticated():
-            planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
-            planTime.time = float(val)
-            planTime.save()
+        if request.user.is_authenticated():
+            if not self.onPlanning and task.canPMUserSetPlanTime(request.user.get_rofile()):
+                self.planTime = float(val)
+                self.save()
+            else:
+                planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
+                planTime.time = float(val)
+                planTime.save()
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -613,7 +614,8 @@ class PM_Task(models.Model):
         return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
 
     def canPMUserSetPlanTime(self, pm_user):
-        return pm_user.isManager(self.project) or self.onPlanning
+        return pm_user.isManager(self.project) or self.onPlanning or \
+               not self.planTime and self.resp.id == pm_user.user.id
 
     def setChangedForUsers(self, user=None):
         self.viewedUsers.clear()
