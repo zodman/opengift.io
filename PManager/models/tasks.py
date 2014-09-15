@@ -400,19 +400,19 @@ class PM_Task(models.Model):
 
         if self.resp:
             aClientsAndResponsibles.append(self.resp.id)
-            prof = self.resp.get_profile()
-            paymentType = prof.getPaymentType(self.project)
+            profResp = self.resp.get_profile()
+            paymentType = profResp.getPaymentType(self.project)
 
             allRespPrice = 0
             if paymentType == type:
-                userBet = prof.getBet(self.project)
+                userBet = profResp.getBet(self.project)
                 curtime = time
                 if type == 'real_time':
                     curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
                     if curtime:
                         time += curtime
-                        prof.rating = (prof.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
-                        prof.save()
+                        profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
+                        profResp.save()
 
                 if curtime:
                     curPrice = userBet * float(curtime)
@@ -436,9 +436,9 @@ class PM_Task(models.Model):
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
             if client.rate:
-                price = client.rate * float(time)
+                rate = client.rate * float(time)
             else:
-                price = allRespPrice * COMISSION
+                price = task.resp.get_profile().getBet(task.project) * COMISSION
 
             credit = Credit(
                 payer=client.user,
@@ -468,6 +468,8 @@ class PM_Task(models.Model):
             )
             credit.save()
             break
+
+        profResp.save()
 
     def Open(self):
         self.closed = False
