@@ -393,8 +393,8 @@ def taskListAjax(request):
                     taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
                     task.systemMessage(
                         u'оценил задачу в ' + str(value) + u'ч. с опытом '
-                        + str(task.getUserRating(request.user))
-                        + u' (' + intcomma(taskPlanPrice) + u' sp)',
+                        + str(task.getUserRating(request.user)),
+                        # + u' (' + intcomma(taskPlanPrice) + u' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
