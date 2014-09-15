@@ -615,7 +615,7 @@ class PM_Task(models.Model):
 
     def canPMUserSetPlanTime(self, pm_user):
         return pm_user.isManager(self.project) or self.onPlanning or \
-               not self.planTime and self.resp.id == pm_user.user.id
+               not self.planTime and self.resp and self.resp.id == pm_user.user.id
 
     def setChangedForUsers(self, user=None):
         self.viewedUsers.clear()
