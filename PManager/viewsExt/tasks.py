@@ -394,7 +394,7 @@ def taskListAjax(request):
                     task.systemMessage(
                         u'оценил задачу в ' + str(value) + u'ч. с опытом '
                         + str(task.getUserRating(request.user))
-                        + u' (' + str(intcomma(taskPlanPrice)) + u' sp)',
+                        + u' (' + intcomma(taskPlanPrice) + u' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
