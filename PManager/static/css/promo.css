@@ -11,20 +11,46 @@ div.header a.logo {float:left; width:32%; display:block; margin:15px; margin-bot
 div.header a.logo img {display:inline-block;}
 div.header a span {display:block; text-transform:uppercase; color:#444; font-weight:bold; margin-top:10px; line-height:12px;}
 
-.enter-button {display:block; float:right;  color:#fff; border:2px solid #A9010D; margin-top:30px; text-decoration:none !important; color:#A9010D; padding:8px 25px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; text-transform:uppercase; font-weight:bold; font-size:12px;}
+div.header h2 {    color: #555;
+    float: right;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 30px;
+    margin: 24px 25px 0 0;}
+div.header h2 span {color: #c00f00;}
 
-.enter-button:hover { background-image: -webkit-gradient(
+
+.enter-button {
+	margin-top:21px;
+	padding:8px 25px;
+	display:inline-block; 
+	float:right;
+background: -webkit-gradient(
 	linear,
 	left top,
 	left bottom,
-	color-stop(0, #DA1C19),
-	color-stop(1, #A9010D)
+	color-stop(0.35, #03A900),
+	color-stop(1, #0C8801)
 );
-background-image: -o-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
-background-image: -moz-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
-background-image: -webkit-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
-background-image: -ms-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
-background-image: linear-gradient(to bottom, #DA1C19 0%, #A9010D 100%); color:#fff;}
+background: -o-linear-gradient(bottom, #03A900 35%, #0C8801 100%);
+background: -moz-linear-gradient(bottom, #03A900 35%, #0C8801 100%);
+background: -webkit-linear-gradient(bottom, #03A900 35%, #0C8801 100%);
+background: -ms-linear-gradient(bottom, #03A900 35%, #0C8801 100%);
+background: linear-gradient(to bottom, #03A900 35%, #0C8801 100%);
+text-transform:uppercase; font-weight:bold; font-size:12px; color:#fff; text-align:center; border:1px solid #075200; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; box-shadow:0 1px 0 rgba(1, 1, 1, 0.2), 0 1px 0 #6ecd6c inset; -moz-box-shadow:0 1px 0 rgba(1, 1, 1, 0.2), 0 1px 0 #6ecd6c inset; -ms-box-shadow:0 1px 0 rgba(1, 1, 1, 0.2), 0 1px 0 #6ecd6c inset; -o-box-shadow:0 1px 0 rgba(1, 1, 1, 0.2), 0 1px 0 #6ecd6c inset; -webkit-box-shadow:0 1px 0 rgba(1, 1, 1, 0.2), 0 1px 0 #6ecd6c inset; text-decoration:none !important;
+
+	-webkit-background-size: 100% 200%;
+	-moz-background-size: 100% 200%;
+	background-size: 100% 200%;
+	-webkit-transition: all .1s linear;
+	-moz-transition: all .1s linear;
+	-o-transition: all .1s linear;
+	-ms-transition: all .1s linear;
+	transition: all .1s linear;
+}
+
+.enter-button:hover {	background-position: 0 -20px; color:#fff !important; }
+
 
 
 .header-img {background:url(../img/girl-with-ipad-on-grass.png) top center no-repeat; min-height:550px; margin:0 auto; padding-top:120px; color:#fff;}
