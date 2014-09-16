@@ -46,12 +46,12 @@ def widget(request, headerValues, ar, qargs):
 
         respId = post.get('resp', '')
 
-        if resp.find('@') > -1:
+        if respId.find('@') > -1:
             oUserProfile = PM_User.getOrCreateByEmail(respId, task.project, 'employee')
             respId = oUserProfile.id
-        if resp:
+        if respId:
             task.resp = User.objects.get(pk=respId)
-            arSaveFields['resp'] = resp
+            arSaveFields['resp'] = task.resp
 
         task.save()
         aObservers = post.getlist('observers')
