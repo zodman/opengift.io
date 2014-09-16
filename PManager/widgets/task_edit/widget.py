@@ -3,7 +3,7 @@ __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
 from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User
 import time, datetime
-#from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from django.db.models import Count
 from PManager.viewsExt.tasks import TaskWidgetManager
 
@@ -27,7 +27,7 @@ def widget(request, headerValues, ar, qargs):
             planTime = planTime.replace(',', '.')
         
         arSaveFields = {
-            'name': post.get('name', ''),
+            'name': name,
             'text': post.get('description', ''),
             'deadline': deadline,
             'critically': float(post.get('critically', 0)) if post.get('critically', 0) else 0.5,
@@ -46,11 +46,11 @@ def widget(request, headerValues, ar, qargs):
 
         respId = post.get('resp', '')
 
-        if respId.find('@') > -1:
+        if str(respId).find('@') > -1:
             oUserProfile = PM_User.getOrCreateByEmail(respId, task.project, 'employee')
             respId = oUserProfile.id
         if respId:
-            task.resp = User.objects.get(pk=respId)
+            task.resp = User.objects.get(pk=int(respId))
             arSaveFields['resp'] = task.resp
 
         task.save()
