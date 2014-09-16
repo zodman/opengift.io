@@ -5,13 +5,32 @@ body {font-family: 'PT Sans', sans-serif; font-size:14px; line-height:20px; back
 p {margin:0px 0px 15px; padding:0px;}
 a {color:#498eca;}
 
-header {text-align:center; margin:0 auto; background:#fff; box-shadow:0px 1px 2px #ddd; -moz-box-shadow:0px 1px 2px #ddd; -webkit-box-shadow:0px 1px 2px #ddd; }
+header {text-align:center; margin:0 auto; background:#fff; box-shadow:0px 1px 8px rgba(1,1,1,0.8); -moz-box-shadow:0px 1px 8px rgba(1,1,1,0.8); -webkit-box-shadow:0px 1px 8px rgba(1,1,1,0.8); position:absolute; top:0px; left:0px; width:100%; }
 div.header {max-width:1000px; margin:0 auto; padding:0 20px;}
-div.header a.logo {float:left; width:35%; display:block; margin-top:35px;}
-div.header h2 {float:right; color:#555; font-weight:bold; font-size:36px; line-height:40px; margin:20px 0;}
-div.header h2 span {color:#c00f00;}
+div.header a.logo {float:left; width:32%; display:block; margin:15px; margin-bottom:15px; text-decoration:none; outline:none; text-align:center;}
+div.header a.logo img {display:inline-block;}
+div.header a span {display:block; text-transform:uppercase; color:#444; font-weight:bold; margin-top:10px; line-height:12px;}
 
-.header-img {background:url(../img/girl-with-ipad-on-grass.png) top center no-repeat; height:500px; width:1000px; margin:0 auto;}
+.enter-button {display:block; float:right;  color:#fff; border:2px solid #A9010D; margin-top:30px; text-decoration:none !important; color:#A9010D; padding:8px 25px; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px; text-transform:uppercase; font-weight:bold; font-size:12px;}
+
+.enter-button:hover { background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #DA1C19),
+	color-stop(1, #A9010D)
+);
+background-image: -o-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
+background-image: -moz-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
+background-image: -webkit-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
+background-image: -ms-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
+background-image: linear-gradient(to bottom, #DA1C19 0%, #A9010D 100%); color:#fff;}
+
+
+.header-img {background:url(../img/girl-with-ipad-on-grass.png) top center no-repeat; min-height:550px; margin:0 auto; padding-top:120px; color:#fff;}
+.header-img h3 {font-size:36px; line-height:40px; text-align:center;}
+
+
 
 .services {max-width:1070px; margin:0 auto; padding:15px 0;}
 .services-icon {float:left; width:46%; background:#fff; box-shadow:0px 1px 2px #ddd; -moz-box-shadow:0px 1px 2px #ddd; -webkit-box-shadow:0px 1px 2px #ddd; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin:2%; border:4px solid #fff; padding:25px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; height:230px; position:relative; overflow:hidden; -webkit-transition: box-shadow linear 0.2s; -moz-transition: box-shadow linear 0.2s; -o-transition: box-shadow linear 0.2s; transition: box-shadow linear 0.2s;}
@@ -128,7 +147,7 @@ box-shadow:0 1px 0px #e24543 inset;
 .editable {font-size:24px;}
 .edit-icon {background:url(../images/registering-icons.png) -28px -31px no-repeat; width:19px; height:19px; display:inline-block; position:relative; top:3px;}
 input.big-inputbox {border:1px solid #89000b; height:44px; padding:0 10px; width:100%;border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -moz-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -ms-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -o-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -webkit-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; font-size:16px;}
-input.big-button {
+.big-button {
 background: -webkit-gradient(
 	linear,
 	left top,
@@ -153,9 +172,12 @@ color:#fff; font-size:24px; font-weight:bold; text-align:center; border:1px soli
 	transition: all .1s linear;
 }
 
-input.big-button:hover {
+.big-button:hover {
 	background-position: 0 -20px;}
 
+ul.header-desc {display:block; margin:50px auto; width:500px; font-size:20px; line-height:24px;}
+ul.header-desc li {padding:5px 0;}
+.header-button, .header-button:hover {display:inline-block; width:350px; color:#fff !important; text-decoration:none !important;}
 
 .no-styles {padding:0px; margin:0px; display:inline-block; color:#fff; font-weight:bold; background:none; border:none; border-bottom:1px solid #fff; width:100px; margin:0 10px;}
 .choose-plan-img {margin-left:-50px; margin-top:25px;}
