@@ -11,10 +11,13 @@ MANAGERS = ADMINS
 
 from platform import node
 LOCAL_NODE = 'Gvam'
+DEVELOPMENT_NODE = 'precise64'
 PRODUCTION_NODE = 'HELIANT-VM-11'
 
 if node() == LOCAL_NODE:
     from settings_local import *
+elif node() == DEVELOPMENT_NODE:
+    from settings_vagrant import *
 elif node() == PRODUCTION_NODE:
     from settings_production import *
 else:
