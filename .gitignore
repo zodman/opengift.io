@@ -3,4 +3,5 @@
 PManager/migrations/*
 PManager/static/upload/*
 PManager/static/project_comments/*
+*.pyc
 PManager/services/mind/Hodor.brain
