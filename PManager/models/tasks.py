@@ -411,8 +411,8 @@ class PM_Task(models.Model):
             if client.rate:
                 rate = client.rate * float(time)
             else:
-                price = self.resp.get_profile().getBet(self.project) * COMISSION
-
+                rate = self.resp.get_profile().getBet(self.project) * COMISSION
+            price = time * rate
             credit = Credit(
                 payer=client.user,
                 value=price,
