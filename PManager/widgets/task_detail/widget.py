@@ -47,7 +47,7 @@ def widget(request, headerValues, arFilter, q):
                 task.save()
 
                 task.systemMessage(
-                    u'подтвердил оценку в ' + str(task.planTime) +
+                    u'подтвердил(а) оценку в ' + str(task.planTime) +
                     u'ч. пользователя ' + planTime.user.first_name +
                     u' ' + planTime.user.last_name,
                     cur_user,

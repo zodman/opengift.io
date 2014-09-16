@@ -3,19 +3,25 @@ from django.db import models
 from django.contrib.auth.models import User
 from datetime import datetime
 
+from PManager.models.tasks import PM_Task
+from django.db.models.signals import pre_save
+from django.dispatch import receiver
+
 class PM_Achievement(models.Model):
     name = models.CharField(max_length=255)
     image = models.ImageField(upload_to="PManager/static/upload/achievement/", null=True)
     description = models.TextField()
     condition = models.TextField()
+    code = models.CharField(max_length=100)
 
     @property
     def smallImageUrl(self):
         return str(self.image).replace('PManager', '')
 
     def addToUser(self, user):
-        acc = PM_User_Achievement(user=user, achievement=self)
+        acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
         acc.save()
+        return created
 
     def checkForUser(self, user):
         challenges = PM_Achievement.objects.exclude(
@@ -32,6 +38,23 @@ class PM_Achievement(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
+@receiver(pre_save, sender=PM_Task)
+def addAchievement(sender, instance, **kwargs):
+    if instance.id:
+        oldTask = PM_Task.objects.get(pk=instance.id)
+        if instance.closed and \
+            instance.resp and \
+                instance.resp.id != instance.author.id and \
+                not oldTask.wasClosed:
+
+            acc = PM_Achievement.objects.get(code='first_closed_task')
+            if (acc.addToUser(instance.resp)):
+                prof = instance.resp.get_profile()
+                rating = prof.rating or 0
+                prof.rating = rating + 10
+                prof.save()
+
 
 class PM_User_Achievement(models.Model):
     user = models.ForeignKey(User, related_name='user_achievements')

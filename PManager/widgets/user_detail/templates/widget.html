@@ -7,8 +7,6 @@
     }
 </style>
 <script type="text/javascript" src="/static/js/libs/raphael-min.js"></script>
-{#<script type="text/javascript" src="/static/js/libs/g.raphael.js"></script>#}
-{#<script type="text/javascript" src="/static/js/libs/g.line.js"></script>#}
 <script type="text/javascript" src="/static/js/libs/charts.js"></script>
 <script type="text/javascript" src="/widgets/js/user_detail/script.js"></script>
 <script>
@@ -174,23 +172,26 @@
                         	<img src="/static/images/avatar_unknown.png" class="img-thumbnail pull-left" width="100" />
                             <h3>{{ project.name }}</h3>
                             <ul class="list-inline" >
-                                <li><div class="checkbox"><label>
+                                <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                          data-user-id="{{ user_detail.user.id }}" name="client" value="1" type="checkbox">
                                     {% endif %}
+                                    <span class="fa fa-users"></span>
                                     Клиент</label></div></li>
-                                <li><div class="checkbox"><label>
+                                <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                            data-user-id="{{ user_detail.user.id }}" name="manager" value="1" type="checkbox">
                                     {% endif %}
+                                    <span class="fa fa-cogs"></span>
                                     Менеджер</label></div></li>
-                                <li><div class="checkbox"><label>
+                                <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
                                            data-user-id="{{ user_detail.user.id }}" name="employee" value="1" type="checkbox">
                                     {% endif %}
+                                    <span class="fa fa-wrench"></span>
                                     Разработчик</label></div></li>
                           </ul>
                         </div><!--ychastvyet-item-->
@@ -241,7 +242,7 @@
                                     <td class="dostizheniya-item-text">
                                     <h4>{{ c.name }}</h4>
                                     <p class="date">{{ c.date }}</p>
-                                    <p>{{ c.description }}</p>
+                                    <p>{{ c.description|safe }}</p>
                                     </td>
                                     </tr>
                                 </table>

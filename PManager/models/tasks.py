@@ -16,6 +16,7 @@ from PManager.viewsExt.tools import emailMessage
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.customs.storages import path_and_rename
+from tracker.settings import COMISSION
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -310,10 +311,6 @@ class PM_Task(models.Model):
     startedTimerExist = False
 
     @property
-    def planPrice(self):
-        pass
-
-    @property
     def url(self):
         return "/task_detail/?" + (
             ("id=" + str(self.id)) if self.parentTask else ("number=" + str(self.number))) + "&project=" + str(
@@ -391,41 +388,15 @@ class PM_Task(models.Model):
             for obj in timers:
                 ob = {}
                 if obj.summ:
-                    if self.planTime and (round(float(obj.summ) / 3600.)) > self.planTime * 1.5:
-                        ob['time'] = self.planTime * 1.5
-                        ob['rating'] = -5
-                    else:
-                        ob['time'] = float(obj.summ) / 3600.
-                        ob['rating'] = 2
+                    if not User.objects.get(pk=int(obj.user_id)).is_staff:
+                        if self.planTime and (round(float(obj.summ) / 3600.)) > self.planTime * 1.5:
+                            ob['time'] = self.planTime * 1.5
+                            ob['rating'] = -5
+                        else:
+                            ob['time'] = float(obj.summ) / 3600.
+                            ob['rating'] = 2
 
-                    aUserTimeAndRating[obj.user_id] = ob
-
-        if self.resp:
-            aClientsAndResponsibles.append(self.resp.id)
-            prof = self.resp.get_profile()
-            paymentType = prof.getPaymentType(self.project)
-
-            allRespPrice = 0
-            if paymentType == type:
-                userBet = prof.getBet(self.project)
-                curtime = time
-                if type == 'real_time':
-                    curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
-                    if curtime:
-                        time += curtime
-                        prof.rating = (prof.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
-                        prof.save()
-
-                if curtime:
-                    curPrice = userBet * float(curtime)
-                    allRespPrice += curPrice
-                    credit = Credit(
-                        user=self.resp,
-                        value=curPrice,
-                        project=self.project,
-                        task=self
-                    )
-                    credit.save()
+                        aUserTimeAndRating[obj.user_id] = ob
 
         #clients debt
         userRoles = PM_ProjectRoles.objects.filter(
@@ -438,9 +409,9 @@ class PM_Task(models.Model):
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
             if client.rate:
-                price = client.rate * float(time)
+                rate = client.rate * float(time)
             else:
-                price = allRespPrice * COMISSION
+                price = self.resp.get_profile().getBet(self.project) * COMISSION
 
             credit = Credit(
                 payer=client.user,
@@ -450,6 +421,33 @@ class PM_Task(models.Model):
             )
             credit.save()
             break
+
+        if self.resp:
+            aClientsAndResponsibles.append(self.resp.id)
+            profResp = self.resp.get_profile()
+            paymentType = profResp.getPaymentType(self.project)
+
+            allRespPrice = 0
+            if paymentType == type:
+                userBet = profResp.getBet(self.project)
+                curtime = time
+                if type == 'real_time':
+                    curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
+                    if curtime:
+                        time += curtime
+                        profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
+                        profResp.save()
+
+                if curtime:
+                    curPrice = userBet * float(curtime)
+                    allRespPrice += curPrice
+                    credit = Credit(
+                        user=self.resp,
+                        value=curPrice,
+                        project=self.project,
+                        task=self
+                    )
+                    credit.save()
 
         #managers pay (only observers without clients and responsibles)
         managers = PM_ProjectRoles.objects.filter(
@@ -494,13 +492,14 @@ class PM_Task(models.Model):
         self.save()
 
     def setPlanTime(self, val, request):
-        if not self.onPlanning:
-            self.planTime = float(val)
-            self.save()
-        elif request.user.is_authenticated():
-            planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
-            planTime.time = float(val)
-            planTime.save()
+        if request.user.is_authenticated():
+            if not self.onPlanning and self.canPMUserSetPlanTime(request.user.get_profile()):
+                self.planTime = float(val)
+                self.save()
+            else:
+                planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
+                planTime.time = float(val)
+                planTime.save()
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -615,7 +614,8 @@ class PM_Task(models.Model):
         return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
 
     def canPMUserSetPlanTime(self, pm_user):
-        return pm_user.isManager(self.project) or self.onPlanning
+        return pm_user.isManager(self.project) or self.onPlanning or \
+               not self.planTime and self.resp and self.resp.id == pm_user.user.id
 
     def setChangedForUsers(self, user=None):
         self.viewedUsers.clear()
@@ -1287,10 +1287,11 @@ class PM_Task_Message(models.Model):
                     or
                             cur_profile.isManager(p) and profile.isEmployee(p)
                 ):
+                    bet = cur_profile.getBet(self.project) or self.author.get_profile().getBet(self.project) * COMISSION
                     addParams.update({
                         'confirmation': (
                             '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                            '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой в ' + (self.task.planPrice) + ' sp</a>'
+                            '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой при цене часа ' + str(bet) + ' sp</a>'
                         )
                     })
 

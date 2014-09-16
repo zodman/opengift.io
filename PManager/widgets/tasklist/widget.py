@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
+from PManager.models import PM_Task, PM_Project, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -361,7 +361,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     template = templateTools.getDefaultTaskTemplate()
 
     return {
-        'title': (project.name + u': ' if project else u'') + u'задачи',
+        'title': (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'задачи',
         'tasks': tasks,
         'project': project,
         'users': widgetManager.getResponsibleList(cur_user, project),

@@ -135,7 +135,7 @@
     <div class="popup">
         <h3 class="text-center">Новое достижение!</h3>
         <img class="pull-left" style="margin: 0 10px 10px 0;" src="{{ userAchievement.smallImageUrl }}" alt="{{ userAchievement.name }}" /><h4>{{ userAchievement.name }}</h4>
-        <p>{{ userAchievement.description }}</p>
+        <p>{{ userAchievement.description|safe }}</p>
         <div class="clearfix"></div>
 
         <p class="text-center">
