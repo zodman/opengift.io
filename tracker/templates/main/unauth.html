@@ -28,7 +28,6 @@
 <body>
 <div class="container">
     <div class="loginPage">
-
             <div class="loginPage-logoBig"><a href="/"><img src="/static/images/logo-big.png" alt="" class="img-responsive"></a></div>
             <div class="loginPage-helloText">
                 <h2>Работайте, как вам хочется.</h2>
@@ -45,6 +44,16 @@
                         <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти" />
                 </form>
             </div>
+            {% ifequal error "not_found" %}
+                <div class='alert alert-danger' role="alert">
+                    <strong>Ошибка:</strong>&nbsp;Пользователь не найден
+                </div>
+            {% endifequal %}
+            {% ifequal error "not_active" %}
+                <div class='alert alert-danger' role="alert">
+                    <strong>Ошибка:</strong>&nbsp;Пользователь не активен
+                </div>
+            {% endifequal %}
             <p class="footer-links"><a href="/static/promo.html">Описание сервиса</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/payment_info/">Информация об обслуживании</a></p>
 	</div>
 </div>

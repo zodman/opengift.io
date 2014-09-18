@@ -66,6 +66,14 @@ class MainPage:
                 if user.is_active:
                     login(request, user)
                     return HttpResponseRedirect('/')
+                else:
+                    return HttpResponse(loader
+                        .get_template('main/unauth.html')
+                        .render(RequestContext(request, {"error":"not_active"})))
+            elif user is None:
+                return HttpResponse(loader
+                        .get_template('main/unauth.html')
+                        .render(RequestContext(request, {"error":"not_found"})))
 
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout
