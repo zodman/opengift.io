@@ -363,6 +363,9 @@ $(function () {
     $(document).on('mousedown', 'a[href]', function () {
         bLinkEscape = true;
     });
+    $('.js-main-fnc').fancybox({
+        'type': 'ajax'
+    });
 });
 
 window.onbeforeunload = function (evt) {
