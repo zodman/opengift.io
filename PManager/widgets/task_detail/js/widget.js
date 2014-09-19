@@ -303,7 +303,6 @@ $(function(){
             if (!taskname) return false;
 
             taskManager.CreateTask({'taskname':taskname}, widget_td.task_id, function(data){
-                var data = $.parseJSON(data);
                 if (data.parent != widget_td.task_id) {
                     document.location.href = '/task_detail/?id='+data.parent;
                     return;

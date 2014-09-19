@@ -597,7 +597,6 @@ var widget_tl, currentGroup;
                 if (!$(btn).pushed()){
                     $(btn).pushTheButton();
                     taskManager.CreateTask(taskParams, parentTask, function(data){
-                        data = $.parseJSON(data);
                         if (data.name){
                             widget_tl.TL_CreateTaskInput.filter('[value="' + taskParams.taskname + '"]').val('');
                             var taskRow = widget_tl.TL_CreateTaskRow(data, parentTask, true);
@@ -700,8 +699,7 @@ var widget_tl, currentGroup;
                 PM_AjaxPost("/task_handler",
                     params,
                     function(data){
-                        var data = $.parseJSON(data),
-                            paginator = data.paginator,
+                        var paginator = data.paginator,
                             tasks = data.tasks;
 //                        stopLoader(loader);
                         $('.js-search-btn').pullTheButton();
