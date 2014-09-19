@@ -585,6 +585,7 @@ class taskManagerCreator:
                     ).values('user__id')
             ):
                 arEmail.append(user.email)
+
         taskdata = {
             'task_url': messageObject.task.url,
             'name': messageObject.task.name,
@@ -785,6 +786,7 @@ class taskAjaxManagerCreator(object):
             if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
                 t.Close(user)
                 t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
+
                 #TODO: данный блок дублируется 4 раза
                 if t.milestone and not t.milestone.closed:
                     qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
@@ -814,6 +816,13 @@ class taskAjaxManagerCreator(object):
                         stask.Close(user)
                 net = TaskMind()
                 net.train([t])
+
+                sendMes = emailMessage('task_closed',
+                   {
+                       'task': task
+                   },
+                   'Задача закрыта: ' + task.name
+                )
 
             elif (not t.status) or t.status.code != 'ready':
                 t.setStatus('ready')
