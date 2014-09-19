@@ -597,6 +597,7 @@ var widget_tl, currentGroup;
                 if (!$(btn).pushed()){
                     $(btn).pushTheButton();
                     taskManager.CreateTask(taskParams, parentTask, function(data){
+                        data = $.parseJSON(data);
                         if (data.name){
                             widget_tl.TL_CreateTaskInput.filter('[value="' + taskParams.taskname + '"]').val('');
                             var taskRow = widget_tl.TL_CreateTaskRow(data, parentTask, true);
@@ -699,7 +700,8 @@ var widget_tl, currentGroup;
                 PM_AjaxPost("/task_handler",
                     params,
                     function(data){
-                        var paginator = data.paginator,
+                        var data = $.parseJSON(data),
+                            paginator = data.paginator,
                             tasks = data.tasks;
 //                        stopLoader(loader);
                         $('.js-search-btn').pullTheButton();
@@ -729,7 +731,7 @@ var widget_tl, currentGroup;
                                 obj.container.find('.show-more').show().pullTheButton();
                             }
                         }
-                }, 'json');
+                });
                 return this;
             },
             'addGroupRow': function(group){
