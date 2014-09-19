@@ -11,7 +11,7 @@ MANAGERS = ADMINS
 
 from platform import node
 LOCAL_NODE = 'Gvam'
-DEVELOPMENT_NODE = 'precise64'
+DEVELOPMENT_NODE = 'heliard-dev'
 PRODUCTION_NODE = 'HELIANT-VM-11'
 
 if node() == LOCAL_NODE:
