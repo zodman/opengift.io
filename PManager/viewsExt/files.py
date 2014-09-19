@@ -306,7 +306,11 @@ class AjaxFileUploader(object):
                     request.POST[u'qqtotalparts']) - 1:
                 headerValues = headers.initGlobals(request)
                 fileNow = PM_Files(projectId=headerValues['CURRENT_PROJECT'], authorId=request.user)
-                sId = int(request.POST.get('section_id', 0))
+                try:
+                    sId = int(request.POST.get('section_id', 0))
+                except ValueError:
+                    sId = 0
+
                 version_of = int(request.POST.get('version_of', 0))
 
                 if sId:
