@@ -239,6 +239,7 @@ class AjaxFileUploader(object):
     def _ajax_upload(self, request, *args, **kwargs):
         if request.method == "POST":
             filename = False
+            headerValues = headers.initGlobals(request)
             if request.is_ajax() and False:
                 # the file is stored raw in the request
                 upload = request
@@ -268,7 +269,7 @@ class AjaxFileUploader(object):
                     filename = request.POST[u'qqfilename']
                 else:
                     filesReq = request.FILES.getlist('qqfile')
-                    print filesReq
+
                     if filesReq:
                         filesReq = filesReq[0]
 
@@ -287,6 +288,8 @@ class AjaxFileUploader(object):
 
             filename = (backend.update_filename(request, filename, *args, **kwargs)
                         or filename)
+            if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id:
+                filename = os.path.join(headerValues['CURRENT_PROJECT'].id, filename)
             # save the file
 
             backend.setup(filename, *args, **kwargs)
@@ -304,7 +307,7 @@ class AjaxFileUploader(object):
 
             if u'qqpartindex' in request.POST and int(request.POST[u'qqpartindex']) == int(
                     request.POST[u'qqtotalparts']) - 1:
-                headerValues = headers.initGlobals(request)
+
                 fileNow = PM_Files(projectId=headerValues['CURRENT_PROJECT'], authorId=request.user)
                 try:
                     sId = int(request.POST.get('section_id', 0))
