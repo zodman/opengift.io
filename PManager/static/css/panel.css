@@ -9,6 +9,10 @@
     margin:0;
     width: 100%;
     z-index: 9999;
+	background:#47a447;
+	box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
+	-moz-box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
+	-webkit-box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
 }
 
 .bt-panel.bottom ul {
@@ -16,4 +20,10 @@
 }
 .bt-panel.bottom ul li {
     display: inline-block;
+	border-right:1px solid #4cae4c;
 }
+
+.bt-panel.bottom ul li a {padding:15px 25px; font-weight:bold;}
+.bt-panel.bottom ul li a:hover {background:#4cae4c;}
+
+

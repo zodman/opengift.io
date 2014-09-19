@@ -1481,3 +1481,6 @@ border-top-right-radius: 0;}
 .fa-star.mini.green {color:#57a957; background:url(/static/images/stars-mini.png) -24px -24px no-repeat !important;}
 
 .gantt.fa-star {z-index: 1000;}
+
+.footer-links {border-top: 1px solid #ddd; color:#ddd; margin-top: 25px; padding-bottom: 15px; padding-top: 25px;}
+.footer-links a {color:#999; display:inline-block; margin:0 10px;}
