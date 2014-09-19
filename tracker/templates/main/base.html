@@ -93,6 +93,7 @@
             }
         {% endif %}
         {% endif %}
+        var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
     <link rel="shortcut icon" href="/static/ico/favicon.ico" />
 </head>

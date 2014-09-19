@@ -19,7 +19,8 @@ def get_head_variables(request):
         'user': request.user,
         'is_admin': request.user.is_superuser,
         'is_staff': request.user.is_staff,
-        'is_detail_page': 'detail' in currentPath
+        'is_detail_page': 'detail' in currentPath,
+        'account_total': request.user.get_profile().account_total
     }
     if request.user.is_authenticated():
         result['projects'] = request.user.get_profile().getProjects().order_by('name')

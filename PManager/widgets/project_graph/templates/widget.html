@@ -29,7 +29,6 @@
             </div>
         </form>
         <script type="text/javascript">
-            var ACCOUNT_TOTAL = {{ project_graph.allProjectPrice|jsonify|safe }};
         {% if project_graph.bPay %}
             document.robo.submit();
         {% endif %}

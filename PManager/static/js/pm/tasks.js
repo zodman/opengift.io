@@ -755,14 +755,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                 alert('Подтвердить выполнение можно только для оцененной задачи.');
                 return false;
             }
-            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
-                alert(
-                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
-                        Math.round(t.model.get('planPrice')) +
-                        ' sp).'
-                );
-                return false;
-            }
 
             this.setRevision();
             return true;
@@ -877,7 +869,10 @@ var CRITICALLY_THRESHOLD = 0.7;
     taskAjaxManagerClass.prototype = {
         'ajaxUrl': '/task_handler',
         'taskAjaxRequest': function (data, callback, type) {
-            return PM_AjaxPost(this.ajaxUrl, data, callback, type);
+            if (!type) type = 'json';
+            return PM_AjaxPost(this.ajaxUrl, data, function(data) {
+                if (data.error) alert(data.error);
+            }, type);
         },
         'TaskOpen': function (task_id, call) {
             if (!task_id) return false;
