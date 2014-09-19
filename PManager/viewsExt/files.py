@@ -289,7 +289,7 @@ class AjaxFileUploader(object):
             filename = (backend.update_filename(request, filename, *args, **kwargs)
                         or filename)
             if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id:
-                filename = os.path.join(headerValues['CURRENT_PROJECT'].id, filename)
+                filename = os.path.join(str(headerValues['CURRENT_PROJECT'].id), filename)
             # save the file
 
             backend.setup(filename, *args, **kwargs)
