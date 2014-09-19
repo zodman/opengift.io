@@ -10,12 +10,10 @@
 
     <meta name="keywords" content="">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-latest.min.js" ></script>-->
     <script type="text/javascript" src="/static/js/libs/jquery.js"></script>
     <link href="/static/css/reset.css" rel="stylesheet" />
     <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap-responsive.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap3.min.css" />
-{#    <link href="{% less "PManager/static/css/import.less" %}" rel="stylesheet" type="text/css">#}
     <link href="/static/css/styles.css" rel="stylesheet" />
     <!--[if lte IE 7]><link href="/static/css/external/bootstrap.css" rel="stylesheet"><![endif]-->
     <link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
@@ -28,11 +26,15 @@
 <body>
 <div class="container">
     <div class="loginPage">
-
-            <div class="loginPage-logoBig"><a href="/"><img src="/static/images/logo-big.png" alt="" class="img-responsive"></a></div>
+            <div class="loginPage-logoBig">
+                <a href="/"><img src="/static/images/logo-big.png" alt="" class="img-responsive"></a>
+                <strong style="font-size: 1.1em">cообщество <font style="color:#c00f00;">профессионалов</font></strong>
+            </div>
             <div class="loginPage-helloText">
-                <h2>Работайте, как вам хочется.</h2>
-                <p class="h6">Выполняйте задачи вместе со своими коллегами и клиентами. Организуйте совместную проектную работу любых групп людей как в офисе, так и вне его.</p>
+{#                <h2>Работайте, как вам хочется.</h2>#}
+                <h3>Первая система ведения проектов
+с возможностью подбора и найма специалистов
+в сфере web-разработки</h3>
                 <p align="center">
                     <br><a class="fancybox-media" href="/static/swf/video.swf"><img src="/static/images/video_small.png" class="img-responsive"/></a><br><br>
                 </p>
@@ -45,6 +47,16 @@
                         <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти" />
                 </form>
             </div>
+            {% ifequal error "not_found" %}
+                <div class='alert alert-danger' role="alert">
+                    <strong>Ошибка:</strong>&nbsp;Пользователь не найден
+                </div>
+            {% endifequal %}
+            {% ifequal error "not_active" %}
+                <div class='alert alert-danger' role="alert">
+                    <strong>Ошибка:</strong>&nbsp;Пользователь не активен
+                </div>
+            {% endifequal %}
             <p class="footer-links"><a href="/static/promo.html">Описание сервиса</a>&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/payment_info/">Информация об обслуживании</a></p>
 	</div>
 </div>

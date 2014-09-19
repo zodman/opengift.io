@@ -425,6 +425,28 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
+                    if task.status.code == 'not_approved':
+                        try:
+                            clientRole = PM_ProjectRoles.objects.get(
+                                role__code='client',
+                                project=task.project,
+                                user__is_staff=True
+                            )
+                            client = clientRole.user
+                            clientProfile = client.get_profile()
+                            bet = clientProfile.getBet(task.project)
+                            if not bet:
+                                bet = task.resp.get_profile().getBet(task.project) * COMISSION
+                            if request.user.id == client.id:
+                                pre = u'У вас'
+                            else:
+                                pre = u'У клиента'
+                            if clientProfile.account_total < task.planTime * bet:
+                                return HttpResponse(json.dumps({
+                                    'error': pre + u' недостаточно средств для подтверждения задачи'
+                                }))
+                        except PM_ProjectRoles.DoesNotExist:
+                            pass
                     try:
                         task.setStatus(str(value))
                         task.systemMessage(

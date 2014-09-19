@@ -22,6 +22,7 @@ def get_head_variables(request):
         'is_detail_page': 'detail' in currentPath
     }
     if request.user.is_authenticated():
+        result['account_total'] = request.user.get_profile().account_total
         result['projects'] = request.user.get_profile().getProjects().order_by('name')
 
     return result

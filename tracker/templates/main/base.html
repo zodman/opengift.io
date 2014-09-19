@@ -93,8 +93,9 @@
             }
         {% endif %}
         {% endif %}
+        var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
-    <link rel="shortcut icon" href="/static/ico/favicon.png" />
+    <link rel="shortcut icon" href="/static/ico/favicon.ico" />
 </head>
 <body>
 {% if not user.first_name and main.FIRST_STEP_FORM %}
@@ -263,7 +264,7 @@
 <div class="container sub-menu">
     <div class="row sub-menu_line">
         {% if user.is_authenticated %}
-        <div class="sub-menu_line_section-user col-xs-6">
+        <div class="sub-menu_line_section-user col-xs-7">
             <ul class="list-inline">
                 <li><a href="/user_list/" class="users-and-groups">Пользователи&nbsp;и&nbsp;группы</a></li>
                 {% if main.CURRENT_PROJECT.id %}
@@ -272,10 +273,13 @@
                     <a href="/new_task_wizard/" class="new_task js-taskWizard-opener">Создать задачу</a>
                 </li>
                 {% endif %}
+                <li>
+                    <a href="/static/invite_info.html" class="js-main-fnc users-and-groups">Пригласить исполнителей</a>
+                </li>
             </ul>
         </div>
 
-        <div class="sub-menu_line_section-tracker col-xs-6">
+        <div class="sub-menu_line_section-tracker col-xs-5">
             <ul class="list-inline navbar-right">
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
