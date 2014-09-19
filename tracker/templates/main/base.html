@@ -269,7 +269,7 @@
                 {% if main.CURRENT_PROJECT.id %}
                 <li><a href="/files/" class="files">Файлы проекта</a></li>
                 <li>
-                    <a href="/new_task_wizard/" class="new_task js-taskWizard">Создать задачу</a>
+                    <a href="/new_task_wizard/" class="new_task js-taskWizard-opener">Создать задачу</a>
                 </li>
                 {% endif %}
             </ul>
@@ -411,7 +411,7 @@
 {% endif %}
 <script type="text/javascript">
     $(document).ready(function(){
-        $('.js-taskWizard').click(function(ev){
+        $('.js-taskWizard-opener').click(function(ev){
             ev.preventDefault();
             var url = $(this).attr('href');
             $.get(url, function(response){

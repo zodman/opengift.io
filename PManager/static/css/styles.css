@@ -304,13 +304,22 @@ a.show:hover {color:#222; text-decoration:none;border-bottom:1px dashed #222;}
                              ЗАДАЧА. ВИЗАРД
     ############################################################### */
 
-div.popup.popup-big {
+div.taskWizard-container {
 	position: absolute;
 	width: 600px;
 	top: 100px;
+	display: none;
 }
-
-
+div.taskWizard-overlay {
+	display: none;
+}
+div.taskWizard-question {
+	display: none;
+}
+div.taskWizard-required .taskWizard-question-title:after {
+	content: " *";
+	color:red;
+}
 /*  ###############################################################
                              ЗАДАЧА. ВНУТРЕННЯЯ
     ############################################################### */
