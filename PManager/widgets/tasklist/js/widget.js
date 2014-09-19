@@ -729,7 +729,7 @@ var widget_tl, currentGroup;
                                 obj.container.find('.show-more').show().pullTheButton();
                             }
                         }
-                });
+                }, 'json');
                 return this;
             },
             'addGroupRow': function(group){
