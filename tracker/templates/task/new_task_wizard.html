@@ -1,0 +1,98 @@
+<div class="overflow js-taskWizardOverlay"></div>
+<div class="popup popup-big js-taskWizardContainer">
+    <h3>Создать задачу</h3>
+    <div class="border-wrapper">
+        <form method="POST">
+            <div class="border">
+                <div class="row">
+                    <div class="span5">Что нужно сделать?</div>
+                </div>
+                <div class="row">
+                    <div class="span5 task-name-wrapper">
+                        <input class="form-control task-name" value="" type="text" name="what-to-do" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span5">Где нужно сделать?</div>
+                </div>
+                <div class="row">
+                    <div class="span5">
+                        <input class="form-control" value="" type="text" name="where" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span5">Видели ли вы что-то похожее?</div>
+                </div>
+                <div class="row">
+                    <div class="span5">
+                        <input class="form-control" value="" type="text" name="seen-similar" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span5">Для чего это вам?</div>
+                </div>
+                <div class="row">
+                    <div class="span5">
+                        <input class="form-control" value="" type="text" name="for-what" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="span5"><input type="button" value="Создать задачу" class="btn  btn-large btn-success js-wizardSubmit"></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
+    </div>
+</div>
+<script type="text/javascript">
+    $(document).ready(function(){
+        var removePopup = function() {
+            $('.js-taskWizardOverlay').remove();
+            $('.js-taskWizardContainer').remove();
+        }
+        var parseWizard = function(aWizard){
+            var sWizard = "";
+            if(aWizard.length > 1) {
+                for (var i = aWizard.length - 1; i > 0; i--) {
+                    sWizard = aWizard[i].value + '<br/>' + sWizard 
+                };
+            }
+            sWizard = aWizard[0].value + '///' + sWizard;
+            return sWizard;
+        }
+        $('.js-wizardSubmit').click(function(){
+            $('.task-name-wrapper').removeClass('has-error');
+            var aWizard = $(this).parents('form').serializeArray();
+            if(aWizard[0].value.length === 0) {
+                $('.task-name-wrapper').addClass('has-error');
+                return;
+            }
+            var sWizard = parseWizard(aWizard);
+            if($('input.task-create').length) {
+                $('input.task-create').val(sWizard);
+                $('button.task-create').trigger('click');
+            } else {
+                var data = {
+                    "action": "fastCreate",
+                    "task_name": sWizard,
+                    "project": {{ main.CURRENT_PROJECT.id }}
+                };
+                $.post('/task_handler', data);
+            }
+            removePopup();
+        });
+        $(document).bind("keyup.taskWizard", function(ev){
+            if(ev.keyCode === 27 || ev.which === 27) {
+                removePopup();
+            }
+            $(document).unbind('keyup.taskWizard');
+        });
+        $('.js-taskWizardContainer').on("keyup.taskWizard","input", function(ev){
+            if(ev.keyCode === 13 || ev.which === 13) {
+                $('.js-wizardSubmit').trigger('click');
+            }
+        });
+        $('.js-taskWizardContainer').find('input:eq(0)').trigger("focus");
+        $('.js-taskWizardOverlay').click(removePopup);
+    });
+</script>

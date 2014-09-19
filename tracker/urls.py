@@ -3,7 +3,7 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from PManager.views import MainPage, Brains
-from PManager.viewsExt.tasks import taskListAjax
+from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register
@@ -71,7 +71,7 @@ urlpatterns = patterns('',
                            {'widgetList': ["task_edit"], 'activeMenuItem': 'tasks'}),
                        url(r'^task_detail/$', MainPage.indexRender,
                            {'widgetList': ["task_detail"], 'activeMenuItem': 'tasks'}),
-                       url(r'^task_handler', taskListAjax),
+                       url(r'^task_handler', taskListAjax, name='task-handler'),
                        url(r'^sendfile/', fileSave),
                        url(r'^calendar/', MainPage.indexRender,
                            {'widgetList': ["project_calendar"], 'activeMenuItem': 'calendar'}),
@@ -85,6 +85,7 @@ urlpatterns = patterns('',
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),
                        url(r'^upload/receiver/(?P<handler_id>[A-z0-9_\-]+)$', DeleteUploadedFile),
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"]}),
+                       url(r'^new_task_wizard/$', ajaxNewTaskWizardResponder),
                        url(r'^milestone_ajax/$', ajaxMilestonesResponder),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),

@@ -232,6 +232,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 .sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
 .sub-menu_line_section-user .users-and-groups { background-position: 0px -311px; }
 .sub-menu_line_section-user .files { background-position: 0px -344px; }
+.sub-menu_line_section-user .new_task { background-position: 0px -344px; }
 
 .sub-menu_line_section-tracker > .navbar-right { float: right; }
 .sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
@@ -298,6 +299,17 @@ div.messages .row-fluid.show-grid p, div.messages .js-messageDetailText {margin-
 
 a.show {color:#51A351; text-decoration:none; border-bottom:1px dashed #51A351; display:inline-block;}
 a.show:hover {color:#222; text-decoration:none;border-bottom:1px dashed #222;}
+
+/*  ###############################################################
+                             ЗАДАЧА. ВИЗАРД
+    ############################################################### */
+
+div.popup.popup-big {
+	position: absolute;
+	width: 600px;
+	top: 100px;
+}
+
 
 /*  ###############################################################
                              ЗАДАЧА. ВНУТРЕННЯЯ

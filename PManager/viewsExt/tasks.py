@@ -44,8 +44,10 @@ def redisSendTaskUpdate(fields):
                         fields=fields
     )
     mess.send()
-
-
+def ajaxNewTaskWizardResponder(request):
+    from django.shortcuts import render
+    return render(request, 'task/new_task_wizard.html', {})
+1
 def taskListAjax(request):
     from PManager.widgets.tasklist.widget import widget as taskList
     from PManager.models import PM_Files, PM_User_PlanTime, PM_Task_Status
