@@ -34,6 +34,11 @@ class Brains:
 
 class MainPage:
     @staticmethod
+    def auth(request):
+        c = RequestContext(request)
+        return HttpResponse(loader.get_template('main/unauth.html').render(c))
+
+    @staticmethod
     def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}):
         #agents
         from PManager.models import Agent
@@ -69,17 +74,17 @@ class MainPage:
                 else:
                     return HttpResponse(loader
                         .get_template('main/unauth.html')
-                        .render(RequestContext(request, {"error":"not_active"})))
+                        .render(RequestContext(request, {"error": "not_active"})))
             elif user is None:
                 return HttpResponse(loader
                         .get_template('main/unauth.html')
-                        .render(RequestContext(request, {"error":"not_found"})))
+                        .render(RequestContext(request, {"error": "not_found"})))
 
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout
 
             logout(request)
-            return HttpResponseRedirect('/')
+            return HttpResponseRedirect('/login/')
 
         results = []
         c = RequestContext(request, {})
@@ -138,7 +143,7 @@ class MainPage:
                 userAchievement.read = True
                 userAchievement.save()
         else:
-            t = loader.get_template('main/unauth.html')
+            t = loader.get_template('main/promo.html')
 
         cur_notice = PM_Notice.getForUser(
             request.user,

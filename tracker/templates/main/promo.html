@@ -8,14 +8,14 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
     <link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700italic,700,400italic&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
-    <link href="css/reset.css" rel="stylesheet" />
-    <link href="css/external/bootstrap3.min.css" rel="stylesheet" />
-    <link href="css/promo.css" rel="stylesheet" />    
+    <link href="/static/css/reset.css" rel="stylesheet" />
+    <link href="/static/css/external/bootstrap3.min.css" rel="stylesheet" />
+    <link href="/static/css/promo.css" rel="stylesheet" />    
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-    <script type="text/javascript" src="js/slider/jquery.bxslider.min.js"></script>
-    <script type="text/javascript" src="js/slider/scripts.js"></script>
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-    <link rel="shortcut icon" href="ico/favicon.ico" />
+    <script type="text/javascript" src="/static/js/slider/jquery.bxslider.min.js"></script>
+    <script type="text/javascript" src="/static/js/slider/scripts.js"></script>
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0//static/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="/static/ico/favicon.ico" />
     <style>
         .hidden-step {opacity: 0;}
         .services-icon {cursor: pointer;}
@@ -52,7 +52,7 @@
                     $.post(
                             '/register/',
                             {
-                                'email': $('.js-email').val()
+                                'email': $(this).closest('.header-button, section').find('.js-email').val()
                             },
                             function(data) {
                                 alert(data);
@@ -80,11 +80,11 @@
         </div>-->
         
            <div class="header">
-           <a href="/" class="logo"><img src="images/logo-middle.png" alt="" class="img-responsive"><span>сообщество <font class="red">профессионалов</font></span></a>
-            <a href=""  class="enter-button">Войти</a>
+           <a href="/" class="logo"><img src="/static/images/logo-middle.png" alt="" class="img-responsive"><span>сообщество <font class="red">профессионалов</font></span></a>
+            <a href="/login/"  class="enter-button">Войти</a>
             </div>
     </header>
-    
+
     <div class="header-img">
     	<h3>Первая система ведения проектов <br>с возможностью подбора и найма специалистов<br> в сфере web-разработки</h3>
         <ul class="header-desc">
@@ -93,16 +93,64 @@
             <li>Гарантия качества и сроков</li>
         </ul>
         <div class="header-button clearfix">
-        	<div class="header-button-left"><input type="text" placeholder="Введите свой e-mail" class="big-inputbox"></div>
+        	<div class="header-button-left"><input type="text" placeholder="Введите свой e-mail" class="big-inputbox js-email"></div>
             <div class="header-button-right"><input type="button" value="Попробовать" class="big-button js-register"></div>
         </div>
     </div>
-    
-    
+    <section class="services clearfix">
+        <h1 style="text-align: center">Как это <span style="color: #c00f00">работает</span></h1>
+            <div class="services-icon clearfix">
+            	<span class="hidden-step"><img src="/static/images/step-1.png" class="img-responsive"></span>
+                <div class="services-icon-left">
+                    <span class="step">Шаг 1</span>
+                    <h3><span>Создайте</span><br>проект</h3>
+                    <p>Разверните работы по своему сайту в облаке, заполнив небольшую форму.</p>
+                </div>
+                <div class="services-icon-right">
+                    <img src="/static/images/create-project-ico.png" alt="" class="img-responsive">
+                </div>
+            </div>
+            
+            <div class="services-icon  clearfix">
+            	<span class="hidden-step"><img src="/static/images/step-2.png" class="img-responsive"></span>
+                <div class="services-icon-left">
+                    <span class="step">Шаг 2</span>
+                    <h3><span>Опишите</span><br>задачи</h3>
+                    <p>Опишите то, что вам нужно обычным доступным языком.</p>
+                </div>
+                <div class="services-icon-right">
+                    <img src="/static/images/create-tasks-ico.png" alt="" class="img-responsive">
+                </div>
+            </div>
+            
+        <div class="services-icon clearfix">
+            <span class="hidden-step"><img src="/static/images/step-4.png" class="img-responsive"></span>
+        	<div class="services-icon-left">
+                <span class="step">Шаг 3</span>
+                <h3><span>Согласитесь</span><br>с оценкой</h3>
+                <p>Наши менеджеры контролируют адекватность оценки задач, которую дают наши исполнители.</p>
+            </div>
+            <div class="services-icon-right">
+            	<img src="/static/images/timer-ico.png" alt="" class="img-responsive">
+            </div>
+        </div>
+    	<div class="services-icon clearfix">
+            <span class="hidden-step"><img src="/static/images/step-3.png" class="img-responsive"></span>
+        	<div class="services-icon-left">
+                <span class="step">Шаг 4</span>
+                <h3><span>Принимайте</span><br>работу!</h3>
+                <p>Наслаждайтесь выполненной работой по мере того, как ваши задачи будут выполняться.</p>
+            </div>
+            <div class="services-icon-right">
+            	<img src="/static/images/handshake-ico.png" alt="" class="img-responsive">
+            </div>
+        </div>
+    </section>
+ <hr />
         <ul class="img-block clearfix">
         	<li class="clearfix">
             	<div class="img-block-h3 clearfix">
-                	<div class="img"><img src="img/monitor27.png"></div>
+                	<div class="img"><img src="/static/img/monitor27.png"></div>
                     <h3> Автоподбор исполнителей</h3>
                 </div>
                 <div class="clearfix"></div>
@@ -113,122 +161,74 @@
             </li>
         	<li class="clearfix">
             	<div class="img-block-h3 clearfix">
-                	<div class="img"><img src="img/curriculum.png"></div>
-                    <h3>Мы не фриланс (почему?)</h3>
+                	<div class="img"><img src="/static/img/curriculum.png"></div>
+                    <h3>Мы не фриланс</h3>
                 </div>
                 <div class="clearfix"></div>
                     <ul class="img-block-list">
                     	<li>Все исполнители проходят многоуровневый отбор</li>
                         <li>Вы в любой момент можете запросить аудит контроля качества выполненных работ у наших специалистов</li>
-                        <li>Смена специалиста происходит в 1 клик,если он вам по каким-то причинам не подошел</li>
+                        <li>Смена специалиста происходит в 1 клик, если он вам по каким-то причинам не подошел</li>
                         <li>Вам не нужно ставить задачу дважды - новый специалист увидит весь процесс по ней прямо в системе</li>
                     </ul>
             </li>
         	<li class="clearfix">
             	<div class="img-block-h3 clearfix">
-                	<div class="img"><img src="img/two180.png"></div>
+                	<div class="img"><img src="/static/img/two180.png"></div>
                     <h3>Закрываем "дыры" в команде</h3>
                 </div>
                 <div class="clearfix"></div>
                     <ul class="img-block-list">
-                    	<li>Вы можете вести проект бесплатно собственными силами, делегируя часть задач по мере необходимости</li>
+                    	<li>Вы можете вести проект бесплатно собственными силами, делегируя нам часть задач по мере необходимости</li>
                     </ul>
             </li>
         </ul>
-    
-    <section class="services clearfix">
-            <div class="services-icon clearfix">
-            	<span class="hidden-step"><img src="images/step-1.png" class="img-responsive"></span>
-                <div class="services-icon-left">
-                    <span class="step">Шаг 1</span>
-                    <h3><span>Создайте</span><br>проект</h3>
-                    <p>Разверните работы по своему сайту в облаке, заполнив небольшую форму.</p>
-                </div>
-                <div class="services-icon-right">
-                    <img src="images/create-project-ico.png" alt="" class="img-responsive">
-                </div>
-            </div>
-            
-            <div class="services-icon  clearfix">
-            	<span class="hidden-step"><img src="images/step-2.png" class="img-responsive"></span>
-                <div class="services-icon-left">
-                    <span class="step">Шаг 2</span>
-                    <h3><span>Создавайте</span><br>задачи</h3>
-                    <p>Опишите то, что вам нужно обычным доступным языком.</p>
-                </div>
-                <div class="services-icon-right">
-                    <img src="images/create-tasks-ico.png" alt="" class="img-responsive">
-                </div>
-            </div>
-            
-        <div class="services-icon clearfix">
-            <span class="hidden-step"><img src="images/step-4.png" class="img-responsive"></span>
-        	<div class="services-icon-left">
-                <span class="step">Шаг 3</span>
-                <h3><span>Согласитесь</span><br>с оценкой</h3>
-                <p>Наши менеджеры контролируют адекватность оценки задач, которую дают наши исполнители.</p>
-            </div>
-            <div class="services-icon-right">
-            	<img src="images/timer-ico.png" alt="" class="img-responsive">
-            </div>
-        </div>
-    	<div class="services-icon clearfix">
-            <span class="hidden-step"><img src="images/step-3.png" class="img-responsive"></span>
-        	<div class="services-icon-left">
-                <span class="step">Шаг 4</span>
-                <h3><span>Принимайте</span><br>работу!</h3>
-                <p>Наслаждайтесь выполненной работой по мере того, как ваши задачи будут выполняться.</p>
-            </div>
-            <div class="services-icon-right">
-            	<img src="images/handshake-ico.png" alt="" class="img-responsive">
-            </div>
-        </div>
-    </section>
+
     <a name="form"></a>
     
     
     <section class="icons">
     	<div class="icons-row clearfix">
             <div class="icons-item">
-                <img src="images/icon-html.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-html.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Html-верстка</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-design.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-design.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Дизайн сайтов</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-logos.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-logos.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Разработка логотипов</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-visitki.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-visitki.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Дизайн визиток</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-development.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-development.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Поддержка сайтов</span>
             </div>
          </div>
     	<div class="icons-row clearfix">
             <div class="icons-item">
-                <img src="images/icon-re-development.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-re-development.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Модули для 1С-Битрикс</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-site.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-site.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Корпоративные порталы</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-texts.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-texts.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Тексты для сайтов</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-advert.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-advert.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">Рекламные компании</span>
             </div>
             <div class="icons-item">
-                <img src="images/icon-seo.png" class="icons-item-img img-responsive">
+                <img src="/static/images/icon-seo.png" class="icons-item-img img-responsive">
                 <span class="icons-item-desc">SEO-оптимизация сайта</span>
             </div>
          </div>
@@ -256,7 +256,7 @@
                     <div class="tarrif-row space"><span class="check-on"></span></div>
                     <div class="tarrif-row period"><span class="check-on"></span></div>
                     <div class="tarrif-row finance"><span class="check-off"></span></div>
-                    <div class="tarrif-row choose"><span class="check-out"></span></div>
+                    <div class="tarrif-row choose"><span class="check-in"></span></div>
                 </div>
                 <div class="tarrif">
                     <div class="tarrif-row title">Пакетный</div>
@@ -266,7 +266,7 @@
                     <div class="tarrif-row space"><span class="check-on"></span></div>
                     <div class="tarrif-row period"><span class="check-on"></span></div>
                     <div class="tarrif-row finance"><span class="check-on"></span></div>
-                    <div class="tarrif-row choose"><span class="check-in"></span></div>
+                    <div class="tarrif-row choose"><span class="check-out"></span></div>
                 </div>
             </div>
             <div class="creating-form">
@@ -275,13 +275,13 @@
                 <p><input type="text" placeholder="Введите свой e-mail" class="big-inputbox js-email"></p>
                 <hr class="separator">
                 <p><input type="button" value="Попробовать" class="big-button js-register"></p>
-                <img src="images/choose-plan.png" class="choose-plan-img">
+                <img src="/static/images/choose-plan.png" class="choose-plan-img">
             </div>
         </div>
     </section>
     
     <section class="content">
-    Описание
+    По всем вопросам по работе сервиса пишите на dev@heliard.ru
     </section>
     
     
@@ -298,5 +298,32 @@
         </div>
     
     </footer>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter26252781 = new Ya.Metrika({id:26252781,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>
