@@ -4,8 +4,10 @@ from django.core.files.storage import FileSystemStorage
 import os
 from uuid import uuid4
 
-def path_and_rename(path):
+def path_and_rename(path, pSubdir=False):
     def wrapper(instance, filename):
+        if pSubdir:
+            path = os.path.join(path, eval(pSubdir))
         ext = filename.split('.')[-1]
         # get filename
         if instance.pk:
