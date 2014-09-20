@@ -11,7 +11,8 @@
     <link href="/static/css/reset.css" rel="stylesheet" />
     <link href="/static/css/external/bootstrap3.min.css" rel="stylesheet" />
     <link href="/static/css/promo.css" rel="stylesheet" />    
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+{#	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>#}
+    <script type="text/javascript" src="/static/js/libs/jquery.js"></script>
     <script type="text/javascript" src="/static/js/slider/jquery.bxslider.min.js"></script>
     <script type="text/javascript" src="/static/js/slider/scripts.js"></script>
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0//static/css/font-awesome.min.css" rel="stylesheet">
@@ -75,11 +76,12 @@
 </head>
 <body>
     <header>
-    	<!--<div class="clearfix header">
-            <a href="/" class="logo"><img src="images/logo-middle.png" alt="" class="img-responsive"></a>
-            <a href=""  class="enter-button">Войти</a>
-            <h2>сообщество <span>профессионалов</span></h2>
-        </div>-->
+{#    	<div class="clearfix header">#}
+{#            <a href="/" class="logo"><img src="/static/images/logo-middle.png" alt="" class="img-responsive"></a>#}
+{#            <a href=""  class="enter-button">Войти</a>#}
+{#            <h2>сообщество <span>профессионалов</span></h2>#}
+{#            <a href="/login/"  class="enter-button">Войти</a>#}
+{#        </div>#}
         
            <div class="header">
            <a href="/" class="logo"><img src="/static/images/logo-middle.png" alt="" class="img-responsive"><span>сообщество <font class="red">профессионалов</font></span></a>
@@ -90,17 +92,17 @@
     <div class="header-img">
     	<h3>Первая система ведения проектов <br>с возможностью подбора и найма специалистов<br> в сфере web-разработки</h3>
         <ul class="header-desc">
-        	<li>Цели, задачи, календарь, файлы в облаке</li>
-            <li>Быстрый поиск специалиста под конкретную задачу</li>
-            <li>Гарантия качества и сроков</li>
+        	<li style="background-color: #962311;margin: 4px;list-style: inside;padding-left: 10px;">Спасёт проект от срыва сроков</li>
+            <li style="background-color: #962311;margin: 4px;list-style: inside;padding-left: 10px;">Патентованая технология подбора подходящих исполнителей</li>
+            <li style="background-color: #962311;margin: 4px;list-style: inside;padding-left: 10px;">Пожезненная гарантия на выполненные работы</li>
         </ul>
         <div class="header-button clearfix">
         	<div class="header-button-left"><input type="text" placeholder="Введите свой e-mail" class="big-inputbox js-email"></div>
-            <div class="header-button-right"><input type="button" value="Попробовать" class="big-button js-register"></div>
+            <div class="header-button-right"><input type="button" value="Создать проект" class="big-button js-register"></div>
         </div>
     </div>
     <section class="services clearfix">
-        <h1 style="text-align: center">Как это <span style="color: #c00f00">работает</span></h1>
+        <h1 style="text-align: center;font-weight: bold;">Результат <span style="color: #c00f00">в 4 шага</span></h1>
             <div class="services-icon clearfix">
             	<span class="hidden-step"><img src="/static/images/step-1.png" class="img-responsive"></span>
                 <div class="services-icon-left">
@@ -148,7 +150,7 @@
             </div>
         </div>
     </section>
- <hr />
+    <hr style="margin-bottom: 50px;" />
         <ul class="img-block clearfix">
         	<li class="clearfix">
             	<div class="img-block-h3 clearfix">
@@ -187,9 +189,18 @@
         </ul>
 
     <a name="form"></a>
-    
-    
+    <hr />
+    <section class="services clearfix">
+        <h1>Горят сроки? «Кинули» специалисты? В процессе работ меняются требования?</h1>
+        <ul>
+            <li>1.	Начнем работы по задачам за 5 минут</li>
+            <li>2.	Гарантия сроков выполнения</li>
+            <li>3.	Вы сами управляете процессом разработки на всех уровнях</li>
+            <li>4.	Все специалисты имеют опыт работы от 3 до 15 лет</li>
+        </ul>
+    </section>
     <section class="icons">
+        <h1 style="text-align: center;margin-bottom: 30px;"><span style="color: #c00f00">80</span> профессиональных специалистов</h1>
     	<div class="icons-row clearfix">
             <div class="icons-item">
                 <img src="/static/images/icon-html.png" class="icons-item-img img-responsive">
@@ -234,43 +245,49 @@
                 <span class="icons-item-desc">SEO-оптимизация сайта</span>
             </div>
          </div>
+         <h1 style="text-align: center;margin-bottom: 30px;margin-top:10px;"><span style="color: #c00f00">7 731</span> рабочих часов с начала года</h1>
     </section>
     
     
     <section class="promo-wrapper clearfix">
     	<div class="promo">
-            <div class="tariffs-descr">
-                    <div class="tarrif-row title"></div>
-                    <div class="tarrif-row price">Стоимость</div>
-                    <div class="tarrif-row desc">Описание</div>
-                    <div class="tarrif-row period">Автоподбор&nbsp;исполнителей</div>
-                    <div class="tarrif-row gannt">Диаграмма гантта</div>
-                    <div class="tarrif-row space">Дисковое пространство</div>
-                    <div class="tarrif-row finance"><a href="#" style="color: white;text-decoration: underline;">Поддержка</a></div>
-                    <div class="tarrif-row choose"></div>
+            <div class="pull-left" style="padding-top: 50px;">
+                <a class="fancybox-media" href="/static/swf/video.swf" style="outline: none;">
+                    <img src="/static/images/video_small.png" />
+                </a>
             </div>
-            <div class="tariffs-wrapper">
-                <div class="tarrif">
-                    <div class="tarrif-row title">Самостоятельный</div>
-                    <div class="tarrif-row price">бесплатно</div>
-                    <div class="tarrif-row desc">Управляйте вашим проектом из любого места и пользуйтесь нашими преимуществами совершенно бесплатно.</div>
-                    <div class="tarrif-row gannt"><span class="check-on"></span></div>
-                    <div class="tarrif-row space"><span class="check-on"></span></div>
-                    <div class="tarrif-row period"><span class="check-on"></span></div>
-                    <div class="tarrif-row finance"><span class="check-off"></span></div>
-                    <div class="tarrif-row choose"><span class="check-in"></span></div>
-                </div>
-                <div class="tarrif">
-                    <div class="tarrif-row title">Пакетный</div>
-                    <div class="tarrif-row price">25 000 руб.</div>
-                    <div class="tarrif-row desc">Наша команда опытных исполнителей быстро и качественно выполнит любые ваши задачи. </div>
-                    <div class="tarrif-row gannt"><span class="check-on"></span></div>
-                    <div class="tarrif-row space"><span class="check-on"></span></div>
-                    <div class="tarrif-row period"><span class="check-on"></span></div>
-                    <div class="tarrif-row finance"><span class="check-on"></span></div>
-                    <div class="tarrif-row choose"><span class="check-out"></span></div>
-                </div>
-            </div>
+{#            <div class="tariffs-descr">#}
+{#                    <div class="tarrif-row title"></div>#}
+{#                    <div class="tarrif-row price">Стоимость</div>#}
+{#                    <div class="tarrif-row desc">Описание</div>#}
+{#                    <div class="tarrif-row period">Автоподбор&nbsp;исполнителей</div>#}
+{#                    <div class="tarrif-row gannt">Диаграмма гантта</div>#}
+{#                    <div class="tarrif-row space">Дисковое пространство</div>#}
+{#                    <div class="tarrif-row finance"><a href="#" style="color: white;text-decoration: underline;">Поддержка</a></div>#}
+{#                    <div class="tarrif-row choose"></div>#}
+{#            </div>#}
+{#            <div class="tariffs-wrapper">#}
+{#                <div class="tarrif">#}
+{#                    <div class="tarrif-row title">Самостоятельный</div>#}
+{#                    <div class="tarrif-row price">бесплатно</div>#}
+{#                    <div class="tarrif-row desc">Управляйте вашим проектом из любого места и пользуйтесь нашими преимуществами совершенно бесплатно.</div>#}
+{#                    <div class="tarrif-row gannt"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row space"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row period"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row finance"><span class="check-off"></span></div>#}
+{#                    <div class="tarrif-row choose"><span class="check-in"></span></div>#}
+{#                </div>#}
+{#                <div class="tarrif">#}
+{#                    <div class="tarrif-row title">Пакетный</div>#}
+{#                    <div class="tarrif-row price">25 000 руб.</div>#}
+{#                    <div class="tarrif-row desc">Наша команда опытных исполнителей быстро и качественно выполнит любые ваши задачи. </div>#}
+{#                    <div class="tarrif-row gannt"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row space"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row period"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row finance"><span class="check-on"></span></div>#}
+{#                    <div class="tarrif-row choose"><span class="check-out"></span></div>#}
+{#                </div>#}
+{#            </div>#}
             <div class="creating-form">
                 <h3>Cоздание вашего проекта</h3>
                 <hr class="separator">
@@ -283,14 +300,14 @@
     </section>
     
     <section class="content">
-    По всем вопросам по работе сервиса пишите на dev@heliard.ru
+    По всем вопросам по работе сервиса пишите на info@heliard.ru
     </section>
     
     
     <footer>
     	<div class="footer clearfix">
             <div class="pull-left">
-            Copyright © 2013-2014<br>Все права сохранены
+            Heliard © 2012-2014<br>Все права сохранены
             </div>
             <div class="pull-right">
             	<a href="" class="fa fa-facebook-square"></a>
@@ -327,5 +344,14 @@
 </script>
 <noscript><div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
+<link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
+<script src="/static/js/libs/fancybox.js"></script>
+<script>
+    (function($){
+        $(function(){
+            $('.fancybox-media').fancybox();
+        });
+    })(jQuery);
+</script>
 </body>
 </html>
