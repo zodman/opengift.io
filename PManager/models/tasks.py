@@ -1298,7 +1298,7 @@ class PM_Task_Message(models.Model):
                         task=self.task
                     )
 
-                    bet = cur_profile.isClient(self.project) and cur_profile.getBet(self.project) \
+                    bet = cur_profile.getBet(self.project) \
                         or self.author.get_profile().getBet(self.project) * COMISSION
 
                     addParams.update({
