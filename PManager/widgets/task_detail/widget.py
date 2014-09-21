@@ -64,7 +64,7 @@ def widget(request, headerValues, arFilter, q):
 
                 if not error:
                     authorProf = message.author.get_profile()
-                    if authorProf.isClient(task.project):
+                    if not authorProf.isEmployee(task.project):
                         if not prof.hasRole(task.project):
                             prof.setRole('employee', task.project)
 
