@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_User_PlanTime
+from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles
 import datetime, json
 from PManager.viewsExt.tools import TextFilters, taskExtensions
 from PManager.widgets.tasklist.widget import widget as taskList
