@@ -56,7 +56,7 @@ This README would normally document whatever steps are necessary to get your app
 
         vagrant ssh
         cd /vagrant
-        mysql -u root -p tracker < dump.sql
+        mysql -u root -p < dump.sql
 
     Потребуется ввести пароль - введите root 
     (Если долго не будет ответа нажмите Ctrl+C и введите 
