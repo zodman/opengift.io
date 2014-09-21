@@ -19,6 +19,8 @@ def register(request):
         user.save()
         project.author = user
         project.save()
+        request.COOKIES["CURRENT_PROJECT"] = project.id
+
         prof = user.get_profile()
         prof.setRole('manager', project)
         prof.setRole('client', project, 'plan_time')
