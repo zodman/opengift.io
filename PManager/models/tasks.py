@@ -1295,7 +1295,7 @@ class PM_Task_Message(models.Model):
                 ):
                     planTime = PM_User_PlanTime.objects.get(
                         user=self.author,
-                        project=self.project
+                        task=self.task
                     )
                     bet = cur_profile.getBet(self.project) or self.author.get_profile().getBet(self.project) * COMISSION
                     addParams.update({
