@@ -64,7 +64,7 @@ This README would normally document whatever steps are necessary to get your app
         sudo mysql service restart
 
     , и повторите команду.
-
+        rm -f dump.sql
         python manage.py schemamigration --initial
         exit
 
