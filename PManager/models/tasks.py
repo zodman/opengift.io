@@ -795,6 +795,14 @@ class PM_Task(models.Model):
         except Exception:
             print 'Message is not sent'
 
+    def getPrice(self, profile):
+        bet = profile.getBet(self.project)
+
+        if profile.isClient(self.project):
+            pass
+        elif profile.isEmployee(self.project):
+            pass
+
     @staticmethod
     def getListPrepare(tasks, addTasks, join_project_name=False):
         for task in tasks:
