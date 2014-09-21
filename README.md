@@ -49,11 +49,30 @@ This README would normally document whatever steps are necessary to get your app
 
         192.168.33.13     heliard.dev
 
-7. Когда виртуальная машина запустится выполните в bash терминале
+7. **Теперь машина предоставляется без базы даннах**
+ Поэтому необходимо инициализировать базу.
+ Скачайте с репозитория файл дампа базы dump.sql в разделе Загрузки 
+ и поместите его в директорию проекта. Далее: 
+
+        vagrant ssh
+        cd /vagrant
+        mysql -u root -p tracker < dump.sql
+
+    Потребуется ввести пароль - введите root 
+    (Если долго не будет ответа нажмите Ctrl+C и введите 
+
+        sudo mysql service restart
+
+    , и повторите команду.
+
+        python manage.py schemamigration --initial
+        exit
+
+8. Когда виртуальная машина запустится выполните в bash терминале
 
         vagrant provision
 
-8. Откройте в браузере страницу [heliard.dev](http://heliard.dev)
+9. Откройте в браузере страницу [heliard.dev](http://heliard.dev)
 
 * Configuration
 * Dependencies
