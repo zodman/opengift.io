@@ -63,12 +63,20 @@ def widget(request, headerValues, arFilter, q):
                         error = pref
 
                 if not error:
-                    prof = message.author.get_profile()
-                    if not prof.hasRole(task.project):
-                        prof.setRole('employee', task.project)
-                    task.onPlanning = False
+                    authorProf = message.author.get_profile()
+                    if authorProf.isClient(task.project):
+                        if not prof.hasRole(task.project):
+                            prof.setRole('employee', task.project)
+
+                        task.resp = prof.user
+                    else:
+                        if not authorProf.hasRole(task.project):
+                            authorProf.setRole('employee', task.project)
+
+                        task.resp = planTime.user
+
                     task.planTime = planTime.time
-                    task.resp = planTime.user
+                    task.onPlanning = False
                     task.setStatus('revision')
                     task.save()
 
