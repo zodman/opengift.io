@@ -66,7 +66,6 @@ class PM_User(models.Model):
                                     max_length=20)
 
     account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
-
     rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
 
     @property

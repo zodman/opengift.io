@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Files, PM_File_Category
-import base64,os.path,json
+import base64, os.path, json
 from django.core.files.base import ContentFile
 from PIL import Image
 from PManager.viewsExt import headers
@@ -14,8 +14,10 @@ from django.http import HttpResponseBadRequest, Http404, HttpResponseNotAllowed
 from ajaxuploader.backends.local import LocalUploadBackend
 from django.core.serializers.json import DjangoJSONEncoder
 
+
 def unicodeToInt(un):
-    return int(round(float(un),0))
+    return int(round(float(un), 0))
+
 
 def fileSave(request):
     #сохранение файла и ресайз
@@ -23,45 +25,54 @@ def fileSave(request):
     #как текст в base64 закодированном виде
     headerValues = headers.initGlobals(request)
     path = os.path.dirname(os.path.abspath(__file__))
-    fileContent = request.POST.get('posted_image','')
+    fileContent = request.POST.get('posted_image', '')
     #получаем из POST координаты квадрата, который будем вырезать из картинки
-    x1,y1,x2,y2 = unicodeToInt(request.POST.get('posted_image_x1',0)),\
-                  unicodeToInt(request.POST.get('posted_image_y1',0)),\
-                  unicodeToInt(request.POST.get('posted_image_x2',0)),\
-                  unicodeToInt(request.POST.get('posted_image_y2',0))
+    x1, y1, x2, y2 = unicodeToInt(request.POST.get('posted_image_x1', 0)), \
+                     unicodeToInt(request.POST.get('posted_image_y1', 0)), \
+                     unicodeToInt(request.POST.get('posted_image_x2', 0)), \
+                     unicodeToInt(request.POST.get('posted_image_y2', 0))
 
-    size_w,size_h = unicodeToInt(request.POST.get('posted_image_size_w',0)),unicodeToInt(request.POST.get('posted_image_size_h',0))
+    size_w, size_h = unicodeToInt(request.POST.get('posted_image_size_w', 0)), unicodeToInt(
+        request.POST.get('posted_image_size_h', 0))
     if fileContent.find('image/png'):
         #уберем артефакт из закодированного файла
         fileContent = fileContent.split('base64,')[1]
 
         #сохраним файл в базу
         file = PM_Files(projectId=headerValues['CURRENT_PROJECT'], authorId=request.user)
-        file.file.save('pasted.png',ContentFile(base64.b64decode(fileContent)))
+        file.file.save(
+            'projects/' + str(int(headerValues['CURRENT_PROJECT'].id)) + '/pasted.png',
+            ContentFile(base64.b64decode(fileContent))
+        )
 
         #откроем картинку для изменений в PIL
         im = Image.open(file.file.path)
 
         width, height = im.size
         if size_h and size_w and x1:
-            k_w, k_h = float(width)/float(size_w), float(height)/float(size_h)
+            k_w, k_h = float(width) / float(size_w), float(height) / float(size_h)
 
-            im = im.crop((int(x1*k_w), int(y1*k_h), int(x2*k_w), int(y2*k_h)))
+            im = im.crop((int(x1 * k_w), int(y1 * k_h), int(x2 * k_w), int(y2 * k_h)))
             # todo: убрать все, что отвечало за обрезку изображения
             outfile = "PManager/static/upload/tmp/cropped.png"
             im.save(outfile, "PNG")
             # hash = hashlib.sha1()
             # hash.update(str(time.time()))
             # hash.hexdigest()[:10]
-            #сохраняем картинку в базу TODO: возможно, нужно сделать удаление оригинала
-            file.file.save('cropped.png', ContentFile(open(outfile, 'rb').read()))
+            file.file.delete()
+            #сохраняем картинку в базу
+            file.file.save(
+                'projects/' + str(int(headerValues['CURRENT_PROJECT'].id)) + '/cropped.png',
+                ContentFile(open(outfile, 'rb').read())
+            )
 
         file.save()
         #print str(file.file).replace('PManager','')
         #im = im.thumbnail((128, 128), Image.ANTIALIAS)
         #print json.dumps({'path':str(file.file).replace('PManager',''),'fid':file.id})
-        return HttpResponse(json.dumps({'path':str(file.file).replace('PManager',''),'fid':file.id}))
-    return HttpResponse(json.dumps({'error':'PNG expected'}))
+        return HttpResponse(json.dumps({'path': str(file.file).replace('PManager', ''), 'fid': file.id}))
+    return HttpResponse(json.dumps({'error': 'PNG expected'}))
+
 
 def ajaxFilesResponder(request):
     #ajax-респондер для обработки сигналов
@@ -74,10 +85,10 @@ def ajaxFilesResponder(request):
         return oFile.delete()
 
     headerValues = headers.initGlobals(request)
-    sectName = re.sub(' +',' ',request.POST.get('name','').strip())
-    sectId = request.POST.get('section_id',0)
-    parent = int(request.POST.get('parent',0))
-    action = request.POST.get('action','')
+    sectName = re.sub(' +', ' ', request.POST.get('name', '').strip())
+    sectId = request.POST.get('section_id', 0)
+    parent = int(request.POST.get('parent', 0))
+    action = request.POST.get('action', '')
     if sectId == 'tasks':
         files_from_tasks = True
         sectId = 0
@@ -99,7 +110,7 @@ def ajaxFilesResponder(request):
             category.projects.add(headerValues['CURRENT_PROJECT'])
 
             if category.id:
-                return HttpResponse(json.dumps({'success':'Y','id':category.id}))
+                return HttpResponse(json.dumps({'success': 'Y', 'id': category.id}))
 
         elif action == 'renameCategory' and sectName and sectId:
             result = {}
@@ -145,7 +156,7 @@ def ajaxFilesResponder(request):
 
         #удаление файлов по массиву ID
         elif action == 'deleteFiles':
-            fId = request.POST.getlist('files[]',None)
+            fId = request.POST.getlist('files[]', None)
             if fId:
                 print fId
                 try:
@@ -162,7 +173,7 @@ def ajaxFilesResponder(request):
 
         #удаление дитректории по ID
         elif action == 'deleteDir':
-            iDirId = request.POST.get('dirId',None)
+            iDirId = request.POST.get('dirId', None)
 
             if iDirId:
                 try:
@@ -173,15 +184,15 @@ def ajaxFilesResponder(request):
                             if not file.fileTasks.all():
                                 deleteFile(file)
                         dir.delete()
-                        return HttpResponse(json.dumps({'success':'Y'}))
+                        return HttpResponse(json.dumps({'success': 'Y'}))
 
                 except PM_File_Category.DoesNotExist:
                     pass
 
         #перенос файлов в директорию
         elif action == 'replaceFiles':
-            iDirId = request.POST.get('section_id',None)
-            aFilesId = request.POST.getlist('files[]',None)
+            iDirId = request.POST.get('section_id', None)
+            aFilesId = request.POST.getlist('files[]', None)
             aReplacedFiles = []
             dir = None
             if iDirId:
@@ -200,7 +211,7 @@ def ajaxFilesResponder(request):
                 return HttpResponse(json.dumps(aReplacedFiles))
 
         elif action == 'getVersionsList':
-            fileId = request.POST.get('file_id',None)
+            fileId = request.POST.get('file_id', None)
             if request.user.get_profile().isManager(headerValues['CURRENT_PROJECT']):
                 try:
                     file = PM_Files.objects.get(pk=fileId, projectId=headerValues['CURRENT_PROJECT'])
@@ -211,7 +222,8 @@ def ajaxFilesResponder(request):
                 except PM_Files.DoesNotExist:
                     pass
 
-    return HttpResponse(json.dumps({'success':'N'}))
+    return HttpResponse(json.dumps({'success': 'N'}))
+
 
 def DeleteUploadedFile(request, handler_id):
     if 'file_id' in request.GET:
@@ -226,6 +238,7 @@ def DeleteUploadedFile(request, handler_id):
         except PM_Files.DoesNotExist:
             pass
     return HttpResponse(json.dumps({"success": False}, cls=DjangoJSONEncoder), content_type='text/html; charset=utf-8')
+
 
 class AjaxFileUploader(object):
     def __init__(self, backend=None, **kwargs):
@@ -290,7 +303,7 @@ class AjaxFileUploader(object):
                         or filename)
             if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id:
                 filename = os.path.join('projects', str(headerValues['CURRENT_PROJECT'].id), filename)
-            # save the file
+                # save the file
 
             backend.setup(filename, *args, **kwargs)
 
@@ -321,8 +334,8 @@ class AjaxFileUploader(object):
                         fileNow.category = PM_File_Category.objects.get(pk=sId)
                     except PM_File_Category.DoesNotExist:
                         pass
-                    #fileNow.file = File(file(os.path.join(ret_json['path'])))
-                #print File(file(os.path.join(ret_json['path']))).size
+                        #fileNow.file = File(file(os.path.join(ret_json['path'])))
+                        #print File(file(os.path.join(ret_json['path']))).size
 
                 fileNow.file.name = os.path.join(
                     ret_json['path'])#save(filename,File(file(os.path.join(ret_json['path']))))
@@ -336,7 +349,7 @@ class AjaxFileUploader(object):
                         fileOld.addNewVersion(fileNow)
                     except PM_Files.DoesNotExist:
                         pass
-                    #                print fileNow.file.file.size
+                        #                print fileNow.file.file.size
                 ret_json.update({
                     'id': fileNow.id,
                     'name': fileNow.name,

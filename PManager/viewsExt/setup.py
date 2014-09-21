@@ -24,7 +24,7 @@ def register(request):
         prof = user.get_profile()
         prof.setRole('manager', project)
         prof.setRole('client', project, 'plan_time')
-        prof.rate = 1000
+        prof.sp_price = 990
         prof.save()
 
         task = PM_Task(

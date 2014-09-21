@@ -273,9 +273,11 @@
                     <a href="/new_task_wizard/" class="new_task js-taskWizard-opener">Создать задачу</a>
                 </li>
                 {% endif %}
+                {% if is_staff %}
                 <li>
                     <a href="/static/invite_info.html" class="js-main-fnc users-and-groups">Пригласить исполнителей</a>
                 </li>
+                {% endif %}
             </ul>
         </div>
 
