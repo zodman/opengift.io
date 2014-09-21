@@ -2,7 +2,7 @@ __author__ = 'Gvammer'
 
 from databases.database import DATABASES
 
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
 SESSION_COOKIE_DOMAIN = '127.0.0.1'
