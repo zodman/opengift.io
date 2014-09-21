@@ -40,9 +40,28 @@ def widget(request, headerValues, arFilter, q):
                 message = PM_Task_Message.objects.get(pk=cid, task=task)
                 planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
 
+                #client have not enough money#
+                clientProfile = None
                 if prof.isClient(task.project):
+                    clientProfile = prof
+                    pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                else:
+                    try:
+                        clientRole = PM_ProjectRoles.objects.get(
+                            role__code='client',
+                            project=task.project,
+                            user__is_staff=True
+                        )
+                        client = clientRole.user
+                        clientProfile = client.get_profile()
+                        pref = u'У клиента едостаточно средств.'
+                    except PM_ProjectRoles.DoesNotExist:
+                        pass
+
+                if clientProfile:
                     if prof.account_total < prof.getBet(task.project) * task.planTime:
-                        error = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                        error = pref
+
                 if not error:
                     prof = message.author.get_profile()
                     if not prof.hasRole(task.project):
@@ -50,6 +69,7 @@ def widget(request, headerValues, arFilter, q):
                     task.onPlanning = False
                     task.planTime = planTime.time
                     task.resp = planTime.user
+                    task.setStatus('revision')
                     task.save()
 
                     task.systemMessage(

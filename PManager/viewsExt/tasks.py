@@ -426,6 +426,7 @@ def taskListAjax(request):
                     )
                 elif property == "status":
                     if task.status.code == 'not_approved':
+                        #client have not enough money#
                         try:
                             clientRole = PM_ProjectRoles.objects.get(
                                 role__code='client',
@@ -447,6 +448,7 @@ def taskListAjax(request):
                                 }))
                         except PM_ProjectRoles.DoesNotExist:
                             pass
+                        #\client have not enough money#
                     try:
                         task.setStatus(str(value))
                         task.systemMessage(
