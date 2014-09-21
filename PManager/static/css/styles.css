@@ -315,6 +315,13 @@ div.taskWizard-overlay {
 }
 div.taskWizard-question {
 	display: none;
+	position: relative;
+}
+div.taskWizard-error input{
+	border-color: red;
+}
+div.taskWizard-error-text {
+	display: none;
 }
 div.taskWizard-required .taskWizard-question-title:after {
 	content: " *";
