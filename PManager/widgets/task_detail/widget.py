@@ -33,29 +33,35 @@ def widget(request, headerValues, arFilter, q):
         if not cur_user.get_profile().hasAccess(task, 'view'):
             raise Exception(u'Нет прав для просмотра задачи')
 
+        error = ''
         cid = int(request.GET.get('confirm', 0))
         if cid:
             try:
                 message = PM_Task_Message.objects.get(pk=cid, task=task)
                 planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
-                prof = message.author.get_profile()
-                if not prof.hasRole(task.project):
-                    prof.setRole('employee', task.project)
-                task.onPlanning = False
-                task.planTime = planTime.time
-                task.resp = planTime.user
-                task.save()
 
-                task.systemMessage(
-                    u'подтвердил(а) оценку в ' + str(task.planTime) +
-                    u'ч. пользователя ' + planTime.user.first_name +
-                    u' ' + planTime.user.last_name,
-                    cur_user,
-                    'CONFIRM_ESTIMATION'
-                )
+                if prof.isClient(task.project):
+                    if prof.account_total < prof.getBet(task.project) * task.planTime:
+                        error = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                if not error:
+                    prof = message.author.get_profile()
+                    if not prof.hasRole(task.project):
+                        prof.setRole('employee', task.project)
+                    task.onPlanning = False
+                    task.planTime = planTime.time
+                    task.resp = planTime.user
+                    task.save()
 
-                task.sendTaskEmail('new_task', [planTime.user.email])
-                return {'redirect': task.url}
+                    task.systemMessage(
+                        u'подтвердил(а) оценку в ' + str(task.planTime) +
+                        u'ч. пользователя ' + planTime.user.first_name +
+                        u' ' + planTime.user.last_name,
+                        cur_user,
+                        'CONFIRM_ESTIMATION'
+                    )
+
+                    task.sendTaskEmail('new_task', [planTime.user.email])
+                    return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:
                 pass
             except PM_User_PlanTime.DoesNotExist:
@@ -238,6 +244,7 @@ def widget(request, headerValues, arFilter, q):
             'hiddenSubTasksExist': hiddenSubTasksExist,
             'templates': templates,
             'resultTime': task.planTime if task.planTime else int(round(brain.check(task))),
+            'error': error
             # 'dataSet': len(arParams),
             # 'similarSet': len(tasksSimilar),
             # 'params': arParams

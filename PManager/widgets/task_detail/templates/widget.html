@@ -74,7 +74,12 @@
             {% endif %}
             <li class="active">Задача №{{ task_detail.task.number }}</li>
         </ol>
-
+        {% if task_detail.error %}
+            <div class="alert alert-danger" role="alert">
+{#                <strong>Oh snap!</strong>#}
+                {{ task_detail.error }}
+            </div>
+        {% endif %}
         <hr>
         <h2>{{ task_detail.task.name }}</h2>
         <p>{{ task_detail.task.text_formatted|safe }} </p>
