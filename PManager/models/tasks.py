@@ -1301,20 +1301,23 @@ class PM_Task_Message(models.Model):
                     or
                             cur_profile.isManager(p) and profile.isEmployee(p)
                 ):
-                    planTime = PM_User_PlanTime.objects.get(
-                        user=self.author,
-                        task=self.task
-                    )
-
-                    bet = cur_profile.getBet(self.project) \
-                        or self.author.get_profile().getBet(self.project) * COMISSION
-
-                    addParams.update({
-                        'confirmation': (
-                            '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                            '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой в ' + str(planTime.time * bet) + ' sp</a>'
+                    try:
+                        planTime = PM_User_PlanTime.objects.get(
+                            user=self.author,
+                            task=self.task
                         )
-                    })
+
+                        bet = cur_profile.getBet(self.project) \
+                            or self.author.get_profile().getBet(self.project) * COMISSION
+
+                        addParams.update({
+                            'confirmation': (
+                                '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
+                                '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой в ' + str(planTime.time * bet) + ' sp</a>'
+                            )
+                        })
+                    except PM_User_PlanTime.DoesNotExist:
+                        pass
 
         addParams.update({
             'id': self.id,
