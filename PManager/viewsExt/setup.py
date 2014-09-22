@@ -7,33 +7,34 @@ from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
 def register(request):
     email = request.POST.get('email', None)
     if email:
-        project = PM_Project(
-            name=u'Новый проект',
-            description=u'Описание нового проекта',
-            tracker=PM_Tracker.objects.get(pk=1),
-            author=User.objects.get(pk=1)
-        )
-        project.save()
-        user = PM_User.getOrCreateByEmail(email, project, 'client')
-        user.is_staff = True
-        user.save()
-        project.author = user
-        project.save()
-        request.COOKIES["CURRENT_PROJECT"] = project.id
+        if not User.objects.filter(email=email).count():
+            project = PM_Project(
+                name=u'Новый проект',
+                description=u'Описание нового проекта',
+                tracker=PM_Tracker.objects.get(pk=1),
+                author=User.objects.get(pk=1)
+            )
+            project.save()
+            user = PM_User.getOrCreateByEmail(email, project, 'client')
+            user.is_staff = True
+            user.save()
+            project.author = user
+            project.save()
+            request.COOKIES["CURRENT_PROJECT"] = project.id
 
-        prof = user.get_profile()
-        prof.setRole('manager', project)
-        prof.setRole('client', project, 'plan_time')
-        prof.sp_price = 990
-        prof.save()
+            prof = user.get_profile()
+            prof.setRole('manager', project)
+            prof.setRole('client', project, 'plan_time')
+            prof.sp_price = 990
+            prof.save()
 
-        task = PM_Task(
-            name=u'Ознакомиться с системой',
-            author=user,
-            project=project
-        )
-        task.save()
-        task.resp = user
+            task = PM_Task(
+                name=u'Ознакомиться с системой',
+                author=user,
+                project=project
+            )
+            task.save()
+            task.resp = user
 
     return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
 

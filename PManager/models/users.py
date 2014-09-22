@@ -67,6 +67,7 @@ class PM_User(models.Model):
 
     account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
     rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
+    last_activity_date = models.DateTimeField(null=True, blank=True)
 
     @property
     def url(self):
@@ -124,10 +125,11 @@ class PM_User(models.Model):
 
             message = emailMessage('hello_new_user',
                                    context,
-                                   'Система ведения проектов. Добро пожаловать!'
+                                   'Heliard: сообщество профессионалов. Добро пожаловать!'
             )
 
             message.send([email])
+
         if project:
             p_user = PM_User.getByUser(user)
             if not user.is_active:

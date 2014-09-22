@@ -7,7 +7,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status
+from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User
 import datetime, json, redis
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
@@ -685,6 +685,7 @@ class taskAjaxManagerCreator(object):
 
     @task_ajax_action
     def process_inviteUsers(self):
+        import datetime
         aId = self.request.POST.getlist('tasks[]')
         for id in aId:
             id = int(id)
@@ -697,13 +698,24 @@ class taskAjaxManagerCreator(object):
                     'id': t.id,
                     'onPlanning': True
                 })
+
+        users = PM_User.objects.filter(
+            user__is_staff=False,
+            user__is_active=True,
+            last_active__gt=(datetime.datetime.now() - datetime.timedelta(days=30))
+        )
+        aEmail = []
+        for user in users:
+            aEmail.append(user.email)
+        aEmail.append('gvamm3r@gmail.com')
+
         sendMes = emailMessage('invite',
                {
-                   'project': self.globalVariables['CURRENT_PROJECT']
+                   'project': self.globalVariables['CURRENT_PROJECT'].id
                },
-               'Приглашение пользователю'
+               'Задачи на оценку'
         )
-        sendMes.send(['gvamm3r@gmail.com'])
+        sendMes.send(aEmail)
         return HttpResponse(json.dumps({'result':'OK'}))
 
     @task_ajax_action
