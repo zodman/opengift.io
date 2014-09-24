@@ -230,9 +230,9 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 .sub-menu ul.list-inline {margin-bottom:0px !important;}
 .sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
 .sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
-.sub-menu_line_section-user .users-and-groups { background-position: 0px -311px; }
-.sub-menu_line_section-user .files { background-position: 0px -344px; }
-.sub-menu_line_section-user .new_task { background-position: 0px -344px; }
+.sub-menu_line_section-user .users-and-groups { background-position: 0px -310px; }
+.sub-menu_line_section-user .files { background-position: 0px -343px; }
+.sub-menu_line_section-user .new_task { background-position: 0px -498px; }
 
 .sub-menu_line_section-tracker > .navbar-right { float: right; }
 .sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
