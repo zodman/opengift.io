@@ -436,7 +436,7 @@ border-bottom-right-radius: 0px;}
 /* убираем в ИЕ кнопку сброса фильтра */
 
 .search-input::-ms-clear { display: none; }
-.tasks-toolbar .icon-remove { position:absolute; right:205px; top:10px; opacity:0.4; display:none; }
+.tasks-toolbar .icon-remove { position:absolute; right:245px; top:10px; opacity:0.4; display:none; }
 .tasks-toolbar .icon-remove:hover { text-decoration: none; }
 
 .search-input {border-right:0px;}
