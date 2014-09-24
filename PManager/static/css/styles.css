@@ -442,8 +442,10 @@ border-bottom-right-radius: 0px;}
 .search-input {border-right:0px;}
 
 /* кнопка сохранить фильтр*/
-.btn.add-search-tab.js-save-search-tab { position: absolute; }
+.btn.add-search-tab.js-save-search-tab { position: absolute; border-radius: 0 4px 4px 0 !important; }
 
+/* закругление кнопок справа */
+.border-r4 {border-radius: 0 4px 4px 0 !important; }
 
 /* Управления задачами */
 
