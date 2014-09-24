@@ -784,7 +784,12 @@ div.statistic-filter_user-list label input[type="checkbox"] {
 .task-message .alert, .task-message .chatString {padding: 10px 15px;}
 .task-message .chatString > span img {max-width:90px; position:relative; top:2px;}
 .alert-warning, .alert-success, .alert-info, .alert-danger, .chatString {margin:0px;}
-
+.alert-apprice {
+    background: none repeat scroll 0 0 #ffece2;
+    border: 1px solid #f5ded1;
+    color: #b04e19;
+    margin-bottom: 0px;
+}
 .chatString {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
 .alert-warning, .for_current_user .chatString {border-color:#F5F3EA; background:#FFFDF1;}
 .alert-success {border-color:#DEECD8; background:#edf8ed;}

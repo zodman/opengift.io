@@ -828,6 +828,7 @@ class taskAjaxManagerCreator(object):
                             stask.endTimer(user, u'Закрытие задачи')
 
                         stask.Close(user)
+
                 net = TaskMind()
                 net.train([t])
 
