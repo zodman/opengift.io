@@ -23,7 +23,7 @@
 	border-right:1px solid #4cae4c;
 }
 
-.bt-panel.bottom ul li a {padding:15px 25px; font-weight:bold;}
+.bt-panel.bottom ul li a {padding:15px 25px; font-weight:bold; color:#fff; }
 .bt-panel.bottom ul li a:hover {background:#4cae4c;}
 
 
