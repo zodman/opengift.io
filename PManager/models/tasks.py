@@ -441,7 +441,7 @@ class PM_Task(models.Model):
                     curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
                     if curtime:
                         time += curtime
-                        profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id]['rating']
+                        profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id].get('rating', 0)
                         profResp.save()
 
                 if curtime:

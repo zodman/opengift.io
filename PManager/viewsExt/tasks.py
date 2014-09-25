@@ -828,14 +828,15 @@ class taskAjaxManagerCreator(object):
                             stask.endTimer(user, u'Закрытие задачи')
 
                         stask.Close(user)
+
                 net = TaskMind()
                 net.train([t])
 
                 sendMes = emailMessage('task_closed',
                    {
-                       'task': task
+                       'task': t
                    },
-                   'Задача закрыта: ' + task.name
+                   'Задача закрыта: ' + t.name
                 )
 
             elif (not t.status) or t.status.code != 'ready':
