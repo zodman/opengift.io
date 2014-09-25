@@ -836,7 +836,7 @@ class taskAjaxManagerCreator(object):
                    {
                        'task': t
                    },
-                   'Задача закрыта: ' + t.name
+                   u'Задача закрыта: ' + t.name
                 )
 
             elif (not t.status) or t.status.code != 'ready':
