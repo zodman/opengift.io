@@ -401,7 +401,6 @@ class PM_Task(models.Model):
                         else:
                             ob['time'] = float(obj.summ) / 3600.
 
-
                         aUserTimeAndRating[obj.user_id] = ob
 
         #clients debt
@@ -444,6 +443,7 @@ class PM_Task(models.Model):
                         profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id].get('rating', 0)
                         profResp.save()
 
+                #TODO: тут нужно начислять деньги всем, кто делал задачу, а не только текущему ответственному
                 if curtime:
                     curPrice = userBet * float(curtime)
                     allRespPrice += curPrice

@@ -235,9 +235,11 @@ class PM_User(models.Model):
                 return self.isEmployee(task.project) and not task.resp \
                     or self.user.id == self.task.resp
 
-    def getBet(self, project):
+    def getBet(self, project, type=''):
         try:
             projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project, rate__isnull=False)
+            if type:
+                projectRole = projectRole.filter(payment_type=type)
             if projectRole:
                 projectRole = projectRole[0]
 
