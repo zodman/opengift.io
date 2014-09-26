@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+{% block content %}
+<div class="widget milestones_summary">
+    <h1>Сводка по вехам</h1>
+        {% for project in m_projects %}
+        		<div class="project-milestones">
+        			<div class="page-header"><h3>{{project.name}}</h3></div>
+		        	{% for milestone in project.openMilestones %}
+		        		<div style="float: left;">
+		        			<h4>{{ milestone.name }}</h4>
+	        			</div>
+		        		<div style="float:right;">
+		        			<i>{{ milestone.date }}</i>
+	        			</div>
+        				<div style="clear:both"></div>
+		    			<div class="progress" style="position:relative; top:-36px;">
+							<div class="progress-bar progress-bar-{{ milestone.status }} progress-bar-striped active" role="progressbar" aria-valuenow="{{ milestone.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ milestone.percent }}%;">
+							<div class="sr-only">{{ milestone.percent}} % Выполнено</div>
+							</div>
+						</div>
+		        	{% endfor %}
+        		</div>
+        {% endfor %}
+</div>
+{% endblock %}
