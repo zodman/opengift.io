@@ -11,5 +11,5 @@ DATABASES = {
     }
 }
 SESSION_COOKIE_DOMAIN = 'heliard.ru'
-SOCKET_SERVER_ADDRESS = 'localhost'
+SOCKET_SERVER_ADDRESS = 'heliard.ru'
 project_root = '/home/heliard/heliard/'
