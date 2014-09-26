@@ -3,6 +3,7 @@
 <div class="widget milestones_summary">
     <h1>Сводка по вехам</h1>
         {% for project in m_projects %}
+        	{% if project.openMilestones %}
         		<div class="project-milestones">
         			<div class="page-header"><h3>{{project.name}}</h3></div>
 		        	{% for milestone in project.openMilestones %}
@@ -20,6 +21,7 @@
 						</div>
 		        	{% endfor %}
         		</div>
+    		{% endif %}
         {% endfor %}
 </div>
 {% endblock %}

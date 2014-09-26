@@ -54,9 +54,9 @@
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
     <script>
-        var messageSound = new buzz.sound("/static/audio/puck.ogg");
+        var messageSound = new buzz.sound("/static/audio/puck", { formats: ["wav", "ogg", "mp3"] });
         var knock = function(){
-            messageSound.play()
+            return messageSound.play()
         }
     </script>
     <script type="text/javascript">
