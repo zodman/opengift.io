@@ -522,6 +522,7 @@ border-bottom-right-radius: 0px;}
 		.dropdown-menu.responsibles > li > a .progress {margin:2px 0 0; height:5px;}
 		.dropdown-menu.responsibles > li > a span.user-name {font-size:13px;}
 		.progress-bar-success {border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px;}
+		.progress-bar{border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px;}
 		
 	.task_responsibles:after {
     background: -moz-linear-gradient(right center , #EEEEEE 0%, rgba(245, 241, 229, 0) 100%) repeat scroll 0 0 rgba(0, 0, 0, 0);

@@ -7,7 +7,7 @@ from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register
-from PManager.viewsExt.milestones import ajaxMilestonesResponder
+from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface
@@ -87,6 +87,7 @@ urlpatterns = patterns('',
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"]}),
                        url(r'^new_task_wizard/$', ajaxNewTaskWizardResponder),
                        url(r'^milestone_ajax/$', ajaxMilestonesResponder),
+                       url(r'^milestones/$', milestonesResponder),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
                        url(r'^users_ajax/$', userHandlers.setUserOptions),

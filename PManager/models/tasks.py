@@ -4,6 +4,7 @@ import redis
 from django.db import models
 from django.contrib.auth.models import User
 import datetime, copy, json
+from datetime import timedelta
 from django.utils import timezone
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
@@ -17,6 +18,7 @@ from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.customs.storages import path_and_rename
 from tracker.settings import COMISSION
+from django.db.models import Sum, Max
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -106,6 +108,11 @@ class PM_Project(models.Model):
 
     def __unicode__(self):
         return self.name
+    def openMilestones(self):
+        return PM_Milestone.objects.filter(
+            project=self.id,
+            closed=0,
+        )
 
     class Meta:
         app_label = 'PManager'
@@ -217,6 +224,11 @@ class PM_Task_Status(models.Model):
 
 
 class PM_Milestone(models.Model):
+    THRESHOLD_DANGER = 1.1
+    THRESHOLD_WARNING = 1.3
+    STATUS_DANGER = 'danger'
+    STATUS_WARNING = 'warning'
+    STATUS_NORMAL = 'success'
     crit_choices = (
         (1, u'Не критичная'),
         (2, u'Средняя'),
@@ -253,6 +265,24 @@ class PM_Milestone(models.Model):
     def __unicode__(self):
         return self.name
 
+    def status(self):
+        from PManager.classes.datetime.work_time import WorkTime
+        planTimeMax = self.tasks.filter(closed=0).values('resp_id').annotate(sumtime=Sum('planTime')).order_by('-sumtime')
+        if planTimeMax:
+            taskHours = planTimeMax[0]['sumtime']
+            endDate = timezone.make_aware(self.date, timezone.get_default_timezone())
+            timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_DANGER)
+            if timeNeeded.endDateTime >= endDate:
+                return self.STATUS_DANGER
+            timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_WARNING)    
+            if timeNeeded.endDateTime >= endDate:
+                return self.STATUS_WARNING
+        return self.STATUS_NORMAL
+    def percent(self):
+        planTimeTable = self.tasks.values('closed').annotate(sumtime=Sum('planTime')).order_by('-closed')
+        if planTimeTable and planTimeTable[1]['sumtime'] > 0:
+            return int(round(planTimeTable[0]['sumtime'] * 100 / (planTimeTable[0]['sumtime'] + planTimeTable[1]['sumtime']), 0))
+        return 0
     class Meta:
         app_label = 'PManager'
 
