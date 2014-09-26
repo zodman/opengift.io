@@ -517,7 +517,7 @@ class taskManagerCreator:
                 timer.task.endTimer(self.currentUser,
                                     'Change task to <a href="' + self.task.url + '">#' + str(self.task.id) + '</a>')
 
-            if not self.task.deadline and self.task.planTime and task.critically > CRITICALLY_THRESHOLD:
+            if not self.task.deadline and self.task.planTime and self.task.critically > CRITICALLY_THRESHOLD:
                 taskTimer = WorkTime(taskHours=self.task.planTime,
                                      startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                        timezone.get_default_timezone()))
