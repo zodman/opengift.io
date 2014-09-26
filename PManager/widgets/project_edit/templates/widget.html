@@ -20,13 +20,13 @@
                     {% endif %}
                 {% endfor %}
                 <div class="row show-grid">
-                      <div class="col-xs-2"><label class="col-xs-2 control-label">Не разрешать выполнять не подтвержденные задачи</label></div>
-                      <div class="col-xs-6"><input type="checkbox" name="settings_not_start_unapproved" {% if project_edit.settings.not_start_unapproved %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-2"><label class="col-xs-2 control-label">Разрешать выполнять не подтвержденные задачи</label></div>
+                      <div class="col-xs-6"><input type="checkbox" name="settings_start_unapproved" {% if project_edit.settings.start_unapproved %}checked="checked" {% endif %} value="1" /></div>
                       <div class="col-xs-4"></div>
                 </div>
                 <div class="row show-grid">
                       <div class="col-xs-2"><label class="col-xs-2 control-label">Скрывать сообщения клиента и исполнителя друг от друга</label></div>
-                      <div class="col-xs-6"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.not_start_unapproved %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-6"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.autohide_messages %}checked="checked" {% endif %} value="1" /></div>
                       <div class="col-xs-4"></div>
                 </div>
                 <div class="row show-grid">
