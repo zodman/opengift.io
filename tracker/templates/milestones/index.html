@@ -8,7 +8,11 @@
         			<div class="page-header"><h3>{{project.name}}</h3></div>
 		        	{% for milestone in project.openMilestones %}
 		        		<div style="float: left;">
-		        			<h4>{{ milestone.name }}</h4>
+		        			<h4>
+		        				<a href="/?project={{project.id}}#%7B%22taskListFilter%22%3A%7B%22action%22%3A%22all%22%2C%22group%22%3A%22milestones%22%7D%7D">
+		        					{{ milestone.name }}
+	        					</a>
+	        				</h4>
 	        			</div>
 		        		<div style="float:right;">
 		        			<i>{{ milestone.date }}</i>
