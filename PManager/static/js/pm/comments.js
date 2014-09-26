@@ -420,6 +420,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                                 }
                             );
                         }
+                        knock();
                     } else {
                         func = 'append';
                     }
