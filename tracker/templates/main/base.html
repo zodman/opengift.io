@@ -10,6 +10,7 @@
     <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
     <script type="text/javascript" src="/static/js/libs/html5shiv.js"></script>
     <script type="text/javascript" src="/static/js/libs/jquery.history.min.js"></script>
+    <script type="text/javascript" src="/static/js/libs/buzz.min.js"></script>
     <script type="text/javascript" src="/static/js/pm/script.js"></script>
     <script type="text/javascript" src="/static/js/pm/main.js"></script>
 
@@ -52,6 +53,12 @@
 {#    <link href="/{% less "PManager/static/css/main.less" %}" rel="stylesheet" type="text/css">#}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
+    <script>
+        var messageSound = new buzz.sound("/static/audio/puck.ogg");
+        var knock = function(){
+            messageSound.play()
+        }
+    </script>
     <script type="text/javascript">
         var CURRENT_TASK_VIEW;
         var CURRENT_TASK_DATA;
