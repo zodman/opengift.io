@@ -286,7 +286,7 @@ class PM_Milestone(models.Model):
             return 0
         if len(planTimeTable) == 1:
             return 100 if planTimeTable[0]['closed'] else 0
-        if planTimeTable[1]['sumtime'] > 0:
+        if len(planTimeTable) > 1 and planTimeTable[1].get('sumtime', 0) > 0:
             return int(round(planTimeTable[0]['sumtime'] * 100 / (planTimeTable[0]['sumtime'] + planTimeTable[1]['sumtime']), 0))
         return 0
     class Meta:
