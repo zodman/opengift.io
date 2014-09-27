@@ -267,28 +267,34 @@ class PM_Milestone(models.Model):
 
     def status(self):
         from PManager.classes.datetime.work_time import WorkTime
-        planTimeMax = self.tasks.filter(closed=0).values('resp_id').annotate(sumtime=Sum('planTime')).order_by('-sumtime')
+        planTimeMax = self.tasks.filter(active=True, closed=0).values('resp_id').annotate(sumtime=Sum('planTime')).order_by('-sumtime')
         if planTimeMax:
             taskHours = planTimeMax[0]['sumtime']
             if not taskHours:
-                return self.STATUS_NORMAL 
+                return self.STATUS_NORMAL
+
             endDate = timezone.make_aware(self.date, timezone.get_default_timezone())
             timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_DANGER)
             if timeNeeded.endDateTime >= endDate:
                 return self.STATUS_DANGER
+
             timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_WARNING)    
             if timeNeeded.endDateTime >= endDate:
                 return self.STATUS_WARNING
+
         return self.STATUS_NORMAL
+
     def percent(self):
-        planTimeTable = self.tasks.values('closed').annotate(sumtime=Sum('planTime')).order_by('-closed')
+        planTimeTable = self.tasks.filter(active=True).values('closed').annotate(sumtime=Sum('planTime')).order_by('-closed')
         if not planTimeTable:
             return 0
         if len(planTimeTable) == 1:
             return 100 if planTimeTable[0]['closed'] else 0
         if len(planTimeTable) > 1 and planTimeTable[1].get('sumtime', 0) > 0:
             return int(round(planTimeTable[0]['sumtime'] * 100 / (planTimeTable[0]['sumtime'] + planTimeTable[1]['sumtime']), 0))
+
         return 0
+
     class Meta:
         app_label = 'PManager'
 
