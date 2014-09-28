@@ -53,19 +53,61 @@ text-transform:uppercase; font-weight:bold; font-size:12px; color:#fff; text-ali
 
 
 
-.header-img {background:url(../img/girl-with-ipad-on-grass.png) center -130px no-repeat; min-height:550px; margin:0 auto; padding-top:100px; padding-bottom:35px; color:#fff; text-shadow:0px 0px 3px #000;}
-.header-img h3 {font-size:36px; line-height:40px; text-align:center;}
+.header-img {background:url(../img/girl-with-ipad-on-grass.jpg) center -130px no-repeat; min-height:550px; margin:0 auto; padding-top:100px; padding-bottom:35px; color:#fff; text-shadow:0 1px 2px #000; -moz-text-shadow:0 1px 2px #000; -webkit-text-shadow:0 1px 2px #000; box-shadow:0 0 300px #000 inset;}
+.header-img h3 {font-size:36px; line-height:40px; text-align:center; font-weight:bold;}
+.header-img h3 span {color:#c00f00;}
+.header-img h3 span.green {color:#03a900;}
 
-.img-block {width:990px; margin:25px auto;}
-.img-block > li {display:block; float:left; width:300px; margin:0 15px; text-align:left;}
-.img-block > li .img-block-h3 {}
-.img-block > li .img {float:left;}
-.img-block > li h3 {font-size:20px; font-weight:bold; line-height:24px; text-align:left; float:left; display:block; margin:20px 0px 10px; width:195px; margin-left:18px;}
-.img-block > li p {float:left; display:block; margin:0px; font-size:16px; line-height:24px;}
-.img-block li ul.img-block-list {display:block; margin:25px 0 0 0px; font-size:15px; line-height:20px; list-style:none}
-.img-block li ul.img-block-list li {margin:0px 0px 20px; padding:0px 0px 0px 50px; display:inline-block; background:url(../img/accepted_36.png) 0px 0px no-repeat;}
+section.we-are-wrapper {box-shadow:0 0 5px #ddd; -moz-box-shadow:0 0 5px #ddd; -webkit-box-shadow:0 0 5px #ddd; padding:25px 0;}
+	section.we-are-wrapper h3 {display:block; text-align:center; font-size:36px; margin:0 0 25px;}
+	.green {background:#f2ffe7;}
+		.green h3 {color:#82b13c;}
+	.blue {background:#e7f7ff;}
+		.blue h3 {color:#0c7cd2;}
+	.yellow {background:#fcffe7;}
+		.yellow h3 {color:#9e6800;}
+	.white {background:#fff;}
+		.grey {background:#f5f5f5;}
 
-.services {max-width:1070px; margin:0 auto; padding:15px 0;}
+	.white {position:relative; z-index:1;}
+	
+	.we-are {width:960px; margin:0 auto; font-size:16px; font-weight:bold;}
+	.we-are ul {display:block;}
+	.we-are li {font-size:18px; line-height:32px; margin:10px 0; display:block; padding-left:47px; min-height:32px; background:url("../img/accepted_36.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+		
+	.we-are-left {width:30%;}
+	.we-are-right {width:70%;}
+	
+	.leftside .we-are-left {float:left;}
+	.leftside .we-are-right {float:right;}
+		.leftside .we-are-right ul {margin-left:25px;}
+	
+	.rightside .we-are-left {float:right;}
+	.rightside .we-are-right {float:left;}
+		.rightside .we-are-right ul {margin-right:25px;}
+		
+	.we-are .big-button {display:inline-block; width:auto; padding:0px 25px; margin-top:25px; color:#fff; text-decoration:none; outline:none !important;}
+	.we-are.leftside .big-button {margin-left:72px;}
+	.we-are.rightside .big-button {margin-left:47px;}
+
+
+.opportunities {width:980px; margin:0 auto; padding:25px 0; display:table; border-top:1px solid #ddd; box-shadow:0px 1px 0px #fff inset; -moz-box-shadow:0px 1px 0px #fff inset; -webkit-box-shadow:0px 1px 0px #fff inset;}
+.opportunities h3 {font-weight:bold; font-size:36px; color:#434343; margin:0px 0px 45px; padding:0px; display:block; text-align:center;}
+.opportunities h3 span {color:#c00f00;}
+
+.opportunities ul li {width:440px; float:left; font-size:18px; line-height:24px; font-weight:bold; display:block; height:128px; margin:0 25px; vertical-align:middle;} 
+.opportunities ul li td {vertical-align:middle;}
+.opportunities ul li img {display:inline-block; margin-right:20px;}
+.opportunities ul li span {color:#c00f00;}
+
+
+
+.kinuli {width:980px; margin:0 auto; padding:35px 0; border-top:1px solid #ddd; box-shadow:0px 1px 0px #fff inset; -moz-box-shadow:0px 1px 0px #fff inset; -webkit-box-shadow:0px 1px 0px #fff inset;}
+.kinuli .pull-left {width:40%; padding-top:35px;}
+.kinuli .pull-right {width:60%;}
+.kinuli h1 {font-weight:bold; font-size:36px; margin:0px 0px 15px; text-align:center; display:block;}
+
+.services {max-width:980px; margin:0 auto; padding:25px 0;}
 .services-icon {float:left; width:46%; background:#fff; box-shadow:0px 1px 2px #ddd; -moz-box-shadow:0px 1px 2px #ddd; -webkit-box-shadow:0px 1px 2px #ddd; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin:2%; border:4px solid #fff; padding:25px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; height:230px; position:relative; overflow:hidden; -webkit-transition: box-shadow linear 0.2s; -moz-transition: box-shadow linear 0.2s; -o-transition: box-shadow linear 0.2s; transition: box-shadow linear 0.2s;}
 .services-icon:hover {box-shadow:0px 2px 3px #ccc; -moz-box-shadow:0px 2px 3px #ccc; -webkit-box-shadow:0px 2px 3px #ccc;}
 .services-icon-left {float:left; width: 53%; margin-right:2%;}
@@ -85,6 +127,9 @@ background-image: linear-gradient(to bottom, #DA1C19 0%, #A9010D 100%); display:
 .services-icon h3 {font-weight:bold; font-size:30px; margin:10px 0px; padding:0px; display:block;}
 .services-icon h3 span {color:#c00f00;}
 .services-icon p {margin-bottom:0px;}
+.services-list {margin:35px 0 0 45px; display:block;}
+.services-list li {font-size:18px; line-height:32px; margin:10px 0 20px; display:block; padding-left:47px; min-height:32px; background:url("../img/accepted_36.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.services-list strong {color:#c00f00;}
 
 .hidden-step {display: block;
     height: 250px;
@@ -97,7 +142,10 @@ background-image: linear-gradient(to bottom, #DA1C19 0%, #A9010D 100%); display:
 
 section.content {max-width:1000px; margin:0 auto; padding:25px 15px;}
 
-section.icons {background:#fff; margin:0 auto; padding:25px 0px 0px; display:table; width:100%; box-shadow:0px -1px 2px #ddd; -moz-box-shadow:0px -1px 2px #ddd; -webkit-box-shadow:0px -1px 2px #ddd;}
+section.icons {background:#fff; margin:0 auto; padding:25px 0px; display:table; width:100%; box-shadow:0 0 5px #ddd; -moz-box-shadow:0 0 5px #ddd; -webkit-box-shadow:0 0 5px #ddd;}
+	section.icons h1 {font-weight:bold; font-size:36px; margin:0px 0px 15px; text-align:center; display:block;}
+	section.icons h2 {font-weight:bold; font-size:24px; margin:0px 0px 35px; text-align:center; display:block;}
+	section.icons h1 span, section.icons h2 span {color: #c00f00;}
 	.icons-row {max-width:1000px; margin:0 auto;}
 	.icons-item {width:20%; float:left; text-align:center; display:table-cell; padding:0 5px 25px; box-sizing: border-box; -moz-box-sizing: border-box; -webkit-box-sizing: border-box;}
 		.icons-item img {display:inline-block;}
@@ -181,6 +229,7 @@ box-shadow:0 1px 0px #e24543 inset;
 .edit-icon {background:url(../images/registering-icons.png) -28px -31px no-repeat; width:19px; height:19px; display:inline-block; position:relative; top:3px;}
 input.big-inputbox {border:1px solid #89000b; height:50px; padding:0 10px; width:100%;border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -moz-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -ms-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -o-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; -webkit-box-shadow:0px 1px 2px rgba(1,1,1,0.4) inset; font-size:16px;}
 .big-button {
+	outline:none;
 background: -webkit-gradient(
 	linear,
 	left top,
@@ -208,8 +257,8 @@ color:#fff; font-size:24px; font-weight:bold; text-align:center; border:1px soli
 .big-button:hover {
 	background-position: 0 -20px;}
 
-ul.header-desc {display:block; margin:50px auto; width:500px; font-size:20px; line-height:24px;}
-ul.header-desc li {padding:5px 0;}
+ul.header-desc {display:block; margin:50px auto; width:500px; font-size:20px; line-height:24px; list-style:none;}
+ul.header-desc li {display: inline-block; font-size: 26px; font-weight: bold; line-height: 30px; margin: 8px 0; padding: 5px 15px 5px 45px;  background:url(../img/approved.png) 0px 3px no-repeat; }
 
 .header-button {width:570px; margin:0 auto;}
 .header-button-left {float:left; width:280px;}
