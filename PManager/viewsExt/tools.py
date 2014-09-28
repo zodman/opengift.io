@@ -4,7 +4,6 @@ from tracker import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 from django.utils import timezone
-import urllib
 
 class emailMessage:
     templateName = ''
@@ -19,7 +18,20 @@ class emailMessage:
         if u_from:
             setattr(self, 'u_from', u_from)
 
-    def send(self,to):
+    @staticmethod
+    def validateEmail(email):
+        from django.core.validators import validate_email
+        from django.core.exceptions import ValidationError
+        try:
+            validate_email(email)
+            return True
+        except ValidationError:
+            return False
+
+    def send(self, to):
+        if not self.validateEmail(to):
+            return False
+
         t = loader.get_template('mail_templates/' + self.templateName + '.html')
         c = Context(self.context)
         html_content = t.render(c)
