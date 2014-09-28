@@ -143,7 +143,10 @@ class MainPage:
                 userAchievement.read = True
                 userAchievement.save()
         else:
-            t = loader.get_template('main/promo.html')
+            if request.get_full_path == '/':
+                t = loader.get_template('main/promo.html')
+            else:
+                t = loader.get_template('main/unauth.html')
 
         cur_notice = PM_Notice.getForUser(
             request.user,
