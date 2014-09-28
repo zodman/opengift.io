@@ -7,7 +7,7 @@ from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register
-from PManager.viewsExt.milestones import ajaxMilestonesResponder
+from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface
@@ -87,6 +87,7 @@ urlpatterns = patterns('',
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"]}),
                        url(r'^new_task_wizard/$', ajaxNewTaskWizardResponder),
                        url(r'^milestone_ajax/$', ajaxMilestonesResponder),
+                       url(r'^milestones/$', milestonesResponder),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
@@ -110,7 +111,7 @@ urlpatterns = patterns('',
 
                        # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
-                       (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\nDisallow: /", mimetype="text/plain")),
+                       (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *", mimetype="text/plain")),
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
                        url(r'^payment_info/', paysystems),

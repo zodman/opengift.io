@@ -508,7 +508,7 @@ class taskManagerCreator:
         if self.task and self.currentUser:
             if self.task.status and self.task.status.code == 'not_approved':
                 settings = self.task.project.getSettings()
-                if settings.get('not_start_unapproved', False):
+                if not settings.get('start_unapproved', False):
                     return False
 
             timers = PM_Timer.objects.filter(user=self.currentUser, dateEnd=None)
@@ -517,7 +517,7 @@ class taskManagerCreator:
                 timer.task.endTimer(self.currentUser,
                                     'Change task to <a href="' + self.task.url + '">#' + str(self.task.id) + '</a>')
 
-            if not self.task.deadline and self.task.planTime:
+            if not self.task.deadline and self.task.planTime and self.task.critically > CRITICALLY_THRESHOLD:
                 taskTimer = WorkTime(taskHours=self.task.planTime,
                                      startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                        timezone.get_default_timezone()))

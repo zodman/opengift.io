@@ -336,7 +336,7 @@ var widget_tl, currentGroup;
                 $(document).on('click', '.js-task-checkbox', function(){
                     var $chTasks = $('.js-task-checkbox:checked');
                     if ($chTasks.get(0)){
-                        $block = menuTaskBlock('Добавить веху', '#add-to-milestone', function(){
+                        $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function(){
                             var $taskInputContainer = $('.js-tasks-for-milestone').empty();
                             $('.js-task-checkbox:checked').each(function(){
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');

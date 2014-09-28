@@ -1,7 +1,9 @@
 __author__ = 'Gvammer'
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render, HttpResponseRedirect
 from PManager.models import PM_Milestone, PM_Project
+from django.template import RequestContext
 from PManager.viewsExt.tools import templateTools
+from PManager.viewsExt import headers
 
 class ajaxMilestoneManager:
     def __init__(self,request):
@@ -64,3 +66,15 @@ def ajaxMilestonesResponder(request):
             responseText = 'saved'
 
     return HttpResponse(responseText)
+
+def milestonesResponder(request):
+    user = request.user
+    if not user.is_authenticated():
+        return HttpResponseRedirect('/')
+    context = RequestContext(request)
+    selected_project = context.get("CURRENT_PROJECT")
+    if selected_project:
+        mprojects = (selected_project,)
+    else:
+        mprojects = context.get("projects")
+    return render(request, 'milestones/index.html', {'m_projects': mprojects})
