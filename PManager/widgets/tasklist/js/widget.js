@@ -164,8 +164,9 @@ var widget_tl, currentGroup;
                 }
 
                 this.TL_Tasks.on('add',function(task){
-
+                    if ($('.js-new-first-task').get(0)) $('.js-new-first-task').remove();
                 });
+
                 var obj = this;
                 baseConnector.addListener('fs.task.update',function(data){
                     if (data && data.id){

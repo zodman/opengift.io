@@ -1,21 +1,16 @@
 {% load floattags jsonify humanize %}
 <script type="text/javascript" src="/widgets/js/project_graph/script.js"></script>
 
-<div class="widget">
-    <div class="widget-control">
-{#        <a href="#" class="w-collapse">Свернуть</a>#}
-        <a href="#" class="w-close">Закрыть</a>
-    </div>
-
-    <h3>Статистика</h3>
-    <hr>
+<div class="well">
     <div>
         <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}"
               method="POST" name="robo">
             <span>Ваш баланс: <strong>{{ project_graph.allProjectPrice|intcomma }} sp.</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
+            {% if is_staff %}
             <input class="btn btn-success"
                    onclick="$.fancybox({'content':$('.js-payment').html()}); return false;"
                    type="submit" value="Пополнить">&nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>&nbsp;&nbsp;
+            {% endif %}
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;
 

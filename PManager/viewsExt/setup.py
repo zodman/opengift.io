@@ -25,16 +25,8 @@ def register(request):
             prof = user.get_profile()
             prof.setRole('manager', project)
             prof.setRole('client', project, 'plan_time')
-            prof.sp_price = 990
+            prof.sp_price = 1290
             prof.save()
-
-            task = PM_Task(
-                name=u'Ознакомиться с системой',
-                author=user,
-                project=project
-            )
-            task.save()
-            task.resp = user
 
     return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
 

@@ -14,7 +14,7 @@
             <a class="w-close">Закрыть</a>
         </div>
 
-        <h3>Задачи</h3>
+        <h3>{{ tasklist.title }}</h3>
         <hr>
         {% if tasklist.project and not tasklist.isInvite %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
@@ -127,11 +127,17 @@
 
         <div class="clearfix"></div>
         <div class="task-file-upload" style="position:relative;"></div>
-
-        <hr> 
 {% endif %}
-{% if not tasklist.isInvite %}
+{% if not tasklist.tasks %}
+    <div class="js-new-first-task">
+    <br>
+        <h2><i class="fa fa-arrow-up"></i> Создайте новую задачу просто введя её в это поле.</h2>
+    </div>
+{% endif %}
+{% if not tasklist.isInvite and tasklist.tasks %}
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
+
+        <hr>
         <div class="row tasks-toolbar">
             <div class="col-xs-4">
                 <!--<div class="input-group">-->
