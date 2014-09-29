@@ -52,7 +52,11 @@
 
                 $('.js-register').click(function(){
                     var $email = $(this).closest('.header-button, section').find('.js-email');
-                    $.post(
+                    if (!$email.val()) {
+                        $email.addClass('error');
+                        alert('Пожалуйста, введите email');
+                    } else {
+                        $.post(
                             '/register/',
                             {
                                 'email': $email.val()
@@ -61,7 +65,9 @@
                                 alert(data);
                                 $email.val('');
                             }
-                    )
+                        );
+                    }
+
                     return false;
                 })
             })
@@ -91,11 +97,15 @@
     </header>
 
     <div class="header-img">
-    	<h3>Доверь сайт высококлассным специалистам,<br>управляя ими из любой точки<br></h3>
+        {% if referrer == '5' %}
+        <h3>Виртуальная веб-студия под вашим контролем</h3>
+        {% else %}
+    	<h3>Первая система ведения проектов <br>с возможностью подбора и найма специалистов<br> в сфере web-разработки</h3>
+        {% endif %}
         <ul class="header-desc">
         	<li>Старт работ за 5 минут</li>
+            <li>Гарантия сроков и качества</li>
             <li>Патентованая технология подбора подходящих исполнителей</li>
-            <li>Пожизненная гарантия на выполненные работы</li>
         </ul>
         <div class="header-button clearfix">
         	<div class="header-button-left"><input type="text" placeholder="Введите свой e-mail" class="big-inputbox js-email"></div>
@@ -151,7 +161,21 @@
             </div>
         </div>
     </section>
-    
+    <section class="kinuli clearfix">
+        <h1>Горят сроки? «Кинули» специалисты? <br>В процессе работ меняются требования?</h1>
+        <div class="pull-left">
+        	<img src="/static/img/relaxing-sap.png" class="img-responsive">
+        </div>
+        <div class="pull-right">
+            <ul class="services-list">
+                <li>Начнем работы по задачам за <strong>5 минут</strong></li>
+                <li>Гарантия сроков выполнения</li>
+                <li>Вы сами управляете процессом разработки на всех уровнях</li>
+                <li>Все специалисты имеют опыт работы <strong>от 3 до 15 лет</strong></li>
+                <li>Цена нормочаса только в сентябре <strong>990 руб.</strong></li>
+            </ul>
+        </div>
+    </section>
     <section class="opportunities">
     	<h3>Возможности <span>сервиса</span></h3>       
         <ul class="clearfix">
@@ -255,21 +279,7 @@
         </div>
     </section>-->
     
-    <section class="kinuli clearfix">
-        <h1>Горят сроки? «Кинули» специалисты? <br>В процессе работ меняются требования?</h1>
-        <div class="pull-left">
-        	<img src="/static/img/relaxing-sap.png" class="img-responsive">
-        </div>
-        <div class="pull-right">
-            <ul class="services-list">
-                <li>Начнем работы по задачам за <strong>5 минут</strong></li>
-                <li>Гарантия сроков выполнения</li>
-                <li>Вы сами управляете процессом разработки на всех уровнях</li>
-                <li>Все специалисты имеют опыт работы <strong>от 3 до 15 лет</strong></li>
-                <li>Цена нормочаса только в сентябре <strong>990 руб.</strong></li>
-            </ul>
-        </div>
-    </section>
+
     <section class="icons">
         <h1><span>80</span> профессиональных специалистов</h1>
         <h2><span>7 731</span> рабочих часов с начала года</h2>
