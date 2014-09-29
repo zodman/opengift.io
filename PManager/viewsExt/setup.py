@@ -3,10 +3,13 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
+from PManager.viewsExt.tools import emailMessage
 
 def register(request):
     email = request.POST.get('email', None)
     if email:
+        if not emailMessage.validateEmail(email):
+            return HttpResponse('Error')
         if not User.objects.filter(email=email).count():
             project = PM_Project(
                 name=u'Новый проект',

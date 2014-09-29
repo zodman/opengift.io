@@ -62,7 +62,16 @@ def initGlobals(request):
             currentUser.first_name = form.cleaned_data['name']
             currentUser.last_name = form.cleaned_data['last_name']
             currentUser.save()
-            redirect = "/"
+
+            try:
+                project = PM_Project.objects.get(author=currentUser)
+                if form.cleaned_data['sitename']:
+                    project.name = form.cleaned_data['sitename']
+                    project.save()
+
+                redirect = "/?project="+str(project.id)
+            except PM_Project.DoesNotExist:
+                redirect = "/"
 
         WhoAreYouForm = False
 
