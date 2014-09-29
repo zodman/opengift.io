@@ -17,6 +17,7 @@ def register(request):
                 tracker=PM_Tracker.objects.get(pk=1),
                 author=User.objects.get(pk=1)
             )
+
             project.save()
             user = PM_User.getOrCreateByEmail(email, project, 'client')
             user.is_staff = True
@@ -28,10 +29,12 @@ def register(request):
             prof = user.get_profile()
             prof.setRole('manager', project)
             prof.setRole('client', project, 'plan_time')
-            prof.sp_price = 1290
+            prof.sp_price = 990
             prof.save()
 
-    return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
+            return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
+
+    return HttpResponse(u'Ошибка')
 
 # def setupTracker(request):
 #     USER = 'root'
