@@ -125,8 +125,8 @@ $(function(){
             });
 
             //Отслеживать ctrl+enter
-            $(document).keydown(function(event){
-                if (event.which == 13 && event.ctrlKey){
+            $(document).keydown(function(event) {
+                if (event.which == 13 && (event.ctrlKey || event.metaKey)){
                     $('.sendTaskMessage:not(.btn-close, .js-change_resp)').click();
                 };
             });

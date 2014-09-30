@@ -29,9 +29,6 @@ class emailMessage:
             return False
 
     def send(self, to):
-        if not self.validateEmail(to):
-            return False
-
         t = loader.get_template('mail_templates/' + self.templateName + '.html')
         c = Context(self.context)
         html_content = t.render(c)
