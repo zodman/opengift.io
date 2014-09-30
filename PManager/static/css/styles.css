@@ -254,9 +254,9 @@ div.widget:hover,
 div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #aaa; -o-box-shadow:0px 0px 5px #aaa; -moz-box-shadow:0px 0px 5px #aaa;}
 
 div.widget-control {position:absolute; right:20px; }
-div.widget-control .w-collapse, div.widget-control .w-close {background-image:url(../images/sprite.png); background-repeat:no-repeat; text-indent:-99999em; width:15px; height:15px; display:inline-block; margin-left:2px;}
-div.widget-control .w-collapse {background-position:0px -397px;}
-div.widget-control .w-close {background-position:-15px -397px;}
+div.widget-control .w-collapse, div.widget-control .w-close {background-image:url(../images/sprite.png); background-repeat:no-repeat; text-decoration:none; text-indent:-99999em; width:15px; height:15px; display:inline-block; margin-left:2px;}
+div.widget-control .w-collapse {background-position:0px -396px;}
+div.widget-control .w-close {background-position:-15px -396px;}
 
 /* фикс issue#611 */
 .tasklist + .gantt { position: inherit; }
