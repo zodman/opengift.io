@@ -662,8 +662,14 @@ class PM_Task(models.Model):
         return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
 
     def canPMUserSetPlanTime(self, pm_user):
-        return pm_user.isManager(self.project) or self.onPlanning or \
-               (hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and (not self.planTime or self.planTime <= 0))
+        return pm_user.isManager(self.project) or \
+            not self.realDateStart and (
+                self.onPlanning or (
+                    #is responsible and planTime is empty
+                    hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
+                    (not self.planTime or self.planTime <= 0)
+                )
+        )
 
     def setChangedForUsers(self, user=None):
         self.viewedUsers.clear()
