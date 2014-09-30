@@ -326,6 +326,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                                 .replace(tags, '')
                         )
                     );
+                    this.$('.js-quote').hide();
+                    this.$('.js-reply').hide();
                     this.$('.js-taskMessageText').append($saveButton, $cancelButton)
                 }
 
@@ -333,12 +335,15 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             'editCancel': function () {
                 this.editMode = false;
+                this.$('.js-quote').show();
+                this.$('.js-reply').show();
                 this.render();
             },
             'editConfirm': function () {
                 this.editMode = false;
                 var $textarea = this.$('.' + this.textareaClass);
-
+                this.$('.js-quote').show();
+                this.$('.js-reply').show();
                 var newText = $textarea.val().replace("\r\n", '<br />');
                 var view = this;
 

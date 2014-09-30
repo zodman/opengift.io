@@ -81,7 +81,6 @@ $(function(){
             }
 
             baseConnector.addListener('connect', function(){
-                    console.log(t.model);
                     t.view.checkModel(function(){
                     t.view.render();
                 }, true)
