@@ -20,7 +20,7 @@
     <script type="text/javascript" src="/static/js/pm/panel.js"></script>
     <script type="text/javascript" src="/static/js/pm/tasks.js"></script>
     <script type="text/javascript" src="/static/js/pm/files.js"></script>
-{#    <script type="text/javascript" src="/static/js/pm/beep.js"></script>#}
+    <script type="text/javascript" src="/static/js/pm/beep.js"></script>
     <script type="text/javascript" src="/static/js/pm/hint.js"></script>
     <script type="text/javascript" src="/static/js/pm/user_dynamics.js"></script>
     <script type="text/javascript" src="/static/js/pm/sock_connector.js"></script>
@@ -53,20 +53,6 @@
 {#    <link href="/{% less "PManager/static/css/main.less" %}" rel="stylesheet" type="text/css">#}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
-    <script>
-        var sound = new Howl({
-          urls: ['/static/audio/puck.mp3', '/static/audio/puck.ogg', '/static/audio/puck.wav'],
-          autoplay: false,
-          loop: false,
-          volume: 1,
-          onend: function() {
-            console.log('Finished!');
-          }
-        });
-        var knock = function(){
-            return sound.play();
-        }
-    </script>
     <script type="text/javascript">
         var CURRENT_TASK_VIEW;
         var CURRENT_TASK_DATA;
@@ -125,6 +111,9 @@ var google_conversion_color = "ffffff";
 var google_conversion_label = "ayuYCLrew1YQrbSP7gM";
 var google_remarketing_only = false;
 /* ]]> */
+$(function(){
+    if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('registerEnter');
+})
 </script>
 <script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
 </script>
