@@ -54,7 +54,9 @@
                     var $email = $(this).closest('.header-button, section').find('.js-email');
                     if (!$email.val()) {
                         $email.addClass('error');
-                        alert('Пожалуйста, введите email');
+                        $email.one('keyup', function(){
+                            $(this).removeClass('error');
+                        });
                     } else {
                         if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('register');
                         $.post(
