@@ -1283,7 +1283,7 @@ border-top-right-radius: 0;}
 .DetailCommentText textarea { width: 100%; }
 
 @media screen and (max-width: 992px) {
-
+.sub-menu_line_section-user li {width:42px;}
 .sub-menu_line_section-user li > a {text-indent:-99999em; padding-left:33px;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
