@@ -7,9 +7,11 @@
               method="POST" name="robo">
             <span>Ваш баланс: <strong>{{ project_graph.allProjectPrice|intcomma }} sp.</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
             {% if is_staff %}
-            <input class="btn btn-success"
-                   onclick="$.fancybox({'content':$('.js-payment').html()}); return false;"
-                   type="submit" value="Пополнить">&nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>&nbsp;&nbsp;
+                (<a href="#" onclick="$.fancybox({'content':$('.js-payment').html()}); return false;">пополнить баланс</a>)
+{#            <input class="btn btn-success"#}
+{#                   onclick=""#}
+{#                   type="submit" value="Пополнить">#}
+                &nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>&nbsp;&nbsp;
             {% endif %}
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;
