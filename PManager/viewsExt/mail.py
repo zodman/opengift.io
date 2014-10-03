@@ -8,6 +8,7 @@ class PM_MailEvent:
     message = ''
 
     event_name = ''
+    @staticmethod
     def validateEmail(email):
         from django.core.validators import validate_email
         from django.core.exceptions import ValidationError

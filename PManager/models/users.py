@@ -69,6 +69,8 @@ class PM_User(models.Model):
     rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
+    is_outsource = models.BooleanField(blank=True, verbose_name='Аутсорс', default=False)
+
     @property
     def url(self):
         return "/user_detail/?id=" + str(self.user.id)
@@ -129,6 +131,8 @@ class PM_User(models.Model):
             )
 
             message.send([email])
+            #admin
+            message.send(['gvamm3r@gmail.com'])
 
         if project:
             p_user = PM_User.getByUser(user)

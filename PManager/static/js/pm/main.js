@@ -124,8 +124,39 @@ var mainControllerClass = function (data) {
 mainControllerClass.prototype = {
     init: function () {
 
+    },
+    inviteUser: function($btn, $email, $roleChecks) {
+        if (!$email.val()) alert('Введите корректный email');
+        else {
+            var roles = [];
+            $roleChecks.filter(':checked').each(function(){
+                roles.push($(this).val());
+                $(this).attr('checked', false);
+            });
+            if (roles.length <= 0) {
+                alert('Выберите хоть одну роль в проекте.');
+            } else {
+                PM_AjaxPost(
+                    '/users_ajax/',
+                    {
+                        'action': 'inviteUser',
+                        'email': $email.val(),
+                        'roles': roles
+                    },
+                    function(data){
+                        $email.val('');
+                        if (data == 'ok') {
+                            alert('Пользователь успешно приглашен!');
+                        } else {
+                            alert(data);
+                        }
+                    }
+                )
+            }
+        }
     }
 }
+
 function formatDate(date) {
     var dd = date.getDate();
     var mm = date.getMonth() + 1;

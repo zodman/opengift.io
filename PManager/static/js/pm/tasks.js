@@ -168,7 +168,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                     "click a.js-task_done.closed": "openTask",
                     "click a.js-select_resp": "showResponsibleMenu",
                     "click a.js-resp-approve": "responsibleApprove",
-                    "click .jsPlanTimeList a": "changePlanTime"
+                    "click .jsPlanTimeList a": "changePlanTime",
+                    "click a.js-task_approve": "approveTask"
                 }
         },
         'initialize': function () {
@@ -342,15 +343,34 @@ var CRITICALLY_THRESHOLD = 0.7;
             }
 
             var $buttonClose = $row.find('.js-task_done');
+            var $approveBtn = $row.find('.js-task_approve');
             if (taskInfo.subtasksQty) {
                 $buttonClose.hide();
+                $approveBtn.hide();
             } else {
-                $buttonClose.show();
-                if (taskInfo.closed)
-                    $buttonClose.addClass('closed');
-                else
-                    $buttonClose.removeClass('closed');
+                if (taskInfo.closed) {
+                    $buttonClose.hide();
+                    $approveBtn.hide();
+                } else {
+                    if (taskInfo.status == 'not_approved') {
+                        if (taskInfo.canApprove)
+                            $approveBtn.show();
+
+                        $buttonClose.hide();
+                    } else {
+                        $approveBtn.hide();
+                        $buttonClose.show();
+                        var $closeIcon = $buttonClose.find('.fa');
+                        if (taskInfo.canClose) {
+                            $closeIcon.removeClass('fa-check').addClass('fa-close');
+                        } else {
+                            $closeIcon.removeClass('fa-close').addClass('fa-check');
+                        }
+                    }
+                }
             }
+
+
 
             var $buttonStart = $row.find('.js-task_play');
             if (!taskInfo.closed) {
@@ -827,13 +847,13 @@ var CRITICALLY_THRESHOLD = 0.7;
         'changeResponsible': function (uid) {
             var obj = this;
             taskManager.ChangeResponsible(this.model.id, uid, function (data) {
-                obj.checkModel(function () {
-                    obj.model.set('recommendedUser', false);
-                    obj.model.set('resp', [
-                        {'name': data}
-                    ]);
+                if (data && data.resp){
+                    for (var k in data) {
+                        obj.model.set(k, data[k]);
+                    }
                     obj.render();
-                });
+                }
+
             })
         },
         'showMenu': function (e) {
@@ -979,7 +999,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             return this.taskAjaxRequest({
                 'id': id,
                 'resp': uid
-            }, call);
+            }, call, 'json');
         }
     };
 
