@@ -156,7 +156,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 }
 
 
-@media (max-width: 738px) {
+@media (max-width:838px) {
 	header .header .logo {width:50%;}
 	header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:50%; line-height:22px; height:22px;}
 	header .header .logo img {max-width:100%; display:block;}
@@ -1284,6 +1284,7 @@ border-top-right-radius: 0;}
 
 @media screen and (max-width: 992px) {
 
+.sub-menu_line_section-user li > a {text-indent:-99999em; padding-left:33px;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
 .tasks-toolbar > div {width:100%;}
@@ -1320,7 +1321,6 @@ border-top-right-radius: 0;}
 
 
 @media only screen and (max-width: 768px) {
-.sub-menu_line_section-user li > a {text-indent:-99999em; padding-left:33px;}
 
  
 	.task_number, .task_add-subtask {width:8%;}
@@ -1394,8 +1394,9 @@ border-top-right-radius: 0;}
 .profile-edit .col-xs-4 {width:100%; float:none; clear:both; padding:5px 15px 0;}
 .profile-edit .errorlist {background:#FFF2F2; padding:5px 0; text-align:center; margin-top:5px;}
  
-.sub-menu_line_section-user .list-inline {margin-left:10px; margin-top:10px;}
-.sub-menu_line_section-user .list-inline > li {padding:0px;}
+.sub-menu_line_section-user .list-inline {}
+.sub-menu_line_section-user .list-inline > li {padding:0px; float:left; margin-right:5px;}
+.sub-menu_line_section-user .list-inline.navbar-right > li {float:right; margin-right:0px;}
 .list-inline > li.section-tracker_menu_name {display:none;}
 
 .task-tab-filter a {padding:5px 8px;}

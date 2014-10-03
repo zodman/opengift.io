@@ -286,7 +286,7 @@ $(function(){
 <div class="container sub-menu">
     <div class="row sub-menu_line">
         {% if user.is_authenticated %}
-        <div class="sub-menu_line_section-user col-xs-7">
+        <div class="sub-menu_line_section-user col-xs-8">
             <ul class="list-inline">
                 <li><a href="/user_list/" class="users-and-groups">Пользователи</a></li>
                 {% if main.CURRENT_PROJECT.id %}
@@ -303,7 +303,7 @@ $(function(){
             </ul>
         </div>
 
-        <div class="sub-menu_line_section-tracker col-xs-5">
+        <div class="sub-menu_line_section-tracker col-xs-4">
             <ul class="list-inline navbar-right">
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
