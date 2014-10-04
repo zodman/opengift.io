@@ -129,9 +129,8 @@
         <div class="task-file-upload" style="position:relative;"></div>
 {% endif %}
 {% if not tasklist.tasks %}
-    <div class="js-new-first-task">
-    <br>
-        <h2><i class="fa fa-arrow-up"></i> Создайте новую задачу, просто введя её в это поле.</h2>
+    <div class="js-new-first-task"><br />
+    <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
     </div>
 {% endif %}
 {% if not tasklist.isInvite and tasklist.tasks %}
