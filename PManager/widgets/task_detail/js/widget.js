@@ -107,7 +107,7 @@ $(function(){
                 }
                 this.undelegateEvents();
                 this.delegateEvents();
-            }
+            };
 
             baseConnector.addListener('connect', function(){
                     t.view.checkModel(function(){

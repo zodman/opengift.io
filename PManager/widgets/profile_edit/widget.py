@@ -19,7 +19,7 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ["icq", "skype", "avatar", 'specialties', 'sp_price']
+                fields = ["icq", "skype", "avatar", 'specialties']
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
