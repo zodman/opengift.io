@@ -7,7 +7,7 @@
               method="POST" name="robo">
             <span>Ваш баланс: <strong>{{ project_graph.allProjectPrice|intcomma }} sp.</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
             {% if is_staff %}
-                (<a href="#" onclick="$.fancybox({'content':$('.js-payment').html()}); return false;">пополнить баланс</a>)
+                (<a href="#" onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $.fancybox({'content':$('.js-payment').html()}); return false;">пополнить баланс</a>)
 {#            <input class="btn btn-success"#}
 {#                   onclick=""#}
 {#                   type="submit" value="Пополнить">#}
