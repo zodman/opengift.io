@@ -15,11 +15,11 @@ class UserForm(forms.ModelForm):
 
 
 def widget(request, headerValues, ar, qargs):
-    if request.user.is_staff:
+    if request.user.is_admin:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ["icq", "skype", "avatar", 'specialties']
+                fields = ["icq", "skype", "avatar", 'specialties', 'sp_price']
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
