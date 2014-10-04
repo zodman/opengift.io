@@ -9,7 +9,7 @@ def register(request):
     email = request.POST.get('email', None)
     if email:
         if not emailMessage.validateEmail(email):
-            return HttpResponse('Error')
+            return HttpResponse(u'Введите правильный email')
         if not User.objects.filter(email=email).count():
             project = PM_Project(
                 name=u'Новый проект',
@@ -33,7 +33,10 @@ def register(request):
             prof.account_total = 990
             prof.save()
 
-            return HttpResponse(u'Спасибо за регистрацию, на вашу почту отправлено письмо с вашим паролем для доступа в систему')
+            return HttpResponse(u'Спасибо за регистрацию! На вашу почту отправлено письмо с вашим паролем для доступа в систему.')
+
+        else:
+            return HttpResponse(u'Такой email уже существует в системе!')
 
     return HttpResponse(u'Ошибка')
 

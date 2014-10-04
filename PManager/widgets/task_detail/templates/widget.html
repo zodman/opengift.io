@@ -13,7 +13,8 @@
 {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
         <div class="task-manage pull-right">
         {% if task_detail.subtasks|length == 0 %}
-            <a href="javascript:void(0);" class="js-task_done  fa fa-check {% if task_detail.task.closed %}closed{% endif %}"></a>
+            <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check {% if task_detail.task.closed %}closed{% endif %}"></a>
+            <a href="javascript:void(0);" title="Закрыть задачу" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
         {% endif %}
 {#            <span class="dropdown pull-right close-task-wrapper">#}
 {#            	<a href="#" class="fa fa-thumbs-up" data-toggle="dropdown"></a>#}

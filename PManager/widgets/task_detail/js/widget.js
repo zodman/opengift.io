@@ -76,6 +76,35 @@ $(function(){
                 }else{
                     this.$('.js-task_play').removeClass('started').find('.fa').addClass('fa-play-circle').removeClass('fa-pause');
                 }
+
+                //from tasks.js
+                var $buttonClose = this.$('.js-task_done');
+                var $approveBtn = this.$('.js-task_approve');
+                if (this.model.get('subtasksQty')) {
+                    $buttonClose.hide();
+                    $approveBtn.hide();
+                } else {
+                    if (this.model.get('closed')) {
+                        $buttonClose.hide();
+                        $approveBtn.hide();
+                    } else {
+                        if (this.model.get('status') == 'not_approved') {
+                            if (this.model.get('canApprove'))
+                                $approveBtn.show();
+
+                            $buttonClose.hide();
+                        } else {
+                            $approveBtn.hide();
+                            $buttonClose.show();
+                            var $closeIcon = $buttonClose.find('.fa');
+                            if (this.model.get('canClose')) {
+                                $closeIcon.removeClass('fa-check').addClass('fa-close');
+                            } else {
+                                $closeIcon.removeClass('fa-close').addClass('fa-check');
+                            }
+                        }
+                    }
+                }
                 this.undelegateEvents();
                 this.delegateEvents();
             }

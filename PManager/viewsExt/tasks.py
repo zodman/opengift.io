@@ -62,12 +62,27 @@ def taskListAjax(request):
     elif request.POST.get('resp', False): #смена ответственного
         task_id = int(request.POST.get('id', 0)) #переданный id задачи
         if task_id:
-            task = PM_Task.objects.filter(id=task_id).get() #вот она, задачка
+            task = PM_Task.objects.get(id=task_id) #вот она, задачка
             task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
+
+            #outsource
+            if not task.resp.is_staff: #if payed client
+                task.setStatus('not_approved')
+            else:
+                task.setStatus('revision')
+            #end outsource
+
             task.save()
 
             resp = task.resp
-            responseText = ' '.join([resp.first_name, resp.last_name])
+            respName = ' '.join([resp.first_name, resp.last_name])
+            responseText = json.dumps({
+                'resp': [{
+                        'id': resp.id,
+                        'name': respName
+                    }],
+                'status': task.status.code
+            })
 
             if task.resp.email:
                 arEmail = [task.resp.email if task.resp.id != request.user.id else None]
@@ -75,7 +90,7 @@ def taskListAjax(request):
                 task.sendTaskEmail('new_task', arEmail)
 
             task.systemMessage(
-                u'изменен ответственный на ' + responseText,
+                u'изменен ответственный на ' + respName,
                 request.user,
                 'NEW_RESPONSIBLE'
             )
@@ -83,7 +98,7 @@ def taskListAjax(request):
                 {
                     'resp': [{
                         'id': resp.id,
-                        'name': responseText
+                        'name': respName
                     }],
                     'viewedOnly': request.user.id,
                     'id': task.id
@@ -232,6 +247,7 @@ def taskListAjax(request):
         bIsManager = profile.isManager(task.project)
         hidden_from_employee = False
         hidden_from_clients = False
+
         if bIsManager: #TODO: разобраться с тем, как должно работать скрытие от автора
             hidden_from_clients = request.POST.get('hidden_from_clients', '') == 'Y'
             hidden_from_employee = request.POST.get('hidden_from_employee', '') == 'Y'
