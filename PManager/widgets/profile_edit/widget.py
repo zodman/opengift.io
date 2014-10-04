@@ -15,7 +15,7 @@ class UserForm(forms.ModelForm):
 
 
 def widget(request, headerValues, ar, qargs):
-    if request.user.is_admin:
+    if request.user.is_superuser:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
