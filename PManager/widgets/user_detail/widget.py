@@ -212,7 +212,7 @@ def widget(request, headerValues, ar, qargs):
                 'project_roles': userRoles,
                 'user_projects': userProjects,
                 'userIsEqualCurrentUser': request.user.id == user.id,
-                'current_user_is_admin': request.user.is_staff,
+                'current_user_is_admin': request.user.is_superuser,
                 'task': {
                     #'summ':taskSum,
                     #'summPerMonth':taskSumPerMonth,
