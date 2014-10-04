@@ -6,7 +6,7 @@ from random import randint
 #import time
 
 def widget(request, headerValues, ar, qargs):
-    # current_project = headerValues['CURRENT_PROJECT']
+    current_project = headerValues['CURRENT_PROJECT']
     bPay = request.POST.get('pay', False)
     summ = int(request.POST.get('summ', 0) or 0)
 
@@ -30,7 +30,8 @@ def widget(request, headerValues, ar, qargs):
         'allProjectPrice': total,
         'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True})),
         'tasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': False})),
-        'bPay': bPay
+        'bPay': bPay,
+        'rate': profile.getBet(current_project)
     }
 
     return projectData
