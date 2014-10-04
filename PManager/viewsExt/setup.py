@@ -30,7 +30,7 @@ def register(request):
             prof.setRole('manager', project)
             prof.setRole('client', project, 'plan_time')
             prof.sp_price = 990
-            prof.account_total = 990
+            # prof.account_total = 990
             prof.save()
 
             return HttpResponse(u'Спасибо за регистрацию! На вашу почту отправлено письмо с вашим паролем для доступа в систему.')
