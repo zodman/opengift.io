@@ -18,9 +18,11 @@ from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.customs.storages import path_and_rename
 from tracker.settings import COMISSION
+from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
+
 
 # опять удобства
 service_queue = redis.StrictRedis(
@@ -1557,3 +1559,14 @@ class PM_User_PlanTime(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
+#SIGNALS
+
+def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
+    if instance.author:
+        prof = instance.author.get_profile()
+        prof.last_activity_date = datetime.datetime.now()
+        prof.save()
+
+
+post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)

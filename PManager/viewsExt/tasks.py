@@ -441,7 +441,7 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status.code == 'not_approved':
+                    if task.status and task.status.code == 'not_approved':
                         #client have not enough money#
                         try:
                             clientRole = PM_ProjectRoles.objects.get(
@@ -703,6 +703,7 @@ class taskAjaxManagerCreator(object):
     def process_inviteUsers(self):
         import datetime
         aId = self.request.POST.getlist('tasks[]')
+        aTasks = []
         for id in aId:
             id = int(id)
             t = PM_Task.objects.get(id=id)
@@ -714,22 +715,27 @@ class taskAjaxManagerCreator(object):
                     'id': t.id,
                     'onPlanning': True
                 })
+                aTasks.append(t)
 
         users = PM_User.objects.filter(
             user__is_staff=False,
             user__is_active=True,
-            last_active__gt=(datetime.datetime.now() - datetime.timedelta(days=30))
+            last_active__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
         )
         aEmail = []
         for user in users:
-            aEmail.append(user.email)
+            if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
+                aEmail.append(user.email)
+
         aEmail.append('gvamm3r@gmail.com')
 
-        sendMes = emailMessage('invite',
-               {
-                   'project': self.globalVariables['CURRENT_PROJECT'].id
-               },
-               'Задачи на оценку'
+        sendMes = emailMessage(
+            'invite',
+            {
+               'project': self.globalVariables['CURRENT_PROJECT'],
+               'tasks': aTasks
+            },
+            'Задачи на оценку'
         )
         sendMes.send(aEmail)
         return HttpResponse(json.dumps({'result':'OK'}))
@@ -854,6 +860,7 @@ class taskAjaxManagerCreator(object):
                    },
                    u'Задача закрыта: ' + t.name
                 )
+                sendMes.send([t.author.email])
 
             elif (not t.status) or t.status.code != 'ready':
                 t.setStatus('ready')

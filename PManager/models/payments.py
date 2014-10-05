@@ -23,6 +23,8 @@ class Credit(models.Model):
     class Meta:
         app_label = 'PManager'
 
+#SIGNALS
+
 def payment_account(sender, instance, created, **kwargs):
     if created:
         if instance.user:
