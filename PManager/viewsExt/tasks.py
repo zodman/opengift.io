@@ -720,7 +720,7 @@ class taskAjaxManagerCreator(object):
         users = PM_User.objects.filter(
             user__is_staff=False,
             user__is_active=True,
-            last_active__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
+            last_active_date__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
         )
         aEmail = []
         # for user in users:
