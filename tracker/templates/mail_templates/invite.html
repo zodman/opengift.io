@@ -145,15 +145,15 @@
             <tbody>
             <tr>
                 <td style="text-align:left;vertical-align:top"><a target="_blank" href="http://heliard.ru"><img border="0" src="http://heliard.ru/static/images/logo.png" /></a></td>
-                <td style="text-align:right;font-size:11px;font-family:Helvetica Neue, Helvetica, Arial, sans-serif; color:#3b3f4a;vertical-align:top"><strong>{{ task.author.first_name }} {{ task.author.last_name }}</strong><br>
-                    {{ task.dateCreate }} </td>
+                <td style="text-align:right;font-size:11px;font-family:Helvetica Neue, Helvetica, Arial, sans-serif; color:#3b3f4a;vertical-align:top"><strong>{{ project.author.first_name }} {{ project.author.last_name }}</strong></td>
             </tr>
             </tbody>
         </table>
         <h2 style="font-size:24px; color:#dd1f00; font-weight:bold; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; padding:0px; margin:25px 0; ">Новые задачи на оценку</h2>
         <h3>Задачи</h3>
-        <i>{{ project.description }}</i>
-        <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;"><a style="color:#51A351" href="http://heliard.ru/invite/?project={{ project.id }}">{{ project.name }}</a>!
+
+        <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;"><a style="color:#51A351" href="http://heliard.ru/invite/?project={{ project.id }}">{{ project.name }}</a>
+            <i>{{ project.description }}</i>
             <br /><br />
             {% for task in tasks %}
                 <a href="{{ task.url }}">{{ task.name }}</a><br />

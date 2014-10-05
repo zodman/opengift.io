@@ -723,9 +723,9 @@ class taskAjaxManagerCreator(object):
             last_activity_date__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
         )
         aEmail = []
-        # for user in users:
-        #     if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
-        #         aEmail.append(user.email)
+        for user in users:
+            if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
+                aEmail.append(user.email)
 
         aEmail.append('gvamm3r@gmail.com')
 
