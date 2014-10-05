@@ -11,8 +11,9 @@
 {#            <input class="btn btn-success"#}
 {#                   onclick=""#}
 {#                   type="submit" value="Пополнить">#}
-                &nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>&nbsp;&nbsp;
+                &nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>
             {% endif %}
+            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             Цена нормочаса: {% if is_staff %}<s>1500</s> {% endif %}<span style="color: #c00f00;">{{ project_graph.rate }} sp</span>
             {% if is_staff %}до 01.11.2014 {% endif %}&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
