@@ -5,6 +5,20 @@ from django.contrib.auth.models import User
 from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
 from PManager.viewsExt.tools import emailMessage
 
+def recall(request):
+    phone = request.POST.get('phone', None)
+    if phone:
+        mess = emailMessage(
+            'phone_recall',
+            {
+                'phone': phone
+            },
+            u'Перезвонить по этому номеру'
+        )
+        mess.send(['gvamm3r@gmail.com'])
+
+    return HttpResponse(u'Спасибо! Мы перезвоним вам в течение нескольких минут.')
+
 def register(request):
     email = request.POST.get('email', None)
     if email:

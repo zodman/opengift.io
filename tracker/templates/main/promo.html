@@ -72,7 +72,31 @@
                     }
 
                     return false;
-                })
+                });
+
+                $('.js-phone-invite').click(function(){
+                    var $phone = $(this).closest('.header-button, section').find('.js-phone');
+                    if (!$phone.val()) {
+                        $phone.addClass('error');
+                        $phone.one('keyup', function(){
+                            $(this).removeClass('error');
+                        });
+                    } else {
+                        if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('phoneCall');
+                        $.post(
+                            '/phone_invite/',
+                            {
+                                'phone': $phone.val()
+                            },
+                            function(data) {
+                                alert(data);
+                                $phone.val('');
+                            }
+                        );
+                    }
+
+                    return false;
+                });
             })
         })(jQuery);
     </script>
@@ -275,6 +299,10 @@
                 </table> 
            </li>
         </ul>
+        <div class="header-button clearfix">
+        	<div style="width: 100%;"><input type="text" placeholder="Введите свой номер телефона и мы вам перезвоним" class="big-inputbox js-phone"></div>
+            <div style="width: 100%;margin-top: 10px;"><input type="button" value="Да, мне просто нужен сайт." class="big-button js-phone-invite"></div>
+        </div>
     </section>
     
     <!--<section class="we-are-wrapper white">

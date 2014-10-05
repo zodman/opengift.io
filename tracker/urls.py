@@ -6,7 +6,7 @@ from PManager.views import MainPage, Brains
 from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
-from PManager.viewsExt.setup import register
+from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
@@ -97,6 +97,7 @@ urlpatterns = patterns('',
                        url(r'^statistic/$', MainPage.indexRender, {'widgetList': ["user_statistic"]}),
                        url(r'^projects_summary/$', MainPage.indexRender, {'widgetList': ["project_summary"]}),
                        url(r'^register/$', register),
+                       url(r'^phone_invite/$', recall),
                        url(r'^docx/$', docxView),
                        url(r'^train/$', Brains.trainTasksBrains),
                        url(r'^ajax/notice$', noticeSetRead),
