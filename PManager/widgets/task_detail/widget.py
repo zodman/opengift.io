@@ -89,6 +89,7 @@ def widget(request, headerValues, arFilter, q):
                     )
 
                     task.sendTaskEmail('new_task', [planTime.user.email])
+
                     return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:
                 pass

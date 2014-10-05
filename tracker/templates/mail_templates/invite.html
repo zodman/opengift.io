@@ -150,13 +150,16 @@
             </tbody>
         </table>
         <h2 style="font-size:24px; color:#dd1f00; font-weight:bold; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; padding:0px; margin:25px 0; ">Новые задачи на оценку</h2>
-        <h3>Задачи</h3>
+
+        Здравствуйте, вы получили это письмо, потому что входите в сообщество профессионалов веб-разработки Heliard.<br />
+        Исли вас заинтересуют данные задачи, перейдите по ссылке и оцените те из них, которые вы выбрали.
 
         <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;"><a style="color:#51A351" href="http://heliard.ru/invite/?project={{ project.id }}">{{ project.name }}</a>
             <i>{{ project.description }}</i>
             <br /><br />
+            <h3>Задачи</h3>
             {% for task in tasks %}
-                <a href="{{ task.url }}">{{ task.name }}</a><br />
+                {{ task.name }}<br />
             {% endfor %}
         </p>
 
