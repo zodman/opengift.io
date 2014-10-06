@@ -104,9 +104,15 @@ section.we-are-wrapper {box-shadow:0 0 5px #ddd; -moz-box-shadow:0 0 5px #ddd; -
 .opportunities ul li img {display:inline-block; margin-right:20px;}
 .opportunities ul li span {color:#c00f00;}
 
+.for-what-wrapper {background:#fff; border-bottom:1px solid #ddd; border-top:1px solid #ddd;}
+.for-what {max-width:980px; margin:0 auto; padding:35px 0;}
+.for-what h1 {font-weight:bold; font-size:36px; margin:0px 0px 15px; padding:0 25px; text-align:center; display:block;}
+.for-what ul {margin:35px 25px 0px; display:block;}
+.for-what ul li {font-size:18px; line-height:32px; margin:10px 0 20px; display:block; padding-left:47px; min-height:32px; background:url("../img/accepted_36.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.for-what ul strong {color:#c00f00;}
 
 
-.kinuli {max-width:980px; margin:0 auto; padding:35px 0; border-top:1px solid #ddd; box-shadow:0px 1px 0px #fff inset; -moz-box-shadow:0px 1px 0px #fff inset; -webkit-box-shadow:0px 1px 0px #fff inset;}
+.kinuli {max-width:980px; margin:0 auto; padding:35px 0; box-shadow:0px 1px 0px #fff inset; -moz-box-shadow:0px 1px 0px #fff inset; -webkit-box-shadow:0px 1px 0px #fff inset;}
 .kinuli .pull-left {width:40%; padding-top:35px;}
 .kinuli .pull-right {width:60%;}
 .kinuli h1 {font-weight:bold; font-size:36px; margin:0px 0px 15px; text-align:center; display:block;}
@@ -387,12 +393,13 @@ ul.header-desc li {background:url("../img/approved.png") no-repeat scroll 0 2px 
 .img-block-h3 .img, .img-block-h3 h3 {font-size:18px; line-height:30px; font-weight:bold; text-transform:uppercase;}
 
 
-.kinuli h1 {font-size:30px; line-height:36px;}
+.kinuli h1, .for-what h1 {font-size:30px; line-height:36px;}
+
 .kinuli .pull-left {width:100%; padding-top:0px; padding:0 20px;}
 .kinuli .pull-right {width:100%; padding:0 20px;}
 
 .services-list {margin-left:0px;}
-.services-list li {background: url("../img/accepted_36.png") no-repeat scroll 0 0 / 24px auto rgba(0, 0, 0, 0); font-size: 16px; font-weight: bold; line-height: 20px; margin-bottom: 10px; padding-left: 38px;}
+.services-list li, .for-what ul li {background: url("../img/accepted_36.png") no-repeat scroll 0 0 / 24px auto rgba(0, 0, 0, 0); font-size: 16px; font-weight: bold; line-height: 20px; margin-bottom: 10px; padding-left: 38px;}
 
 section.icons h1 {font-size:24px;}
 section.icons h2 {font-size:16px;}
