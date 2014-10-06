@@ -129,9 +129,13 @@
         <div class="task-file-upload" style="position:relative;"></div>
 {% endif %}
 {% if not tasklist.tasks %}
+{% if tasklist.project and not tasklist.isInvite %}
     <div class="js-new-first-task"><br />
     <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
     </div>
+{% elif not tasklist.project %}
+    <h4>Чтобы создать задачу, выберите проект в правом верхнем углу экрана.</h4>
+{% endif %}
 {% endif %}
 {% if not tasklist.isInvite and tasklist.tasks %}
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
