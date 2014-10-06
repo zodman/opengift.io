@@ -131,7 +131,7 @@ background-image: -moz-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
 background-image: -webkit-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
 background-image: -ms-linear-gradient(bottom, #DA1C19 0%, #A9010D 100%);
 background-image: linear-gradient(to bottom, #DA1C19 0%, #A9010D 100%); display:inline-block; padding:3px 10px; text-transform:uppercase; color:#fff; font-weight:bold; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
-.services-icon h3 {font-weight:bold; font-size:30px; margin:10px 0px; padding:0px; display:block;}
+.services-icon h3 {font-weight:bold; font-size:26px; margin:10px 0px; padding:0px; display:block;}
 .services-icon h3 span {color:#c00f00;}
 .services-icon p {margin-bottom:0px;}
 .services-list {margin:35px 0 0 45px; display:block;}
