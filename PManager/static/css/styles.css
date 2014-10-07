@@ -354,7 +354,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
 .asked {background-position:0px -412px;}
-.no-asked {background-position:-12px -412px;}
+.no-asked {background-position:-12px -411px;}
 
 .nav-pills > li > a > .asked,
 .nav-pills > li > a > .no-asked {margin-top:1px; margin-right:5px;}
