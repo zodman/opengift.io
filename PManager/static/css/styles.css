@@ -387,6 +387,9 @@ border-bottom-right-radius: 0px;}
 .tasks-toolbar .search-filter .btn {margin-bottom:0px;}
 .tasks-toolbar .search-filter .dropdown-menu {margin:0px;}
 
+.btn.btn-success.btn-gray {background: #b0b0b0; border: 1px solid #9E9E9E;}
+.btn.btn-success.btn-gray:hover {background: #999999; border: 1px solid #7d7d7d;}
+
 .big-input { float:left; width:100%; position:relative; }
 .big-input .input-block-level { padding:4px 12px; }
 .task-create-wrapper > ul,
