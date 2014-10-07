@@ -361,7 +361,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.getDefaultTaskTemplate()
 
-    title = (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'задачи'
+    title = (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'Задачи'
 
     return {
         'title': title,

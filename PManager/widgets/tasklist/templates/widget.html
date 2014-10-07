@@ -129,9 +129,13 @@
         <div class="task-file-upload" style="position:relative;"></div>
 {% endif %}
 {% if not tasklist.tasks %}
+{% if tasklist.project and not tasklist.isInvite %}
     <div class="js-new-first-task"><br />
     <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
     </div>
+{% elif not tasklist.project %}
+    <h4>Чтобы создать задачу, выберите проект в правом верхнем углу экрана.</h4>
+{% endif %}
 {% endif %}
 {% if not tasklist.isInvite and tasklist.tasks %}
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
@@ -149,7 +153,7 @@
                                 <button type="button" class="btn btn-default js-search-btn" tabindex="-1">
                                     <span class="fa fa-search"></span>
                                 </button>
-                                <button class="btn btn-success border-r4" type="button" data-toggle="dropdown">
+                                <button class="btn btn-success border-r4 btn-gray" type="button" data-toggle="dropdown">
                                     <span class="fa fa-plus"></span><span class="name">Фильтры</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu pull-right js-search-menu" style="position:absolute; top:33px; right:-2px;">
