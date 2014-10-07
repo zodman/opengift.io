@@ -108,14 +108,14 @@ $(function(){
                 this.undelegateEvents();
                 this.delegateEvents();
             };
-
-            baseConnector.addListener('connect', function(){
-                setTimeout(function(){
-                        t.view.checkModel(function(){
-                        t.view.render();
-                    }, true);
-                }, 100);
-            });
+            t.view.render();
+//            baseConnector.addListener('connect', function(){
+//
+//                    t.view.checkModel(function(){
+//                        t.view.render();
+//                    }, true);
+//
+//            });
 
             $('.sendTaskMessage').on("click", function(){
                 var closeTask = $(this).hasClass('btn-close'),

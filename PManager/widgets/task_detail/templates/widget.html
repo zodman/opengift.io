@@ -246,7 +246,13 @@
         'critically':{{ task_detail.task.critically|jsonify }},
         'onPlanning':{{ task_detail.task.onPlanning|jsonify }},
         'status':'{{ task_detail.task.status.code }}',
-        'started': {{ task_detail.task.started|jsonify }}
+        'started': {{ task_detail.task.started|jsonify }},
+        'canEdit': {{ task_detail.task.canEdit|jsonify }},
+        'canClose': {{ task_detail.task.canClose|jsonify }},
+        'canSetPlanTime': {{ task_detail.task.canSetPlanTime|jsonify }},
+        'canApprove': {{ task_detail.task.canApprove|jsonify }},
+        'canRemove': {{ task_detail.task.canRemove|jsonify }},
+        'canSetCritically': {{ task_detail.task.canSetCritically|jsonify }}
     }
     window.taskHtml = {{ task_detail.taskTemplate|jsonify|safe }};
     var arJSParams = {
