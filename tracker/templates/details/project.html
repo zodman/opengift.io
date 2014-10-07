@@ -42,7 +42,11 @@ $(function(){
     <div class="media">
 {#      <a class="pull-left" href="#">#}
 {#        <img src="/static/images/avatar_unknown.png" />#}
+    {% if project.imagePath %}
         <img class="pull-left" width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" />
+    {% else %}
+        <img src="/static/images/avatar_unknown.png" />
+    {% endif %}
 {#      </a>#}
       <div class="media-body">
           {% for role, users in roles.items %}
