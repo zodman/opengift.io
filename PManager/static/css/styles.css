@@ -23,8 +23,11 @@ hr.no-top-magin-hr {margin-top:0px;}
 .fa-play, .fa-play:hover {color:#47A447; text-decoration:none;}
 
 .balance {width:530px !important; padding:25px !important; margin-left:-265px !important; border:3px solid #5cb85c;}
- .balance h3  {color: #47a447; font-weight: bold; line-height: 30px; text-align: center; text-transform: uppercase;}
+.callback {width:330px !important; padding:25px !important; margin-left:-165px !important; margin-top:100px !important; border:3px solid #5cb85c;}
+.balance h3, .callback h3 {color: #47a447; font-weight: bold; line-height: 30px; text-align: center; text-transform: uppercase;}
 .balance .btn-large {width:100%; padding:10px;}
+.callback .btn-large {width:100%;}
+.callback input {width:100%; padding:10px;}
 
 .wrapper {
     margin: 0 auto;
@@ -233,6 +236,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 .sub-menu {}
 .sub-menu ul.list-inline {margin-bottom:0px !important;}
 .sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
+.sub-menu_line_section-user li > a.bold {font-weight: bold;}
 .sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
 .sub-menu_line_section-user .users-and-groups { background-position: 0px -310px; }
 .sub-menu_line_section-user .files { background-position: 0px -343px; }
@@ -386,6 +390,9 @@ border-bottom-right-radius: 0px;}
 .tasks-toolbar .search-filter .btn-info {width:40px; margin-left:0px;}
 .tasks-toolbar .search-filter .btn {margin-bottom:0px;}
 .tasks-toolbar .search-filter .dropdown-menu {margin:0px;}
+
+.btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
+.btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
 .big-input { float:left; width:100%; position:relative; }
 .big-input .input-block-level { padding:4px 12px; }

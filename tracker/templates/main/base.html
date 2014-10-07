@@ -162,7 +162,19 @@ $(function(){
          <hr>
          <p><img src="/static/images/robokassa.png" class="img-responsive"></p>
          <hr>
-         <p align="center"><a href="" class="btn  btn-large btn-success" value="Пополнить баланс">Пополнить баланс</a>
+         <p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>
+        </div>
+    </div>
+    
+    <div class="popup callback" style="display:none;">
+        <h3>Перед тем, как уйти</h3>
+        <hr>
+        <div class="border-wrapper">
+ 		 <p>Скажите пару слов для <span>нашего</span>радио.</p>
+         <form>
+         <p><input type="text" class="form-control" placeholder="Ваш телефон"></p>
+         <p><input type="button" class="btn btn-large btn-success" value="Перезвоните мне"></p>
+         </form>
         </div>
     </div>
     
@@ -301,17 +313,19 @@ $(function(){
         {% if user.is_authenticated %}
         <div class="sub-menu_line_section-user col-xs-8">
             <ul class="list-inline">
-                <li><a href="/user_list/" class="users-and-groups">Пользователи</a></li>
                 {% if main.CURRENT_PROJECT.id %}
-                <li><a href="/files/" class="files">Файлы</a></li>
                 <li>
-                    <a href="/new_task_wizard/" class="new_task js-taskWizard-opener">Создать задачу</a>
+                    <a href="/new_task_wizard/" class="new_task js-taskWizard-opener bold">Создать задачу</a>
                 </li>
                 {% endif %}
                 {% if is_staff %}
                 <li>
-                    <a href="/static/invite_info.html?10" class="js-main-fnc users-and-groups">Пригласить пользователей</a>
+                    <a href="/static/invite_info.html?10" class="js-main-fnc users-and-groups">Пригласить специалистов</a>
                 </li>
+                {% endif %}
+                <li><a href="/user_list/" class="users-and-groups">Пользователи</a></li>
+                {% if main.CURRENT_PROJECT.id %}
+                <li><a href="/files/" class="files">Файлы</a></li>
                 {% endif %}
             </ul>
         </div>
