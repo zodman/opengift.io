@@ -110,9 +110,11 @@ $(function(){
             };
 
             baseConnector.addListener('connect', function(){
-                    t.view.checkModel(function(){
-                    t.view.render();
-                }, true)
+                setTimeout(function(){
+                        t.view.checkModel(function(){
+                        t.view.render();
+                    }, true);
+                }, 100);
             });
 
             $('.sendTaskMessage').on("click", function(){
