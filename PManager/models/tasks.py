@@ -1345,12 +1345,14 @@ class PM_Task_Message(models.Model):
             if self.task.onPlanning and cur_profile.id != profile.id:
                 p = self.task.project
 
-                if cur_user and (
+                if cur_profile and (
                                 cur_profile.isClient(p) and not profile.isClient(p)
                         or
-                                cur_profile.isEmployee(p) and not profile.isEmployee(p)
-                    or
-                            cur_profile.isManager(p) and profile.isEmployee(p)
+                                cur_profile.isEmployee(p) and self.author.id == self.task.author
+                        or
+                                cur_profile.isEmployee(p) and profile.isManager(p)
+                        or
+                                cur_profile.isManager(p) and profile.isEmployee(p)
                 ):
                     try:
                         planTime = PM_User_PlanTime.objects.get(
@@ -1359,7 +1361,7 @@ class PM_Task_Message(models.Model):
                         )
 
                         bet = cur_profile.getBet(self.project) \
-                            or self.author.get_profile().getBet(self.project) * COMISSION
+                            or self.author.get_profile().getBet(self.project)
 
                         addParams.update({
                             'confirmation': (
