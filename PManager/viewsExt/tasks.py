@@ -66,7 +66,7 @@ def taskListAjax(request):
             task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
 
             #outsource
-            if not task.resp.is_staff: #if payed client
+            if not task.resp.is_staff or task.resp.get_profile().getBet(task.project) <= 0: #if finance relationship
                 task.setStatus('not_approved')
             else:
                 task.setStatus('revision')
@@ -408,7 +408,7 @@ def taskListAjax(request):
                 if property == "planTime" and value:
                     task.setPlanTime(value, request)
 
-                    taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
+                    # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
                     task.systemMessage(
                         u'оценил(а) задачу в ' + str(value) + u'ч. с опытом '
                         + str(task.getUserRating(request.user)),

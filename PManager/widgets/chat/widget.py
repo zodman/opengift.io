@@ -21,7 +21,8 @@ def widget(request, headerValues=None, ar=None, qargs=None):
                     Q(hidden_from_employee=False) |
 
                 Q(task__resp=request.user) |
-                Q(task__author=request.user)#todo: add hidden from clients and hidden from employee
+                Q(task__author=request.user) | #todo: add hidden from clients and hidden from employee
+                Q(task__onPlanning=True) & Q(project__in=request.user.get_profile().getProjects())
             )
         )
     ).filter(task__active=True)

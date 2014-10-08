@@ -1342,8 +1342,9 @@ class PM_Task_Message(models.Model):
         profile = self.author.get_profile() if self.author else None
         cur_profile = cur_user.get_profile() if cur_user else None
         if self.code == 'SET_PLAN_TIME':
-            if self.task.onPlanning:
+            if self.task.onPlanning and cur_profile.id != profile.id:
                 p = self.task.project
+
                 if cur_user and (
                                 cur_profile.isClient(p) and not profile.isClient(p)
                         or
@@ -1450,6 +1451,8 @@ class PM_Task_Message(models.Model):
                    not self.hidden_from_clients and prof.isClient(self.project)
                ) or (
                    not self.hidden_from_employee and prof.isEmployee(self.project)
+               ) or (
+                    self.task.onPlanning and prof.hasRole(self.project)
                )
 
     def getUsersForNotice(self):
