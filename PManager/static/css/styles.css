@@ -1528,3 +1528,8 @@ border-top-right-radius: 0;}
 
 .footer-links {border-top: 1px solid #ddd; color:#ddd; margin-top: 25px; padding-bottom: 15px; padding-top: 25px;}
 .footer-links a {color:#999; display:inline-block; margin:0 10px;}
+
+#chatWindow .task-message.last {display: block;}
+#chatWindow .task-message {display: none;}
+.minimize {position: absolute; right: 28px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
+.minimize span {font-size: 13px;}

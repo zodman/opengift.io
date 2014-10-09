@@ -373,6 +373,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
         messageListManager = function ($element, taskId, arMessageTpl) {
             this.taskId = taskId;
             this.$commentsContainer = $element;
+            this.$subContainers = [];
             if (arMessageTpl)
                 this.messageTemplates = arMessageTpl;
             else
