@@ -258,7 +258,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
     ###############################################################*/
 
 div.widget {background:#fff; border-radius: 5px;box-shadow:0px 0px 5px #ddd;  padding:15px 20px 20px;  -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; margin-bottom:25px; position:relative; z-index:1;}
-div.widget h1 a {font-size: 18px; left: 3px; position: relative; text-decoration: none; top: 6px; vertical-align: top;}
+div.widget h1 a {font-size: 18px; left: 3px; position: relative; text-decoration: none; top: 6px; vertical-align: top; color:#333;}
 div.widget h1 a:hover {color:#cd0000;}
 div.widget:hover,
 div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #aaa; -o-box-shadow:0px 0px 5px #aaa; -moz-box-shadow:0px 0px 5px #aaa;}
