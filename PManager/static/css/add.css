@@ -59,7 +59,7 @@ img.thumbnail {
 /*ОКНО ДОБАВЛЕНИЯ КАРТИНКИ*/
 div.preview_img_form {
     width:700px;
-    margin-left:-385px;
+    /*margin-left:-385px;*/
     padding:15px;
     top:100px;
 }
