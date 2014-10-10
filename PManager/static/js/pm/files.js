@@ -285,7 +285,7 @@ $.fn.addFilePaste = function(options){
             if(popupWidth > 1000){ // Меняем размер окна .preview_img_form
                 $(".preview_img_form").css({
                     'width': popupWidth+'px',
-                    'marginLeft': '-'+popupMarginLeft+'px'
+                    //'marginLeft': '-'+popupMarginLeft+'px'
                 });
             }
 
