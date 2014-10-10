@@ -352,7 +352,7 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить разработчиков', '#invite-developers', function(){
+                        $block = menuTaskBlock('Пригласить разработчиков HELIARD', '#invite-developers', function(){
                             var tasks = [];
                             if (ACCOUNT_TOTAL <= 0) {
                                 alert('Данная услуга доступна только при положительном балансе. Пожалуйста, пополните ваш счет.');
