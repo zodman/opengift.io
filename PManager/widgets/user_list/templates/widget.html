@@ -45,7 +45,9 @@ $(function() {
                 	<div class="widget-title clearfix">
                     	<div class="pull-left"><i class="statusImg"></i>&nbsp;&nbsp;
                             <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a><small class="small">{% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}</small></div>
-                            <!--<span class="achievement-ico">30</span>-->
+                            {% if user.user_achievements.count %}
+                            <span class="achievement-ico">{{ user.user_achievements.count }}</span>
+                            {% endif %}
                     </div>
 
                     <div class="widget-body user-personal row-fluid clearfix">
