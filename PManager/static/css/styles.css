@@ -918,7 +918,10 @@ a.message_task_name {color:#555555; text-decoration:underline;}
     ###############################################################*/
 
 /* мод. окно добавление задачи */
-.modal.add-task .modal-dialog { left: 50%; right: auto; width: 600px; padding-top: 70px; padding-bottom: 30px; }
+.widget.tasklist .modal-dialog { left: 0; right: 0; width: 600px; position: absolute; padding-top: 5px; padding-bottom: 30px; }
+.modal.modal-content.add-task { overflow: hidden; }
+.modal.modal-content.add-task .complete{ padding-top:2px; padding-right: 7px; float: left; }
+
 
 
 /*  ###############################################################

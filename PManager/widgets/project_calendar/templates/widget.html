@@ -3,60 +3,63 @@
 <script type="text/javascript" src="/widgets/js/project_calendar/script.js"></script>
 
 <div class="widget tasklist">
-    <div id="taskform" class="modal add-task" style="display:none;">
-        <div class="modal-header">
-        	<button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-        	<h3>Создать задачу</h3>
-        </div>
-        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
-            <input type="hidden" name="GROUP_ID" value="" />
-            <input type="hidden" name="ID" value="" />
-       		<div class="modal-body">
-                <div class="control-group">
-                    <label class="control-label">Заголовок:</label>
-                    <div class="controls">
-                    <input id='title_inp' type="text" name="TITLE" value="" />
+    <div class="modal-dialog">
+        <div id="taskform" class="modal modal-content add-task" style="display:none;">
+            <div class="modal-header">
+            	<button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            	<h3>Создать задачу</h3>
+            </div>
+            <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
+                <input type="hidden" name="GROUP_ID" value="" />
+                <input type="hidden" name="ID" value="" />
+           		<div class="modal-body">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Заголовок:</label>
+                        <div class="col-xs-9 controls">
+                        <input id='title_inp' class="form-control" type="text" name="TITLE" value="" />
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Ответственный:</label>
-                    <div class="controls">
-                    <select name="RESPONSIBLE_ID" >
-                            {% for resp_user in project_calendar.users %}
-                                <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
-                            {% endfor %}
-                    </select>
-                    </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Критичность:</label>
-                    <div class="controls">
-                        <select name="PRIORITY" >
-                            <option value="0">Низкая</option>
-                            <option value="1">Нормальная</option>
-                            <option value="2">Высокая</option>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Ответственный:</label>
+                        <div class="col-xs-9 controls">
+                        <select name="RESPONSIBLE_ID" class="form-control">
+                                {% for resp_user in project_calendar.users %}
+                                    <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
+                                {% endfor %}
                         </select>
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <label class="control-label">Дедлайн:</label>
-                    <div class="controls">
-                    <input type="text" name="DEADLINE" value="" />
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Критичность:</label>
+                        <div class="col-xs-9 controls">
+                            <select name="PRIORITY" class="form-control">
+                                <option value="0">Низкая</option>
+                                <option value="1">Нормальная</option>
+                                <option value="2">Высокая</option>
+                            </select>
+                        </div>
                     </div>
-                </div>
-                <div class="control-group">
-                    <div class="controls">
-                    <label class="checkbox">
-                    <input type="checkbox" name="STATUS" value="5" > Завершить:
-                    </label>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Дедлайн:</label>
+                        <div class="col-xs-9 controls">
+                        <input type="text" class="form-control" name="DEADLINE" value="" />
+                        </div>
                     </div>
-                </div>
-        	</div>
-            <div class="modal-footer">
-                <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
-                <a class="btn btn-primary submit" href="#">Сохранить</a>
-              </div>
-        </form>
+                    <div class="form-group">
+                        <div class="controls" style="padding-left: 157px;">
+                        <label>
+                        <input type="checkbox" name="STATUS" value="5" >
+                        <span class="complete">Завершить:</span>
+                        </label>
+                        </div>
+                    </div>
+            	</div>
+                <div class="modal-footer">
+                    <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
+                    <a class="btn btn-primary submit" href="#">Сохранить</a>
+                  </div>
+            </form>
+        </div>
     </div>
     <div class="widget-control">
         <a href="#" class="w-collapse">Свернуть</a>
