@@ -1366,7 +1366,7 @@ class PM_Task_Message(models.Model):
                         addParams.update({
                             'confirmation': (
                                 '&nbsp;<a href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                                '" class="js-confirm-estimate btn btn-success">Согласиться с оценкой в ' + str(planTime.time * bet) + ' sp</a>'
+                                '" class="js-confirm-estimate agree-with-button">Согласиться с оценкой в ' + str(planTime.time * bet) + ' sp</a>'
                             )
                         })
                     except PM_User_PlanTime.DoesNotExist:
