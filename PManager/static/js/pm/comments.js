@@ -433,7 +433,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (message.get('userTo') && message.get('userTo')['id'] == document.mainController.userId) {
                         message.view.$el.addClass('for_current_user');
                     }
-
+                    t.$commentsContainer[func](message.view.$el);
+                    /*
                     var subCode = message.get('code');
                     if (subCode == null) {
                         subCode = 'MESSAGES';
@@ -458,6 +459,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     codeElement[func](message.view.$el);
                     message.view.$el.addClass('last');
+                    */
                 });
 
                 this.messageList.on("remove", function (message) {
