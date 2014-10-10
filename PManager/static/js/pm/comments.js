@@ -434,7 +434,30 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         message.view.$el.addClass('for_current_user');
                     }
 
-                    t.$commentsContainer[func](message.view.$el);
+                    var subCode = message.get('code');
+                    if (subCode == null) {
+                        subCode = 'MESSAGES';
+                    };
+
+                    if (t.$commentsContainer.find('.' + subCode).length == 0) {
+                        var containerMessages = $('<div class="' + subCode +'"></div>');
+                        t.$commentsContainer.append(containerMessages);
+                    } else if (t.$commentsContainer.find('.' + subCode).find('.minimize').length == 0){
+                        containerMessages = t.$commentsContainer.find('.' + subCode);
+                        var btnMinimize = $('<div class="btn btn-default minimize"><span class="fa fa-caret-down"></span></div>');
+                        btnMinimize.click(function(){
+                            containerMessages.find('.task-message').show();
+                             $(this).remove();
+                        });
+                        containerMessages.append(btnMinimize);
+                    };
+
+                    var codeElement = t.$commentsContainer.find('.' + subCode); 
+
+                    codeElement.find('.last').hide().removeClass('last');                
+
+                    codeElement[func](message.view.$el);
+                    message.view.$el.addClass('last');
                 });
 
                 this.messageList.on("remove", function (message) {
