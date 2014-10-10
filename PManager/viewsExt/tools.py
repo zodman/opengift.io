@@ -34,7 +34,10 @@ class emailMessage:
         html_content = t.render(c)
         msg = EmailMultiAlternatives(self.subject, '', self.u_from, to)
         msg.attach_alternative(html_content, "text/html")
-        msg.send()
+        try:
+            msg.send()
+        except:
+            pass
 
 class templateTools:
     class dateTime:
