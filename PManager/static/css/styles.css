@@ -905,6 +905,13 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .new-message .chatString {box-shadow:0 0 5px #DDDDDD; border:1px solid #CCCCCC;}
 .new-message {border:none !important;}
 
+.task-message.new-message {display: block !important;}
+
+.MESSAGES.SUBCONTAINER .task-message .DetailCommentInfo {padding: 0 !important;}
+.MESSAGES.SUBCONTAINER .task-message {display: block !important;}
+.MESSAGES.SUBCONTAINER .minimize {display: none !important;}
+
+
 #chat .InputBlock {display:none;}
 
 .chat-nav {border:1px solid #ddd; border-radius:4px; -moz-border-radius:4px; -ms-border-radius:4px; -o-border-radius:4px; -webkit-border-radius:4px;box-shadow:1px -1px 0px #fff inset; -moz-box-shadow:1px -1px 0px #fff inset; -ms-box-shadow:1px -1px 0px #fff inset;-o-box-shadow:1px -1px 0px #fff inset; -webkit-box-shadow:1px -1px 0px #fff inset; }
@@ -1610,5 +1617,5 @@ border-top-right-radius: 0;}
 
 #chatWindow .task-message.last {display: block;}
 #chatWindow .task-message {display: none;}
-.minimize {position: absolute; right: 28px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
+.minimize {position: absolute; right: 36px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
 .minimize span {font-size: 13px;}
