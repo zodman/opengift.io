@@ -433,7 +433,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (message.get('userTo') && message.get('userTo')['id'] == document.mainController.userId) {
                         message.view.$el.addClass('for_current_user');
                     }
-
+                    t.$commentsContainer[func](message.view.$el);
                     /* Mininimize sustem messages */
 
                     var subCode = message.get('code');

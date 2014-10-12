@@ -238,7 +238,7 @@
                             <div class="dostizheniya-item">
                                 <table width="100%" cellpadding="0" cellspacing="0">
                                     <tr>
-                                    <td class="dostizheniya-item-img"><a href="#"><img src="{{ c.smallImageUrl }}" alt="{{ c.name }}" /></a></td>
+                                    <td class="dostizheniya-item-img"><a href="#"><img width="64" src="{{ c.smallImageUrl }}" alt="{{ c.name }}" /></a></td>
                                     <td class="dostizheniya-item-text">
                                     <h4>{{ c.name }}</h4>
                                     <p class="date">{{ c.date }}</p>
@@ -247,6 +247,7 @@
                                     </tr>
                                 </table>
                             </div>
+                            {% if not forloop.last %}<hr />{% endif %}
                         {% endfor %}
                     {% endif %}
 
