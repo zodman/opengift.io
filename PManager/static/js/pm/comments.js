@@ -450,6 +450,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         btnMinimize.click(function(){
                             containerMessages.find('.task-message').show();
                             containerMessages.find('.task-message .DetailCommentInfo').css('padding-right','0');
+                            containerMessages.find('.alert').css('padding-right','15px');
                             $(this).remove();
                         });
                         if (!message.view.$el.hasClass('new-message')) {
@@ -464,6 +465,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (!message.view.$el.hasClass('new-message')) {
                         message.view.$el.addClass('last');
                         message.view.$el.find('.DetailCommentInfo').css('padding-right','37px');
+                        message.view.$el.find('.alert').css('padding-right','50px');
                     };
 
                     /* /Mininimize sustem messages */
