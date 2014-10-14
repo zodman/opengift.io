@@ -65,14 +65,13 @@
                                 'email': $email.val()
                             },
                             function(data) {
-                                $('body').append('<div class="popup popup-alert" style="display: none;"><h3 class="title">Заголовок всплывающего окна</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><ul class="list"><li>Пункт 1</li><li>Пункт 2</li><li>Пункт 3</li></ul><div class="content">' + data + '</div><div class="images"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"></div></div>');
+                                $('body').append('<div class="popup popup-alert"><!--h3 class="title">Заголовок всплывающего окна</h3--><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><!--ul class="list"><li>Пункт 1</li><li>Пункт 2</li><li>Пункт 3</li></ul><div class="content"-->' + data + '<!--/div><div class="images"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"></div--></div>');
                                 $('.js-popupClose').click(function(){
                                     $(this).parent().fadeOut(200, function(){
                                         $(this).remove();
                                     })
                                 })
-                                $email.val('');
-                                alert(data);                            }
+                                $email.val('');                        }
                         );
                     }
 
