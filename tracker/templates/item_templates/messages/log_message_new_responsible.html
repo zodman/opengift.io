@@ -1,10 +1,12 @@
-<div class="alert alert-warning">
-    <span class="chatDate">#DATE_CREATE#</span>
-    <a href="#AUTHOR_URL#" class="message-author" style="color:#57A957;">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>
-    <span class='message-text'><strong>#TEXT#</strong></span>
-    <span class="js-taskMessageText">
-        #PROJECT_LINE#
-        #TASK_LINE#
-        #FILE_LIST#
-    </span>
+<div class="message warning">
+    <div class="message-content">
+        <div class="message-info">
+            #PROJECT_LINE#
+            <span class="message-info-time">#DATE_CREATE#</span>&nbsp;/
+            <a href="#AUTHOR_URL#" class="message-info-name">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>
+        </div>
+        <div class="message-desc clearfix">
+            <div class="message-desc-left"><b class="message-desc-status">#TEXT#</b>&nbsp;#TASK_LINE#</div>
+        </div>
+    </div>
 </div>

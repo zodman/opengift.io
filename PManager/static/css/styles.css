@@ -874,17 +874,17 @@ div.statistic-filter_user-list label input[type="checkbox"] {
     ###############################################################*/
 
 .task-message {margin-bottom:10px;}
-.task-message .alert, .task-message .chatString {padding: 10px 15px;}
-.task-message .chatString > span img {max-width:90px; position:relative; top:2px;}
-.alert-warning, .alert-success, .alert-info, .alert-danger, .chatString {margin:0px;}
+.task-message .alert, .task-message .message {padding: 10px 15px;}
+.task-message .message > span img {max-width:90px; position:relative; top:2px;}
+.alert-warning, .alert-success, .alert-info, .alert-danger, .message {margin:0px;}
 .alert-apprice {
     background: none repeat scroll 0 0 #ffece2;
     border: 1px solid #f5ded1;
     color: #b04e19;
     margin-bottom: 0px;
 }
-.chatString {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
-.alert-warning, .for_current_user .chatString {border-color:#F5F3EA; background:#FFFDF1;}
+.message {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
+.alert-warning, .for_current_user .message {border-color:#F5F3EA; background:#FFFDF1;}
 .alert-success {border-color:#DEECD8; background:#edf8ed;}
 .alert-info {border-color:#D9EDF7; background:#ecf5f9;}
 a.message_task_name {color:#555555; text-decoration:underline;}
@@ -901,7 +901,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .new-message .alert-success {box-shadow:0 0 5px #BEE4AD; border:1px solid #a7e48d;}
 .new-message .alert-warning {box-shadow:0 0 5px #EDD76E; border:1px solid #EDD76E;}
 .new-message .alert-info {box-shadow:0 0 5px #a1daf7; border:1px solid #a1daf7;}
-.new-message .chatString {box-shadow:0 0 5px #DDDDDD; border:1px solid #CCCCCC;}
+.new-message .message {box-shadow:0 0 5px #DDDDDD; border:1px solid #CCCCCC;}
 .new-message {border:none !important;}
 
 .task-message.new-message {display: block !important;}
@@ -1621,7 +1621,7 @@ border-top-right-radius: 0;}
 
 /*СООБЩЕНИЯ*/
 
-.message {margin-bottom:15px; background:#f2f2f2; padding:10px 15px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
+.message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; padding:10px 15px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
 											
