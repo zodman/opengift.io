@@ -1124,7 +1124,7 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .user-contacts,
 .user-tasks-info {margin-right:20px;}
 
-.user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:20px; line-height:20px; padding-left:26px; margin-bottom:5px; list-style:none;}
+.user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:18px; line-height:20px; padding-left:26px; margin-bottom:7px; list-style:none;}
 .user-contacts li.mailto {background-position:0px -440px;}
 .user-contacts li.user-icq {background-position:0px -460px;}
 .user-contacts li.user-skype {background-position:0px -480px;}
