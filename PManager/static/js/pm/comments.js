@@ -374,7 +374,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
         messageListManager = function ($element, taskId, arMessageTpl) {
             this.taskId = taskId;
             this.$commentsContainer = $element;
-            this.$subContainers = [];
             if (arMessageTpl)
                 this.messageTemplates = arMessageTpl;
             else
@@ -427,49 +426,62 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                                 }
                             );
                         }
-                        knock();
+                        knock();    
                     } else {
                         func = 'append';
                     }
                     if (message.get('userTo') && message.get('userTo')['id'] == document.mainController.userId) {
                         message.view.$el.addClass('for_current_user');
                     }
-                    t.$commentsContainer[func](message.view.$el);
-                    /* Mininimize sustem messages */
+
+                    /* Mininimize system messages */
 
                     var subCode = message.get('code');
                     if (subCode == null) {
                         subCode = 'MESSAGES';
-                    };
-                    
+                    }
+
+                    var $chatWindow = $('#chatWindow');
+
                     if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) || message.view.$el.hasClass('new-message')) {
-                        var containerMessages = $('<div class="' + subCode +' SUBCONTAINER"></div>');
-                        t.$commentsContainer.append(containerMessages);
-                    } else if (t.$commentsContainer.find('.SUBCONTAINER:last').find('.minimize').length == 0) {
-                        containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
-                        var btnMinimize = $('<div class="btn btn-default minimize"><span class="fa fa-caret-down"></span></div>');
-                        btnMinimize.click(function(){
-                            containerMessages.find('.task-message').show();
-                            containerMessages.find('.task-message .DetailCommentInfo').css('padding-right','0');
-                            containerMessages.find('.alert').css('padding-right','15px');
-                            $(this).remove();
-                        });
-                        if (!message.view.$el.hasClass('new-message')) {
+                        if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message'))) {
+                            var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
+                            var colMessages = (containerMessages.find('.task-message')).length - 1;
+                            var msgs = containerMessages.find('.task-message');
+                            var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
+                            btnMinimize.click(function(){
+                                msgs.show();
+                                $(this).remove();
+                            });
                             containerMessages.append(btnMinimize);
-                        };
-                    };
+                        }
+                        var containerMessages = $('<div class="' + subCode +' SUBCONTAINER"></div>');
+                        if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
+                            t.$commentsContainer.prepend(containerMessages);
+                        } else {
+                            t.$commentsContainer.append(containerMessages);
+                        }
+                    }
 
-                    var codeElement = t.$commentsContainer.find('.SUBCONTAINER:last'); 
-                    codeElement.find('.last').hide().removeClass('last');                
+                    var codeElementLast = t.$commentsContainer.find('.SUBCONTAINER:last');
+                    var codeElementFirst = t.$commentsContainer.find('.SUBCONTAINER:first');
+                    codeElementLast.find('.last').removeClass('last');                
+                    if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
+                        codeElementFirst[func](message.view.$el);
+                    } else {
+                        codeElementLast[func](message.view.$el);
+                    }
 
-                    codeElement[func](message.view.$el);
                     if (!message.view.$el.hasClass('new-message')) {
-                        message.view.$el.addClass('last');
-                        message.view.$el.find('.DetailCommentInfo').css('padding-right','37px');
-                        message.view.$el.find('.alert').css('padding-right','50px');
-                    };
+                        var sel = ":last";
+                        if($chatWindow.length > 0){
+                            sel = ":first"
+                        }
+                        codeElementLast.find('.task-message' + sel).addClass('last');
+                        codeElementLast.find('.task-message:not(.last)').hide();
+                    }
 
-                    /* /Mininimize sustem messages */
+                    /* /Mininimize system messages */
 
                 });
 

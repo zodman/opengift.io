@@ -359,6 +359,7 @@ div.widget-control .w-close {background-position:-15px -396px;}
 
 div.overflow {background:#000; opacity:0.7; position:fixed; width:100%; height:100%; z-index:1000;}
 div.popup {background:#f0f0f0; position:fixed; margin: 0 auto !important; left: 0; right: 0; top:150px; width:385px; box-shadow:0px 0px 25px #000; -webkit-box-shadow:0px 0px 25px #000; -moz-box-shadow:0px 0px 25px #000; padding:25px 35px; z-index:9999;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; behavior: url(../pie/PIE.htc);}
+.popup-close, .popup-close:hover {position:absolute; top:5px; right:5px; font-size:20px; color:#5cb85c;}
 div.popup .row {margin-bottom:15px; line-height:30px;}
 div.popup .row input[type="text"] {display:block; float:left; margin:0px;}
 
@@ -1616,8 +1617,6 @@ border-top-right-radius: 0;}
 
 #chatWindow .task-message.last {display: block;}
 #chatWindow .task-message {display: none;}
-.minimize {position: absolute; right: 36px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
-.minimize span {font-size: 13px;}
 
 /*СООБЩЕНИЯ*/
 
