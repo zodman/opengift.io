@@ -48,7 +48,7 @@ def widget(request, headerValues, arFilter, q):
                     pref = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
                             '<hr>' + \
                             'Необходимо ' + str(prof.getBet(task.project) * task.planTime) + 'sp' + \
-                            '<div class="border-wrapper">'+ \
+                            '<div class="border-wrapper">' + \
                             '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
                             '<hr>' + \
                             '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
