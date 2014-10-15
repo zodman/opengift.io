@@ -790,12 +790,13 @@ var CRITICALLY_THRESHOLD = 0.7;
         'setRevision': function () {
             var t = this;
             taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
+                data = $.parseJSON(data);
                 if (data.error) alert(data.error);
                 t.checkModel(function () {
                     t.model.set('status', 'revision');
                     t.render();
                 });
-            }, 'json');
+            });
         },
         'removeTask': function () {
             if (confirm('Вы действительно хтотите удалить эту задачу?')) {
