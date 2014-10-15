@@ -105,8 +105,9 @@
         <tr>
         <td style="vertical-align:middle !important; text-align:center !important;" class="calendar-project-title">
             <h4>{{ project.name }}</h4>
-
+            {% if project.imagePath %}
             <img src="{{ project.imagePath|thumbnail:"100x100" }}" />
+            {% endif %}
         </td>
         {% for day in project_calendar.arDays %}
         <td onMouseOver="$(this).find('span').show();" onMouseOut="$(this).find('span').hide();" {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>
