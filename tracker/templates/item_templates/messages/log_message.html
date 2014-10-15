@@ -1,26 +1,24 @@
-<div class="chatString media">
-    <table width="100%" cellspacing="0" cellpadding="0">
-        <tbody>
-        <tr>
-            <td valign="top" style="width:100px; vertical-align:top;">
-                <div class="avatar">
-                    <a href="/user_detail/?id=#AUTHOR_ID#" class="pull-left">#AVATAR#</a>
-                </div>
-            </td>
-            <td valign="top" style="padding-left:15px; vertical-align:top;">
-                <span class="chatDate">#DATE_CREATE#</span>
-
-                <a href="#AUTHOR_URL#" style="color:#57A957;">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>#USER_TO_NAME#
-                <p class="js-taskMessageText">
-                    #PROJECT_LINE#
+<div class="message">
+    <div class="avatar">
+        <a class="pull-left" href="#AUTHOR_URL#">#AVATAR#</a>
+    </div>
+    <div class="message-content">
+        <div class="message-info">
+            #PROJECT_LINE#
+            <span class="message-info-time">#DATE_CREATE#</span>&nbsp;/
+            <a href="#AUTHOR_URL#" class="message-info-name">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>#USER_TO_NAME#
+        </div>
+        <div class="message-desc clearfix">
+            <div class="message-desc-left">
                     #TASK_LINE#<br/>
                     #TEXT#
-                </p>
-
                 <div class="js-filesList">
                     #FILE_LIST#
                 </div>
-            </td>
-        </tbody>
-    </table>
+            </div>
+            <div class="message-desc-right">
+                    <a rel="#AUTHOR_ID#" class="button green-button js-reply" href="#">Ответить</a>
+            </div>
+        </div>
+    </div>
 </div>

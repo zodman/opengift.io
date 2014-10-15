@@ -11,31 +11,31 @@ HTML tenmplate for message
 #FILE_LIST#
 #USER_TO_NAME#
 -->
-<div class="chatString">
-<div class="pull-left Avatar js-avatarBlock">
-    <a href="/user_detail/?id=#AUTHOR_ID#"> #AVATAR# </a>
-</div>
-<div class="DetailCommentInfo Img">
-    <div class="pull-left author js-author-block">
-        <a href="/user_detail/?id=#AUTHOR_ID#">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a> <span>(#AUTHOR_USERNAME#)</span>#USER_TO_NAME# 
-    </div>
-    <a title="Удалить" class="task-message-icon pull-right js-removeTaskMessage" style="display:none;margin-left:10px;"><i class="fa fa-times-circle"></i></a>
-    <a title="Изменить" class="task-message-icon pull-right js-editTaskMessage" style="display:none;margin-left:10px;"><i class="fa fa-edit"></i></a>
 
-    <div class="pull-right time">#DATE_CREATE# #HIDDEN_LABEL#</div>
-</div>
-<div class="DetailCommentText Img js-taskMessageText">
-        <div>
-            <div class="js-messageDetailText">#TEXT#</div>
-            <div class="js-filesList">
-
-            </div>
-        </div>        
-        <div align="right">
-        	<a href="#" class="DetailCommentInfo-quote js-quote btn btn-default btn-xs">Цитировать</a>
-        	<a href="#" rel="#AUTHOR_ID#" class="js-reply btn btn-success btn-xs">Ответить</a>
+<div class="message">
+        <div class="avatar js-avatarBlock">
+            <a class="pull-left" href="/user_detail/?id=1"> #AVATAR# </a>
         </div>
-</div>
+        <div class="message-content">
+            <div class="message-info js-author-block">
+                <span class="message-info-time">#DATE_CREATE# #HIDDEN_LABEL#</span>&nbsp;/
+                <a href="#AUTHOR_URL#" class="message-info-name">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>#USER_TO_NAME#
+                <span class="message-control">
+                    <a style="display:none;" href="" title="Изменить" class="js-editTaskMessage"><i class="fa fa-edit"></i></a>
+                    <a style="display:none;" href="" title="Удалить" class="js-removeTaskMessage"><i class="fa fa-times-circle"></i></a>
+                </span>
+            </div>
+            <div class="message-desc clearfix js-taskMessageText">
+                <div class="message-desc-left">
+                    <div class="message-desc-message js-messageDetailText">#TEXT#</div>
+                    <div class="js-filesList">
 
-
-</div>
+                    </div>
+                </div>
+                <div class="message-desc-right">
+                    <a class="button grey-button js-quote" href="#">Цитировать</a>
+                    <a rel="#AUTHOR_ID#" class="button green-button js-reply" href="#">Ответить</a>
+                </div>
+            </div>
+        </div>
+    </div>

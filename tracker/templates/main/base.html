@@ -154,7 +154,8 @@ $(function(){
         </div>
     </div>
     
-    <div class="popup balance" style="display:none;">
+    <div class="popup balance">
+    	<a href="#" class="popup-close" onclick="$(this).closest('.popup').hide();"><i class="fa fa-times"></i></a>
         <h3>На вашем счету недостаточно средств для пользования данной услугой</h3>
         <hr>
         <div class="border-wrapper">
@@ -166,7 +167,8 @@ $(function(){
         </div>
     </div>
     
-    <div class="popup callback" style="display:none;">
+    <div class="popup callback">
+    	<a href="#" class="popup-close" onclick="$(this).closest('.popup').hide();"><i class="fa fa-times"></i></a>
         <h3>Перед тем, как уйти</h3>
         <hr>
         <div class="border-wrapper">

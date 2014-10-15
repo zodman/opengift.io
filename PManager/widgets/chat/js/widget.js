@@ -121,6 +121,7 @@ $(function(){
             };
             widget_chat.$options.find('input').each(v).click(v).click(function(){
                 widget_chat.reset();
+                $('.btn.btn-default.minimize').remove();
             });
             baseConnector.addListener('fs.comment.add', function(data){
                 for (var k in widget_chat.options){

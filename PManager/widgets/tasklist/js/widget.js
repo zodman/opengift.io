@@ -58,6 +58,7 @@ var widget_tl, currentGroup;
             '$searchRulesHolder': $('.search_items_holder'),
             '$saveFilterButton': $('.js-save-search-tab'),
             '$btnSuccess': $('.btn.btn-success'),
+            '$btnFilter': $('.btn.js-filter-btn'),
             '$tabContainer': $('.task-tab-filter'),
             '$taskCreateBtn': $('.btn.task-create'),
             'TL_Tasks': new window.taskList(),
@@ -503,9 +504,9 @@ var widget_tl, currentGroup;
                         //try to find existing user tabs
                         if (!$userTabEqualsQuery.get(0))
                             this.$saveFilterButton.removeClass(h);
-                            this.$btnSuccess.removeClass(br);
+                            this.$btnFilter.removeClass(br);
                     }else{
-                        this.$btnSuccess.addClass(br);
+                        this.$btnFilter.addClass(br);
                         this.$saveFilterButton.addClass(h);
                         siblings('.icon-remove').hide();
                     }

@@ -151,15 +151,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 if (messageInfo.task && messageInfo.task.name) {
                     if (messageInfo.project && messageInfo.project.name) {
-                        arKeys['PROJECT_LINE'] = '<a href="' + messageInfo.project.url + '" class="message_task_name">' +
-                            messageInfo.project.name + '</a> / ';
+                        arKeys['PROJECT_LINE'] = '<a href="'+messageInfo.project.url+'" class="message-info-title">'+messageInfo.project.name+'</a>&nbsp;/&nbsp;';
                     }
 
                     if (messageInfo.task.parent && messageInfo.task.parent.id) {
                         var p = messageInfo.task.parent;
-                        arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '<a href="' + p.url + '" class="message_task_name">' + p.name + '</a> / ';
+                        arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '/ <a href="' + p.url + '" class="message-desc-text">' + p.name + '</a> ';
                     }
-                    arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '<a href="' + messageInfo.task.url + '" class="message_task_name"><strong>' +
+                    arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '/ <a href="' + messageInfo.task.url + '" class="message-desc-text"><strong>' +
                         messageInfo.task.name + '</strong></a>';
                 }
 
@@ -450,6 +449,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         btnMinimize.click(function(){
                             containerMessages.find('.task-message').show();
                             containerMessages.find('.task-message .DetailCommentInfo').css('padding-right','0');
+                            containerMessages.find('.alert').css('padding-right','15px');
                             $(this).remove();
                         });
                         if (!message.view.$el.hasClass('new-message')) {
@@ -464,6 +464,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (!message.view.$el.hasClass('new-message')) {
                         message.view.$el.addClass('last');
                         message.view.$el.find('.DetailCommentInfo').css('padding-right','37px');
+                        message.view.$el.find('.alert').css('padding-right','50px');
                     };
 
                     /* /Mininimize sustem messages */
