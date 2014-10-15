@@ -47,7 +47,7 @@ def widget(request, headerValues, arFilter, q):
                     clientProfile = prof
                     pref = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
                             '<hr>' + \
-                            'Необходимо ' + str(clientProfile.getBet(task.project) * task.planTime) + 'sp' + \
+                            'Необходимо ' + str(prof.getBet(task.project) * task.planTime) + 'sp' + \
                             '<div class="border-wrapper">'+ \
                             '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
                             '<hr>' + \
@@ -70,7 +70,7 @@ def widget(request, headerValues, arFilter, q):
                         pass
 
                 if clientProfile:
-                    if clientProfile.account_total < clientProfile.getBet(task.project) * task.planTime:
+                    if prof.account_total < prof.getBet(task.project) * task.planTime:
                         error = pref
 
                 if not error:
