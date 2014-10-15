@@ -9,3 +9,4 @@ from PManager.models.agent import *
 from PManager.models.log import *
 from PManager.models.payments import *
 from PManager.models.interfaces import *
+from PManager.models.keys import *

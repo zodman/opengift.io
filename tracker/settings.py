@@ -114,37 +114,69 @@ TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__),'templates').replace('\\','/'),
     os.path.join(os.path.dirname(__file__),'../PManager/widgets').replace('\\','/'),
 )
-
-INSTALLED_APPS = (
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.sites',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'django.contrib.humanize',
-    # Uncomment the next line to enable the admin:
-    'django.contrib.admin',
-    # 'robokassa',
-    'PManager',
-    'pymorphy',
-    'django.contrib.humanize',
-    'south',
-    'django_notify',
-    'mptt',
-    'sekizai',
-    'sorl.thumbnail',
-    'wiki',
-    'wiki.plugins.attachments',
-    'wiki.plugins.notifications',
-    'wiki.plugins.images',
-    'wiki.plugins.macros',
-    'gunicorn',
-    'less',
-    # 'haystack'
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
-)
+if(node() == DEVELOPMENT_NODE):
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'livereload',
+        'django.contrib.humanize',
+        # Uncomment the next line to enable the admin:
+        'django.contrib.admin',
+        # 'robokassa',
+        'PManager',
+        'pymorphy',
+        'django.contrib.humanize',
+        'south',
+        'django_notify',
+        'mptt',
+        'sekizai',
+        'sorl.thumbnail',
+        'wiki',
+        'wiki.plugins.attachments',
+        'wiki.plugins.notifications',
+        'wiki.plugins.images',
+        'wiki.plugins.macros',
+        'gunicorn',
+        'less',
+        # 'haystack'
+        # Uncomment the next line to enable admin documentation:
+        # 'django.contrib.admindocs',
+    )
+else:
+    INSTALLED_APPS = (
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.sites',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'django.contrib.humanize',
+        # Uncomment the next line to enable the admin:
+        'django.contrib.admin',
+        # 'robokassa',
+        'PManager',
+        'pymorphy',
+        'django.contrib.humanize',
+        'south',
+        'django_notify',
+        'mptt',
+        'sekizai',
+        'sorl.thumbnail',
+        'wiki',
+        'wiki.plugins.attachments',
+        'wiki.plugins.notifications',
+        'wiki.plugins.images',
+        'wiki.plugins.macros',
+        'gunicorn',
+        'less',
+        # 'haystack'
+        # Uncomment the next line to enable admin documentation:
+        # 'django.contrib.admindocs',
+    )
 
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",

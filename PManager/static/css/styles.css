@@ -1619,3 +1619,9 @@ border-top-right-radius: 0;}
 #chatWindow .task-message {display: none;}
 .minimize {position: absolute; right: 36px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
 .minimize span {font-size: 13px;}
+
+.tooltip-inner {
+    max-width: 350px;
+}
+
+

@@ -15,3 +15,4 @@ DATABASES = {
 SESSION_COOKIE_DOMAIN = 'heliard.dev'
 SOCKET_SERVER_ADDRESS = 'localhost'
 project_root = '/vagrant/'
+GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'

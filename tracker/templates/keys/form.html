@@ -1,0 +1,75 @@
+<div class="popup js-keyForm" style="width:600px;display:none">
+    <div class="modal-header">
+        <button onclick="$(this).parents('.popup').fadeOut(200, function(){$(this).remove();});flagcool=false;return false;" aria-hidden="true"  data-dismiss="modal" class="close" type="button">×</button>
+        <h3>Добавить ключ</h3>
+    </div>
+    <div class="modal-body">
+        <form action="/user_key_handle/add/" class="form-horizontal">
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Название:</label>
+                <div class="col-xs-8 controls">
+                    <input id='key_name' class="form-control" type="text" name="key_name" value="" />
+                </div>
+                <div class="col-xs-1 hint">
+                    <a id="key_name_tooltip" data-toggle="tooltip" style="display:none" data-placement="bottom" title="" href="#"><i class="fa fa-exclamation-circle"></i></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label">Ключ:</label>
+                <div class="col-xs-8 controls">
+                    <textarea name="key_data" id="key_data" cols="30" rows="5" class="form-control"></textarea>
+                </div>
+                <div class="col-xs-1 hint">
+                    <a id="key_data_tooltip" href="#" data-toggle="tooltip" style="display:none" data-placement="bottom" title=""><i class="fa fa-exclamation-circle"></i></a>
+                </div>
+            </div>
+            <div class="form-group">
+                <label class="col-xs-3 control-label"></label>
+                <div class="col-xs-8 controls">
+                    <input type="submit" class="btn btn-success js-submitKey" value="Сохранить"/>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script>
+    $(document).ready(function(){
+        $('.js-submitKey').click(function(e){
+            e.preventDefault();
+            var url = $(this).parents('form').attr('action');
+            var data = $(this).parents('form').serializeArray();
+            $.post(url, data, function(response){
+                if(response.result === 'errors') {
+                    var fillErrors = function(elName, text){
+                        $('[name="key_' + elName + '"]').parents('.form-group').addClass('has-error');
+                        var tooltip = $('#key_' + elName + '_tooltip');
+                        tooltip.attr('data-original-title', text)
+                        .tooltip('fixTitle');
+                        tooltip.click(function(e){
+                            e.preventDefault();
+                            return false;
+                        });
+                        tooltip.attr('rel', 'tooltip');
+                        tooltip.show();
+                    }
+                    if(response.fields['name']){
+                        fillErrors('name', response.fields['name'])
+                    }
+                    if(response.fields['data']){
+                        fillErrors('data', response.fields['data'])
+                    }
+
+                    $("[rel='tooltip']").tooltip();
+                    console.log(response);
+                    return false;
+                }
+                location.reload();
+                return false;
+            });
+        });
+        $('.popup').find('.form-control').focus(function(){
+            $('.popup').find('.form-group').removeClass('has-error');
+            $("[rel='tooltip']").hide();
+        });
+    });
+    </script>
+</div>
