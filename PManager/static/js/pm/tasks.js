@@ -775,14 +775,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                 alert('Подтвердить выполнение можно только для оцененной задачи.');
                 return false;
             }
-            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
-                alert(
-                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
-                        Math.round(t.model.get('planPrice')) +
-                        ' sp).'
-                );
-                return false;
-            }
+//            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
+//                alert(
+//                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
+//                        Math.round(t.model.get('planPrice')) +
+//                        ' sp).'
+//                );
+//                return false;
+//            }
 
             this.setRevision();
             return true;
@@ -791,7 +791,8 @@ var CRITICALLY_THRESHOLD = 0.7;
             var t = this;
             taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
                 data = $.parseJSON(data);
-                if (data.error) $('<div></div>').addClass('popup').append(data.error).appendTo('body').show();
+                if (data.error)
+                    $('<div></div>').addClass('popup').append(data.error).appendTo('body').show();
                 else
                     t.checkModel(function () {
                         t.model.set('status', 'revision');
