@@ -42,9 +42,20 @@ def widget(request, headerValues, arFilter, q):
 
                 #client have not enough money#
                 clientProfile = None
+                pref = None
                 if prof.isClient(task.project):
                     clientProfile = prof
-                    pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                    pref = '<h3>На вашем счету недостаточно средств для пользования данной услугой</h3>' + \
+                            '<hr>' + \
+                            'Необходимо ' + str(clientProfile.getBet(task.project) * task.planTime) + 'sp' + \
+                            '<div class="border-wrapper">'+ \
+                            '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
+                            '<hr>' + \
+                            '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
+                            '<hr>' + \
+                            '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                            '</div>'
+                    # pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
                 else:
                     try:
                         clientRole = PM_ProjectRoles.objects.get(
@@ -59,7 +70,7 @@ def widget(request, headerValues, arFilter, q):
                         pass
 
                 if clientProfile:
-                    if prof.account_total < prof.getBet(task.project) * task.planTime:
+                    if clientProfile.account_total < clientProfile.getBet(task.project) * task.planTime:
                         error = pref
 
                 if not error:

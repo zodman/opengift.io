@@ -791,7 +791,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var t = this;
             taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
                 data = $.parseJSON(data);
-                if (data.error) alert(data.error);
+                if (data.error) $('<div></div>').addClass('popup').append(data.error).show();
                 else
                     t.checkModel(function () {
                         t.model.set('status', 'revision');
