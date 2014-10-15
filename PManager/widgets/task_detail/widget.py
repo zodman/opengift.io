@@ -45,7 +45,7 @@ def widget(request, headerValues, arFilter, q):
                 pref = None
                 if prof.isClient(task.project):
                     clientProfile = prof
-                    pref = '<h3>На вашем счету недостаточно средств для пользования данной услугой</h3>' + \
+                    pref = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
                             '<hr>' + \
                             'Необходимо ' + str(clientProfile.getBet(task.project) * task.planTime) + 'sp' + \
                             '<div class="border-wrapper">'+ \

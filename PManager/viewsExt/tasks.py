@@ -455,12 +455,22 @@ def taskListAjax(request):
                             if not bet:
                                 bet = task.resp.get_profile().getBet(task.project) * COMISSION
                             if request.user.id == client.id:
-                                pre = u'У вас'
+                                error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
+                                        '<hr>' + \
+                                        'Необходимо ' + str(clientProfile.getBet(task.project) * task.planTime) + 'sp' + \
+                                        '<div class="border-wrapper">'+ \
+                                        '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
+                                        '<hr>' + \
+                                        '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
+                                        '<hr>' + \
+                                        '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                                        '</div>'
                             else:
-                                pre = u'У клиента'
+                                error = u'У клиента недостаточно средств для подтверждения задачи'
+
                             if clientProfile.account_total < task.planTime * bet:
                                 return HttpResponse(json.dumps({
-                                    'error': pre + u' недостаточно средств для подтверждения задачи'
+                                    'error': error
                                 }))
                         except PM_ProjectRoles.DoesNotExist:
                             pass
