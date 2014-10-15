@@ -792,10 +792,11 @@ var CRITICALLY_THRESHOLD = 0.7;
             taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
                 data = $.parseJSON(data);
                 if (data.error) alert(data.error);
-                t.checkModel(function () {
-                    t.model.set('status', 'revision');
-                    t.render();
-                });
+                else
+                    t.checkModel(function () {
+                        t.model.set('status', 'revision');
+                        t.render();
+                    });
             });
         },
         'removeTask': function () {
