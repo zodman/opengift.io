@@ -64,7 +64,8 @@ def taskListAjax(request):
         if task_id:
             task = PM_Task.objects.get(id=task_id) #вот она, задачка
             task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
-
+            if task.parentTask:
+                task.parentTask.observers.add(task.resp)
             #outsource
             if not task.resp.is_staff or task.resp.get_profile().getBet(task.project) <= 0: #if finance relationship
                 task.setStatus('not_approved')
