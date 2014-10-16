@@ -9,7 +9,7 @@ from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
 
 from PManager.services.mind.task_mind_core import TaskMind
-
+from PManager.viewsExt.tools import redisSendTaskUpdate
 
 def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
@@ -86,6 +86,11 @@ def widget(request, headerValues, arFilter, q):
                     task.planTime = planTime.time
                     task.onPlanning = False
                     task.setStatus('revision')
+                    redisSendTaskUpdate({
+                        'status': task.status.code,
+                        'onPlanning': task.onPlanning,
+                        'planTime': task.planTime
+                    })
                     task.save()
 
                     task.systemMessage(
