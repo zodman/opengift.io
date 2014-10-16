@@ -78,7 +78,7 @@
         {% if task_detail.error %}
             <div class="alert alert-danger" role="alert">
 {#                <strong>Oh snap!</strong>#}
-                {{ task_detail.error }}
+                {{ task_detail.error|safe }}
             </div>
         {% endif %}
         <hr>
