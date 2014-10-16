@@ -86,6 +86,7 @@ def widget(request, headerValues, arFilter, q):
                     task.planTime = planTime.time
                     task.onPlanning = False
                     task.setStatus('revision')
+                    task.save()
                     redisSendTaskUpdate({
                         'status': task.status.code,
                         'onPlanning': task.onPlanning,
@@ -96,7 +97,7 @@ def widget(request, headerValues, arFilter, q):
                         }],
                         'viewedOnly': request.user.id,
                     })
-                    task.save()
+
 
                     task.systemMessage(
                         u'подтвердил(а) оценку в ' + str(task.planTime) +
