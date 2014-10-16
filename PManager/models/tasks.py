@@ -463,13 +463,14 @@ class PM_Task(models.Model):
             else:
                 rate = self.resp.get_profile().getBet(self.project) * COMISSION
             price = time * rate
-            credit = Credit(
-                payer=client.user,
-                value=price,
-                project=self.project,
-                task=self
-            )
-            credit.save()
+            if price:
+                credit = Credit(
+                    payer=client.user,
+                    value=price,
+                    project=self.project,
+                    task=self
+                )
+                credit.save()
             break
 
         if self.resp and self.resp.id != self.author.id and self.author.is_staff:
@@ -492,13 +493,14 @@ class PM_Task(models.Model):
                 if curtime:
                     curPrice = userBet * float(curtime)
                     allRespPrice += curPrice
-                    credit = Credit(
-                        user=self.resp,
-                        value=curPrice,
-                        project=self.project,
-                        task=self
-                    )
-                    credit.save()
+                    if curPrice:
+                        credit = Credit(
+                            user=self.resp,
+                            value=curPrice,
+                            project=self.project,
+                            task=self
+                        )
+                        credit.save()
 
         #managers pay (only observers without clients and responsibles)
         managers = PM_ProjectRoles.objects.filter(
