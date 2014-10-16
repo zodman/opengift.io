@@ -418,7 +418,7 @@ class PM_Task(models.Model):
 
 
     def setCreditForTime(self, time, type):
-        from PManager.models.payments import Credit
+        from PManager.models.payments import *
 
         aClientsAndResponsibles = []
         #responsibles
@@ -459,12 +459,10 @@ class PM_Task(models.Model):
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
             bet = client.user.get_profile().getBet(self.project)
-            if bet:
-                rate = bet * float(time)
-            else:
-                rate = self.resp.get_profile().getBet(self.project) * COMISSION
+            if not bet:
+                bet = self.resp.get_profile().getBet(self.project) * COMISSION
 
-            price = time * rate
+            price = time * bet
             if price:
                 credit = Credit(
                     payer=client.user,
