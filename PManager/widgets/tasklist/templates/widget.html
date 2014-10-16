@@ -5,6 +5,35 @@
 <script language="JavaScript">
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
+
+<!-- Fancybox Slider First Task -->
+<script type="text/javascript">
+    $(document).ready(function() {
+        $("a.gallery").fancybox({
+            helpers : {
+                    overlay : {
+                        css : {
+                            'background' : 'rgba(255, 255, 255, 0.6)'
+                        }
+                    }
+                },
+                openEffect  : 'none',
+                closeEffect : 'none',
+                nextEffect  : 'none',
+                prevEffect  : 'none',
+                padding     : 0,
+                margin      : [20, 60, 20, 60],
+                width:700,
+                height:470
+        });
+    });
+    $('body').addClass('first-task-slider');
+</script>
+<div id="wrap">
+    <a href="/static/images/first.jpg" class="gallery" rel="ft-group"></a>
+</div>
+<!-- /Fancybox Slider First Task -->
+
 <div class="widget tasklist">
     <!--<div class="row">
         <div class="col-xs-12">-->
