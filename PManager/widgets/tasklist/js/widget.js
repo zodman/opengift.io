@@ -165,9 +165,10 @@ var widget_tl, currentGroup;
                 }
 
                 this.TL_Tasks.on('add',function(task){
-                    if ($('.js-new-first-task').get(0)) 
+                    if ($('.js-new-first-task').get(0)){ 
                         $('.js-new-first-task').remove();
-                        $('a.gallery').trigger('click');
+                        showTutorial();
+                    }
                 });
 
                 var obj = this;
