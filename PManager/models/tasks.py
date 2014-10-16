@@ -432,7 +432,8 @@ class PM_Task(models.Model):
             for obj in timers:
                 ob = {}
                 if obj.summ:
-                    if not User.objects.get(pk=int(obj.user_id)).is_staff:
+                    cUser = User.objects.get(pk=int(obj.user_id))
+                    if not cUser.is_staff and cUser.id != self.author.id:
                         if self.planTime:
                             if (round(float(obj.summ) / 3600.)) > self.planTime:
                                 ob['rating'] = -5
@@ -471,7 +472,7 @@ class PM_Task(models.Model):
             credit.save()
             break
 
-        if self.resp:
+        if self.resp and self.resp.id != self.author.id and self.author.is_staff:
             aClientsAndResponsibles.append(self.resp.id)
             profResp = self.resp.get_profile()
             paymentType = profResp.getPaymentType(self.project)
