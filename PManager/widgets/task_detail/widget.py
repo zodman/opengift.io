@@ -69,7 +69,7 @@ def widget(request, headerValues, arFilter, q):
                         pass
 
                 if clientProfile:
-                    if not prof.account_total or prof.account_total < prof.getBet(task.project) * planTime:
+                    if not prof.account_total or prof.account_total < prof.getBet(task.project) * planTime.time:
                         error = pref
 
                 if not error:
