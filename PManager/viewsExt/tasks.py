@@ -721,6 +721,8 @@ class taskAjaxManagerCreator(object):
 
             if t.canEdit(self.currentUser):
                 t.onPlanning = True
+                t.resp = None
+                t.setStatus('not_approved')
                 t.save()
                 redisSendTaskUpdate({
                     'id': t.id,
