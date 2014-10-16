@@ -89,7 +89,12 @@ def widget(request, headerValues, arFilter, q):
                     redisSendTaskUpdate({
                         'status': task.status.code,
                         'onPlanning': task.onPlanning,
-                        'planTime': task.planTime
+                        'planTime': task.planTime,
+                        'resp': [{
+                            'id': task.resp.id,
+                            'name': task.resp.firstname + ' ' + task.resp.lastname
+                        }],
+                        'viewedOnly': request.user.id,
                     })
                     task.save()
 
