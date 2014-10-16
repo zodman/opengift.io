@@ -92,7 +92,7 @@ def widget(request, headerValues, arFilter, q):
                         'planTime': task.planTime,
                         'resp': [{
                             'id': task.resp.id,
-                            'name': task.resp.firstname + ' ' + task.resp.lastname
+                            'name': task.resp.name + ' ' + task.resp.lastname
                         }],
                         'viewedOnly': request.user.id,
                     })
