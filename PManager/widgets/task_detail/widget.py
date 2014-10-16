@@ -74,15 +74,13 @@ def widget(request, headerValues, arFilter, q):
 
                 if not error:
                     authorProf = message.author.get_profile()
-                    if not authorProf.isEmployee(task.project):
-                        if not prof.hasRole(task.project):
-                            prof.setRole('employee', task.project)
 
+                    if not authorProf.hasRole(task.project):
+                        authorProf.setRole('employee', task.project)
+
+                    if not authorProf.isEmployee(task.project):
                         task.resp = prof.user
                     else:
-                        if not authorProf.hasRole(task.project):
-                            authorProf.setRole('employee', task.project)
-
                         task.resp = planTime.user
 
                     task.planTime = planTime.time
