@@ -1450,12 +1450,9 @@ class PM_Task_Message(models.Model):
                 return True
 
         return (
-                   not self.hidden_from_clients and prof.isClient(self.project)
-               ) or (
-                   not self.hidden_from_employee and prof.isEmployee(self.project)
-               ) or (
                     self.task.onPlanning and prof.hasRole(self.project)
                )
+        #todo: добавить про hidden_from_clients и from_employee
 
     def getUsersForNotice(self):
         pass
