@@ -418,7 +418,7 @@ class PM_Task(models.Model):
 
 
     def setCreditForTime(self, time, type):
-        from PManager.models.payments import *
+        from PManager.models.payments import Credit
 
         aClientsAndResponsibles = []
         #responsibles

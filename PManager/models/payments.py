@@ -32,7 +32,7 @@ def payment_account(sender, instance, created, **kwargs):
             if not profile.account_total: profile.account_total=0
             profile.account_total -= instance.value
             profile.save()
-        elif instance.payer:
+        if instance.payer:
             profile = instance.payer.get_profile()
             if not profile.account_total: profile.account_total=0
             profile.account_total += instance.value
@@ -51,7 +51,7 @@ def credit_account(sender, instance, created, **kwargs):
             if not profile.account_total: profile.account_total=0
             profile.account_total += instance.value
             profile.save()
-        elif instance.payer:
+        if instance.payer:
             profile = instance.payer.get_profile()
             if not profile.account_total: profile.account_total=0
             profile.account_total -= instance.value
