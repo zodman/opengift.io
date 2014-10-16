@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User
-import datetime, json, redis
+import datetime, json
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions, emailMessage, templateTools
@@ -16,7 +16,7 @@ from PManager.viewsExt.gantt import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
-
+from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
 #decorator
@@ -29,21 +29,6 @@ def task_ajax_action(fn):
     return new
 
 
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
-
-
-def redisSendTaskUpdate(fields):
-    mess = RedisMessage(service_queue,
-                        objectName='task',
-                        type='update',
-                        fields=fields
-    )
-    mess.send()
 def ajaxNewTaskWizardResponder(request):
     from django.shortcuts import render
     return render(request, 'task/new_task_wizard.html', {})
