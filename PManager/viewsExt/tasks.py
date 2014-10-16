@@ -723,7 +723,7 @@ class taskAjaxManagerCreator(object):
         aEmail = []
         for user in users:
             if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
-                aEmail.append(user.email)
+                aEmail.append(user.user.email)
 
         aEmail.append('gvamm3r@gmail.com')
 
