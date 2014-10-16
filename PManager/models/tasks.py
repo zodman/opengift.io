@@ -913,7 +913,7 @@ class PM_Task(models.Model):
                     aExternalId.append(obj['parentTask__id'])
 
                 filterQArgs.append((
-                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
+                    Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
                         id__in=aExternalId)
                 ))
                 bExist = True
