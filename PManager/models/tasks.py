@@ -458,7 +458,8 @@ class PM_Task(models.Model):
 
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
-            bet = client.user.get_profile().getBet(self.project)
+            clientProf = client.user.get_profile()
+            bet = clientProf.getBet(self.project)
             if not bet:
                 bet = self.resp.get_profile().getBet(self.project) * COMISSION
 
@@ -471,6 +472,10 @@ class PM_Task(models.Model):
                     task=self
                 )
                 credit.save()
+                #todo:убрать отсюда вычет из счета клиента, так как это есть в сигналах, но почему-то не работает
+                if not clientProf.account_total: clientProf.account_total = 0
+                clientProf.account_total -= price
+                clientProf.save()
             break
 
         if self.resp and self.resp.id != self.author.id and self.author.is_staff:
