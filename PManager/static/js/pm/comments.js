@@ -147,7 +147,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['TASK_LINE'] = '';
                 arKeys['PROJECT_LINE'] = '';
                 arKeys['CONFIRMATION'] = '';
-                arKeys['REPLY_URL'] = '';
+                arKeys['REPLY_BTN'] = '';
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
                 if (messageInfo.task && messageInfo.task.name) {
@@ -161,7 +161,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
                     arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '/ <a href="' + messageInfo.task.url + '" class="message-desc-text"><strong>' +
                         messageInfo.task.name + '</strong></a>';
-                    arKeys['REPLY_URL'] = messageInfo.task.url;
+
+                    if (messageInfo.author.id != document.mainController.userId)
+                        arKeys['REPLY_BTN'] = '<a class="button green-button js-reply" href="'+messageInfo.task.url+'">Ответить</a>';
                 }
 
 
