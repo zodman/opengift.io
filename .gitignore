@@ -5,3 +5,5 @@ PManager/static/upload/*
 PManager/static/project_comments/*
 *.pyc
 PManager/services/mind/Hodor.brain
+gunicorn.log
+gunicorn.pid
