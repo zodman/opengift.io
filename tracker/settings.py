@@ -237,8 +237,9 @@ ORDERS_REDIS_PASSWORD = None
 ORDERS_REDIS_DB = None
 
 ALLOWED_HOSTS = [
-    # 'tracker-accorsys-ru',
-    'heliard.ru'
+    'heliard.ru',
+    'heliard.dev',
+    'heliard.topnotchstudios.ru'
 ]
 
 # HAYSTACK_CONNECTIONS = {
