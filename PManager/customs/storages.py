@@ -7,7 +7,9 @@ from uuid import uuid4
 def path_and_rename(path, pSubdir=False):
     def wrapper(instance, filename):
         isPasted = False
+
         try:
+            path = path
             if pSubdir:
                 path = os.path.join(path, eval(pSubdir))
         except UnboundLocalError:

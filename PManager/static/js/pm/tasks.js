@@ -775,14 +775,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                 alert('Подтвердить выполнение можно только для оцененной задачи.');
                 return false;
             }
-            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
-                alert(
-                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
-                        Math.round(t.model.get('planPrice')) +
-                        ' sp).'
-                );
-                return false;
-            }
+//            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
+//                alert(
+//                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
+//                        Math.round(t.model.get('planPrice')) +
+//                        ' sp).'
+//                );
+//                return false;
+//            }
 
             this.setRevision();
             return true;
@@ -790,12 +790,15 @@ var CRITICALLY_THRESHOLD = 0.7;
         'setRevision': function () {
             var t = this;
             taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
-                if (data.error) alert(data.error);
-                t.checkModel(function () {
-                    t.model.set('status', 'revision');
-                    t.render();
-                });
-            }, 'json');
+                data = $.parseJSON(data);
+                if (data.error)
+                    $('<div></div>').addClass('popup').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();"><i class="fa fa-times"></i></a>').append(data.error).appendTo('body').show();
+                else
+                    t.checkModel(function () {
+                        t.model.set('status', 'revision');
+                        t.render();
+                    });
+            });
         },
         'removeTask': function () {
             if (confirm('Вы действительно хтотите удалить эту задачу?')) {

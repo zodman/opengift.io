@@ -955,6 +955,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list .user td.avatar {width:100px;}
 .user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden;}
 .user-list .user td.avatar a img {width:100px;}
+.user-list .user td.avatar a svg {width:90px;height: 90px;}
 .user-list .user td.about-user {padding-left:15px;}
 .user-list .user td.about-user a:not(.startedTask) {vertical-align:middle; display:block; text-decoration:none; color:#57A957;}
 .user-list .user td.about-user a.startedTask {color:#D43F3A; cursor:pointer; font-weight:bold;}
@@ -968,7 +969,8 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 }
 @media only screen and (max-width: 568px) {
 	.user-list .user td.avatar {width:50px;}
-	.user-list .user td.avatar a {width:50px;}}
+	.user-list .user td.avatar a {width:50px;}
+}
 @media only screen and (max-width: 480px) {}
 @media only screen and (max-width: 320px) {}
 
@@ -1617,8 +1619,31 @@ border-top-right-radius: 0;}
 
 #chatWindow .task-message.last {display: block;}
 #chatWindow .task-message {display: none;}
-.minimize {position: absolute; right: 36px; margin: 7px 0 0 0; padding: 3px; cursor: pointer; width: 27px;}
-.minimize span {font-size: 13px;}
+
+/* Fancybox Slider First Task */
+.first-task-slider .fancybox-close {background-image:url(/static/images/fancybox/buttons.png); background-position:-24px 0; width:17px; height:17px; right:10px; top:10px;}
+.first-task-slider .fancybox-prev span, 
+.first-task-slider .fancybox-next span {background-image:url(/static/images/fancybox/buttons.png); height:17px; width:12px; left:50%; display:block; top:50%; margin-top:-8px; position:absolute;}
+.first-task-slider .fancybox-prev span {background-position:0px 0px; margin-left:-7px;}
+.first-task-slider .fancybox-next span {background-position:-12px 0px; margin-left:-5px;}
+.first-task-slider .fancybox-prev, 
+.first-task-slider .fancybox-next {background: #47a447; /* Old browsers */
+				/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+				background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzQ3YTQ0NyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwODg1MDgiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+				background: -moz-linear-gradient(top,  #47a447 0%, #088508 100%); /* FF3.6+ */
+				background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#47a447), color-stop(100%,#088508)); /* Chrome,Safari4+ */
+				background: -webkit-linear-gradient(top,  #47a447 0%,#088508 100%); /* Chrome10+,Safari5.1+ */
+				background: -o-linear-gradient(top,  #47a447 0%,#088508 100%); /* Opera 11.10+ */
+				background: -ms-linear-gradient(top,  #47a447 0%,#088508 100%); /* IE10+ */
+				background: linear-gradient(to bottom,  #47a447 0%,#088508 100%); /* W3C */
+				filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#47a447', endColorstr='#088508',GradientType=0 ); /* IE6-8 */ text-align:center; padding:15px 25px; color:#fff; font:bold 24px/30px "Helvetica Neue",Helvetica,Arial,sans-serif; border-radius:25px; -moz-border-radius:25px; -webkit-border-radius:25px; height:50px; width:50px; padding:0px; font:0px/0px Tahoma, Geneva, sans-serif; position:absolute; top:50%; margin-top:-25px;
+}
+.first-task-slider .fancybox-nav {width: 50px; -webkit-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); -moz-box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5); box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);}
+.first-task-slider .fancybox-nav span {visibility: visible; opacity: 0.5;}
+.first-task-slider .fancybox-nav:hover span {opacity: 1;}
+.first-task-slider .fancybox-next {right: -60px;}
+.first-task-slider .fancybox-prev {left: -60px;}
+/* /Fancybox Slider First Task */
 
 .tooltip-inner {
     max-width: 350px;
@@ -1629,6 +1654,7 @@ border-top-right-radius: 0;}
 
 .message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; padding:10px 15px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
+										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
 											
 											.message-info {border-bottom:1px solid rgba(1,1,1,0.05); padding-bottom:7px; color:#999; position:relative; padding-right:50px;}
@@ -1826,6 +1852,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 										@media only screen and (max-width: 668px) {
 											.message {margin-bottom:10px;}
 											.message .avatar {width:60px; padding-left:10px;}
+											.message .avatar svg {width:50px; height: 50px;}
 											.message .avatar .pull-left {width:50px;}
 											.message-content {padding-left:10px;}
 											.message-control a {font-size:18px;}

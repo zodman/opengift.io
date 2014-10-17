@@ -432,7 +432,8 @@ class PM_Task(models.Model):
             for obj in timers:
                 ob = {}
                 if obj.summ:
-                    if not User.objects.get(pk=int(obj.user_id)).is_staff:
+                    cUser = User.objects.get(pk=int(obj.user_id))
+                    if not cUser.is_staff and cUser.id != self.author.id:
                         if self.planTime:
                             if (round(float(obj.summ) / 3600.)) > self.planTime:
                                 ob['rating'] = -5
@@ -457,21 +458,27 @@ class PM_Task(models.Model):
 
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
-            if client.rate:
-                rate = client.rate * float(time)
-            else:
-                rate = self.resp.get_profile().getBet(self.project) * COMISSION
-            price = time * rate
-            credit = Credit(
-                payer=client.user,
-                value=price,
-                project=self.project,
-                task=self
-            )
-            credit.save()
+            clientProf = client.user.get_profile()
+            bet = clientProf.getBet(self.project)
+            if not bet:
+                bet = self.resp.get_profile().getBet(self.project) * COMISSION
+
+            price = time * bet
+            if price:
+                credit = Credit(
+                    payer=client.user,
+                    value=price,
+                    project=self.project,
+                    task=self
+                )
+                credit.save()
+                #todo:убрать отсюда вычет из счета клиента, так как это есть в сигналах, но почему-то не работает
+                if not clientProf.account_total: clientProf.account_total = 0
+                clientProf.account_total -= price
+                clientProf.save()
             break
 
-        if self.resp:
+        if self.resp and self.resp.id != self.author.id and self.author.is_staff:
             aClientsAndResponsibles.append(self.resp.id)
             profResp = self.resp.get_profile()
             paymentType = profResp.getPaymentType(self.project)
@@ -491,13 +498,14 @@ class PM_Task(models.Model):
                 if curtime:
                     curPrice = userBet * float(curtime)
                     allRespPrice += curPrice
-                    credit = Credit(
-                        user=self.resp,
-                        value=curPrice,
-                        project=self.project,
-                        task=self
-                    )
-                    credit.save()
+                    if curPrice:
+                        credit = Credit(
+                            user=self.resp,
+                            value=curPrice,
+                            project=self.project,
+                            task=self
+                        )
+                        credit.save()
 
         #managers pay (only observers without clients and responsibles)
         managers = PM_ProjectRoles.objects.filter(
@@ -910,7 +918,7 @@ class PM_Task(models.Model):
                     aExternalId.append(obj['parentTask__id'])
 
                 filterQArgs.append((
-                    Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
+                    Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
                         id__in=aExternalId)
                 ))
                 bExist = True
@@ -1341,7 +1349,7 @@ class PM_Task_Message(models.Model):
 
         profile = self.author.get_profile() if self.author else None
         cur_profile = cur_user.get_profile() if cur_user else None
-        if self.code == 'SET_PLAN_TIME':
+        if self.code == 'SET_PLAN_TIME' and cur_profile:
             if self.task.onPlanning and cur_profile.id != profile.id:
                 p = self.task.project
 
@@ -1450,12 +1458,9 @@ class PM_Task_Message(models.Model):
                 return True
 
         return (
-                   not self.hidden_from_clients and prof.isClient(self.project)
-               ) or (
-                   not self.hidden_from_employee and prof.isEmployee(self.project)
-               ) or (
                     self.task.onPlanning and prof.hasRole(self.project)
                )
+        #todo: добавить про hidden_from_clients и from_employee
 
     def getUsersForNotice(self):
         pass

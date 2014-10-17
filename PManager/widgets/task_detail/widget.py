@@ -9,7 +9,7 @@ from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
 
 from PManager.services.mind.task_mind_core import TaskMind
-
+from PManager.viewsExt.tools import redisSendTaskUpdate
 
 def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
@@ -42,9 +42,19 @@ def widget(request, headerValues, arFilter, q):
 
                 #client have not enough money#
                 clientProfile = None
+                pref = None
                 if prof.isClient(task.project):
                     clientProfile = prof
-                    pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                    pref = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
+                            '<hr>' + \
+                            '<div class="border-wrapper">' + \
+                            '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу, или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
+                            '<hr>' + \
+                            '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
+                            '<hr>' + \
+                            '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                            '</div>'
+                    # pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
                 else:
                     try:
                         clientRole = PM_ProjectRoles.objects.get(
@@ -59,26 +69,35 @@ def widget(request, headerValues, arFilter, q):
                         pass
 
                 if clientProfile:
-                    if prof.account_total < prof.getBet(task.project) * task.planTime:
+                    if not prof.account_total or prof.account_total < prof.getBet(task.project) * planTime.time:
                         error = pref
 
                 if not error:
                     authorProf = message.author.get_profile()
-                    if not authorProf.isEmployee(task.project):
-                        if not prof.hasRole(task.project):
-                            prof.setRole('employee', task.project)
 
+                    if not authorProf.hasRole(task.project):
+                        authorProf.setRole('employee', task.project)
+
+                    if not authorProf.isEmployee(task.project):
                         task.resp = prof.user
                     else:
-                        if not authorProf.hasRole(task.project):
-                            authorProf.setRole('employee', task.project)
-
                         task.resp = planTime.user
 
                     task.planTime = planTime.time
                     task.onPlanning = False
                     task.setStatus('revision')
                     task.save()
+                    redisSendTaskUpdate({
+                        'status': task.status.code,
+                        'onPlanning': task.onPlanning,
+                        'planTime': task.planTime,
+                        'resp': [{
+                            'id': task.resp.id,
+                            'name': task.resp.first_name + ' ' + task.resp.last_name
+                        }],
+                        'viewedOnly': request.user.id,
+                    })
+
 
                     task.systemMessage(
                         u'подтвердил(а) оценку в ' + str(task.planTime) +

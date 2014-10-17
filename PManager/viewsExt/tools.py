@@ -1,9 +1,27 @@
 __author__ = 'Gvammer'
-import datetime
+import datetime, redis
 from tracker import settings
 from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 from django.utils import timezone
+from PManager.classes.server.message import RedisMessage
+
+service_queue = redis.StrictRedis(
+    host=settings.ORDERS_REDIS_HOST,
+    port=settings.ORDERS_REDIS_PORT,
+    db=settings.ORDERS_REDIS_DB,
+    password=settings.ORDERS_REDIS_PASSWORD
+).publish
+
+
+def redisSendTaskUpdate(fields):
+    mess = RedisMessage(service_queue,
+                        objectName='task',
+                        type='update',
+                        fields=fields
+    )
+    mess.send()
+
 
 class emailMessage:
     templateName = ''

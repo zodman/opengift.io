@@ -1,6 +1,12 @@
 {% load jsonify thumbnail arraytags %}
 <script type="text/javascript" src="/static/js/pm/comments.js" xmlns="http://www.w3.org/1999/html"></script>
 <script type="text/javascript" src="/widgets/js/task_detail/script.js" xmlns="http://www.w3.org/1999/html"></script>
+{% if task_detail.error %}
+            <div class="popup" >
+{#                <strong>Oh snap!</strong>#}
+                {{ task_detail.error|safe }}
+            </div>
+        {% endif %}
 <div class="widget inner Task_Detail" id="task_detail" >
     <div class="widget-title clearfix">
 {# ---- TASK INFO #}
@@ -75,12 +81,7 @@
             {% endif %}
             <li class="active">Задача №{{ task_detail.task.number }}</li>
         </ol>
-        {% if task_detail.error %}
-            <div class="alert alert-danger" role="alert">
-{#                <strong>Oh snap!</strong>#}
-                {{ task_detail.error }}
-            </div>
-        {% endif %}
+
         <hr>
         <h2>{{ task_detail.task.name }}</h2>
         <p>{{ task_detail.task.text_formatted|safe }} </p>

@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User
-import datetime, json, redis
+import datetime, json
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions, emailMessage, templateTools
@@ -16,7 +16,7 @@ from PManager.viewsExt.gantt import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
-
+from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
 #decorator
@@ -29,21 +29,6 @@ def task_ajax_action(fn):
     return new
 
 
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
-
-
-def redisSendTaskUpdate(fields):
-    mess = RedisMessage(service_queue,
-                        objectName='task',
-                        type='update',
-                        fields=fields
-    )
-    mess.send()
 def ajaxNewTaskWizardResponder(request):
     from django.shortcuts import render
     return render(request, 'task/new_task_wizard.html', {})
@@ -64,7 +49,8 @@ def taskListAjax(request):
         if task_id:
             task = PM_Task.objects.get(id=task_id) #вот она, задачка
             task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
-
+            if task.parentTask:
+                task.parentTask.observers.add(task.resp)
             #outsource
             if not task.resp.is_staff or task.resp.get_profile().getBet(task.project) <= 0: #if finance relationship
                 task.setStatus('not_approved')
@@ -455,12 +441,22 @@ def taskListAjax(request):
                             if not bet:
                                 bet = task.resp.get_profile().getBet(task.project) * COMISSION
                             if request.user.id == client.id:
-                                pre = u'У вас'
+                                error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
+                                        '<hr>' + \
+                                        'Необходимо ' + str(bet) + 'sp' + \
+                                        '<div class="border-wrapper">'+ \
+                                        '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
+                                        '<hr>' + \
+                                        '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
+                                        '<hr>' + \
+                                        '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                                        '</div>'
                             else:
-                                pre = u'У клиента'
+                                error = u'У клиента недостаточно средств для подтверждения задачи'
+
                             if clientProfile.account_total < task.planTime * bet:
                                 return HttpResponse(json.dumps({
-                                    'error': pre + u' недостаточно средств для подтверждения задачи'
+                                    'error': error
                                 }))
                         except PM_ProjectRoles.DoesNotExist:
                             pass
@@ -710,6 +706,8 @@ class taskAjaxManagerCreator(object):
 
             if t.canEdit(self.currentUser):
                 t.onPlanning = True
+                t.resp = None
+                t.setStatus('not_approved')
                 t.save()
                 redisSendTaskUpdate({
                     'id': t.id,
@@ -725,7 +723,7 @@ class taskAjaxManagerCreator(object):
         aEmail = []
         for user in users:
             if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
-                aEmail.append(user.email)
+                aEmail.append(user.user.email)
 
         aEmail.append('gvamm3r@gmail.com')
 
