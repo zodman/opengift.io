@@ -29,8 +29,6 @@
     <script type="text/javascript" src="/static/js/pm/current_timer.js"></script>
     <script type="text/javascript" src="/static/js/pm/drowCanvas.js" xmlns="http://www.w3.org/1999/html"></script>
 
-{#    <script type="text/javascript" src="/static/js/libs/icheck/icheck.min.js"></script>#}
-
     <link type="text/css" rel="stylesheet" href="/static/css/reset.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/external/imgareaselect-animated.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
@@ -49,8 +47,6 @@
     <link rel="stylesheet" media="all" href="/static/wiki/markitup/sets/frontend/style.css" />
     <link rel="stylesheet" media="all" href="/static/wiki/css/all.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
-{#    <link href="/static/js/libs/icheck/skins/flat/grey.css" rel="stylesheet">#}
-{#    <link href="/{% less "PManager/static/css/main.less" %}" rel="stylesheet" type="text/css">#}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
     <script type="text/javascript">
@@ -69,7 +65,6 @@
             APNG.ifNeeded(function() {
                 $("img.loader").each(function() { APNG.animateImage(this); });
             });
-{#            $('.fnc').fancybox();#}
         });
         {% if user.is_authenticated %}
             document.mainController = new mainControllerClass({
@@ -79,7 +74,7 @@
         {% endif %}
         var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
         {% if userTimer %}
-        CURRENT_TASK_DATA = {
+            CURRENT_TASK_DATA = {
                 'id':{{ userTimer.task.id }},
                 'started':{{ userTimer.task.started|jsonify }},
                 'closed':{{ userTimer.task.closed|jsonify }},
@@ -88,11 +83,11 @@
                     'name': {{ userTimer.task.project.name|jsonify|safe }}
                 }
             }
-        {% if userTimer.task.parentTask %}
-            CURRENT_TASK_DATA['parentTask'] = {
-                'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
-            }
-        {% endif %}
+            {% if userTimer.task.parentTask %}
+                CURRENT_TASK_DATA['parentTask'] = {
+                    'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+                }
+            {% endif %}
         {% endif %}
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
