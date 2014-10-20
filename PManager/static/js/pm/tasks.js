@@ -387,7 +387,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var rName = [];
             if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']) {
                 for (var i in taskInfo.resp) {
-                    var respName = taskInfo.resp[0];
+                    var respName = taskInfo.resp[i];
                     rName.push(respName['name']);
                 }
                 $respLink.text(rName.join(', '));
