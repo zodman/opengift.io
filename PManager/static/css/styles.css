@@ -910,7 +910,12 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .MESSAGES.SUBCONTAINER .task-message .DetailCommentInfo {padding: 0 !important;}
 .MESSAGES.SUBCONTAINER .task-message {display: block !important;}
 .MESSAGES.SUBCONTAINER .minimize {display: none !important;}
-
+.MESSAGES.SUBCONTAINER.minimize-messages .minimize {display: block !important;}
+.MESSAGES.SUBCONTAINER.minimize-messages .task-message {display: none !important;}
+.MESSAGES.SUBCONTAINER.minimize-messages .task-message:first-child {display: block !important;}
+.MESSAGES.SUBCONTAINER.minimize-messages .task-message:nth-last-child(-n+5) {display: block !important;}
+.MESSAGES.SUBCONTAINER.minimize-messages .show-hide-msg {margin-bottom: 10px; width: 100%; color: #666; background: #ddd; transition: all ease-in-out 0.1s; -moz-transition: all ease-in-out 0.1s; -webkit-transition: all ease-in-out 0.1s;}
+.MESSAGES.SUBCONTAINER.minimize-messages .show-hide-msg:hover {background: #ccc; color: #333; text-decoration: none;}
 
 #chat .InputBlock {display:none;}
 
