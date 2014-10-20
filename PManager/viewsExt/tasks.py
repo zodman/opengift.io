@@ -479,7 +479,7 @@ def taskListAjax(request):
                     sendData['viewedOnly'] = request.user.id
                     redisSendTaskUpdate(sendData)
 
-                responseText = 'ok'
+                responseText = json.dumps(sendData)
             else:
                 responseText = 'none'
         else:
