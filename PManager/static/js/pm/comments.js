@@ -446,7 +446,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var $chatWindow = $('#chatWindow');
 
                     if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) || message.view.$el.hasClass('new-message')) {
-                        if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message'))) {
+                        if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message')) && !t.$commentsContainer.find('.SUBCONTAINER:last').hasClass('MESSAGES')) {
                             var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
                             var colMessages = (containerMessages.find('.task-message')).length - 1;
                             var msgs = containerMessages.find('.task-message');
@@ -484,6 +484,21 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
 
                     /* /Mininimize system messages */
+
+                    /* Mininimize messages */
+
+                    var lastSubcontainer = $('.SUBCONTAINER:last');
+                    if (lastSubcontainer.hasClass('MESSAGES') && $chatWindow.length === 0 && lastSubcontainer.find('.task-message').length > 6 && !lastSubcontainer.hasClass('minimize-messages')) {
+                        $(lastSubcontainer).addClass('minimize-messages');
+                        var btnMinimizeMsg = $('<div class="btn show-hide-msg" style="margin-bottom: 10px;"><div style="text-align: center;">Показать все сообщения...</div></div>');
+                        $(lastSubcontainer.find('.task-message:first')).after(btnMinimizeMsg);
+                        btnMinimizeMsg.click(function(){
+                            $(lastSubcontainer).removeClass('minimize-messages');
+                            $(this).remove();
+                        });
+                    };
+
+                    /* /Mininimize messages */
 
                 });
 
