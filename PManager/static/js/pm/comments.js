@@ -445,7 +445,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     var $chatWindow = $('#chatWindow');
 
-                    if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) || message.view.$el.hasClass('new-message')) {
+                    if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) || message.view.$el.hasClass('new-message') || subCode === 'MESSAGES') {
                         if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message')) && !t.$commentsContainer.find('.SUBCONTAINER:last').hasClass('MESSAGES')) {
                             var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
                             var colMessages = (containerMessages.find('.task-message')).length - 1;
@@ -470,6 +470,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     codeElementLast.find('.last').removeClass('last');                
                     if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
                         codeElementFirst[func](message.view.$el);
+                    } else if (message.view.$el.hasClass('new-message') && $('#chatWindow').length === 0) {
+                        codeElementLast.addClass('show-msg')[func](message.view.$el);
                     } else {
                         codeElementLast[func](message.view.$el);
                     }
@@ -484,21 +486,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
 
                     /* /Mininimize system messages */
-
-                    /* Mininimize messages */
-
-                    var lastSubcontainer = $('.SUBCONTAINER:last');
-                    if (lastSubcontainer.hasClass('MESSAGES') && $chatWindow.length === 0 && lastSubcontainer.find('.task-message').length > 6 && !lastSubcontainer.hasClass('minimize-messages')) {
-                        $(lastSubcontainer).addClass('minimize-messages');
-                        var btnMinimizeMsg = $('<div class="btn show-hide-msg" style="margin-bottom: 10px;"><div style="text-align: center;">Показать все сообщения...</div></div>');
-                        $(lastSubcontainer.find('.task-message:first')).after(btnMinimizeMsg);
-                        btnMinimizeMsg.click(function(){
-                            $(lastSubcontainer).removeClass('minimize-messages');
-                            $(this).remove();
-                        });
-                    };
-
-                    /* /Mininimize messages */
 
                 });
 
@@ -536,6 +523,40 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 } else {
                     this.messageList.add(aMessagesData);
                 }
+
+                /* Mininimize messages */
+                
+                if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
+                    var subcontainer = $('.SUBCONTAINER');
+                    var $chatWindow = $('#chatWindow');
+                    if ($chatWindow.length === 0 && subcontainer.length > 7 && !subcontainer.parent().hasClass('minimize-messages')) {
+                        $(subcontainer).parent().addClass('minimize-messages');
+                        var btnMinimizeMsg = $('<div class="btn show-msg-btn" style="margin-bottom: 10px;"><div style="text-align: center;">Показать все сообщения...</div></div>');
+                        if ($('.SUBCONTAINER').find('.btn.show-msg-btn').length === 0) {
+                            $(subcontainer).find('.task-message').eq(1).after(btnMinimizeMsg);
+                        };
+                        btnMinimizeMsg.click(function(){
+                            $(subcontainer).parent().removeClass('minimize-messages');
+                            $(this).remove();
+                        });
+                    };
+                    $('.SUBCONTAINER:lt(2)').addClass('show-msg');
+                    var lastItem = subcontainer.length - (subcontainer.length - 6);
+                    $('.SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+                    if ($('.SUBCONTAINER:last').find('.task-message').length > 1 && !$('.SUBCONTAINER:last').find('.task-message').hasClass('new-message')) {
+                        var containerMessages = $('.SUBCONTAINER:last');
+                        var colMessages = (containerMessages.find('.task-message')).length - 1;
+                        var msgs = containerMessages.find('.task-message');
+                        var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
+                        btnMinimize.click(function(){
+                            msgs.show();
+                            $(this).remove();
+                        });
+                        containerMessages.append(btnMinimize);
+                    };
+                };
+
+                /* /Mininimize messages */
             },
 
             ready: function (callback) {

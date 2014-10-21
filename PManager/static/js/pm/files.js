@@ -184,7 +184,7 @@ $.fn.addFilePaste = function(options){
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
                 .append('<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>')
-                .append('<h2>Вставка изображения</h2>')
+                .append('<h2>Вставка изображения</h2><hr>')
                 .append('<p>Выберите участок для вставки</p>')
                 .append('<input type="hidden" style="display:none" name="posted_image" value="'+src+'" />')
                 .append('<input type="hidden" name="posted_image_x1" />')
@@ -196,6 +196,7 @@ $.fn.addFilePaste = function(options){
 
             $form.find('a.close').on("click", function(){
                 $(this).closest('.preview_img_form').remove();
+				$('.overflow').remove()
                 hideOverlay();
                 pasteFunc.removeImgAreaLayers();
                 return false;
@@ -231,9 +232,9 @@ $.fn.addFilePaste = function(options){
                     '<div class="canvasTools">'+
                         '<div class="brushColor"></div>'+
                         '<div class="brushDepth"></div>'+
-                    '</div>'+
+                    '</div><hr>'+
                     '<div class="CanvasContainer"></div>'+
-                    '<div class="canvasBottons">'+
+                    '<hr><div class="canvasBottons">'+
                         '<button class="canvasSave btn btn-success">Отправить</button>'+
                         '<button class="canvasClear btn btn-warning">Очистить</button>'+
                     '</div>'+
@@ -246,7 +247,7 @@ $.fn.addFilePaste = function(options){
                     rezImg: InputVal,
                     width: setImgEditWidth+'px',
                     height: setImgEditHeight+'px',
-                    colors: ['rgb(212,21,29)', 'rgb(131,190,61)'],
+                    colors: ['rgb(192,15,1)', 'rgb(51,153,51)'],
                     onImages: {
                         img: getImg,
                         x: setImgEditX,
@@ -281,6 +282,7 @@ $.fn.addFilePaste = function(options){
 
             //$img.appendTo($form);
             $form.append($img.parent()).appendTo('<div class="preview_img_form popup"></div>').parent().appendTo('body');
+			$('<div class="overflow"></div>').appendTo('body').show();
 
             if(popupWidth > 1000){ // Меняем размер окна .preview_img_form
                 $(".preview_img_form").css({
@@ -304,7 +306,7 @@ $.fn.addFilePaste = function(options){
                 pasteFunc.initSelectedCoordinates($img,startedCoords);
             }
 
-            $form.append('<div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Отправить" class="btn btn-success btn-large" /></div></div>')
+            $form.append('<hr><div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Отправить" class="btn btn-success btn-large" /></div></div>')
                 .ajaxForm(function(data) {
                     options.callback.call(pasteObj.get(0),data);
                     $('.preview_img_form').remove();

@@ -64,9 +64,10 @@ div.preview_img_form {
     top:100px;
 }
 div.preview_img_form h2 {font-size:24px; line-height:24px; margin:0px 0px 10px;}
-.picture_container {overflow-y:auto; margin-bottom:25px; text-align:center;}
+.picture_container {overflow-y:auto; max-height:325px; margin-bottom:25px; text-align:center;}
+.picture_container img {display:inline-block;}
 div.preview_img_form .btn-mini {padding:5px 8px;}
-div.preview_img_form .close {position:absolute; top:-12px; right:-12px; border-radius:500px; -moz-border-radius:500px; -webkit-border-radius:500px;}
+div.preview_img_form .close {position:absolute; top:-12px; right:-12px; border-radius:500px; -moz-border-radius:500px; -webkit-border-radius:500px; text-shadow:none; -moz-text-shadow:none; -webkit-text-shadow:none; color:#fff;}
 div.preview_img_form .edit {position:absolute; top: -12px; right: 40px;}
 div.preview_img_form .btn-mini [class^="icon-"], div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
 
