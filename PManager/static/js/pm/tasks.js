@@ -384,10 +384,13 @@ var CRITICALLY_THRESHOLD = 0.7;
                 'data-toggle': 'dropdown'
             }).addClass('js-select_resp').appendTo(oTaskContainers.$responsibleLink);
 
+            var rName = [];
             if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']) {
-                var respName = taskInfo.resp[0];
-
-                $respLink.text(respName['name']);
+                for (var i in taskInfo.resp) {
+                    var respName = taskInfo.resp[i];
+                    rName.push(respName['name']);
+                }
+                $respLink.text(rName.join(', '));
             } else if (taskInfo.recommendedUser && taskInfo.needRespRecommendation && !taskInfo.subtasksQty) {
                 var restRec = $respLink.text(taskInfo.recommendedUser.name + '?').addClass('recommended');
                 $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
