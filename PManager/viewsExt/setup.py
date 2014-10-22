@@ -44,7 +44,7 @@ def register(request):
             prof.setRole('manager', project)
             prof.setRole('client', project, 'plan_time')
             prof.sp_price = 1490
-            prof.account_total = 1490
+            prof.account_total = 750
             prof.save()
 
             return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')
