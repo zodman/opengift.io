@@ -139,7 +139,10 @@ var cTimeThumb = function (params) {
         t.resizeOnePxZoom = t.big.visibleSpan / t.scrollWinWidth;
         t.maxProjectLeft = t.allProjectWidth - t.containerWidth;
         this.$progressContainer.find(".bar").width(t.big.msToPx(t.big.nowTime.getTime()) * t.thumbScale);
-        this.$scrollWin.unbind('.mousedown.timethumb').bind('mousedown.timethumb', function (e) {
+        this.$scrollWin.unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+            if (e.type === 'touchstart') {
+                e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            }
             e = fixEvent(e);
             t.dragWinFlag = true;
             t.mouseX = e.pageX;
@@ -153,9 +156,13 @@ var cTimeThumb = function (params) {
             return false;
         });
 
-        $(document).find(".scroll-bar-left").unbind('.mousedown.timethumb').bind('mousedown.timethumb', function (e) {
+        $(document).find(".scroll-bar-left").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+            var eOrig = e;
+            if (e.type === 'touchstart') {
+                e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            }
             e = fixEvent(e);
-            e.stopPropagation();
+            eOrig.stopPropagation();
             t.dragLeftFlag = true;
             t.ScrollBarLeftmouseX = e.pageX;
             t.resizeWidth = t.$scrollWin.width();
@@ -164,9 +171,13 @@ var cTimeThumb = function (params) {
             return false;
         });
 
-        $(document).find(".scroll-bar-right").unbind('.mousedown.timethumb').bind('mousedown.timethumb', function (e) {
+        $(document).find(".scroll-bar-right").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+            var eOrig = e;
+            if (e.type === 'touchstart') {
+                e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            }
             e = fixEvent(e);
-            e.stopPropagation();
+            eOrig.stopPropagation();
             t.dragRightFlag = true;
             t.ScrollBarLeftmouseX = e.pageX;
             t.resizeWidth = t.$scrollWin.width();
@@ -176,8 +187,8 @@ var cTimeThumb = function (params) {
         });
 
         $(document)
-            .unbind('mouseup.timethumb mousemove.timethumb')
-            .bind('mouseup.timethumb',function () {
+            .unbind('mouseup.timethumb touchend.timethumb mousemove.timethumb touchmove.timethumb')
+            .bind('mouseup.timethumb touchend.timethumb',function () {
 
             t.dragWinFlag = false;
             t.dragRightFlag = false;
@@ -209,7 +220,10 @@ var cTimeThumb = function (params) {
 //            clearInterval(t.posScrollTimer);
 //            t.PosMousemoveScrollPageX = false;
 //            t.posScrollTimer = false;
-        }).bind('mousemove.timethumb', function (e) {
+        }).bind('mousemove.timethumb touchmove.timethumb', function (e) {
+                if (e.type === 'touchmove') {
+                    e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                }
                 if (t.dragLeftFlag) {
                     e = fixEvent(e);
                     t.resizeShift = e.pageX - t.ScrollBarLeftmouseX;
