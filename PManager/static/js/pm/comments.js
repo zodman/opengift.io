@@ -250,7 +250,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         $otherFiles = $('<div></div>');
 
                     var exist;
-                    var $filesListblock = $messageTextBlock.parent().find('.js-filesList').eq(0);
+                    var $filesListblock = this.$('.js-filesList').eq(0);
                     if (aPictures) {
                         exist = false;
                         for (i in aPictures) {
