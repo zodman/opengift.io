@@ -140,7 +140,7 @@ var cTimeThumb = function (params) {
         t.maxProjectLeft = t.allProjectWidth - t.containerWidth;
         this.$progressContainer.find(".bar").width(t.big.msToPx(t.big.nowTime.getTime()) * t.thumbScale);
         this.$scrollWin.unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
-            if (event.type === 'touchstart') {
+            if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
             }
             e = fixEvent(e);
@@ -157,11 +157,12 @@ var cTimeThumb = function (params) {
         });
 
         $(document).find(".scroll-bar-left").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
-            if (event.type === 'touchstart') {
+            var eOrig = e;
+            if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
             }
             e = fixEvent(e);
-            event.stopPropagation();
+            eOrig.stopPropagation();
             t.dragLeftFlag = true;
             t.ScrollBarLeftmouseX = e.pageX;
             t.resizeWidth = t.$scrollWin.width();
@@ -171,11 +172,12 @@ var cTimeThumb = function (params) {
         });
 
         $(document).find(".scroll-bar-right").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
-            if (event.type === 'touchstart') {
+            var eOrig = e;
+            if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
             }
             e = fixEvent(e);
-            event.stopPropagation();
+            eOrig.stopPropagation();
             t.dragRightFlag = true;
             t.ScrollBarLeftmouseX = e.pageX;
             t.resizeWidth = t.$scrollWin.width();
@@ -219,7 +221,7 @@ var cTimeThumb = function (params) {
 //            t.PosMousemoveScrollPageX = false;
 //            t.posScrollTimer = false;
         }).bind('mousemove.timethumb touchmove.timethumb', function (e) {
-                if (event.type === 'touchmove') {
+                if (e.type === 'touchmove') {
                     e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
                 }
                 if (t.dragLeftFlag) {

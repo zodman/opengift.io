@@ -196,7 +196,7 @@ GANTT.prototype = {
             '</table>').appendTo(t.$datesTopContainer);
 
         t.$datesTop.on('touchstart mousedown', function (e, e2) {
-            if (event.type === 'touchstart') {
+            if (e.type === 'touchstart') {
                 if (e2) {
                     e2 = e2.originalEvent.touches[0] || e2.originalEvent.changedTouches[0];
                 } else {
@@ -210,7 +210,7 @@ GANTT.prototype = {
         });
 
         t.$desk.on('touchstart mousedown', function(e){
-            if (event.type === 'touchstart') {
+            if (e.type === 'touchstart') {
                 t.$datesTop.trigger('touchstart', e);
             } else {
                 t.$datesTop.trigger('mousedown', e);
@@ -224,7 +224,7 @@ GANTT.prototype = {
                 t.$datesTop.data('scrolling', false);
             })
             .unbind('mousemove.gantt touchmove.gantt').bind('mousemove.gantt touchmove.gantt', function (e) {
-                if (event.type === 'touchmove') {
+                if (e.type === 'touchmove') {
                     e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
                 }
                 if (t.$datesTop.data('scrolling')) {
