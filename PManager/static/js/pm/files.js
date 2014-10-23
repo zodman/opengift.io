@@ -175,7 +175,7 @@ $.fn.addFilePaste = function(options){
                 popupMarginLeft = Math.ceil(popupWidth/2);
 
             showOverlay();
-            var $img = $('<img />').attr({'src':src,'id':'newPastedImg','class':'img-responsive'}).appendTo('<div class="picture_container"></div>');
+            var $img = $('<img />').attr({'src':src,'id':'newPastedImg','class':'img-responsive'}).appendTo('<div class="picture_container js-pict-container"></div>');
             var $form = $('<form></form>').attr({
                 'action':'/sendfile/',
                 'method':'POST',
@@ -263,7 +263,7 @@ $.fn.addFilePaste = function(options){
                     .on("click", function(){
                         $(this).closest("#canvasPaint").remove();
                         $(".preview_img_form.popup").find('a.close').click();
-
+                        $('.overflow').remove();
                         return false;
                     });
 
@@ -313,6 +313,7 @@ $.fn.addFilePaste = function(options){
                     hideOverlay();
                     pasteFunc.removeImgAreaLayers();
                     stopLoaders();
+                    $('.overflow').remove();
                 }).find('input:submit').click(function(){
                     startLoader('medium',$(this).closest('form'));
                 });
