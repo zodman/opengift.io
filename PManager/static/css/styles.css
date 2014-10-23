@@ -427,7 +427,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner .widget-title .pull-left .author > a {color:#fff;}
 
 .asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
-.asked {background-position:0px -412px;}
+.asked {background-position:0px -411px;}
 .no-asked {background-position:-12px -411px;}
 
 .nav-pills > li > a > .asked,
