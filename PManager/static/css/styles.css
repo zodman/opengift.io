@@ -1397,6 +1397,8 @@ border-top-right-radius: 0;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
 .tasks-toolbar > div {width:100%;}
+.tasks-toolbar > div.col-xs-7 {margin-top:10px;}
+.tasks-toolbar > div.col-xs-7 ul.pull-right {float:left !important;}
 	
 	
 	.task_number > div,
