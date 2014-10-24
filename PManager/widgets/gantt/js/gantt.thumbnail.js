@@ -51,7 +51,6 @@ var cTimeThumb = function (params) {
     this.drawEvents = function () {
         var t = this;
         t.$container.find('.planlet-container').empty();
-//        <div class="marker category3" style="left:150px; top:18px"></div>
         for (var row = 0; row < t.big.eventRows.length; row++) {
             arTimers = [];
             var upperY = ((5 - row) > 0 ? 5 - row : 1) * 3;
@@ -102,24 +101,11 @@ var cTimeThumb = function (params) {
         return this;
     }
 
-//    this.getThumbWinPosition = function () {
-//        var left = 0;
-//        return left;
-//    }
-
     this.synchronize = function () {
         var t = this;
         t.$container = $('div.diagramma').eq(0);//todo: разобраться с проблемой
         t.scrollWinLeft = t.big.msToPx(t.big.getLeftTime()) * t.thumbScale + t.allProjectLeft;
-//        if (t.scrollWinLeft < t.padding) {
-//            t.allProjectLeft = t.allProjectLeft - (t.scrollWinLeft);
-//            t.scrollWinLeft = t.padding - 2;
-//            t.$progressContainer.css('left', t.allProjectLeft + t.padding - 1);
-//        } else if (t.scrollWinLeft > t.containerWidth - this.$scrollWin.width() - t.marginScrollRight) {
-//            t.allProjectLeft = t.allProjectLeft - (t.scrollWinLeft + this.$scrollWin.width() + 1 - t.containerWidth);
-//            t.scrollWinLeft = t.containerWidth - this.$scrollWin.width() - t.marginScrollRight;
-//            t.$progressContainer.css('left', t.allProjectLeft);
-//        }
+
         t.$scrollWin.css('left', t.scrollWinLeft);
     }
 
@@ -206,20 +192,10 @@ var cTimeThumb = function (params) {
                 });
 
                 t.resizeZoom = false;
-//                t.resizeSizeZoom = t.$scrollWin.width() * t.resizeOnePxZoom;
-//                setTimeout(function () {
-//                    t.dragWinFlag = true;
-//                    $(document).trigger('mousemove.timethumb');
-//                    t.dragWinFlag = false;
-//                }, 10);
 
             }
             t.dragLeftFlag = false;
-//            t.PosMousemoveScrollPageX = false;
 
-//            clearInterval(t.posScrollTimer);
-//            t.PosMousemoveScrollPageX = false;
-//            t.posScrollTimer = false;
         }).bind('mousemove.timethumb touchmove.timethumb', function (e) {
                 if (e.type === 'touchmove') {
                     e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -270,40 +246,20 @@ var cTimeThumb = function (params) {
                     e = fixEvent(e);
                     var offsetX = e.pageX - t.mouseX;
                     if (offsetX) {
-                        var offsetExists = false;
-//                        if (offsetX < 0 && t.allProjectLeft >= 0 && t.scrollWinLeft <= t.allProjectLeft) {
-//                            offsetX = t.allProjectLeft - t.scrollWinLeft;
-//                        } else if (offsetX > 0 && (t.allProjectLeft + t.allProjectWidth <= t.containerWidth) && t.scrollWinLeft >= t.allProjectLeft + t.allProjectWidth - t.$scrollWin.width()) {
-//                            offsetX = t.containerWidth - t.allProjectLeft + t.allProjectWidth - t.scrollWinLeft;
-//                        }
-
-                        if (true ||
-                            (offsetX < 0 && t.getWinLeft() - t.padding - 1 > 0) ||
-                            (offsetX > 0 && t.getWinLeft() < t.containerWidth - t.$scrollWin.width() - 7)) {
-                            //Сдвиг при условии что не у края
-                            t.scrollWinLeft = t.dragWinLeft + offsetX;
-                            if (t.scrollWinLeft < t.padding - 1) {
-                                t.scrollWinLeft = t.padding - 1;
-                            }
-                            if (t.scrollWinLeft > t.containerWidth - t.$scrollWin.width() - t.marginScrollRight) {
-                                t.scrollWinLeft = t.containerWidth - t.$scrollWin.width() - t.marginScrollRight;
-                            }
-//                            if (t.PosMousemoveScrollPageX && e.pageX > t.PosMousemoveScrollPageX) {//если сдвиг остановлен то останавливаем и таймер
-////                                clearInterval(t.posScrollTimer);
-//                                t.PosMousemoveScrollPageX = false;
-////                                t.posScrollTimer = false;
-//                            }
-//                            if (!t.PosMousemoveScrollPageX) {
-                            t.$scrollWin.css({'left': t.scrollWinLeft + 'px'});
-//                                t.big.goToPx(t.big.dragPaperStart - (offsetX / t.thumbScale), false, false, true);
-                            t.big.goToPx(- t.getWinLeft() / t.thumbScale, false, false, true);
-                            t.mouseX = e.pageX;
-                            t.dragWinLeft = t.getWinLeft();
-                            t.big.dragPaperStart = t.big.getLeftPx();
-//                            }
-                        } else {
-
+                        t.scrollWinLeft = t.dragWinLeft + offsetX;
+                        if (t.scrollWinLeft < t.padding - 1) {
+                            t.scrollWinLeft = t.padding - 1;
                         }
+                        if (t.scrollWinLeft > t.containerWidth - t.$scrollWin.width() - t.marginScrollRight) {
+                            t.scrollWinLeft = t.containerWidth - t.$scrollWin.width() - t.marginScrollRight;
+                        }
+
+                        t.$scrollWin.css({'left': t.scrollWinLeft + 'px'});
+                        t.big.goToPx(- t.getWinLeft() / t.thumbScale, false, false, true);
+                        t.mouseX = e.pageX;
+                        t.dragWinLeft = t.getWinLeft();
+                        t.big.dragPaperStart = t.big.getLeftPx();
+
                     }
                 }
             });
