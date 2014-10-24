@@ -427,7 +427,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner .widget-title .pull-left .author > a {color:#fff;}
 
 .asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
-.asked {background-position:0px -412px;}
+.asked {background-position:0px -411px;}
 .no-asked {background-position:-12px -411px;}
 
 .nav-pills > li > a > .asked,
@@ -499,16 +499,16 @@ js-similar_result > a {color: #333; font-weight: bold;}
 
 /* ====================== ФИЛЬТРЫ */
 
-.search_items_holder {overflow:hidden; height:100%; margin-top:10px; line-height:20px; font-size:13px;}
+.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px;}
 .search_items_holder h6 {line-height:20px; display:inline-block; clear:both; margin:0 5px 0 0;}
 .search_items_holder span {margin-right:10px;display:inline-block; margin-bottom:3px;}
 .search_items_holder span .close {float:none; color:#CD0000; font-size:21px; display:inline-block; vertical-align: sub;}
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
-.task-tab-filter { margin: 0px; }
-.task-tab-filter > li { padding: 0px; display:block; float:left;}
-.task-tab-filter a { padding: 8px 10px; display:block; float:left; position:relative;}
+.task-tab-filter {margin: 0px 0px 8px;}
+.task-tab-filter > li {padding: 0px; display:block; float:left;}
+.task-tab-filter a { padding: 7px 10px; display:block; float:left; position:relative;}
 .task-tab-filter a span {  background: none repeat scroll 0 0 #4cae4c;
     border-radius: 10px;
     -moz-border-radius: 10px;
@@ -875,7 +875,6 @@ div.statistic-filter_user-list label input[type="checkbox"] {
     ###############################################################*/
 
 .task-message {margin-bottom:10px;}
-.task-message .alert, .task-message .message {padding: 10px 15px;}
 .task-message .message > span img {max-width:90px; position:relative; top:2px;}
 .alert-warning, .alert-success, .alert-info, .alert-danger, .message {margin:0px;}
 .alert-apprice {
@@ -884,7 +883,7 @@ div.statistic-filter_user-list label input[type="checkbox"] {
     color: #b04e19;
     margin-bottom: 0px;
 }
-.message {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
+.message {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; overflow:hidden; height:100%;}
 .alert-warning, .for_current_user .message {border-color:#F5F3EA; background:#FFFDF1;}
 .alert-success {border-color:#DEECD8; background:#edf8ed;}
 .alert-info {border-color:#D9EDF7; background:#ecf5f9;}
@@ -1397,6 +1396,8 @@ border-top-right-radius: 0;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
 .tasks-toolbar > div {width:100%;}
+.tasks-toolbar > div.col-xs-7 {margin-top:10px;}
+.tasks-toolbar > div.col-xs-7 ul.pull-right {float:left !important;}
 	
 	
 	.task_number > div,
@@ -1651,7 +1652,7 @@ border-top-right-radius: 0;}
 
 /*СООБЩЕНИЯ*/
 
-.message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; padding:10px 15px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
+.message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
