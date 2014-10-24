@@ -302,42 +302,7 @@ var cTimeThumb = function (params) {
                             t.big.dragPaperStart = t.big.getLeftPx();
 //                            }
                         } else {
-//                            t.currentMouseX = e.pageX;
-//                            //Сдвиг при условии что  у края
-//                            var projectOffset = t.allProjectLeft - offsetX;
-//                            if (t.PosMousemoveScrollPageX && t.scrollWinLeft <= 0 && e.pageX + 10 > t.PosMousemoveScrollPageX || //перестать сдвигать если
-//                                t.PosMousemoveScrollPageX && t.scrollWinLeft >= 0 && e.pageX - 10 < t.PosMousemoveScrollPageX
-//                                ) {//если сдвиг остановлен то останавливаем и таймер
-//                                clearInterval(t.posScrollTimer);
-//                                t.PosMousemoveScrollPageX = false;
-//                                t.posScrollTimer = false;
-//                            } else if ((projectOffset < t.scrollWinLeft && offsetX < 0) || ((projectOffset > -(t.allProjectWidth - t.containerWidth)) && offsetX > 0)) {
-//                                if (!t.PosMousemoveScrollPageX) {//проверка работает ли в данный момент сдвиг
-//                                    t.PosMousemoveScrollPageX = e.pageX;
-//
-//                                    if (!t.posScrollTimer) { //если можно сдвигать и таймер не запущен то начинаем сдвиг
-//                                        t.posScrollTimer = setInterval(function () {
-//                                            if (t.dragWinFlag &&
-//                                                t.allProjectLeft <= t.scrollWinLeft + 21 && offsetX < 0 || (-t.allProjectLeft + t.containerWidth) < t.allProjectWidth && offsetX > 0) {//бага выполняется условие когда какимто образом она сдвигается болше чем нужно
-//                                                t.allProjectLeft = t.allProjectLeft - offsetX;
-//                                                if (t.allProjectLeft > t.scrollWinLeft) {
-//                                                    t.allProjectLeft = t.scrollWinLeft;
-//                                                } else if (-t.allProjectLeft > t.allProjectWidth - t.containerWidth && offsetX > 0) {
-//                                                    t.allProjectLeft = -(t.allProjectWidth - t.containerWidth + t.marginScrollRight);
-//                                                }
-//                                                t.$progressContainer.css('left', t.allProjectLeft);
-//                                                t.big.goToPx(t.big.dragPaperStart - (offsetX / t.thumbScale), false, false, true);
-//                                                t.dragWinLeft = t.getWinLeft();
-//                                                t.big.dragPaperStart = t.big.getLeftPx();
-//                                            } else {//если сдвигать уже некуда то останавливаем
-//                                                clearInterval(t.posScrollTimer);
-//                                                t.PosMousemoveScrollPageX = false;
-//                                                t.posScrollTimer = false;
-//                                            }
-//                                        }, 30);
-//                                    }
-//                                }
-//                            }
+
                         }
                     }
                 }
