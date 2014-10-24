@@ -875,7 +875,6 @@ div.statistic-filter_user-list label input[type="checkbox"] {
     ###############################################################*/
 
 .task-message {margin-bottom:10px;}
-.task-message .alert, .task-message .message {padding: 10px 15px;}
 .task-message .message > span img {max-width:90px; position:relative; top:2px;}
 .alert-warning, .alert-success, .alert-info, .alert-danger, .message {margin:0px;}
 .alert-apprice {
@@ -884,7 +883,7 @@ div.statistic-filter_user-list label input[type="checkbox"] {
     color: #b04e19;
     margin-bottom: 0px;
 }
-.message {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; padding:15px; overflow:hidden; height:100%;}
+.message {border:1px solid #eee; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; background:#fbfbfb; overflow:hidden; height:100%;}
 .alert-warning, .for_current_user .message {border-color:#F5F3EA; background:#FFFDF1;}
 .alert-success {border-color:#DEECD8; background:#edf8ed;}
 .alert-info {border-color:#D9EDF7; background:#ecf5f9;}
@@ -1397,6 +1396,8 @@ border-top-right-radius: 0;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
 .tasks-toolbar > div {width:100%;}
+.tasks-toolbar > div.col-xs-7 {margin-top:10px;}
+.tasks-toolbar > div.col-xs-7 ul.pull-right {float:left !important;}
 	
 	
 	.task_number > div,
@@ -1651,7 +1652,7 @@ border-top-right-radius: 0;}
 
 /*СООБЩЕНИЯ*/
 
-.message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; padding:10px 15px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
+.message {/*margin-bottom:15px; */border:1px solid #eee;background:#f2f2f2; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; line-height:20px; display:table; width:100%;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
