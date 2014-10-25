@@ -19,7 +19,7 @@ def get_head_variables(request):
         'user': request.user,
         'is_admin': request.user.is_superuser,
         'is_staff': request.user.is_staff,
-        'is_detail_page': 'detail' in currentPath or 'user_list' in currentPath,
+        'is_detail_page': 'detail' in currentPath,
         'referrer': request.GET.get('r', None)
     }
 
