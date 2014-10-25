@@ -294,10 +294,10 @@ $.fn.addFilePaste = function(options){
             $img.get(0).onload = function(){
                 var startedCoords = {
                     'handles':true,
-                    'x1': 0,
-                    'y1': 0,
-                    'x2': $img.width(),
-                    'y2': $img.height()
+                    'x1': 10,
+                    'y1': 10,
+                    'x2': $img.width()-10,
+                    'y2': $img.height()-10
                 }
                 $img.imgAreaSelect($.extend({
                     'onSelectEnd': function (img, selection) {
