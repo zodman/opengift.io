@@ -1364,6 +1364,7 @@ div.markItUpContainer { margin-right: 0px;}
 -moz-border-radius-topleft: 0;
 border-radius: 6px;
 border-top-left-radius: 0;}
+.mobile-menu .dropdown-submenu:hover >.dropdown-menu {display:none;}
 .dropdown-submenu:hover >.dropdown-menu {display:block;}
 .dropdown-submenu >a:after {display:block;content:" ";float:right;width:0;height:0; border-style:solid; border-width: 5px 0 5px 5px; border-color: transparent #dedede transparent; margin-top:5px;margin-left:-15px;}
 .dropdown-submenu:hover >a:after {border-left-color:#ffffff;}
