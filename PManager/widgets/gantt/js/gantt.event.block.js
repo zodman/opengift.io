@@ -12,16 +12,22 @@ var EventBlock = function (event) {
         this.$elem = $('<div></div>', {
                 'class': 'gantt-event'
             }
-        )
-        .append('<i class="fa fa-ellipsis-v js-drag-task" style="height: 22px;"></i>')
-        .append('<a href="' + event.url + '">' + event.title + '</a>');
+        );
+        if (event.title)
+            this.$elem.append('<i class="fa fa-ellipsis-v js-drag-task" style="height: 22px;"></i>')
+            .append('<a href="' + event.url + '">' + event.title + '</a>');
     }
 
     this.$elem.attr('data-id', event.id);
-    if (event.planTime)
-        this.$elem.append(
-            '<div class="gantt-event-plantime">Примерное время: <span>' + event.planTime + ' ч.</span></div>'
-        );
+    if (event.title) {
+        if (event.planTime)
+            this.$elem.append(
+                    '<div class="gantt-event-plantime">Примерное время: <span>' + event.planTime + ' ч.</span></div>'
+            );
+    } else {
+        this.$elem.addClass('other');
+    }
+
     if (event.closed) {
         this.$elem.addClass('closed');
     }
