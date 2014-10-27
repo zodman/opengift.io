@@ -648,7 +648,8 @@ var widget_tl, currentGroup;
                         $(btn).pullTheButton();
                     });
                 }
-
+                
+                $('.task-file-upload input[type=hidden]').remove();
 
                 return this;
             },
@@ -995,7 +996,6 @@ var widget_tl, currentGroup;
             widget_tl.TL_CreateTask(taskParams);
 
             $('.qq-upload-list').empty();//TODO:устранить дублирование кода
-            $('.task-file-upload input[type=hidden]').remove();
             return false;
         });
 
@@ -1216,6 +1216,9 @@ if(isMobile.any()){
                 event.stopPropagation(); 
                 $(this).parent().siblings().removeClass('open');
                 $(this).parent().toggleClass('open');
+            });
+            $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
+                $(this).parents('.input-group-btn').removeClass('open');
             });
         });
     })(jQuery);
