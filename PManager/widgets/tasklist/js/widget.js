@@ -977,7 +977,8 @@ var widget_tl, currentGroup;
                 var parent = $(this).data('parent'),
                     taskParams = {'taskname':$(this).val()};
                 $('.task-file-upload input[type=hidden]').each(function(){
-                    taskParams[this.name] = $(this).val();
+                    if (!taskParams[this.name]) taskParams[this.name] = [];
+                    taskParams[this.name].push($(this).val());
                 });
                 widget_tl.TL_CreateTask(taskParams, parent);
                 $(this).val('');
@@ -990,7 +991,8 @@ var widget_tl, currentGroup;
             var input = $('input.task-create'),
                 taskParams = {'taskname':input.val()};
             $('.task-file-upload input[type=hidden]').each(function(){
-                taskParams[this.name] = $(this).val();
+                if (!taskParams[this.name]) taskParams[this.name] = [];
+                taskParams[this.name].push($(this).val());
             });
             input.val('');
             widget_tl.TL_CreateTask(taskParams);
