@@ -648,7 +648,8 @@ var widget_tl, currentGroup;
                         $(btn).pullTheButton();
                     });
                 }
-
+                
+                $('.task-file-upload input[type=hidden]').remove();
 
                 return this;
             },
@@ -995,7 +996,6 @@ var widget_tl, currentGroup;
             widget_tl.TL_CreateTask(taskParams);
 
             $('.qq-upload-list').empty();//TODO:устранить дублирование кода
-            $('.task-file-upload input[type=hidden]').remove();
             return false;
         });
 
