@@ -1564,12 +1564,13 @@ border-top-right-radius: 0;}
 /*.qq-upload-drop-area > span {left:0px; width:100%; margin-top:-10px; top:50%; position:absolute;}*/
 .qq-upload-list li {display:block; padding: 5px 0;}
 .qq-upload-list li:first-child {padding: 12px 0 5px;}
-.qq-upload-list li:last-child {padding: 5px 0 12px;}
+.qq-upload-list li:last-child {padding: 5px 0 10px;}
 .qq-upload-list li span {margin: 0 3px 3px 3px; display: inline; vertical-align: bottom;}
 .qq-upload-file {font-weight: bold;}
-.qq-upload-succes .btn-group {margin-left:8px; margin-top:-4px;}
-.qq-upload-success .btn {padding:1px 7px; color:#999999;}
-.qq-upload-success .btn .icon-white {color:#fff;}
+.qq-upload-list .btn-group {margin-left:8px; margin-top:-4px;}
+.qq-upload-list .btn {padding:1px 7px; color:#999999;}
+.qq-upload-list .btn .icon-white {color:#fff;}
+.qq-upload-list .qq-upload-status-text {margin: 0 3px 3px 15px;}
 
 .qq-upload-button-hover {background:#FFFDF1 !important; border-color:#F5F3EA !important; opacity:1 !important; color:#C09853 !important;}
 .qq-upload-button-hover .qq-upload-drop-area, .qq-upload-button-hover .file_upload_button {color:#C09853 !important; background:#FFFDF1 !important;}
