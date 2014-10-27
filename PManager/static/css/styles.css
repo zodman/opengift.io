@@ -1558,14 +1558,13 @@ border-top-right-radius: 0;}
 /* В файлах */
 .qq-upload-button, .qq-drop-processing {display:none;}
 .qq-uploader {width: 100%; text-align:center; position:relative; z-index:1;}
-.qq-uploader .btn-group {position:relative; left:10px;}
+.qq-uploader .btn-group {position:relative; left:10px; top: 2px;}
 .qq-upload-list {background:none repeat scroll 0 0 #F7F7F7; margin: 10px 0;}
-.qq-upload-drop-area {background:none repeat scroll 0 0 #f7f7f7; color:#999; font-size:20px; left:4px; height:24px; position:absolute; text-align:center; top:12px; z-index:1; width:99%; font-family:"Helvetica Neue",Helvetica,Arial,sans-serif;}
+.qq-upload-drop-area {background: none repeat scroll 0 0 #f7f7f7; color: #999; font-size: 20px; padding: 12px 0; position: relative; text-align: center; z-index: 1; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; margin: 10px 0;}
 /*.qq-upload-drop-area > span {left:0px; width:100%; margin-top:-10px; top:50%; position:absolute;}*/
-.qq-upload-list li {display:block; padding: 5px 0;}
-.qq-upload-list li:first-child {padding: 12px 0 5px;}
-.qq-upload-list li:last-child {padding: 5px 0 10px;}
-.qq-upload-list li span {margin: 0 3px 3px 3px; display: inline; vertical-align: bottom;}
+.qq-upload-list li {display:block; padding: 10px 0 0 0;}
+.qq-upload-list li:last-child {padding-bottom: 9px;}
+.qq-upload-list li span {margin: 0 3px 3px 3px; display: inline; vertical-align: sub;}
 .qq-upload-file {font-weight: bold;}
 .qq-upload-list .btn-group {margin-left:8px; margin-top:-4px;}
 .qq-upload-list .btn {padding:1px 7px; color:#999999;}

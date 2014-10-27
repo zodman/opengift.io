@@ -1209,19 +1209,19 @@ var isMobile = {
     }
 };
 
-if(isMobile.any()){
-    $('.input-group-btn').addClass('mobile-menu');
-    (function($){
-        $(document).ready(function(){
+(function($){
+    $(document).ready(function(){
+        if(isMobile.any()){
+            $('.input-group-btn').addClass('mobile-menu');
             $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
                 event.preventDefault(); 
                 event.stopPropagation(); 
                 $(this).parent().siblings().removeClass('open');
                 $(this).parent().toggleClass('open');
             });
-            $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
-                $(this).parents('.input-group-btn').removeClass('open');
-            });
+        }
+        $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
+            $(this).parents('.input-group-btn').removeClass('open');
         });
-    })(jQuery);
-}
+    });
+})(jQuery);
