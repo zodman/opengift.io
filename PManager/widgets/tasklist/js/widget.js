@@ -1217,6 +1217,9 @@ if(isMobile.any()){
                 $(this).parent().siblings().removeClass('open');
                 $(this).parent().toggleClass('open');
             });
+            $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
+                $(this).parents('.input-group-btn').removeClass('open');
+            });
         });
     })(jQuery);
 }
