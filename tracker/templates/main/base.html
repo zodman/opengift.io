@@ -336,7 +336,10 @@ $(function(){
                             </li>
                             {% for project in projects %}
                             <li id="{{ project.id }}" class="{% if project.id == main.CURRENT_PROJECT.id %}active{% endif %}">
-                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">{{ project.name }}</a>
+                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
+                                    {{ project.name }}
+                                {% if project.tasksQty %}&nbsp;<b>{{ project.tasksQty }}</b>{% endif %}
+                                </a>
                             </li>
                             {% endfor %}
                         </ul>
