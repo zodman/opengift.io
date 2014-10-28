@@ -545,6 +545,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 
 .widget.tasklist {z-index:2;}
 
+.pause_dialog {padding:10px 15px; width:235px;}
 .task-wrapper:hover {transition: box-shadow 0.2s linear 0s;}
 
 .task-wrapper.critically { background:#FFECEC; border: 1px solid #D3BCBC; }
@@ -560,8 +561,8 @@ js-similar_result > a {color: #333; font-weight: bold;}
 					
 					.critically {background:#ffecec;}
 						.critically .task-drag {background:#c00f00;}
-						.critically .task-info .task-info-author a,  
-						.critically .task-info .task-info-time a {color:#c00f00; text-decoration:none;} 
+						.critically .task-info .task-info-author > a,  
+						.critically .task-info .task-info-time > a {color:#c00f00; text-decoration:none;} 
 							.critically .link-with-popup {border-bottom:1px dashed #c00f00;}
 					
 					
@@ -624,15 +625,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00f9f9f9', e
 
 
 					
-					.task-info .task-info-author a,  
-					.task-info .task-info-time a {color:#47a447; text-decoration:none;} 
-						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px;}
-						.link-with-popup {border-bottom:1px dashed #47a447;}
+					.task-info .task-info-author > a,  
+					.task-info .task-info-time > a {color:#47a447; text-decoration:none;} 
+						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px; color: #47a447; text-decoration:none;}
+						.link-with-popup {border-bottom:1px dashed #47a447; color: #47a447 !important; text-decoration:none !important;}
+						.task-info .task-info-time div.dropdown-menu {padding:10px; font-size:12px; width:215px;}
 					
 					.task-info .task-info-control {position:absolute; top:10px; right:10px;}
-						.task-info .task-info-control a {font-size:18px; color:#999999; border-left:1px solid #fff; box-shadow:-1px 0px 0px rgba(1,1,1,0.1); padding:0 10px; text-decoration:none;}
-					
-					.add-task-input {padding:10px 15px;}
+						.task-info .task-info-control > a, 
+						.task-info .task-info-control .js-options_popup > a {font-size:18px; color:#999999; border-left:1px solid #fff; box-shadow:-1px 0px 0px rgba(1,1,1,0.1); padding:0 10px; text-decoration:none;}
+						.task-info .task-info-control .task-menu li a {font-size:14px; padding:5px 10px; margin:0 -1px;}
+					.add-task-input {padding:10px 15px;} 
 					
 					.subtasks .task {}
 						.subtasks .task .task-border {border-bottom:1px solid rgba(1,1,1,0.1); border-top:1px solid #fff;}
