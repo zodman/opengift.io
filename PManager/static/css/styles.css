@@ -627,7 +627,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00f9f9f9', e
 					
 					.task-info .task-info-author > a,  
 					.task-info .task-info-time > a {color:#47a447; text-decoration:none;} 
-						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px; color: #47a447; text-decoration:none;}
+						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px;text-decoration:none;}
+							.task-info .task-info-time a.play .fa-play-circle  {color: #47a447;}
+							.task-info .task-info-time a.play .fa-pause {color:#ffa500;}
 						.link-with-popup {border-bottom:1px dashed #47a447; color: #47a447 !important; text-decoration:none !important;}
 						.task-info .task-info-time div.dropdown-menu {padding:10px; font-size:12px; width:215px;}
 					
