@@ -332,7 +332,7 @@ $(function(){
                         <button type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
                         <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
                             <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">
-                                <a href="/?project=0">Все проекты</a>
+                                <a href="{% if is_detail_page %}/{% endif %}?project=0">Все проекты</a>
                             </li>
                             {% for project in projects %}
                             <li id="{{ project.id }}" class="{% if project.id == main.CURRENT_PROJECT.id %}active{% endif %}">

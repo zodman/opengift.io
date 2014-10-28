@@ -252,6 +252,7 @@ class PM_Milestone(models.Model):
             overdue=False,
             date__lt=datetime.datetime.now()
         )
+
         for ms in milestones:
             ms.overdue = True
             ms.save()

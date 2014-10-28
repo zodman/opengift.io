@@ -202,7 +202,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     this.$el.show();
                 }
                 this.$el.html(this.template(this.model.toJSON())).addClass('task-message');
-                var $messageTextBlock = this.$el.find('.js-taskMessageText');
+//                var $messageTextBlock = this.$el.find('.js-taskMessageText');
 
                 if (!this.model.get('text') && !this.model.get('files')) {
                     return false;
@@ -543,7 +543,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     $('.SUBCONTAINER:lt(2)').addClass('show-msg');
                     var lastItem = subcontainer.length - (subcontainer.length - 6);
                     $('.SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
-                    if ($('.SUBCONTAINER:last').find('.task-message').length > 1 && !$('.SUBCONTAINER:last').find('.task-message').hasClass('new-message')) {
+                    if ($chatWindow.length === 0 && $('.SUBCONTAINER:last').find('.task-message').length > 1 && !$('.SUBCONTAINER:last').find('.task-message').hasClass('new-message')) {
                         var containerMessages = $('.SUBCONTAINER:last');
                         var colMessages = (containerMessages.find('.task-message')).length - 1;
                         var msgs = containerMessages.find('.task-message');

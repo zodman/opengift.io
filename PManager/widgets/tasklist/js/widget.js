@@ -648,7 +648,8 @@ var widget_tl, currentGroup;
                         $(btn).pullTheButton();
                     });
                 }
-
+                
+                $('.task-file-upload input[type=hidden]').remove();
 
                 return this;
             },
@@ -976,7 +977,8 @@ var widget_tl, currentGroup;
                 var parent = $(this).data('parent'),
                     taskParams = {'taskname':$(this).val()};
                 $('.task-file-upload input[type=hidden]').each(function(){
-                    taskParams[this.name] = $(this).val();
+                    if (!taskParams[this.name]) taskParams[this.name] = [];
+                    taskParams[this.name].push($(this).val());
                 });
                 widget_tl.TL_CreateTask(taskParams, parent);
                 $(this).val('');
@@ -989,7 +991,8 @@ var widget_tl, currentGroup;
             var input = $('input.task-create'),
                 taskParams = {'taskname':input.val()};
             $('.task-file-upload input[type=hidden]').each(function(){
-                taskParams[this.name] = $(this).val();
+                if (!taskParams[this.name]) taskParams[this.name] = [];
+                taskParams[this.name].push($(this).val());
             });
             input.val('');
             widget_tl.TL_CreateTask(taskParams);
@@ -1184,3 +1187,41 @@ var widget_tl, currentGroup;
 $.fn.singleActivate = function(){
     return this.addClass('active').siblings().removeClass('active').end();
 };
+
+var isMobile = {
+    Android: function() {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function() {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function() {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function() {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Windows: function() {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function() {
+        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
+    }
+};
+
+(function($){
+    $(document).ready(function(){
+        if(isMobile.any()){
+            $('.input-group-btn').addClass('mobile-menu');
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+                event.preventDefault(); 
+                event.stopPropagation(); 
+                $(this).parent().siblings().removeClass('open');
+                $(this).parent().toggleClass('open');
+            });
+        }
+        $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
+            $(this).parents('.input-group-btn').removeClass('open');
+        });
+    });
+})(jQuery);

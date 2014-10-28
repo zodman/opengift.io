@@ -873,6 +873,7 @@ GANTT.prototype = {
         var resp = {};
         if (model.get('responsible'))
             resp = model.get('responsible')[0];
+
         t.$detailEventWin
             .find('.js-event-id')
             .val(model.id).end()
