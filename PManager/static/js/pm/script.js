@@ -190,6 +190,7 @@ function randomString(string_length) {
     return randomstring;
 }
 function setTaskCellsHeight($object){
+	return true;
     if (!$object){
         $object = $('.task');
     }
@@ -208,6 +209,18 @@ function setTaskCellsHeight($object){
         }
     });
 }
+
+function setTaskCellsHeight($object){
+    if (!$object){
+        $object = $('.task');
+    }
+    var winWidth = $(window).width();
+    if (winWidth > MIN_WIDTH_FOR_TASK_LINES)
+        $object.each(function(){
+            $(this).find('.task-drag').css('height',$(this).height());
+         });
+}
+
 $(function(){
     $(window).resize(function() {
         setTaskCellsHeight();

@@ -44,11 +44,6 @@ a.option.task_close {
 .option.task_start, .option.task_stop {
     margin-left:0;
 }
-a.add_subtask {
-    color: #c7c7c7;
-    text-decoration: none;
-}
-
 .newEvent .task_name{
     font-weight:bold;
 }
@@ -128,16 +123,6 @@ a {
     max-width: 200px;
 }
 
-.task .disabled .fa-pause {
-    color: #47A447;
-}
-.task .disabled .fa-pause:hover {
-    color: #5C8050;
-}
-
-.task-name_status {
-    /*padding: 0 5px;*/
-}
 
 
 /*#chatWindow .task-message .message_task_name {display:block;}*/
@@ -160,9 +145,6 @@ a {
     border-right: 1px solid #CCCCCC;
     margin-right: 5px;
     padding-right: 10px;
-}
-.task .btn-group  .fa {
-    font-size: 1.3em;
 }
 
 .Task_Detail .widget-title .fa-pause:not(.disabled) {
