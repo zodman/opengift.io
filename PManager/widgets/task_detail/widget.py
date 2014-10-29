@@ -125,6 +125,8 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'canRemove', task.canPMUserRemove(prof))
         setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
         setattr(task, 'canClose', task.canApprove)
+        setattr(task, 'taskPlanTime', task.planTime)
+        setattr(task, 'taskResp', [{'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}])
 
         allTime = task.getAllTime()
         files = taskExtensions.getFileList(task.files.all())
