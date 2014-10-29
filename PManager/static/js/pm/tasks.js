@@ -417,7 +417,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                 templateParams.timerTag = 'span';
                 playBtnStatus = 'transparent';
             }
-            console.log(this.model.get('time'));
             var oTime = this.model.get('time');
             var allTime = oTime.seconds + oTime.hours + oTime.minutes;
             if (!allTime) {
