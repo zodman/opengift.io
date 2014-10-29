@@ -26,6 +26,7 @@ def get_head_variables(request):
     if request.user.is_authenticated():
         result['account_total'] = request.user.get_profile().account_total
         projects = request.user.get_profile().getProjects().order_by('name')
+        result['projects'] = []
         for project in projects:
             tasksQty = 0
             if request.user.get_profile().isManager(project):
