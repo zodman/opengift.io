@@ -14,7 +14,7 @@
                 var tl = $('.js-name-link:eq(0)');
                 console.log(title);
               ok($.trim(tl.text()) == title, 'Задача успешно создана');
-                var play = tl.closest('.task').find('.fa-play').trigger('click');
+                var play = tl.closest('.task').find('.fa-play-circle').trigger('click');
                 setTimeout(function(){
                     play.trigger('click');
                     tl.closest('.task').find('.pause_comment_cancel').trigger('click');

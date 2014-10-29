@@ -7,12 +7,12 @@
        <a title="#LAST_MESSAGE#" class="js-name-link" href="#TASK_URL#">#TASK_NAME#</a>
        #FILE_LIST#
        #DEADLINE#
-       <a class="show-subtasks add-subtask" rel="#TASK_ID#" href="#">#ACTIVE_SUBTASK_QTY# <span class="fa fa-plus"></span></a><!-- ===== ДОБАВИТЬ ПОДЗАДАЧУ -->
+       <span class="task_add-subtask"><a class="show-subtasks add-subtask" rel="#TASK_ID#" href="#">#ACTIVE_SUBTASK_QTY# <span class="fa fa-plus"></span></a></span><!-- ===== ДОБАВИТЬ ПОДЗАДАЧУ -->
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
 
 		<div class="task-info">
-        	<div class="task-info-author"><span class="title-to-hide">Ответственный:&nbsp;</span><a href="#" class="js_task_responsibles"><span class="dropdown"></span></a></div>
-            <div class="task-info-time">
+        	<div class="task-info-author"><span class="title-to-hide">Ответственный:&nbsp;</span><span class="js_task_responsibles"><span class="dropdown"></span></span></div>
+            <div class="task-info-time task_play-wrap">
                 <span class="btn-group dropdown"><a class="task_play-wrap_btn dropdown-toggle js-task_play play" rel="#TASK_ID#"><span class="fa fa-play-circle"></span></a>
                 <div class="pause_dialog dropdown-menu pull-right">
                     <h5>Что сделано?</h5>
