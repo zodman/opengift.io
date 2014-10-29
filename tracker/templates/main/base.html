@@ -259,7 +259,7 @@ $(function(){
                 <div class="timer js-currentTask">
                     <span>
                         <span class="Time js-mainTimer" >{% if userTimer %}{{ userTimer }}{% else %}00:00:00{% endif %}</span>
-                        &nbsp;&nbsp;<a class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play{% endif %}" ></a>
+                        &nbsp;&nbsp;<a class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play-circle{% endif %}" ></a>
 
                         <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">
                             <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>
