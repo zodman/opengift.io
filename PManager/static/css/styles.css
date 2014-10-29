@@ -125,7 +125,9 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 	header .header .timer-wrapper .timer {margin-left:0px; position:relative; top:-1px;}
 	header .header .timer-wrapper .timer span {font-size:11px; color:#666; margin-left:5px; cursor:pointer; position:relative;}
 	header .header .timer-wrapper .timer span.open span {color:#57A957;}
-	header .header .timer-wrapper .timer span a.fa {font-size:17px; position:relative; top:2px;}
+	header .header .timer-wrapper .timer span a.fa {font-size:17px; position:relative; top:2px; text-decoration:none !important;}
+		header .header .timer-wrapper .timer span a.fa.fa-play-circle {color:#47a447;}
+		header .header .timer-wrapper .timer span a.fa.fa-pause {color:#ffa500;}
 	
 		/*ВЫПАДАЮЩИЙ БЛОК В ТАЙМЕРЕ*/
 		header .header .timer-wrapper .timer .dropdown-menu.timer-popup {padding:15px 20px; width:350px; top:20px; right:-27px; left:auto; text-align:left; line-height:20px;}
@@ -569,9 +571,9 @@ js-similar_result > a {color: #333; font-weight: bold;}
 					.warning .task-drag {background:#ffa500;}
 					
 						.critically .task-drag {background:#c00f00;}
-						.critically .task-info .task-info-author > a,  
-						.critically .task-info .task-info-time > a {color:#c00f00; text-decoration:none;} 
-							.critically .link-with-popup {border-bottom:1px dashed #c00f00; color:#c00f00 !important;}
+						.critically .task-info .task-info-author a,  
+						.critically .task-info .task-info-time > a {color:#c00f00 !important; text-decoration:none !important;} 
+							.critically .task-info .task-info-author a {border-bottom:1px dashed #c00f00; color:#c00f00 !important;}
 							.critically .show-subtasks {color:#c00f00 !important;}
 							.critically .task-info .task-info-time a.play .fa-play-circle {color:#c00f00 !important;}
 					
@@ -632,19 +634,19 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00fffdf1', e
 
 
 					
-					.task-info .task-info-author > a,  
+					.task-info .task-info-author a,  
 					.task-info .task-info-time > a {color:#47a447; text-decoration:none;} 
 						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px;text-decoration:none;}
 							.task-info .task-info-time a.play .fa-play-circle  {color: #47a447;}
 							.task-info .task-info-time a.play .fa-pause {color:#ffa500;}
-						.link-with-popup {border-bottom:1px dashed #47a447; color: #47a447 !important; text-decoration:none !important;}
+						.task-info .task-info-author a {border-bottom:1px dashed #47a447; color: #47a447 !important; text-decoration:none !important;}
 						.task-info .task-info-time div.dropdown-menu {padding:10px; font-size:12px; width:215px;}
 					
 					.task-info .task-info-control {position:absolute; top:10px; right:10px;}
 						.task-info .task-info-control > a, 
 						.task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); border-left:1px solid #fff; box-shadow:-1px 0px 0px rgba(1,1,1,0.1); padding:0 10px; text-decoration:none;}
 						.task-info .task-info-control .task-menu li a {font-size:14px; padding:5px 10px; margin:0 -1px;}
-					.add-task-input {padding:10px 15px;} 
+					.add-task-input {padding:10px 15px 10px 12px; border-left:3px solid rgba(1, 1, 1, 0.15);} 
 					
 					.subtasks .task {}
 						.subtasks .task .task-border {border-bottom:1px solid rgba(1,1,1,0.1); border-top:1px solid #fff;}
