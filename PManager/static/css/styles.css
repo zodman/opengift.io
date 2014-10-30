@@ -571,7 +571,6 @@ js-similar_result > a {color: #333; font-weight: bold;}
 						.closed .task-drag {background:#999;}
 					.warning .task-drag {background:#ffa500;}
 					
-						.critically .task-drag {background:#c00f00;}
 						.critically .task-info .task-info-author a,  
 						.critically .task-info .task-info-time .link-with-popup {color:#c00f00 !important; text-decoration:none !important;} 
 							.critically .task-info .task-info-author a, .critically  .task-info .task-info-time .link-with-popup {border-bottom:1px dashed #c00f00; color:#c00f00 !important;}
