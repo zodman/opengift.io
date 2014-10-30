@@ -15,7 +15,7 @@ def recall(request):
             },
             u'Перезвонить по этому номеру'
         )
-        mess.send(['gvamm3r@gmail.com'])
+        mess.send(['gvamm3r@gmail.com', 'info@heliard.ru'])
 
     return HttpResponse(u'Спасибо! Мы перезвоним вам в течение нескольких минут.')
 

@@ -771,7 +771,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'approveTask': function () {
             var t = this;
-            if (!t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
+            if (!t.model.get('resp') || !t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
                 alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
                 return false;
             }
