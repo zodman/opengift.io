@@ -562,10 +562,10 @@ js-similar_result > a {color: #333; font-weight: bold;}
 				.task {padding:0 15px; position:relative;}
 					.task.ready {background:#e6f0e6;}
 					.task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
-					.task-drag {width:3px; height:0px; position:absolute; left:0px; top:0px; background:#999; cursor:move}
+					.task-drag {width:3px; height:0px; position:absolute; left:0px; top:0px; background:#ffa500; cursor:move}
 						.task-drag.on-planning {background:#ac05a6;}
 						.task-drag.ready {background:#47a447;}
-						.task-drag.not-approved {background:#ffa500;}
+						.task-drag.not-approved {background:#999;}
 						.task-drag.overdue {background:#c00f00;}
 					.closed {opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5;}
 						.closed .task-drag {background:#999;}
@@ -583,6 +583,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 				.task-title {float:left; width:40%; position:relative; padding-left:20px; padding-right:35px;}
 				.task-title {font-size:14px;}
 					.task-title a {color:#000;}
+					.task.newEvent .task-title a {font-weight:bold;}
 					.task-title a:hover {color:#333;}
 						.task_add-subtask {position: absolute; top:1px; right:0px;}
 							.show-subtasks {color:#47a447 !important; text-decoration:none !important; display:inline-block; line-height:22px; cursor:pointer; font-weight:bold; height:20px; position:relative;}
