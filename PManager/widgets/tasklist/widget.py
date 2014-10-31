@@ -144,12 +144,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
                                                     content_type=ContentType.objects.get_for_model(task))
 
-        for tagRel in taskTagRelArray:
-            try:
-                id = tagRel.tag.id
-            except Tags.DoesNotExist:
-                tagRel.delete()
-
         arTagsId = [str(tagRel.tag.id) for tagRel in taskTagRelArray]
 
         userTagSums = {}
