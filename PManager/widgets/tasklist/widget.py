@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Project, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
+from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -138,11 +138,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             except PM_ProjectRoles.DoesNotExist:
                 rate = task.resp.get_profile().getBet(task.project) * COMISSION
 
-            arBets[task.id] =  task.planTime * rate
+            arBets[task.id] = task.planTime * rate
 
         task.time = task.getAllTime()
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
                                                     content_type=ContentType.objects.get_for_model(task))
+
+        for tagRel in taskTagRelArray:
+            try:
+                id = tagRel.tag.id
+            except Tags.DoesNotExist:
+                tagRel.delete()
 
         arTagsId = [str(tagRel.tag.id) for tagRel in taskTagRelArray]
 
