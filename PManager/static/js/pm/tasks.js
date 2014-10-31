@@ -549,7 +549,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         'showResponsibleMenu': function () {
             var taskId = this.model.id,
                 obj = this,
-                userList = $('.responsibles.dropdown-menu').clone().show().find('a').each(function () {
+                userList = $('.responsibles.dropdown-menu').toggle().find('a').each(function () {
                     var uId = $(this).attr('rel'), width = 0;
 
                     if (taskRespSummary[taskId])
@@ -565,18 +565,28 @@ var CRITICALLY_THRESHOLD = 0.7;
                     });
                 }).end();
 
+            var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
+            var popupRightPos = window.innerWidth - (getObjectCenterPos('.add-user-popup').width + getObjectCenterPos('.add-user-popup').left);
+            var arrowPos = linkRightPos - popupRightPos;
+            $('.add-user-popup-top-arrow').css('right', arrowPos + 21);
+
+            if ($('.add-user-list-of-users ul .media').length > 9) {
+                $('.add-user-list-of-categories').css('display','table-cell');
+            } else {
+                $('.add-user-list-of-categories').css('display','none');
+            }
+
             $('.js_task_responsibles .dropdown-menu').remove();
             var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
 
-            userList.appendTo('body').css({
+            userList.css({
                 'position': 'absolute',
-                'top': (position.top + position.height + 5),
-                'left': position.left
+                'top': (position.top + position.height + 5)
             });
 
             setTimeout(function () {
                 userList.bind('clickoutside', function () {
-                    $(this).remove();
+                    $(this).hide();
                 })
             }, 10);
 
