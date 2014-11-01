@@ -272,8 +272,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                 oTaskContainers.$statusContainer.addClass('on-planning');
             }
             this.$('.task-icon').remove();
+            oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
+            this.$el.removeClass('ready');
+
             if (taskInfo.status == 'ready') {
                 oTaskContainers.$statusContainer.addClass('ready');
+                this.$el.addClass('ready');
             } else if (taskInfo.status == 'not_approved') {
                 oTaskContainers.$statusContainer.addClass('not-approved');
             } else if (taskInfo.overdue) {

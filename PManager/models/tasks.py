@@ -50,7 +50,7 @@ def redisSendLogMessage(fields):
 
 
 class Tags(models.Model):
-    tagText = models.CharField(max_length=255)
+    tagText = models.CharField(max_length=100, db_index=True)
     frequency = models.FloatField(default=0)
     weight = 0
 
@@ -571,6 +571,7 @@ class PM_Task(models.Model):
         tags = textManager.parseTags(self.name + u' ' + self.text)
 
         for k, tagInfo in tags.iteritems():
+
             tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
 
             if tagId.id > 0:
