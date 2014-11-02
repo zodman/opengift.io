@@ -32,7 +32,7 @@ def task_ajax_action(fn):
 def ajaxNewTaskWizardResponder(request):
     from django.shortcuts import render
     return render(request, 'task/new_task_wizard.html', {})
-1
+
 def taskListAjax(request):
     from PManager.widgets.tasklist.widget import widget as taskList
     from PManager.models import PM_Files, PM_User_PlanTime, PM_Task_Status
@@ -479,7 +479,7 @@ def taskListAjax(request):
                     sendData['viewedOnly'] = request.user.id
                     redisSendTaskUpdate(sendData)
 
-                responseText = 'ok'
+                responseText = json.dumps(sendData)
             else:
                 responseText = 'none'
         else:
@@ -677,8 +677,8 @@ class taskAjaxManagerCreator(object):
         if 'parent' in request.POST:
             taskManager.parentTask = request.POST['parent']
 
-        if 'files' in request.POST:
-            taskManager.fileList = request.POST.getlist('files')
+        if 'files[]' in request.POST:
+            taskManager.fileList = request.POST.getlist('files[]')
 
         self.taskManager = taskManager
 

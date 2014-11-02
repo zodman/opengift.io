@@ -9,6 +9,24 @@ $.fn.getLeft = function(){
     if (left < 0) left = 0;
     return left;
 }
+
+if(!Date.prototype.toLocaleFormat){
+    Date.prototype.toLocaleFormat = function(format) {
+        var f = {
+            Y : this.getFullYear(),
+            y : this.getFullYear()-(this.getFullYear()>=2e3?2e3:1900),
+            m : this.getMonth() + 1,
+            d : this.getDate(),
+            H : this.getHours(),
+            M : this.getMinutes(),
+            S : this.getSeconds()
+        }, k;
+        for(k in f)
+            format = format.replace('%' + k, f[k] < 10 ? "0" + f[k] : f[k]);
+        return format;
+    }
+}
+
 var GANTT = function (options, events, milestones) {
     this.from = options.from; //timestamp
     this.to = options.to; //timestamp
@@ -177,24 +195,38 @@ GANTT.prototype = {
             '<tr><td><div class="gantt-top-dates stars"></div></td></tr>' +
             '</table>').appendTo(t.$datesTopContainer);
 
-        t.$datesTop.mousedown(function (e, e2) {
+        t.$datesTop.on('touchstart mousedown', function (e, e2) {
+            if (e.type === 'touchstart') {
+                if (e2) {
+                    e2 = e2.originalEvent.touches[0] || e2.originalEvent.changedTouches[0];
+                } else {
+                    e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                }
+            }
             var clientX = e.clientX || e2.clientX;
             $(this).data('scrolling', true);
             $(this).data('scroll', $(this).parent().scrollLeft());
             $(this).data('x', clientX);
         });
 
-        t.$desk.mousedown(function(e){
-            t.$datesTop.trigger('mousedown', e);
+        t.$desk.on('touchstart mousedown', function(e){
+            if (e.type === 'touchstart') {
+                t.$datesTop.trigger('touchstart', e);
+            } else {
+                t.$datesTop.trigger('mousedown', e);
+            }
             e.stopPropagation();
             return false;
         });
 
         $(document)
-            .unbind('mouseup.gantt').bind('mouseup.gantt', function () {
+            .unbind('mouseup.gantt touchend.gantt').bind('mouseup.gantt touchend.gantt', function () {
                 t.$datesTop.data('scrolling', false);
             })
-            .unbind('mousemove.gantt').bind('mousemove.gantt', function (e) {
+            .unbind('mousemove.gantt touchmove.gantt').bind('mousemove.gantt touchmove.gantt', function (e) {
+                if (e.type === 'touchmove') {
+                    e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+                }
                 if (t.$datesTop.data('scrolling')) {
                     t.$datesTop.parent().scrollLeft(
                         t.$datesTop.data('scroll') + t.$datesTop.data('x') - e.clientX
@@ -841,6 +873,7 @@ GANTT.prototype = {
         var resp = {};
         if (model.get('responsible'))
             resp = model.get('responsible')[0];
+
         t.$detailEventWin
             .find('.js-event-id')
             .val(model.id).end()

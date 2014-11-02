@@ -50,7 +50,7 @@ def redisSendLogMessage(fields):
 
 
 class Tags(models.Model):
-    tagText = models.CharField(max_length=255)
+    tagText = models.CharField(max_length=100, db_index=True)
     frequency = models.FloatField(default=0)
     weight = 0
 
@@ -252,6 +252,7 @@ class PM_Milestone(models.Model):
             overdue=False,
             date__lt=datetime.datetime.now()
         )
+
         for ms in milestones:
             ms.overdue = True
             ms.save()
@@ -310,7 +311,7 @@ class PM_Task(models.Model):
     name = models.CharField(max_length=1000, verbose_name='Заголовок')
     text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст')
     number = models.IntegerField()
-    project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True)
+    project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True, related_name='projectTasks')
     resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')
     responsible = models.ManyToManyField(User, related_name='hisTasks', null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdTasks', null=True, blank=True)
@@ -570,6 +571,7 @@ class PM_Task(models.Model):
         tags = textManager.parseTags(self.name + u' ' + self.text)
 
         for k, tagInfo in tags.iteritems():
+
             tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
 
             if tagId.id > 0:

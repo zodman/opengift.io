@@ -25,6 +25,15 @@ def get_head_variables(request):
 
     if request.user.is_authenticated():
         result['account_total'] = request.user.get_profile().account_total
-        result['projects'] = request.user.get_profile().getProjects().order_by('name')
+        projects = request.user.get_profile().getProjects().order_by('name')
+        result['projects'] = []
+        for project in projects:
+            tasksQty = 0
+            if request.user.get_profile().isManager(project):
+                tasksQty = project.projectTasks.filter(active=True, closed=False).count()
+            elif request.user.get_profile().isEmployee(project):
+                tasksQty = project.projectTasks.filter(active=True, closed=False, resp=request.user).count()
+            setattr(project, 'tasksQty', tasksQty)
+            result['projects'].append(project)
 
     return result

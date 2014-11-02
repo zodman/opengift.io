@@ -39,8 +39,8 @@ def widget(request, headerValues, a, b):
                 except User.DoesNotExist:
                     pass
 
-    if 'project' in request.GET:
-        arFilter['userRoles__in'] = PM_ProjectRoles.objects.filter(project=int(request.GET['project']))
+    if headerValues['CURRENT_PROJECT']:
+        arFilter['userRoles__in'] = PM_ProjectRoles.objects.filter(project=headerValues['CURRENT_PROJECT'])
         users = users.filter(**arFilter).distinct()
     # users = union(users, [request.user,])
     for user in users:

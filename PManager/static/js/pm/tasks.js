@@ -255,7 +255,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var oTaskContainers = {
                 '$taskNameCont': $row.find('.task-line_name'),
                 '$statusContainer': $row.find('.task-name_status'),
-                '$addSubtaskColumn': $row.find('.task_add-subtask'),
+                '$addSubtaskColumn': $row.find('.add-subtask'),
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
                 '$planTime': $row.find('.task-plantime')
@@ -269,24 +269,24 @@ var CRITICALLY_THRESHOLD = 0.7;
             }
 
             if (taskInfo.onPlanning) {
-                $('<span class="task-icon onplan" title="На планировании">')
-                    .appendTo(oTaskContainers.$statusContainer);
+                oTaskContainers.$statusContainer.addClass('on-planning');
             }
             this.$('.task-icon').remove();
+            oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
+            this.$el.removeClass('ready');
+
             if (taskInfo.status == 'ready') {
-                $('<span class="task-icon ready" title="Готова к проверке"></span>')
-                    .appendTo(oTaskContainers.$statusContainer);
+                oTaskContainers.$statusContainer.addClass('ready');
+                this.$el.addClass('ready');
             } else if (taskInfo.status == 'not_approved') {
-                $('<i class="task-icon fa fa-comments" style="color:#ee4343;cursor:default;" title="Задача не подтверждена"></i>')
-                    .appendTo(oTaskContainers.$statusContainer);
+                oTaskContainers.$statusContainer.addClass('not-approved');
             } else if (taskInfo.overdue) {
-                $('<span class="task-icon overdue" title="Просрочена"></span>')
-                    .appendTo(oTaskContainers.$statusContainer);
+                oTaskContainers.$statusContainer.addClass('overdue');
             }
 
 
             if (parent) {
-                oTaskContainers.$addSubtaskColumn.html('<div>&nbsp;</div>');
+                oTaskContainers.$addSubtaskColumn.hide();
             }
 
             if (taskInfo.planTime)
@@ -375,19 +375,22 @@ var CRITICALLY_THRESHOLD = 0.7;
             var $buttonStart = $row.find('.js-task_play');
             if (!taskInfo.closed) {
                 if (taskInfo.startedTimerExist)
-                    $buttonStart.addClass('started').find('.fa').removeClass('fa-play').addClass('fa-pause');
+                    $buttonStart.addClass('started').find('.fa').removeClass('fa-play-circle').addClass('fa-pause');
                 else
-                    $buttonStart.removeClass('started').find('.fa').removeClass('fa-pause').addClass('fa-play');
+                    $buttonStart.removeClass('started').find('.fa').removeClass('fa-pause').addClass('fa-play-circle');
             }
             if (!params.responsibleTag) params.responsibleTag = 'a';
             var $respLink = $('<' + params.responsibleTag + '></' + params.responsibleTag + '>').attr({
                 'data-toggle': 'dropdown'
             }).addClass('js-select_resp').appendTo(oTaskContainers.$responsibleLink);
 
+            var rName = [];
             if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']) {
-                var respName = taskInfo.resp[0];
-
-                $respLink.text(respName['name']);
+                for (var i in taskInfo.resp) {
+                    var respName = taskInfo.resp[i];
+                    rName.push(respName['name']);
+                }
+                $respLink.text(rName.join(', '));
             } else if (taskInfo.recommendedUser && taskInfo.needRespRecommendation && !taskInfo.subtasksQty) {
                 var restRec = $respLink.text(taskInfo.recommendedUser.name + '?').addClass('recommended');
                 $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
@@ -417,6 +420,11 @@ var CRITICALLY_THRESHOLD = 0.7;
                 templateParams.responsibleTag = 'span';
                 templateParams.timerTag = 'span';
                 playBtnStatus = 'transparent';
+            }
+            var oTime = this.model.get('time');
+            var allTime = oTime.seconds + oTime.hours + oTime.minutes;
+            if (!allTime) {
+                templateParams.timerTag = 'span';
             }
             this.$el.html(this.template(this.model.toJSON(), templateParams));
 
@@ -767,7 +775,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'approveTask': function () {
             var t = this;
-            if (!t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
+            if (!t.model.get('resp') || !t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
                 alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
                 return false;
             }

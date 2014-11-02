@@ -18,11 +18,11 @@ class trackMorphy():
         if len(self.text)>0:
             for word in tokenizers.extract_words(self.text):
                 gramInfo = morph.get_graminfo(unicode(word).upper())
-                if len(gramInfo)>0:
+                if len(gramInfo)>2 and len(gramInfo) < 90:
                     gramInfo = gramInfo[0]
 
                     if gramInfo['class'] in self.allowWordClasses:
-                        normolizeWord = gramInfo.get("norm",u'')
+                        normolizeWord = gramInfo.get("norm", u'')
 
                         if normolizeWord in tags:
                             tags[normolizeWord]['weight'] += 1

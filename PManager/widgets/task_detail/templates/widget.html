@@ -253,7 +253,9 @@
         'canSetPlanTime': {{ task_detail.task.canSetPlanTime|jsonify }},
         'canApprove': {{ task_detail.task.canApprove|jsonify }},
         'canRemove': {{ task_detail.task.canRemove|jsonify }},
-        'canSetCritically': {{ task_detail.task.canSetCritically|jsonify }}
+        'canSetCritically': {{ task_detail.task.canSetCritically|jsonify }},
+        'planTime': {{ task_detail.task.taskPlanTime|jsonify|safe }},
+        'resp': {{ task_detail.task.taskResp|jsonify|safe }}
     }
     window.taskHtml = {{ task_detail.taskTemplate|jsonify|safe }};
     var arJSParams = {

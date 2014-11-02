@@ -2,7 +2,9 @@ function showTutorial () {
     $('body').addClass('first-task-slider');
     $.fancybox.open(
         [
-            {href: "/static/images/first.jpg"}
+            {href: "/static/images/start_slider/first.jpg"},
+            {href: "/static/images/start_slider/apprice.jpg"},
+            {href: "/static/images/start_slider/ctrlv.jpg"}
         ],
         {
             helpers : {

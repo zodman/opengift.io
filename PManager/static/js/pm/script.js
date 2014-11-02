@@ -189,25 +189,39 @@ function randomString(string_length) {
 
     return randomstring;
 }
+//function setTaskCellsHeight($object){
+//	return true;
+//    if (!$object){
+//        $object = $('.task');
+//    }
+//    var winWidth = $(window).width();
+//    $object.each(function(){
+//
+//        $(this).children().children().each(function(){
+//            $(this).css('height', '');
+//        });
+//        var height = $(this).height();
+//        //task cells height
+//        if (winWidth > MIN_WIDTH_FOR_TASK_LINES){
+//            $(this).children().children().each(function(){
+//                    $(this).height(height - 10);
+//            });
+//        }
+//    });
+//}
+var GLOBAL_RESIZE_TIMER = false;
 function setTaskCellsHeight($object){
     if (!$object){
         $object = $('.task');
     }
-    var winWidth = $(window).width();
-    $object.each(function(){
-
-        $(this).children().children().each(function(){
-            $(this).css('height', '');
-        });
-        var height = $(this).height();
-        //task cells height
-        if (winWidth > MIN_WIDTH_FOR_TASK_LINES){
-            $(this).children().children().each(function(){
-                    $(this).height(height - 10);
-            });
-        }
-    });
+    if (GLOBAL_RESIZE_TIMER) clearTimeout(GLOBAL_RESIZE_TIMER);
+    GLOBAL_RESIZE_TIMER = setTimeout(function(){
+        $object.each(function(){
+            $(this).find('.task-drag').css('height', $(this).height());
+         });
+    }, 200);
 }
+
 $(function(){
     $(window).resize(function() {
         setTaskCellsHeight();

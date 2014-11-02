@@ -49,7 +49,7 @@ if (window.taskViewClass)
         },
         render: function(){
             var t = this,
-                fpl = 'fa-play',
+                fpl = 'fa-play-circle',
                 fps = 'fa-pause',
                 $playbtn = t.$('.js-play'),
                 $onlystrtd = t.$('.js-onlystarted');
@@ -96,14 +96,14 @@ $(function(){
             this.timer = oMyCurrentTimer;
 
             this.start = function(){
-                this.$elem.removeClass('fa-play').addClass('fa-pause');
+                this.$elem.removeClass('fa-play-circle').addClass('fa-pause');
                 this.timer.start();
 
                 return this;
             }
 
             this.stop = function(){
-                this.$elem.removeClass('fa-pause').addClass('fa-play');
+                this.$elem.removeClass('fa-pause').addClass('fa-play-circle');
                 this.timer.stop();
                 if (CURRENT_TASK_VIEW) {
                     CURRENT_TASK_VIEW.taskStop(false, true);

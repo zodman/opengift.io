@@ -112,10 +112,41 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     aTasks = []
     responsibleLastDates = {}
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
-    #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
+    aResp = []
     for task in tasks:
         if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True).count():
             continue
+
+        if task['resp__id'] and task['resp__id'] not in aResp:
+            aResp.append(task['resp__id'])
+
+        aTasks.append(task)
+
+    if 'project' in filter and filter['project']:
+        if aResp:
+            otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True).exclude(project=filter['project']).values(
+                'id',
+                'name',
+                'realDateStart',
+                'planTime',
+                'closed',
+                'dateCreate',
+                'dateClose',
+                'dateModify',
+                'project__name',
+                'status__code',
+                'milestone__id',
+                'parentTask__name',
+                'resp__id'
+            )
+            for task in otherTasks:
+                if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True).count():
+                    continue
+                task['name'] = ''
+                aTasks.append(task)
+
+    #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
+    for task in aTasks:
 
         if task['parentTask__name']:
             task['name'] = task['parentTask__name'] + ' / ' + task['name']
@@ -130,7 +161,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 endTime = task['realDateStart'] + datetime.timedelta(hours=taskTimer.taskRealTime)
                 if endTime < now and not task['closed']: endTime = now
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
-        aTasks.append(task)
+
+        # aTasks.append(task)
 
     aTaskMilestones = {}
     for task in aTasks:
@@ -203,7 +235,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     return {
         'title': u'Диаграмма Ганта',
-        'tasks': tasks,
+        'tasks': aTasks,
         'milestones': aMilestones,
         'users': widgetManager.getResponsibleList(cur_user, filter['project'])
     }
