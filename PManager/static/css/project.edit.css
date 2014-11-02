@@ -1,9 +1,5 @@
 .add-user-popup.dropdown-menu.responsibles { padding: 0;}
-.add-user-popup { border:1px solid #ccc; background:#fff; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -moz-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -webkit-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); position:absolute; width:900px; right: 0; margin: 0 auto; z-index:1001; left:0px;}
-    
-   @media (max-width: 1024px){
-      .add-user-popup { width: 680px;}
-   }
+.add-user-popup { border:1px solid #ccc; background:#fff; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -moz-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -webkit-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); position:absolute; width: 680px; right: 0; margin: 0 auto; z-index:1001; left:0px;}
 
    @media (max-width: 750px){
       .add-user-popup { width: 290px;}
@@ -36,12 +32,15 @@
 			.add-user-list-of-categories ul li a.active:hover {background:#4cae4c;}
 
 		.add-user-list-of-users {background:#fff; vertical-align:top;}
-			.add-user-list-of-users ul {list-style:none; padding:0px; margin:0px; max-height:182px; overflow-y:auto;}
-			.add-user-list-of-users ul li {color:#333; display:block; padding:10px 15px; margin:0px; border-bottom:1px solid #ddd; height:61px; white-space:nowrap; overflow:hidden;}
-			.add-user-list-of-users ul li:last-child {border:0;}
-			.add-user-list-of-users ul li p {margin-bottom:0px; display: none;}
-			.add-user-list-of-users ul li:hover {background:#edf8ed; border-bottom:1px solid #deecd8;}
-			.add-user-list-of-users ul li a {color:#47a447;}
+			.add-user-list-of-users ul {list-style:none; padding:0px; margin:0px; max-height:182px; height: 182px; overflow-y:auto;}
+      .add-user-list-of-users ul li.media {margin-top: 0;}
+      .add-user-list-of-users ul li.media .media-item .pull-left {margin-right: 15px;}
+			.add-user-list-of-users ul li .media-item {color:#333; display:block; padding:10px 15px; margin:0px; height:61px; white-space:nowrap; overflow:hidden;}
+			.add-user-list-of-users ul li {border-bottom:1px solid #ddd;}
+      .add-user-list-of-users ul li:last-child {border:0;}
+			.add-user-list-of-users ul li .media-item p {margin-bottom:0px; display: none;}
+			.add-user-list-of-users ul li .media-item:hover {background:#edf8ed; border-bottom:1px solid #deecd8; text-decoration: none;}
+			.add-user-list-of-users ul li .media-item span.user {color:#47a447;}
 
     .project-buttons a.btn {margin-bottom:5px;}
 
