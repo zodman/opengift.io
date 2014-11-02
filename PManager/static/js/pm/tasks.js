@@ -564,6 +564,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                     $(this).click(function () {
                         obj.changeResponsible($(this).attr('rel'));
                         $(this).closest('.add-user-popup.dropdown-menu.responsibles').hide();
+                        userInput.val("");
+                        $('.add-user-list-of-users ul .media').show()
                         return false;
                     });
                 }).end();
