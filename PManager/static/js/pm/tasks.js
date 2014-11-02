@@ -555,7 +555,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                 obj = this,
                 userList = $('.responsibles.dropdown-menu').toggle().find('a').each(function () {
                     var uId = $(this).attr('rel'), width = 0;
-
                     if (taskRespSummary[taskId])
                         if (taskRespSummary[taskId][uId])
                             var width = 100 * taskRespSummary[taskId][uId];
@@ -564,7 +563,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     //responsible change
                     $(this).click(function () {
                         obj.changeResponsible($(this).attr('rel'));
-                        $(this).closest('ul').remove();
+                        $(this).closest('.add-user-popup.dropdown-menu.responsibles').hide();
                         return false;
                     });
                 }).end();
@@ -582,15 +581,31 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             $('.js_task_responsibles .dropdown-menu').remove();
             var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
-
+            
             userList.css({
                 'position': 'absolute',
                 'top': (position.top + position.height + 5)
             });
 
+            var userItems = $('.add-user-list-of-users ul li span.user');
+            var userInput = $('.add-user-popup-header .form-control');
+            userInput.keyup(function(){
+                var inputVal = $(this).val();
+                userItems.each(function(){
+                    $(this).parents('.media').hide();
+                    var userItemVal = $(this).text();
+                    var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
+                    if (userItemIndexOf != -1) {
+                        $(this).parents('.media').show();
+                    };
+                });
+            });
+
             setTimeout(function () {
                 userList.bind('clickoutside', function () {
                     $(this).hide();
+                    userInput.val("");
+                    $('.add-user-list-of-users ul .media').show()
                 })
             }, 10);
 

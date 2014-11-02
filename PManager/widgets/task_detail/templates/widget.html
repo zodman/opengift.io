@@ -243,13 +243,15 @@
                     <ul>
                         {% for resp_user in task_detail.users %}
                             <li class="media">
-                                <a class="pull-left" href="#">
-                                    <img class="media-object" src="http://heliard.ru/static/upload/Avatar457.jpg" alt="..." height="40">
+                                <a class="media-item" rel={{ resp_user.id }}>
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://heliard.ru/static/upload/Avatar457.jpg" alt="..." height="40">
+                                    </span>
+                                    <div class="media-body">
+                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">верстальщик</span>
+                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
+                                    </div>
                                 </a>
-                                <div class="media-body">
-                                    <a href="#">{{ resp_user.first_name }} {{ resp_user.last_name }}</a>, <span class="occupation">верстальщик</span>
-                                    <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
-                                </div>
                             </li>
                         {% endfor %}
                     </ul>
