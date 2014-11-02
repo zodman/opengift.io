@@ -611,6 +611,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                 }, 10);
             } else {
                 $('.add-user-popup.dropdown-menu.responsibles.clone').remove();
+                $('.add-user-popup-header .form-control').val("");
+                $('.add-user-list-of-users ul .media').show()
             }
             return false;
         },
