@@ -1487,22 +1487,26 @@ border-top-right-radius: 0;}
 /* В списке задач 
 .tasklist .qq-uploader {background:none repeat scroll 0 0 #F7F7F7; border:2px dashed #E6E6E6; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; left:0px; margin:10px 0 0; padding:5px 0 0; position:relative; top:0px; width:100%;}*/
 
+.milestones-btn-wrapper {position:relative;}
+.milestones-btn {white-space: nowrap; border:1px solid #cccccc;}
+	.milestones-btn .fa-star {left:-3px; position:relative;}
+	.milestones-btn.active {color:#4cae4c;}
+	.milestones-btn input {display:none;}
 
+.gantt .fa-star {position:absolute; left:0px; top:-1px; margin-top:-20px; outline:none !important; text-decoration:none; width:39px; height:46px; background:url(/static/images/stars.png) -39px 0px no-repeat;}
 
-.fa-star {position:absolute; left:0px; top:-1px; margin-top:-20px; outline:none !important; text-decoration:none; width:39px; height:46px; background:url(/static/images/stars.png) -39px 0px no-repeat;}
+.gantt .fa-star:before {content:normal !important;}
+.gantt .fa-star.red {color:#cd0000; background:url(/static/images/stars.png) -39px -92px no-repeat;}
+.gantt .fa-star.green {color:#57a957; background:url(/static/images/stars.png) -39px -46px no-repeat;}
 
-.fa-star:before {content:normal !important;}
-.fa-star.red {color:#cd0000; background:url(/static/images/stars.png) -39px -92px no-repeat;}
-.fa-star.green {color:#57a957; background:url(/static/images/stars.png) -39px -46px no-repeat;}
+.gantt .fa-star.highlighted {background:url(/static/images/stars.png) 0px 0px no-repeat; margin-top:-23px;}
+.gantt .fa-star.red.highlighted {background:url(/static/images/stars.png) 0px -92px no-repeat;}
+.gantt .fa-star.green.highlighted {background:url(/static/images/stars.png) 0px -46px no-repeat;}
 
-.fa-star.highlighted {background:url(/static/images/stars.png) 0px 0px no-repeat; margin-top:-23px;}
-.fa-star.red.highlighted {background:url(/static/images/stars.png) 0px -92px no-repeat;}
-.fa-star.green.highlighted {background:url(/static/images/stars.png) 0px -46px no-repeat;}
-
-.fa-star.mini {background:url(/static/images/stars-mini.png) -24px 0px no-repeat !important; position:absolute; left:0px; top:50%; margin-top:-12px !important; z-index:1; text-decoration:none; width:24px !important; height:24px !important;}
-.fa-star.mini:before {content:normal !important;}
-.fa-star.mini.red {color:#cd0000; background:url(/static/images/stars-mini.png) -24px -48px no-repeat !important;}
-.fa-star.mini.green {color:#57a957; background:url(/static/images/stars-mini.png) -24px -24px no-repeat !important;}
+.gantt .fa-star.mini {background:url(/static/images/stars-mini.png) -24px 0px no-repeat !important; position:absolute; left:0px; top:50%; margin-top:-12px !important; z-index:1; text-decoration:none; width:24px !important; height:24px !important;}
+.gantt .fa-star.mini:before {content:normal !important;}
+.gantt .fa-star.mini.red {color:#cd0000; background:url(/static/images/stars-mini.png) -24px -48px no-repeat !important;}
+.gantt .fa-star.mini.green {color:#57a957; background:url(/static/images/stars-mini.png) -24px -24px no-repeat !important;}
 
 .gantt.fa-star {z-index: 1000;}
 
