@@ -231,7 +231,15 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                             <div class="checkbox" style="position:relative;">{% if main.CURRENT_PROJECT %}<label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label>{% endif %}</div>
+                             {% if main.CURRENT_PROJECT %}<div class="checkbox" style="position:relative;"><label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label></div>{% endif %}
+                             
+                             
+                             <!--<div class="milestones-btn-wrapper">
+                             <label class="btn milestones-btn" onclick="$(this).toggleClass('active');">
+                             <input type="checkbox" name="group" value="milestones"/>&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>
+                             </div>-->
+                             
+                             
                             </td>
                         </tr>
                     </table>
