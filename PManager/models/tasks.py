@@ -996,6 +996,7 @@ class PM_Task(models.Model):
             filter = {}
 
         tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True).distinct()
+
         if arPageParams.get('group') == 'milestones':
             order = ['-milestone__date', '-milestone__id']
         else:
