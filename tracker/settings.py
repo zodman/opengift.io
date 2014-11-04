@@ -1,6 +1,6 @@
 # Django settings for tracker project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -209,7 +209,7 @@ ORDERS_REDIS_DB = None
 
 ALLOWED_HOSTS = [
     # 'tracker-accorsys-ru',
-    'heliard.ru', 'heliard.dev', 'heliard.topnotchstudios.ru'
+    'heliard', 'heliard.ru', 'heliard.dev', 'heliard.topnotchstudios.ru'
 ]
 
 # HAYSTACK_CONNECTIONS = {
