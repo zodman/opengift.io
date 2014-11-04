@@ -551,11 +551,13 @@ var CRITICALLY_THRESHOLD = 0.7;
             return false;
         },
         'showResponsibleMenu': function () {
-            var taskId = this.model.id,
-                obj = this,
-                userList = $('.responsibles.dropdown-menu').clone().show().find('a').each(function () {
-                    var uId = $(this).attr('rel'), width = 0;
+            if (!$('.responsibles.dropdown-menu').hasClass('clone')) {
+                var taskId = this.model.id,
+                    obj = this,
+                    userList = $('.responsibles.dropdown-menu').clone().addClass('clone').show();
 
+                userList.find('a').each(function () {
+                    var uId = $(this).attr('rel'), width = 0;
                     if (taskRespSummary[taskId])
                         if (taskRespSummary[taskId][uId])
                             var width = 100 * taskRespSummary[taskId][uId];
@@ -564,26 +566,58 @@ var CRITICALLY_THRESHOLD = 0.7;
                     //responsible change
                     $(this).click(function () {
                         obj.changeResponsible($(this).attr('rel'));
-                        $(this).closest('ul').remove();
+                        $(this).closest('.add-user-popup.dropdown-menu.responsibles').remove();
+                        userInput.val("");
+                        $('.add-user-list-of-users ul .media').show()
                         return false;
                     });
                 }).end();
 
-            $('.js_task_responsibles .dropdown-menu').remove();
-            var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
+                if (userList.find('.add-user-list-of-users ul .media').length > 9) {
+                    userList.find('.add-user-list-of-categories').css('display','table-cell');
+                } else {
+                    userList.find('.add-user-list-of-categories').css('display','none');
+                }
 
-            userList.appendTo('body').css({
-                'position': 'absolute',
-                'top': (position.top + position.height + 5),
-                'left': position.left
-            });
+                $('.js_task_responsibles .dropdown-menu').remove();
+                var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
+                
+                userList.appendTo('body').css({
+                    'position': 'absolute',
+                    'top': (position.top + position.height + 5)
+                });
 
-            setTimeout(function () {
-                userList.bind('clickoutside', function () {
-                    $(this).remove();
-                })
-            }, 10);
+                var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
+                var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
+                var arrowPos = linkRightPos - popupRightPos;
+                userList.find('.add-user-popup-top-arrow').css('right', arrowPos + 21);
 
+                var userItems = $('.add-user-list-of-users ul li span.user');
+                var userInput = $('.add-user-popup-header .form-control');
+                userInput.keyup(function(){
+                    var inputVal = $(this).val();
+                    userItems.each(function(){
+                        $(this).parents('.media').hide();
+                        var userItemVal = $(this).text();
+                        var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
+                        if (userItemIndexOf != -1) {
+                            $(this).parents('.media').show();
+                        };
+                    });
+                });
+
+                setTimeout(function () {
+                    userList.bind('clickoutside', function () {
+                        $(this).remove();
+                        userInput.val("");
+                        $('.add-user-list-of-users ul .media').show()
+                    })
+                }, 10);
+            } else {
+                $('.add-user-popup.dropdown-menu.responsibles.clone').remove();
+                $('.add-user-popup-header .form-control').val("");
+                $('.add-user-list-of-users ul .media').show()
+            }
             return false;
         },
         'responsibleApprove': function (e) {

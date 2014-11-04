@@ -224,18 +224,62 @@
     </div>
 </div>
 
-<ul class="dropdown-menu responsibles" style="display:none;">
-    {% for resp_user in task_detail.users %}
-        <li>
-            <a rel="{{ resp_user.id }}" href="#">
-                <span class="user-name">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</span>
-                <span class="progress progress-success">
-                    <span style="width: {% widthratio resp_user.id 1 10 %}%;" class="bar"></span>
-                </span>
-            </a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="add-user-popup dropdown-menu responsibles">
+    <div class="add-user-popup-top-arrow"></div>
+    <div class="add-user-popup-header">
+        <input type="text" class="form-control" placeholder="Введите имя человека, которого хотите назначит ответственным" />
+    </div>
+    <div class="add-user-popup-content">
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="20%" class="add-user-list-of-categories">
+                    <ul>
+                        <li><a href="#" class="active">Программисты</a></li>
+                        <li><a href="#">Менеджеры</a></li>
+                        <li><a href="#">Верстальщики</a></li>
+                    </ul>
+                </td>
+                <td class="add-user-list-of-users">
+                    <ul>
+                        {% for resp_user in task_detail.users %}
+                            <li class="media">
+                                <a class="media-item" rel={{ resp_user.id }}>
+                                    <span class="pull-left">
+                                        <img class="media-object" src="http://heliard.ru/static/upload/Avatar457.jpg" alt="..." height="40">
+                                    </span>
+                                    <div class="media-body">
+                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">верстальщик</span>
+                                        <div class="progress">
+                                            <div class="js-progress-success progress-bar progress-bar-success"></div>
+                                        </div>
+                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="add-user-popup-footer my-row clearfix">
+        <div class="pull-left my-row-5">
+            <a href="#"><i class="fa fa-check-circle"></i> Выбрать всю категорию</a>
+            <a href="#"><i class="fa fa-bullhorn"></i> Пригласить нового пользователя</a>
+        </div>
+        <div class="pull-right my-row-5">
+            <form role="form">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="Введите e-mail"></td>
+                        <td width="110px"><button type="submit" class="btn btn-success">Пригласить</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" class="temp_scripts">
     var taskDetail = {
         'id':{{ task_detail.task.id }},
