@@ -725,6 +725,63 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 .task-details a.fa-times-circle-o {color:#cd0000;}
 
 
+.achievement-list {width:100%; margin-bottom:20px;}
+.achievement-list-item {width:11.62%; margin-left:1%; float:left; text-align:center; opacity:0.3;}
+.achievement-list > div:first-child {margin-left:0px;}
+.achievement-list > div:last-child {margin-right:0px;}
+.achievement-list-item.active {opacity:1;}
+.achievement-list-item-img {background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #FFFFFF),
+	color-stop(1, #F2F2F2)
+);
+background-image: -o-linear-gradient(bottom, #FFFFFF 0%, #F2F2F2 100%);
+background-image: -moz-linear-gradient(bottom, #FFFFFF 0%, #F2F2F2 100%);
+background-image: -webkit-linear-gradient(bottom, #FFFFFF 0%, #F2F2F2 100%);
+background-image: -ms-linear-gradient(bottom, #FFFFFF 0%, #F2F2F2 100%);
+-webkit-border-top-left-radius: 5px;
+-webkit-border-top-right-radius: 5px;
+-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+border-top-left-radius: 5px;
+border-top-right-radius: 5px;
+background-image: linear-gradient(to bottom, #FFFFFF 0%, #F2F2F2 100%); padding:15px; display:block; border-right:1px solid #ddd; border-left:1px solid #ddd; border-top:1px solid #ddd;}
+.achievement-list-item img {width:100%;}
+.achievement-list-item h3 {margin:15px -26px -16px; display:table-cell; vertical-align:middle; border-top:1px solid #fff; padding:10px 5px; font-size:16px; color:#fff; font-weight:bold; background-image: -webkit-gradient(
+	linear,
+	left top,
+	left bottom,
+	color-stop(0, #61BF61),
+	color-stop(1, #3DA13D)
+);
+background-image: -o-linear-gradient(bottom, #61BF61 0%, #3DA13D 100%);
+background-image: -moz-linear-gradient(bottom, #61BF61 0%, #3DA13D 100%);
+background-image: -webkit-linear-gradient(bottom, #61BF61 0%, #3DA13D 100%);
+background-image: -ms-linear-gradient(bottom, #61BF61 0%, #3DA13D 100%);
+background-image: linear-gradient(to bottom, #61BF61 0%, #3DA13D 100%);
+-webkit-border-bottom-right-radius: 5px;
+-webkit-border-bottom-left-radius: 5px;
+-moz-border-radius-bottomright: 5px;
+-moz-border-radius-bottomleft: 5px;
+border-bottom-right-radius: 5px;
+border-bottom-left-radius: 5px; 
+height:67px;
+overflow:hidden;}
+
+
+@media only screen and (max-width: 1280px) {	
+.achievement-list-item h3 {font-size:14px;}
+}
+
+
+
+.errorpage {text-align:center; margin-top:60px;}
+.errorpage h2 {font-size:140px; line-height:140px; font-weight:bold; margin:0px;}
+.errorpage h3 {text-transform:uppercase; font-weight:bold; font-size:18px; margin:0px 0px 20px;}
+.errorpage p {margin:0px 0px 20px; font-size:14px; line-height:24px;}
+
 
 /* ====================== СТАТУСЫ ЗАДАЧ */
 
@@ -1755,3 +1812,4 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 											.message-desc-right {display:block;}
 											.button {width:100%; text-align:center; display:block; margin-bottom:5px;}
 										}
+							
