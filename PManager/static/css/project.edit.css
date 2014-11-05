@@ -35,7 +35,7 @@
 			.add-user-list-of-users ul {list-style:none; padding:0px; margin:0px; max-height:182px; height: 182px; overflow-y:auto;}
       .add-user-list-of-users ul li.media {margin-top: 0;}
       .add-user-list-of-users ul li.media .media-item .pull-left {margin-right: 15px;}
-      .add-user-list-of-users ul li.media .media-item img {width: 50px;}
+      .add-user-list-of-users ul li.media .media-item img {width: 40px;}
 			.add-user-list-of-users ul li .media-item {color:#333; display:block; padding:10px 15px; margin:0px; height:auto; white-space:nowrap; overflow:hidden;}
 			.add-user-list-of-users ul li {border-bottom:1px solid #ddd;}
       .add-user-list-of-users ul li:last-child {border:0;}
