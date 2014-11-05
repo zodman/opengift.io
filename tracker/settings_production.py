@@ -1,5 +1,5 @@
 __author__ = 'Gvammer'
-DEBUG = False
+DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 DATABASES = {
     'default': {
