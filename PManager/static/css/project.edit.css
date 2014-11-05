@@ -35,11 +35,12 @@
 			.add-user-list-of-users ul {list-style:none; padding:0px; margin:0px; max-height:182px; height: 182px; overflow-y:auto;}
       .add-user-list-of-users ul li.media {margin-top: 0;}
       .add-user-list-of-users ul li.media .media-item .pull-left {margin-right: 15px;}
-			.add-user-list-of-users ul li .media-item {color:#333; display:block; padding:10px 15px; margin:0px; height:61px; white-space:nowrap; overflow:hidden;}
+      .add-user-list-of-users ul li.media .media-item img {width: 50px;}
+			.add-user-list-of-users ul li .media-item {color:#333; display:block; padding:10px 15px; margin:0px; height:auto; white-space:nowrap; overflow:hidden;}
 			.add-user-list-of-users ul li {border-bottom:1px solid #ddd;}
       .add-user-list-of-users ul li:last-child {border:0;}
 			.add-user-list-of-users ul li .media-item p {margin-bottom:0px; display: none;}
-			.add-user-list-of-users ul li .media-item:hover {background:#edf8ed; border-bottom:1px solid #deecd8; text-decoration: none;}
+			.add-user-list-of-users ul li .media-item:hover {background:#edf8ed; text-decoration: none;}
 			.add-user-list-of-users ul li .media-item span.user {color:#47a447;}
 
     .project-buttons a.btn {margin-bottom:5px;}

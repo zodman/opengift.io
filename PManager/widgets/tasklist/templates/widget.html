@@ -310,10 +310,10 @@
                             <li class="media">
                                 <a class="media-item" rel={{ resp_user.id }}>
                                     <span class="pull-left">
-                                        <img class="media-object" src="/static/images/avatar_unknown.png" alt="..." height="40">
+                                        <img class="media-object" src="{% if resp_user.get_profile.avatar %}{{ resp_user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user.last_name }} {{ user.first_name }}" height="40">
                                     </span>
                                     <div class="media-body">
-                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">верстальщик</span>
+                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}{{ specialty.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
                                         <div class="progress">
                                             <div class="js-progress-success progress-bar progress-bar-success"></div>
                                         </div>
