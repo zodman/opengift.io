@@ -728,7 +728,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 
 
 .achievement-list {margin-right:-20px;}
-.achievement-list-item {width:calc(12.5% - 20px); margin-right:20px; margin-bottom:20px; float:left; text-align:center; opacity:0.3;}
+.achievement-list-item {width:calc(12.5% - 20px); margin-right:20px; margin-bottom:20px; float:left; text-align:center; opacity:0.3; cursor:pointer;}
 
 
 .achievement-list-item.active {opacity:1;}
