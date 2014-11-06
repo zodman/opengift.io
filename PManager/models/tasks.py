@@ -434,7 +434,7 @@ class PM_Task(models.Model):
                     cUser = User.objects.get(pk=int(obj.user_id))
                     if not cUser.is_staff and cUser.id != self.author.id:
                         ob['time'] = 0
-                        userTaskHours = round(float(obj.summ) / 3600.)
+                        userTaskHours = round(float(obj.summ) / 3600., 2)
                         if self.planTime:
                             if userTaskHours > self.planTime * 2:
                                 ob['rating'] = -50
@@ -477,7 +477,7 @@ class PM_Task(models.Model):
             payment_type=type
         )
 
-        clients = userRoles.filter(role__code='client', rate__isnull=False)
+        clients = userRoles.filter(role__code='client')
 
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
@@ -501,20 +501,20 @@ class PM_Task(models.Model):
         #managers pay (only observers without clients and responsibles)
         managers = userRoles.filter(
             role__code='manager',
-            rate__isnull=False,
             user__in=self.observers.all()
         ).exclude(user__in=aClientsAndResponsibles)
 
         for manager in managers:
-            price = manager.rate * float(time)
-            credit = Credit(
-                user=manager.user,
-                value=price,
-                project=self.project,
-                task=self
-            )
-            credit.save()
-            break
+            price = manager.user.get_profile().getBet(self.project) * float(time)
+            if price:
+                credit = Credit(
+                    user=manager.user,
+                    value=price,
+                    project=self.project,
+                    task=self
+                )
+                credit.save()
+                break
 
     def Open(self):
         self.closed = False
