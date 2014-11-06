@@ -432,8 +432,7 @@ class PM_Task(models.Model):
                 ob = {}
                 if obj.summ:
                     cUser = User.objects.get(pk=int(obj.user_id))
-                    if not cUser.is_staff and cUser.id != self.author.id:
-                        ob['time'] = 0
+                    if not cUser.is_staff and cUser.id != self.author.id and cUser.is_active:
                         userTaskHours = round(float(obj.summ) / 3600., 2)
                         if self.planTime:
                             if userTaskHours > self.planTime * 2:
@@ -470,6 +469,7 @@ class PM_Task(models.Model):
                                         task=self
                                     )
                                     credit.save()
+                        #todo: для ответственных с плановым временем и фикс оплатой тоже нужно внедрить кредиты
 
         #clients debt
         userRoles = PM_ProjectRoles.objects.filter(
