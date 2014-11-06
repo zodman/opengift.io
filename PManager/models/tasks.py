@@ -433,12 +433,6 @@ class PM_Task(models.Model):
                 if obj.summ:
                     cUser = User.objects.get(pk=int(obj.user_id))
                     if not cUser.is_staff and cUser.id != self.author.id:
-                        if self.planTime:
-                            if (round(float(obj.summ) / 3600.)) > self.planTime:
-                                ob['rating'] = -5
-                            else:
-                                ob['rating'] = 2
-
                         ob['time'] = 0
                         userTaskHours = round(float(obj.summ) / 3600.)
                         if self.planTime:
@@ -448,7 +442,8 @@ class PM_Task(models.Model):
                                 ob['rating'] = -10
                             elif userTaskHours > self.planTime:
                                 ob['rating'] = -5
-
+                            else:
+                                ob['rating'] = 2
 
                         ob['time'] = userTaskHours
 
@@ -482,7 +477,7 @@ class PM_Task(models.Model):
             payment_type=type
         )
 
-        clients = userRoles.filter(role__code='client')
+        clients = userRoles.filter(role__code='client', rate__isnull=False)
 
         for client in clients:
             aClientsAndResponsibles.append(client.user.id)
@@ -504,11 +499,9 @@ class PM_Task(models.Model):
             break
 
         #managers pay (only observers without clients and responsibles)
-        managers = PM_ProjectRoles.objects.filter(
-            project=self.project,
+        managers = userRoles.filter(
             role__code='manager',
             rate__isnull=False,
-            payment_type=type,
             user__in=self.observers.all()
         ).exclude(user__in=aClientsAndResponsibles)
 
