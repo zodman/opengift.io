@@ -33,7 +33,7 @@
                         <ul class="js-dir-list">
                             {% for category in file_list.tree %}
                             <li>
-                            <a class="js-dir-name" href="#{{ category.id }}" data-id="{{ category.id }}"> {{ category.name }}</a><i title="Удалить папку" class="fa fa-times-circle delete-dir js-delete_dir" data-dir_id="{{ category.id }}" ></i>
+                            <a class="js-dir-name" href="#{{ category.id }}" data-id="{{ category.id }}"> {{ category.name }}</a><i title="Удалить папку" class="fa fa-trash delete-dir js-delete_dir" data-dir_id="{{ category.id }}" ></i>
 {#                            {% if category.children %}#}
 {#                                            <ul>#}
 {#                                                {% for child in category.children %}#}
