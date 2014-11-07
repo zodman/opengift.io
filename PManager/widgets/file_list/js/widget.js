@@ -56,6 +56,9 @@ $.extend(fileList,{
         });
     },
     'showSelectedFileInfo': function(){
+        if (!this.$selectedFile) {
+            return false;
+        }
         var oDataSet = this.$selectedFile.data();
         for (var key in oDataSet){
             if (oDataSet[key]) {
@@ -226,9 +229,14 @@ fileList.init = function(){
     });
 
     this.$fileListContainer.on('click', '.js-file', function(){
-        t.$selectedFile = $(this);
-        $('.js-file.active').not(this).removeClass('active');
+
+//        $('.js-file.active').not(this).removeClass('active');
         $(this).toggleClass('active');
+        if ($('.js-file.active').size() == 1) {
+            t.$selectedFile = $(this).closest('li');
+        } else {
+            t.$selectedFile = false;
+        }
         t.$fileInfoContainer.find('div.js-infoRow').hide();
         t.showSelectedFileInfo();
     });
