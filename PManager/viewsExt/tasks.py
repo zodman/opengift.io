@@ -198,12 +198,12 @@ def taskListAjax(request):
         if startPage:
             page = startPage
 
-        if page > 2:
-            count = 2 ** (page - 2) * 10
-            page = 2
+        # if page > 2:
+        #     # count = 2 ** (page - 2) * 10
+        #     page = 2
 
         if startPage:
-            count *= 2
+            count *= page
             page = 1
 
         arPageParams = {

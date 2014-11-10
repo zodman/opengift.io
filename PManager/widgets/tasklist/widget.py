@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Project, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
+from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, PM_Milestone, PM_ProjectRoles
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -12,6 +12,7 @@ from tracker.settings import COMISSION
 #This function are used in many controllers.
 #It must return only json serializeble values in 'tasks' array
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, addFields=[]):
+
     widgetManager = TaskWidgetManager()
     filter = {}
 
@@ -94,8 +95,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         arPageParams['pageCount'] = 100
         arPageParams['page'] = 1
 
-
-
     #try:
     addTasks = {}
 
@@ -138,7 +137,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             except PM_ProjectRoles.DoesNotExist:
                 rate = task.resp.get_profile().getBet(task.project) * COMISSION
 
-            arBets[task.id] =  task.planTime * rate
+            arBets[task.id] = task.planTime * rate
 
         task.time = task.getAllTime()
         taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
@@ -159,6 +158,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             minTagCount, maxTagCount = False, 0
 
             for userId in userTagSums:
+
                 if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
                 if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
 
@@ -168,8 +168,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     if minTagCount == maxTagCount:
                         userTagSums[userId] = 1 if userTagSums[userId] == minTagCount else 0
                     else:
-                        userTagSums[userId] = float((int(userTagSums[userId]) - int(minTagCount))) / float(
-                            (int(maxTagCount) - int(minTagCount)))
+                        userTagSums[userId] = round(float((int(userTagSums[userId]) - int(minTagCount))) / float(
+                            (int(maxTagCount) - int(minTagCount))), 3)
 
                     if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
                         currentRecommendedUser = userId
@@ -192,11 +192,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
             filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project, widgetParams.get('invite', False))
             filterQArgs = PM_Task.mergeFilterObjAndArray({'parentTask': task, 'active': True}, filterQArgs)
-            subtasksQuery = PM_Task.objects.filter(*filterQArgs)
+            subtasksQuery = PM_Task.objects.filter(*filterQArgs).distinct()
             subtasksQty = subtasksQuery.count()
 
-            subtasksActiveQuery = subtasksQuery.filter(closed=False)
-            subtasksActiveQty = subtasksQuery.filter(closed=False).count()
+            subtasksActiveQuery = subtasksQuery.filter(closed=False).distinct()
+            subtasksActiveQty = subtasksActiveQuery.count()
         else:
             subtasksQty = 0
             subtasksActiveQty = 0
@@ -238,7 +238,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
                 datetime.datetime.now(), timezone.get_current_timezone()
             ) - datetime.timedelta(days=2)
-
+        last_mes = last_message_q[0] if last_message_q else None
         addTasks[task.id] = {
             'url': task.url,
             'time': subtaskTime,
@@ -261,12 +261,12 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 {'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
             ],
             'last_message': {
-                'text': TextFilters.escapeText(last_message_q[0].text),
-                'date': last_message_q[0].dateCreate,
+                'text': TextFilters.escapeText(last_mes.text),
+                'date': last_mes.dateCreate,
                 #todo: исправить говнокод на метод сообщения getLastTextObject
-                'author': last_message_q[0].author.first_name + ' ' + last_message_q[0].author.last_name if
-                last_message_q[0].author else '',
-            } if last_message_q and last_message_q[0] and last_message_q[0].author else {'text': task.text},
+                'author': last_mes.author.first_name + ' ' + last_mes.author.last_name if
+                last_mes.author else '',
+            } if last_mes and last_mes.author else {'text': task.text},
             'responsibleList': userTagSums,
             'files': taskExtensions.getFileList(task.files.all()),
             'planTimes': [],
@@ -333,13 +333,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
     tasks = tasks.values(*(addFields + [
         'critically',
-        'project__name',
         'planTime',
         'realTime',
         'onPlanning',
-        'author__username',
-        'author__first_name',
-        'author__last_name',
         'name',
         'text',
         'id',
@@ -347,8 +343,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'closed',
         'started',
         'dateClose',
-        'number',
-        'status__code'
+        'number'
     ])
     )
     tasks = PM_Task.getListPrepare(tasks, addTasks, False)

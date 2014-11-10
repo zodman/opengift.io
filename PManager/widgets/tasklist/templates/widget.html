@@ -231,7 +231,15 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                             <div class="checkbox" style="position:relative;">{% if main.CURRENT_PROJECT %}<label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label>{% endif %}</div>
+                            <!-- <div class="checkbox" style="position:relative;"><label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label></div>-->
+                             
+                             {% if main.CURRENT_PROJECT %}
+                             <div class="milestones-btn-wrapper">
+                             <label class="btn milestones-btn" >
+                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>
+                             </div>
+                             {% endif %}
+                             
                             </td>
                         </tr>
                     </table>
@@ -302,10 +310,10 @@
                             <li class="media">
                                 <a class="media-item" rel={{ resp_user.id }}>
                                     <span class="pull-left">
-                                        <img class="media-object" src="/static/images/avatar_unknown.png" alt="..." height="40">
+                                        <img class="media-object" src="{% if resp_user.get_profile.avatar %}{{ resp_user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
                                     </span>
                                     <div class="media-body">
-                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">верстальщик</span>
+                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span> <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}</span>
                                         <div class="progress">
                                             <div class="js-progress-success progress-bar progress-bar-success"></div>
                                         </div>

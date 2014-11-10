@@ -128,6 +128,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'rest_framework',
     # 'robokassa',
     'PManager',
     'pymorphy',
@@ -209,7 +210,7 @@ ORDERS_REDIS_DB = None
 
 ALLOWED_HOSTS = [
     # 'tracker-accorsys-ru',
-    'heliard.ru', 'heliard.dev', 'heliard.topnotchstudios.ru'
+    'heliard', 'heliard.ru', 'heliard.dev', 'heliard.topnotchstudios.ru'
 ]
 
 # HAYSTACK_CONNECTIONS = {

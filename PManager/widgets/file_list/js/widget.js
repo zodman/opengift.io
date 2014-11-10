@@ -16,15 +16,15 @@ $.extend(fileList,{
             curFolder = false;
         while (curFolder = $currentfolder.closest('ul').closest('li').find('a').get(0)){
             $currentfolder = $(curFolder);
-            str = '<a href="#">' + $currentfolder.text() + '</a> > ' + str;
+            str = '<a href="'+$currentfolder.attr('href')+'" class="js-dir-name">' + $currentfolder.text() + '</a> > ' + str;
         }
         return str;
     },
     'disableFileButtons': function (){
-        this.$fileButtons.attr('disabled','disabled');
+        $('.js-foot').hide();
     },
     'enableFileButtons': function (){
-        this.$fileButtons.attr('disabled',false);
+        $('.js-foot').show();
     },
     'collectSelectedFiles': function(){
         var aFilesId = [];
@@ -104,7 +104,7 @@ $.extend(fileList,{
     },
     'getElementOfCurrentFolder': function(){
         if (this.currentFolder){
-            return $('.dir_name[data-id='+this.currentFolder+']').closest('li');
+            return $('.js-dir-name[data-id='+this.currentFolder+']').closest('li');
         }
         return false;
     },
@@ -115,6 +115,7 @@ $.extend(fileList,{
         this.$fileListContainer.prepend(oFile.getTemplateRow(this.fileTpl));
     }
 });
+
 fileList.init = function(){
     this.$fileListContainer = $('.js-file-list');
     this.$fileInfoContainer = $('.js-fileInfo');
@@ -123,7 +124,7 @@ fileList.init = function(){
     this.$fileButtons = $('.js-fileButtonsGrp button');
     this.$replaceButton = $('.js-replaceFiles');
     this.container = $('.widget.file_list');
-    this.directoryLinksSelector = 'span.folder div.dir_name, span.root a';
+    this.directoryLinksSelector = 'a.js-dir-name';
     this.fileTpl = widget_file_list_file_tpl;
     this.aStartFileList = widget_file_list_arFiles;
     var t = this;
@@ -133,12 +134,11 @@ fileList.init = function(){
     }
     $('#create_new_folder').click(function(e){
         var name = 'Новая папка',
-            $lnk = $('<div class="dir_name" style="display:inline;margin-left: 22px;"></div>').text(name).attr('contenteditable','true'),
-            $list_item = $('<li></li>').append('<div class="tree-row"></div>'),
-            $delete_lnk = $('<a href="#" class="del_dir js-delete_dir" ><i title="Удалить папку" class="fa fa-times-circle"></i></a>');
+            $lnk = $('<a class="js-dir-name" href="" ></div>').text(name).attr('contenteditable','true'),
+            $list_item = $('<li></li>'),
+            $delete_lnk = $('<i title="Удалить папку" class="fa fa-times-circle js-delete_dir"></i>');
 
-        $list_item.find('.tree-row')
-            .append($('<span class="folder"></span>').append($lnk).append($delete_lnk));
+        $list_item.append($lnk).append($delete_lnk);
         if (fileList.currentFolder){
             $lnk.data('parent',fileList.currentFolder);
             var $curFolderElem = fileList.getElementOfCurrentFolder();
@@ -147,7 +147,7 @@ fileList.init = function(){
                 $listOfFolders = $('<ul></ul>').appendTo($curFolderElem);
             }
         }else{
-            $listOfFolders = $('ul.folder-list')
+            $listOfFolders = $('ul.js-dir-list')
         }
         $listOfFolders.append($list_item);
 
@@ -171,7 +171,7 @@ fileList.init = function(){
     this.container.on('click', fileList.directoryLinksSelector, function(){
         var t = this;
         if (fileList.replaceMode){
-            if (!$(t).closest('li').hasClass('active')){
+            if (!$(t).hasClass('active')){
                 if (confirm('Вы действительнто хотите перенести эти файлы в папку "' + $(t).text() + '"?')){
                     var aFilesId = fileList.collectSelectedFiles();
                     fileList.ajaxRequest({
@@ -188,9 +188,9 @@ fileList.init = function(){
                 }
             }
         }else{
-            $('ul.folder-list li').removeClass('active');
-            if (!$(t).closest('.root').get(0)){
-                $(t).closest('li').addClass('active');
+            $('ul.js-dir-list li > a').removeClass('active');
+            if (!$(t).hasClass('js-root')){
+                $(t).addClass('active');
             }
             $('.js-breadcrumb').html(fileList.renderBreadCrumbs($(this)));
             fileList.currentFolder = $(t).data('id');
@@ -212,7 +212,7 @@ fileList.init = function(){
     })
     .on('mouseup',fileList.directoryLinksSelector,function(e){
         var t = this;
-        if ($(t).closest('li').hasClass('active')){
+        if ($(t).hasClass('active')){
             $(t).setEditable(function(){
                 var t = this;
                 fileList.addOrRenameCategory({
@@ -225,9 +225,10 @@ fileList.init = function(){
         return false;
     });
 
-    this.$fileListContainer.on('click', 'li.file', function(){
+    this.$fileListContainer.on('click', '.js-file', function(){
         t.$selectedFile = $(this);
-        $(this).addClass('selected').siblings().removeClass('selected');
+        $('.js-file.active').not(this).removeClass('active');
+        $(this).toggleClass('active');
         t.$fileInfoContainer.find('div.js-infoRow').hide();
         t.showSelectedFileInfo();
     });
@@ -241,7 +242,7 @@ fileList.init = function(){
         e.stopPropagation();
     });
 
-    $('.folder-list').on('click', '.js-delete_dir', function(){
+    $('.js-dir-list').on('click', '.js-delete_dir', function(e){
         if (confirm("Вы действительно хотите удалить эту папку?")){
             var oCurLink = this;
             fileList.ajaxRequest({
@@ -253,7 +254,7 @@ fileList.init = function(){
                 }
                 $('span.root a').trigger('click'); //перейдем в корень проекта
             });
-
+            e.stopPropagation();
             return false;
         }
     });
@@ -379,13 +380,35 @@ var fileObject = function(data){
 fileObject.prototype = {
     getTemplateRow:function(tpl){
         var t = this;
+
+        var thumb = '';
+        if (t.type == 'jpg' || t.type == 'png')
+            thumb = '<img src="' + t.thumbnail + '" />';
+        else if (t.type == 'doc' || t.type == 'docx')
+            thumb = '<i class="fa fa-file-word-o"></i>';
+        else if (t.type == 'xls' || t.type == 'xlsx')
+            thumb = '<i class="fa fa-file-excel-o"></i>';
+        else if (t.type == 'pdf')
+            thumb = '<i class="fa fa-file-pdf-o"></i>';
+        else if (t.type == 'zip' || t.type == 'rar')
+            thumb = '<i class="fa fa-file-archive-o"></i>';
+        else
+            thumb = '<i class="fa fa-file-o"></i>';
+
+        t['thumb'] = thumb;
         for (var i in t){
             if (t.hasOwnProperty(i) && !(t[i] instanceof Function)){
                 var strRegExp = '#'+i+'#';
                 tpl = tpl.replace(new RegExp(strRegExp,'mig'),t[i]);
             }
         }
+
         this.$content = $(tpl);
+        if (t.hasOldVersions) {
+            this.$content.find('.js-showVersions').show();
+        } else {
+            this.$content.find('.js-showVersions').hide();
+        }
 
         for (var key in t){
             if (!(t[key] instanceof Function) && !((t[key] instanceof Object))){

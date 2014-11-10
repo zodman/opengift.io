@@ -1,15 +1,11 @@
-<li class="file list-group-item"
+<li 
     data-id="#id#"
     data-date_create="#date_create#"
     data-size="#size#"
     data-type="#type#"
     data-resolution="#resolution#"
-    data-preview_img="#thumbnail#" style="border:0px; border-bottom:1px solid #DDDDDD; margin-bottom:0px;">
-    <a href="#" data-file_id="#id#" class="fa fa-repeat jsAddNewVersion" title="Загрузить новую версию"></a>
-    <a href="#src#" target="_blank" class="fa fa-download js-download" title="Скачать"></a>
-    <a href="#" data-file_id="#id#" class="fa fa-copy js-showVersions" title="Показать версии"></a>
-    <label class="checkbox">
-        <input name="files" value="#id#" type="checkbox"><a class="file-name" href="#src#" target="_blank">#name#</a>
-        <div class="clear"></div>
-    </label>
+    data-preview_img="#thumbnail#">
+  <label class="js-file">
+    <input name="files" value="#id#" type="checkbox">
+    <span class="files-wrapper-item-img-wrapper"> <span class="files-wrapper-item-img">#thumb#</span> </span> <span class="files-wrapper-item-settings"> <a href="#" data-file_id="#id#" class="fa fa-repeat jsAddNewVersion" title="Загрузить новую версию"></a> <a href="#src#" target="_blank" class="fa fa-download js-download" title="Скачать"></a> <a href="#" data-file_id="#id#" class="fa fa-copy js-showVersions" title="Показать версии"></a> </span> <span class="files-wrapper-item-title"><a class="file-name" href="#src#" target="_blank">#name#</a></span> </label>
 </li>

@@ -757,6 +757,7 @@ var widget_tl, currentGroup;
                                 obj.container.find('.show-more').show().pullTheButton();
                             }
                         }
+                        setTaskCellsHeight()
                 });
                 return this;
             },
