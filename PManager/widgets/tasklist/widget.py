@@ -376,8 +376,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                            {'status__code': 'ready', 'closed': False, 'active': True}),
             'started': PM_Task.getQtyForUser(cur_user, project,
                                              {'realDateStart__isnull': False, 'closed': False, 'active': True}),
-            'critically': PM_Task.getQtyForUser(cur_user, project,
-                                             {'critically__gt': 0.7, 'closed': False, 'active': True})
+            'not_approved': PM_Task.getQtyForUser(cur_user, project,
+                                             {'status__code': 'not_approved', 'closed': False, 'active': True}),
+            'deadline': PM_Task.getQtyForUser(cur_user, project,
+                {'deadline__lt': datetime.datetime.now(), 'deadline__isnull': False, 'closed': False, 'active': True})
         },
         'isInvite': arPageParams['invite']
     }
