@@ -898,7 +898,7 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 /*.task-edit_choose-time input[type="text"] { width: 250px;  }*/
 .task-edit_choose-time span a { margin-right: 15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
 
-.progress {overflow:visible; height:8px; position:relative; margin: 8px 0 0 55px;}
+.progress {overflow:visible; height:8px; position:relative; margin: 33px 0 0 55px;}
 .progress .btn { padding:0px 15px; position:absolute; cursor:ew-resize; margin-top:-10px; border-radius:25px; }
 .add-tags a { text-decoration: none; }
 
