@@ -1211,30 +1211,9 @@ $.fn.singleActivate = function(){
     return this.addClass('active').siblings().removeClass('active').end();
 };
 
-var isMobile = {
-    Android: function() {
-        return navigator.userAgent.match(/Android/i);
-    },
-    BlackBerry: function() {
-        return navigator.userAgent.match(/BlackBerry/i);
-    },
-    iOS: function() {
-        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-    },
-    Opera: function() {
-        return navigator.userAgent.match(/Opera Mini/i);
-    },
-    Windows: function() {
-        return navigator.userAgent.match(/IEMobile/i);
-    },
-    any: function() {
-        return (isMobile.Android() || isMobile.BlackBerry() || isMobile.iOS() || isMobile.Opera() || isMobile.Windows());
-    }
-};
-
 (function($){
     $(document).ready(function(){
-        if(isMobile.any()){
+        if(!!('ontouchstart' in window)){
             $('.input-group-btn').addClass('mobile-menu');
             $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
                 event.preventDefault(); 
