@@ -95,6 +95,24 @@ section.we-are-wrapper {box-shadow:0 0 5px #ddd; -moz-box-shadow:0 0 5px #ddd; -
 	.we-are.rightside .big-button {margin-left:47px;}
 
 
+
+.mobile-wrapper {background:#fff; border-top:1px solid #ddd;}
+.mobile {max-width:980px; margin:0 auto; padding:35px 0;}
+.mobile .pull-left {width:40%; padding-top:35px;}
+.mobile .pull-right {width:60%;}
+.mobile h3 {font-weight:bold; font-size:36px; color:#434343; margin:0px 0px 15px; padding:0px; display:block; text-align:center;}
+.mobile h3 span {color:#c00f00;}
+.mobile ul {margin:35px 25px 0px; display:block;}
+.mobile ul li {font-size:18px; line-height:32px; margin:10px 0 20px; display:block; padding-left:47px; min-height:32px;}
+.mobile ul li.stopwatch { background:url("../images/mobile/stopwatch6.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul li.download { background:url("../images/mobile/download8.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul li.line { background:url("../images/mobile/line23.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul li.wikipedia { background:url("../images/mobile/wikipedia2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul li.responsive { background:url("../images/mobile/responsive16.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul li.electrocardiogram { background:url("../images/mobile/electrocardiogram1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
+.mobile ul strong {color:#c00f00;}
+
+
 .opportunities {max-width:980px; margin:0 auto; padding:25px 0; display:table; border-top:1px solid #ddd; box-shadow:0px 1px 0px #fff inset; -moz-box-shadow:0px 1px 0px #fff inset; -webkit-box-shadow:0px 1px 0px #fff inset;}
 .opportunities h3 {font-weight:bold; font-size:36px; color:#434343; margin:0px 0px 45px; padding:0px; display:block; text-align:center;}
 .opportunities h3 span {color:#c00f00;}
@@ -365,6 +383,8 @@ ul.header-desc li {padding:5px 15px 0 45px; font-size:22px; line-height:29px; }
 
 .services h1 {padding:0 15px; margin-top:-10px; font-size:28px; line-height:32px; }
 
+.mobile .pull-left {width:100%; padding-top:0px; padding:0 20px;}
+.mobile .pull-right {width:100%; padding:0 20px;}
 
 .services-icon {float:lnone; width:96%; margin:2%;}
 .services-icon-left {float:left; width: 53%; margin-right:2%;}
@@ -393,7 +413,7 @@ ul.header-desc li {background:url("../img/approved.png") no-repeat scroll 0 2px 
 .img-block-h3 .img, .img-block-h3 h3 {font-size:18px; line-height:30px; font-weight:bold; text-transform:uppercase;}
 
 
-.kinuli h1, .for-what h1 {font-size:30px; line-height:36px;}
+.kinuli h1, .for-what h1, .mobile h1 {font-size:30px; line-height:36px;}
 
 .kinuli .pull-left {width:100%; padding-top:0px; padding:0 20px;}
 .kinuli .pull-right {width:100%; padding:0 20px;}
