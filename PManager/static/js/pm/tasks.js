@@ -813,10 +813,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                 alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
                 return false;
             }
-            if (!t.model.get('planTime')) {
-                alert('Подтвердить выполнение можно только для оцененной задачи.');
-                return false;
-            }
+//            if (!t.model.get('planTime')) {
+//                alert('Подтвердить выполнение можно только для оцененной задачи.');
+//                return false;
+//            }
 //            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
 //                alert(
 //                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +

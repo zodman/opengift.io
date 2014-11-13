@@ -428,9 +428,13 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved':
+                    if task.status and task.status.code == 'not_approved' and not request.user.is_superuser:
                         #client have not enough money#
                         try:
+                            if not task.planTime:
+                                return HttpResponse(json.dumps({
+                                    'error': u'Задача должна быть оценена'
+                                }))
                             clientRole = PM_ProjectRoles.objects.get(
                                 role__code='client',
                                 project=task.project,
