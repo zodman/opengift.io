@@ -98,28 +98,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (messageInfo.author.avatar) {
                     arKeys['AVATAR'] += '<img src="' + messageInfo.author.avatar + '" width="90px" class="media-object img-thumbnail"/>';
                 } else if (messageInfo.author && messageInfo.author.last_name) {
-                    arKeys['AVATAR'] += '<div>'
-                        + '<code style="background-color: transparent;padding: 0;">'
-                        + '<svg viewBox="0 0 90 90">'
-                        + '<title>' + messageInfo.author.last_name[0] + messageInfo.author.name[0] + '</title>'
-                        + '<rect rx="4" ry="4" x="0" y="0" width="90" height="90" style="fill: ' + messageInfo.author.avatar_color + '"/>'
-                        + '<g style="font-weight: bold; font-size: 67px;">'
-                        + '<defs><mask id="textMask' + messageInfo.id + '">'
-                        + '<text style="fill:white;" x="6" y="72">' + messageInfo.author.last_name[0] + messageInfo.author.name[0] + '</text>'
-                        + '</mask>'
-                        + '<filter id="innerShadow' + messageInfo.id + '" x="-20%" y="-20%" width="140%" height="140%">'
-                        + '<feGaussianBlur in="SourceGraphic" stdDeviation="3" result="blur"/>'
-                        + '<feOffset in="blur" dx="2.5" dy="2.5"/>'
-                        + '</filter>'
-                        + '</defs>'
-                        + '<g mask="url(#textMask' + messageInfo.id + ')">'
-                        + '<rect x="0" y="0" width="90" height="90" style="fill:black"/>'
-                        + '<text style="fill: ' + messageInfo.author.avatar_color + '; filter: url(#innerShadow' + messageInfo.id + ')" x="6" y="72">'
-                        + messageInfo.author.last_name[0] + messageInfo.author.name[0] + '</text></g>'
-                        + '</g>'
-                        + '</svg>'
-                        + '</code>'
-                        + '</div>'
+                    var id = messageInfo.id;
+                    var text = messageInfo.author.last_name[0] + messageInfo.author.name[0];
+                    var color = messageInfo.author.avatar_color;
+                    arKeys['AVATAR'] += $.createAvatar({'id':id, 'initials':text, 'color':color});
                 }
                 if (messageInfo.hidden) {
                     arKeys['HIDDEN_LABEL'] += 'Личное ';

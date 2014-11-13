@@ -79,6 +79,13 @@ class PM_User(models.Model):
     def avatarSrc(self):
         return str(self.avatar).replace('PManager', '')
 
+    def avatarParams(self):
+        return {
+            'id':self.user.id,
+            'color':self.avatar_color,
+            'initials':self.user.last_name[0] + self.user.first_name[0] 
+        }
+
     @property
     def managedProjects(self):
         try:
