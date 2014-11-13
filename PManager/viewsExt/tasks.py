@@ -428,9 +428,13 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved':
+                    if task.status and task.status.code == 'not_approved' and not request.user.is_superuser:
                         #client have not enough money#
                         try:
+                            if not task.planTime:
+                                return HttpResponse(json.dumps({
+                                    'error': u'Задача должна быть оценена'
+                                }))
                             clientRole = PM_ProjectRoles.objects.get(
                                 role__code='client',
                                 project=task.project,
@@ -450,7 +454,7 @@ def taskListAjax(request):
                                         '<hr>' + \
                                         '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
                                         '<hr>' + \
-                                        '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                                        '<p align="center"><a href="#" class="btn btn-large btn-success" onclick="$(\'.js-start-pay\').trigger(\'click\');$.fancybox(\'close\');" >Пополнить баланс</a>' + \
                                         '</div>'
                             else:
                                 error = u'У клиента недостаточно средств для подтверждения задачи'
