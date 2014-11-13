@@ -120,14 +120,12 @@ def taskListAjax(request):
 
         qArgs = []
 
-        if action == 'started':
-            arFilter['realDateStart__isnull'] = False
-            arFilter['closed'] = False
-        elif action == 'critically':
-            arFilter['critically__gt'] = CRITICALLY_THRESHOLD
+        if action == 'not_approved':
+            arFilter['status__code'] = 'not_approved'
             arFilter['closed'] = False
         elif action == 'deadline':
             arFilter['deadline__lt'] = datetime.datetime.now()
+            arFilter['closed'] = False
         elif action == 'arc':
             arFilter['closed'] = True
         elif action == 'ready':
@@ -135,6 +133,9 @@ def taskListAjax(request):
             arFilter['closed'] = False
         elif action == 'not_ready':
             qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
+            arFilter['closed'] = False
+        elif action == 'started':
+            arFilter['realDateStart__isnull'] = False
             arFilter['closed'] = False
         elif action == 'all':
             pass
@@ -198,12 +199,12 @@ def taskListAjax(request):
         if startPage:
             page = startPage
 
-        if page > 2:
-            count = 2 ** (page - 2) * 10
-            page = 2
+        # if page > 2:
+        #     # count = 2 ** (page - 2) * 10
+        #     page = 2
 
         if startPage:
-            count *= 2
+            count *= page
             page = 1
 
         arPageParams = {

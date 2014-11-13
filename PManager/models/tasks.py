@@ -373,7 +373,6 @@ class PM_Task(models.Model):
         self.save()
 
     def Close(self, user):
-        from PManager.models.payments import Credit
         from django.contrib.contenttypes.models import ContentType
 
         logger = Logger()
@@ -426,11 +425,10 @@ class PM_Task(models.Model):
 
 
     def setCreditForTime(self, time, type):
-        from PManager.models.payments import Credit
+        from PManager.models import Credit
 
         aClientsAndResponsibles = []
         #responsibles
-        aUserTimeAndRating = {}
         if type == 'real_time':
             timers = PM_Timer.objects.raw(
                 'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
@@ -441,20 +439,44 @@ class PM_Task(models.Model):
                 ob = {}
                 if obj.summ:
                     cUser = User.objects.get(pk=int(obj.user_id))
-                    if not cUser.is_staff and cUser.id != self.author.id:
+                    if not cUser.is_staff and cUser.id != self.author.id and cUser.is_active:
+                        userTaskHours = round(float(obj.summ) / 3600., 2)
                         if self.planTime:
-                            if (round(float(obj.summ) / 3600.)) > self.planTime:
+                            if userTaskHours > self.planTime * 2:
+                                ob['rating'] = -50
+                            elif userTaskHours > self.planTime * 1.5:
+                                ob['rating'] = -10
+                            elif userTaskHours > self.planTime:
                                 ob['rating'] = -5
                             else:
                                 ob['rating'] = 2
 
-                        if self.planTime and (round(float(obj.summ) / 3600.)) > self.planTime * 1.5:
-                            ob['time'] = self.planTime * 1.5
-                            ob['rating'] = -10
-                        else:
-                            ob['time'] = float(obj.summ) / 3600.
+                        ob['time'] = userTaskHours
 
-                        aUserTimeAndRating[obj.user_id] = ob
+                        aClientsAndResponsibles.append(cUser.id)
+                        profResp = cUser.get_profile()
+                        paymentType = profResp.getPaymentType(self.project)
+                        #set user rating
+                        profResp.rating = (profResp.rating or 0) + ob.get('rating', 0)
+                        profResp.save()
+
+                        if paymentType == type:
+                            curtime = ob.get('time', 0)
+                            if curtime:
+                                time += curtime
+
+                                userBet = profResp.getBet(self.project)
+                                curPrice = userBet * float(curtime)
+
+                                if curPrice:
+                                    credit = Credit(
+                                        user=profResp.user,
+                                        value=curPrice,
+                                        project=self.project,
+                                        task=self
+                                    )
+                                    credit.save()
+                        #todo: для ответственных с плановым временем и фикс оплатой тоже нужно внедрить кредиты
 
         #clients debt
         userRoles = PM_ProjectRoles.objects.filter(
@@ -480,60 +502,26 @@ class PM_Task(models.Model):
                     task=self
                 )
                 credit.save()
-                #todo:убрать отсюда вычет из счета клиента, так как это есть в сигналах, но почему-то не работает
-                if not clientProf.account_total: clientProf.account_total = 0
-                clientProf.account_total -= price
                 clientProf.save()
             break
 
-        if self.resp and self.resp.id != self.author.id and self.author.is_staff:
-            aClientsAndResponsibles.append(self.resp.id)
-            profResp = self.resp.get_profile()
-            paymentType = profResp.getPaymentType(self.project)
-
-            allRespPrice = 0
-            if paymentType == type:
-                userBet = profResp.getBet(self.project)
-                curtime = time
-                if type == 'real_time':
-                    curtime = aUserTimeAndRating.get(self.resp.id, {}).get('time', 0)
-                    if curtime:
-                        time += curtime
-                        profResp.rating = (profResp.rating or 0) + aUserTimeAndRating[self.resp.id].get('rating', 0)
-                        profResp.save()
-
-                #TODO: тут нужно начислять деньги всем, кто делал задачу, а не только текущему ответственному
-                if curtime:
-                    curPrice = userBet * float(curtime)
-                    allRespPrice += curPrice
-                    if curPrice:
-                        credit = Credit(
-                            user=self.resp,
-                            value=curPrice,
-                            project=self.project,
-                            task=self
-                        )
-                        credit.save()
-
         #managers pay (only observers without clients and responsibles)
-        managers = PM_ProjectRoles.objects.filter(
-            project=self.project,
+        managers = userRoles.filter(
             role__code='manager',
-            rate__isnull=False,
-            payment_type=type,
             user__in=self.observers.all()
         ).exclude(user__in=aClientsAndResponsibles)
 
         for manager in managers:
-            price = manager.rate * float(time)
-            credit = Credit(
-                user=manager.user,
-                value=price,
-                project=self.project,
-                task=self
-            )
-            credit.save()
-            break
+            price = manager.user.get_profile().getBet(self.project) * float(time)
+            if price:
+                credit = Credit(
+                    user=manager.user,
+                    value=price,
+                    project=self.project,
+                    task=self
+                )
+                credit.save()
+                break
 
     def Open(self):
         self.closed = False
@@ -1003,6 +991,7 @@ class PM_Task(models.Model):
             filter = {}
 
         tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True).distinct()
+
         if arPageParams.get('group') == 'milestones':
             order = ['-milestone__date', '-milestone__id']
         else:

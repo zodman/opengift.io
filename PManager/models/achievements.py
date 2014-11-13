@@ -58,7 +58,7 @@ def addAchievement(sender, instance, **kwargs):
 
 class PM_User_Achievement(models.Model):
     user = models.ForeignKey(User, related_name='user_achievements')
-    achievement = models.ForeignKey(PM_Achievement)
+    achievement = models.ForeignKey(PM_Achievement, related_name='achievement_users')
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(blank=True, default=False)
 

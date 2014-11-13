@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_User, PM_Timer
+from PManager.models import PM_Task, PM_User, PM_Timer, PM_Achievement
 from PManager.widgets.tasklist.widget import widget as taskList
 from django.contrib.auth.models import User
 from django import forms
@@ -12,7 +12,6 @@ class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]
-
 
 def widget(request, headerValues, ar, qargs):
     if request.user.is_superuser:
@@ -31,11 +30,17 @@ def widget(request, headerValues, ar, qargs):
         user = User.objects.get(pk=uid)
     else:
         user = request.user
+
     profile = user.get_profile()
+    avatarUrl = profile.avatar
     c = RequestContext(request, processors=[csrf])
-    get = request.GET
 
     if request.method == 'POST': # If the form has been submitted...
+        if not avatarUrl and request.FILES.get('avatar'):
+            ava = PM_Achievement.objects.get(code='avatar')
+            if not ava.checkForUser(user):
+                ava.addToUser(user)
+
         form = ProfileForm(instance=profile, data=request.POST,
                            files=request.FILES) # A form bound to the POST data
         uform = UserForm(instance=user, data=request.POST, files=request.FILES) # A form bound to the POST data

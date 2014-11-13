@@ -1,47 +1,19 @@
-{% load jsonify %}
-<script>
-    $(function(){
-        var timerAc = new PM_Timer({{ achievements.allTime|jsonify|safe }});
-        timerAc.container = $('#te_all_time');
-        timerAc.container.html(timerAc.toString());
-    });
-</script>
-<div class="widgetWrap" id="widget-3">
-    <div class="topPanel">
-        <a class="rollUp" href="#"></a>
-        <a class="close" href="#"></a>
-    </div>
-    <div id="myAchievements">
-        <h4>мои достижения </h4>
-        <div class="clear"></div>
-        <div id="myAchievements-right"></div>
-        <p>В этом месяце: <span id="te_all_time"></span> </p>
-        <p>Очков: 4561$ (+300)</p>
-    </div>
-    <div id="carouselMenu">
-        <button type="submit" class="butLeft"></button>
-        <button type="submit" class="butRight"></button>
-        <ul>
-            <li class="first">
-                <img src="/static/images/primero_57.png" alt="">
-                <span>работник месяца</span>
-            </li>
-            <li>
-                <img src="/static/images/primero_59.png" alt="">
-                <span>мастер "Флеш" </span>
-            </li>
-            <li>
-                <img src="/static/images/primero_61.png" alt="">
-                <span>стахановец</span>
-            </li>
-            <li>
-                <img src="/static/images/primero_64.png" alt="">
-                <span>жаркий денек</span>
-            </li>
-            <li>
-                <img src="/static/images/primero_66.png" alt="">
-                <span>От звонка<br>до звонка</span>
-            </li>
-        </ul>
+<div class="widget" >
+<h3>Мои достижения</h3>
+  <hr>
+    <div class="achievement-list clearfix">
+        {% for achievement in achievements.achievements %}
+          <div class="achievement-list-item {% if achievement.mine %}active{% endif %}"
+               data-container="body" title="{{ achievement.name }}" data-toggle="popover"
+               data-replacement="bottom" data-content="{{ achievement.description }}" >
+              <span class="achievement-list-item-img"><img src="{{ achievement.smallImageUrl }}" ></span><h3>{{ achievement.name }}</h3></div>
+        {% endfor %}
     </div>
 </div>
+<script>
+    $(function(){
+        $('.achievement-list-item').click(function(){
+            $(this).toggleClass('activated');
+        }).popover();
+    })
+</script>

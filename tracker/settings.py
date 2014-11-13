@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',
+    'rest_framework',
     # 'robokassa',
     'PManager',
     'pymorphy',

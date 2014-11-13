@@ -231,7 +231,15 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                             <div class="checkbox" style="position:relative;">{% if main.CURRENT_PROJECT %}<label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label>{% endif %}</div>
+                            <!-- <div class="checkbox" style="position:relative;"><label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label></div>-->
+                             
+                             {% if main.CURRENT_PROJECT %}
+                             <div class="milestones-btn-wrapper">
+                             <label class="btn milestones-btn" >
+                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>
+                             </div>
+                             {% endif %}
+                             
                             </td>
                         </tr>
                     </table>
@@ -246,9 +254,9 @@
                     <li class="active"><a>Все</a></li>
                     <li><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                     <li><a rel="ready">На проверке{% if tasklist.qty.ready %}<span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
-                    <li><a rel="critically">Горят{% if tasklist.qty.critically %}<span>{{ tasklist.qty.critically }}</span>{% endif %}</a></li>
+                    <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}<span>{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
                     <li><a rel="not_ready">Не готовые</a></li>
-                    <li><a rel="deadline">Просроченные</a></li>
+                    <li><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}<span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
                     <li><a rel="arc">Архив</a></li>
                 </ul>
             </div>
@@ -281,94 +289,136 @@
 
 </div>
 
-<ul class="dropdown-menu responsibles" style="display:none;text-align: left;">
-    <li class="dropdown-header" >Выбор ответственного</li>
-    {% for resp_user in tasklist.users %}
-        <li>
-            <a rel="{{ resp_user.id }}">
-                <span class="user-name">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</span>
-                <div class="progress">
-                    <div class="js-progress-success progress-bar progress-bar-success"></div>
-                </div>
-            </a>
-        </li>
-    {% endfor %}
-</ul>
-<div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h2 class="modal-title" id="myModalLabel">Приглашения отправлены</h2>
-          <p>В течение нескольких минут в разделе "Отклики" у вас появятся оценки наших разработчиков!</p>
-          <center>
-            <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
-          </center>
+<div class="add-user-popup dropdown-menu responsibles">
+    <div class="add-user-popup-top-arrow"></div>
+    <div class="add-user-popup-header">
+        <input type="text" class="form-control" placeholder="Введите имя человека, которого хотите назначит ответственным" />
+    </div>
+    <div class="add-user-popup-content">
+        <table width="100%" cellpadding="0" cellspacing="0">
+            <tr>
+                <td width="20%" class="add-user-list-of-categories">
+                    <ul>
+                        <li><a href="#" class="active">Программисты</a></li>
+                        <li><a href="#">Менеджеры</a></li>
+                        <li><a href="#">Верстальщики</a></li>
+                    </ul>
+                </td>
+                <td class="add-user-list-of-users">
+                    <ul>
+                        {% for resp_user in tasklist.users %}
+                            <li class="media">
+                                <a class="media-item" rel={{ resp_user.id }}>
+                                    <span class="pull-left">
+                                        <img class="media-object" src="{% if resp_user.get_profile.avatar %}{{ resp_user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
+                                    </span>
+                                    <div class="media-body">
+                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span> <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}</span>
+                                        <div class="progress">
+                                            <div class="js-progress-success progress-bar progress-bar-success"></div>
+                                        </div>
+                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>
+                                    </div>
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="add-user-popup-footer my-row clearfix">
+        <div class="pull-left my-row-5">
+            <a href="#"><i class="fa fa-check-circle"></i> Выбрать всю категорию</a>
+            <a href="#"><i class="fa fa-bullhorn"></i> Пригласить нового пользователя</a>
+        </div>
+        <div class="pull-right my-row-5">
+            <form role="form">
+                <table width="100%" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td><input type="text" class="form-control" placeholder="Введите e-mail"></td>
+                        <td width="110px"><button type="submit" class="btn btn-success">Пригласить</button></td>
+                    </tr>
+                </table>
+            </form>
+        </div>
+    </div>
+</div>
+    <div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h2 class="modal-title" id="myModalLabel">Приглашения отправлены</h2>
+              <p>В течение нескольких минут в разделе "Отклики" у вас появятся оценки наших разработчиков!</p>
+              <center>
+                <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
+              </center>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
-<div class="modal fade" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
-      </div>
-      <form role="form" class="js-milestone-form" method="post">
-          <div class="modal-body">
-              <div class="form-group">
-                <select class="form-control js-select-milestone" name="milestone">
-                    <option value="">Новая цель</option>
-                    {% for milestone in tasklist.milestones %}
-                    <option value="{{ milestone.id }}">{{ milestone.name }}</option>
-                    {% endfor %}
-                </select>
-              <br />
-              <label>
-              <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
-              </label>
-              <label style="position: relative">
-              <input type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
-                  <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
-              </label>
+    <div class="modal fade" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
+          </div>
+          <form role="form" class="js-milestone-form" method="post">
+              <div class="modal-body">
+                  <div class="form-group">
+                    <select class="form-control js-select-milestone" name="milestone">
+                        <option value="">Новая цель</option>
+                        {% for milestone in tasklist.milestones %}
+                        <option value="{{ milestone.id }}">{{ milestone.name }}</option>
+                        {% endfor %}
+                    </select>
+                  <br />
+                  <label>
+                  <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
+                  </label>
+                  <label style="position: relative">
+                  <input type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
+                      <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
+                  </label>
+                  </div>
               </div>
-          </div>
-          <div class="modal-footer">
-            <div class="js-tasks-for-milestone"></div>
-            <input type="submit" name="add-to-milestone" class="btn btn-success js-create-milestone" value="Добавить" />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-          </div>
-      </form>
-    </div>
-  </div>
-</div>
-<div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>
-      </div>
-      <form role="form" class="js-observers-form" method="post">
-          <div class="modal-body">
-              <div class="form-group">
-                <select class="form-control" name="observer">
-                    <option value="">Выбрать</option>
-                    {% for resp_user in tasklist.users %}
-                        <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>
-                    {% endfor %}
-                </select>
+              <div class="modal-footer">
+                <div class="js-tasks-for-milestone"></div>
+                <input type="submit" name="add-to-milestone" class="btn btn-success js-create-milestone" value="Добавить" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
               </div>
-          </div>
-          <div class="modal-footer">
-            <div class="js-tasks-for-observers"></div>
-            <input type="submit" name="add-observers" class="btn btn-success js-add-observers" value="Добавить" />
-            <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-          </div>
-      </form>
+          </form>
+        </div>
+      </div>
     </div>
-  </div>
-</div>
+    <div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>
+          </div>
+          <form role="form" class="js-observers-form" method="post">
+              <div class="modal-body">
+                  <div class="form-group">
+                    <select class="form-control" name="observer">
+                        <option value="">Выбрать</option>
+                        {% for resp_user in tasklist.users %}
+                            <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>
+                        {% endfor %}
+                    </select>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                <div class="js-tasks-for-observers"></div>
+                <input type="submit" name="add-observers" class="btn btn-success js-add-observers" value="Добавить" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>
 {% if tasklist.invite %}
 <script>
 $(function(){
