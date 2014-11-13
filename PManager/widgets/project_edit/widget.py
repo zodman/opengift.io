@@ -5,12 +5,14 @@ from django.contrib.auth.models import User
 from django import forms
 from django.template import RequestContext
 from django.core.context_processors import csrf
+from PManager.classes.git import *
+from PManager.classes.git.gitolite_manager import GitoliteManager
 import json
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "image", "author", "tracker", "closed"]
+        fields = ["name", "description", "image", "author", "tracker", "closed", "repository"]
 
 def widget(request, headerValues, ar, qargs):
     if request.user.is_staff:
@@ -43,7 +45,6 @@ def widget(request, headerValues, ar, qargs):
 
             # pform.data = post
             # pform.files = request.FILES
-
             if pform.is_valid():
                 instance = pform.save()
 
@@ -58,8 +59,9 @@ def widget(request, headerValues, ar, qargs):
 
                 if not hasattr(projectData, 'id'):
                     request.user.get_profile().setRole(SET_USER_ROLE, instance)
+                    GitoliteManager.add_repo(instance, request.user)
                     return {'redirect': request.get_full_path() + '?id=' + str(instance.id)}
-
+                    
                 return {'redirect': request.get_full_path()}
             else:
                 pass

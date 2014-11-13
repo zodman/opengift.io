@@ -33,8 +33,10 @@
     </div>
     <script>
     $(document).ready(function(){
+        $('.form-control:first').trigger('focus');
         $('.js-submitKey').click(function(e){
             e.preventDefault();
+            $(this).prop('disabled', true);
             var url = $(this).parents('form').attr('action');
             var data = $(this).parents('form').serializeArray();
             $.post(url, data, function(response){

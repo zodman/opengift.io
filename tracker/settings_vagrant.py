@@ -1,5 +1,5 @@
 __author__ = 'Tonakai'
-
+DEBUG = True
 # from databases.database import DATABASES
 DATABASES = {
     'default': {

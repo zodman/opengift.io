@@ -20,6 +20,7 @@ from PManager.customs.storages import path_and_rename
 from tracker.settings import COMISSION
 from django.db.models.signals import post_save
 from django.db.models import Sum, Max
+from PManager.classes.language import transliterate
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -95,6 +96,7 @@ class PM_Project(models.Model):
     image = models.ImageField(upload_to=path_and_rename("PManager/static/upload/projects/"), null=True,
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
+    repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
     closed = models.BooleanField(blank=True, verbose_name=u'Архив')
     settings = models.CharField(max_length=1000)
 
@@ -108,6 +110,11 @@ class PM_Project(models.Model):
     def getSettings(self):
         return json.loads(self.settings) if self.settings else {}
 
+    def generate_rep_name(self):
+        if(self.repository):
+            return self.repository
+        return transliterate(self.name)
+    
     def __unicode__(self):
         return self.name
     def openMilestones(self):

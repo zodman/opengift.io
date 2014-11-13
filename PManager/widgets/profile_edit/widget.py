@@ -7,11 +7,11 @@ from django import forms
 from django.template import RequestContext
 from django.core.context_processors import csrf
 
+
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ["first_name", "last_name", "email"]
-
 
 
 def widget(request, headerValues, ar, qargs):

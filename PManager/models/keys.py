@@ -28,6 +28,7 @@ class Key(models.Model):
             return key
         else:
             return False
+
     @classmethod
     def delete(cls, key_id, user):
         keys = cls.objects.filter(id=key_id, user=user)

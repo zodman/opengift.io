@@ -10,7 +10,7 @@ from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
-from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface
+from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
 from robo.views import paysystems
@@ -81,6 +81,7 @@ urlpatterns = patterns('',
                        url(r'^project/(?P<project_id>[0-9_]+)', projectDetail),
                        url(r'^add_interface/', addInterface),
                        url(r'^remove_interface/', removeInterface),
+                       url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
                        url(r'^project/edit/', MainPage.indexRender,
                            {'widgetList': ["project_edit"], 'activeMenuItem': 'project'}),
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),

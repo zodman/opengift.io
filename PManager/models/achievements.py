@@ -95,7 +95,10 @@ class Checker(models.Model):
         else:
             pass
 
-        data = DataController.objects.filter(dataType=self.dataType,user=user,date__gt=self.dateTimeStart,date__lt=self.dateTimeEnd)
+        data = DataController.objects.filter(dataType=self.dataType,
+                                             user=user,
+                                             date__gt=self.dateTimeStart,
+                                             date__lt=self.dateTimeEnd)
 
         compareElem = self.conditionElem
         if self.conditionType == 'sum':
