@@ -122,9 +122,14 @@
                     markSuccessRepName();
                     enableSubmit();
                   }
-                  else {
+                  else if(response == "ERROR") {
                     markErrorRepName();
                     disableSubmit();
+                  }
+                  else {
+                    $(this).val(response);
+                    markSuccessRepName();
+                    enableSubmit(); 
                   }
                 });
               });

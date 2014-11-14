@@ -68,6 +68,17 @@ class GitoliteManager(object):
         return False
 
     @classmethod
+    def get_suggested_name(cls, reponame):
+        proj_path = cls.fs.get_available_name(cls.get_project_conf_name(rep_name))
+        m = re.match(cls.CONF_DIR + "/(?P<repository>\w+).conf", proj_path)
+        if not m:
+            return False
+        matches = m.groupdict()
+        if matches['repository']:
+            return matches['repository']
+        return False
+
+    @classmethod
     def get_key_file(cls, name, user):
         return "%s/%s@%s.pub" % (cls.KEYDIR, user.username, name)
 
