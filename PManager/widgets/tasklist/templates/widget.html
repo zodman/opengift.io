@@ -310,7 +310,11 @@
                             <li class="media">
                                 <a class="media-item" rel={{ resp_user.id }}>
                                     <span class="pull-left">
-                                        <img class="media-object" src="{% if resp_user.get_profile.avatar %}{{ resp_user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
+                                        {% if resp_user.get_profile.avatar %}
+                                            <img class="media-object" src="{{ resp_user.get_profile.avatarSrc }}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
+                                        {% else %}
+                                            <div class="avatar_container" rel='{{ resp_user.get_profile.avatarParams|jsonify|safe }}'></div>
+                                        {% endif %}
                                     </span>
                                     <div class="media-body">
                                         <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span> <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}</span>
