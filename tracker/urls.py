@@ -10,8 +10,9 @@ from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
-from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface
+from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
+from PManager.viewsExt.keys import KeyHandler
 from robo.views import paysystems
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
@@ -81,6 +82,7 @@ urlpatterns = patterns('',
                        url(r'^project/(?P<project_id>[0-9_]+)', projectDetail),
                        url(r'^add_interface/', addInterface),
                        url(r'^remove_interface/', removeInterface),
+                       url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
                        url(r'^project/edit/', MainPage.indexRender,
                            {'widgetList': ["project_edit"], 'activeMenuItem': 'project'}),
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),
@@ -92,6 +94,8 @@ urlpatterns = patterns('',
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
+                       url(r'^user_key_handle/add/$', KeyHandler.keyAdd),
+                       url(r'^user_key_handle/remove/(?P<key_id>[0-9_]+)', KeyHandler.keyRemove),
                        url(r'^wiki/', get_wiki_pattern()),
                        url(r'^notify/', get_notify_pattern()),
                        url(r'^import_teamlab/', XML_Import.importView),

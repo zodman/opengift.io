@@ -254,9 +254,9 @@
                     <li class="active"><a>Все</a></li>
                     <li><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                     <li><a rel="ready">На проверке{% if tasklist.qty.ready %}<span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
-                    <li><a rel="critically">Горят{% if tasklist.qty.critically %}<span>{{ tasklist.qty.critically }}</span>{% endif %}</a></li>
+                    <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}<span>{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
                     <li><a rel="not_ready">Не готовые</a></li>
-                    <li><a rel="deadline">Просроченные</a></li>
+                    <li><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}<span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
                     <li><a rel="arc">Архив</a></li>
                 </ul>
             </div>
@@ -321,7 +321,7 @@
                                         <div class="progress">
                                             <div class="js-progress-success progress-bar progress-bar-success"></div>
                                         </div>
-                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
+                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>
                                     </div>
                                 </a>
                             </li>

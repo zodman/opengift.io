@@ -2,10 +2,12 @@
 __author__ = 'Gvammer'
 from PManager.models import Credit, Payment, PM_Task, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
 from PManager.widgets.tasklist.widget import widget as taskList
+from PManager.models.keys import *
 from django.db.models import Q
 from PManager.viewsExt.tools import templateTools
 from django.contrib.auth.models import User
 import datetime
+from PManager.classes.git.gitolite_manager import GitoliteManager
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -25,9 +27,9 @@ def widget(request, headerValues, ar, qargs):
                         try:
                             project = PM_Project.objects.get(id=project)
                             role = PM_Role.objects.get(id=role)
-
                             if cur_prof.isManager(project):
                                 profile.setRole(role.code, project)
+                                GitoliteManager.regenerate_access(project)
                                 return {
                                     'redirect': u'/user_detail/?id=' + unicode(get['id'])
                                 }
@@ -137,6 +139,7 @@ def widget(request, headerValues, ar, qargs):
             })
 
             userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')
+            userKeys = Key.objects.filter(user=user.id).order_by('-id')
             userRoles = [role for role in user.userRoles.filter(project__in=currentUserAccessProjects)]
 
             taskTemplate = templateTools.getDefaultTaskTemplate()
@@ -207,6 +210,13 @@ def widget(request, headerValues, ar, qargs):
                         'comment': timer.comment,
                         'task_url': timer.task.url
                     } for timer in userTimes
+                ],
+                'keys': [
+                    {
+                        'id': key.id,
+                        'created_at': key.created_at,
+                        'name': key.name
+                    } for key in userKeys
                 ],
                 'bets': arUserBets,
                 'project_roles': userRoles,

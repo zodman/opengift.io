@@ -33,7 +33,7 @@
                         <ul class="js-dir-list">
                             {% for category in file_list.tree %}
                             <li>
-                            <a class="js-dir-name" href="#{{ category.id }}" data-id="{{ category.id }}"> {{ category.name }}</a><i title="Удалить папку" class="fa fa-times-circle delete-dir js-delete_dir" data-dir_id="{{ category.id }}" ></i>
+                            <a class="js-dir-name" href="#{{ category.id }}" data-id="{{ category.id }}"> {{ category.name }}</a><i title="Удалить папку" class="fa fa-trash delete-dir js-delete_dir" data-dir_id="{{ category.id }}" ></i>
 {#                            {% if category.children %}#}
 {#                                            <ul>#}
 {#                                                {% for child in category.children %}#}
@@ -76,7 +76,7 @@
                         <div class="js-infoRow" style="display: none"><span>Дата создания:</span> <span class="js-file_date_create"></span></div>
                         <div class="js-infoRow" style="display: none"><span>Размер:</span> <span class="js-file_size"></span></div>
                         <div class="js-infoRow" style="display: none"><span>Разрешение:</span> <span class="js-file_resolution"></span></div>
-                        <div class="js-infoRow" style="display: none"><p><span>Превью:</span></p><a class="js-file_src fnc" href="#" ><img src="" class="js-file_preview_img" width="200"></a></div>
+                        <div class="js-infoRow" style="display: none"><p><span>Превью:</span></p><a class="fnc" href="#" ><img src="" class="js-file_thumbnail" width="200"></a></div>
                         <div class="js-fileVersionsBlock js-infoRow">
                             <span>Версии:</span><br/>
                             <ul class="js-fileVersionsList">

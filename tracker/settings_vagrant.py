@@ -1,5 +1,5 @@
 __author__ = 'Tonakai'
-
+DEBUG = True
 # from databases.database import DATABASES
 DATABASES = {
     'default': {
@@ -15,3 +15,5 @@ DATABASES = {
 SESSION_COOKIE_DOMAIN = 'heliard.dev'
 SOCKET_SERVER_ADDRESS = 'localhost'
 project_root = '/vagrant/'
+GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'
+GITOLITE_ACCESS_URL = 'vagrant@heliard.dev'

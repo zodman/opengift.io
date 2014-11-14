@@ -56,6 +56,10 @@ $.extend(fileList,{
         });
     },
     'showSelectedFileInfo': function(){
+        $('.js-infoRow').hide();
+        if (!this.$selectedFile) {
+            return false;
+        }
         var oDataSet = this.$selectedFile.data();
         for (var key in oDataSet){
             if (oDataSet[key]) {
@@ -225,20 +229,25 @@ fileList.init = function(){
         return false;
     });
 
-    this.$fileListContainer.on('click', '.js-file', function(){
-        t.$selectedFile = $(this);
-        $('.js-file.active').not(this).removeClass('active');
-        $(this).toggleClass('active');
-        t.$fileInfoContainer.find('div.js-infoRow').hide();
-        t.showSelectedFileInfo();
-    });
-
     this.$fileListContainer.on('click', 'input[name=files]', function(e){
-        if ($('input[name=files]:checked').get(0)){
+        var $label = $(this).closest('.js-file'),
+            $selectedFiles = $('input[name=files]:checked');
+        if ($(this).is(':checked')) {
+            $label.addClass('active');
+        }else{
+            $label.removeClass('active');
+        }
+        if ($selectedFiles.size() == 1) {
+            t.$selectedFile = $selectedFiles.eq(0).closest('li');
+        } else {
+            t.$selectedFile = false;
+        }
+        if ($selectedFiles.get(0)){
             fileList.enableFileButtons()
         }else{
             fileList.disableFileButtons();
         }
+        t.showSelectedFileInfo();
         e.stopPropagation();
     });
 

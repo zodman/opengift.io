@@ -120,14 +120,12 @@ def taskListAjax(request):
 
         qArgs = []
 
-        if action == 'started':
-            arFilter['realDateStart__isnull'] = False
-            arFilter['closed'] = False
-        elif action == 'critically':
-            arFilter['critically__gt'] = CRITICALLY_THRESHOLD
+        if action == 'not_approved':
+            arFilter['status__code'] = 'not_approved'
             arFilter['closed'] = False
         elif action == 'deadline':
             arFilter['deadline__lt'] = datetime.datetime.now()
+            arFilter['closed'] = False
         elif action == 'arc':
             arFilter['closed'] = True
         elif action == 'ready':
@@ -135,6 +133,9 @@ def taskListAjax(request):
             arFilter['closed'] = False
         elif action == 'not_ready':
             qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
+            arFilter['closed'] = False
+        elif action == 'started':
+            arFilter['realDateStart__isnull'] = False
             arFilter['closed'] = False
         elif action == 'all':
             pass
@@ -427,9 +428,13 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved':
+                    if task.status and task.status.code == 'not_approved' and not request.user.is_superuser:
                         #client have not enough money#
                         try:
+                            if not task.planTime:
+                                return HttpResponse(json.dumps({
+                                    'error': u'Задача должна быть оценена'
+                                }))
                             clientRole = PM_ProjectRoles.objects.get(
                                 role__code='client',
                                 project=task.project,
@@ -449,7 +454,7 @@ def taskListAjax(request):
                                         '<hr>' + \
                                         '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
                                         '<hr>' + \
-                                        '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
+                                        '<p align="center"><a href="#" class="btn btn-large btn-success" onclick="$(\'.js-start-pay\').trigger(\'click\');$.fancybox(\'close\');" >Пополнить баланс</a>' + \
                                         '</div>'
                             else:
                                 error = u'У клиента недостаточно средств для подтверждения задачи'

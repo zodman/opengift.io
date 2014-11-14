@@ -88,3 +88,9 @@ def removeInterface(request):
         interface.delete()
 
     return HttpResponse('ok')
+
+def checkUniqRepNameResponder(request):
+    proj = PM_Project.objects.filter(repository=request.POST['repoName'])
+    if(proj):
+        return HttpResponse("ERROR")
+    return HttpResponse("OK")

@@ -1310,7 +1310,7 @@ background-image: linear-gradient(to bottom, #5CB85C 0%, #4CAE4C 100%); color:#f
 	
 	
 	.files-wrapper-files {display:table; vertical-align:top; width:100%; background:#f9f9f9; position:relative; }		
-		.files-wrapper-list.box {display:table-cell; vertical-align:top; width:80%; padding-bottom:55px; padding-top:40px; border-right:1px solid #ddd;}
+		.files-wrapper-list.box {display:table-cell; vertical-align:top; width:80%; padding-bottom:20px; padding-top:40px; border-right:1px solid #ddd;}
 			.files-wrapper-list-navi-wrapper {position:absolute; top:0px; left:0px; width:100%; z-index:2; font-weight:bold; overflow:hidden; height:50px; }
 			.files-wrapper-list-navi {background:#eee; box-shadow:0 0 3px rgba(1, 1, 1, 0.3); -moz-box-shadow:0 0 3px rgba(1, 1, 1, 0.3); -webkit-box-shadow:0 0 3px rgba(1, 1, 1, 0.3); padding:10px 20px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow: ellipsis; height:40px;}
 			.files-wrapper-list-navi a {color:#5cb85c;}
@@ -1738,6 +1738,11 @@ border-top-right-radius: 0;}
 .first-task-slider .fancybox-next {right: -60px;}
 .first-task-slider .fancybox-prev {left: -60px;}
 /* /Fancybox Slider First Task */
+
+.tooltip-inner {
+    max-width: 350px;
+}
+
 
 /*СООБЩЕНИЯ*/
 

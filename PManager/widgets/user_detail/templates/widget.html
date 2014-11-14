@@ -113,6 +113,9 @@
 {#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
                     <li><a href="#dostizheniya">Достижения</a></li>
                     <li><a href="#activity">Активность</a></li>
+                    {% if user_detail.userIsEqualCurrentUser %}
+                        <li><a href="#keys">Ключи</a></li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="pull-right"><a href="#add-project" class="btn btn-success">Добавить в проект</a></div>
@@ -291,8 +294,35 @@
 {#                            </ul>#}
                 	</div>
                 </div><!--ВКЛАДКА "Активность"-->
-
-
+                {% if user_detail.userIsEqualCurrentUser %}
+                    <div class="tab-pane" id="keys">
+                        <button class="btn btn-success js-openKeyForm"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</button>
+                        <div>&nbsp;</div>
+                        {% if user_detail.keys %}
+                        <table class="table table-bordered table-striped">
+                          <thead>
+                            <tr>
+                              <th>#</th>
+                              <th>Создан</th>
+                              <th>Имя</th>
+                              <th>Действия</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                          {% for key in user_detail.keys %}
+                              <tr>
+                                  <td>{{ key.id }}</td>
+                                  <td>{{ key.created_at }}</td>
+                                  <td>{{ key.name }}</td>
+                                  <td><a class="btn btn-alert js-deleteKey"><i class="fa fa-remove"></i>&nbsp;Удалить</a></td>
+                              </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                        <a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
+                        {% endif %}
+                    </div><!--ВКЛАДКА "Ключи"-->
+                {% endif %}
                 <div class="tab-pane" id="add-project">
                     <h2>Добавить пользователя в проект</h2>
                     {% if user_detail.projectsForAddUser %}
@@ -328,6 +358,37 @@
                $('#myTab a').click(function (e) {
                     e.preventDefault();
                     $(this).tab('show');
+               });
+               {% if user_detail.userIsEqualCurrentUser %}
+                   $('.js-openKeyForm').click(function(){
+                        $.get('/user_key_handle/add', function(response){
+                            $('body').prepend(response);
+                            $('.js-keyForm').fadeIn(200);
+                        })
+                   });
+               {% endif %}
+               $('.js-deleteKey').click(function(){
+                    var row = $(this).parents('tr');
+                    var key_name = row.find('td:eq(2)').html();
+                    var key_id = row.find('td:eq(0)').html();
+                    console.log('removing key: ' + key_id + '...');
+                    if(confirm('Вы точно хотите удалить ключ ' + key_name)){
+                        $.get('/user_key_handle/remove/' + key_id, function(response){
+                            console.log('response do ');
+                            console.log(response);
+                            console.log('response end ');
+                            if(response.errors) {
+                                alert('Не удалось удалить ключ ' + key_name);
+                                return false;
+                            }
+                            row.remove();
+                            if(row.parents('tbody').find('tr').length == 0){
+                                row.parent('table').remove();
+                            }
+                            return false;
+                        });
+                    }
+                    return false;
                });
             </script>
     </div><!--widget-body-->

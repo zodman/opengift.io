@@ -10,30 +10,125 @@
         <hr>
             <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
                 {% for field in project_edit.form %}
-                    {% if field.name == 'author' or field.name == 'tracker' %}
+                    {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
                     {% else %}
-                    <div class="row show-grid">
-                      <div class="col-xs-2"><label class="col-xs-2 control-label">{{ field.label_tag }}</label></div>
-                      <div class="col-xs-6">{{ field }}</div>
-                      <div class="col-xs-4">{{ field.errors }}</div>
-                    </div>
+                      {% if field.name == 'closed' %}
+                        <div class="row show-grid">
+                          <div class="col-xs-2"></div>
+                          <div class="col-xs-6"><label class="control-label">{{ field }}&nbsp;<span style="top:2px;display:inline-block;position:relative;">{{ field.label_tag }}</span></label></div>
+                          <div class="col-xs-4">{{ field.errors }}</div>
+                        </div>
+                      {% else %}
+                        <div class="row show-grid">
+                          <div class="col-xs-2"><label class="col-xs-2 control-label">{{ field.label_tag }}</label></div>
+                          <div class="col-xs-6">{{ field }}</div>
+                          <div class="col-xs-4">{{ field.errors }}</div>
+                        </div>
+                      {% endif %}
                     {% endif %}
                 {% endfor %}
                 <div class="row show-grid">
-                      <div class="col-xs-2"><label class="col-xs-2 control-label">Разрешать выполнять не подтвержденные задачи</label></div>
-                      <div class="col-xs-6"><input type="checkbox" name="settings_start_unapproved" {% if project_edit.settings.start_unapproved %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-2"></div>
+                      <div class="col-xs-6"><label class="control-label"><input type="checkbox" name="settings_start_unapproved" {% if project_edit.settings.start_unapproved %}checked="checked" {% endif %} value="1" />&nbsp;<span style="top:2px;display:inline-block;position:relative;">Разрешать выполнять не подтвержденные задачи</span></label></div>
                       <div class="col-xs-4"></div>
                 </div>
                 <div class="row show-grid">
-                      <div class="col-xs-2"><label class="col-xs-2 control-label">Скрывать сообщения клиента и исполнителя друг от друга</label></div>
-                      <div class="col-xs-6"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.autohide_messages %}checked="checked" {% endif %} value="1" /></div>
+                      <div class="col-xs-2"></div>
+                      <div class="col-xs-6"><label class="control-label"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.autohide_messages %}checked="checked" {% endif %} value="1" />&nbsp;<span style="top:2px;display:inline-block;position:relative;">Скрывать сообщения клиента и исполнителя друг от друга</span></label></div>
                       <div class="col-xs-4"></div>
+                </div>
+                <div class="row show-grid">
+                      <div class="col-xs-2"><label class="control-label">Имя репозитория</label></div>
+                      <div class="col-xs-6"><input type="text" name="repository" value="{{ project_edit.form.repository.value }}" class="js-repository-value" readonly /><i class="fa fa-icon" style="position: absolute;right: 25px;top: 10px;font-size: 16px;"></i></div>
+                      <div class="col-xs-4"></div>
+                </div>
+                <div class="row show-grid">
                 </div>
                 <div class="row show-grid">
                 	 <div class="col-xs-2"></div>
                      <div class="col-xs-6">
-                        <input type="submit" value="Сохранить" class="btn btn-success">
+                        <input type="submit" value="Сохранить" class="btn btn-success js-submit">
                      </div>
                 </div>
             </form>
+            <script>
+            $(document).ready(function(){
+              function transliterate(word) {
+                var A = {};
+                var result = '';
+                A["Ё"]="YO";A["Й"]="I";A["Ц"]="TS";A["У"]="U";A["К"]="K";A["Е"]="E";A["Н"]="N";A["Г"]="G";A["Ш"]="SH";A["Щ"]="SCH";A["З"]="Z";A["Х"]="H";A["Ъ"]="_";
+                A["ё"]="yo";A["й"]="i";A["ц"]="ts";A["у"]="u";A["к"]="k";A["е"]="e";A["н"]="n";A["г"]="g";A["ш"]="sh";A["щ"]="sch";A["з"]="z";A["х"]="h";A["ъ"]="_";
+                A["Ф"]="F";A["Ы"]="I";A["В"]="V";A["А"]="A";A["П"]="P";A["Р"]="R";A["О"]="O";A["Л"]="L";A["Д"]="D";A["Ж"]="ZH";A["Э"]="E";
+                A["ф"]="f";A["ы"]="i";A["в"]="v";A["а"]="a";A["п"]="p";A["р"]="r";A["о"]="o";A["л"]="l";A["д"]="d";A["ж"]="zh";A["э"]="e";
+                A["Я"]="YA";A["Ч"]="CH";A["С"]="S";A["М"]="M";A["И"]="I";A["Т"]="T";A["Ь"]="_";A["Б"]="B";A["Ю"]="YU";
+                A["я"]="ya";A["ч"]="ch";A["с"]="s";A["м"]="m";A["и"]="i";A["т"]="t";A["ь"]="_";A["б"]="b";A["ю"]="yu";
+                for(var i = 0; i < word.length; i++) {
+                    var c = word.charAt(i);
+                    if(A[c]) {
+                        result += A[c].toLowerCase()
+                    }else if(/[a-zA-Z0-9]/.test(c)) {
+                        result += c.toLowerCase();    
+                    }else{
+                       result += "_";
+                    }
+                }
+                return result;
+              }
+              $('.js-repository').click(function(){
+                if(!$(this).prop('checked')) {
+                  $('.js-repository-value').val('');
+                  $('.js-hiddable').hide();
+                } else {
+                  $('.js-hiddable').show();
+                }
+              });
+              $('.js-repository').trigger('click');
+              $('#id_name').keyup(function(){
+                var projectName = $(this).val();
+                var repoName = transliterate(projectName);
+                $('.js-repository-value').val(repoName);
+                unmarkRepName();
+              });
+              $('#id_name').change(function(){
+                unmarkRepName();
+              });
+              function unmarkRepName()
+              {
+                $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
+              }
+              function markSuccessRepName()
+              {
+                $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
+              }
+              function markErrorRepName()
+              {
+                $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
+              }
+              function enableSubmit()
+              {
+                $('.js-submit').removeAttr('disabled');
+              }
+              function disableSubmit()
+              {
+                $('.js-submit').attr('disabled','disabled');
+              }
+              $('#id_name').blur(function(){
+                var projectName = $(this).val();
+                var repoName = transliterate(projectName);
+                $('.js-repository-value').val(repoName);
+                $('.js-repository-value').next('i').addClass('fa-spinner').addClass('fa-spin');
+                $.post('/project/edit/check_repository_name', {'repoName' : repoName }, function(response){
+                  if(response == "OK") {
+                    markSuccessRepName();
+                    enableSubmit();
+                  }
+                  else {
+                    markErrorRepName();
+                    disableSubmit();
+                  }
+                });
+              });
+              disableSubmit();
+            });
+            </script>
     </div>

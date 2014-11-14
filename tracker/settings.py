@@ -1,6 +1,6 @@
 # Django settings for tracker project.
 
-DEBUG = True
+DEBUG = False
 TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
@@ -14,7 +14,6 @@ LOCAL_NODE = 'Gvam'
 ALL_DEVELOPMENT_NODE = 'topnotchstudios'
 DEVELOPMENT_NODE = 'heliarddev'
 PRODUCTION_NODE = 'HELIANT-VM-11'
-
 if node() == LOCAL_NODE:
     from settings_local import *
 elif node() == DEVELOPMENT_NODE:
@@ -209,8 +208,9 @@ ORDERS_REDIS_PASSWORD = None
 ORDERS_REDIS_DB = None
 
 ALLOWED_HOSTS = [
-    # 'tracker-accorsys-ru',
-    'heliard', 'heliard.ru', 'heliard.dev', 'heliard.topnotchstudios.ru'
+    'heliard.ru',
+    'heliard.dev',
+    'heliard.topnotchstudios.ru'
 ]
 
 # HAYSTACK_CONNECTIONS = {
