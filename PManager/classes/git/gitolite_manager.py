@@ -69,7 +69,7 @@ class GitoliteManager(object):
 
     @classmethod
     def get_suggested_name(cls, reponame):
-        proj_path = cls.fs.get_available_name(cls.get_project_conf_name(rep_name))
+        proj_path = cls.fs.get_available_name(cls.get_project_conf_name(reponame))
         m = re.match(cls.CONF_DIR + "/(?P<repository>\w+).conf", proj_path)
         if not m:
             return False
