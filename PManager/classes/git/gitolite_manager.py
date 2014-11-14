@@ -9,6 +9,11 @@ from django.core.files.base import ContentFile
 from PManager.classes.git import ConfigWriter
 from git import *
 from tracker import settings
+# bug due to wrong os.getlogin argument
+# http://stackoverflow.com/questions/4399617/python-os-getlogin-problem
+import pwd
+os.getlogin = lambda: pwd.getpwuid(os.getuid())[0]
+
 __all__ = ['os', 'FileSystemStorage', 'ContentFile', 'ConfigWriter']
 
 
