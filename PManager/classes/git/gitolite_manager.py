@@ -127,14 +127,13 @@ class GitoliteManager(object):
     @classmethod
     def regenerate_access(cls, project):
         rep_name = project.repository
-        username = user.username
         project_config = cls.get_project_conf_name(rep_name)
         if(cls.fs.exists(project_config)):
             cls.fs.delete(project_config)
         permissions = cls.generate_project_permissions(project)
         index = cls.get_index()
         index.add([project_config,])
-        message = "Regenerated access for repo %s for %s" % (rep_name, username)
+        message = "Regenerated access for repo %s" % (rep_name)
         res = cls.commit(index, message)
         if cls.is_success(message):
             return res

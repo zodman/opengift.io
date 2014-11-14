@@ -2,6 +2,7 @@
 __author__ = 'Gvammer'
 from django.db import models
 from PManager.models import PM_Role, PM_Project
+from tracker.settings import GITOLITE_ACCESS_URL
 
 class AccessInterface(models.Model):
     color_choices = (
@@ -19,8 +20,20 @@ class AccessInterface(models.Model):
     access_roles = models.ManyToManyField('PM_Role', null=True, blank=True,
                                           related_name='file_categories', verbose_name=u'Разрешен доступ')
     project = models.ForeignKey('PM_Project', verbose_name=u'Проект')
-
+    is_git = models.BooleanField(blank=False,verbose_name=u'Локальный гит репозиторий')
     check_flag = None
+
+    @classmethod
+    def create_git_interface(cls, project):
+        interface = cls(
+            name=u'Репозиторий',
+            address= GITOLITE_ACCESS_URL + ':/' + project.repository,
+            protocol='ssh',
+            is_git=True,
+            project=project
+            )
+        interface.save()
+        return interface
 
     def check(self):
         if self.check_flag != None:

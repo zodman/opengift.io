@@ -7,6 +7,7 @@ from django.db.models import Q
 from PManager.viewsExt.tools import templateTools
 from django.contrib.auth.models import User
 import datetime
+from PManager.classes.git.gitolite_manager import GitoliteManager
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -26,9 +27,9 @@ def widget(request, headerValues, ar, qargs):
                         try:
                             project = PM_Project.objects.get(id=project)
                             role = PM_Role.objects.get(id=role)
-
                             if cur_prof.isManager(project):
                                 profile.setRole(role.code, project)
+                                GitoliteManager.regenerate_access(project)
                                 return {
                                     'redirect': u'/user_detail/?id=' + unicode(get['id'])
                                 }

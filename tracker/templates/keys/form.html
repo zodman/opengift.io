@@ -36,7 +36,8 @@
         $('.form-control:first').trigger('focus');
         $('.js-submitKey').click(function(e){
             e.preventDefault();
-            $(this).prop('disabled', true);
+            var $submit = $(this);
+            $submit.prop('disabled', true);
             var url = $(this).parents('form').attr('action');
             var data = $(this).parents('form').serializeArray();
             $.post(url, data, function(response){
@@ -61,7 +62,7 @@
                     }
 
                     $("[rel='tooltip']").tooltip();
-                    console.log(response);
+                    $submit.prop('disabled', false);
                     return false;
                 }
                 location.reload();

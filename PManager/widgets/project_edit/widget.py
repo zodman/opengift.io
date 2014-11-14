@@ -6,6 +6,7 @@ from django import forms
 from django.template import RequestContext
 from django.core.context_processors import csrf
 from PManager.classes.git import *
+from PManager.models.interfaces import AccessInterface
 from PManager.classes.git.gitolite_manager import GitoliteManager
 import json
 
@@ -60,6 +61,7 @@ def widget(request, headerValues, ar, qargs):
                 if not hasattr(projectData, 'id'):
                     request.user.get_profile().setRole(SET_USER_ROLE, instance)
                     GitoliteManager.add_repo(instance, request.user)
+                    AccessInterface.create_git_interface(instance)
                     return {'redirect': request.get_full_path() + '?id=' + str(instance.id)}
                     
                 return {'redirect': request.get_full_path()}
