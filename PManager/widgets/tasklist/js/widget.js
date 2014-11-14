@@ -735,7 +735,7 @@ var widget_tl, currentGroup;
                         if (!$('.task-wrapper.active .subtask').html()) {
                             if (!$('.task-wrapper.active').hasClass('visible-items')) {
                                 $('.task-wrapper.active').addClass('visible').removeClass('active');
-                                $('.task-wrapper.visible .add-task-input').find('input').bind('blur', function(){
+                                $('.task-wrapper.visible .add-task-input').find('input').bind('blur.subtask', function(){
                                     $('.task-wrapper.visible .subtask').hide();
                                     $(this).parents('.visible').removeClass('active').removeClass('visible');
                                     $(this).parent().hide();
@@ -837,7 +837,7 @@ var widget_tl, currentGroup;
                     if (is_new){
                         this.SubtaskBlock(parent).prepend(view.$el);
                         $('.task-wrapper.visible').addClass('visible-items').removeClass('visible');
-                        $('.task-wrapper.visible-items .add-task-input').find('input').unbind();
+                        $('.task-wrapper.visible-items .add-task-input').find('input').unbind('blur.subtask');
                     } else {
                         this.SubtaskBlock(parent).append(view.$el);
                     }
