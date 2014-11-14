@@ -83,7 +83,7 @@ class PM_User(models.Model):
         return {
             'id':self.user.id,
             'color':self.avatar_color,
-            'initials':self.user.last_name[0] + self.user.first_name[0] 
+            'initials':self.user.last_name[0] + self.user.first_name[0] if self.user.last_name and self.user.first_name else ''
         }
 
     @property
