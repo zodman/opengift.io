@@ -10,7 +10,7 @@
     <div class="pull-left">
         <h4>{{ interface.name }}:</h4>
         {% if interface.is_git %}
-            git clone {{ interface.address }}<br />
+            git clone {{ interface.git_path }}<br />
         {% else %}
             {{ interface.protocol }}://{{ interface.address }}<br />
         {% endif %}

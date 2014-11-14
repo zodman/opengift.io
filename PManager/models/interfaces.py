@@ -27,13 +27,18 @@ class AccessInterface(models.Model):
     def create_git_interface(cls, project):
         interface = cls(
             name=u'Репозиторий',
-            address= GITOLITE_ACCESS_URL + ':/' + project.repository,
+            address=project.repository,
             protocol='ssh',
             is_git=True,
             project=project
             )
         interface.save()
         return interface
+
+
+    def git_path(self):
+        return GITOLITE_ACCESS_URL + ':/' + self.address + '.git'
+        
 
     def check(self):
         if self.check_flag != None:

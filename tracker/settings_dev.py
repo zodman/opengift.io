@@ -15,5 +15,5 @@ DATABASES = {
 SESSION_COOKIE_DOMAIN = 'heliard.topnotchstudios.ru'
 SOCKET_SERVER_ADDRESS = 'localhost'
 project_root = '/home/heliard/heliard/'
-GITOLITE_ACCESS_URL = 'heliard@heliard.dev'
+GITOLITE_ACCESS_URL = 'heliard@heliard.topnotchstudios.ru'
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
