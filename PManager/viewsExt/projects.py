@@ -5,6 +5,7 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.models import PM_Project, PM_ProjectRoles, AccessInterface
 from django import forms
+from tracker.settings import USE_GIT_MODULE
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -48,7 +49,8 @@ def projectDetail(request, project_id):
     for interface in interfaces:
         c = RequestContext(request, {
             'interface': interface,
-            'canDelete': canDeleteInterface
+            'canDelete': canDeleteInterface,
+            'show_git': USE_GIT_MODULE
         })
 
         interfaces_html += t.render(c)
@@ -90,12 +92,16 @@ def removeInterface(request):
     return HttpResponse('ok')
 
 def checkUniqRepNameResponder(request):
+    if not USE_GIT_MODULE:
+        return HttpResponse("ERROR")
     proj = PM_Project.objects.filter(repository=request.POST['repoName'])
     if(proj):
+        if not USE_GIT_MODULE:
+            return HttpResponse("ERROR")
         from PManager.classes.git.gitolite_manager import GitoliteManager
         reponame = GitoliteManager.get_suggested_name(request.POST['repoName'])
         if not reponame:
-            return HttpResponse("ERROR")
+                return HttpResponse("ERROR")
         else:
             return HttpResponse(reponame)
     return HttpResponse("OK")

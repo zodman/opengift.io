@@ -8,12 +8,15 @@ from django.core.context_processors import csrf
 from PManager.classes.git import *
 from PManager.models.interfaces import AccessInterface
 from PManager.classes.git.gitolite_manager import GitoliteManager
+from tracker.settings import USE_GIT_MODULE
 import json
 
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "image", "author", "tracker", "closed", "repository"]
+        fields = ["name", "description", "image", "author", "tracker", "closed"]
+        if USE_GIT_MODULE:
+            fields.append("repository")
 
 def widget(request, headerValues, ar, qargs):
     if request.user.is_staff:
@@ -60,8 +63,9 @@ def widget(request, headerValues, ar, qargs):
 
                 if not hasattr(projectData, 'id'):
                     request.user.get_profile().setRole(SET_USER_ROLE, instance)
-                    GitoliteManager.add_repo(instance, request.user)
-                    AccessInterface.create_git_interface(instance)
+                    if USE_GIT_MODULE:
+                        GitoliteManager.add_repo(instance, request.user)
+                        AccessInterface.create_git_interface(instance)
                     return {'redirect': request.get_full_path() + '?id=' + str(instance.id)}
                     
                 return {'redirect': request.get_full_path()}
@@ -70,6 +74,7 @@ def widget(request, headerValues, ar, qargs):
 
         return {
             'projectData': projectData,
+            'use_git': USE_GIT_MODULE,
             'form': pform,
             'settings': projectData.getSettings() if projectData and
                             hasattr(projectData, 'settings') and

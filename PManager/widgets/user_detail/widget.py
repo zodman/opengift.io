@@ -8,6 +8,7 @@ from PManager.viewsExt.tools import templateTools
 from django.contrib.auth.models import User
 import datetime
 from PManager.classes.git.gitolite_manager import GitoliteManager
+from tracker.settings import USE_GIT_MODULE
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -29,7 +30,8 @@ def widget(request, headerValues, ar, qargs):
                             role = PM_Role.objects.get(id=role)
                             if cur_prof.isManager(project):
                                 profile.setRole(role.code, project)
-                                GitoliteManager.regenerate_access(project)
+                                if USE_GIT_MODULE:
+                                    GitoliteManager.regenerate_access(project)
                                 return {
                                     'redirect': u'/user_detail/?id=' + unicode(get['id'])
                                 }
@@ -139,7 +141,10 @@ def widget(request, headerValues, ar, qargs):
             })
 
             userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')
-            userKeys = Key.objects.filter(user=user.id).order_by('-id')
+            if USE_GIT_MODULE:
+                userKeys = Key.objects.filter(user=user.id).order_by('-id')
+            else:
+                userKeys = []
             userRoles = [role for role in user.userRoles.filter(project__in=currentUserAccessProjects)]
 
             taskTemplate = templateTools.getDefaultTaskTemplate()
@@ -211,6 +216,7 @@ def widget(request, headerValues, ar, qargs):
                         'task_url': timer.task.url
                     } for timer in userTimes
                 ],
+                'use_git': USE_GIT_MODULE,
                 'keys': [
                     {
                         'id': key.id,

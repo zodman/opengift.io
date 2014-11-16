@@ -37,11 +37,13 @@
                       <div class="col-xs-6"><label class="control-label"><input type="checkbox" name="settings_autohide_messages" {% if project_edit.settings.autohide_messages %}checked="checked" {% endif %} value="1" />&nbsp;<span style="top:2px;display:inline-block;position:relative;">Скрывать сообщения клиента и исполнителя друг от друга</span></label></div>
                       <div class="col-xs-4"></div>
                 </div>
+                {% if use_git %}
                 <div class="row show-grid">
                       <div class="col-xs-2"><label class="control-label">Имя репозитория</label></div>
                       <div class="col-xs-6"><input type="text" name="repository" value="{{ project_edit.form.repository.value }}" class="js-repository-value" readonly /><i class="fa fa-icon" style="position: absolute;right: 25px;top: 10px;font-size: 16px;"></i></div>
                       <div class="col-xs-4"></div>
                 </div>
+                {% endif %}
                 <div class="row show-grid">
                 </div>
                 <div class="row show-grid">
@@ -51,6 +53,7 @@
                      </div>
                 </div>
             </form>
+        {% if use_git %}
             <script>
             $(document).ready(function(){
               function transliterate(word) {
@@ -136,4 +139,5 @@
               disableSubmit();
             });
             </script>
+            {% endif %}
     </div>

@@ -50,7 +50,6 @@
     });
 </script>
 <div class="widget inner" id="user_detail">
-
     <div class="widget-title clearfix userInfo">
         <div class="pull-left">
         <i class="statusImg"></i>&nbsp;&nbsp;{{ user_detail.user.last_name }} {{ user_detail.user.first_name }} {% if user_detail.profile.vocation %}<small>({{ user_detail.profile.vocation }})</small>{% endif %}
@@ -113,7 +112,7 @@
 {#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
                     <li><a href="#dostizheniya">Достижения</a></li>
                     <li><a href="#activity">Активность</a></li>
-                    {% if user_detail.userIsEqualCurrentUser %}
+                    {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                         <li><a href="#keys">Ключи</a></li>
                     {% endif %}
                 </ul>
@@ -294,7 +293,7 @@
 {#                            </ul>#}
                 	</div>
                 </div><!--ВКЛАДКА "Активность"-->
-                {% if user_detail.userIsEqualCurrentUser %}
+                {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                     <div class="tab-pane" id="keys">
                         <button class="btn btn-success js-openKeyForm"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</button>
                         <div>&nbsp;</div>
@@ -359,37 +358,37 @@
                     e.preventDefault();
                     $(this).tab('show');
                });
-               {% if user_detail.userIsEqualCurrentUser %}
+               {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                    $('.js-openKeyForm').click(function(){
                         $.get('/user_key_handle/add', function(response){
                             $('body').prepend(response);
                             $('.js-keyForm').fadeIn(200);
                         })
                    });
-               {% endif %}
-               $('.js-deleteKey').click(function(){
-                    var row = $(this).parents('tr');
-                    var key_name = row.find('td:eq(2)').html();
-                    var key_id = row.find('td:eq(0)').html();
-                    console.log('removing key: ' + key_id + '...');
-                    if(confirm('Вы точно хотите удалить ключ ' + key_name)){
-                        $.get('/user_key_handle/remove/' + key_id, function(response){
-                            console.log('response do ');
-                            console.log(response);
-                            console.log('response end ');
-                            if(response.errors) {
-                                alert('Не удалось удалить ключ ' + key_name);
+                   $('.js-deleteKey').click(function(){
+                        var row = $(this).parents('tr');
+                        var key_name = row.find('td:eq(2)').html();
+                        var key_id = row.find('td:eq(0)').html();
+                        console.log('removing key: ' + key_id + '...');
+                        if(confirm('Вы точно хотите удалить ключ ' + key_name)){
+                            $.get('/user_key_handle/remove/' + key_id, function(response){
+                                console.log('response do ');
+                                console.log(response);
+                                console.log('response end ');
+                                if(response.errors) {
+                                    alert('Не удалось удалить ключ ' + key_name);
+                                    return false;
+                                }
+                                row.remove();
+                                if(row.parents('tbody').find('tr').length == 0){
+                                    row.parent('table').remove();
+                                }
                                 return false;
-                            }
-                            row.remove();
-                            if(row.parents('tbody').find('tr').length == 0){
-                                row.parent('table').remove();
-                            }
-                            return false;
-                        });
-                    }
-                    return false;
-               });
+                            });
+                        }
+                        return false;
+                   });
+              {% endif %}
             </script>
     </div><!--widget-body-->
 </div><!--widget-->

@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.core.validators import RegexValidator
 from PManager.classes.git.gitolite_manager import GitoliteManager
+from tracker.settings import USE_GIT_MODULE
 
 validator_isalpha = RegexValidator(r'^[\w]*$',
                              message=u'Имя ключа не должно содержать специальных символов',

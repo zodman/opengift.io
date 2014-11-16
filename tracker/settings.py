@@ -9,21 +9,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
-from platform import node
-LOCAL_NODE = 'Gvam'
-ALL_DEVELOPMENT_NODE = 'topnotchstudios'
-DEVELOPMENT_NODE = 'heliarddev'
-PRODUCTION_NODE = 'HELIANT-VM-11'
-if node() == LOCAL_NODE:
-    from settings_local import *
-elif node() == DEVELOPMENT_NODE:
-    from settings_vagrant import *
-elif node() == ALL_DEVELOPMENT_NODE:
-    from settings_dev import *
-elif node() == PRODUCTION_NODE:
-    from settings_production import *
-else:
-    from settings_production import *
+
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -226,3 +212,21 @@ ROBOKASSA_PASSWORD2 = '6DVTJQmDNuEzDSEh0stf'
 # ROBOKASSA_TEST_MODE = False
 
 COMISSION = 1
+USE_GIT_MODULE = False
+
+
+from platform import node
+LOCAL_NODE = 'Gvam'
+ALL_DEVELOPMENT_NODE = 'topnotchstudios'
+DEVELOPMENT_NODE = 'heliarddev'
+PRODUCTION_NODE = 'HELIANT-VM-11'
+if node() == LOCAL_NODE:
+    from settings_local import *
+elif node() == DEVELOPMENT_NODE:
+    from settings_vagrant import *
+elif node() == ALL_DEVELOPMENT_NODE:
+    from settings_dev import *
+elif node() == PRODUCTION_NODE:
+    from settings_production import *
+else:
+    from settings_production import *

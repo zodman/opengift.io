@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
 from PManager.models.users import PM_User
+from tracker.settings import USE_GIT_MODULE
 
 class userHandlers:
     @staticmethod
@@ -49,7 +50,8 @@ class userHandlers:
                 if request.user.get_profile().isManager(p):
                     if p:
                         user = PM_User.getOrCreateByEmail(email, p, roles.pop())
-                        GitoliteManager.regenerate_access(p)
+                        if USE_GIT_MODULE:
+                            GitoliteManager.regenerate_access(p)
                         for role in roles:
                             user.get_profile().setRole(p, role)
 
