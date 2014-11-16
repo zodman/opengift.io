@@ -238,6 +238,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
                 datetime.datetime.now(), timezone.get_current_timezone()
             ) - datetime.timedelta(days=2)
+
         last_mes = last_message_q[0] if last_message_q else None
         addTasks[task.id] = {
             'url': task.url,
@@ -283,6 +284,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'date': templateTools.dateTime.convertToSite(task.milestone.date, '%d.%m.%Y')
             } if task.milestone and arPageParams.get('group') == 'milestones' else {} #overrides by projects
         }
+
         if not project:
             addTasks[task.id]['group'] = {
                 'name': task.project.name,
@@ -292,7 +294,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if subtasksQty:
             addTasks[task.id]['planTime'] = subtaskPlanTime
-        addTasks[task.id]['needRespRecommendation'] = now > task_delta and len(addTasks[task.id]['resp']) <= 0
+
+        addTasks[task.id]['needRespRecommendation'] = now > task_delta and (
+            len(addTasks[task.id]['resp']) <= 0 or
+            not addTasks[task.id]['resp'][0]
+        )
 
         if addTasks[task.id]['needRespRecommendation']:
             if currentRecommendedUser:
