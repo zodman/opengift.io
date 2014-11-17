@@ -6,7 +6,7 @@ import re
 import glob
 from django.core.files.storage import FileSystemStorage
 from django.core.files.base import ContentFile
-from PManager.classes.git import ConfigWriter
+from PManager.classes.git.config_writer import ConfigWriter
 from git import *
 from tracker import settings
 # bug due to wrong os.getlogin argument
@@ -89,6 +89,8 @@ class GitoliteManager(object):
     @classmethod
     def add_repo(cls, project, user):
         rep_name = project.repository
+        if not rep_name:
+            return False
         username = user.username
         project_config = cls.get_project_conf_name(rep_name)
         if(cls.fs.exists(project_config)):
