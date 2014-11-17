@@ -5,6 +5,7 @@ body {
     font-size: 13px;
     line-height: 20px;
     color: #333333;
+	padding-top:70px;
 }
 
 h1, .h1 {font-size:26px; line-height:28px;}
@@ -89,7 +90,7 @@ h1, h2, h3, h4, h5, h6,
                                 ШАПКА
     ###############################################################*/
 
-header {background:#fff; box-shadow:0px 0px 15px #ccc; -moz-box-shadow:0px 0px 15px #ccc; -ms-box-shadow:0px 0px 15px #ccc; -o-box-shadow:0px 0px 15px #ccc; -webkit-box-shadow:0px 0px 15px #ccc; margin-bottom:15px; padding:15px;}
+header {background:#fff; box-shadow:0px 0px 15px #ccc; -moz-box-shadow:0px 0px 15px #ccc; -ms-box-shadow:0px 0px 15px #ccc; -o-box-shadow:0px 0px 15px #ccc; -webkit-box-shadow:0px 0px 15px #ccc; margin-bottom:15px; padding:15px; position:fixed; width:100%; top:0px; z-index:1000;}
 header .header {position:relative; max-width:1600px; margin:0 auto;}
 /*ЛОГО*/
 header .header .logo {float:left; width:15%;}
@@ -110,15 +111,22 @@ header .header >nav {float:left; width:60%; text-align:center; height:29px; line
 	header .header .notifications .dropdown-menu:after {border-right: 6px solid transparent; border-bottom: 6px solid #FFFFFF; border-left: 6px solid transparent; right:26px; top:-6px; left:auto; content: ''; position:absolute; display:inline-block;}
 	header .header .notifications .dropdown-menu:before {border-right: 7px solid transparent; border-bottom: 7px solid rgba(0, 0, 0, 0.2); border-left: 7px solid transparent; right:25px; top:-7px; left:auto; content: ''; position:absolute; display:inline-block;}
 	header .header .notifications .dropdown-menu li {padding:5px 15px; border-bottom:1px solid #eee;}
-	header .header .notifications .dropdown-menu li .fa.fa-times {color:#DDDDDD; text-decoration:none;}
-	header .header .notifications .dropdown-menu li .fa.fa-times:hover {color:#CD0000;}
+	header .header .notifications .fa.fa-times {color:#DDDDDD; text-decoration:none;}
+	header .header .notifications .fa.fa-times:hover {color:#CD0000;}
 	header .header .notifications .dropdown-menu li:last-child {border-bottom:0;}
 	header .header .notifications .dropdown-menu li .title {font-size:16px; font-weight:bold;}
 	header .header .notifications .dropdown-menu li h5 {font-size:12px; display:block;}
 	header .header .notifications .dropdown-menu li h5 a {color:#222; display:block;}
 	header .header .notifications .dropdown-menu li h5 a:hover {color:#57A957;}
 	header .header .notifications .more-notifications {width:100%;}
-
+	header .header .notifications .time-username {font-size:12px; color:#999;}
+		header .header .notifications .time-username a {color:#47a447;}
+		header .header .notifications blockquote {padding:5px 10px; font-size:12px; line-height:20px; margin:0px 0px 10px;} 
+		header .header .notifications .text-message {margin:0px; padding:0px; font-size:12px; line-height:20px;}
+	
+	.notifications-title {padding:5px 15px; border-bottom:1px solid #ddd; box-shadow:0 2px 2px rgba(1, 1, 1, 0.1); -moz-box-shadow:0 2px 2px rgba(1, 1, 1, 0.1); -webkit-box-shadow:0 2px 2px rgba(1, 1, 1, 0.1); font-weight:bold; text-transform:uppercase;}
+	.notifications-ul {position:relative; max-height:200px; overflow-y:auto;}
+	
 /*ТАЙМЕР*/
 header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:29px; text-align:right;}
 	header .header .timer-wrapper > div {display:inline-block; margin-left:15px;}
@@ -145,12 +153,12 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 	header .header .timer-wrapper .user-menu a i {display:none;}
 
 @media (max-width: 1340px) {
-	header .header .logo {width:20%;}
+	header .header .logo {width:16%;}
 	header .header > nav {width:55.5%;}
 	header .header > nav > ul > li > a {font-size:12px; padding-right:13px;}
 	header .header > nav > ul > li > a > .fa { font-size: 18px; margin-right:3px;}
 	
-	header .header .timer-wrapper {width:24.5%;}
+	header .header .timer-wrapper {width:28.5%;}
 }
 	
 @media (max-width: 1190px) {
@@ -165,6 +173,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 
 
 @media (max-width:838px) {
+	body {padding-top:110px;}
 	header .header .logo {width:50%;}
 	header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:50%; line-height:22px; height:22px;}
 	header .header .logo img {max-width:100%; display:block;}
@@ -175,6 +184,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 
 @media (max-width: 568px) {
 		header .header .timer-wrapper .user-menu a.user-name {display:none;}
+		.task-info .task-info-time {width:auto !important;}
 }
 @media (max-width: 450px) {
 		header .header .timer-wrapper .timer .dropdown-menu.timer-popup {width:260px;}
