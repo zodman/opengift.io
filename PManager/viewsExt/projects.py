@@ -93,11 +93,13 @@ def removeInterface(request):
 
 def checkUniqRepNameResponder(request):
     if not USE_GIT_MODULE:
+        return HttpResponse("OK")
+    if not request.POST['repoName']:
         return HttpResponse("ERROR")
     proj = PM_Project.objects.filter(repository=request.POST['repoName'])
     if(proj):
         if not USE_GIT_MODULE:
-            return HttpResponse("ERROR")
+            return HttpResponse("OK")
         from PManager.classes.git.gitolite_manager import GitoliteManager
         reponame = GitoliteManager.get_suggested_name(request.POST['repoName'])
         if not reponame:
