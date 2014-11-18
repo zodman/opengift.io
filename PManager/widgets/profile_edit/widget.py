@@ -36,15 +36,18 @@ def widget(request, headerValues, ar, qargs):
     c = RequestContext(request, processors=[csrf])
 
     if request.method == 'POST': # If the form has been submitted...
-        if not avatarUrl and request.FILES.get('avatar'):
-            ava = PM_Achievement.objects.get(code='avatar')
-            if not ava.checkForUser(user):
-                ava.addToUser(user)
 
         form = ProfileForm(instance=profile, data=request.POST,
                            files=request.FILES) # A form bound to the POST data
         uform = UserForm(instance=user, data=request.POST, files=request.FILES) # A form bound to the POST data
         if form.is_valid() and uform.is_valid(): # All validation rules pass
+            if not avatarUrl and request.FILES.get('avatar'):
+                ava = PM_Achievement.objects.get(code='avatar')
+                if not ava.checkForUser(user):
+                    ava.addToUser(user)
+                    profile.rating = (profile.rating or 0) + 10
+                    profile.save()
+
             form.save()
             uform.save()
 
