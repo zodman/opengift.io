@@ -236,51 +236,24 @@ $(function(){
                     <div class="dropdown-menu">
                         <div class="container js-pmessages-list_empty {% if messages_qty > 0 %}hidden{% endif %}">Список сообщений пуст</div>
                         {% if messages|length > 0 %}
-                      	<ul class="js-pmessages-dropdown">
-                        	<li class="clearfix">
-                            	<div class="pull-left title">Обновления</div>
-                                <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
-                            </li>
+                           <div class="clearfix notifications-title">
+                                    <div class="pull-left title">Обновления</div>
+                                    <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
+                           </div>
+                        <ul class="js-pmessages-dropdown notifications-ul">
                             {% for mess in messages %}
                         	<li class="js-message">
                             	<div class="clearfix">
-                                	<div class="pull-left"><span class="label label-warning">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% else %}{{ mess.code }}{% endif %}</span></div>
+                                	<div class="pull-left"><span class="label label-warning">Личное сообщение</span></div>
                                 	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
                                 </div>
-                                <h5><a href="{{mess.task.url}}">{{ mess.text|safe }}</a></h5>
+                                <div class="time-username">{{ mess.dateCreate }} / <a href="/user_detail/>id={{mess.author.id}}">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% endif %}</a></div>
+                                <h5><a href="{{mess.task.url}}">{{ mess.task.name }}</a></h5>
+                                <p class="text-message">{{ mess.text|safe }}</p>
                             </li>
                             {% endfor %}
                         </ul>
                         {% endif %}
-                        
-                        
-                       <div class="clearfix notifications-title">
-                            	<div class="pull-left title">Обновления</div>
-                                <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
-                       </div>
-                        <ul class="js-pmessages-dropdown notifications-ul">
-                        	<li class="js-message">
-                            	<div class="clearfix">
-                                	<div class="pull-left"><span class="label label-warning">Новое сообщение</span></div>
-                                	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
-                                </div>
-                                <div class="time-username">29.10.2014 13:22 / <a href="#">Евгений Мартышкин</a></div>
-                                <h5><a href="{{mess.task.url}}">Аччивка за задачу в двойное время - если в срок, то за полуторную цену</a></h5>
-                                <blockquote class="well">вообще должна быть как в рамке или как? Можешь мне объяснить суть, чтобы мне было проще сориентироваться?</blockquote>
-                                <p class="text-message">ну какая суть, вот ты работаешь, ты можешь награды получать, они все в бабле выражены. Должны быть все в одном стиле. <a href="#">http://heliard.ru/achievements/</a></p>
-                            </li>
-                        	<li class="js-message">
-                            	<div class="clearfix">
-                                	<div class="pull-left"><span class="label label-warning">Новое сообщение</span></div>
-                                	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
-                                </div>
-                                <div class="time-username">29.10.2014 13:22 / <a href="#">Евгений Мартышкин</a></div>
-                                <h5><a href="{{mess.task.url}}">Аччивка за задачу в двойное время - если в срок, то за полуторную цену</a></h5>
-                                <blockquote class="well">вообще должна быть как в рамке или как? Можешь мне объяснить суть, чтобы мне было проще сориентироваться?</blockquote>
-                                <p class="text-message">ну какая суть, вот ты работаешь, ты можешь награды получать, они все в бабле выражены. Должны быть все в одном стиле. <a href="#">http://heliard.ru/achievements/</a></p>
-                            </li>
-                        </ul>
-                        
                     </div>
                 </li>
             </ul>
