@@ -1,3 +1,3 @@
 __author__ = 'Tonakai'
-from config_writer import *
-from gitolite_manager import *
+from Pmanager.classes.git.config_writer import *
+from PManager.classes.git.gitolite_manager import *

@@ -14,5 +14,7 @@ DATABASES = {
 SESSION_COOKIE_DOMAIN = 'heliard.ru'
 SOCKET_SERVER_ADDRESS = 'heliard.ru'
 project_root = '/home/heliard/heliard/'
+# GIT MODULE SETTINGS
+USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
