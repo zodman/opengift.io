@@ -42,7 +42,8 @@ class LocalUploadBackend(AbstractUploadBackend):
             os.path.isfile(os.path.join(self._dir, filename))
         except UnicodeEncodeError:
             ext = filename.split('.')[-1]
-            hash = hashlib.new('md5', filename)
+            hash = hashlib.new('md5')
+            hash.update(filename)
             filename = '{}.{}'.format(hash.hexdigest(), ext)
 
         if os.path.isfile(os.path.join(self._dir, filename)):
