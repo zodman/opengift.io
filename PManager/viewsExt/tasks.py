@@ -17,6 +17,7 @@ from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
 from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
+
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
 #decorator
@@ -307,7 +308,6 @@ def taskListAjax(request):
                         stask.Close(request.user)
 
             for filePost in files:
-                filePost.filename = filePost.filename.encode('utf-8')
                 filePost.name = filePost.name.encode('utf-8')
                 file = PM_Files(file=filePost, authorId=request.user, projectId=headerValues['CURRENT_PROJECT'])
                 file.save()
