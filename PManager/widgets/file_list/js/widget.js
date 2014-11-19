@@ -391,7 +391,7 @@ fileObject.prototype = {
         var t = this;
 
         var thumb = '';
-        if (t.type == 'jpg' || t.type == 'png')
+        if (t.isPicture)
             thumb = '<img src="' + t.thumbnail + '" />';
         else if (t.type == 'doc' || t.type == 'docx')
             thumb = '<i class="fa fa-file-word-o"></i>';
