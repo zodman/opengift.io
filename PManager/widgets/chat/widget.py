@@ -8,13 +8,17 @@ from tracker import settings
 
 def widget(request, headerValues=None, ar=None, qargs=None):
     last_id = request.REQUEST.get('last_id', 0)
+    if request.user.is_superuser:
+        hiddenQ = Q(author__isnull=False)
+    else:
+        hiddenQ = Q(hidden=False)
 
     result = PM_Task_Message.objects.filter(
         Q(author=request.user) |
         Q(userTo=request.user) |
-        Q(project__in=request.user.get_profile().getProjects(only_managed=True)) |
+        hiddenQ &
         Q(
-            Q(hidden=False) &
+            Q(project__in=request.user.get_profile().getProjects(only_managed=True)) |
             Q(
                 Q(task__observers=request.user) &
                     Q(hidden_from_clients=False) &
@@ -25,7 +29,8 @@ def widget(request, headerValues=None, ar=None, qargs=None):
                 Q(task__onPlanning=True) & Q(project__in=request.user.get_profile().getProjects())
             )
         )
-    ).filter(task__active=True)
+    )
+    result = result.filter(task__active=True)
     options = {
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
