@@ -8,7 +8,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User
-import datetime, json
+import datetime, json, codecs
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions, emailMessage, templateTools
@@ -307,6 +307,8 @@ def taskListAjax(request):
                         stask.Close(request.user)
 
             for filePost in files:
+                filePost.filename = filePost.filename.encode('utf-8')
+                filePost.name = filePost.name.encode('utf-8')
                 file = PM_Files(file=filePost, authorId=request.user, projectId=headerValues['CURRENT_PROJECT'])
                 file.save()
                 message.files.add(file.id)
