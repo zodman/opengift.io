@@ -210,6 +210,7 @@ class PM_Files(models.Model):
         return {
             'type': self.type,
             'src': self.src,
+            'isPicture': self.isPicture,
             'id': self.id,
             'name': self.name,
             'size': self.size,
