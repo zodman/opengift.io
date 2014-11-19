@@ -308,6 +308,8 @@ def taskListAjax(request):
                         stask.Close(request.user)
 
             for filePost in files:
+                filePost.name = filePost.name.encode('utf-8')
+                filePost.file.path = filePost.file.path.encode('utf-8')
                 file = PM_Files(file=filePost, authorId=request.user, projectId=headerValues['CURRENT_PROJECT'])
                 file.save()
                 message.files.add(file.id)
