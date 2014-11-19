@@ -110,7 +110,7 @@ urlpatterns = patterns('',
                        url(r'^credits/$', MainPage.creditReport),
                        url(r'^credit_chart/$', MainPage.creditChart),
                        url(r'^login/$', MainPage.auth),
-                       url(r'/locale/', locale),
+                       url(r'locale/', locale),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
