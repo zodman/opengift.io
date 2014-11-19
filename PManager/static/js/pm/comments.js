@@ -145,7 +145,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         messageInfo.task.name + '</strong></a>';
 
                     if (messageInfo.author.id != document.mainController.userId)
-                        arKeys['REPLY_BTN'] = '<a class="button green-button js-reply" href="'+messageInfo.task.url+'">Ответить</a>';
+                        arKeys['REPLY_BTN'] = '<a class="button green-button js-reply" data-hidden="'+(messageInfo.hidden?1:0)+'" href="'+messageInfo.task.url+'">Ответить</a>';
                 }
 
 

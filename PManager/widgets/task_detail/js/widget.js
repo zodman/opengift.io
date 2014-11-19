@@ -261,6 +261,13 @@ $(function(){
             });
             widget_td.$messageList.on('click', '.js-reply', function(){
                 var selData = widget_td.$userToSelect.data('combobox').map;
+                var isHidden = $(this).data('hidden'), checked;
+                if (isHidden) {
+                    checked = 'checked';
+                } else {
+                    checked = false;
+                }
+                $('input[name=hidden]').attr('checked', checked);
                 for (var i in selData){
                     if (selData[i] == $(this).attr('rel')){
                         widget_td.$messageForm.find('input:text.combobox').val(i);
