@@ -302,11 +302,15 @@ class AjaxFileUploader(object):
 
             filename_origin = filename
 
+            project_id = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id else None
+            if project_id:
+                backend.UPLOAD_DIR = os.path.join(backend.UPLOAD_DIR, str(project_id))
+
             filename = (backend.update_filename(request, filename, *args, **kwargs)
                         or filename)
-            if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id:
-                filename = os.path.join('projects', str(headerValues['CURRENT_PROJECT'].id), filename)
-                # save the file
+
+
+            # save the file
 
             backend.setup(filename, *args, **kwargs)
 
