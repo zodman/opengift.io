@@ -80,8 +80,9 @@ def ajaxFilesResponder(request):
     import re
 
     def deleteFile(oFile):
-        if os.path.isfile(oFile.file.path):
-            os.remove(oFile.file.path)
+        path = oFile.file.path.encode('utf-8')
+        if os.path.isfile(path):
+            os.remove(path)
         return oFile.delete()
 
     headerValues = headers.initGlobals(request)
