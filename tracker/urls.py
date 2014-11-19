@@ -2,7 +2,7 @@ from django.conf.urls import patterns, include, url
 
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
-from PManager.views import MainPage, Brains
+from PManager.views import MainPage, Brains, locale
 from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
@@ -110,6 +110,7 @@ urlpatterns = patterns('',
                        url(r'^credits/$', MainPage.creditReport),
                        url(r'^credit_chart/$', MainPage.creditChart),
                        url(r'^login/$', MainPage.auth),
+                       url(r'/locale/', locale),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:

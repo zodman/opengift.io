@@ -421,5 +421,9 @@ class MainPage:
         t = loader.get_template('report/credit_chart.html')
         return HttpResponse(t.render(c))
 
-
+def locale(request):
+    import locale
+    import sys
+    loc_info = locale.getlocale() + ' ' + locale.getdefaultlocale() + ' ' + sys.getfilesystemencoding() + ' ' + sys.getdefaultencoding()
+    return HttpResponse(loc_info)
 
