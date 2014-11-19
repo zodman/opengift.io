@@ -1,7 +1,6 @@
 # -*- coding:utf-8 -*-
 from io import FileIO, BufferedWriter
-import os
-
+import os, hashlib
 from django.conf import settings
 
 from ajaxuploader.backends.base import AbstractUploadBackend
@@ -39,6 +38,13 @@ class LocalUploadBackend(AbstractUploadBackend):
         filename_suffix = 0
 
         # Check if file at filename exists
+        try:
+            os.path.isfile(os.path.join(self._dir, filename))
+        except UnicodeEncodeError:
+            ext = filename.split('.')[-1]
+            hash = hashlib.new(filename)
+            filename = '{}.{}'.format(hash.hexdigest(), ext)
+
         if os.path.isfile(os.path.join(self._dir, filename)):
             while not unique_filename:
                 try:

@@ -278,6 +278,7 @@ class AjaxFileUploader(object):
                     upload = request.FILES.values()[0]
                 else:
                     raise Http404("Bad Upload")
+
                 if u'qqfilename' in request.POST:
                     filename = request.POST[u'qqfilename']
                 else:
@@ -298,6 +299,8 @@ class AjaxFileUploader(object):
                 kwargs['first_part'] = True
             else:
                 kwargs['first_part'] = False
+
+            filename_origin = filename
 
             filename = (backend.update_filename(request, filename, *args, **kwargs)
                         or filename)
@@ -321,7 +324,7 @@ class AjaxFileUploader(object):
             if u'qqpartindex' in request.POST and int(request.POST[u'qqpartindex']) == int(
                     request.POST[u'qqtotalparts']) - 1:
 
-                fileNow = PM_Files(projectId=headerValues['CURRENT_PROJECT'], authorId=request.user)
+                fileNow = PM_Files(projectId=headerValues['CURRENT_PROJECT'], authorId=request.user, name=filename_origin)
                 try:
                     sId = int(request.POST.get('section_id', 0))
                 except ValueError:
