@@ -424,6 +424,10 @@ class MainPage:
 def locale(request):
     import locale
     import sys
-    loc_info = locale.getlocale() + ' ' + locale.getdefaultlocale() + ' ' + sys.getfilesystemencoding() + ' ' + sys.getdefaultencoding()
+    loc_info = str(locale.getlocale()) + ' ' + \
+                  str(locale.getdefaultlocale()) + ' ' + \
+                  str(sys.getfilesystemencoding()) + ' ' + \
+                  str(sys.getdefaultencoding())
+
     return HttpResponse(loc_info)
 
