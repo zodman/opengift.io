@@ -66,7 +66,7 @@ $.extend(fileList,{
                 var oContainer = $('.js-file_' + key);
                 if (oContainer.get(0)) {
                     if (oContainer.is('img')) {
-                        var sImgSrc = this.$selectedFile.find('a').attr('href');
+                        var sImgSrc = this.$selectedFile.find('a.js-download').attr('href');
                         oContainer.attr('src', oDataSet[key]).closest('a').attr('href', sImgSrc);
                     } else if (key == 'src') {
                         oContainer.attr('href', oDataSet[key]);
