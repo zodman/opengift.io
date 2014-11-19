@@ -49,7 +49,7 @@ def widget(request,headerValues,ar,qargs):
 
         fileJson.update({
             'resolution': '' if fileObject.isPicture else '',
-            'thumbnail': thumbnail(str(fileObject), '200x200') if fileObject.isPicture else ''
+            'thumbnail': thumbnail(str(fileObject), '167x167') if fileObject.isPicture else ''
         })
         aFiles.append(fileJson)
 

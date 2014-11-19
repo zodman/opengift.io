@@ -365,7 +365,8 @@ class AjaxFileUploader(object):
                     'is_picture': fileNow.isPicture,
                     'type': fileNow.type,
                     'date_create': fileNow.date_create,
-                    'size': fileNow.size
+                    'size': fileNow.size,
+                    'thumbnail': thumbnail(str(fileNow), '167x167') if fileNow.isPicture else ''
                 })
                 # although "application/json" is the correct content type, IE throws a fit
             return HttpResponse(json.dumps(ret_json, cls=DjangoJSONEncoder), content_type='text/html; charset=utf-8')
