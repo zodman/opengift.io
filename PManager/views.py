@@ -466,7 +466,8 @@ def add_timer(request):
             tasks.append(task)
 
     c = RequestContext(request, {
-            'tasks': tasks
+            'tasks': tasks,
+            'timer': timer
         })
 
     t = loader.get_template('report/add_timer.html')
