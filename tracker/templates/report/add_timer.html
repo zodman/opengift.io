@@ -6,7 +6,7 @@
         <form role="form" method="POST" >
             <div class="form-group">
                 <label>Задача</label>
-                <select required="required" class="form-control">
+                <select name="timer[task_id]" required="required" class="form-control">
                     {% for task in tasks %}
                         <option value="{{ task.id }}">{{ task }}</option>
                     {% endfor %}
@@ -14,11 +14,11 @@
             </div>
             <div class="form-group">
                 <label>Время в секундах</label>
-                <input required="required" class="form-control" type="number" name="seconds" />
+                <input required="required" class="form-control" type="number" name="timer[seconds]" />
             </div>
             <div class="form-group">
                 <label>Комментария</label>
-                <textarea name="comment" required="required"></textarea>
+                <textarea name="timer[comment]" required="required" class="form-control"></textarea>
             </div>
             <button type="submit" class="btn btn-success">Отправить</button>
         </form>

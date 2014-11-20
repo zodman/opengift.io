@@ -428,11 +428,15 @@ def add_timer(request):
     if not request.user.is_authenticated:
         return redirect('/')
 
+    headerValues = headers.initGlobals(request)
+
     userTasks = PM_Task.objects.filter(
         active=True,
         closed=False,
         resp=request.user
     ).exclude(status__code='not_approved')
+    if headerValues['CURRENT_PROJECT']:
+        userTasks = userTasks.filter(project=headerValues['CURRENT_PROJECT'])
 
     timer = request.POST.get('timer', None)
     if timer:
@@ -456,8 +460,13 @@ def add_timer(request):
                 logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
                 return redirect('/add_timer/?text='+u'Успешно%20добавлено')
 
+    tasks = []
+    for task in userTasks:
+        if not task.subTasks.filter(active=True).count():
+            tasks.append(task)
+
     c = RequestContext(request, {
-            'tasks': userTasks
+            'tasks': tasks
         })
 
     t = loader.get_template('report/add_timer.html')
