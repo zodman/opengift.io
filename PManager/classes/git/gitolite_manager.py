@@ -87,6 +87,10 @@ class GitoliteManager(object):
         return os.path.isfile(settings.GITOLITE_ADMIN_REPOSITORY + "/" + keyfile)
 
     @classmethod
+    def repository_exists(cls, rep_name):
+        return os.path.isfile(settings.GITOLITE_ADMIN_REPOSITORY + GitoliteManager.get_project_conf_name(rep_name))
+
+    @classmethod
     def add_repo(cls, project, user):
         rep_name = project.repository
         if not rep_name:
