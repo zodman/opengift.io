@@ -421,13 +421,46 @@ class MainPage:
         t = loader.get_template('report/credit_chart.html')
         return HttpResponse(t.render(c))
 
-def locale(request):
-    import locale
-    import sys
-    loc_info = str(locale.getlocale()) + ' ' + \
-                  str(locale.getdefaultlocale()) + ' ' + \
-                  str(sys.getfilesystemencoding()) + ' ' + \
-                  str(sys.getdefaultencoding())
+def add_timer(request):
+    from PManager.classes.logger.logger import Logger
+    import datetime
 
-    return HttpResponse(loc_info)
+    if not request.user.is_authenticated:
+        return redirect('/')
+
+    userTasks = PM_Task.objects.filter(
+        active=True,
+        closed=False,
+        resp=request.user
+    ).exclude(status__code='not_approved')
+
+    timer = request.POST.get('timer', None)
+    if timer:
+        seconds = timer.get('seconds', 0)
+        comment = timer.get('comment', '')
+        task_id = timer.get('task_id', 0)
+        if seconds and comment and task_id:
+            task = userTasks.get(pk=int(task_id))
+            if task:
+                # add timer
+                dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
+                timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
+                timer.save()
+                #add comment
+                comment = PM_Task_Message(
+                    task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
+                    hidden_from_clients=True)
+                comment.save()
+                #add user log
+                logger = Logger()
+                logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
+                return redirect('/add_timer/?text='+u'Успешно%20добавлено')
+
+    c = RequestContext(request, {
+            'tasks': userTasks
+        })
+
+    t = loader.get_template('report/add_timer.html')
+
+    return HttpResponse(t.render(c))
 
