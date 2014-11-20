@@ -457,7 +457,7 @@ def add_timer(request):
             #add user log
             logger = Logger()
             logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-            return redirect('/add_timer/?text='+u'Успешно%20добавлено')
+            return redirect('/add_timer/?'+'project='+str(comment.project.id)+'&text='+u'Успешно%20добавлено')
 
     tasks = []
     for task in userTasks:
