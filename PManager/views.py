@@ -438,27 +438,26 @@ def add_timer(request):
     if headerValues['CURRENT_PROJECT']:
         userTasks = userTasks.filter(project=headerValues['CURRENT_PROJECT'])
 
-    timer = request.POST.get('timer', None)
-    if timer:
-        seconds = timer.get('seconds', 0)
-        comment = timer.get('comment', '')
-        task_id = timer.get('task_id', 0)
-        if seconds and comment and task_id:
-            task = userTasks.get(pk=int(task_id))
-            if task:
-                # add timer
-                dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
-                timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
-                timer.save()
-                #add comment
-                comment = PM_Task_Message(
-                    task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
-                    hidden_from_clients=True)
-                comment.save()
-                #add user log
-                logger = Logger()
-                logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-                return redirect('/add_timer/?text='+u'Успешно%20добавлено')
+    seconds = request.POST.get('seconds', 0)
+    comment = request.POST.get('comment', '')
+    task_id = request.POST.get('task_id', 0)
+
+    if seconds and comment and task_id:
+        task = userTasks.get(pk=int(task_id))
+        if task:
+            # add timer
+            dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
+            timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
+            timer.save()
+            #add comment
+            comment = PM_Task_Message(
+                task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
+                hidden_from_clients=True)
+            comment.save()
+            #add user log
+            logger = Logger()
+            logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
+            return redirect('/add_timer/?text='+u'Успешно%20добавлено')
 
     tasks = []
     for task in userTasks:
