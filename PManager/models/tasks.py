@@ -1584,14 +1584,14 @@ def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
         prof.save()
 
 def remove_git(sender, instance, created, **kwargs):
-    from settings import USE_GIT_MODULE
+    from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     if USE_GIT_MODULE:
         if instance.repository and GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.remove_repo(instance)
 
 def update_git(sender, instance, created, **kwargs):
-    from settings import USE_GIT_MODULE
+    from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.interfaces import AccessInterface
     if(USE_GIT_MODULE):
@@ -1603,7 +1603,7 @@ def update_git(sender, instance, created, **kwargs):
                 GitoliteManager.regenerate_access(instance)
 
 def rewrite_git_access(sender, instance, created, **kwargs):
-    from settings import USE_GIT_MODULE
+    from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     project = PM_Project.objects.get(id=instance.project)
     if USE_GIT_MODULE and project and project.repository:
