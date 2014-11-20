@@ -1,7 +1,6 @@
 {% extends "main/base.html" %}
 {% block content %}
     <div class="widget">
-    {{ timer }}
     <h1>Отправка временных затрат</h1>
         {% if request.text %}<div class="alert alert-success">{{ request.text }}</div>{% endif %}
         <form role="form" method="POST" >
