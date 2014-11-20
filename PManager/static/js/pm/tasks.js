@@ -299,7 +299,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 sPlanTime += '<span class="dropdown">&nbsp;[ ~ </span>' +
                     '<span class="dropdown">' +
                     (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '':'<a data-toggle="dropdown" class="jsPlanTimeHolder">')
-                    + (taskInfo.planTime || 'Оценить')
+                    + (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'Оценить'))
                     + (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '':'</a>');
                 sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
 
