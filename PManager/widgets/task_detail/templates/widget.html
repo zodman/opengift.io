@@ -230,41 +230,37 @@
         <input type="text" class="form-control" placeholder="Введите имя человека, которого хотите назначит ответственным" />
     </div>
     <div class="add-user-popup-content">
-        <table width="100%" cellpadding="0" cellspacing="0">
-            <tr>
-                <td width="20%" class="add-user-list-of-categories">
-                    <ul>
-                        <li><a href="#" class="active">Программисты</a></li>
-                        <li><a href="#">Менеджеры</a></li>
-                        <li><a href="#">Верстальщики</a></li>
-                    </ul>
-                </td>
-                <td class="add-user-list-of-users">
-                    <ul>
-                        {% for resp_user in task_detail.users %}
-                            <li class="media">
-                                <a class="media-item" rel={{ resp_user.id }}>
-                                    <span class="pull-left">
-                                        {% if resp_user.get_profile.avatar %}
-                                            <img class="media-object" src="{{ resp_user.get_profile.avatarSrc }}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
-                                        {% else %}
-                                            <div class="avatar_container" rel='{{ resp_user.get_profile.avatarParams|jsonify|safe }}'></div>
-                                        {% endif %}
-                                    </span>
-                                    <div class="media-body">
-                                        <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}{{ specialty.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
-                                        <div class="progress">
-                                            <div class="js-progress-success progress-bar progress-bar-success"></div>
-                                        </div>
-                                        <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
-                                    </div>
-                                </a>
-                            </li>
-                        {% endfor %}
-                    </ul>
-                </td>
-            </tr>
-        </table>
+        <div class="add-user-list-of-categories">
+            <ul>
+                <li><a href="#" class="active">Программисты</a></li>
+                <li><a href="#">Менеджеры</a></li>
+                <li><a href="#">Верстальщики</a></li>
+            </ul>
+        </div>
+        <div class="add-user-list-of-users">
+            <ul>
+                {% for resp_user in task_detail.users %}
+                    <li class="media">
+                        <a class="media-item" rel={{ resp_user.id }}>
+                            <span class="pull-left">
+                                {% if resp_user.get_profile.avatar %}
+                                    <img class="media-object" src="{{ resp_user.get_profile.avatarSrc }}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
+                                {% else %}
+                                    <div class="avatar_container" rel='{{ resp_user.get_profile.avatarParams|jsonify|safe }}'></div>
+                                {% endif %}
+                            </span>
+                            <div class="media-body">
+                                <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}{{ specialty.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</span>
+                                <div class="progress">
+                                    <div class="js-progress-success progress-bar progress-bar-success"></div>
+                                </div>
+                                <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Каталог программ</p>
+                            </div>
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
     <div class="add-user-popup-footer my-row clearfix">
         <div class="pull-left my-row-5">
