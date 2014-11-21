@@ -21,7 +21,7 @@ from tracker.settings import COMISSION
 from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save, pre_delete, post_delete
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -1620,7 +1620,7 @@ def rewrite_git_access(sender, instance, created, **kwargs):
         GitoliteManager.regenerate_access(project)
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
-pre_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
+post_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_save.connect(update_git, sender=PM_Project)
 pre_delete.connect(remove_git, sender=PM_Project)
 post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)
