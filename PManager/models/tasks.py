@@ -1590,11 +1590,12 @@ def remove_git(sender, instance, created, **kwargs):
         if instance.repository and GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.remove_repo(instance)
 
+
 def update_git(sender, instance, created, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.interfaces import AccessInterface
-    if(USE_GIT_MODULE):
+    if USE_GIT_MODULE:
         if instance.repository and not GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.add_repo(instance, instance.author)
             AccessInterface.create_git_interface(instance)
@@ -1602,9 +1603,12 @@ def update_git(sender, instance, created, **kwargs):
             if instance.repository:
                 GitoliteManager.regenerate_access(instance)
 
+
 def rewrite_git_access(sender, instance, created, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
+    if not isinstance(instance.project, PM_Project):
+        return
     project = instance.project
     if USE_GIT_MODULE and project and project.repository:
         GitoliteManager.regenerate_access(project)
