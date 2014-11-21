@@ -118,12 +118,12 @@ class GitoliteManager(object):
     def remove_repo(cls, project):
         rep_name = project.repository
         project_config = cls.get_project_conf_name(rep_name)
-        project_config = cls.fs.delete(project_config)
+        cls.fs.delete(project_config)
         cls.update_main_config()
         index = cls.get_index()
         index.remove([project_config, ])
         index.add([cls.CONF_FILE, ])
-        message = "Removed repo %s for %s" % (rep_name, username)
+        message = "Removed repo %s for %s" % (rep_name, project.author)
         res = cls.commit(index, message)
         if cls.is_success(message):
             return res
