@@ -1113,12 +1113,17 @@ class TaskWidgetManager:
 
     @staticmethod
     def getUsersThatCanBeResponsibleInThisProject(user, project):
-        if user.get_profile().isManager(project):
-            return TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
-        elif user.get_profile().isClient(project):
-            return TaskWidgetManager.getUsersOfCurrentProject(project, ['manager', 'client', 'employee'])
+        if project:
+            if user.get_profile().isManager(project):
+                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
+            elif user.get_profile().isClient(project):
+                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['manager', 'client', 'employee'])
+            else:
+                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager'])
         else:
-            return TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager'])
+            res = TaskWidgetManager.getUsersThatUserHaveAccess(user, None)
+
+        return res.order_by('name')
 
     @staticmethod
     def getResponsibleList(user, project):

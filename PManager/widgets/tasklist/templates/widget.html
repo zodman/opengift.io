@@ -315,7 +315,11 @@
                                 {% endif %}
                             </span>
                             <div class="media-body">
-                                <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span> <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}</span>
+                                <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>
+                                <span class="occupation">
+                                    {% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}
+                                    {% if resp_user.openTasksQty %} <b>{{ resp_user.openTasksQty }}</b>{% endif %}
+                                </span>
                                 <div class="progress">
                                     <div class="js-progress-success progress-bar progress-bar-success"></div>
                                 </div>

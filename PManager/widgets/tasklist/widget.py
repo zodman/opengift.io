@@ -364,11 +364,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
     title = (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'Задачи'
 
+    resps = widgetManager.getResponsibleList(cur_user, project)
+    aResps = []
+    for resp in resps:
+        setattr(resp, 'openTasksQty', resp.hisTasks.filter(active=True, closed=False).count())
+        aResps.append(resp)
+
     return {
         'title': title,
         'tasks': tasks,
         'project': project,
-        'users': widgetManager.getResponsibleList(cur_user, project),
+        'users': aResps,
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project),
         'nextPage': arPageParams.get('startPage', 0) + 1 if 'startPage' in arPageParams else None,
