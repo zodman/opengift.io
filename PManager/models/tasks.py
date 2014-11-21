@@ -1583,7 +1583,7 @@ def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
         prof.last_activity_date = datetime.datetime.now()
         prof.save()
 
-def remove_git(sender, instance, created, **kwargs):
+def remove_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     if USE_GIT_MODULE:
@@ -1591,7 +1591,7 @@ def remove_git(sender, instance, created, **kwargs):
             GitoliteManager.remove_repo(instance)
 
 
-def update_git(sender, instance, created, **kwargs):
+def update_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.interfaces import AccessInterface
