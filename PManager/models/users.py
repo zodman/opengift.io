@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import emailMessage
-from django.db.models.signals import post_save
+from django.db.models.signals import post_save, pre_delete
 
 
 class Specialty(models.Model):
@@ -275,10 +275,17 @@ class PM_User(models.Model):
     class Meta:
         app_label = 'PManager'
 
+def remove_keys(sender, instance, created, **kwargs):
+    from tracker.settings import USE_GIT_MODULE
+    from PManager.classes.git.gitolite_manager import GitoliteManager
+    from PManager.models.keys import Key
+    keys = Key.objects.filter(user=instance)
+    for key in keys:
+        GitoliteManager.remove_key_from_user(key,instance)
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = PM_User.objects.get_or_create(user=instance)
 
-
+pre_delete.connect(remove_keys, sender=User)
 post_save.connect(create_user_profile, sender=User)

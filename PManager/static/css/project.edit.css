@@ -1,11 +1,11 @@
 .add-user-popup.dropdown-menu.responsibles { padding: 0;}
-.add-user-popup { border:1px solid #ccc; background:#fff; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -moz-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -webkit-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); position:absolute; width: 680px; right: 0; margin: 0 auto; z-index:1001; left:0px;}
+.add-user-popup { border:1px solid #ccc; background:#fff; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -moz-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); -webkit-box-shadow:0 1px 2px rgba(1, 1, 1, 0.1); position:absolute; width: 680px; right: 0; margin: 0 auto; z-index:999; left:0px;}
 
    @media (max-width: 750px){
       .add-user-popup { width: 290px;}
       .add-user-list-of-categories { display: none !important;}
       .add-user-popup .media .media-body p {display: none;}
-      .add-user-popup .media .media-body .occupation {display: block;}
+      .add-user-popup .media .media-body .occupation {display: block; overflow: hidden; text-overflow: ellipsis;}
    }
 
    .add-user-popup-top-arrow { position: absolute; top: 0;}

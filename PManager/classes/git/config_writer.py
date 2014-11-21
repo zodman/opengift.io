@@ -23,7 +23,7 @@ class ConfigWriter(object):
         users = User.objects.filter(pk__in=project.projectRoles.values('user_id'))
 
         user_names = []
-        if not users:
+        if not users or project.closed:
             output = output + " RW+ = id_rsa" + '\n'
             return output
         for user in users:
