@@ -1123,7 +1123,7 @@ class TaskWidgetManager:
         else:
             res = TaskWidgetManager.getUsersThatUserHaveAccess(user, None)
 
-        return res.order_by('name')
+        return res.order_by('first_name')
 
     @staticmethod
     def getResponsibleList(user, project):
