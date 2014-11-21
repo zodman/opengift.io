@@ -1607,7 +1607,11 @@ def update_git(sender, instance, **kwargs):
 def rewrite_git_access(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
-    project = None
+    try:
+        project = instance.project
+    except PM_Project.DoesNotExist:
+        return
+
     if isinstance(instance.project, PM_Project):
         project = instance.project
     else:
