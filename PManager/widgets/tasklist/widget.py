@@ -367,7 +367,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     resps = widgetManager.getResponsibleList(cur_user, project)
     aResps = []
     for resp in resps:
-        histasksQty = resp.hisTasks.filter(active=True, closed=False).count()
+        histasksQty = resp.todo.filter(active=True, closed=False).count()
         setattr(resp, 'openTasksQty', histasksQty)
         aResps.append(resp)
 
