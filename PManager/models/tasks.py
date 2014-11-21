@@ -1604,7 +1604,7 @@ def update_git(sender, instance, created, **kwargs):
                 GitoliteManager.regenerate_access(instance)
 
 
-def rewrite_git_access(sender, instance, created, **kwargs):
+def rewrite_git_access(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     project = None
