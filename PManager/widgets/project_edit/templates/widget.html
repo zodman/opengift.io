@@ -60,7 +60,7 @@
             <div class="col-xs-6">
                 <input type="text" name="repository" value="{% if project_edit.form.repository.value != None %}{{ project_edit.form.repository.value }}{% endif %}"
                         class="js-repository-value"
-                        {% if not project_edit.is_new and project_edit.form.repository.value %}disabled{% endif %}/>
+                        {% if not project_edit.is_new and project_edit.form.repository.value %}readonly{% endif %}/>
                 <i class="fa fa-icon"
                                                                          style="position: absolute;right: 25px;top: 10px;font-size: 16px;"></i>
             </div>
