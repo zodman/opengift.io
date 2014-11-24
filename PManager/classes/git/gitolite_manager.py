@@ -30,7 +30,7 @@ class GitoliteManager(object):
         return cls.repo.index
 
     @classmethod
-    def get_instance(cls):
+    def install_params(cls):
         cls.KEYDIR = 'keydir'
         cls.CONF_DIR = 'conf'
         cls.CONF_FILE = cls.CONF_DIR + '/gitolite.conf'
@@ -171,4 +171,4 @@ class GitoliteManager(object):
         return False
 
 if settings.USE_GIT_MODULE:
-    GitoliteManager.get_instance()
+    GitoliteManager.install_params()
