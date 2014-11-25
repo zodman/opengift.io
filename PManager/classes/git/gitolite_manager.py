@@ -18,16 +18,24 @@ __all__ = ['os', 'FileSystemStorage', 'ContentFile', 'ConfigWriter']
 
 
 class GitoliteManager(object):
-    KEYDIR = 'keydir'
-    CONF_DIR = 'conf'
-    CONF_FILE = CONF_DIR + '/gitolite.conf'
-    fs = FileSystemStorage(location=settings.GITOLITE_ADMIN_REPOSITORY)
-    repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
+    KEYDIR = ''
+    CONF_DIR = ''
+    CONF_FILE = ''
+    fs = {}
+    repo = {}
 
     # key management
     @classmethod
     def get_index(cls):
         return cls.repo.index
+
+    @classmethod
+    def install_params(cls):
+        cls.KEYDIR = 'keydir'
+        cls.CONF_DIR = 'conf'
+        cls.CONF_FILE = cls.CONF_DIR + '/gitolite.conf'
+        cls.fs = FileSystemStorage(location=settings.GITOLITE_ADMIN_REPOSITORY)
+        cls.repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 
     @classmethod
     def commit(cls, _index, message):
@@ -161,3 +169,6 @@ class GitoliteManager(object):
         if cls.is_success(message):
             return res
         return False
+
+if settings.USE_GIT_MODULE:
+    GitoliteManager.install_params()
