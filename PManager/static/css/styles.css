@@ -102,7 +102,7 @@ header .header >nav {float:left; width:60%; text-align:center; height:29px; line
 	header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus {background-color: #fff; color:#cd0000; text-decoration:none; }
 	header .header > nav > ul > li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:3px;}
 	
-	header .header .notifications {text-align:left;}
+	header .header .notifications .dropdown-menu {text-align:left;}
 	header .header .notifications .fa-spin, header .header .notifications .fa-spin + b {color:#800000;}
 	header .header > nav > ul > li.notifications > a:hover {color:#800000;}
 	header .header .notifications:hover .fa-spin, header .header .notifications:hover b, header .header .notifications.open .fa-spin, header .header .notifications.open b {color:#800000;}
@@ -179,12 +179,17 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 	header .header .logo img {max-width:100%; display:block;}
 	header .header > nav {width:100%; float:none; margin-top:40px; clear:both;}
 	header .header > nav:before {content:""; display:block; clear:both;}
+	
+		header .header > nav > ul {display:table; width:100%; margin:0px; padding:0px;}
+		header .header > nav > ul > li {display:table-cell; width:14.28%; text-align:center; margin:0px; padding:0px;}
+		header .header > nav > ul > li > a {display:inline-block; float: none; margin:0px; padding:0px;}
 }
 
 
 @media (max-width: 568px) {
 		header .header .timer-wrapper .user-menu a.user-name {display:none;}
 		.task-info .task-info-time {width:auto !important;}
+		
 }
 @media (max-width: 450px) {
 		header .header .timer-wrapper .timer .dropdown-menu.timer-popup {width:260px;}
