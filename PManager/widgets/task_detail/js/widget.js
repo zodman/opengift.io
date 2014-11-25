@@ -274,11 +274,11 @@ $(function(){
                     }
                 }
                 widget_td.$messageForm.find('[name=to]').val($(this).attr('rel'));
-
-                widget_td.quote($(this).closest('.js-taskMessage')
-                    .find('div.js-messageDetailText').eq(0)
-                    .find('blockquote').remove().end()
-                    .html().replace(new RegExp('&lt;','mig'), '<'));
+                widget_td.$messageForm.find('textarea').focus();
+//                widget_td.quote($(this).closest('.js-taskMessage')
+//                    .find('div.js-messageDetailText').eq(0)
+//                    .find('blockquote').remove().end()
+//                    .html().replace(new RegExp('&lt;','mig'), '<'));
                 return false;
             });
             widget_td.$userToSelect = $('.combobox').combobox();
