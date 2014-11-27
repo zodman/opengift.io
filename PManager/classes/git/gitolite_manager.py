@@ -18,16 +18,24 @@ __all__ = ['os', 'FileSystemStorage', 'ContentFile', 'ConfigWriter']
 
 
 class GitoliteManager(object):
-    KEYDIR = 'keydir'
-    CONF_DIR = 'conf'
-    CONF_FILE = CONF_DIR + '/gitolite.conf'
-    fs = FileSystemStorage(location=settings.GITOLITE_ADMIN_REPOSITORY)
-    repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
+    KEYDIR = ''
+    CONF_DIR = ''
+    CONF_FILE = ''
+    fs = {}
+    repo = {}
 
     # key management
     @classmethod
     def get_index(cls):
         return cls.repo.index
+
+    @classmethod
+    def install_params(cls):
+        cls.KEYDIR = 'keydir'
+        cls.CONF_DIR = 'conf'
+        cls.CONF_FILE = cls.CONF_DIR + '/gitolite.conf'
+        cls.fs = FileSystemStorage(location=settings.GITOLITE_ADMIN_REPOSITORY)
+        cls.repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 
     @classmethod
     def commit(cls, _index, message):
@@ -88,7 +96,8 @@ class GitoliteManager(object):
 
     @classmethod
     def repository_exists(cls, rep_name):
-        return os.path.isfile(settings.GITOLITE_ADMIN_REPOSITORY + GitoliteManager.get_project_conf_name(rep_name))
+        path = settings.GITOLITE_ADMIN_REPOSITORY + '/' + GitoliteManager.get_project_conf_name(rep_name)
+        return os.path.isfile(path)
 
     @classmethod
     def add_repo(cls, project, user):
@@ -117,12 +126,12 @@ class GitoliteManager(object):
     def remove_repo(cls, project):
         rep_name = project.repository
         project_config = cls.get_project_conf_name(rep_name)
-        project_config = cls.fs.delete(project_config)
+        cls.fs.delete(project_config)
         cls.update_main_config()
         index = cls.get_index()
         index.remove([project_config, ])
         index.add([cls.CONF_FILE, ])
-        message = "Removed repo %s for %s" % (rep_name, username)
+        message = "Removed repo %s for %s" % (rep_name, project.author)
         res = cls.commit(index, message)
         if cls.is_success(message):
             return res
@@ -160,3 +169,6 @@ class GitoliteManager(object):
         if cls.is_success(message):
             return res
         return False
+
+if settings.USE_GIT_MODULE:
+    GitoliteManager.install_params()

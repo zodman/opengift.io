@@ -21,7 +21,7 @@ from tracker.settings import COMISSION
 from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save, pre_delete, post_delete
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -1583,18 +1583,19 @@ def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
         prof.last_activity_date = datetime.datetime.now()
         prof.save()
 
-def remove_git(sender, instance, created, **kwargs):
+def remove_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     if USE_GIT_MODULE:
         if instance.repository and GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.remove_repo(instance)
 
-def update_git(sender, instance, created, **kwargs):
+
+def update_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.interfaces import AccessInterface
-    if(USE_GIT_MODULE):
+    if USE_GIT_MODULE:
         if instance.repository and not GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.add_repo(instance, instance.author)
             AccessInterface.create_git_interface(instance)
@@ -1602,15 +1603,18 @@ def update_git(sender, instance, created, **kwargs):
             if instance.repository:
                 GitoliteManager.regenerate_access(instance)
 
-def rewrite_git_access(sender, instance, created, **kwargs):
+
+def rewrite_git_access(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
-    project = PM_Project.objects.get(id=instance.project)
+    if not isinstance(instance.project, PM_Project):
+        return
+    project = instance.project
     if USE_GIT_MODULE and project and project.repository:
         GitoliteManager.regenerate_access(project)
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
-pre_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
+post_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_save.connect(update_git, sender=PM_Project)
 pre_delete.connect(remove_git, sender=PM_Project)
 post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)

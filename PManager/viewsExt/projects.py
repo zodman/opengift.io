@@ -96,6 +96,8 @@ def checkUniqRepNameResponder(request):
         return HttpResponse("OK")
     if not request.POST['repoName']:
         return HttpResponse("ERROR")
+    if request.POST['repoName'] == "gitolite-admin":
+        return HttpResponse("ERROR")
     proj = PM_Project.objects.filter(repository=request.POST['repoName'])
     if(proj):
         if not USE_GIT_MODULE:
