@@ -315,15 +315,12 @@
                                 {% endif %}
                             </span>
                             <div class="media-body">
-<<<<<<< HEAD
+
                                 <span class="user" onclick="document.location.href='/user_detail/?id={{ resp_user.id }}';event.stopPropagation();return false;" >{{ resp_user.first_name }} {{ resp_user.last_name }}</span>
                                 <span class="occupation">
                                     {% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}
                                     {% if resp_user.openTasksQty %} <b>({{ resp_user.openTasksQty }})</b>{% endif %}
                                 </span>
-=======
-                                <span class="user">{{ resp_user.first_name }} {{ resp_user.last_name }}</span>, <span class="occupation">{% for specialty in resp_user.get_profile.specialties.all %}{{ specialty.name }}{% endfor %}</span>
->>>>>>> 4e9cb2456631212b2b8ff90a69719bda42aee7ac
                                 <div class="progress">
                                     <div class="js-progress-success progress-bar progress-bar-success"></div>
                                 </div>
