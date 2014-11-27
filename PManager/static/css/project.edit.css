@@ -23,10 +23,10 @@
 	.add-user-popup .add-user-popup-footer .pull-right {text-align:right;}
 		.add-user-popup .add-user-popup-footer .pull-right .form-control {display:inline-block;}
 
-		.add-user-list-of-categories {background:#f9f9f9; border-right:1px solid #ccc; vertical-align:top;}
+		.add-user-list-of-categories {background:#f9f9f9; border-right:1px solid #ccc; vertical-align:top; height: 182px; float: left;}
 			.add-user-list-of-categories ul {list-style:none; padding:0px; margin:0px;}
 			.add-user-list-of-categories ul li a {color:#333; font-weight:bold; text-decoration:none; display:block; padding:10px 15px; border-bottom:1px solid #ddd;}
-			.add-user-list-of-categories ul li:last-child a {border:0;}
+			/*.add-user-list-of-categories ul li:last-child a {border:0;}*/
 			.add-user-list-of-categories ul li a:hover {background:#eee;}
 			.add-user-list-of-categories ul li a.active {background:#5cb85c; color:#fff; border-bottom:1px solid #4cae4c;}
 			.add-user-list-of-categories ul li a.active:hover {background:#4cae4c;}
@@ -38,7 +38,7 @@
       .add-user-list-of-users ul li.media .media-item img {width: 40px;}
 			.add-user-list-of-users ul li .media-item {color:#333; display:block; padding:10px 15px; margin:0px; height:auto; white-space:nowrap; overflow:hidden;}
 			.add-user-list-of-users ul li {border-bottom:1px solid #ddd;}
-      .add-user-list-of-users ul li:last-child {border:0;}
+         .add-user-list-of-users ul li:last-child {border:0;}
 			.add-user-list-of-users ul li .media-item p {margin-bottom:0px; display: none;}
 			.add-user-list-of-users ul li .media-item:hover {background:#edf8ed; text-decoration: none;}
 			.add-user-list-of-users ul li .media-item span.user {color:#47a447;}

@@ -582,7 +582,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 $('.js_task_responsibles .dropdown-menu').remove();
                 var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
                 
-                userList.appendTo('body').css({
+                userList.appendTo('.container.sub-menu').css({
                     'position': 'absolute',
                     'top': (position.top + position.height + 5)
                 });
