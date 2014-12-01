@@ -451,7 +451,7 @@ class PM_Task(models.Model):
                             elif userTaskHours > self.planTime:
                                 ob['rating'] = -5
                             else:
-                                ob['rating'] = 2
+                                ob['rating'] = 1
 
                         ob['time'] = userTaskHours
 
