@@ -18,14 +18,14 @@ class userHandlers:
         resps = widgetManager.getResponsibleList(request.user, None)
         if request.REQUEST.get('q'):
             q = request.REQUEST.get('q')
-            resps = resps.filter(Q(Q(firstname__contains=q) | Q(lastname__contains=q)))
+            resps = resps.filter(Q(Q(first_name__contains=q) | Q(last_name__contains=q)))
 
         aResps = []
         for resp in resps:
             p = resp.get_profile()
             resp = {
-                'firstname': resp.fistname,
-                'lastname': resp.fistname,
+                'first_name': resp.first_name,
+                'last_name': resp.last_name,
                 'avatar': p.avatarSrc,
                 'id': resp.id
             }
