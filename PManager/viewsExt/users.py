@@ -23,15 +23,15 @@ class userHandlers:
         aResps = []
         for resp in resps:
             p = resp.get_profile()
-            resp = {
+            respDict = {
                 'first_name': resp.first_name,
                 'last_name': resp.last_name,
                 'avatar': p.avatarSrc,
                 'id': resp.id
             }
             histasksQty = resp.todo.filter(active=True, closed=False).count()
-            resp['openTasksQty'] = histasksQty
-            aResps.append(resp)
+            respDict['openTasksQty'] = histasksQty
+            aResps.append(respDict)
         return HttpResponse(json.dumps(aResps))
 
     @staticmethod
