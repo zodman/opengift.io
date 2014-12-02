@@ -7,12 +7,38 @@ from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
 from PManager.models.users import PM_User
 from tracker.settings import USE_GIT_MODULE
+from PManager.viewsExt.tasks import TaskWidgetManager
+from django.db.models import Q
+import json
 
 class userHandlers:
     @staticmethod
+    def getMyTeam(request):
+        widgetManager = TaskWidgetManager()
+        resps = widgetManager.getResponsibleList(request.user, None)
+        if request.REQUEST.get('q'):
+            q = request.REQUEST.get('q')
+            resps = resps.filter(Q(Q(first_name__contains=q) | Q(last_name__contains=q)))
+
+        aResps = []
+        for resp in resps:
+            p = resp.get_profile()
+            resp = {
+                'first_name': resp.fist_name,
+                'last_name': resp.fist_name,
+                'avatar': p.avatarSrc,
+                'id': resp.id
+            }
+            histasksQty = resp.todo.filter(active=True, closed=False).count()
+            resp['openTasksQty'] = histasksQty
+            aResps.append(resp)
+        return HttpResponse(json.dumps(aResps))
+
+    @staticmethod
     def setUserOptions(request):
         action = request.POST['action']
-
+        if not request.user.is_authenticated():
+            return HttpResponse('')
 
         curUser = request.user
 
