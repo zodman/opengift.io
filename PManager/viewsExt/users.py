@@ -56,6 +56,8 @@ class userHandlers:
                             user.get_profile().setRole(p, role)
 
             return HttpResponse('ok')
+        elif action == 'getUsers':
+            return HttpResponse('ok')
 class usersActions:
     def set_user_roles(self):
         pass
