@@ -587,6 +587,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'top': (position.top + position.height + 5)
                 });
 
+
+
                 var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
                 var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
                 var arrowPos = linkRightPos - popupRightPos;
@@ -594,8 +596,19 @@ var CRITICALLY_THRESHOLD = 0.7;
 
                 var userItems = $('.add-user-list-of-users ul li span.user');
                 var userInput = $('.add-user-popup-header .form-control');
+                userInput.focus();
                 userInput.keyup(function(){
                     var inputVal = $(this).val();
+                    if (inputVal.length > 2) {
+                        $.ajax({
+                          type: "POST",
+                          data: {"action": "getUsers", "val":"inputVal"},
+                          url: 'users_ajax/',
+                          success: function(response){
+                            alert(response);
+                          }
+                        }); 
+                    };
                     userItems.each(function(){
                         $(this).parents('.media').hide();
                         var userItemVal = $(this).text();
