@@ -196,6 +196,23 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 		header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn {width:100%; margin-right:0; margin-bottom:5px;}
 }
 
+/* ПОПАП ВЫБОРА ПРОЕКТОВ */
+.find-a-project {position:relative;} 
+			.find-a-project-button {position:absolute; top:8px; right:10px; z-index:1; padding:0px; margin:0px; display:inline-block; background:none; border:none; cursor:pointer;}
+			.find-a-project .fa-search {font-size:16px; color:#999;}
+		.close-icon {color:#999; font-size:20px; position:absolute; top:15px; right:15px; cursor:pointer;}
+		.close-icon:hover {color:#47a447;}
+		.projects-popup h3 {}
+		.projects-popup {width:976px !important; padding:15px 23px !important;}
+			.projects-list {overflow:hidden; overflow-y:auto; max-height:366px; display:block; padding:3px; margin:0 -3px;}
+				.projects-list > div:last-child {border:0px; box-shadow:0 0 0 #fff; -moz-box-shadow:0 0 0 #fff; -webkit-box-shadow:0 0 0 #fff;}
+				.projects-item {padding:15px; float:left; width:310px; height:120px; overflow:hidden; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+					.projects-item:hover, .projects-item.active {background:#fff; -webkit-transition: all 0.1s linear; -o-transition: all 0.1s linear; -moz-transition: all 0.1s linear;  -ms-transition: all 0.1s linear; -kthtml-transition: all 0.1s linear; transition: all 0.1s linear;}
+					.projects-list-img {float:left; margin-right:15px; width:116px;}
+					.projects-list-text {float:left; width:149px;}
+					.projects-list-text h4 {margin:0px 0px 10px; font-size:16px; font-weight:bold; max-height:40px; overflow:hidden; display:block;}
+					.projects-list-text h4 a {color:#47a447;}
+
 /*
 header {background:#fff; box-shadow:0px 0px 15px #ccc; margin-bottom:15px; border: 0px; }
 header .navbar-right { float: right; }

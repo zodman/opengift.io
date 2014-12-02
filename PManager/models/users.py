@@ -275,7 +275,7 @@ class PM_User(models.Model):
     class Meta:
         app_label = 'PManager'
 
-def remove_keys(sender, instance, created, **kwargs):
+def remove_keys(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.keys import Key
