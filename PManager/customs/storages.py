@@ -18,12 +18,12 @@ def path_and_rename(path, pSubdir=False):
 
         ext = filename.split('.')[-1]
         # get filename
-        if not isPasted:
-            if instance.pk:
-                filename = '{}.{}'.format(instance.pk, ext)
-            else:
-                # set filename as random string
-                filename = '{}.{}'.format(uuid4().hex, ext)
+        # if not isPasted:
+        if instance.pk:
+            filename = '{}.{}'.format(instance.pk, ext)
+        else:
+            # set filename as random string
+            filename = '{}.{}'.format(uuid4().hex, ext)
         # return the whole path to the file
         return os.path.join(path, filename)
     return wrapper

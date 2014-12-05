@@ -42,6 +42,7 @@
 			.add-user-list-of-users ul li .media-item p {margin-bottom:0px; display: none;}
 			.add-user-list-of-users ul li .media-item:hover {background:#edf8ed; text-decoration: none;}
 			.add-user-list-of-users ul li .media-item span.user {color:#47a447;}
+			.add-user-list-of-users ul li .media-item span.user:hover {text-decoration: underline;}
          .add-user-list-of-users ul li .media-item .avatar_container {width: 40px;}
 
 

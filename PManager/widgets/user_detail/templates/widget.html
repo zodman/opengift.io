@@ -136,7 +136,7 @@
                                 <hr />
                                 {% endif %}
                                 <h4>Набрал баллов</h4>
-                                <p>Бонус: {% if user_detail.profile.rating < 0 %}<span style="color: red"> -{% else %}<span style="color:green"> +{% endif %}
+                                <p>Бонус: {% if user_detail.profile.rating < 0 %}<span style="color: red"> {% else %}<span style="color:green"> +{% endif %}
                                 {% if user_detail.profile.rating %}
                                 {{ user_detail.profile.rating }}
                                 {% else %}
@@ -154,7 +154,9 @@
                                         <a data-toggle="dropdown" href="javascript:void(0);">{{ user_detail.profile.sp.summ }}</a>
                                         <ul class="dropdown-menu">
                                             {% for arBet in user_detail.bets %}
-                                            <li>{{ arBet.project }} —  <b>{{ arBet.price }} руб. ({{ arBet.bet }} руб./ч.)</b></li>
+                                                {% if arBet.price %}
+                                                <li>{{ arBet.project }} —  <b>{{ arBet.price }} руб. ({{ arBet.bet }} руб./ч.)</b></li>
+                                                {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </span>

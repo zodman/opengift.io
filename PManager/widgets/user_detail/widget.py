@@ -114,8 +114,13 @@ def widget(request, headerValues, ar, qargs):
                         ' WHERE `user_id`=' + str(int(user.id)) +
                         ' AND `project_id`=' + str(int(project.id))
                     ):
-
-                    projPrice += o.summ if o.summ else 0
+                    p = Payment.objects.raw(
+                        'SELECT SUM(`value`) as summ, id from PManager_payment' +
+                        ' WHERE `user_id`=' + str(int(user.id)) +
+                        ' AND `project_id`=' + str(int(project.id))
+                    )
+                    p = p[0].summ if p and p[0] and p[0].summ else 0
+                    projPrice += o.summ - p if o.summ else 0
 
                 # rest += projPrice
 

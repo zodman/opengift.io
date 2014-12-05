@@ -451,7 +451,7 @@ class PM_Task(models.Model):
                             elif userTaskHours > self.planTime:
                                 ob['rating'] = -5
                             else:
-                                ob['rating'] = 2
+                                ob['rating'] = 1
 
                         ob['time'] = userTaskHours
 
@@ -1607,9 +1607,19 @@ def update_git(sender, instance, **kwargs):
 def rewrite_git_access(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
-    if not isinstance(instance.project, PM_Project):
+    try:
+        project = instance.project
+    except PM_Project.DoesNotExist:
         return
-    project = instance.project
+
+    if isinstance(instance.project, PM_Project):
+        project = instance.project
+    else:
+        try:
+            project = PM_Project.objects.get(pk=int(instance.project))
+        except Exception:
+            pass
+
     if USE_GIT_MODULE and project and project.repository:
         GitoliteManager.regenerate_access(project)
 
