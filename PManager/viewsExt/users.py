@@ -18,7 +18,7 @@ class userHandlers:
         resps = widgetManager.getResponsibleList(request.user, None)
         if request.REQUEST.get('q'):
             q = request.REQUEST.get('q')
-            resps = resps.filter(Q(Q(first_name__contains=q) | Q(last_name__contains=q)))
+            resps = resps.filter(Q(Q(first_name__iexact=q) | Q(last_name__iexact=q)))
 
         aResps = []
         for resp in resps:
