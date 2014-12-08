@@ -1,4 +1,7 @@
 # -*- coding:utf-8 -*-
+import base64
+import struct
+
 __author__ = 'Tonakai'
 import os
 import os.path
@@ -42,6 +45,19 @@ class GitoliteManager(object):
         _index.commit(message)
         cls.repo.remotes.origin.push()
         return True
+
+    @classmethod
+    def check_key(cls, data):
+        try:
+            tp, key_string, comment = data.split()
+            key_data = base64.decodestring(key_string)
+            int_len = 4
+            str_len = struct.unpack('>I', key_data[:int_len])[0]
+            result = key_data[int_len:int_len+str_len] == tp
+        except ValueError:
+            return False
+        else:
+            return result
 
     @classmethod
     def add_key_to_user(cls, user, name, data):
