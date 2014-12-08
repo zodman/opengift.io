@@ -27,6 +27,7 @@ class userHandlers:
                 'first_name': resp.first_name,
                 'last_name': resp.last_name,
                 'avatar': p.avatarSrc,
+                'rel': p.avatarParams,
                 'id': resp.id
             }
             histasksQty = resp.todo.filter(active=True, closed=False).count()
@@ -83,7 +84,7 @@ class userHandlers:
 
             return HttpResponse('ok')
         elif action == 'getUsers':
-            return HttpResponse('ok')
+            return HttpResponse(userHandlers.getMyTeam(request))
 class usersActions:
     def set_user_roles(self):
         pass

@@ -602,12 +602,66 @@ var CRITICALLY_THRESHOLD = 0.7;
                     if (inputVal.length > 2) {
                         $.ajax({
                           type: "POST",
-                          data: {"action": "getUsers", "val":"inputVal"},
-                          url: 'users_ajax/',
+                          data: {"action": "getUsers", "q":inputVal},
+                          url: '/users_ajax/',
                           success: function(response){
-                            alert(response);
+                            var data = $.parseJSON(response);
+                            var mediaItems = [];
+                            $('.add-user-list-of-users .media-item').each(function(indx){
+                              mediaItems.push($(this).attr('rel'));
+                            });
+                            function in_array(value, array) {
+                                for(var i = 0; i < array.length; i++) {
+                                    if(array[i] == value) return true;
+                                }
+                                return false;
+                            }
+                            for (var i in data){
+                                if (data[i].avatar) {
+                                    var avatar_type = '<img class="media-object" src="' + data[i].avatar + '" alt="' + data[i].first_name + ' ' + data[i].last_name + '" height="40">';
+                                } else {
+                                    var avatar_type = '<div class="avatar_container" rel='+ JSON.stringify(data[i].rel) + '></div>';
+                                }
+                                if (!in_array(data[i].id,mediaItems)) {
+                                    $('.add-user-list-of-users ul').append('<li class="media ajaxAppend" style="display: list-item;">' +
+                                    '<a class="media-item" rel="' + data[i].id + '">' +
+                                    '<span class="pull-left">' +
+                                    avatar_type +
+                                    '</span>' +
+                                    '<div class="media-body">' +
+                                    '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
+                                    '<span class="occupation"></span>' +
+                                    '<div class="progress">' +
+                                    '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
+                                    '</div>' +
+                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
+                                    '</div>' +
+                                    '</a>' +
+                                    '</li>');                                
+                                }
+                            }
+                            userList.find('a').each(function () {
+                                $(this).click(function () {
+                                    obj.changeResponsible($(this).attr('rel'));
+                                    $(this).closest('.add-user-popup.dropdown-menu.responsibles').remove();
+                                    userInput.val("");
+                                    $('.add-user-list-of-users ul .media').show()
+                                    $('.ajaxAppend').remove();
+                                    return false;
+                                });
+                            }).end();
+                            $('.avatar_container').each(function(index,el){
+                                if ($(el).html() == '') {
+                                    var params = $(el).attr('rel');
+                                    if (params.length > 0) {
+                                        $(el).append($.createAvatar(JSON.parse(params)));
+                                    };
+                                };
+                            })
                           }
                         }); 
+                    } else {
+                        $('.ajaxAppend').remove();
                     };
                     userItems.each(function(){
                         $(this).parents('.media').hide();
@@ -624,12 +678,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                         $(this).remove();
                         userInput.val("");
                         $('.add-user-list-of-users ul .media').show()
+                        $('.ajaxAppend').remove();
                     })
                 }, 10);
             } else {
                 $('.add-user-popup.dropdown-menu.responsibles.clone').remove();
                 $('.add-user-popup-header .form-control').val("");
-                $('.add-user-list-of-users ul .media').show()
+                $('.add-user-list-of-users ul .media').show();
+                $('.ajaxAppend').remove();
             }
             return false;
         },

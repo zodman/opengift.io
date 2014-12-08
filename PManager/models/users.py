@@ -78,7 +78,8 @@ class PM_User(models.Model):
     @property
     def avatarSrc(self):
         return str(self.avatar).replace('PManager', '')
-
+    
+    @property
     def avatarParams(self):
         return {
             'id':self.user.id,
