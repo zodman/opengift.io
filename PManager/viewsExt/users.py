@@ -16,8 +16,8 @@ class userHandlers:
     def getMyTeam(request):
         widgetManager = TaskWidgetManager()
         resps = widgetManager.getResponsibleList(request.user, None)
-        if request.REQUEST.get('q'):
-            q = request.REQUEST.get('q')
+        if request.POST.get('q'):
+            q = request.POST.get('q')
             resps = resps.filter(Q(Q(first_name__iexact=q) | Q(last_name__iexact=q)))
 
         aResps = []
@@ -33,6 +33,7 @@ class userHandlers:
             histasksQty = resp.todo.filter(active=True, closed=False).count()
             respDict['openTasksQty'] = histasksQty
             aResps.append(respDict)
+
         return HttpResponse(json.dumps(aResps))
 
     @staticmethod
