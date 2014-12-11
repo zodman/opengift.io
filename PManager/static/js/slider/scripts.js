@@ -11,7 +11,7 @@ $(document).ready(function(){
 					    pager:false,
 						auto:true,
 						controls:false,
-						pause:6000,
+						pause:8000,
 						speed:1500,
 						mode: "horizontal"
 					  });
