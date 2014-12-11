@@ -84,7 +84,7 @@ class userHandlers:
 
             return HttpResponse('ok')
         elif action == 'getUsers':
-            return HttpResponse(userHandlers.getMyTeam(request))
+            return userHandlers.getMyTeam(request)
 class usersActions:
     def set_user_roles(self):
         pass
