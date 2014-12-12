@@ -20,4 +20,3 @@ project_root = '/vagrant/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'
 GITOLITE_ACCESS_URL = 'vagrant@heliard.dev'
-GIT_PUSH_MESSAGE = u'Автоматически остановлено при коммите в репозиторий'

@@ -16,8 +16,6 @@ then
 		RESULT=`cd ${ROOT_DIR} && python ${ROOT_DIR}/manage.py warden --commits ${GL_USER} ${REPOSITORY_BASENAME} ${refname} ${REVISION_LIST}`
 		echo ${RESULT}
 	done
-	RESULT=`cd ${ROOT_DIR} && python ${ROOT_DIR}/manage.py warden --close_task ${GL_USER} ${REPOSITORY_BASENAME}`
-	echo ${RESULT}
 else
 	echo 'ERROR:active tasks not found, skipping message creation'
 fi

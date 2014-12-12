@@ -19,15 +19,6 @@ class Warden(object):
         if self.user is None or self.project is None:
             raise AssertionError("Cant use empty user or project")
 
-    def close_task(self):
-        if self.is_task() == 'true' and self.timer:
-            logger.info(u'Set ready at active task {0:s} for user {1:s}'.format(self.timer.task, self.user))
-            self.timer.task.endTimer(user=self.user, comment=GIT_PUSH_MESSAGE)
-            self.timer.task.setStatus(status='ready')
-            return 'true'
-        logger.info(u'Active task not found for user {0:s}'.format(self.user))
-        return 'false'
-
     def is_task(self):
         try:
             timer = PM_Timer.objects.get(user=self.user, dateEnd__isnull=True)
@@ -41,7 +32,6 @@ class Warden(object):
         return 'false'
 
     def write_message(self, ref, hashes):
-
         pass
 
     @staticmethod

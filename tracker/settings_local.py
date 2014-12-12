@@ -13,4 +13,3 @@ project_root = 'D:/Home/tracker/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = 'D:/Home/heliard/gitolite-admin'
 GITOLITE_ACCESS_URL = 'heliard@heliard.dev'
-GIT_PUSH_MESSAGE = u'Автоматически остановлено при коммите в репозиторий'

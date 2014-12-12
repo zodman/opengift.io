@@ -16,8 +16,6 @@ class Command(BaseCommand):
     option_list = BaseCommand.option_list + (
         make_option('--commits', action='store_true', dest='commits', help='Write commits to the message board'),
         make_option('--check', action='store_true', dest='check', help='Check for active task running'),
-        make_option('--close_task', action='store_true', dest='close_task',
-                    help='Close active task'),
     )
 
     def handle(self, *args, **options):
@@ -31,8 +29,6 @@ class Command(BaseCommand):
             return self.__check_active_tasks()
         if options['commits']:
             return self.__commits(args)
-        if options['close_task']:
-            return self.__close_task()
 
     def __get_user_and_repo(self, args):
         if len(args) < 2:
@@ -64,8 +60,5 @@ class Command(BaseCommand):
         print u'Commits hashes: {0:s}'.format(hashes)
         return self.warden.write_message(hashes=hashes, ref=ref)
 
-    def __close_task(self):
-        print u'Closing task for user:{0:s} at project:{1:s}'.format(self.warden.user, self.warden.project)
-        return self.warden.close_task()
 
 

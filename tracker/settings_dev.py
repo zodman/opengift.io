@@ -21,4 +21,3 @@ project_root = '/home/heliard/heliard/'
 USE_GIT_MODULE = True
 GITOLITE_ACCESS_URL = 'heliard@heliard.topnotchstudios.ru'
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
-GIT_PUSH_MESSAGE = u'Автоматически остановлено при коммите в репозиторий'
