@@ -385,6 +385,7 @@ $(function(){
                 <li class="projects-list-menu">
                     <div class="dropdown">
                         <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
+                        {% if projects|length <= 4 %}
                         <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
                             <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">
                                 <a href="{% if is_detail_page %}/{% endif %}?project=0">Все проекты</a>
@@ -398,6 +399,7 @@ $(function(){
                             </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ currentProject.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
