@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,3 +19,4 @@ project_root = '/home/heliard/heliard/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
+GIT_PUSH_MESSAGE = u'Автоматически остановлено при коммите в репозиторий'

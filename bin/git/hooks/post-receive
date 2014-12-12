@@ -1,0 +1,23 @@
+#!/bin/sh
+ROOT_DIR='/vagrant'
+if [ $(git rev-parse --is-bare-repository) = true ]
+then
+	REPOSITORY_BASENAME=$(basename "$PWD")
+	REPOSITORY_BASENAME=${REPOSITORY_BASENAME%.git}
+else
+	REPOSITORY_BASENAME=$(basename $(readlink -nf "$PWD"/..))
+fi
+CHECK=`cd ${ROOT_DIR} && python ${ROOT_DIR}/manage.py warden --check ${GL_USER} ${REPOSITORY_BASENAME}`
+if [ ${CHECK} = true ]
+then
+	while read oldhash newhash refname
+	do
+		REVISION_LIST=`git rev-list ${oldhash}..${newhash} --no-merges`
+		RESULT=`cd ${ROOT_DIR} && python ${ROOT_DIR}/manage.py warden --commits ${GL_USER} ${REPOSITORY_BASENAME} ${refname} ${REVISION_LIST}`
+		echo ${RESULT}
+	done
+	RESULT=`cd ${ROOT_DIR} && python ${ROOT_DIR}/manage.py warden --close_task ${GL_USER} ${REPOSITORY_BASENAME}`
+	echo ${RESULT}
+else
+	echo 'ERROR:active tasks not found, skipping message creation'
+fi

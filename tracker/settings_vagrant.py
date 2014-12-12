@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Tonakai'
 DEBUG = True
 # from databases.database import DATABASES
@@ -16,6 +17,7 @@ SESSION_COOKIE_DOMAIN = 'heliard.dev'
 SOCKET_SERVER_ADDRESS = 'localhost'
 project_root = '/vagrant/'
 # GIT MODULE SETTINGS
-USE_GIT_MODULE = False
+USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'
 GITOLITE_ACCESS_URL = 'vagrant@heliard.dev'
+GIT_PUSH_MESSAGE = u'Автоматически остановлено при коммите в репозиторий'
