@@ -1,4 +1,4 @@
-{% load sekizai_tags i18n wiki_tags jsonify less %}{% load url from future %}
+{% load thumbnail sekizai_tags i18n wiki_tags jsonify less %}{% load url from future %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -210,7 +210,7 @@ $(function(){
             {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
-             	<img src="{% if project.imagePath %}{{ project.imagePath }}{% else %}/static/img/no-photo.png{% endif %}">
+             	<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}">
               	</div>
               	<div class="projects-list-text">
                 <h4>
