@@ -52,8 +52,12 @@ def taskListAjax(request):
             task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
             if task.parentTask:
                 task.parentTask.observers.add(task.resp)
+
+            rProf = task.resp.get_profile()
+            if not rProf.hasRole(task.project):
+                rProf.setRole('employee', task.project)
             #outsource
-            if not task.resp.is_staff or task.resp.get_profile().getBet(task.project) <= 0: #if finance relationship
+            if not task.resp.is_staff or rProf.getBet(task.project) <= 0: #if finance relationship
                 task.setStatus('not_approved')
             else:
                 task.setStatus('revision')
