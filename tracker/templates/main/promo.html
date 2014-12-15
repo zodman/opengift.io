@@ -104,7 +104,7 @@
             })
         })(jQuery);
     </script>
-    
+
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -128,8 +128,8 @@
     </header>
     <div class="head_slider">
         <ul id="head_slider">
-            <li><div class="head_slide1"></div></li>
-            <li><div class="head_slide2"></div></li>
+            <li><div class="head_slide1 slide_height"></div></li>
+            <li><div class="head_slide2 slide_height"></div></li>
         </ul>
     </div>
     <div class="header-img">
@@ -148,6 +148,17 @@
             <div class="header-button-right"><input type="button" value="Создать проект" class="big-button js-register"></div>
         </div>
     </div>
+    <script type="text/javascript">
+        var hederImg = $('.header-img').outerHeight();
+        var slideHeight = $('.slide_height').outerHeight();
+        if (hederImg !== slideHeight) {
+            $('.slide_height').css('height',hederImg);
+        };
+        window.onresize = function(){
+            var hederImg = $('.header-img').outerHeight();
+            $('.slide_height').css('height',hederImg);
+        }
+    </script>
     <section class="services clearfix">
         <h1 style="text-align: center;"><span style="color: #c00f00">Heliard</span> - Это система, позволяющая вам разработать сайт любой сложности, не отходя от компьютера.</h1>
         <h1 style="text-align: center;font-weight: bold;"><span style="color: #c00f00">Как</span> это <span style="color: #c00f00">работает</span>?</h1>
