@@ -10,7 +10,7 @@ class trackMorphy():
     allowWordClasses = [u'С',u'ИНФИНИТИВ',u'Г',u'П']
 
     #parse text and returns array of tags
-    def parseTags(self,text=u''):
+    def parseTags(self, text=u''):
         if text:
             self.text = text
 
@@ -18,16 +18,16 @@ class trackMorphy():
         if len(self.text)>0:
             for word in tokenizers.extract_words(self.text):
                 gramInfo = morph.get_graminfo(unicode(word).upper())
-                if len(gramInfo)>2 and len(gramInfo) < 90:
+                if len(gramInfo)>0:
                     gramInfo = gramInfo[0]
 
                     if gramInfo['class'] in self.allowWordClasses:
                         normolizeWord = gramInfo.get("norm", u'')
-
-                        if normolizeWord in tags:
-                            tags[normolizeWord]['weight'] += 1
-                        else:
-                            gramInfo['weight'] = 1
-                            tags[normolizeWord] = gramInfo
+                        if len(normolizeWord) > 2 and len(normolizeWord) < 50:
+                            if normolizeWord in tags:
+                                tags[normolizeWord]['weight'] += 1
+                            else:
+                                gramInfo['weight'] = 1
+                                tags[normolizeWord] = gramInfo
 
         return tags

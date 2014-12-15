@@ -16,9 +16,9 @@ class userHandlers:
     def getMyTeam(request):
         widgetManager = TaskWidgetManager()
         resps = widgetManager.getResponsibleList(request.user, None)
-        if request.REQUEST.get('q'):
-            q = request.REQUEST.get('q')
-            resps = resps.filter(Q(Q(first_name__contains=q) | Q(last_name__contains=q)))
+        if request.POST.get('q'):
+            q = request.POST.get('q')
+            resps = resps.filter(Q(Q(first_name__icontains=q) | Q(last_name__icontains=q)))
 
         aResps = []
         for resp in resps:
@@ -33,6 +33,7 @@ class userHandlers:
             histasksQty = resp.todo.filter(active=True, closed=False).count()
             respDict['openTasksQty'] = histasksQty
             aResps.append(respDict)
+
         return HttpResponse(json.dumps(aResps))
 
     @staticmethod
@@ -84,7 +85,7 @@ class userHandlers:
 
             return HttpResponse('ok')
         elif action == 'getUsers':
-            return HttpResponse(userHandlers.getMyTeam(request))
+            return userHandlers.getMyTeam(request)
 class usersActions:
     def set_user_roles(self):
         pass

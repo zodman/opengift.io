@@ -1,4 +1,4 @@
-{% load sekizai_tags i18n wiki_tags jsonify less %}{% load url from future %}
+{% load thumbnail sekizai_tags i18n wiki_tags jsonify less %}{% load url from future %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -179,10 +179,10 @@ $(function(){
 {% endif %}
 <header>
 
-    <!--НАЧАЛО ПОПАПА ВЫБОРА ПРОЕКТОВ
-	<div class="overflow"></div>
-    <div class="popup projects-popup">
-    	<span class="close-icon"><i class="fa fa-times"></i></span>
+    {% if projects|length > 4 %}
+    <div class="overflow" style="display: none;"></div>
+    <div class="popup projects-popup js-projects" style="display: none;">
+    	<span class="close-icon"><i class="fa fa-times" onclick="$('.overflow, .js-projects').hide()"></i></span>
         <h3 class="text-center">Ваши проекты</h3>
         <hr>
         <div class="form-group find-a-project">
@@ -195,145 +195,38 @@ $(function(){
         <div class="clearfix"></div>
         
         <div class="projects-list">
-        	<div class="projects-item clearfix">
+            <div class="projects-item clearfix">
             	<div class="projects-list-img">
              	<img src="/static/img/no-photo.png">
               	</div>
               	<div class="projects-list-text">
-                <h4><a href="#">Посадочная страница Свадебные платья</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
+                <h4>
+                    <a href="{% if is_detail_page %}/{% endif %}?project=0">
+                                    Все проекты
+                    </a>
+                </h4>
                 </div>
         	</div>
+            {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
+             	<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}">
               	</div>
               	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
+                <h4>
+                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
+                                    {{ project.name }}
+                    </a>
+                </h4>
+                {% if project.tasksQty %}Открытых задач: <b>{{ project.tasksQty }}</b>{% endif %}
+                {% if project.readyTaskQty %}На проверке: <b>{{ project.readyTaskQty }}</b>{% endif %}
                 </div>
         	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Посадочная страница Свадебные платья</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Посадочная страница Свадебные платья</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Посадочная страница Свадебные платья</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Посадочная страница Свадебные платья</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
-        	<div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-                <h4><a href="#">Интернет-магазин текстиля для дома</a></h4>
-                Открытых задач: <b>1</b><br>Задачи на проверке: <b>2</b>
-                </div>
-        	</div>
+            {% endfor %}
         </div>
 
     </div>
-    <!--КОНЕЦ ПОПАПА ВЫБОРА ПРОЕКТОВ-->
+    {% endif %}
     <div class="header clearfix">
         <div class="logo">
             <a href="/">
@@ -491,7 +384,8 @@ $(function(){
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
                     <div class="dropdown">
-                        <button type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
+                        <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
+                        {% if projects|length <= 4 %}
                         <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
                             <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">
                                 <a href="{% if is_detail_page %}/{% endif %}?project=0">Все проекты</a>
@@ -505,6 +399,7 @@ $(function(){
                             </li>
                             {% endfor %}
                         </ul>
+                        {% endif %}
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ currentProject.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
