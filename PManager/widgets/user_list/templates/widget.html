@@ -61,11 +61,11 @@ $(function() {
                                     </a>
                                 </td>
                                 <td class="about-user">
-                                    <a href="mailto:{{ user.email }}"><i
-                                            class="fa fa-envelope"></i>&nbsp;&nbsp;{{ user.email }}</a>
-                                    {% if user.icq %}<br/>{{ user.icq }}<br/>{% endif %}
-                                    {% if user.skype %}<a href="skype:{{ user.skype }}?call">{{ user.skype }}
-                                        </a>{% endif %}
+{#                                    <a href="mailto:{{ user.email }}"><i#}
+{#                                            class="fa fa-envelope"></i>&nbsp;&nbsp;{{ user.email }}</a>#}
+{#                                    {% if user.icq %}<br/>{{ user.icq }}<br/>{% endif %}#}
+{#                                    {% if user.skype %}<a href="skype:{{ user.skype }}?call">{{ user.skype }}#}
+{#                                        </a>{% endif %}#}
                                     <hr/>
                                     Закрыто задач за месяц: <b>{{ user.tasksQty }} ({{ user.tasksEffective }})</b>
                                     {% if user.last_login %}<br />Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}{% endif %}

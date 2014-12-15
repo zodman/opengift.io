@@ -73,11 +73,11 @@
 
             <div class="user-contacts pull-left">
                 <ul>
-                    {% if user_detail.user.email %}
-                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>
-                    {% else %}
-                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>
-                    {% endif %}
+{#                    {% if user_detail.user.email %}#}
+{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
+{#                    {% else %}#}
+{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
+{#                    {% endif %}#}
                     {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
                     {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
                 </ul>
