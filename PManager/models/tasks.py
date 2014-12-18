@@ -507,23 +507,23 @@ class PM_Task(models.Model):
                 clientProf.save()
             break
 
-        #managers pay (only observers without clients and responsibles)
-        managers = userRoles.filter(
-            role__code='manager',
-            user__in=self.observers.all()
-        ).exclude(user__in=aClientsAndResponsibles)
+        if type == 'plan_time':
+            #managers pay (only observers without clients and responsibles)
+            managers = userRoles.filter(
+                role__code='manager',
+                user__in=self.observers.all()
+            ).exclude(user__in=aClientsAndResponsibles)
 
-        for manager in managers:
-            price = manager.user.get_profile().getBet(self.project) * float(time)
-            if price:
-                credit = Credit(
-                    user=manager.user,
-                    value=price,
-                    project=self.project,
-                    task=self
-                )
-                credit.save()
-                break
+            for manager in managers:
+                price = manager.user.get_profile().getBet(self.project) * float(time)
+                if price:
+                    credit = Credit(
+                        user=manager.user,
+                        value=price,
+                        project=self.project,
+                        task=self
+                    )
+                    credit.save()
 
     def Open(self):
         self.closed = False
