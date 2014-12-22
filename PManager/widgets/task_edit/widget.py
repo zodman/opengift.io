@@ -29,6 +29,7 @@ def widget(request, headerValues, ar, qargs):
         arSaveFields = {
             'name': name,
             'text': post.get('description', ''),
+            'repeatEvery': post.get('repeatEvery', 0),
             'deadline': deadline,
             'critically': float(post.get('critically', 0)) if post.get('critically', 0) else 0.5,
             'hardness': float(post.get('hardness', 0)) if post.get('hardness', 0) else 0.5,
