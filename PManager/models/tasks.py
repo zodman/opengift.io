@@ -361,6 +361,8 @@ class PM_Task(models.Model):
     viewedUsers = models.ManyToManyField(User, null=True, blank=True)
 
     files = models.ManyToManyField(PM_Files, related_name="fileTasks", null=True, blank=True)
+    repeatEvery = models.IntegerField(verbose_name=u'Повторите', blank=True, null=True)
+
     currentTimer = False
     startedTimerExist = False
 
