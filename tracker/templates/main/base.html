@@ -200,7 +200,7 @@ $(function(){
              	<img src="/static/img/no-photo.png">
               	</div>
               	<div class="projects-list-text">
-                <span class="projects-list-control"><a class="fa fa-cog"></a><a class="fa fa-pencil"></a></span>
+
                 <h4>
                     <a href="{% if is_detail_page %}/{% endif %}?project=0">
                                     Все проекты
@@ -214,6 +214,10 @@ $(function(){
              	<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}">
               	</div>
               	<div class="projects-list-text">
+                <span class="projects-list-control">
+                    <a class="fa fa-cog" href="/project/{{ project.id }}/"></a>
+                    <a class="fa fa-pencil" href="/project/edit/?id={{ project.id }}"></a>
+                </span>
                 <h4>
                     <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
                                     {{ project.name }}
@@ -351,22 +355,7 @@ $(function(){
     <div class="row sub-menu_line">
         {% if user.is_authenticated %}
         <div class="sub-menu_line_section-user col-xs-8">
-            <!--<ul class="list-inline">
-                {% if main.CURRENT_PROJECT.id %}
-                <li>
-                    <a href="/new_task_wizard/" class="new_task js-taskWizard-opener bold">Создать задачу</a>
-                </li>
-                {% endif %}
-                {% if is_staff %}
-                <li>
-                    <a href="/static/invite_info.html?10" class="js-main-fnc users-and-groups">Пригласить специалистов</a>
-                </li>
-                {% endif %}
-                <li><a href="/user_list/" class="users-and-groups">Пользователи</a></li>
-                {% if main.CURRENT_PROJECT.id %}
-                <li><a href="/files/" class="files">Файлы</a></li>
-                {% endif %}
-            </ul>-->
+
              {% if main.CURRENT_PROJECT.id %}
               <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
