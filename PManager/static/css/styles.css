@@ -206,13 +206,14 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 		.projects-popup {width:976px !important; padding:15px 23px !important;}
 			.projects-list {overflow:hidden; overflow-y:auto; max-height:366px; display:block; padding:3px; margin:0 -3px;}
 				.projects-list > div:last-child {border:0px; box-shadow:0 0 0 #fff; -moz-box-shadow:0 0 0 #fff; -webkit-box-shadow:0 0 0 #fff;}
-				.projects-item {padding:15px; float:left; width:310px; height:120px; overflow:hidden; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
+				.projects-item {display: table; float: left; height: 120px; overflow: hidden; padding: 15px; width: 33.33%; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 					.projects-item:hover, .projects-item.active {background:#fff; -webkit-transition: all 0.1s linear; -o-transition: all 0.1s linear; -moz-transition: all 0.1s linear;  -ms-transition: all 0.1s linear; -kthtml-transition: all 0.1s linear; transition: all 0.1s linear;}
-					.projects-list-img {float:left; margin-right:15px; width:116px; display:block; height:90px; overflow:hidden; position:relative;}
-						.projects-list-img > img {position:absolute; left:0px; top:0px; right:0px; bottom:0px; margin:auto;}
-					.projects-list-text {width:149px; display:table-cell; height:90px; vertical-align:middle; position:relative;}
-						.projects-list-control {position:absolute; top:5px; right:0px; visibility:hidden;}
+					.projects-list-img {display: table-cell; height: 90px; overflow: hidden; position: relative; width: 40%; border:1px solid #f9f9f9; box-shadow:0 1px 2px #ddd; -moz-box-shadow:0 1px 2px #ddd; -webkit-box-shadow:0 1px 2px #ddd;}
+						.projects-list-img > img {position:absolute; left:0px; top:0px; right:0px; bottom:0px; margin:auto; width:85%;}
+					.projects-list-text {display: table-cell; height: 90px; padding-left: 15px; position: relative; vertical-align: middle; width: 60%;}
+						.projects-list-control {position:absolute; top:0px; right:0px; visibility:hidden;}
 							.projects-item:hover .projects-list-control {visibility:visible;}
+							.projects-item:hover .projects-list-img {box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 							.projects-list-control a {color:#aaa; font-size:16px; text-decoration:none; margin:0 0 0 9px; text-decoration:none;}
 							.projects-list-control a:hover {color:#47a447;}
 					.projects-list-text h4 {margin:0px; font-size:16px; font-weight:bold; max-height:40px; overflow:hidden; display:block;}
