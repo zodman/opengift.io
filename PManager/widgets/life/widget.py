@@ -25,7 +25,7 @@ def widget(request, headerValues, a, b):
     users = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     if not bAllUsers:
         users = users.filter(id__in=PM_Timer.objects.filter(
-            Q(Q(dateEnd=None) | Q(dateEnd__gt=set_to_midnight(datetime.datetime.now())))
+            Q(Q(dateEnd=None) | Q(dateEnd__gt=datetime.datetime.now() - datetime.timedelta(days=1)))
         ).values('user__id'))
 
     users = users.order_by('last_name')
