@@ -23,7 +23,7 @@ data['{{ project.id }}'] = {
 {% endfor %}
 $(function() {
     {% for user in life.users %}
-        {% if user.taskTime %}
+        {% if user.taskTime and not user.startedTimer.dateEnd %}
             var timer = new PM_Timer({'seconds':{{ user.taskTime|jsonify|safe }}});
             timer.container = $('.task_time[data-taskid={{ user.startedTask.id }}]');
             timer.start();
