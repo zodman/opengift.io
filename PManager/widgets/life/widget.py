@@ -81,13 +81,13 @@ def widget(request, headerValues, a, b):
                 startedTimer = PM_Timer.objects.filter(user__id=user.pk).order_by('-dateEnd')
                 if startedTimer:
                     startedTimer = startedTimer[0]
-                bHaveAccessToStartedTask = request.user.get_profile().hasAccess(startedTimer.task, 'view')
-                if bHaveAccessToStartedTask:
-                    setattr(user, 'startedTask', startedTimer.task)
-                    setattr(user, 'startedTimer', startedTimer)
-                    setattr(user, 'taskTime', startedTimer.task.getAllTime())
-                else:
-                    continue
+                    bHaveAccessToStartedTask = request.user.get_profile().hasAccess(startedTimer.task, 'view')
+                    if bHaveAccessToStartedTask:
+                        setattr(user, 'startedTask', startedTimer.task)
+                        setattr(user, 'startedTimer', startedTimer)
+                        setattr(user, 'taskTime', startedTimer.task.getAllTime())
+                    else:
+                        continue
 
         except PM_Timer.DoesNotExist:
             pass
