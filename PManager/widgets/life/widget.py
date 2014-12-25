@@ -6,27 +6,31 @@ from PManager.models import PM_Project, PM_Task, PM_Timer, PM_Task_Message, LogD
 from django.contrib.auth.models import User
 from PManager.viewsExt.headers import TRACKER
 from PManager.viewsExt.tasks import TaskWidgetManager
-from PManager.viewsExt.tools import templateTools
+from django.db.models import Q
 import datetime
 from django.utils import timezone
 from collections import deque
+
+
+def set_to_midnight(dt):
+    midnight = datetime.time(0)
+    return datetime.datetime.combine(dt.date(), midnight)
+
 
 def widget(request, headerValues, a, b):
     bAllUsers = request.GET.get('show_all') == 'Y'
     projects = PM_Project.objects.filter(tracker=TRACKER)
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
 
-    if bAllUsers:
-        users = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
-    else:
-        users = User.objects.filter(id__in=PM_Timer.objects.filter(dateEnd=None).values('user__id'))
+    users = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
+    if not bAllUsers:
+        users = users.filter(id__in=PM_Timer.objects.filter(
+            Q(Q(dateEnd=None) | Q(dateEnd__gt=set_to_midnight(datetime.datetime.now())))
+        ).values('user__id'))
 
     users = users.order_by('last_name')
 
-    arFilter = {}
-    # if 'project' in request.GET:
-    #     arFilter['userRoles__in'] = PM_ProjectRoles.objects.filter(project=int(request.GET['project']))
-    #     users = users.filter(**arFilter).distinct()
+    # arFilter = {}
 
     usersResult = []
     maxTaskEffective = 0
@@ -46,14 +50,14 @@ def widget(request, headerValues, a, b):
             profile.avatar = str(profile.avatar).replace('PManager', '')
 
         eventsQty = PM_Task_Message.objects.filter(
-                dateCreate__gte=userJoinTime,
-                author=user
-            ).count()
+            dateCreate__gte=userJoinTime,
+            author=user
+        ).count()
         time = LogData.objects.raw(
-                'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' + str(int(user.id)) + '' +
-                ' AND datetime > \'' + userJoinTime.strftime('%Y-%m-%d %H:%M:%S') + '\'' +
-                ' AND code = \'DAILY_TIME\''
-            )
+            'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' + str(int(user.id)) + '' +
+            ' AND datetime > \'' + userJoinTime.strftime('%Y-%m-%d %H:%M:%S') + '\'' +
+            ' AND code = \'DAILY_TIME\''
+        )
         allTime = 0
         for timer in time:
             allTime += timer.summ if timer.summ else 0
@@ -96,14 +100,14 @@ def widget(request, headerValues, a, b):
     projects = request.user.get_profile().getProjects()
     aProjects = []
     arWeekDays = {
-                1: u'Пн',
-                2: u'Вт',
-                3: u'Ср',
-                4: u'Чт',
-                5: u'Пт',
-                6: u'Сб',
-                7: u'Вс',
-            }
+        1: u'Пн',
+        2: u'Вт',
+        3: u'Ср',
+        4: u'Чт',
+        5: u'Пт',
+        6: u'Сб',
+        7: u'Вс',
+    }
 
     for project in projects:
         weekdays = range(1, 7)
@@ -122,16 +126,17 @@ def widget(request, headerValues, a, b):
                 project=project
             ).count()
             time = LogData.objects.raw(
-                    'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `project_id`=' + str(int(project.id)) + '' +
-                    ' AND DATE(datetime) = \'' + date2.date().isoformat() + '\'' +
-                    ' AND code = \'DAILY_TIME\''
-                )
+                'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `project_id`=' + str(
+                    int(project.id)) + '' +
+                ' AND DATE(datetime) = \'' + date2.date().isoformat() + '\'' +
+                ' AND code = \'DAILY_TIME\''
+            )
 
             allTime = 0
             for timer in time:
                 allTime += timer.summ if timer.summ else 0
 
-            eventsQty += int(round(float(allTime)/float(3600)))
+            eventsQty += int(round(float(allTime) / float(3600)))
             events.append({
                 'date': arWeekDays[date2.isoweekday()],
                 'qty': eventsQty
@@ -141,7 +146,6 @@ def widget(request, headerValues, a, b):
         events.reverse()
         setattr(project, 'events', events)
         aProjects.append(project)
-
 
     return {
         'title': u'Активность пользователей',
