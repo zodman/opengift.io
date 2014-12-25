@@ -78,7 +78,7 @@ def widget(request, headerValues, a, b):
 
         try:
             if user.pk:
-                startedTimer = PM_Timer.objects.get(user__id=user.pk).order_by('-dateEnd')[0]
+                startedTimer = PM_Timer.objects.filter(user__id=user.pk).order_by('-dateEnd')[0]
                 bHaveAccessToStartedTask = request.user.get_profile().hasAccess(startedTimer.task, 'view')
                 if bHaveAccessToStartedTask:
                     setattr(user, 'startedTask', startedTimer.task)
