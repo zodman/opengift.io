@@ -74,10 +74,37 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-saveMessageButton": 'editConfirm',
                 "click .js-cancelEditMessageButton": 'editCancel',
                 "click .js-cancel-author-hide": 'cancelAuthorHidden',
-                "click .js-cancel-resp-hide": 'cancelRespHidden'
+                "click .js-cancel-resp-hide": 'cancelRespHidden',
+                "click .js-show-commit-diff": 'showCommit',
+                "click .js-show-file-diff": 'showFileDiff'
             },
             'initialize': function (data) {
                 this.tpl = data.templateHTML;
+            },
+            'showCommit': function (message) {
+                if(message.currentTarget) {
+                    var commit_body = $(message.currentTarget).parent().parent().find('.js-commit-body');
+                    var url = $(message.currentTarget).attr('href');
+                    $(message.currentTarget).prop('disabled', true);
+                    $.get(url, function(response){
+                       if(response) {
+                            commit_body.append(response);
+                            $(message.currentTarget).parent().remove();
+                       }
+                       else {
+                            $(message.currentTarget).prop('disabled', false);
+                       }
+                    });
+                }
+                return false;
+            },
+            'showFileDiff': function (message) {
+                if(message.currentTarget) {
+                    $(message.currentTarget).parent().css('width', $(message.currentTarget).outerWidth() + 2);
+                    if(message.currentTarget.nextElementSibling) {
+                       $(message.currentTarget.nextElementSibling).slideToggle();
+                    }
+                }
             },
             'template': function (messageInfo) {
                 var arKeys = {

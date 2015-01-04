@@ -3,6 +3,7 @@ from django.conf.urls import patterns, include, url
 # Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from PManager.views import MainPage, Brains, add_timer
+from PManager.viewsExt.git_view import GitView
 from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
@@ -83,6 +84,7 @@ urlpatterns = patterns('',
                        url(r'^add_interface/', addInterface),
                        url(r'^remove_interface/', removeInterface),
                        url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
+                       url(r'^commit/show', GitView.show_commit),
                        url(r'^project/edit/', MainPage.indexRender,
                            {'widgetList': ["project_edit"], 'activeMenuItem': 'project'}),
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),

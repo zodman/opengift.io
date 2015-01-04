@@ -290,7 +290,7 @@ class PM_Milestone(models.Model):
             if timeNeeded.endDateTime >= endDate:
                 return self.STATUS_DANGER
 
-            timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_WARNING)    
+            timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_WARNING)
             if timeNeeded.endDateTime >= endDate:
                 return self.STATUS_WARNING
 
@@ -1295,6 +1295,7 @@ class PM_Task_Message(models.Model):
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     task = models.ForeignKey(PM_Task, null=True, related_name="messages", db_index=True)
     project = models.ForeignKey(PM_Project, null=True)
+    commit = models.CharField(max_length=42, null=True)
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
     hidden = models.BooleanField(default=False)
@@ -1318,6 +1319,16 @@ class PM_Task_Message(models.Model):
             self.project = self.task.project
 
         super(self.__class__, self).save(*args, **kwargs)
+
+    @classmethod
+    def create_commit_message(cls, df, author, task):
+
+        cls.objects.create(text=df.message,
+                           author=author,
+                           task=task,
+                           commit=df.hash,
+                           project=task.project,
+                           code="GIT_COMMIT")
 
     def updateFromRequestData(self, data):
         changed = False
@@ -1425,7 +1436,12 @@ class PM_Task_Message(models.Model):
             addParams.update({
                 'avatar': thumbnail(profile.avatarSrc, '75x75', 3)
             })
-
+        if self.code == 'GIT_COMMIT':
+            addParams.update({
+                'test-git': "test-git",
+                "canEdit": False,
+                "canDelete": False
+            })
         return addParams
 
     def canEdit(self, user):
