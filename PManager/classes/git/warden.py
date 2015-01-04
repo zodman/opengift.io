@@ -3,8 +3,15 @@ __author__ = 'Tonakai'
 from django.contrib.auth.models import User
 from PManager.models.tasks import PM_Project
 from PManager.models.tasks import PM_Timer
-from tracker.settings import GIT_PUSH_MESSAGE
+from PManager.models.tasks import PM_Task_Message
 import logging
+from tracker import settings
+from git import *
+from PManager.classes.git.diff_parser import DiffParser
+from django.core.files.storage import FileSystemStorage
+if not settings.USE_GIT_MODULE:
+    exit("GIT MODULE NOT INSTALLED");
+repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 logger = logging.getLogger(__name__)
 
 
@@ -12,6 +19,10 @@ class Warden(object):
     user = None
     project = None
     timer = None
+
+    @property
+    def repo_path(self):
+        return settings.GITOLITE_REPOS_PATH + '/' + self.project.repository + '.git'
 
     def __init__(self, username, repository):
         self.user = self.get_user(username)
@@ -32,7 +43,13 @@ class Warden(object):
         return 'false'
 
     def write_message(self, ref, hashes):
-        pass
+        if not self.is_task():
+            return 'ERROR: Can\'t find active task'
+        _repo = Repo(self.repo_path)
+        for _hash in hashes:
+            commit_diff = _repo.git.show(_hash)
+            df = DiffParser(commit_diff)
+            PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
 
     @staticmethod
     def get_project(repo_name):
@@ -49,3 +66,12 @@ class Warden(object):
         except User.DoesNotExist:
             user = None
         return user
+
+    @staticmethod
+    def get_diff(message):
+        if not message.commit:
+            return False
+        warden = Warden(message.author, message.project)
+        _repo = Repo(warden.repo_path)
+        _diff = _repo.git.show(message.commit)
+        return DiffParser(_diff)

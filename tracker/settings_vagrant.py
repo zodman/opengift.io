@@ -6,10 +6,19 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
         'NAME': 'tracker',                      # Or path to database file if using sqlite3.
-        'USER': 'heliard',                      # Not used with sqlite3.
-        'PASSWORD': 'gp7bG7Rcy07jwYS4fAAB',                  # Not used with sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'root',                  # Not used with sqlite3.
         'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+    },
+    'replica': {
+        'ENGINE': 'django.db.backends.mysql', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'tracker_test',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                      # Not used with sqlite3.
+        'PASSWORD': 'root',                  # Not used with sqlite3.
+        'HOST': 'localhost',                      # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                      # Set to empty string for default. Not used with sqlite3.
+        'TEST_MIRROR': 'default'
     }
 }
 
@@ -20,3 +29,16 @@ project_root = '/vagrant/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'
 GITOLITE_ACCESS_URL = 'vagrant@heliard.dev'
+GITOLITE_REPOS_PATH = '/home/vagrant/repositories'
+
+# TODO: change to dummycache when caching is tested
+#'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+CACHES = {
+    'default': {
+       'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    'git_diff_cache': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/vagrant/PManager/static/cache',
+    }
+}
