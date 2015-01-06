@@ -1904,15 +1904,19 @@ border-top-right-radius: 0;}
 											.message.apprice .message-desc-status {color:#b04e19;}
 										/*GIT-КОММИТЫ*/
 										.message.git-commit {background:#EEDEED; border-color:#EEDEED;}
-										.js-commit-body {
-											padding-top:20px;
-										}
-										a.js-show-commit-diff {
-											color: black;
-										}
-										.message-commit-hash {
-											padding-top:20px;
-										}
+											.js-commit-body {
+												padding-top:20px;
+											}
+											a.js-show-commit-diff {
+												color: black;
+											}
+											.message-commit-hash {
+												padding-top:20px;
+											}
+											.file-summary.panel-heading {
+												background: white;
+												cursor: pointer;
+											}
 											.commit-summary {
 												line-height:20px;
 											}
@@ -1922,9 +1926,7 @@ border-top-right-radius: 0;}
 											.commit-message {
 												width: 100%;
 											}
-											.file-summary.panel-heading {
-												background: white;
-											}
+
 											.commit-diff-changes {
 												padding-top: 0px;
 												padding-bottom: 0px;
