@@ -11,17 +11,19 @@ class GitView(object):
     @classmethod
     def show_commit(cls, request):
         try:
-            _message = request.GET.get('message_id')
+            _message = int(request.GET.get('message_id'))
             _message = PM_Task_Message.objects.get(id=_message)
         except PM_Task_Message.DoesNotExist:
             raise Http404
+        except ValueError:
+            raise Http404
         if not _message.canView(request.user):
-            return Http404
+            raise Http404
         return cls.__diff_render(request, _message)
 
     @classmethod
     def __diff_render(cls, request, message):
         diff = Warden.get_diff(message)
         if not diff:
-            return Http404
+            raise Http404
         return render(request, 'details/git_diff.html', {"diff": diff})
