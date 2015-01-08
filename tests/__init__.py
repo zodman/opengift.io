@@ -1,1 +1,5 @@
 __author__ = 'gvammer'
+from .. import *
+import unittest
+if __name__ == '__main__':
+    unittest.main()

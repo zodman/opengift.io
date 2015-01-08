@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 
 from databases.database import DATABASES
@@ -12,3 +13,11 @@ project_root = 'D:/Home/tracker/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = 'D:/Home/heliard/gitolite-admin'
 GITOLITE_ACCESS_URL = 'heliard@heliard.dev'
+GITOLITE_REPOS_PATH = 'D:/Home/heliard/repositories'
+
+CACHES = {
+    'git_diff_cache': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': 'D:/Home/heliard/PManager/static/cache',
+    }
+}

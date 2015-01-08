@@ -240,6 +240,7 @@ class Migration(SchemaMigration):
             ('dateCreate', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('task', self.gf('django.db.models.fields.related.ForeignKey')(related_name='messages', null=True, to=orm['PManager.PM_Task'])),
             ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['PManager.PM_Project'], null=True)),
+            ('commit', self.gf('django.db.models.fields.CharField')(max_length=42, null=True)),
             ('userTo', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='incomingMessages', null=True, to=orm['auth.User'])),
             ('hidden', self.gf('django.db.models.fields.BooleanField')(default=False)),
             ('hidden_from_clients', self.gf('django.db.models.fields.BooleanField')(default=False)),
@@ -307,7 +308,7 @@ class Migration(SchemaMigration):
             ('sp_price', self.gf('django.db.models.fields.IntegerField')(default=0, null=True, blank=True)),
             ('paid', self.gf('django.db.models.fields.IntegerField')(default=0, null=True, blank=True)),
             ('specialty', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['PManager.Specialty'], null=True, blank=True)),
-            ('avatar_color', self.gf('django.db.models.fields.CharField')(default='#00ee76', max_length=20, null=True, blank=True)),
+            ('avatar_color', self.gf('django.db.models.fields.CharField')(default='#6495ED', max_length=20, null=True, blank=True)),
             ('account_total', self.gf('django.db.models.fields.IntegerField')(null=True, blank=True)),
             ('rating', self.gf('django.db.models.fields.FloatField')(default=0, null=True, blank=True)),
             ('last_activity_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
@@ -348,7 +349,7 @@ class Migration(SchemaMigration):
         db.create_table(u'PManager_pm_user_achievement', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='user_achievements', to=orm['auth.User'])),
-            ('achievement', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['PManager.PM_Achievement'])),
+            ('achievement', self.gf('django.db.models.fields.related.ForeignKey')(related_name='achievement_users', to=orm['PManager.PM_Achievement'])),
             ('date', self.gf('django.db.models.fields.DateTimeField')(auto_now_add=True, blank=True)),
             ('read', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
@@ -370,7 +371,7 @@ class Migration(SchemaMigration):
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='notices', to=orm['auth.User'])),
             ('notice', self.gf('django.db.models.fields.related.ForeignKey')(related_name='userNotices', to=orm['PManager.PM_Notice'])),
-            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 11, 2, 0, 0))),
+            ('date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2014, 12, 21, 0, 0))),
         ))
         db.send_create_signal('PManager', ['PM_NoticedUsers'])
 
@@ -431,6 +432,7 @@ class Migration(SchemaMigration):
             ('username', self.gf('django.db.models.fields.CharField')(max_length=20, null=True, blank=True)),
             ('password', self.gf('django.db.models.fields.CharField')(max_length=30, null=True, blank=True)),
             ('project', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['PManager.PM_Project'])),
+            ('is_git', self.gf('django.db.models.fields.BooleanField')(default=False)),
         ))
         db.send_create_signal('PManager', ['AccessInterface'])
 
@@ -583,6 +585,7 @@ class Migration(SchemaMigration):
             'access_roles': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'file_categories'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['PManager.PM_Role']"}),
             'address': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'is_git': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
             'password': ('django.db.models.fields.CharField', [], {'max_length': '30', 'null': 'True', 'blank': 'True'}),
             'port': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
@@ -697,7 +700,7 @@ class Migration(SchemaMigration):
         },
         'PManager.pm_noticedusers': {
             'Meta': {'object_name': 'PM_NoticedUsers'},
-            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 11, 2, 0, 0)'}),
+            'date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2014, 12, 21, 0, 0)'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'notice': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'userNotices'", 'to': "orm['PManager.PM_Notice']"}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'notices'", 'to': u"orm['auth.User']"})
@@ -786,6 +789,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'PM_Task_Message'},
             'author': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'outputMessages'", 'null': 'True', 'to': u"orm['auth.User']"}),
             'code': ('django.db.models.fields.CharField', [], {'max_length': '255', 'null': 'True', 'blank': 'True'}),
+            'commit': ('django.db.models.fields.CharField', [], {'max_length': '42', 'null': 'True'}),
             'dateCreate': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             'files': ('django.db.models.fields.related.ManyToManyField', [], {'blank': 'True', 'related_name': "'msgTasks'", 'null': 'True', 'symmetrical': 'False', 'to': "orm['PManager.PM_Files']"}),
             'hidden': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
@@ -830,7 +834,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'PM_User'},
             'account_total': ('django.db.models.fields.IntegerField', [], {'null': 'True', 'blank': 'True'}),
             'avatar': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'blank': 'True'}),
-            'avatar_color': ('django.db.models.fields.CharField', [], {'default': "'#DCDCDC'", 'max_length': '20', 'null': 'True', 'blank': 'True'}),
+            'avatar_color': ('django.db.models.fields.CharField', [], {'default': "'#708090'", 'max_length': '20', 'null': 'True', 'blank': 'True'}),
             'birthday': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'icq': ('django.db.models.fields.CharField', [], {'max_length': '70', 'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -847,7 +851,7 @@ class Migration(SchemaMigration):
         },
         'PManager.pm_user_achievement': {
             'Meta': {'object_name': 'PM_User_Achievement'},
-            'achievement': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['PManager.PM_Achievement']"}),
+            'achievement': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'achievement_users'", 'to': "orm['PManager.PM_Achievement']"}),
             'date': ('django.db.models.fields.DateTimeField', [], {'auto_now_add': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'read': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),

@@ -36,7 +36,8 @@ def initGlobals(request):
         CURRENT_PROJECT = request.COOKIES.get("CURRENT_PROJECT", 0)
         if CURRENT_PROJECT:
             try:
-                if int(CURRENT_PROJECT) in projects:
+                CURRENT_PROJECT = int(CURRENT_PROJECT)
+                if CURRENT_PROJECT in projects:
                     CURRENT_PROJECT = PM_Project.objects.get(pk=int(CURRENT_PROJECT))
                 elif projects:
                     SET_COOKIE["CURRENT_PROJECT"] = 0

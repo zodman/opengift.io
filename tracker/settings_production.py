@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -18,3 +19,11 @@ project_root = '/home/heliard/heliard/'
 USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
+GITOLITE_REPOS_PATH = '/home/heliard/repositories'
+
+CACHES = {
+    'git_diff_cache': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/home/heliard/heliard/PManager/static/cache',
+    }
+}

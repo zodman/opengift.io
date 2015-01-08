@@ -1,0 +1,41 @@
+<div class="commit-summary">
+    <ul>
+        {% for file in diff.files %}
+            <li class="commit-file-changes panel panel-default">
+                <div class="file-summary panel-heading js-show-file-diff">
+                    <span class="commit-file-changes-removed">-{{ file.summary.deleted }}</span>
+                    <span class="commit-file-changes-added">+{{ file.summary.created }}</span>
+                    <span class="commit-file-path">{{ file.path }}</span>
+                </div>
+                <div class="commit-diff-changes panel-body">
+                    <div class="file-diff-scroll-wrapper">
+                        <div class="file-diff-table">
+                            {% for line in file.lines %}
+                                <div class="diff-line commit-diff-line-{% if line.created %}created{% elif line.deleted %}deleted{% else %}same{% endif %}">
+                                    <div class="gutter">
+                                        <span class="pointer">&gt;</span>
+                                        <span class="commit-old-line-number">{{ line.old_number }}</span>
+                                        <span class="commit-new-line-number">{{ line.new_number }}</span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <pre class="source">{{ line.text }}</pre>
+                                </div>
+                                {% if line.end %}
+                                <div class="diff-line commit-diff-line-separator">
+                                    <div class="gutter">
+                                        <span class="pointer">&gt;</span>
+                                        <span class="">...</span>
+                                        <span class="">...</span>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                    <pre class="source">&nbsp;</pre>
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</div>

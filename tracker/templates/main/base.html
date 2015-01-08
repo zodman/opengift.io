@@ -374,7 +374,13 @@ $(function(){
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
                     <div class="dropdown">
-                        <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">{% if main.CURRENT_PROJECT %}{{ main.CURRENT_PROJECT.name }}{% else %}Все проекты{% endif %}</button>
+                        <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">
+                            {% if main.CURRENT_PROJECT %}
+                                {{ main.CURRENT_PROJECT.name }}
+                            {% else %}
+                                Все проекты
+                            {% endif %}
+                        </button>
                         {% if projects|length <= 4 %}
                         <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
                             <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">

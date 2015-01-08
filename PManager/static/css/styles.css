@@ -1902,8 +1902,135 @@ border-top-right-radius: 0;}
 										.message.apprice {background:#ffece2; border-color:#f5ded1;}
 											.message.apprice .message-info {border-color:#f5ded1;}											
 											.message.apprice .message-desc-status {color:#b04e19;}
-											
-										/*КНОПКИ*/	
+										/*GIT-КОММИТЫ*/
+										.message.git-commit {background:#EEDEED; border-color:#EEDEED;}
+											.js-commit-body {
+												padding-top:20px;
+											}
+											a.js-show-commit-diff {
+												color: black;
+											}
+											.message-commit-hash {
+												padding-top:20px;
+											}
+											.file-summary.panel-heading {
+												background: white;
+												cursor: pointer;
+											}
+											.commit-summary {
+												line-height:20px;
+											}
+											.commit-summary ul {
+												list-style-type: none;
+											}
+											.commit-message {
+												width: 100%;
+											}
+
+											.commit-diff-changes {
+												padding-top: 0px;
+												padding-bottom: 0px;
+												display: none;
+												background: #f5f5f5;
+											}
+											.file-diff-scroll-wrapper {
+												width: 100%;
+												overflow-x:scroll;
+											}
+											.file-diff-table {
+												background: white;
+												display: inline-block;
+											}
+											.commit-diff {
+												white-space: nowrap;
+											}
+											.diff-line {
+												position: relative;
+												height:22px;
+												min-width: 100%;
+												white-space: nowrap;
+												display: inline-block;
+											}
+											.diff-line .gutter {
+												padding-left:15px;
+												border-right: 1px solid #e9e9e9;
+												width: 70px;
+												background: #f5f5f5;
+												height: 22px;
+												left:0px;
+												position: absolute;
+
+											}
+											.diff-line .gutter .pointer  {
+												display:none;
+												position: absolute;
+												left: 0px;
+											}
+											.diff-line:hover .gutter .pointer {
+												display:block;
+											}
+											.diff-line .gutter span {
+												display:block;
+												float:left;
+												width:24px;
+												height:22px;
+												padding: 2px;
+											}
+											.diff-line .gutter:hover {
+												background: #e9e9e9;
+											}
+											.diff-line .gutter:hover span.commit-old-line-number,
+											.diff-line .gutter:hover span.commit-new-line-number {
+												text-decoration: underline;
+											}
+											.diff-line .gutter .commit-old-line-number {
+												margin-right: 10px;
+												width: 20px;
+											}
+											.commit-diff-line-deleted {
+												background:#FEE8E9;
+											}
+											.commit-diff-line-created {
+												background: #DFD;
+											}
+											.commit-diff-line-separator {
+												background: #f5f5f5;
+											}
+											.diff-line .source {
+												display: inline-block;
+												position:relative;
+												white-space:nowrap;
+
+												height: 22px;
+												line-height: 22px;
+												padding: 0px;
+												margin: 0px;
+												margin-left: 70px;
+												border: 0px;
+												padding-right:10px;
+												border-radius: 0px;
+												width: auto;
+												/* position: relative; */
+												padding-left: 10px;
+												background: none;
+											}
+											.commit-file-changes-removed {
+												border-top-left-radius: 5px;
+												border-bottom-left-radius: 5px;
+												border: 1px solid #FEE8E9;
+												padding: 0px 10px;
+												margin-right: 2px;
+												background: #FEE8E9;
+											}
+											.commit-file-changes-added {
+												border-top-right-radius: 5px;
+												border-bottom-right-radius: 5px;
+												border: 1px solid #DFD;
+												padding: 0px 10px;
+												margin-right: 2px;
+												background: #DFD;
+											}
+										/*КНОПКИ*/
 										.button {border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05); -moz-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05);
     -webkit-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05); display:inline-block; font-size: 12px; font-weight: bold; padding: 3px 10px; text-decoration:none;}
 										.button:hover {text-decoration:none;}
