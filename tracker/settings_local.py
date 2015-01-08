@@ -21,6 +21,6 @@ CACHES = {
     },
     'git_diff_cache': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/vagrant/PManager/static/cache',
+        'LOCATION': 'D:/Home/PManager/static/cache',
     }
 }
