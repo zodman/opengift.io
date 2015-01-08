@@ -16,8 +16,11 @@ GITOLITE_ACCESS_URL = 'heliard@heliard.dev'
 GITOLITE_REPOS_PATH = 'D:/Home/heliard/repositories'
 
 CACHES = {
+    'default': {
+       'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
     'git_diff_cache': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': 'D:/Home/heliard/PManager/static/cache',
+        'LOCATION': '/vagrant/PManager/static/cache',
     }
 }
