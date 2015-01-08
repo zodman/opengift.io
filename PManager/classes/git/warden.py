@@ -24,9 +24,13 @@ class Warden(object):
     def repo_path(self):
         return settings.GITOLITE_REPOS_PATH + '/' + self.project.repository + '.git'
 
-    def __init__(self, username, repository):
-        self.user = self.get_user(username)
-        self.project = self.get_project(repository)
+    def __init__(self, username, repository, is_loaded=False):
+        if not is_loaded:
+            self.user = self.get_user(username)
+            self.project = self.get_project(repository)
+        else:
+            self.user = username
+            self.project = repository
         if self.user is None or self.project is None:
             raise AssertionError("Cant use empty user or project")
 
@@ -71,7 +75,10 @@ class Warden(object):
     def get_diff(message):
         if not message.commit:
             return False
-        warden = Warden(message.author, message.project)
+        try:
+            warden = Warden(message.author, message.project, is_loaded=True)
+        except AssertionError:
+            return False
         _repo = Repo(warden.repo_path)
         _diff = _repo.git.show(message.commit)
         return DiffParser(_diff)
