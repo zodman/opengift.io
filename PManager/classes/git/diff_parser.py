@@ -121,6 +121,7 @@ class DiffParser(object):
         df = diff.lstrip().rstrip().split('\n')
         lines = []
         line = None
+        (ln, lo) = (0, 0)
         for diff_line in df:
             if diff_line.startswith("@@"):
                 (ln, lo, diff_line) = DiffParser.__get_start_line_numbers(diff_line)
