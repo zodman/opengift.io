@@ -195,4 +195,11 @@ Cause file diffs are dependent on this"""
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 1)
 
+    def test_warning_commit(self):
+        try:
+            df = DiffParser("askldjlaksjdlaksdjlaskdjlaskjdlaksjdlaskjdlaskjdlasdjlaksjd")
+            self.assertEqual(False, True)
+        except IOError:
+            self.assertEqual(True, True)
+
 

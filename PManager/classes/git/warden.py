@@ -32,7 +32,7 @@ class Warden(object):
             self.user = username
             self.project = repository
         if self.user is None or self.project is None:
-            raise AssertionError("Cant use empty user or project")
+            raise AssertionError("Can't use empty user or project")
 
     def is_task(self):
         try:
@@ -52,8 +52,11 @@ class Warden(object):
         _repo = Repo(self.repo_path)
         for _hash in hashes:
             commit_diff = _repo.git.show(_hash)
-            df = DiffParser(commit_diff)
-            PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
+            try:
+                df = DiffParser(commit_diff)
+                PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
+            except IOError:
+                return 'ERROR: Commit #' + commit_diff + ' could not be parsed'
 
     @staticmethod
     def get_project(repo_name):
@@ -80,5 +83,9 @@ class Warden(object):
         except AssertionError:
             return False
         _repo = Repo(warden.repo_path)
-        _diff = _repo.git.show(message.commit)
-        return DiffParser(_diff)
+        try:
+            _diff = _repo.git.show(message.commit)
+            df = DiffParser(_diff)
+        except IOError:
+            return False
+        return df

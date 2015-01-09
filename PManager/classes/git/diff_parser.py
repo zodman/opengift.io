@@ -18,6 +18,8 @@ class DiffParser(object):
     def __init__(self, raw):
         if raw is None or len(raw) <= 0:
             raise IOError("Cannot parse empty diff")
+        if not raw.startswith("commit"):
+            raise IOError("Cannot parse unparsable diff")
         self.raw = raw.split('\n')
 
     @property

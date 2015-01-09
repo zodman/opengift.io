@@ -1438,10 +1438,14 @@ class PM_Task_Message(models.Model):
             })
         if self.code == 'GIT_COMMIT':
             addParams.update({
-                'test-git': "test-git",
+                'commit': self.commit,
                 "canEdit": False,
                 "canDelete": False
             })
+            if cur_user:
+                addParams.update({
+                    "canView": self.canView(cur_user),
+                })
         return addParams
 
     def canEdit(self, user):
