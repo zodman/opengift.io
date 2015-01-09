@@ -1917,6 +1917,13 @@ border-top-right-radius: 0;}
 												background: white;
 												cursor: pointer;
 											}
+											.file-summary.panel-heading:hover {
+												background: #FFFFE0;
+											}
+											.file-summary.panel-heading.binary-file {
+												background: white;
+												cursor: default;
+											}
 											.commit-summary {
 												line-height:20px;
 											}
@@ -2029,6 +2036,26 @@ border-top-right-radius: 0;}
 												padding: 0px 10px;
 												margin-right: 2px;
 												background: #DFD;
+											}
+											.commit-file-changes-binary-diff,
+											.commit-file-changes-binary-removed,
+											.commit-file-changes-binary-added {
+												border-radius: 5px;
+												padding: 0px 10px;
+												margin-right: 2px;
+												cursor: default;
+											}
+											.commit-file-changes-binary-diff {
+												background: #FFFACD;
+												border: 1px solid #FFFACD;
+											}
+											.commit-file-changes-binary-added {
+												background: #DFD;
+												border: 1px solid #DFD;
+											}
+											.commit-file-changes-binary-removed {
+												background: #FEE8E9;
+												border: 1px solid #FEE8E9;
 											}
 										/*КНОПКИ*/
 										.button {border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05); -moz-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05);

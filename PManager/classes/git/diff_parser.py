@@ -96,6 +96,30 @@ class DiffParser(object):
         next_string = self.raw[start + 1]
         mode = "M"
         diff_start = start
+        if self.raw[start + 3].startswith("Binary files"):
+            pattern = re.compile('Binary files "?a?(?P<old_path>[A-zА-я0-9_\/. -]+)"?' +
+                                 ' and "?b?(?P<new_path>[A-zА-я0-9_\/. -]+)"? differ')
+            m = pattern.search(self.raw[start + 3])
+            if m:
+                mode = False
+                (old_path, new_path) = m.groups()
+                if old_path == '/dev/null':
+                    mode = "C"
+                    file_obj['path'] = new_path
+                elif new_path == '/dev/null':
+                    mode = "D"
+                    file_obj['path'] = old_path
+                else:
+                    file_obj['path'] = new_path
+                file_obj['action'] = mode
+                file_obj['diff'] = False
+                file_obj['lines'] = []
+                file_obj['summary'] = {
+                    "deleted": 1 if mode == "D" else 0,
+                    "created": 1 if mode == "C" else 0,
+                    "binary": True
+                }
+                return file_obj
         if next_string.startswith("deleted file mode"):
             next_string = self.raw[start + 3]
             diff_start = start + 5
@@ -114,7 +138,8 @@ class DiffParser(object):
         file_obj['lines'] = self.__get_lines(file_obj['diff'])
         file_obj['summary'] = {
             "deleted": self.__get_line_count('deleted', file_obj['lines']),
-            "created": self.__get_line_count('created', file_obj['lines'])
+            "created": self.__get_line_count('created', file_obj['lines']),
+            "binary": False
         }
         return file_obj
 
@@ -133,6 +158,8 @@ class DiffParser(object):
                     line['end'] = True
             line = {'same': False, 'deleted': False, 'created': False, 'old_number': lo, 'new_number': ln,
                     'end': False}
+            if diff_line.startswith("\ No newline"):
+                continue
             if diff_line.startswith(DiffParser.DELETED_LINE_START):
                 line['deleted'] = True
                 line['new_number'] = ""

@@ -194,6 +194,7 @@ Cause file diffs are dependent on this"""
         summary = df.files[0]["summary"]
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 1)
+        self.assertEqual(summary['binary'], False)
 
     def test_warning_commit(self):
         try:
@@ -202,4 +203,35 @@ Cause file diffs are dependent on this"""
         except IOError:
             self.assertEqual(True, True)
 
+    def test_binary_file_handling(self):
+        self.str = """commit 5cb75f0534224beed6f402352898e3d62e7df2d8
+Author: gvammer <gvamm3r@gmail.com>
+Date:   Thu Jan 8 14:26:16 2015 +0300
 
+    new
+
+diff --git a/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png b/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png
+new file mode 100644
+index 0000000..8bbafe9
+Binary files /dev/null and b/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png differ
+diff --git a/bitrix/templates/main/js/kladr/jquery.kladr.js b/bitrix/templates/main/js/kladr/jquery.kladr.js
+new file mode 100644
+index 0000000..fdf409b
+--- /dev/null
++++ b/bitrix/templates/main/js/kladr/jquery.kladr.js
+@@ -0,0 +0,2 @@
++(function($) {
++    $.kladr = {};"""
+        df = DiffParser(self.str)
+        summary = df.files[0]["summary"]
+        self.assertEqual(summary['binary'], True)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 1)
+        self.assertEqual(2, len(df.files))
+        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png", df.files[0]['path'])
+        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.js", df.files[1]['path'])
+        summary = df.files[1]["summary"]
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 2)
