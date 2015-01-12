@@ -1020,6 +1020,32 @@ input.combobox {display:inline-block; height:30px; width:auto;}
     top: 0;
 }
 
+.bootstrap-growl .close {
+	font-size:30px;
+}
+
+
+.bootstrap-growl.alert.alert-info > a {
+    border-top: 1px solid #d9edf7;
+    box-shadow: 0 1px 0 #fff inset;
+    -moz-box-shadow: 0 1px 0 #fff inset;
+    -webkit-box-shadow: 0 1px 0 #fff inset;
+    color: #47a447;
+    display: block;
+    font-size: 13px;
+    font-weight: normal;
+    margin-top: 7px;
+    padding-top: 7px;
+}
+
+
+.bootstrap-growl.alert.alert-info {
+    color: #333;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
 /*  ###############################################################
                              РЕДАКТИРОВАНИЕ ЗАДАЧИ
     ###############################################################*/
