@@ -202,19 +202,6 @@ $(function(){
         <div class="clearfix"></div>
         
         <div class="projects-list">
-            <div class="projects-item clearfix">
-            	<div class="projects-list-img">
-             	<img src="/static/img/no-photo.png">
-              	</div>
-              	<div class="projects-list-text">
-
-                <h4>
-                    <a href="{% if is_detail_page %}/{% endif %}?project=0">
-                                    Все проекты
-                    </a>
-                </h4>
-                </div>
-        	</div>
             {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
