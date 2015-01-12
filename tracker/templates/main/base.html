@@ -296,7 +296,7 @@ $(function(){
                                 	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
                                 </div>
                                 <div class="time-username">{{ mess.dateCreate }} / <a href="/user_detail/>id={{mess.author.id}}">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% endif %}</a></div>
-                                <h5><a href="{{mess.task.url}}">{{ mess.task.name }}</a></h5>
+                                <h5><b><a href="{{mess.task.url}}">{{ mess.task.name }}</a></b></h5>
                                 <p class="text-message">{{ mess.text|safe }}</p>
                             </li>
                             {% endfor %}
