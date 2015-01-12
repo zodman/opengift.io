@@ -526,6 +526,7 @@ class PM_Task(models.Model):
                         task=self
                     )
                     credit.save()
+                    manager.user.get_profile().save()
 
     def Open(self):
         self.closed = False
