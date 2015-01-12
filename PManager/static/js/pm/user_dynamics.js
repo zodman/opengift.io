@@ -15,7 +15,8 @@ var userDynamics = {
                         "Вы можете вернуться к задаче <a href='" + task['url'] + "'>"
                             + task['project__name'] + '/ ' + task['name'] + "</a>",
                         {
-                            'delay': 0
+                            'delay': 0,
+                            'width': 'auto'
                         }
                     );
                 }

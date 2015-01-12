@@ -435,7 +435,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             $.bootstrapGrowl(
                                 message.view.$el.children().find('img, .js-quote, .js-answer').remove().end().html(),
                                 {
-                                    'delay': 0
+                                    'delay': 0,
+                                    'width': 'auto'
                                 }
                             );
                         }
