@@ -2,31 +2,35 @@
 {% block content %}
 <div class="widget milestones_summary">
     <h1>Мои цели</h1>
+    <hr />
         {% for project in m_projects %}
         	{% if project.openMilestones %}
         		<div class="project-milestones">
-        			<div class="page-header"><h3>{{project.name}}</h3></div>
-		        	{% for milestone in project.openMilestones %}
-		        		<div style="float: left;">
-		        			<h4>
-		        				<a href="/?project={{project.id}}#%7B%22taskListFilter%22%3A%7B%22action%22%3A%22all%22%2C%22group%22%3A%22milestones%22%7D%7D">
-		        					{{ milestone.name }}
-	        					</a>
-	        				</h4>
-	        			</div>
-		        		<div style="float:right;">
-		        			<i>{{ milestone.date }}</i>
-	        			</div>
-        				<div style="clear:both"></div>
-		    			<div class="progress" style="position:relative; top:-36px;">
-							<div class="progress-bar progress-bar-{{ milestone.status }} progress-bar-striped active" role="progressbar" aria-valuenow="{{ milestone.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ milestone.percent }}%;">
-							<div class="sr-only">{{ milestone.percent}} % Выполнено</div>
-							</div>
-						</div>
-                    {% empty %}
-                        <p>Цели помогают привязать ваши задачи к реальной дате и времени, чтобы быстрее достигать конкретных результатов.</p>
-                        <p><a href="#">Создать цель</a></p>
-		        	{% endfor %}
+        				<p align="center"><h3 align="center">{{project.name}}</h3></p>
+                        <table class="table table-striped ">
+		        		{% for milestone in project.openMilestones %}
+                        <tr>
+                        <td>
+                                <h4 class="clearfix">
+                                    <a href="/?project={{project.id}}#%7B%22taskListFilter%22%3A%7B%22action%22%3A%22all%22%2C%22group%22%3A%22milestones%22%7D%7D" class="left">
+                                        {{ milestone.name }}
+                                    </a>
+                                    <span class="right time">{{ milestone.date }}</span>
+                                </h4>
+                            
+                                
+                      			<div class="progress">
+                                    <div class="progress-bar progress-bar-{{ milestone.status }} progress-bar-striped active" role="progressbar" aria-valuenow="{{ milestone.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ milestone.percent }}%;">
+                                    <div class="sr-only">{{ milestone.percent}} % Выполнено</div>
+                                    </div>
+                           		</div>
+                            {% empty %}
+                            <p>Цели помогают привязать ваши задачи к реальной дате и времени, чтобы быстрее достигать конкретных результатов.</p>
+                            <p><a href="#">Создать цель</a></p>
+                        </td>
+                        </tr>
+		        		{% endfor %}
+                        </table>
         		</div>
     		{% endif %}
         {% endfor %}
