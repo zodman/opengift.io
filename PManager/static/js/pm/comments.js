@@ -86,9 +86,12 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var commit_body = $(message.currentTarget).parent().parent().find('.js-commit-body');
                     var url = $(message.currentTarget).attr('href');
                     $(message.currentTarget).prop('disabled', true);
-                    $.get(url, function(response){
+                    $(commit_body).load(url, function(response, status){
+                       if(status == 'error') {
+                            $(message.currentTarget).parent().remove();
+                            alert('Не удалось загрузить коммит');
+                       }
                        if(response) {
-                            commit_body.append(response);
                             $(message.currentTarget).parent().remove();
                        }
                        else {

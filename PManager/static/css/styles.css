@@ -197,7 +197,10 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 }
 
 /* ПОПАП ВЫБОРА ПРОЕКТОВ */
-.find-a-project {position:relative;} 
+.find-a-project {position:relative; margin-bottom:0px;} 
+	.all-projects-link {vertical-align:middle; width:130px; padding-left:15px; font-weight:bold; color:#47a447;}
+		.all-projects-link a {color:#47a447;}
+			.all-projects-link a i {margin-left:7px;}
 			.find-a-project-button {position:absolute; top:8px; right:10px; z-index:1; padding:0px; margin:0px; display:inline-block; background:none; border:none; cursor:pointer;}
 			.find-a-project .fa-search {font-size:16px; color:#999;}
 		.close-icon {color:#999; font-size:20px; position:absolute; top:15px; right:15px; cursor:pointer;}
@@ -996,6 +999,15 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .show-closed-task { margin-bottom:5px; text-align: center; }
 .show-closed-task a { font-size: 90%; }
 .show-closed-task a:hover { text-decoration: none; }
+
+
+.project-milestones .progress {margin:6px 0 0 0;}
+.project-milestones table td {padding:15px !important;}
+.project-milestones a {color:#47a447;}
+.project-milestones h4 {margin-bottom:10px;}
+.left {float:left;}
+.right {float:right;}
+.time {font-size:12px; color:#777;}
 
 /*  ###############################################################
                              РЕДАКТИРОВАНИЕ ЗАДАЧИ
@@ -1917,6 +1929,13 @@ border-top-right-radius: 0;}
 												background: white;
 												cursor: pointer;
 											}
+											.file-summary.panel-heading:hover {
+												background: #FFFFE0;
+											}
+											.file-summary.panel-heading.binary-file {
+												background: white;
+												cursor: default;
+											}
 											.commit-summary {
 												line-height:20px;
 											}
@@ -2029,6 +2048,26 @@ border-top-right-radius: 0;}
 												padding: 0px 10px;
 												margin-right: 2px;
 												background: #DFD;
+											}
+											.commit-file-changes-binary-diff,
+											.commit-file-changes-binary-removed,
+											.commit-file-changes-binary-added {
+												border-radius: 5px;
+												padding: 0px 10px;
+												margin-right: 2px;
+												cursor: default;
+											}
+											.commit-file-changes-binary-diff {
+												background: #FFFACD;
+												border: 1px solid #FFFACD;
+											}
+											.commit-file-changes-binary-added {
+												background: #DFD;
+												border: 1px solid #DFD;
+											}
+											.commit-file-changes-binary-removed {
+												background: #FEE8E9;
+												border: 1px solid #FEE8E9;
 											}
 										/*КНОПКИ*/
 										.button {border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05); -moz-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.05);
