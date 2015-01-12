@@ -1005,9 +1005,20 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .project-milestones table td {padding:15px !important;}
 .project-milestones a {color:#47a447;}
 .project-milestones h4 {margin-bottom:10px;}
-.left {float:left;}
-.right {float:right;}
-.time {font-size:12px; color:#777;}
+.project-milestones .left {float:left;}
+.project-milestones .right {float:right;}
+.project-milestones .time {font-size:12px; color:#777;}
+
+.bootstrap-growl .span {
+    color: #333;
+    font-size: 30px;
+    line-height: 30px;
+    margin: 0;
+    padding: 0;
+    position: absolute;
+    right: 10px;
+    top: 0;
+}
 
 /*  ###############################################################
                              РЕДАКТИРОВАНИЕ ЗАДАЧИ

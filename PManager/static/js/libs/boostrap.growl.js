@@ -55,7 +55,7 @@
         $alert.css("left", "20px");
         break;
       default:
-        $alert.css("right", "20px");
+        $alert.css("right", "15px");
     }
     $alert.fadeIn();
     if (options.delay > 0) {
@@ -71,7 +71,7 @@
     type: "info",
     offset: {
       from: "top",
-      amount: 20
+      amount: 18
     },
     align: "right",
     width: 250,
