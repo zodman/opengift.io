@@ -699,7 +699,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 					.task-info .task-info-author a,  
 					.task-info .task-info-time > a {color:#47a447; text-decoration:none;} 
 					
-					.task-info .task-info-author a.recommended {border-bottom:1px dashed #c00f00; color:#c00f00 !important;}
+					.task-info .task-info-author a.recommended {opacity:0.4;}
 					.fa.fa-thumbs-o-up.fa-lg.fa-border.js-resp-approve {color:#c00f00 !important; border: none !important;}
 						.task-info .task-info-time a.play {font-size:18px; position:relative; top:2px;text-decoration:none;}
 							.task-info .task-info-time a.play .fa-play-circle  {color: #47a447;}
