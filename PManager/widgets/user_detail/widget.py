@@ -145,7 +145,7 @@ def widget(request, headerValues, ar, qargs):
                 'rest': profile.account_total
             })
 
-            userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')
+            userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')[:20]
             if USE_GIT_MODULE:
                 userKeys = Key.objects.filter(user=user.id).order_by('-id')
             else:
