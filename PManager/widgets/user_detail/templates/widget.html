@@ -176,6 +176,7 @@
                         	<img src="/static/images/avatar_unknown.png" class="img-thumbnail pull-left" width="100" />
                             <h3>{{ project.name }}</h3>
                             <ul class="list-inline" >
+                                {% if project.canEdit  or 'client' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
@@ -183,6 +184,8 @@
                                     {% endif %}
                                     <span class="fa fa-users"></span>
                                     Клиент</label></div></li>
+                                {% endif %}
+                                {% if project.canEdit  or 'manager' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
@@ -190,6 +193,8 @@
                                     {% endif %}
                                     <span class="fa fa-cogs"></span>
                                     Менеджер</label></div></li>
+                                {% endif %}
+                                {% if project.canEdit  or 'employee' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
@@ -197,6 +202,7 @@
                                     {% endif %}
                                     <span class="fa fa-user"></span>
                                     Разработчик</label></div></li>
+                                {% endif %}
                           </ul>
                         </div><!--ychastvyet-item-->
                         {% if not forloop.last %}<hr />{% endif %}
