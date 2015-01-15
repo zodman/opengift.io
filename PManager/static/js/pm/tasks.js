@@ -586,8 +586,18 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'position': 'absolute',
                     'top': (position.top + position.height + 5)
                 });
-
-
+                
+                $('.responsibles.clone .js-email-form button').click(function(){
+                    var inputEmail = $('.responsibles.clone .js-email').val();
+                    $.ajax({
+                          type: "POST",
+                          data: {"action": "inviteUser", "q":inputEmail},
+                          url: '/users_ajax/',
+                          success: function(response){
+                            console.log(response);
+                          }
+                    });
+                });
 
                 var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
                 var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
