@@ -34,6 +34,11 @@ class Brains:
 
 class MainPage:
     @staticmethod
+    def promoTmp(request):
+        c = RequestContext(request)
+        return HttpResponse(loader.get_template('main/promo_tmp.html').render(c))
+
+    @staticmethod
     def auth(request):
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/unauth.html').render(c))

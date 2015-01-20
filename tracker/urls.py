@@ -124,4 +124,5 @@ urlpatterns = patterns('',
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
                        url(r'^payment_info/', paysystems),
+                       url(r'^promo_tmp/', MainPage.promoTmp),
 )
