@@ -1463,23 +1463,21 @@ class PM_Task_Message(models.Model):
         if not user:
             return False
 
-        if user.is_superuser:
-            return True
-
         if self.author and self.author.id == user.id:
             return True
 
         if self.userTo and self.userTo.id == user.id:
             return True
 
+        prof = user.get_profile()
+        if user.is_superuser and prof.hasRole(self.task.project):
+            return True
+
         if self.hidden:
             return False
 
-        prof = user.get_profile()
         if prof.isManager(self.task.project):
             return True
-
-
 
         if not self.hidden_from_clients and not self.hidden_from_employee:
             if user.id in [u.id for u in self.task.observers.all()]:
