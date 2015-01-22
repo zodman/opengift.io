@@ -85,7 +85,7 @@ RESPONSIVE FIXES
 	
 		.navbar-inverse .container .navbar-header {height:70px;}
 		
-		.sticky-navigation .navbar-header img {max-width:250px; margin-top:5px;}
+		.sticky-navigation .navbar-header img {max-width:210px; margin-top:9px;}
  
     
     html {
@@ -148,6 +148,30 @@ RESPONSIVE FIXES
     }
 }
 
+@media (max-width: 576px) {
+
+    header .intro-section {
+        padding-top: 23%;
+		padding-bottom:25px;
+    }
+
+    header .intro-section .intro {
+        margin-bottom: 16px;
+		font-size:18px;
+		line-height:24px;
+    }
+
+    header .intro-section h5 {
+        color: #ffffff;
+		font-size:14px;
+		line-height:20px;
+		margin-bottom:15px;
+    }
+	
+	.navbar-inverse .nav.navbar-right li a {padding:0px 15px;}
+
+}
+
 @media (max-width: 480px) {
  
     
@@ -163,17 +187,6 @@ RESPONSIVE FIXES
         padding: 10px;
     }
 
-    header .intro-section {
-        padding-top: 2%;
-    }
-
-    header .intro-section .intro {
-        margin-bottom: 16px;
-    }
-
-    header .intro-section h5 {
-        color: #ffffff;
-    }
 
     header .intro-section .buttons {
         margin-top: 15px;

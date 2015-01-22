@@ -1,0 +1,69 @@
+@font-face {
+	font-family: 'helifont';
+	src:url('../fonts/helifont/helifont.eot?tb3yyw');
+	src:url('../fonts/helifont/helifont.eot?#iefixtb3yyw') format('embedded-opentype'),
+		url('../fonts/helifont/helifont.woff?tb3yyw') format('woff'),
+		url('../fonts/helifont/helifont.ttf?tb3yyw') format('truetype'),
+		url('../fonts/helifont/helifont.svg?tb3yyw#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+	font-family: 'helifont';
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-adjust:before {
+	content: "\e607";
+}
+
+.icon-checked:before {
+	content: "\e608";
+}
+
+.icon-clip:before {
+	content: "\e609";
+}
+
+.icon-lock:before {
+	content: "\e60a";
+}
+
+.icon-register:before {
+	content: "\e606";
+}
+
+.icon-cloud:before {
+	content: "\e600";
+}
+
+.icon-live:before {
+	content: "\e601";
+}
+
+.icon-graphic:before {
+	content: "\e602";
+}
+
+.icon-responsive:before {
+	content: "\e603";
+}
+
+.icon-analyze:before {
+	content: "\e604";
+}
+
+.icon-wiki:before {
+	content: "\e605";
+}
+
