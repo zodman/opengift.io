@@ -36,7 +36,7 @@ class Timers(admin.ModelAdmin):
     list_display = ['seconds', 'user', 'dateEnd', 'task']
 
 class PaymentsInline(admin.ModelAdmin):
-    list_display = ['user', 'payer', 'project', 'value']
+    list_display = ['user', 'payer', 'project', 'value', 'date']
 
 admin.site.register(PM_Role)
 admin.site.register(PM_Task)

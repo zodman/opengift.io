@@ -49,7 +49,12 @@ def taskListAjax(request):
         task_id = int(request.POST.get('id', 0)) #переданный id задачи
         if task_id:
             task = PM_Task.objects.get(id=task_id) #вот она, задачка
-            task.resp = User.objects.get(pk=int(request.POST.get('resp', False)))
+            strResp = request.POST.get('resp', False)
+            if strResp.find('@') > -1:
+                task.resp = PM_User.getOrCreateByEmail(strResp, task.project, 'employee')
+            else:
+                task.resp = User.objects.get(pk=int(strResp))
+
             if task.parentTask:
                 task.parentTask.observers.add(task.resp)
 

@@ -182,7 +182,7 @@ $(function(){
     {% if projects|length > 4 %}
     <div class="overflow" style="display: none;"></div>
     <div class="popup projects-popup js-projects" style="display: none;">
-    	<span class="close-icon"><i class="fa fa-times" onclick="$('.overflow, .js-projects').hide()"></i></span>
+    	<span class="close-icon"><i class="fa fa-times" onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();"></i></span>
         <h3 class="text-center">Ваши проекты</h3>
         <hr>
         	<table width="100%" cellpadding="0" cellspacing="0">
@@ -190,7 +190,7 @@ $(function(){
             <td>
         <div class="form-group find-a-project">
             <form>
-                <input type="email" placeholder="Введите название проекта" id="" class="form-control">
+                <input type="email" placeholder="Введите название проекта" id="" class="form-control js-inputProjectList">
                 <button class="find-a-project-button"><i class="fa fa-search"></i></button>
             </form>
       	</div>
@@ -213,7 +213,7 @@ $(function(){
                     <a class="fa fa-pencil" href="/project/edit/?id={{ project.id }}"></a>
                 </span>
                 <h4>
-                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
+                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}" class="js-itemProjectName">
                                     {{ project.name }}
                     </a>
                 </h4>
@@ -225,7 +225,7 @@ $(function(){
         </div>
 
     </div>
-    {% endif %}
+    {% endif %}    
     <div class="header clearfix">
         <div class="logo">
             <a href="/">
@@ -368,7 +368,7 @@ $(function(){
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
                     <div class="dropdown">
-                        <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose" data-toggle="dropdown">
+                        <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose js-openProjectList" data-toggle="dropdown">
                             {% if main.CURRENT_PROJECT %}
                                 {{ main.CURRENT_PROJECT.name }}
                             {% else %}
@@ -517,6 +517,26 @@ $(function(){
                 $('body').prepend(response);
             });
         });
+    });
+</script>
+<script type="text/javascript">
+    var projectInput = $('.js-projects').find('.js-inputProjectList');
+    var projectName = $('.js-itemProjectName');
+    projectInput.keyup(function(){
+        var inputVal = $(this).val();
+        projectName.each(function(){
+            $(this).parents('.projects-item').hide();
+            var projectItem = $.trim($(this).text());
+            var projectItemIndexOf = projectItem.toLowerCase().indexOf(inputVal.toLowerCase());
+            if (projectItemIndexOf != -1) {
+                $(this).parents('.projects-item').show();
+            };
+        });
+    });
+    $('.js-openProjectList').click(function(){
+        setTimeout(function () {
+            $('.js-inputProjectList').focus();
+        }, 200);
     });
 </script>
 <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium" />
