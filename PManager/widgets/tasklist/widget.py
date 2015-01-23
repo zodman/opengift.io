@@ -210,7 +210,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             subtaskPlanTime = 0
             for t in subtasksQuery:
                 subtaskTime += t.getAllTime()
-                subtaskPlanTime += int(t.planTime) if t.planTime else 0
+                subtaskPlanTime += t.planTime if t.planTime else 0
 
             if subtasksActiveQty:
                 responsibleSequence = []
