@@ -1022,6 +1022,8 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 
 .bootstrap-growl .close {
 	font-size:30px;
+	position:relative;
+	top:-10px;
 }
 
 
@@ -1995,11 +1997,11 @@ border-top-right-radius: 0;}
 											}
 											.file-diff-scroll-wrapper {
 												width: 100%;
-												overflow-x:scroll;
+												overflow-x:auto;
 											}
 											.file-diff-table {
 												background: white;
-												display: inline-block;
+												display: block;
 											}
 											.commit-diff {
 												white-space: nowrap;

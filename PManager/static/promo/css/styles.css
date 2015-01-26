@@ -17,7 +17,7 @@ body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
     font-weight: 300;
-    color: #464645;
+    color: #fff;
     line-height: 28px;
     text-align: center;
     overflow-x: hidden !important;
@@ -291,6 +291,14 @@ header .full-screen {
             background-size: cover;
 }
 
+
+
+footer {
+    background: url(../images/slide_7.jpg) no-repeat center top fixed;
+    -webkit-background-size: cover;
+            background-size: cover;
+}
+
 #aims {
     background: url(../images/slide_3.jpg) no-repeat center top fixed;
     -webkit-background-size: cover;
@@ -431,7 +439,7 @@ header .intro-section .buttons {
     height: 55px;
     border-radius: 50%;
     line-height: 55px;
-    font-size: 18px;
+    font-size: 24px;
     text-align: center;
     -webkit-transition: all ease-in 0.25s;
             transition: all ease-in 0.25s;
@@ -456,7 +464,7 @@ header .intro-section .buttons {
 -----------------------------------------*/
 
 .app-brief {
-    padding-top: 210px;
+    padding-top: 110px;
     padding-bottom: 60px;
 }
 
@@ -497,6 +505,7 @@ header .intro-section .buttons {
 
 .app-brief .left-align .feature-list li i {
     margin-right: 10px;
+	font-size:18px;
     vertical-align: inherit;
 }
 
@@ -531,7 +540,7 @@ object {
    SECTION:  TESTIMONIALS                 
 -----------------------------------------*/
 .testimonials {
-    background: url(../images/bg-2.jpg) no-repeat center fixed;
+    background: url(../images/slide_5.jpg) no-repeat center fixed;
     -webkit-background-size: cover;
             background-size: cover;
     color: #ffffff;
@@ -753,6 +762,7 @@ object {
    SECTION:  FOOTER                
 -----------------------------------------*/
 
+
 footer .contact-box {
     margin-bottom: 78px;
 }
@@ -764,7 +774,7 @@ footer .contact-box .contact-button {
     margin: auto;
     position: relative;
     font-size: 30px;
-    line-height: 60px;
+    line-height: 70px;
     vertical-align: middle;
     margin-top: -40px;
     background: #232323;
