@@ -210,6 +210,15 @@ h5 {
     background: #161616 !important;
 }
 
+.lg-button {    border: 0 none;
+    border-radius: 40px;
+    display: inline-block;
+    font-size: 16px;
+    height: 56px !important;
+    padding: 0 25px;
+    position: relative;
+    top: 2px;
+    width: 266px;} 
 
 /*---------------------------------------
    SECTIONS          
@@ -732,18 +741,20 @@ object {
     padding-bottom: 80px;
 }
 
-.download .subscription-form .input-box {
+.form-control.input-box {
     height: 57px;
     padding-left: 20px;
-    width: 320px;
+    width: 290px;
     -webkit-box-shadow: none;
             box-shadow: none;
     background: #FFF;
     border: 2px solid #FFF;
+	border-radius:35px;
+	display:inline-block;
 }
 
-.download .subscription-form .input-box:focus, 
-.download .subscription-form .input-box:active {
+.form-control.input-box:focus, 
+.form-control.input-box:active {
     color: #000;
     font-weight: 400;
 }
@@ -800,7 +811,7 @@ footer .contact-box .expanded-contact-form .error {
     display: none;
 }
 
-footer .contact-box .expanded-contact-form .input-box {
+footer .contact-box .expanded-contact-form .form-control {
     margin-bottom: 10px;
     margin-top: 10px;
     height: 50px;
@@ -824,10 +835,10 @@ footer .contact-box .expanded-contact-form .textarea-box:focus,     {
     color: #FFF;
 }
 
+footer hr {border-color:#444;}
+
 footer .social-icons {
-    margin-top: 30px;
-    border-bottom: 1px solid #111111;
-    padding-bottom: 50px;
+	float:right;
 }
 
 footer .social-icons li {
@@ -837,11 +848,11 @@ footer .social-icons li {
 
 footer .social-icons li a {
     font-size: 30px;
-    color: #636363;
+    color: #fff;
 }
 
 footer .copyright {
-    color: #808080;
-    padding-top: 10px;
-    margin-bottom: 50px;
+    color: #fff;
+	float:left;
+	padding-top:10px;
 }

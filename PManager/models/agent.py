@@ -43,5 +43,6 @@ class Agent(models.Model):
         agent.save()
         return agent
 
+
     class Meta:
         app_label = 'PManager'

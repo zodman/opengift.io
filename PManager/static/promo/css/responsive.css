@@ -208,6 +208,12 @@ RESPONSIVE FIXES
         min-width: 100px;
         padding: 11px 20px 11px 20px;
     }
+	
+	.lg-button {
+		font-size: 15px;
+    height: 42px !important;
+    width: 222px;
+	}
 
     .features .feature:hover .icon-container .icon, 
     footer .contact-button:hover {
