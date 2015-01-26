@@ -210,6 +210,15 @@ h5 {
     background: #161616 !important;
 }
 
+.lg-button {    border: 0 none;
+    border-radius: 40px;
+    display: inline-block;
+    font-size: 16px;
+    height: 56px !important;
+    padding: 0 25px;
+    position: relative;
+    top: 2px;
+    width: 266px;} 
 
 /*---------------------------------------
    SECTIONS          
@@ -824,10 +833,10 @@ footer .contact-box .expanded-contact-form .textarea-box:focus,     {
     color: #FFF;
 }
 
+footer hr {border-color:#444;}
+
 footer .social-icons {
-    margin-top: 30px;
-    border-bottom: 1px solid #111111;
-    padding-bottom: 50px;
+	float:right;
 }
 
 footer .social-icons li {
@@ -837,11 +846,11 @@ footer .social-icons li {
 
 footer .social-icons li a {
     font-size: 30px;
-    color: #636363;
+    color: #fff;
 }
 
 footer .copyright {
-    color: #808080;
-    padding-top: 10px;
-    margin-bottom: 50px;
+    color: #fff;
+	float:left;
+	padding-top:10px;
 }

@@ -1,14 +1,13 @@
 @font-face {
 	font-family: 'icomoon';
-	src:url('../fonts/helifont/icomoon.eot?-ns0ubx');
-	src:url('../fonts/helifont/icomoon.eot?#iefix-ns0ubx') format('embedded-opentype'),
-		url('../fonts/helifont/icomoon.woff?-ns0ubx') format('woff'),
-		url('../fonts/helifont/icomoon.ttf?-ns0ubx') format('truetype'),
-		url('../fonts/helifont/icomoon.svg?-ns0ubx#icomoon') format('svg');
+	src:url('../fonts/helifont/icomoon.eot?-ns0ubf');
+	src:url('../fonts/helifont/icomoon.eot?#iefix-ns0ubf') format('embedded-opentype'),
+		url('../fonts/helifont/icomoon.woff?-ns0ubf') format('woff'),
+		url('../fonts/helifont/icomoon.ttf?-ns0ubf') format('truetype'),
+		url('../fonts/helifont/icomoon.svg?-ns0ubf#icomoon') format('svg');
 	font-weight: normal;
 	font-style: normal;
 }
-
 
 [class^="icon-"], [class*=" icon-"] {
 	font-family: 'icomoon';
@@ -22,6 +21,18 @@
 	/* Better Font Rendering =========== */
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+}
+
+.icon-facebook:before {
+	content: "\e610";
+}
+
+.icon-vkontakte:before {
+	content: "\e611";
+}
+
+.icon-draw:before {
+	content: "\e60f";
 }
 
 .icon-cloud2:before {
@@ -44,7 +55,7 @@
 	content: "\e607";
 }
 
-.icon-checked:before {
+.icon-ckecked:before {
 	content: "\e608";
 }
 
@@ -83,4 +94,3 @@
 .icon-wiki:before {
 	content: "\e605";
 }
-
