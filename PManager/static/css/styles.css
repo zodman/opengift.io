@@ -785,22 +785,33 @@ border-top-right-radius: 4px;}
 .stat-widget-choose-date-day a.fa {border:0;}
 
 .start-inline-block, 
-.end-inline-block {display:inline-block; overflow:hidden; margin-right:10px; vertical-align:middle;}
+.end-inline-block {display:inline-block; margin-right:10px; vertical-align:middle;}
 
+.stat-widget-choose-a-project {display:inline-block; margin-left:15px;}
+	.stat-widget-choose-a-project .dropdown-menu li {}
+		.stat-widget-choose-a-project .dropdown-menu li label {display:block; font-weight:normal; white-space: nowrap; clear:both; padding:5px 15px;}
+		
+		.stat-widget-choose-a-project .dropdown-menu li input {margin:4px 5px 0 0 !important; display:inline-block; vertical-align:top;}
 
+	.stat-widget-choose-a-project button {float:none !important;}
 
-@media only screen and (max-width: 800px) {
+@media only screen and (max-width: 920px) {
 
 .stat-widget-choose-form {display:block;}
 	
 .start-inline-block, 
-.end-inline-block {display:block; margin-right:0px; margin-bottom:10px;}
+.end-inline-block {display:block; margin-right:0px; margin-bottom:10px; overflow:hidden;}
 
 
 .form-inline.stat-widget-choose-form .form-group, 
 .form-inline.stat-widget-choose-form .checkbox {float:left; display:block !important;}
 .form-inline.stat-widget-choose-form .form-group {width:calc(100% - 30px);} 
 .form-inline.stat-widget-choose-form .checkbox {width:30px; text-align:right; padding-right:15px; padding-top:7px !important;}
+}
+
+
+@media only screen and (max-width: 476px) {
+	.stat-widget-choose-a-project  {margin-left:0px; margin-top:10px; display:block; clear:both;}
 }
 /*ВИДЖЕТ ОТЧЕТОВ END */
 
