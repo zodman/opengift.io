@@ -1969,7 +1969,7 @@ border-top-right-radius: 0;}
 											.message.apprice .message-info {border-color:#f5ded1;}											
 											.message.apprice .message-desc-status {color:#b04e19;}
 										/*GIT-КОММИТЫ*/
-										.message.git-commit {background:#EEDEED; border-color:#EEDEED;}
+										.message.git-commit {background:none repeat scroll 0 0 #f5f1e7; border-color:#ede8da;}
 											.js-commit-body {
 												padding-top:10px;
 											}
