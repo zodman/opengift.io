@@ -260,3 +260,52 @@ RESPONSIVE FIXES
         padding: 8px 5px;
     }
 }
+@media (max-width: 1280px) {
+.download {height:440px;}
+.download .container {top:25%;}
+.video {height:440px;}
+}
+
+
+@media (max-width: 980px) {
+.download {height:340px;}
+.download .container {top:15%;}
+.video {height:340px;}
+}
+
+@media (max-width: 768px) {
+.download {height:340px;}
+.download .container {top:10%;}
+.video {height:340px;}
+}
+
+@media (max-width: 568px) {
+.download {height:340px;}
+.download .container {top:5%;}
+.video {height:340px;}
+}
+
+@media (min-width: 1281px) {
+.download {height:440px;}
+.download .container {top:25%;}
+.video {height:440px;}
+}
+
+@media (min-width: 1441px) {
+.download {height:600px;}
+.download .container {top:30%;}
+.video {height:600px;}
+}
+
+@media (min-width: 1601px) {
+.download {height:650px;}
+.download .container {top:32%;}
+.video {height:650px;}
+}
+
+@media (min-width: 1920px) {
+.download {height:720px;}
+.download .container {top:35%;}
+.video {height:720px;}
+}
+
