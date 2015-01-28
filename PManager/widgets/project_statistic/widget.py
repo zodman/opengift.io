@@ -51,9 +51,10 @@ class PaymentChart(Chart):
         for day in dayGenerator:
             credit = Credit.objects.filter(
                 date__range=(datetime.datetime.combine(day, datetime.time.min),
-                             datetime.datetime.combine(day, datetime.time.max)),
-                project__in=self.projects
+                             datetime.datetime.combine(day, datetime.time.max))
             )
+            if self.projects:
+                credit = credit.filter(project__in=self.projects)
 
             creditOut = credit.filter(user__isnull=False)
             creditIn = credit.filter(payer__isnull=False)
@@ -63,8 +64,10 @@ class PaymentChart(Chart):
 
 
             payments = Payment.objects.filter(date__range=(datetime.datetime.combine(day, datetime.time.min),
-                                                           datetime.datetime.combine(day, datetime.time.max)),
-                                              project__in=self.projects)
+                                                           datetime.datetime.combine(day, datetime.time.max))
+                                            )
+            if self.projects:
+                payments = payments.filter(project__in=self.projects)
 
             paymentsOut = payments.filter(user__isnull=False)
             paymentsIn = payments.filter(payer__isnull=False)
