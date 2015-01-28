@@ -15,6 +15,7 @@ class Axis:
     def __init__(self, title, color):
         self.title = title
         self.color = color
+        self.values = []
 
 class Chart:
     title = ''
@@ -43,10 +44,10 @@ class PaymentChart(Chart):
         pOut = 0
 
         self.yAxes = {
-            'in': Axis(u'Долговые обязательства', 'rgb(0,0,0)'),
-            'out': Axis(u'Кредиты', 'rgb(99,0,0)'),
-            'pin': Axis(u'Входящие платежи', 'rgb(160,0,0)'),
-            'pout': Axis(u'Исходящие платежи', 'rgb(255,0,0)'),
+            'in': Axis(u'Долговые обязательства', '#0bd145'),
+            'out': Axis(u'Кредиты', '#003060'),
+            'pin': Axis(u'Входящие платежи', 'rgba(63, 255, 0, 0.34)'),
+            'pout': Axis(u'Исходящие платежи', 'rgba(0, 255, 232, 0.34)'),
         }
         for day in dayGenerator:
             credit = Credit.objects.filter(
@@ -65,6 +66,7 @@ class PaymentChart(Chart):
 
             payments = Payment.objects.filter(date__range=(datetime.datetime.combine(day, datetime.time.min),
                                                            datetime.datetime.combine(day, datetime.time.max))
+
                                             )
             if self.projects:
                 payments = payments.filter(project__in=self.projects)

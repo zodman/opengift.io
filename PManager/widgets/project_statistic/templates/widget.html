@@ -124,7 +124,7 @@
 var data = {
     labels : [{% for event in chart.xAxe %}'{{ event.date.day }}'{% if not forloop.last %},{% endif %}{% endfor %}],
     datasets : [
-        {% for axis in chart.yAxes.iteritems %}
+        {% for y, axis in chart.yAxes.iteritems %}
         {
             label: "{{ axis.title }}",
             pointColor : "{{ axis.color }}",
