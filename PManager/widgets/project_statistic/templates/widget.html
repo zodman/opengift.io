@@ -54,11 +54,12 @@
    <hr>
 <div class="stat-widget-list clearfix">
         {% for chart in project_statistic.charts %}
+            {% for s in chart.payQuery %}{{ s }}{% endfor %}
 		<div class="stat-widget">
-        	<h4>Количество проработанных часов</h4>       
+        	<h4>{{ chart.title }}</h4>
         	<div class="stat-widget-text">
                 {% if chart.type == 'chart' %}
-                <canvas id="chart_1" width="800px" height="220px" class="img-responsive"></canvas>
+                <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
                 {% endif %}
             </div>
         </div>  
@@ -136,16 +137,18 @@ var data = {
 };
 
 $(function(){
-    var canvas = $('#chart_{{ forloop.counter }}').get(0);
-    var ctx = canvas.getContext("2d");
-    new Chart(ctx).Line(data,{
+    var canvas{{ forloop.counter }} = $('#chart_{{ forloop.counter }}').get(0);
+    var ctx{{ forloop.counter }} = canvas{{ forloop.counter }}.getContext("2d");
+    var chart{{ forloop.counter }} = new Chart(ctx{{ forloop.counter }}).Line(data,{
         'scaleShowLabels':true,
         'bezierCurve': false,
         'tooltipEvents': ["mousemove", "touchstart", "touchmove"],
         'pointDot' : true,
         'showTooltips': true,
-        'datasetFill' : false
+        'datasetFill' : false,
+        'legendTemplate': "<ul class=\"legend\"><%for (var i=0;i<datasets.length;i++){ %><li style=\"color:<%=datasets[i].strokeColor%>\"> <span style=\"color:black;\"><%=datasets[i].label%><% } %></span></li></ul>"
     });
+    $(canvas{{ forloop.counter }}).parent().append(chart{{ forloop.counter }}.generateLegend());
 });
 {% endfor %}
 </script>

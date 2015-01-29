@@ -1289,7 +1289,7 @@ div.calendar-bar .month .monthDate td:last-child {border:0px;}
 div.progress-item {margin-bottom:15px; font-size:11px; display:inline-block; position:relative;}
 div.progress-item .progress {height:5px; margin-bottom:5px;}
 
-.progress-task-desc, .project_hint {background-color: rgba(0, 0, 0, 0.8); box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); width:350px; line-height:16px; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; position:absolute; font-size:12px; padding:10px 15px 15px; z-index:10; color:#fff;}
+.progress-task-desc, .project_hint {background-color: rgba(0, 0, 0, 0.8); box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -moz-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); -webkit-box-shadow:0 2px 5px rgba(0, 0, 0, 0.5); width:350px; line-height:16px; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; position:absolute; font-size:12px; padding:10px 15px 15px; z-index:1000; color:#fff;}
 .progress-task-desc img, .project_hint img {float:left; margin-right:10px; margin-top:5px; width:150px;}
 .progress-task-desc h5, .project_hint h5 {color:#93d9ff; margin:0px 0px 5px; font-weight:bold; font-size:14px;}
 .progress-task-desc p, .project_hint p {margin:0px 0px 10px; display:block;}
