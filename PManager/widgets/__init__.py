@@ -13,4 +13,5 @@ from user_statistic import *
 from project_summary import *
 from project_edit import *
 from project_graph import *
+from project_statistic import *
 from life import *

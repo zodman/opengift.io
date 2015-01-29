@@ -1,0 +1,151 @@
+<script type="text/javascript" src="/static/js/libs/charts.js"></script>
+<div class="widget">
+    <h3>Статистика</h3>
+   <hr>
+
+<div class="stat-widget-choose-date">   
+    <form role="form" class="form-inline stat-widget-choose-form">
+        <h5>Выберите диапазон дат </h5>
+          <div class="start-inline-block">
+              <div class="checkbox">
+                <label>c</label> &nbsp;
+              </div>
+              <div class="form-group">
+                <label for="StartFromDate1" class="sr-only">Выберите начало</label>
+                <input type="date" placeholder="Выберите начало" id="StartFromDate1" class="form-control">
+              </div>
+          </div>
+
+          <div class="end-inline-block">
+              <div class="checkbox">
+                <label>по</label> &nbsp;
+              </div>
+              <div class="form-group">
+                <label for="StartFromDate2" class="sr-only">Выберите окончание</label>
+                <input type="date" placeholder="Выберите окончание" id="StartFromDate2" class="form-control">
+              </div>
+          </div>
+          <button class="btn btn-success" type="submit">Выбрать</button>
+        <div class="stat-widget-choose-date-day">
+            <a href="" class="fa fa-calendar"></a>
+            <span><a href="#">День</a></span>
+            <span><a href="#">Месяц</a></span>
+            <span><a href="#">Год</a></span>
+       </div>
+
+
+        <div class="btn-group stat-widget-choose-a-project">
+          <button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-expanded="false">Выберите проект <span class="caret"></span></button>
+          <ul class="dropdown-menu" role="menu">
+                 <li>
+                    <label><input type="checkbox">&nbsp;Название проекта</label>
+                 </li>
+                 <li>
+                    <label><input type="checkbox">&nbsp;Название проекта</label>
+                 </li>
+          </ul>
+        </div>
+   
+    </form>
+    
+    
+                            
+</div>
+   <hr>
+<div class="stat-widget-list clearfix">
+        {% for chart in project_statistic.charts %}
+		<div class="stat-widget">
+        	<h4>Количество проработанных часов</h4>       
+        	<div class="stat-widget-text">
+                {% if chart.type == 'chart' %}
+                <canvas id="chart_1" width="800px" height="220px" class="img-responsive"></canvas>
+                {% endif %}
+            </div>
+        </div>  
+
+{#		<div class="stat-widget">#}
+{#        	<h4>Выполняемые задачи</h4>#}
+{#        	<div class="stat-widget-text">#}
+{#                <table class="table">#}
+{#                  <thead>#}
+{#                    <tr>#}
+{#                      <th>#</th>#}
+{#                      <th>Название задачи</th>#}
+{#                      <th>Исполнитель</th>#}
+{#                      <th>Время</th>#}
+{#                    </tr>#}
+{#                  </thead>#}
+{#                  <tbody>#}
+{#                    <tr class="active">#}
+{#                      <td>1</td>#}
+{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                    <tr>#}
+{#                      <td>2</td>#}
+{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                    <tr class="success">#}
+{#                      <td>3</td>#}
+{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                    <tr class="danger">#}
+{#                      <td>4</td>#}
+{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                    <tr class="info">#}
+{#                      <td>5</td>#}
+{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                    <tr class="warning">#}
+{#                      <td>6</td>#}
+{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
+{#                      <td><a href="">Егор Маслов</a></td>#}
+{#                      <td> 00:00:00</td>#}
+{#                    </tr>#}
+{#                  </tbody>#}
+{#                </table>#}
+{#            </div>        #}
+{#        </div>  #}
+    {% endfor %}
+   </div>   
+</div>
+<script>
+{% for chart in project_statistic.charts %}
+var data = {
+    labels : [{% for event in chart.xAxe %}'{{ event.date.day }}'{% if not forloop.last %},{% endif %}{% endfor %}],
+    datasets : [
+        {% for y, axis in chart.yAxes.iteritems %}
+        {
+            label: "{{ axis.title }}",
+            pointColor : "{{ axis.color }}",
+            strokeColor : "{{ axis.color }}",
+            data : [{% for event in axis.values %}{{ event }}{% if not forloop.last %},{% endif %}{% endfor %}]
+        }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
+};
+
+$(function(){
+    var canvas = $('#chart_{{ forloop.counter }}').get(0);
+    var ctx = canvas.getContext("2d");
+    new Chart(ctx).Line(data,{
+        'scaleShowLabels':true,
+        'bezierCurve': false,
+        'tooltipEvents': ["mousemove", "touchstart", "touchmove"],
+        'pointDot' : true,
+        'showTooltips': true,
+        'datasetFill' : false
+    });
+});
+{% endfor %}
+</script>
