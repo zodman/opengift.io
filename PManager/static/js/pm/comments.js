@@ -324,7 +324,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (this.model.get('todo')) {
                     act = 'addClass';
                 }
-                this.$('.message')[act]('todo');
+                this.$('.message')[act]('todo-message');
 
                 if (this.model.get('canEdit')) {
                     this.$('.js-editTaskMessage').show();
