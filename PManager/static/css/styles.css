@@ -1979,9 +1979,9 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 											.to-do-list button {position:relative; margin-left:5px; top:-2px;}
 											
 										/*ЗЕЛЕНАЯ СООБЩЕНИЕ*/
-										.message.success {background:#edf8ed; border-color:#deecd8;}
-											.message.success .message-info {border-color:#deecd8;}											
-											.message.success .message-desc-status {color:#468847;}
+										.message.success, .todo-message {background:#edf8ed; border-color:#deecd8;}
+											.message.success .message-info, .todo-message .message-info {border-color:#deecd8;}											
+											.message.success .message-desc-status, .todo-message .message-desc-status {color:#468847;}
 											
 										/*ЖЕЛТОЕ СООБЩЕНИЕ*/	
 										.message.warning {background:#fffdf1; border-color:#f5f3ea;}
