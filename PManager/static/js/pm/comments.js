@@ -102,7 +102,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                  if(e.currentTarget) {
                      var $chk = $(e.currentTarget), checkTodo;
                      var view = this;
-                     checkTodo = $chk.is(':checked');
+                     checkTodo = !this.model.get('todo_checked');
                      this.model.set('todo_checked', checkTodo);
                      view.render();
                      this.model.saveToServer(function (data) {
@@ -322,7 +322,16 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
                 var act = 'removeClass';
                 if (this.model.get('todo')) {
+                    var $todoCheckBox = $('<i class="fa js-check-todo"></i>');
                     act = 'addClass';
+                    if (this.model.get('todo_checked')) {
+                        $todoCheckBox.addClass('fa-check-square-o');
+                    } else {
+                        $todoCheckBox.addClass('fa-square-o');
+                    }
+                    $todoCheckBox.insertAfter(this.$('.js-messageDetailText'));
+                } else {
+                    this.$('.js-check-todo').remove();
                 }
                 this.$('.message')[act]('todo-message');
 
