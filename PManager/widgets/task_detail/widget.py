@@ -179,6 +179,7 @@ def widget(request, headerValues, arFilter, q):
 
             if mes.todo:
                 arTodo.append({
+                    'id': mes.id,
                     'text': mes.text,
                     'checked': mes.todo_checked
                 })
