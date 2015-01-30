@@ -1941,8 +1941,8 @@ border-top-right-radius: 0;}
 											.message-desc-message .well {padding:5px 10px; background:#fff; margin-bottom:10px;}
 											
 											.message-desc-left {position:relative; padding-right:40px;}	
-												.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; margin-top:-14px; position:absolute; right:0px; top:50%;}
-												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; margin-top:-14px; position:absolute; right:-3px; top:50%;} 
+												.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; margin-top:-14px; position:absolute; right:0px; top:50%; cursor:pointer;}
+												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; margin-top:-14px; position:absolute; right:-3px; top:50%; cursor:pointer;} 
 											
 											.toggle-messages {text-align:center; width: 65px; margin: -15px auto 15px; height:22px;}
 											.toggle-messages > span {background:#ddd; -webkit-border-radius: 4px; -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -moz-border-radius: 4px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; border-radius: 4px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding:1px 5px; font-size:10px; line-height:18px; text-transform:uppercase; color:#999;}
@@ -1993,9 +1993,10 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 												margin-left: 0;
 												position: relative;
 												top: 3px;
+												cursor:pointer;
 											}
 											
-											.to-do-list button .fa-check-square-o {color:#57a957;}
+											.to-do-list button .fa-check-square-o {color:#57a957;cursor:pointer;}
 																						
 	
 
