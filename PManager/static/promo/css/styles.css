@@ -303,7 +303,7 @@ header .full-screen {
 
 
 footer {
-    background: url(../images/slide_7.jpg) no-repeat center top fixed;
+    background: #666;
     -webkit-background-size: cover;
             background-size: cover;
 			position:relative;
@@ -720,7 +720,6 @@ object {
 -----------------------------------------*/
 
 .download {
-    background: url('../images/bg-3.jpg') no-repeat center fixed;
     -webkit-background-size: cover;
             background-size: cover;
     color: #ffffff;
@@ -728,7 +727,7 @@ object {
 	overflow:hidden;
 }
 
-.video {z-index:0;z-index:0; display:block; float:right;}
+.video {z-index:0;z-index:0; display:block; min-width:100%;}
 
 
 .download .overlay {
@@ -748,7 +747,7 @@ object {
     padding-bottom: 80px;
 }
 
-.download .container {position:absolute; width:100%; top:15%; z-index:1;}
+.download .container {position:absolute; width:100%; z-index:1;}
 
 .download .subscription-form-container {
     padding-bottom: 80px;
@@ -779,6 +778,7 @@ object {
 
 .download h2 {
     margin-bottom: 30px;
+	margin-top:0px;
 }
 
 
