@@ -1940,14 +1940,19 @@ border-top-right-radius: 0;}
 											
 											.message-desc-message .well {padding:5px 10px; background:#fff; margin-bottom:10px;}
 											
+											.message-desc-message {position:relative; padding-right:40px;}	
+												.message-desc-message .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; margin-top:-14px; position:absolute; right:0px; top:50%;}
+												.message-desc-message .fa.fa-check-square-o {color:#57a957; font-size:28px; margin-top:-14px; position:absolute; right:-3px; top:50%;} 
+											
 											.toggle-messages {text-align:center; width: 65px; margin: -15px auto 15px; height:22px;}
 											.toggle-messages > span {background:#ddd; -webkit-border-radius: 4px; -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -moz-border-radius: 4px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; border-radius: 4px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding:1px 5px; font-size:10px; line-height:18px; text-transform:uppercase; color:#999;}
 											
 											.message .message-desc-text {color:#444 !important;}
 											
+											
 											.message-desc-right a {margin-right:5px; font-weight:bold; padding:5px 15px;} 
-											.message-desc-right a.link {padding:5px 0px; margin-right:15px;}
-											.message-desc-right a.to-do-button {padding:5px 10px; margin-left:-10px; margin-right:0px; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; border:1px solid rgba(1,1,1,0);}
+											.message-desc-right a.link {padding:5px 0px; margin-left:15px; margin-right:0px;}
+											.message-desc-right a.to-do-button {padding:5px 10px; margin-left:0px; margin-right:0px; border-radius:4px; -moz-border-radius:4px; -webkit-border-radius:4px; border:1px solid rgba(1,1,1,0); text-decoration:none;}
 											.message-desc-right a.to-do-button:hover {background-image: -webkit-gradient(
 	linear,
 	left top,
@@ -1960,6 +1965,9 @@ background-image: -moz-linear-gradient(bottom, #6ABA6A 0%, #569956 100%);
 background-image: -webkit-linear-gradient(bottom, #6ABA6A 0%, #569956 100%);
 background-image: -ms-linear-gradient(bottom, #6ABA6A 0%, #569956 100%);
 background-image: linear-gradient(to bottom, #6ABA6A 0%, #569956 100%); border:1px solid #468847; ; text-shadow:0px 1px 0px #468847; -moz-text-shadow:0px 1px 0px #468847; -webkit-text-shadow:0px 1px 0px #468847; color:#fff !important;}
+
+
+
 										.message-desc-right a.to-do-button.checked {background:#468847; border:1px solid #468847; text-shadow:0px 1px 0px #468847; -moz-text-shadow:0px 1px 0px #468847; -webkit-text-shadow:0px 1px 0px #468847; color:#fff !important; background-image: -webkit-gradient(
 	linear,
 	left top,
@@ -1976,7 +1984,22 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 											.to-do-button label {margin:0px;}
 												.to-do-button label input {margin:3px 5px 0 0 !important; vertical-align:top; display:inline-block;} 
 											
-											.to-do-list button {position:relative; margin-left:5px; top:-2px;}
+											.to-do-list button {
+												background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
+												border: medium none;
+												color: #ccc;
+												font-size: 21px;
+												line-height: 0;
+												margin-left: 0;
+												position: relative;
+												top: 3px;
+											}
+											
+											.to-do-list button .fa-check-square-o {color:#57a957;}
+																						
+	
+
+											
 											
 										/*ЗЕЛЕНАЯ СООБЩЕНИЕ*/
 										.message.success, .todo-message {background:#edf8ed; border-color:#deecd8;}
