@@ -12,6 +12,7 @@ def ajaxResponder(request):
 class ajaxActions(object):
     def __init__(self, request):
         self.request = request
+        self.id = int(self.request.POST.get('id', 0))
         if 'action' in request.REQUEST:
             self.action = request.REQUEST['action']
         else:
@@ -22,10 +23,9 @@ class ajaxActions(object):
             return json.dumps(self.__getattribute__(self.action)())
 
     def setRead(self):
-        id = int(self.request.POST.get('id', 0))
-        if id > 0:
+        if self.id > 0:
             try:
-                message = PM_Task_Message.objects.get(pk=id)
+                message = PM_Task_Message.objects.get(pk=self.id)
                 if message.canEdit(self.request.user):
                     message.read = True
                     message.save()

@@ -102,18 +102,22 @@
                 {% endfor %}
             </p>
         {% endif %}
-        
-         <!--<p class="to-do-list">
-       To Do:
-        	<button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" data-container="body" class="btn btn-xs btn-success" type="button" data-original-title="" title="">
-        <i class="fa fa-check"></i>
-      </button>
-      <button data-content="Vivamus sagittis lacus vel augue laoreet rutrum faucibus." data-placement="top" data-toggle="popover" data-container="body" class="btn btn-xs btn-default" type="button" data-original-title="" title="">&nbsp;&nbsp;&nbsp;
-      </button> 
-        </p>-->
+        {% if task_detail.task.todo %}
+            <p class="to-do-list">
+            To Do:
+                {% for todo in task_detail.task.todo %}
+                <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="btn btn-xs {% if todo.checked %}btn-success{% endif %}" type="button" data-original-title="" title="">
+                    {% if todo.checked %}<i class="fa fa-check"></i>{% endif %}
+                </button>
+                {% endfor %}
+            </p>
+        {% endif %}
         
 {#        {{ task_detail.params }}#}
         Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
+        {% if task_detail.task.planTime %}
+        Плановое время: {{ task_detail.task.planTime }} ч. &nbsp;&nbsp;
+        {% endif %}
         Затраченное время: <span id="js-td_time"></span>
         {% if task_detail.task.resp %}
         <hr />
@@ -340,6 +344,9 @@
 {#TODO: удалить#}
     $(function(){
         $('.js-task-checkbox').remove();
+        $('[data-toggle="popover"]').popover({
+            'trigger': 'hover'
+        });
     });
 </script>
 {#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}

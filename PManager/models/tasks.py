@@ -1292,12 +1292,12 @@ class PM_Property_Values(models.Model):
 
 class PM_Task_Message(models.Model):
     text = models.CharField(max_length=10000)
-    author = models.ForeignKey(User, related_name="outputMessages", null=True, blank=True)
+    author = models.ForeignKey(User, related_name="outputMessages", null=True, blank=True, db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     task = models.ForeignKey(PM_Task, null=True, related_name="messages", db_index=True)
     project = models.ForeignKey(PM_Project, null=True)
     commit = models.CharField(max_length=42, null=True)
-    userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True)
+    userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True, db_index=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
     hidden = models.BooleanField(default=False)
     hidden_from_clients = models.BooleanField(default=False)
@@ -1305,6 +1305,8 @@ class PM_Task_Message(models.Model):
     isSystemLog = models.BooleanField(blank=True)
     code = models.CharField(max_length=255, null=True, blank=True)
     read = models.BooleanField(blank=True)
+    todo = models.BooleanField(blank=True)
+    todo_checked = models.BooleanField(blank=True)
 
     def __unicode__(self):
         return self.text
@@ -1333,6 +1335,14 @@ class PM_Task_Message(models.Model):
 
     def updateFromRequestData(self, data):
         changed = False
+        if 'todo_checked' in data:
+            self.todo_checked = not not data['todo_checked']
+            changed = True
+
+        if 'todo' in data:
+            self.todo = not not data['todo']
+            changed = True
+
         if 'hidden_from_employee' in data:
             r = not not data['hidden_from_employee']
             if self.hidden_from_employee != r:
@@ -1418,6 +1428,8 @@ class PM_Task_Message(models.Model):
             # 'hidden_from_responsible': self.hidden_from_responsible,
             'hidden': self.hidden,
             'system': self.isSystemLog,
+            'todo': self.todo,
+            'todo_checked': self.todo_checked,
             'project': {
                 'id': self.project.id,
                 'name': self.project.name,
