@@ -106,7 +106,7 @@
             <p class="to-do-list">
             To Do:
                 {% for todo in task_detail.task.todo %}
-                <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="{% if todo.checked %}btn-success{% endif %} js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
+                <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
                     {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
                 </button>
                 {% endfor %}
