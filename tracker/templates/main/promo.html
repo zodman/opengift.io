@@ -108,7 +108,7 @@
 				<ul class="nav navbar-nav navbar-right main-navigation">
 					<li><a href="#quickstart">Быстрый старт</a></li>
 					<li><a href="#features">Преимущества</a></li>
-					<li><a href="#services">Контакты</a></li>
+					<li><a href="#download">Контакты</a></li>
 					<!--<li><a href="#screenshot-section">5</a></li>
 					<li><a href="#download">6</a></li>-->
                     <li><a href="/login/" class="btn btn-default">Вход</a></li>
@@ -133,8 +133,8 @@
                     <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Управлять совместным доступом</span> к исходному коду и файлам проекта</h5>
 					
 					<!-- BUTTON -->
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box" />					
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button">Зарегистрироваться</button>
+						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
+						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Быстрая регистрация</button>
 					<!-- /END BUTTONS -->
 					
 				</div>
@@ -340,8 +340,8 @@
 				<li><i class="icon-adjust"></i> Персональные настройки каждого проекта</li>
 			</ul>
 			
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box" />					
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button">Зарегистрироваться</button>	
+						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
+						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Зарегистрироваться</button>
 						
 		</div>
 		
@@ -367,8 +367,8 @@
 				Heliard заранее напомнит вам о целях и поможет оптимизировать работу команды таким образом, чтобы достигнуть их в срок.
 			</p>			
             <p>
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box" />					
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button red-button">Зарегистрироваться</button>
+						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
+						<button type="submit" id="subscribe-button" class="btn btn-default standard-button red-button js-register">Поставить цель</button>
                         </p>	
 		</div>
 		
@@ -402,8 +402,8 @@
 			<div class="colored-line-left"></div>
 			<p>Heliard помогает планировать цели и время. Запоминая всю активность вашей команды в проектах, он может автоматически назначить ответственного и примерно оценить время работ по задаче.<br/><br/>Система подскажет, как уложиться в сроки, определит приоритетные для каждого специлиста задачи. </p>
             <p>
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box" />					
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button">Зарегистрироваться</button>	</p>	
+						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
+						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Начать планировать</button>	</p>
 		</div>
 	</div><!--row-->
 </div><!--container-->
@@ -739,10 +739,10 @@
 						<h4 class="subscription-error"></h4>
 						
 						<!-- EMAIL INPUT BOX -->
-						<input type="email" name="email" id="subscriber-email" placeholder="Ваш Email" class="form-control input-box" />
+						<input type="email" name="email" id="subscriber-email" placeholder="Ваш Email" class="form-control input-box js-email" />
 						
 						<!-- SUBSCRIBE BUTTON -->
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button">Создать проект</button>
+						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Создать проект</button>
 						
 					</form>
 					<!-- /END MAILCHIMP FORM STARTS -->
@@ -868,7 +868,35 @@
 <!-- =========================
      SCRIPTS 
 ============================== -->
+<script>
+    $('.js-register').click(function(){
+        var $email = $(this).closest('section').find('.js-email');
+        if (!$email.val()) {
+            $email.addClass('error');
+            $email.one('keyup', function(){
+                $(this).removeClass('error');
+            });
+        } else {
+            if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('register');
+            $.post(
+                '/register/',
+                {
+                    'email': $email.val()
+                },
+                function(data) {
+                    $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><!--ul class="list"><li>Пункт 1</li><li>Пункт 2</li><li>Пункт 3</li></ul><div class="content"-->' + data + '<!--/div><div class="images"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"></div--></div>');
+                    $('.js-popupClose').click(function(){
+                        $(this).parent().fadeOut(200, function(){
+                            $(this).remove();
+                        })
+                    })
+                    $email.val('');                        }
+            );
+        }
 
+        return false;
+    });
+</script>
 <script src="/static/promo/js/bootstrap.min.js"></script>
 <script src="/static/promo/js/smoothscroll.js"></script>
 <script src="/static/promo/js/jquery.scrollTo.min.js"></script>
