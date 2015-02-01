@@ -49,7 +49,7 @@ $(function() {
                     	<div class="pull-left"><i class="statusImg"></i>&nbsp;&nbsp;
                             <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a>
                             <small class="small">
-                                {% if user.profile.specialties %}
+                                {% if user.profile.specialties.count %}
                                     {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
                                 {% else %}
                                     {% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}
