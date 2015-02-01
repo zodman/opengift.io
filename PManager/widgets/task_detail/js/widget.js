@@ -391,7 +391,7 @@ $(function(){
             if (!model.get('todo')) {
                 $checkbox.remove();
             } else {
-                if ($checkbox.get('0')) {
+                if ($checkbox.get(0)) {
                     return false;
                 }
                 $checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" type="button" data-original-title="" title=""></button>')
