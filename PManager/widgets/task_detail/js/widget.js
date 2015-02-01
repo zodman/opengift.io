@@ -397,8 +397,14 @@ $(function(){
                 } else {
                     $i.addClass('fa fa-square-o');
                 }
-                $checkbox.append($i).appendTo(widget_td.$todoList);
+                $checkbox.append($i).appendTo(widget_td.$todoList).popover({
+                    'trigger': 'hover'
+                });
                 widget_td.$todoContiner.removeClass('hidden');
             }
+        });
+
+    $('[data-toggle="popover"]').popover({
+            'trigger': 'hover'
         });
 });
