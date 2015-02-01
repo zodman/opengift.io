@@ -102,16 +102,19 @@
                 {% endfor %}
             </p>
         {% endif %}
-        {% if task_detail.task.todo %}
-            <p class="to-do-list">
-            To Do:
+
+        <p class="js-todo-container to-do-list{% if not task_detail.task.todo %} hidden{% endif %}">
+        To Do:
+            <span class="js-todo-list">
+            {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
                 <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
                     {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
                 </button>
                 {% endfor %}
-            </p>
-        {% endif %}
+            {% endif %}
+            </span>
+        </p>
         
 {#        {{ task_detail.params }}#}
         Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
@@ -346,6 +349,9 @@
         $('.js-task-checkbox').remove();
         $('[data-toggle="popover"]').popover({
             'trigger': 'hover'
+        });
+        $('.js-todo-checkbox').click(function(){
+
         });
     });
 </script>

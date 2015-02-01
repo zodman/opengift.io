@@ -28,6 +28,8 @@ $(function(){
     widget_td.$createTaskInput = widget_td.$container.find('.js-addTaskInput input:text');
     widget_td.$blockAfterNewTask = widget_td.$task_holder.find('.js-addTaskInput');
     widget_td.$messageForm = widget_td.$container.find('form.newMessage');
+    widget_td.$todoList = widget_td.$container.find('.js-todo-list');
+    widget_td.$todoContiner = widget_td.$container.find('.js-todo-container');
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
@@ -367,4 +369,36 @@ $(function(){
     widget_td.init();
 
     document.mainController.widgetsData["task_detail"] = widget_td;
+
+    $(window)
+        .bind('pmCheckTodo', function(e, model) {
+            var $checkbox = $('.js-todo-checkbox[rel='+model.id+'] .fa');
+            var rem = 'removeClass', add = 'addClass';
+            if (model.get('todo_checked')) {
+                rem = 'addClass';
+                add = 'removeClass';
+            }
+            $checkbox[rem]('fa-check-square-o')[add]('fa-square-o');
+        })
+        .bind('pmSetTodo', function(e, model) {
+            var $checkbox = $('.js-todo-checkbox[rel='+model.id+']');
+            if (!model.get('todo')) {
+                $checkbox.remove();
+            } else {
+                if ($checkbox.get('0')) {
+                    return false;
+                }
+                $checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" type="button" data-original-title="" title=""></button>')
+                    .attr('rel', model.id)
+                    .attr('data-content', model.get('text'));
+                var $i = $('<i></i>');
+                if (model.get('todo_checked')) {
+                    $i.addClass('fa fa-square-check-o');
+                } else {
+                    $i.addClass('fa fa-square-o');
+                }
+                $checkbox.append($i).appendTo(widget_td.$todoList);
+                widget_td.$todoContiner.removeClass('hidden');
+            }
+        });
 });

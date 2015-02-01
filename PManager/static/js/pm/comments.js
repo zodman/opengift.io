@@ -92,8 +92,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                      setTodo = $btn.is('.checked');
                      this.model.set('todo', setTodo);
                      view.render();
-                     this.model.saveToServer(function (data) {
 
+                     this.model.saveToServer(function (data) {
+                        $(window).triggerHandler('pmSetTodo', view.model);
                      });
                  }
                 return false;
@@ -105,8 +106,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                      checkTodo = !this.model.get('todo_checked');
                      this.model.set('todo_checked', checkTodo);
                      view.render();
-                     this.model.saveToServer(function (data) {
 
+                     this.model.saveToServer(function (data) {
+                        $(window).triggerHandler('pmCheckTodo', view.model);
                      });
                  }
                 return false;
