@@ -47,7 +47,15 @@ $(function() {
                 <div class="widget inner js-user span4" data-id="{{ user.id }}">
                 	<div class="widget-title clearfix">
                     	<div class="pull-left"><i class="statusImg"></i>&nbsp;&nbsp;
-                            <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a><small class="small">{% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}</small></div>
+                            <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a>
+                            <small class="small">
+                                {% if user.profile.specialties %}
+                                    {% for spec in user.profile.specialties %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
+                                {% else %}
+                                    {% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}
+                                {% endif %}
+                            </small>
+                        </div>
                             {% if user.user_achievements.count %}
                             <span class="achievement-ico">{{ user.user_achievements.count }}</span>
                             {% endif %}
