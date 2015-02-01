@@ -381,6 +381,12 @@ $(function(){
             $checkbox[rem]('fa-check-square-o')[add]('fa-square-o');
         })
         .bind('pmSetTodo', function(e, model) {
+            function strip(html)
+            {
+               var tmp = document.createElement("DIV");
+               tmp.innerHTML = html;
+               return tmp.textContent || tmp.innerText || "";
+            }
             var $checkbox = $('.js-todo-checkbox[rel='+model.id+']');
             if (!model.get('todo')) {
                 $checkbox.remove();
@@ -390,7 +396,7 @@ $(function(){
                 }
                 $checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" type="button" data-original-title="" title=""></button>')
                     .attr('rel', model.id)
-                    .attr('data-content', model.get('text'));
+                    .attr('data-content', strip(model.get('text')));
                 var $i = $('<i></i>');
                 if (model.get('todo_checked')) {
                     $i.addClass('fa fa-square-check-o');
