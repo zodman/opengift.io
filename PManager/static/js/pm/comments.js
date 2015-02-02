@@ -331,7 +331,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     } else {
                         $todoCheckBox.addClass('fa-square-o');
                     }
-                    $todoCheckBox.insertAfter(this.$('.js-messageDetailText'));
+                    $todoCheckBox.appendTo(this.$('.js-taskMessageText'));
                 } else {
                     this.$('.js-check-todo').remove();
                 }
