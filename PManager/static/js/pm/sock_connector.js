@@ -47,7 +47,7 @@ baseConnectorClass.prototype = {
         this.socket = null;
         io.disconnect()
     }
-}
+};
 
 var baseConnector = {};
 

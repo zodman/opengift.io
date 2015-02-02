@@ -91,9 +91,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                      $btn.toggleClass('checked');
                      setTodo = $btn.is('.checked');
                      this.model.set('todo', setTodo);
-                     view.render();
 
                      this.model.saveToServer(function (data) {
+                         view.render();
                         $(window).triggerHandler('pmSetTodo', view.model);
                      });
                  }
