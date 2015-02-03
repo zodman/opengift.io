@@ -588,12 +588,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'top': (position.top + position.height + 5)
                 });
 
-                userList.find('.js-email-form').each(function () {
+                /*userList.find('.js-email-form').each(function () {
                     $(this).click(function () {
                         var inputEmail = $('.js-add-user-popup .js-email').val();
                         obj.changeResponsible(inputEmail);
                     });
-                });
+                });*/
 
                 var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
                 var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
@@ -628,7 +628,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                                 } else {
                                     var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
                                 }
-                                if (in_array(data[i].id,mediaItems) && ccc != data[i].id) {
+                                if (in_array(data[i].id,mediaItems)) {
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
                                     '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
