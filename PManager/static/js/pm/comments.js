@@ -76,10 +76,42 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-cancel-author-hide": 'cancelAuthorHidden',
                 "click .js-cancel-resp-hide": 'cancelRespHidden',
                 "click .js-show-commit-diff": 'showCommit',
-                "click .js-show-file-diff": 'showFileDiff'
+                "click .js-show-file-diff": 'showFileDiff',
+                "click .js-set-todo": 'setTodo',
+                "click .js-check-todo": 'checkTodo'
+
             },
             'initialize': function (data) {
                 this.tpl = data.templateHTML;
+            },
+            'setTodo': function(e){
+                 if(e.currentTarget) {
+                     var $btn = $(e.currentTarget), setTodo;
+                     var view = this;
+                     $btn.toggleClass('checked');
+                     setTodo = $btn.is('.checked');
+                     this.model.set('todo', setTodo);
+
+                     this.model.saveToServer(function (data) {
+                         view.render();
+                        $(window).triggerHandler('pmSetTodo', view.model);
+                     });
+                 }
+                return false;
+            },
+            'checkTodo': function(e){
+                 if(e.currentTarget) {
+                     var $chk = $(e.currentTarget), checkTodo;
+                     var view = this;
+                     checkTodo = !this.model.get('todo_checked');
+                     this.model.set('todo_checked', checkTodo);
+                     view.render();
+
+                     this.model.saveToServer(function (data) {
+                        $(window).triggerHandler('pmCheckTodo', view.model);
+                     });
+                 }
+                return false;
             },
             'showCommit': function (message) {
                 if(message.currentTarget) {
@@ -160,6 +192,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['PROJECT_LINE'] = '';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
+                arKeys['TODO_BTN'] = '<a class="to-do-button '+(messageInfo.todo?'checked':'')+' js-set-todo" href="#">To Do</a>';
+                //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.todo_checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
                 if (messageInfo.task && messageInfo.task.name) {
@@ -175,7 +209,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         messageInfo.task.name + '</strong></a>';
                 }
                 if (messageInfo.author.id != document.mainController.userId)
-                        arKeys['REPLY_BTN'] = '<a class="button green-button js-reply" data-hidden="'+(messageInfo.hidden?1:0)+'" href="'+messageInfo.task.url+'" rel="'+messageInfo.author.id+'">Ответить</a>';
+                        arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="'+(messageInfo.hidden?1:0)+'" href="'+messageInfo.task.url+'" rel="'+messageInfo.author.id+'">Ответить</a>';
 
 
                 if (messageInfo.system) {
@@ -218,9 +252,11 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (!this.model.get('text') && !this.model.get('files')) {
                     return false;
                 }
+
                 if (!this.model.get('author').id) {
                     this.$('.js-author-block').hide();
                 }
+
 //                if (!this.model.get('avatar') && this.model.get('author').id){
 //                    this.$('.js-avatarBlock').hide();
 //                    $messageTextBlock.removeClass('Img');
@@ -286,6 +322,20 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
+                var act = 'removeClass';
+                if (this.model.get('todo')) {
+                    var $todoCheckBox = $('<i class="fa js-check-todo"></i>');
+                    act = 'addClass';
+                    if (this.model.get('todo_checked')) {
+                        $todoCheckBox.addClass('fa-check-square-o');
+                    } else {
+                        $todoCheckBox.addClass('fa-square-o');
+                    }
+                    $todoCheckBox.appendTo(this.$('.js-taskMessageText'));
+                } else {
+                    this.$('.js-check-todo').remove();
+                }
+                this.$('.message')[act]('todo-message');
 
                 if (this.model.get('canEdit')) {
                     this.$('.js-editTaskMessage').show();

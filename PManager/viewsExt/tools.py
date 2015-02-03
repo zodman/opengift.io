@@ -84,6 +84,11 @@ class templateTools:
         def convertFromDb(date):
             return datetime.datetime.strptime(date, '%Y-%m-%d %H:%M:%S').strftime('%d.%m.%Y %H:%M')
 
+        @staticmethod
+        def convertToDb(date):
+            if isinstance(date, datetime.datetime):
+                # date = timezone.localtime(date)
+                return date.strftime('%Y-%m-%d %H:%M:%S')
 
         @staticmethod
         def timeFromTimestamp(seconds):

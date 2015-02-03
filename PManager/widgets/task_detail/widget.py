@@ -126,6 +126,7 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
         setattr(task, 'canClose', task.canApprove)
         setattr(task, 'taskPlanTime', task.planTime)
+
         setattr(task, 'taskResp', [{'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}])
 
         allTime = task.getAllTime()
@@ -170,12 +171,19 @@ def widget(request, headerValues, arFilter, q):
         if iMesCount > 0 and messages[iMesCount - 1]:
             if messages[iMesCount - 1].author and messages[iMesCount - 1].author.id == cur_user.id:
                 lamp = 'asked'
-
+        arTodo = []
         for mes in messages:
             if mes.userTo and mes.userTo.id == request.user.id:
                 mes.read = True
                 mes.save()
-                
+
+            if mes.todo:
+                arTodo.append({
+                    'id': mes.id,
+                    'text': mes.text,
+                    'checked': mes.todo_checked
+                })
+
             ob = {
                 'canEdit': mes.canEdit(request.user),
                 'canDelete': mes.canDelete(request.user),
@@ -186,11 +194,13 @@ def widget(request, headerValues, arFilter, q):
                     'hidden_from_employee': mes.hidden_from_employee
                 })
             setattr(mes, 'json', json.dumps(mes.getJson(ob, request.user)))
+
         try:
             startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
         except PM_Timer.DoesNotExist:
             startedTimer = None
 
+        setattr(task, 'todo', arTodo)
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.getDefaultTaskTemplate()
 

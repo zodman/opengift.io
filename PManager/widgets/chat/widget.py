@@ -12,22 +12,27 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         hiddenQ = Q(author__isnull=False)
     else:
         hiddenQ = Q(hidden=False)
+    managedProjects = request.user.get_profile().getProjects(only_managed=True).values_list('id', flat=True)
+    userProjects = request.user.get_profile().getProjects().values_list('id', flat=True)
 
-    result = PM_Task_Message.objects.filter(
-        Q(author=request.user) |
-        Q(userTo=request.user) |
-        hiddenQ &
-        Q(
-            Q(project__in=request.user.get_profile().getProjects(only_managed=True)) |
-            Q(
+    unManagedQ = Q(project__in=managedProjects)
+    if len(userProjects) != len(managedProjects):
+        unManagedQ = unManagedQ | Q(
                 Q(task__observers=request.user) &
                     Q(hidden_from_clients=False) &
                     Q(hidden_from_employee=False) |
 
                 Q(task__resp=request.user) |
                 Q(task__author=request.user) | #todo: add hidden from clients and hidden from employee
-                Q(task__onPlanning=True) & Q(project__in=request.user.get_profile().getProjects())
+                Q(task__onPlanning=True) & Q(project__in=userProjects)
             )
+
+    result = PM_Task_Message.objects.filter(
+        Q(author=request.user) |
+        Q(userTo=request.user) |
+        hiddenQ &
+        Q(
+             unManagedQ
         )
     )
     result = result.filter(task__active=True)
@@ -55,7 +60,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
 
-    result = result.order_by('-dateCreate')[:20]
+    result = result.order_by('-id')[:20]
 
     messages = []
 

@@ -51,7 +51,7 @@
                 	<h3>Введите комментарий</h3>
                     <textarea name="comment" class="form-control"></textarea>
                     <label class="checkbox">
-                        <input type="checkbox" checked="checked" name="addComment" value="Y"> Опубликовать в задаче
+                        <input type="checkbox" checked="checked" name="addComment" disabled="disabled" value="Y"> Опубликовать в задаче
                     </label>
                     <a class="btn btn-success pause_comment_success" >Ок</a>
                     <a class="btn btn-danger pause_comment_cancel" >Отменить таймер</a>
@@ -102,8 +102,25 @@
                 {% endfor %}
             </p>
         {% endif %}
+
+        <p class="js-todo-container to-do-list{% if not task_detail.task.todo %} hidden{% endif %}">
+        To Do:
+            <span class="js-todo-list">
+            {% if task_detail.task.todo %}
+                {% for todo in task_detail.task.todo %}
+                <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
+                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
+                </button>
+                {% endfor %}
+            {% endif %}
+            </span>
+        </p>
+        
 {#        {{ task_detail.params }}#}
         Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
+        {% if task_detail.task.planTime %}
+        Плановое время: {{ task_detail.task.planTime }} ч. &nbsp;&nbsp;
+        {% endif %}
         Затраченное время: <span id="js-td_time"></span>
         {% if task_detail.task.resp %}
         <hr />
@@ -330,6 +347,10 @@
 {#TODO: удалить#}
     $(function(){
         $('.js-task-checkbox').remove();
+
+        $('.js-todo-checkbox').click(function(){
+
+        });
     });
 </script>
 {#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
