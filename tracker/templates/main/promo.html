@@ -885,7 +885,7 @@
                         'email': $email.val()
                     },
                     function(data) {
-                        $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><!--ul class="list"><li>Пункт 1</li><li>Пункт 2</li><li>Пункт 3</li></ul><div class="content"-->' + data + '<!--/div><div class="images"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"><img src="http://s00.yaplakal.com/pics/pics_original/2/8/0/3405082.jpg"></div--></div>');
+                        $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
                         $('.js-popupClose').click(function(){
                             $(this).parent().fadeOut(200, function(){
                                 $(this).remove();
@@ -920,21 +920,5 @@
         $('.color-overlay').css('min-height', $(window).height());
     })
 </script>
-<!--<div class="popup popup-alert">
-	<h3 class="title">
-    	Спасибо за регистрацию!
-    </h3>
-    <button type="button" class="close js-popupClose">
-        <span aria-hidden="true">×</span>
-        <span class="sr-only">Закрыть</span>
-    </button>
-    <div class="img"><i class="icon-lock"></i></div>
-    <ul class="list">
-        <li><i class="icon-checked"></i>Пункт 1</li>
-        <li><i class="icon-checked"></i>Пункт 2</li>
-        <li><i class="icon-checked"></i>Пункт 3</li>
-    </ul>
-	<div class="content">Какой-то текст</div>
-</div>-->
 </body>
 </html>
