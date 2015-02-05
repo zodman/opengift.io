@@ -871,7 +871,7 @@
 <script>
     $(function(){
         $('.js-register').click(function(){
-            var $email = $(this).closest('section').find('.js-email');
+            var $email = $(this).closest('section, header').find('.js-email');
             if (!$email.val()) {
                 $email.addClass('error');
                 $email.one('keyup', function(){
