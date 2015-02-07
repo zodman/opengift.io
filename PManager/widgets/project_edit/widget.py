@@ -31,6 +31,9 @@ def widget(request, headerValues, ar, qargs):
         if 'id' in get:
             try:
                 projectData = PM_Project.objects.get(id=int(get['id']))
+                if not request.user.get_profile().isManager(projectData):
+                    return {'redirect': '/?error=Нет прав для редактирования проекта'}
+
                 old_repository = projectData.repository
                 pform = ProjectForm(instance=projectData)
                 is_new = False

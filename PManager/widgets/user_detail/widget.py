@@ -41,7 +41,7 @@ def widget(request, headerValues, ar, qargs):
                         except PM_Role.DoesNotExist:
                             raise u'Role does not exist'
                 elif post['action'] == 'delete_user':
-                    if request.user.is_staff:
+                    if request.user.is_superuser or request.user.is_staff and not user.is_staff:
                         user.is_active = False
                         user.save()
 
@@ -49,7 +49,7 @@ def widget(request, headerValues, ar, qargs):
                                     'redirect': u'/user_list/'
                                 }
                     else:
-                        raise Exception(u'You must be an administrator')
+                        raise Exception(u'Нет прав для удаления прльзователя')
 
             if profile.avatar:
                 profile.avatar = str(profile.avatar).replace('PManager', '')

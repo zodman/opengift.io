@@ -62,7 +62,7 @@ def taskListAjax(request):
             if not rProf.hasRole(task.project):
                 rProf.setRole('employee', task.project)
             #outsource
-            if not task.resp.is_staff or rProf.getBet(task.project) <= 0: #if finance relationship
+            if rProf.getBet(task.project) <= 0: #if finance relationship
                 task.setStatus('not_approved')
             else:
                 task.setStatus('revision')
@@ -730,8 +730,8 @@ class taskAjaxManagerCreator(object):
                 })
                 aTasks.append(t)
 
-        users = PM_User.objects.filter(
-            user__is_staff=False,
+        users = PM_User.objects.filter(#todo: приглашать только у которых стоит галочка "аутсорс"
+            is_autsource=True,
             user__is_active=True,
             last_activity_date__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
         )
