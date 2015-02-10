@@ -443,7 +443,8 @@ class PM_Task(models.Model):
                 ob = {}
                 if obj.summ:
                     cUser = User.objects.get(pk=int(obj.user_id))
-                    if not cUser.is_staff and cUser.id != self.author.id and cUser.is_active:
+                    cUserProf = cUser.get_profile()
+                    if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
                         userTaskHours = round(float(obj.summ) / 3600., 2)
                         if self.planTime:
                             if userTaskHours > self.planTime * 2:
