@@ -26,6 +26,7 @@ $(function() {
         {% if user.taskTime %}
             var timer = new PM_Timer({'seconds':{{ user.taskTime|jsonify|safe }}});
             timer.container = $('.task_time[data-taskid={{ user.startedTask.id }}]');
+            timer.fill();
             {% if not user.startedTimer.dateEnd %}timer.start();{% endif %}
 
             arTimers['{{ user.startedTask.id }}'] = timer;
