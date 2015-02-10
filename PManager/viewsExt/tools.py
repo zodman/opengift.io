@@ -41,6 +41,7 @@ class emailMessage:
     def validateEmail(email):
         from django.core.validators import validate_email
         from django.core.exceptions import ValidationError
+
         try:
             validate_email(email)
             return True
@@ -58,13 +59,14 @@ class emailMessage:
         except:
             pass
 
+
 class templateTools:
     class dateTime:
         dateFormat = '%d.%m.%Y %H:%M'
         dateDBFormat = '%Y-%m-%d %H:%M:%S'
 
         @staticmethod
-        def convertToSite(date,format = None):
+        def convertToSite(date, format=None):
             if not format: format = '%d.%m.%Y %H:%M'
             if isinstance(date, datetime.datetime):
                 date = timezone.localtime(date)
@@ -96,7 +98,7 @@ class templateTools:
             return {
                 'hours': int(seconds // 3600),
                 'minutes': int(seconds % 3600 // 60),
-                'seconds': int(seconds%60),
+                'seconds': int(seconds % 60),
             }
 
     def get_random_string(length=12, allowed_chars='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'):
@@ -108,6 +110,7 @@ class templateTools:
           a 71-bit salt. log_2((26+26+10)^12) =~ 71 bits
           """
         import random
+
         try:
             random = random.SystemRandom()
         except NotImplementedError:
@@ -139,23 +142,28 @@ class templateTools:
         templates = {}
 
         for (c, f) in templateFiles.iteritems():
-            with file(settings.project_root + 'tracker/templates/item_templates/messages/'+f) as f:
+            with file(settings.project_root + 'tracker/templates/item_templates/messages/' + f) as f:
                 templates[c] = f.read()
 
         return templates
 
-def set_cookie(response, key, value, days_expire = 7):
+
+def set_cookie(response, key, value, days_expire=7):
     if days_expire is None:
-        max_age = 365 * 24 * 60 * 60  #one year
+        max_age = 365 * 24 * 60 * 60  # one year
     else:
         max_age = days_expire * 24 * 60 * 60
-    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age), "%a, %d-%b-%Y %H:%M:%S GMT")
-    response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN, secure=settings.SESSION_COOKIE_SECURE or None)
+    expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=max_age),
+                                         "%a, %d-%b-%Y %H:%M:%S GMT")
+    response.set_cookie(key, value, max_age=max_age, expires=expires, domain=settings.SESSION_COOKIE_DOMAIN,
+                        secure=settings.SESSION_COOKIE_SECURE or None)
+
 
 class taskExtensions:
     @staticmethod
     def getFileList(queryset):
         from PManager.templatetags.thumbnail import thumbnail
+
         return [{
                     'name': file.name,
                     'url': str(file),
@@ -165,6 +173,7 @@ class taskExtensions:
                     'is_picture': file.isPicture,
                     'date_create': templateTools.dateTime.convertToSite(file.date_create)
                 } for file in queryset]
+
 
 class TextFilters:
     @staticmethod
@@ -177,8 +186,17 @@ class TextFilters:
     def getFormattedText(text):
         import re
         from django.template.defaultfilters import linebreaksbr
+
         text = re.sub(r'(http|www\.)([^\ ^\,\r\n\"]+)',
                       r'<a target="_blank" href="\1\2">\1\2</a>', text)
+        aFindString = re.findall(r'(\>[^\<]+\<\/a>)', text)
+        for s in aFindString:
+            s1 = s
+            s1 = s1.replace('>', '').replace('</a>', '')
+            if len(s1) > 35:
+                s1 = s1[:35]
+                text = text.replace(s, '>' + s1 + '...</a>')
+
         text = TextFilters.escapeText(text)
         text = linebreaksbr(text)
 
