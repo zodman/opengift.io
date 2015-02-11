@@ -62,7 +62,7 @@ def taskListAjax(request):
             if not rProf.hasRole(task.project):
                 rProf.setRole('employee', task.project)
             #outsource
-            if rProf.getBet(task.project) <= 0: #if finance relationship
+            if rProf.getBet(task.project) >= 0: #if finance relationship
                 task.setStatus('not_approved')
             else:
                 task.setStatus('revision')
