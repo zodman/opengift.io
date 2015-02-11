@@ -390,7 +390,7 @@ $(function(){
                         </ul>
                         {% endif %}
                         {% if main.CURRENT_PROJECT.id %}
-                            <a href="/project/{{ currentProject.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
+                            <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
                         {% if user.is_staff %}
                             <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>

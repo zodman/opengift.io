@@ -1142,11 +1142,11 @@ class PM_Task(models.Model):
     def setParent(self, taskId):
         try:
             parent = None
-            if taskId:
+            if taskId and int(taskId) > 0:
                 parent = PM_Task.objects.get(id=int(taskId), parentTask__isnull=True)
                 lastSubTask = parent.subTasks.order_by('-number')
             else:
-                lastSubTask = PM_Task.objects.filter(project=self.project).order_by('-number')
+                lastSubTask = PM_Task.objects.filter(project=self.project, parentTask__isnull=True).order_by('-number')
 
             lastNumber = 0
             if lastSubTask.count() and lastSubTask[0]:
