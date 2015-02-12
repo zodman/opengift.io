@@ -28,8 +28,8 @@ def widget(request, headerValues, ar, qargs):
     projectData = {
         'payForm': form,
         'allProjectPrice': total,
-        'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True})),
-        'tasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': False})),
+        'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True})),
+        'tasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': False, 'active': True})),
         'bPay': bPay,
         'rate': profile.getBet(current_project)
     }
