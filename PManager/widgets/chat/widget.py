@@ -45,7 +45,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
              unManagedQ
         )
     )
-    result = result.filter(task__active=True)
+    # result = result.filter(task__active=True)
     options = {
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
