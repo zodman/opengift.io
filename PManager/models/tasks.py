@@ -1296,7 +1296,7 @@ class PM_Task_Message(models.Model):
     author = models.ForeignKey(User, related_name="outputMessages", null=True, blank=True, db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     task = models.ForeignKey(PM_Task, null=True, related_name="messages", db_index=True)
-    project = models.ForeignKey(PM_Project, null=True)
+    project = models.ForeignKey(PM_Project, null=True, db_index=True)
     commit = models.CharField(max_length=42, null=True)
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True, db_index=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
