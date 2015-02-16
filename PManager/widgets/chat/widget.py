@@ -27,7 +27,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
                 Q(task__onPlanning=True) & Q(project__in=userProjects)
             )
 
-    result = PM_Task_Message.objects.filter(
+    result = PM_Task_Message.objects.exclude(project__closed=True).filter(
         Q(author=request.user) |
         Q(userTo=request.user) |
         hiddenQ &

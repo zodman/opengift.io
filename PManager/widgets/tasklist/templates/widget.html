@@ -16,8 +16,9 @@
         </div>
 
         <h3>{{ tasklist.title }}</h3>
-        <hr>
+
         {% if tasklist.project and not tasklist.isInvite %}
+        <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <!--<form class="form-group" role="form">-->
         <form role="form">
@@ -128,6 +129,7 @@
 
         <div class="clearfix"></div>
         <div class="task-file-upload" style="position:relative;"></div>
+
 {% endif %}
 {% if not tasklist.tasks %}
 {% if tasklist.project and not tasklist.isInvite %}
