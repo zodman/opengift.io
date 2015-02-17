@@ -113,17 +113,24 @@ class PaymentChart(Chart):
 
 class sumLoanChart(Chart):
     def getData(self):
-        projects = '(' + ','.join([s.id for s in self.projects]) +')'
+        projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
         qText = """
                   SELECT
                       sum(value) as summ, user_id FROM (
                               SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p WHERE project_id IN """+projects+""" GROUP BY user_id
                           UNION
-                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id="""+projects+""" GROUP BY user_id
+                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id IN """+projects+""" GROUP BY user_id
                       ) as t
                   GROUP BY t.user_id;
               """
-        q = Payment.objects.raw(qText)
+        cursor = connection.cursor()
+
+
+        cursor.execute(qText)
+
+
+
+
         self.cols = [
             {
                 u'ФИО',
@@ -131,11 +138,14 @@ class sumLoanChart(Chart):
             }
         ]
         self.rows = []
-        for res in q:
-            self.rows.append([
-                q.user_id,
-                q.summ
-            ])
+        for x in cursor.fetchall():
+            self.rows.append({
+                'cols':[
+                    x[0],
+                    x[1]
+                ]
+            })
+
 
 def widget(request, headerValues, a, b):
     filt = {}
