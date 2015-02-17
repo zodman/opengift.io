@@ -369,8 +369,7 @@ class PM_Task(models.Model):
     @property
     def url(self):
         return "/task_detail/?" + (
-            ("id=" + str(self.id)) if self.parentTask else ("number=" + str(self.number))) + "&project=" + str(
-            self.project.id)
+            ("id=" + str(self.id)) if self.parentTask else ("number=" + str(self.number)))
 
     def safeDelete(self):
         self.active = False
