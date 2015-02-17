@@ -4,6 +4,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from PManager.models import Payment, Credit, PM_Project
 from django.db import connection
+from django.contrib.auth.models import User
 
 import datetime
 from django.utils import timezone
@@ -112,6 +113,7 @@ class PaymentChart(Chart):
             self.yAxes['pout'].values.append(pOut)
 
 class sumLoanChart(Chart):
+    type = 'table'
     def getData(self):
         projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
         qText = """
@@ -133,16 +135,24 @@ class sumLoanChart(Chart):
 
         self.cols = [
             {
-                u'ФИО',
-                u'Сумма'
+                'name':u'ФИО'
+            },
+            {
+                'name':u'Сумма'
             }
         ]
         self.rows = []
         for x in cursor.fetchall():
+            user = User.objects.get(pk=int(x[1]))
             self.rows.append({
-                'cols':[
-                    x[0],
-                    x[1]
+                'cols': [
+                    {
+                        'url': '/user_detail/?id='+str(x[1]),
+                        'text': user.last_name + user.first_name
+                    },
+                    {
+                        'text': x[0]
+                    }
                 ]
             })
 
