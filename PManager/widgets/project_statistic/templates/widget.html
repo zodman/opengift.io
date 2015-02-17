@@ -60,6 +60,34 @@
         	<div class="stat-widget-text">
                 {% if chart.type == 'chart' %}
                 <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
+                {% else %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      {% for col in chart.cols %}
+                      <th>{{ col.name }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in chart.rows %}
+{#                  class in [active, success, danger, info, warning]#}
+                    <tr class="{{ row.class }}">
+                      {% for rowcol in row.cols %}
+                        <td>
+                        {% if rowcol.url %}
+                            <a href="{{ rowcol.url }}">
+                        {% endif %}
+                        {{ rowcol.text }}
+                        {% if rowcol.url %}
+                            </a>
+                        {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
                 {% endif %}
             </div>
         </div>  

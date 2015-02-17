@@ -111,6 +111,32 @@ class PaymentChart(Chart):
             self.yAxes['pin'].values.append(pIn)
             self.yAxes['pout'].values.append(pOut)
 
+class sumLoanChart(Chart):
+    def getData(self):
+        projects = '(' + ','.join([s.id for s in self.projects]) +')'
+        qText = """
+                  SELECT
+                      sum(value) as summ, user_id FROM (
+                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p WHERE project_id IN """+projects+""" GROUP BY user_id
+                          UNION
+                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id="""+projects+""" GROUP BY user_id
+                      ) as t
+                  GROUP BY t.user_id;
+              """
+        q = Payment.objects.raw(qText)
+        self.cols = [
+            {
+                u'ФИО',
+                u'Сумма'
+            }
+        ]
+        self.rows = []
+        for res in q:
+            self.rows.append([
+                q.user_id,
+                q.summ
+            ])
+
 def widget(request, headerValues, a, b):
     filt = {}
     daysBeforeNowForStartFilt = 7
@@ -135,7 +161,8 @@ def widget(request, headerValues, a, b):
         projects = projects.filter(id__in=filt['projects'])
 
     payChart = PaymentChart(filt['dateFrom'], filt['dateTo'], projects)
-    charts = [payChart]
+    loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects)
+    charts = [payChart, loanChart]
 
 
     return {
