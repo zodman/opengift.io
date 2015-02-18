@@ -143,6 +143,9 @@ class sumLoanChart(Chart):
         ]
         self.rows = []
         for x in cursor.fetchall():
+            if not x[1]:
+                continue
+
             user = User.objects.get(pk=int(x[1]))
             self.rows.append({
                 'cols': [
