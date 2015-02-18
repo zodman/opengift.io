@@ -113,7 +113,7 @@ class PaymentChart(Chart):
             self.yAxes['pout'].values.append(pOut)
 
 class sumLoanChart(Chart):
-    title = u'Затраты'
+    title = u'Текущие долги'
     type = 'table'
     def getData(self):
         projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
