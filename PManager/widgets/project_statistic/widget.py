@@ -113,6 +113,7 @@ class PaymentChart(Chart):
             self.yAxes['pout'].values.append(pOut)
 
 class sumLoanChart(Chart):
+    title = u'Затраты'
     type = 'table'
     def getData(self):
         projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
@@ -178,6 +179,10 @@ def widget(request, headerValues, a, b):
     filt['projects'] = []
     for pid in request.REQUEST.getlist('pid'):
         filt['projects'].append(int(pid))
+
+    if not filt['projects']:
+        if headerValues['CURRENT_PROJECT']:
+            filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
     projects = PM_Project.objects.all()
     if filt['projects']:
