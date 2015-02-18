@@ -135,10 +135,10 @@ class sumLoanChart(Chart):
 
         self.cols = [
             {
-                'name':u'ФИО'
+                'name': u'ФИО'
             },
             {
-                'name':u'Сумма'
+                'name': u'Сумма'
             }
         ]
         self.rows = []
@@ -176,7 +176,7 @@ def widget(request, headerValues, a, b):
         filt['dateTo'] = now
 
     filt['projects'] = []
-    for pid in request.POST.getlist('pid'):
+    for pid in request.REQUEST.getlist('pid'):
         filt['projects'].append(int(pid))
 
     projects = PM_Project.objects.all()
