@@ -368,7 +368,7 @@ $(function(){
                 <li class="projects-list-menu">
                     <div class="dropdown">
                         {% if main.CURRENT_PROJECT %}
-                            <a href="{% if is_detail_page %}/{% endif %}?project=0"><i class="fa fa-remove cancel-project-select" style="color:red;font-size: 11px;margin:7px;float:left;"></i></a>
+                            <a href="{% if is_detail_page %}/{% endif %}?project=0"><i class="fa fa-remove cancel-project-select"></i></a>
                         {% endif %}
                         <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose js-openProjectList" data-toggle="dropdown">
                             {% if main.CURRENT_PROJECT %}

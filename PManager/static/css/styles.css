@@ -2343,4 +2343,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 											.message-desc-right {display:block;}
 											.button {width:100%; text-align:center; display:block; margin-bottom:5px;}
 										}
-							
+.cancel-project-select {
+color: #d43f3a;
+float: left;
+font-size: 17px;
+margin: 2px 5px 0 7px;
+}
