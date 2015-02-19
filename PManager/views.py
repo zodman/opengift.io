@@ -41,7 +41,7 @@ class MainPage:
     @staticmethod
     def auth(request):
         if (request.GET.get('from','') == 'mobile'):
-            if request.user.is_authenticated:
+            if request.user.is_authenticated():
                 return HttpResponse('{"unauthorized":false}', content_type='application/json')
 
         c = RequestContext(request)
