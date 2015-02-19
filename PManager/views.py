@@ -42,7 +42,7 @@ class MainPage:
     def auth(request):
         if (request.GET.get('from','') == 'mobile'):
             if request.user.is_authenticated:
-                return HttpResponse('{"unauthorized":false}')
+                return HttpResponse('{"unauthorized":false}', content_type='text/json')
 
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/unauth.html').render(c))
