@@ -646,7 +646,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 						.task-info .task-info-time span {vertical-align:inherit;}
 						.task-info .task-info-time .dropdown .caret {margin-top:13px; vertical-align:top; margin-left:5px; display:inline-block;}
 					.task-info .task-info-author {position:relative; top:-2px; width:250px; text-align:left; white-space:nowrap;}
-					.task-info .task-info-author .js-select_resp {max-width:148px; white-space:nowrap; display:inline-block; overflow:hidden; line-height:22px; top:4px; height:20px; position:relative;}
+					.task-info .task-info-author .js-select_resp {max-width:148px; white-space:nowrap; overflow:hidden; line-height:22px; height:20px; position:relative;}
 					.title-to-hide {width:100px;}
 					
 					.task-info .task-info-author:after {display:block; width:20px; height:100%; content:""; position:absolute; right:0px; top:0px; z-index:1;
@@ -2343,4 +2343,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 											.message-desc-right {display:block;}
 											.button {width:100%; text-align:center; display:block; margin-bottom:5px;}
 										}
-							
+.cancel-project-select {
+color: #d43f3a;
+float: left;
+font-size: 17px;
+margin: 2px 5px 0 7px;
+}
