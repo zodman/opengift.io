@@ -152,7 +152,7 @@ class sumLoanChart(Chart):
                 'cols': [
                     {
                         'url': '/user_detail/?id='+str(x[1]),
-                        'text': user.last_name + user.first_name
+                        'text': user.last_name + ' ' + user.first_name
                     },
                     {
                         'text': x[0]

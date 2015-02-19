@@ -40,6 +40,10 @@ class MainPage:
 
     @staticmethod
     def auth(request):
+        if (request.GET.get('from','') == 'mobile'):
+            if request.user.is_authenticated:
+                return HttpResponse('{"unauthorized":false}')
+
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/unauth.html').render(c))
 
