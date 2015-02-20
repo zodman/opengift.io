@@ -441,7 +441,7 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved' and not request.user.is_superuser:
+                    if task.status and task.status.code == 'not_approved' and not request.user.is_staff:
                         #client have not enough money#
                         try:
                             if not task.planTime:
