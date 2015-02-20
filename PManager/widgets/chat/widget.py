@@ -34,12 +34,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     )\
         .filter(
         Q(author=request.user) |
-        Q(userTo=request.user)
-    ) | PM_Task_Message.objects.exclude(
-        Q(author=request.user) |
-        Q(userTo=request.user)
-    ).filter(
-        Q(project__in=activeProjects) &
+        Q(userTo=request.user) |
         hiddenQ &
         Q(
              unManagedQ
