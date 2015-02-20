@@ -51,7 +51,8 @@ class MainPage:
             if user is not None:
                 if user.is_active:
                     login(request, user)
-                    return HttpResponseRedirect('/')
+                    if request.GET.get('from', '') == 'mobile':
+                        return HttpResponse('{"unauthorized": false}', content_type='application/json')
                 else:
                     return HttpResponse(loader
                                         .get_template('main/unauth.html')
