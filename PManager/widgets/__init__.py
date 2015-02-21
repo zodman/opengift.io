@@ -15,3 +15,4 @@ from project_edit import *
 from project_graph import *
 from project_statistic import *
 from life import *
+from kanban import *

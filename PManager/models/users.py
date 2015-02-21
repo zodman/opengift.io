@@ -86,6 +86,15 @@ class PM_User(models.Model):
             'color':self.avatar_color,
             'initials':self.user.last_name[0] + self.user.first_name[0] if self.user.last_name and self.user.first_name else ''
         }
+    @property
+    def avatar_rel(self):
+        import json
+        if self.avatarSrc:
+            return json.dumps({'image': self.avatarSrc})
+        else:
+            return json.dumps(self.avatarParams)
+
+
 
     @property
     def managedProjects(self):
@@ -212,9 +221,7 @@ class PM_User(models.Model):
         return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user, project=project)]
 
     def getProjectUsers(self, project):
-        return User.objects.filter(pk_in=[role.user__id for role in
-                                          PM_ProjectRoles.objects.filter(project=project).values(
-                                              'user__id')]).distinct()
+        return project.getUsers()
 
     def deleteRole(self, role, project):
         if self.user:
