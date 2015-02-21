@@ -124,6 +124,9 @@ class PM_Project(models.Model):
             closed=0,
         )
 
+    def getUsers(self):
+        return User.objects.filter(pk__in=[role.user.id for role in
+                                          PM_ProjectRoles.objects.filter(project=self)]).distinct()
     class Meta:
         app_label = 'PManager'
 

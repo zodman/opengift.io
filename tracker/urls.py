@@ -4,7 +4,7 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from PManager.views import MainPage, Brains, add_timer
 from PManager.viewsExt.git_view import GitView
-from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder
+from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder, microTaskAjax
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register, recall
@@ -114,6 +114,8 @@ urlpatterns = patterns('',
                        url(r'^credit_chart/$', MainPage.creditChart),
                        url(r'^login/$', MainPage.auth),
                        url(r'^add_timer/', add_timer),
+                       url(r'^kanban/', MainPage.indexRender, {'widgetList': ["kanban"]}),
+                       url(r'^ajax/micro_task/(?P<task_id>[0-9_]+)', microTaskAjax),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:

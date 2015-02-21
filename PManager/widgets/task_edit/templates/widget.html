@@ -7,7 +7,7 @@
 <link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
 <script type="text/javascript" src="/widgets/js/task_edit/script.js"></script>
 
-<form name="task_form" action="" method="POST" >
+<form name="task_form" method="POST" action="{% if task_edit.id %}/task_edit/?id={{ task_edit.id }}{% endif %}{% if request.is_ajax %}&modal=1{% endif%}" rel="{% if task_edit.id %}{{ task_edit.id }}{% endif %}">
     <table width="100%" cellpadding="0" cellspacing="0">
     	<tr>
         	<td valign="top">
@@ -161,7 +161,7 @@
                     <div class="col-xs-12">
                         <div class="pull-left"><a class="hideFilter btn btn-info" href="#">Свернуть</a></div>
                         <div class="pull-right">
-                            <button value="Сохранить" onclick="document.task_form.submit();" class="btn btn-large btn-success">
+                            <button value="Сохранить" onclick="document.task_form.submit();" class="btn btn-large btn-success" id="save_button">
                                 Сохранить
                             </button>
                         </div>

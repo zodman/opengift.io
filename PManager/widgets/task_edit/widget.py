@@ -1,11 +1,13 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
-from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User
+from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User, PM_Task_Status
 import time, datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 from PManager.viewsExt.tasks import TaskWidgetManager
+import json
+from django.http import HttpResponse
 
 
 def widget(request, headerValues, ar, qargs):
@@ -15,6 +17,9 @@ def widget(request, headerValues, ar, qargs):
 
     deadline = templateTools.dateTime.convertToDateTime(deadline)
     name = post.get('name', False)
+    status = post.get('status', False)
+    if status:
+        status = PM_Task_Status.objects.get(code=status)
 
     if request.GET.get('id', False):
         task = PM_Task.objects.get(id=int(request.GET.get('id', False)))
@@ -25,7 +30,7 @@ def widget(request, headerValues, ar, qargs):
         planTime = post.get('planTime', 0)
         if planTime:
             planTime = planTime.replace(',', '.')
-        
+
         arSaveFields = {
             'name': name,
             'text': post.get('description', ''),
@@ -35,15 +40,14 @@ def widget(request, headerValues, ar, qargs):
             'hardness': float(post.get('hardness', 0)) if post.get('hardness', 0) else 0.5,
             'project_knowledge': float(post.get('project_knowledge', 0)) if post.get('project_knowledge', 0) else 0.5,
             'reconcilement': float(post.get('reconcilement', 0)) if post.get('reconcilement', 0) else 0.5,
-            'planTime': float(planTime)
+            'planTime': float(planTime),
+            'status': status if status else task.status
         }
         if task:
             for k, val in arSaveFields.iteritems(): setattr(task, k, val)
         else:
             arSaveFields['author'] = request.user
             task = PM_Task(**arSaveFields)
-
-
 
         respId = post.get('resp', '')
 
@@ -103,7 +107,8 @@ def widget(request, headerValues, ar, qargs):
                 'reconcilement': arSaveFields.get('reconcilement', 0.5),
                 'similarTasks': aSimilarTasks,
                 'tagsRelations': tagsRelations,
-                'files': task.files.all()
+                'files': task.files.all(),
+                'status': status if status else task.status
             })
 
     else:
@@ -116,6 +121,7 @@ def widget(request, headerValues, ar, qargs):
             arSaveFields[field] = val.strftime('%d.%m.%Y %H:%M')
 
     return {
+        'id': request.GET.get('id', False),
         'post': arSaveFields,
         'project': task.project if task and task.project else headerValues['CURRENT_PROJECT'],
         'users': users

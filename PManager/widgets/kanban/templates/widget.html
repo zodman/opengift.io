@@ -1,0 +1,416 @@
+{% block stylesheets %}
+    <link rel="stylesheet" href="/static/css/external/chosen.css"/>
+    <style>
+        {% for status in kanban.statuses %}
+        .kanban .project-row .tasks-{{ status.code }},
+        .kanban .project-row-headers .tasks-{{ status.code }}{
+            float: left;
+            min-width:240px;
+            {% if not forloop.last %}
+            border-right: 2px solid gray;
+            {% endif %}
+            width: {%if forloop.last %}{{ kanban.status_width|add:kanban.status_width_remains }}{% else %}{{ kanban.status_width }}{% endif %}%;
+            left: {% multiply forloop.counter0 kanban.status_width %}%;
+        }
+        {% endfor %}
+    </style>
+{% endblock %}
+{% block scripts %}
+    <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
+    <script src="/static/js/libs/chosen.jquery.min.js"></script>
+{% endblock %}
+<div class="widget kanban" style="overflow:hidden;">
+    {% for project in kanban.projects_data %}
+        <div class="project-row" id="project_{{ project.project.id }}">
+        <div class="project-header">
+            <div class="project-name">
+                {{ project.project.name }}
+            </div>
+            <div>
+                <select class="user_source" multiple
+                        style="display:block; width:100%" data-placeholder="Выберите пользователей">
+                {% for user in project.user_source %}
+                    <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                {% endfor %}
+                </select>
+
+            </div>
+
+            <div class="project-row-headers">
+                {% for status in kanban.statuses %}
+                    <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                {% endfor %}
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        <div class="tasks-wrapper">
+            {% for status in kanban.statuses %}
+                <div class="tasks-column task-droppable tasks-{{ status.code }}" rel="{{ status.code }}"></div>
+            {% endfor %}
+            {% for task in project.tasks %}
+                {% show_micro_task task %}
+            {% endfor %}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    {% endfor %}
+</div>
+
+<script>
+//TODO: tooltip popup on executor hover
+//TODO: tooltip popup on task name hover
+//TODO: set restriction on moving tasks between columns
+$(document).ready(function(){
+
+    function getBoundaries(el) {
+        if(!el) { return {}; }
+        return {
+            left: $(el).offset().left,
+            top: $(el).offset().top,
+            right: $(el).offset().left + $(el).width(),
+            bottom: $(el).offset().top + $(el).height()
+        }
+    }
+
+    var storagePrefix = 'hl_kb_';
+    var updateDiffered = false;
+    var revertCard = function(){};
+    $('.user_source').on("chosen:ready", function(){
+        $(".user_source").val(restoreFilter($(this))).trigger("chosen:updated");
+    }).chosen({
+        no_results_text: "Пользователь не найден",
+        width: "100%"
+    }).change(function(event){
+        var project = $(this).parents('.project-row');
+        var filter = $(this).val();
+        storeFilter($(this),filter);
+        $(project).find('.task-card').each(function(index, el){
+            if (filter && $(el).find('.executor').attr('rel') && $.inArray($(el).find('.executor').attr('rel'), filter) == -1) {
+                $(el).parent().hide('fast').addClass('filtered');
+            }
+            else {
+                $(el).parent().show('fast').removeClass('filtered');
+            }
+        });
+
+    }).trigger("change");
+
+    function storeFilter(el, values) {
+        var storeKey = storagePrefix + 'us_' + el.parents('.project-row').attr('id');
+        localStorage.setItem(storeKey, JSON.stringify(values));
+    }
+
+    function restoreFilter(el) {
+        var storeKey = storagePrefix + 'us_' + el.parents('.project-row').attr('id');
+        var storeVal = localStorage.getItem(storeKey);
+        if (storeVal != null) {
+            try {
+                storeVal = JSON.parse(storeVal);
+                return storeVal;
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }
+    }
+
+    function keyCard(taskEl) {
+        return storagePrefix + 'tsk_' + taskEl.find('.task-card').attr('rel');
+    }
+
+    function storeCard(taskEl) {
+        var storeKey = keyCard(taskEl);
+        var storeVal = getBoundaries(taskEl);
+        var containerBound = getBoundaries(taskEl.parents('.tasks-wrapper'));
+        storeVal = { left: storeVal.left - containerBound.left , top: storeVal.top - containerBound.top, row: taskEl.find('.task-status').attr('rel') };
+        localStorage.setItem(storeKey, JSON.stringify(storeVal));
+    }
+
+    function moveCard(position, destination) {
+        var moveProp = { left: "-" , top: "-" };
+        var leftMv = position.left - destination.left;
+        if (leftMv < 0) {
+            moveProp.left = "+";
+            leftMv = leftMv * -1;
+        }
+        moveProp.left = moveProp.left + "=" + leftMv + "px";
+        var topMv = position.top - destination.top;
+        if (topMv < 0) {
+            moveProp.top = "+";
+            topMv = topMv * -1;
+        }
+        moveProp.top = moveProp.top + "=" + topMv + "px";
+        return moveProp;
+    }
+
+    function positionContained(storeVal, taskEl) {
+        var status = taskEl.find('.task-status').attr('rel');
+        var statusBox = getBoundaries($('.task-droppable.tasks-' + status));
+        var relBox = getBoundaries($('.tasks-wrapper'));
+        statusBox = {
+            left: statusBox.left - relBox.left,
+            right: statusBox.right - relBox.left,
+            top: statusBox.top - relBox.top,
+            bottom: statusBox.bottom - relBox.top
+        };
+        if(storeVal.left < statusBox.left) {
+            return false;
+        }
+        if(storeVal.left + taskEl.find('.task-card').width() > statusBox.right) {
+            return false;
+        }
+        if(storeVal.top < statusBox.top) {
+            return false;
+        }
+        if(storeVal.top + taskEl.find('.task-card').height() > statusBox.bottom) {
+            return false;
+        }
+        return true;
+    }
+
+    function restoreCard(taskEl, beforeShow) {
+        taskEl.hide();
+        var storeKey = keyCard(taskEl);
+        var storeVal = localStorage.getItem(storeKey);
+        if (storeVal != null) {
+            try {
+                storeVal = JSON.parse(storeVal);
+                if (storeVal.row != taskEl.find('.task-status').attr('rel')) {
+                    if(positionContained(storeVal, taskEl)) {
+                        taskEl.offset(storeVal);
+                    } else {
+                        taskEl.offset(getNextOffset(taskEl));
+                    }
+                } else {
+                    taskEl.offset(storeVal);
+                }
+            }
+            catch(e) {
+                console.log(e);
+            }
+        }else {
+            taskEl.offset(getNextOffset(taskEl));
+        }
+        if ( typeof beforeShow == 'function') {
+            beforeShow(taskEl);
+        }
+        if(!taskEl.hasClass('filtered')) {
+            taskEl.show();
+        }
+    }
+    var boxesOffsets = {};
+    function getNextOffset(el){
+        var boundBox = taskDropBoundaries(el);
+        var elWidth = el.find('.task-card').width();
+        if(!boxesOffsets.hasOwnProperty(boundBox.selector)) {
+            boxesOffsets[boundBox.selector] = 1;
+        }else {
+            boxesOffsets[boundBox.selector] += 1;
+        }
+        var offsetCount = boxesOffsets[boundBox.selector];
+        var avWidth = boundBox.box.right - boundBox.box.left - 10 - elWidth;
+        var topOffset = boundBox.box.top - el.parent().offset().top + (offsetCount - 1) * 20;
+        return {
+            left: boundBox.box.left - el.parent().offset().left + (((offsetCount - 1) * 20) % avWidth),
+            top:  topOffset
+        }
+
+    }
+
+    function taskDropBoundaries(el){
+        var project  = $(el).parent();
+        var dropSelector = '.tasks-' + el.find('.task-status').attr('rel');
+        return { selector: dropSelector, box: getBoundaries(project.find(dropSelector)) };
+    }
+
+    function updateTask(task, differed) {
+        var st = '.task-card[rel="'+ task +'"]';
+        var taskEl = $(st);
+        $.get('/ajax/micro_task/' + task, function(response){
+            taskEl.attr('rel', response.id);
+            taskEl.find('.name').html(response.name);
+            taskEl.find('.executor > .avatar_container').attr('rel', response.executor);
+            var status = taskEl.find('.task-status');
+            var oldStatus = status.attr('rel');
+            if (differed) {
+                if (response.status != 'revision') {
+                    revertCard(taskEl.parent());
+                }
+            }
+            status.removeClass(oldStatus);
+            status.addClass(response.status);
+            status.attr('rel', response.status);
+            $.updateAvatar(taskEl.find('.avatar_container'));
+        });
+    }
+    $( ".project-row" ).resizable({
+      handles: "s",
+      minHeight: 400,
+      create: function(){
+        var key  = storagePrefix + '_prj_' + $(this).attr('id');
+        var oldVal = localStorage.getItem(key);
+        if(oldVal != null) {
+            $(this).css('height', parseInt(oldVal) + parseInt($(this).find('.project-header').height()) + 'px');
+            $(this).find('.tasks-column').css('height', oldVal + 'px').css('z-index',1);
+            $(this).find('.tasks-wrapper').css('height', oldVal + 'px').css('z-index',1)
+        } else {
+            var height = $(this).height() - $(this).find('.project-header').height();
+            $(this).find('.tasks-column').css('height', height + 'px').css('z-index',1);
+            $(this).find('.tasks-wrapper').css('height', height + 'px').css('z-index',1)
+        }
+      },
+      stop: function(){
+        var key  = storagePrefix + '_prj_' + $(this).attr('id');
+        var height = $(this).height() - $(this).find('.project-header').height();
+        $(this).find('.tasks-column').css('height', height + 'px').css('z-index',1);
+        $(this).find('.tasks-wrapper').css('height', height + 'px').css('z-index',1);
+        localStorage.setItem(key, height);
+      }
+    });
+
+    $(".properties-icon").click(function(){
+        var task = $(this).parent().attr('rel');
+        var taskEL = $(this).parents('.task');
+        $.get('/task_edit/?modal=1&id=' + task, function(response){
+            if(response !== 'error') {
+                $('body').prepend(response);
+                $('#myModalLabel').html('Изменение задачи');
+                $('#modal').on('hidden.bs.modal', function(e){
+                    if(updateDiffered) {
+                        revertCard(taskEL);
+                        updateDiffered = false;
+                    }
+                });
+                $('#save_button').removeAttr('onclick').click(function(e){
+                    e.stopPropagation();
+                    var form = $(this).parents('form[name="task_form"]');
+                    var data = form.serializeArray();
+                    var url = form.attr('action');
+                    var id = form.attr('rel');
+                    if (updateDiffered) {
+                       for(i in data) {
+                           if (data[i].name == 'resp' && data[i].value != '') {
+                                data.push({ name: 'status', value: 'revision' });
+                           }
+                       }
+                    }
+                    $.post(url, data, function(){
+                        console.log('Critical post started');
+                        console.log(updateDiffered);
+                        updateTask(id, updateDiffered);
+                        updateDiffered = false;
+                        $('#modal').modal('hide');
+                    });
+                    return false;
+                });
+            }
+        });
+    });
+    var zIndexStart = 2;
+    function getValidBox(el) {
+        var selector = '.task-droppable.tasks-' + el.find('.task-status').attr('rel');
+        return el.parents('.project-row').find(selector);
+    }
+    $(".task-wrapper-kanban").draggable({
+        stack: "div",
+        create: function() {
+            restoreCard($(this), function(te){
+                pushDownDrops();
+                te.css('z-index', zIndexStart++);
+            });
+        },
+        revert: function(droppable){
+            $(droppable).removeClass('highlighted');
+            if($(droppable).hasClass('ui-droppable')){
+                return false;
+            }
+            return true;
+        },
+        start: function(event, ui){
+            pushDownDrops();
+            var t = getBoundaries($(this));
+            var l = $(this);
+            revertCard = function(newEl) {
+                newEl.animate(moveCard(getBoundaries(newEl), t), 300, function(){
+                    revertCard = function(){};
+                    storeCard(newEl);
+                });
+            };
+        },
+        stop: function(event, ui){
+        }
+    });
+    function pushDownDrops(){
+        var elements = $('.tasks-column');
+        elements.each(function(idx, el){
+            $(this).css('z-index',1);
+        });
+    }
+    function collisionResolution(drop, drag) {
+        var resolution = {};
+        if (drop.left > drag.left) {
+            resolution.left = "+=" + (drop.left - drag.left + 10);
+        }
+        if (drop.top > drag.top) {
+            resolution.top = "+=" + (drop.top - drag.top + 10);
+        }
+        if (drop.right < drag.right) {
+            resolution.left = "-=" + (drag.right - drop.right + 10);
+        }
+        if (drop.bottom < drag.bottom) {
+            resolution.top = "-=" + (drag.bottom - drop.bottom + 10);
+        }
+        return resolution;
+    }
+    $( ".task-droppable" ).droppable({
+      over: function( event, ui ) {
+        $(this).addClass('highlighted');
+        pushDownDrops();
+      },
+      out: function( event, ui ) {
+        $(this).removeClass('highlighted');
+        pushDownDrops();
+      },
+      drop: function(event, ui) {
+        $(this).css('z-index',1);
+        var animateDrag = collisionResolution(getBoundaries($(this)), getBoundaries(ui.draggable));
+        var dropZone = $(this);
+        var newStatus = dropZone.attr('rel');
+        var oldStatus = ui.draggable.find('.task-status').attr('rel');
+        var executor = ui.draggable.find('.executor').attr('rel');
+        if (oldStatus == 'not_approved' && newStatus == 'revision' && executor == '') {
+            ui.draggable.find('.properties-icon').trigger('click');
+            updateDiffered = true;
+        } else if (newStatus != oldStatus) {
+            taskManager.SetTaskProperty(ui.draggable.find('.task-card').attr('rel'), 'status', newStatus, function(response_tm){
+                updateTask(elID);
+            });
+        }
+        var elID = ui.draggable.find('.task-card').attr('rel');
+        ui.draggable.animate(animateDrag, 200, function(){
+            storeCard(ui.draggable);
+        });
+      },
+      accept: function(draggable) {
+        var dragProject = draggable.parents('.project-row').attr('id');
+        var dropProject = $(this).parents('.project-row').attr('id');
+        var statusCurrent = draggable.find('.task-status').attr('rel');
+        var statusNew = $(this).attr('rel');
+        var statusOk = false;
+        if (statusCurrent == 'not_approved') {
+            statusOk = statusNew == 'revision';
+        }
+        if (statusCurrent == 'revision') {
+            statusOk = true;
+        }
+        if (statusCurrent == 'ready') {
+            statusOk = statusNew == 'revision';
+        }
+        if (statusCurrent === statusNew) {
+            statusOk = true;
+        }
+        return dragProject === dropProject && statusOk;
+      }
+  });
+});
+</script>

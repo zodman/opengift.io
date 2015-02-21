@@ -49,6 +49,7 @@
     <link rel="stylesheet" media="all" href="/static/wiki/markitup/sets/frontend/style.css" />
     <link rel="stylesheet" media="all" href="/static/wiki/css/all.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
+    {% block stylesheets %}{% endblock %}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
     <script type="text/javascript">
@@ -93,6 +94,7 @@
         {% endif %}
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
+    {% block scripts %}{% endblock %}
     <link rel="shortcut icon" href="/static/ico/favicon.ico" />
 </head>
 <body>

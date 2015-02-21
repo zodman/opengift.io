@@ -1,0 +1,12 @@
+<div class="task task-wrapper-kanban">
+    <div class="task-card" rel="{{ id }}">
+        <div class="task-status {{ status }}" rel="{{ status }}"></div>
+        <div class="name">{{ name }}</div>
+        <div class="executor" rel="{{ executor_id }}">
+            <div class="avatar_container js-avatar-container"
+                 rel='{{ executor }}'></div>
+        </div>
+        <div class="due_date">{{ deadline| date }}</div>
+        <div class="properties-icon"><i class="fa fa-cog" style="font-size: 20px;"></i></div>
+    </div>
+</div>

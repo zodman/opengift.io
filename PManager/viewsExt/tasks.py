@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+from django.http import Http404
+
 __author__ = 'Gvammer'
 from django.db.models import Q
 from django.db import transaction
@@ -33,6 +35,22 @@ def task_ajax_action(fn):
 def ajaxNewTaskWizardResponder(request):
     from django.shortcuts import render
     return render(request, 'task/new_task_wizard.html', {})
+
+
+def microTaskAjax(request, task_id):
+    try:
+        task = PM_Task.objects.get(id=task_id)
+        user = task.resp.get_profile() if task.resp else None
+    except PM_Task.DoesNotExist:
+        raise Http404
+    except PM_User.DoesNotExist:
+        raise Http404
+    return HttpResponse(json.dumps({
+        'id': task.id,
+        'name': task.name,
+        'executor': user.avatar_rel if user is not None else '',
+        'status': task.status.code
+    }), content_type="application/json")
 
 def taskListAjax(request):
     from PManager.widgets.tasklist.widget import widget as taskList

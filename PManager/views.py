@@ -145,8 +145,13 @@ class MainPage:
 
                     c.update({widgetName: widget})
                     results.append(loader.get_template("%s/templates/widget.html" % widgetName).render(c))
-
-            t = loader.get_template('index.html')
+            if request.is_ajax():
+                if request.GET.get('modal', None) is not None:
+                    t = loader.get_template('main/xhr_response_modal.html')
+                else:
+                    t = loader.get_template('main/xhr_response.html')
+            else:
+                t = loader.get_template('index.html')
             c.update({'widget_results': u" ".join(results)})
 
             uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)

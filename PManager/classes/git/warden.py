@@ -10,7 +10,7 @@ from git import *
 from PManager.classes.git.diff_parser import DiffParser
 from django.core.files.storage import FileSystemStorage
 if not settings.USE_GIT_MODULE:
-    exit("GIT MODULE NOT INSTALLED");
+    exit("GIT MODULE NOT INSTALLED")
 repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 logger = logging.getLogger(__name__)
 
@@ -84,7 +84,7 @@ class Warden(object):
             return False
         _repo = Repo(warden.repo_path)
         try:
-            _diff = _repo.git.show(message.commit)
+            _diff = _repo.git.show(message.commit, U=10)
             df = DiffParser(_diff)
         except IOError:
             return False
