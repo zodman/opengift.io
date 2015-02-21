@@ -59,7 +59,10 @@ def taskListAjax(request):
     headerValues = headers.initGlobals(request)
     ajaxTaskManager = taskAjaxManagerCreator(request)
 
-    if ajaxTaskManager.tryToSetActionFromRequest():
+    if not request.user.is_authenticated():
+        responseText = json.dumps({'unauthorized': True})
+
+    elif ajaxTaskManager.tryToSetActionFromRequest():
         ajaxTaskManager.process()
         responseText = ajaxTaskManager.getResponse()
 
@@ -80,7 +83,7 @@ def taskListAjax(request):
             if not rProf.hasRole(task.project):
                 rProf.setRole('employee', task.project)
             #outsource
-            if rProf.getBet(task.project) <= 0: #if finance relationship
+            if rProf.getBet(task.project) >= 0: #if finance relationship
                 task.setStatus('not_approved')
             else:
                 task.setStatus('revision')
@@ -456,7 +459,7 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved' and not request.user.is_superuser:
+                    if task.status and task.status.code == 'not_approved' and not request.user.is_staff:
                         #client have not enough money#
                         try:
                             if not task.planTime:

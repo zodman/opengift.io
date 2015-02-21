@@ -4,6 +4,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from PManager.models import Payment, Credit, PM_Project
 from django.db import connection
+from django.contrib.auth.models import User
 
 import datetime
 from django.utils import timezone
@@ -111,6 +112,55 @@ class PaymentChart(Chart):
             self.yAxes['pin'].values.append(pIn)
             self.yAxes['pout'].values.append(pOut)
 
+class sumLoanChart(Chart):
+    title = u'Текущие долги'
+    type = 'table'
+    def getData(self):
+        projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
+        qText = """
+                  SELECT
+                      sum(value) as summ, user_id FROM (
+                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p WHERE project_id IN """+projects+""" GROUP BY user_id
+                          UNION
+                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id IN """+projects+""" GROUP BY user_id
+                      ) as t
+                  GROUP BY t.user_id;
+              """
+        cursor = connection.cursor()
+
+
+        cursor.execute(qText)
+
+
+
+
+        self.cols = [
+            {
+                'name': u'ФИО'
+            },
+            {
+                'name': u'Сумма'
+            }
+        ]
+        self.rows = []
+        for x in cursor.fetchall():
+            if not x[1]:
+                continue
+
+            user = User.objects.get(pk=int(x[1]))
+            self.rows.append({
+                'cols': [
+                    {
+                        'url': '/user_detail/?id='+str(x[1]),
+                        'text': user.last_name + ' ' + user.first_name
+                    },
+                    {
+                        'text': x[0]
+                    }
+                ]
+            })
+
+
 def widget(request, headerValues, a, b):
     filt = {}
     daysBeforeNowForStartFilt = 7
@@ -127,15 +177,20 @@ def widget(request, headerValues, a, b):
         filt['dateTo'] = now
 
     filt['projects'] = []
-    for pid in request.POST.getlist('pid'):
+    for pid in request.REQUEST.getlist('pid'):
         filt['projects'].append(int(pid))
+
+    if not filt['projects']:
+        if headerValues['CURRENT_PROJECT']:
+            filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
     projects = PM_Project.objects.all()
     if filt['projects']:
         projects = projects.filter(id__in=filt['projects'])
 
     payChart = PaymentChart(filt['dateFrom'], filt['dateTo'], projects)
-    charts = [payChart]
+    loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects)
+    charts = [payChart, loanChart]
 
 
     return {

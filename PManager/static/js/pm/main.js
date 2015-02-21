@@ -215,10 +215,8 @@ PM_Timer.prototype = {
         if (this.interval) clearInterval(this.interval);
         this.interval = setInterval(function () {
             obj.seconds++;
-            obj.init()
-            if (obj.container) {
-                $(obj.container).html(obj.toString())
-            }
+            obj.init();
+            obj.fill();
         }, 1000);
         this.started = true;
     },
@@ -236,6 +234,11 @@ PM_Timer.prototype = {
         if (seconds < 10 && (seconds.length < 2 || seconds.length == undefined)) seconds = '0' + seconds + '';
 
         return hours + ":" + minutes + ":" + seconds;
+    },
+    'fill': function(){
+        if (this.container) {
+            $(this.container).html(this.toString())
+        }
     }
 }
 

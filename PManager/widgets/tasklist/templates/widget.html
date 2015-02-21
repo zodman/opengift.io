@@ -16,8 +16,9 @@
         </div>
 
         <h3>{{ tasklist.title }}</h3>
-        <hr>
+
         {% if tasklist.project and not tasklist.isInvite %}
+        <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <!--<form class="form-group" role="form">-->
         <form role="form">
@@ -128,6 +129,7 @@
 
         <div class="clearfix"></div>
         <div class="task-file-upload" style="position:relative;"></div>
+
 {% endif %}
 {% if not tasklist.tasks %}
 {% if tasklist.project and not tasklist.isInvite %}
@@ -292,7 +294,7 @@
 <div class="add-user-popup dropdown-menu responsibles js-add-user-popup">
     <div class="add-user-popup-top-arrow"></div>
     <div class="add-user-popup-header">
-        <input type="text" class="form-control js-input-user-name" placeholder="Введите имя человека, которого хотите назначит ответственным" />
+        <input type="text" class="form-control js-input-user-name" placeholder="Введите имя человека, которого хотите назначить ответственным" />
     </div>
     <div class="add-user-popup-content">
         <div class="add-user-list-of-categories js-categories-list">

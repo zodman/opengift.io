@@ -20,7 +20,7 @@ class Brains:
     def trainTasksBrains(request):
         # atimers = []
         # for timer in PM_Timer.objects.filter(user=89, price__isnull=True):
-        #     userBet = timer.user.get_profile().getBet(timer.task.project)
+        # userBet = timer.user.get_profile().getBet(timer.task.project)
         #     if userBet and timer.seconds:
         #         timer.price = userBet * (float(timer.seconds) / 3600.)
         #         timer.save()
@@ -32,6 +32,7 @@ class Brains:
         net.train(tasksForBrain)
         return HttpResponse('trained')
 
+
 class MainPage:
     @staticmethod
     def promoTmp(request):
@@ -40,12 +41,44 @@ class MainPage:
 
     @staticmethod
     def auth(request):
+        if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
+            username = request.POST['username']
+            password = request.POST['password']
+
+            from django.contrib.auth import authenticate, login
+
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                if user.is_active:
+                    login(request, user)
+                    if request.GET.get('from', '') == 'mobile':
+                        return HttpResponse('{"unauthorized": false}', content_type='application/json')
+                    else:
+                        return HttpResponseRedirect('/')
+                else:
+                    return HttpResponse(loader
+                                        .get_template('main/unauth.html')
+                                        .render(RequestContext(request, {"error": "not_active"})))
+            elif user is None:
+                return HttpResponse(loader
+                                    .get_template('main/unauth.html')
+                                    .render(RequestContext(request, {"error": "not_found"})))
+
+        elif 'logout' in request.GET and request.GET['logout'] == 'Y':
+            from django.contrib.auth import logout
+            logout(request)
+            return HttpResponseRedirect('/login/')
+
+        if request.GET.get('from', '') == 'mobile':
+            if request.user.is_authenticated():
+                return HttpResponse('{"unauthorized": false}', content_type='application/json')
+
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/unauth.html').render(c))
 
     @staticmethod
     def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}):
-        #agents
+        # agents
         from PManager.models import Agent
         from django.db.models import Q
         import datetime
@@ -64,32 +97,6 @@ class MainPage:
         leastHours = datetime.datetime.now() - datetime.timedelta(hours=9)
         for timer in PM_Timer.objects.filter(dateStart__lt=leastHours, dateEnd__isnull=True):
             timer.delete()
-
-        if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
-            username = request.POST['username']
-            password = request.POST['password']
-
-            from django.contrib.auth import authenticate, login
-
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    return HttpResponseRedirect('/')
-                else:
-                    return HttpResponse(loader
-                        .get_template('main/unauth.html')
-                        .render(RequestContext(request, {"error": "not_active"})))
-            elif user is None:
-                return HttpResponse(loader
-                        .get_template('main/unauth.html')
-                        .render(RequestContext(request, {"error": "not_found"})))
-
-        elif 'logout' in request.GET and request.GET['logout'] == 'Y':
-            from django.contrib.auth import logout
-
-            logout(request)
-            return HttpResponseRedirect('/login/')
 
         results = []
         c = RequestContext(request, {})
@@ -171,7 +178,7 @@ class MainPage:
             })
 
         c.update({
-            'pageTitle':pageTitle,
+            'pageTitle': pageTitle,
             'activeMenuItem': activeMenuItem,
             'userTimer': userTimer,
             'currentProject': headerValues['CURRENT_PROJECT'],
@@ -296,7 +303,7 @@ class MainPage:
         }
         # curTask = None
         # for credit in Credit.objects.filter(project=p).order_by('id'):
-        #     if credit.payer and credit.payer.id and curTask:
+        # if credit.payer and credit.payer.id and curTask:
         #         if not credit.task or not credit.task.id:
         #             credit.task = curTask
         #             credit.save()
@@ -380,6 +387,7 @@ class MainPage:
     def creditChart(request):
         import datetime
         from PManager.models.payments import Credit, Payment
+
         project = request.GET.get('project', None)
         if project:
             projects = [project]
@@ -408,7 +416,6 @@ class MainPage:
             sOut += sum(c.value for c in creditOut)
             sIn += sum(c.value for c in creditIn)
 
-
             payments = Payment.objects.filter(date__range=(datetime.datetime.combine(date, datetime.time.min),
                                                            datetime.datetime.combine(date, datetime.time.max)),
                                               project__in=projects)
@@ -430,6 +437,7 @@ class MainPage:
         })
         t = loader.get_template('report/credit_chart.html')
         return HttpResponse(t.render(c))
+
 
 def add_timer(request):
     from PManager.classes.logger.logger import Logger
@@ -459,7 +467,7 @@ def add_timer(request):
             dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
             timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
             timer.save()
-            #add comment
+            # add comment
             comment = PM_Task_Message(
                 task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
                 hidden_from_clients=True)
@@ -467,7 +475,7 @@ def add_timer(request):
             #add user log
             logger = Logger()
             logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-            return redirect('/add_timer/?'+'project='+str(comment.project.id)+'&text='+u'Успешно%20добавлено')
+            return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
 
     tasks = []
     for task in userTasks:
@@ -475,8 +483,8 @@ def add_timer(request):
             tasks.append(task)
 
     c = RequestContext(request, {
-            'tasks': tasks
-        })
+        'tasks': tasks
+    })
 
     t = loader.get_template('report/add_timer.html')
 

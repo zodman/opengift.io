@@ -446,7 +446,8 @@ class PM_Task(models.Model):
                 ob = {}
                 if obj.summ:
                     cUser = User.objects.get(pk=int(obj.user_id))
-                    if not cUser.is_staff and cUser.id != self.author.id and cUser.is_active:
+                    cUserProf = cUser.get_profile()
+                    if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
                         userTaskHours = round(float(obj.summ) / 3600., 2)
                         if self.planTime:
                             if userTaskHours > self.planTime * 2:
@@ -1144,11 +1145,11 @@ class PM_Task(models.Model):
     def setParent(self, taskId):
         try:
             parent = None
-            if taskId:
+            if taskId and int(taskId) > 0:
                 parent = PM_Task.objects.get(id=int(taskId), parentTask__isnull=True)
                 lastSubTask = parent.subTasks.order_by('-number')
             else:
-                lastSubTask = PM_Task.objects.filter(project=self.project).order_by('-number')
+                lastSubTask = PM_Task.objects.filter(project=self.project, parentTask__isnull=True).order_by('-number')
 
             lastNumber = 0
             if lastSubTask.count() and lastSubTask[0]:
@@ -1298,7 +1299,7 @@ class PM_Task_Message(models.Model):
     author = models.ForeignKey(User, related_name="outputMessages", null=True, blank=True, db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     task = models.ForeignKey(PM_Task, null=True, related_name="messages", db_index=True)
-    project = models.ForeignKey(PM_Project, null=True)
+    project = models.ForeignKey(PM_Project, null=True, db_index=True)
     commit = models.CharField(max_length=42, null=True)
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True, db_index=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)

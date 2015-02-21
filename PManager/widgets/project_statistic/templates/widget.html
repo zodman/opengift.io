@@ -60,68 +60,43 @@
         	<div class="stat-widget-text">
                 {% if chart.type == 'chart' %}
                 <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
+                {% else %}
+                <table class="table">
+                  <thead>
+                    <tr>
+                      {% for col in chart.cols %}
+                      <th>{{ col.name }}</th>
+                      {% endfor %}
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for row in chart.rows %}
+{#                  class in [active, success, danger, info, warning]#}
+                    <tr class="{{ row.class }}">
+                      {% for rowcol in row.cols %}
+                        <td>
+                        {% if rowcol.url %}
+                            <a href="{{ rowcol.url }}">
+                        {% endif %}
+                        {{ rowcol.text }}
+                        {% if rowcol.url %}
+                            </a>
+                        {% endif %}
+                        </td>
+                      {% endfor %}
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
                 {% endif %}
             </div>
-        </div>  
-
-{#		<div class="stat-widget">#}
-{#        	<h4>Выполняемые задачи</h4>#}
-{#        	<div class="stat-widget-text">#}
-{#                <table class="table">#}
-{#                  <thead>#}
-{#                    <tr>#}
-{#                      <th>#</th>#}
-{#                      <th>Название задачи</th>#}
-{#                      <th>Исполнитель</th>#}
-{#                      <th>Время</th>#}
-{#                    </tr>#}
-{#                  </thead>#}
-{#                  <tbody>#}
-{#                    <tr class="active">#}
-{#                      <td>1</td>#}
-{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                    <tr>#}
-{#                      <td>2</td>#}
-{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                    <tr class="success">#}
-{#                      <td>3</td>#}
-{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                    <tr class="danger">#}
-{#                      <td>4</td>#}
-{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                    <tr class="info">#}
-{#                      <td>5</td>#}
-{#                      <td><a href="">Дизайн виджета отчета</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                    <tr class="warning">#}
-{#                      <td>6</td>#}
-{#                      <td><a href="">На основе существующей возможности рисовать на скриншотах сделать возможность открытия такой формы с белым листом, чтобы просто рисовать</a></td>#}
-{#                      <td><a href="">Егор Маслов</a></td>#}
-{#                      <td> 00:00:00</td>#}
-{#                    </tr>#}
-{#                  </tbody>#}
-{#                </table>#}
-{#            </div>        #}
-{#        </div>  #}
+        </div>
     {% endfor %}
    </div>   
 </div>
 <script>
 {% for chart in project_statistic.charts %}
+    {% if chart.type == 'chart' %}
 var data = {
     labels : [{% for event in chart.xAxe %}'{{ event.date.day }}'{% if not forloop.last %},{% endif %}{% endfor %}],
     datasets : [
@@ -150,5 +125,6 @@ $(function(){
     });
     $(canvas{{ forloop.counter }}).parent().append(chart{{ forloop.counter }}.generateLegend());
 });
+    {% endif %}
 {% endfor %}
 </script>

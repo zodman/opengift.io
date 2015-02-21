@@ -569,10 +569,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                         obj.changeResponsible($(this).attr('rel'));
                         $(this).closest('.js-add-user-popup').remove();
                         userInput.val("");
-                        $('.js-add-user-popup .js-user-item').show()
+                        $('.js-add-user-popup .js-user-item').show();
                         return false;
                     });
-                }).end();
+                });
 
                 if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
                     userList.find('.js-categories-list').css('display','table-cell');
@@ -588,12 +588,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'top': (position.top + position.height + 5)
                 });
 
-                /*userList.find('.js-email-form').each(function () {
+                userList.find('.js-email-form').each(function () {
                     $(this).click(function () {
                         var inputEmail = $('.js-add-user-popup .js-email').val();
                         obj.changeResponsible(inputEmail);
                     });
-                });*/
+                });
 
                 var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
                 var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
@@ -603,7 +603,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 var userItems = $('.js-user-list-of-user .js-user-name');
                 var userInput = $('.js-add-user-popup .js-input-user-name');
                 userInput.focus();
-                userInput.keyup(function(){
+                userInput.unbind('keyup').keyup(function(){
                     var inputVal = $(this).val();
                     if (inputVal.length > 2) {
                         $.ajax({
@@ -613,7 +613,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                           success: function(response){
                             var data = $.parseJSON(response);
                             var mediaItems = [];
-                            $('.js-user-list-of-user .js-get-rel').each(function(indx){
+                            $('.js-user-list-of-user .js-get-rel').each(function(){
                               mediaItems.push($(this).attr('rel'));
                             });
                             function in_array(value, array) {
@@ -628,7 +628,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                                 } else {
                                     var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
                                 }
-                                if (in_array(data[i].id,mediaItems)) {
+                                if (!in_array(data[i].id, mediaItems)) {
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
                                     '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
@@ -655,27 +655,28 @@ var CRITICALLY_THRESHOLD = 0.7;
                                     $('.ajaxAppend').remove();
                                     return false;
                                 });
-                            }).end();
+                            });
                             $('.js-avatar-container').each(function(index,el){
                                 if ($(el).html() == '') {
                                     var params = $(el).attr('rel');
                                     if (params.length > 0) {
                                         $(el).append($.createAvatar(JSON.parse(params)));
-                                    };
-                                };
+                                    }
+                                }
                             })
                           }
                         }); 
                     } else {
                         $('.ajaxAppend').remove();
-                    };
+                    }
                     userItems.each(function(){
-                        $(this).parents('.js-user-item').hide();
                         var userItemVal = $(this).text();
                         var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
                         if (userItemIndexOf != -1) {
                             $(this).parents('.js-user-item').show();
-                        };
+                        } else {
+                            $(this).parents('.js-user-item').hide();
+                        }
                     });
                 });
 

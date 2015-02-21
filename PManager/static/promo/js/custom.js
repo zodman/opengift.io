@@ -16,15 +16,14 @@ jQuery(window).load(function() {
 $(".video-container").fitVids();
 
 
-
 /* =================================
 ===  MAILCHIMP                 ====
 =================================== */
 
-$('.mailchimp').ajaxChimp({
-    callback: mailchimpCallback,
-    url: "http://webdesign7.us6.list-manage.com/subscribe/post?u=9445a2e155b82208d73433060&amp;id=16dc80e353" //Replace this with your own mailchimp post URL. Don't remove the "". Just paste the url inside "".  
-});
+//$('.mailchimp').ajaxChimp({
+//    callback: mailchimpCallback,
+//    url: "http://webdesign7.us6.list-manage.com/subscribe/post?u=9445a2e155b82208d73433060&amp;id=16dc80e353" //Replace this with your own mailchimp post URL. Don't remove the "". Just paste the url inside "".
+//});
 
 function mailchimpCallback(resp) {
      if (resp.result === 'success') {
@@ -57,36 +56,6 @@ if (matchMedia('(max-width: 480px)').matches) {
         $(".navbar-toggle").click();
     });
 }
-
-
-/* NAVIGATION VISIBLE ON SCROLL */
-
-$(document).ready(function () {
-    mainNav();
-});
-
-$(window).scroll(function () {
-    mainNav();
-});
-
-if (matchMedia('(min-width: 992px), (max-width: 767px)').matches) {
-  function mainNav() {
-        var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-        if (top > 40) $('.sticky-navigation').stop().animate({"top": '0'});
-
-        else $('.sticky-navigation').stop().animate({"top": '0'});
-    }
-}
-
-if (matchMedia('(min-width: 768px) and (max-width: 991px)').matches) {
-  function mainNav() {
-        var top = (document.documentElement && document.documentElement.scrollTop) || document.body.scrollTop;
-        if (top > 40) $('.sticky-navigation').stop().animate({"top": '0'});
-
-        else $('.sticky-navigation').stop().animate({"top": '-120'});
-    }
-}
-
 
 /* =================================
 ===  DOWNLOAD BUTTON CLICK SCROLL ==
@@ -149,7 +118,7 @@ $(document).ready(function () {
         navigation: false, // Show next and prev buttons
         slideSpeed: 400,
         paginationSpeed: 800,
-        autoPlay: 5000,
+        autoPlay: 10000,
         singleItem: true
     });
 
@@ -173,7 +142,7 @@ $(document).ready(function () {
 $(document).ready(function () {
 
     $('#screenshots a').nivoLightbox({
-        effect: 'fadeScale',
+        effect: 'fadeScale'
     });
 
 });
@@ -231,7 +200,7 @@ $("#contact").submit(function (e) {
     if (isValidEmail(email) && (message.length > 1) && (name.length > 1)) {
         $.ajax({
             type: "POST",
-            url: "sendmail.php",
+            url: "/sendmail/",
             data: dataString,
             success: function () {
                 $('.success').fadeIn(1000);
@@ -270,11 +239,11 @@ horizontalScrolling: false
 ===  Bootstrap Internet Explorer 10 in Windows 8 and Windows Phone 8 FIX
 =================================== */
 if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
-  var msViewportStyle = document.createElement('style')
+  var msViewportStyle = document.createElement('style');
   msViewportStyle.appendChild(
     document.createTextNode(
       '@-ms-viewport{width:auto!important}'
     )
-  )
+  );
   document.querySelector('head').appendChild(msViewportStyle)
 }

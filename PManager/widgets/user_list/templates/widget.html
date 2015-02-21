@@ -72,8 +72,10 @@ $(function() {
                                     </a>
                                 </td>
                                 <td class="about-user">
-{#                                    <a href="mailto:{{ user.email }}"><i#}
-{#                                            class="fa fa-envelope"></i>&nbsp;&nbsp;{{ user.email }}</a>#}
+                                {% if is_admin %}
+                                    <a href="mailto:{{ user.email }}"><i
+                                            class="fa fa-envelope"></i>&nbsp;&nbsp;{{ user.email }}</a>
+                                {% endif %}
 {#                                    {% if user.icq %}<br/>{{ user.icq }}<br/>{% endif %}#}
 {#                                    {% if user.skype %}<a href="skype:{{ user.skype }}?call">{{ user.skype }}#}
 {#                                        </a>{% endif %}#}

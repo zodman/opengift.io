@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task_Message
+from PManager.models import PM_Task_Message, PM_Project
 from django.db.models import Q
 from PManager.viewsExt.tools import templateTools
 from tracker import settings
@@ -27,7 +27,12 @@ def widget(request, headerValues=None, ar=None, qargs=None):
                 Q(task__onPlanning=True) & Q(project__in=userProjects)
             )
 
+    activeProjects = PM_Project.objects.exclude(closed=True).values_list('id', flat=True)
+
     result = PM_Task_Message.objects.filter(
+        project__in=activeProjects
+    )\
+        .filter(
         Q(author=request.user) |
         Q(userTo=request.user) |
         hiddenQ &
@@ -35,7 +40,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
              unManagedQ
         )
     )
-    result = result.filter(task__active=True)
+    # result = result.filter(task__active=True)
     options = {
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
