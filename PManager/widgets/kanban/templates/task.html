@@ -1,12 +1,17 @@
-<div class="task task-wrapper-kanban">
-    <div class="task-card" rel="{{ id }}">
-        <div class="task-status {{ status }}" rel="{{ status }}"></div>
-        <div class="name">{{ name }}</div>
-        <div class="executor" rel="{{ executor_id }}">
-            <div class="avatar_container js-avatar-container"
-                 rel='{{ executor }}'></div>
+<div class="task js-task-wrapper task-wrapper-kanban">
+    <div class="task-card js-task-card" rel="{{ id }}">
+        <div class="task-status {{ status }} js-task-status" rel="{{ status }}"></div>
+        <div class="name js-task-name">
+            <a href="/task_detail/?id={{ id }}" onclick="window.location.href='/task_detail/?id={{ id }}'; return false;">{{ name }}</a>
         </div>
-        <div class="due_date">{{ deadline| date }}</div>
-        <div class="properties-icon"><i class="fa fa-cog" style="font-size: 20px;"></i></div>
+        <div class="executor js-task-executor" rel="{{ executor_id }}">
+            <a data-toggle="dropdown" class="js-select_resp">
+            <div class="avatar_container js-avatar-container"
+                 rel='{{ executor }}'>
+                <i class="fa fa-share"></i>
+            </div>
+            </a>
+        </div>
+        <div class="properties-icon js-task-properties"><i class="fa fa-cog" style="font-size: 20px;"></i></div>
     </div>
 </div>

@@ -90,7 +90,7 @@ class PM_User(models.Model):
     def avatar_rel(self):
         import json
         if self.avatarSrc:
-            return json.dumps({'image': self.avatarSrc})
+            return json.dumps({'image': self.avatarSrc, 'id': self.user.id})
         else:
             return json.dumps(self.avatarParams)
 

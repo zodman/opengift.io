@@ -26,8 +26,9 @@ class userHandlers:
             respDict = {
                 'first_name': resp.first_name,
                 'last_name': resp.last_name,
+                #todo should be depricated, avatar_rel handles both src and params, js is handling the rest
                 'avatar': p.avatarSrc,
-                'rel': p.avatarParams,
+                'rel': p.avatar_rel,
                 'id': resp.id
             }
             histasksQty = resp.todo.filter(active=True, closed=False).count()

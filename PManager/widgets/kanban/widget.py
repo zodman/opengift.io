@@ -5,6 +5,8 @@ from django.http import Http404
 from django.template.loader_tags import register
 from PManager.models.users import PM_User, PM_ProjectRoles, PM_Role
 from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
+from PManager.viewsExt.tasks import TaskWidgetManager
+from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
 import datetime
 
 
@@ -26,16 +28,13 @@ def show_micro_task(task):
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     user = request.user
-    current_project = headerValues['CURRENT_PROJECT']
+    current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
 
-    if current_project:
-        projects = [current_project]
-    else:
-        projects = user.get_profile().getProjects()
     statuses = PM_Task_Status.objects.all().order_by('-id')
-    tasks = PM_Task.objects.filter(project__in=projects, closed=False, onPlanning=False, status__in=statuses)
+    tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
     projects_data = {}
-    for task in tasks:
+    recommended_user = None
+    for task in tasks['tasks']:
         idx = str(task.project.id)
         if idx not in projects_data:
             print 'not have attribute'
@@ -45,13 +44,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 'user_source': task.project.getUsers(),
                 'tasks': []
             }
-        projects_data[idx]['tasks'].append(task)
+        recommended_user, tags = get_user_tag_sums(get_task_tag_rel_array(task), recommended_user)
+        task_data = {'task': task, 'responsibleList': tags}
+        projects_data[idx]['tasks'].append(task_data)
     prd_array = []
     for pd in projects_data:
         prd_array.append(projects_data[pd])
+    widget_manager = TaskWidgetManager()
+    users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
     return {
         'projects_data': prd_array,
         'statuses': statuses,
         'status_width': 100 / statuses.count() if statuses.count() != 0 else 100,
-        'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0
+        'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0,
+        'users': users
     }
