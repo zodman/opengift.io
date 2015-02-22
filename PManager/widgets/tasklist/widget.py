@@ -15,7 +15,6 @@ from tracker.settings import COMISSION
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser):
     userTagSums = {}
-    print 'should be here'
     if len(arTagsId) > 0:
         r = ObjectTags.objects.raw(
             'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
@@ -43,7 +42,6 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser):
 
                 if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
                     currentRecommendedUser = userId
-    print userTagSums
     return currentRecommendedUser, userTagSums
 
 
