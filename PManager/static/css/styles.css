@@ -2426,7 +2426,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .kanban .task-card .executor {
     position: absolute;
-    bottom: -1px;
+    bottom: 5px;
     right:5px;
     width: 30px;
 }
@@ -2482,4 +2482,22 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 .kanban .task-droppable.highlighted {
     background: #f4f4f4;
+}
+.kanban .avatar_container {
+    width:30px;
+    height: 30px;
+}
+.kanban .avatar_container i.fa {
+    font-size:16px;
+    color: black;
+    margin-left:10px;
+    margin-top:10px;
+}
+.kanban .avatar_container i.fa:hover {
+    font-size:16px;
+    color: grey;
+}
+.kanban .avatar_container i.fa:active {
+    font-size:16px;
+    color: white;
 }
