@@ -2501,3 +2501,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     font-size:16px;
     color: white;
 }
+
+.invite-popup {padding: 15px;}
+.invite-popup ul {list-style: none;}
