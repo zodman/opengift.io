@@ -531,7 +531,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .add-task-input ul li { display:block; margin-bottom:-1px; position:relative; }
 
 .task-create-wrapper ul li a,
-.add-task-input ul a { display:block;border:1px solid #CCCCCC; color:#222; padding:4px 11px; text-decoration:none; }
+.add-task-input ul a { display:block;border:1px solid #CCCCCC; color:#222; padding:10px 11px; text-decoration:none; }
 
 .task-create-wrapper ul li a:hover,
 .task-create-wrapper ul li.active a,
@@ -2501,3 +2501,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     font-size:16px;
     color: white;
 }
+
+.invite-popup {padding: 15px;}
+.invite-popup ul {list-style: none;}
