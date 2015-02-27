@@ -6,11 +6,8 @@
         .kanban .project-row .tasks-{{ status.code }},
         .kanban .project-row-headers .tasks-{{ status.code }}{
             float: left;
-            min-width:240px;
-            {% if not forloop.last %}
-            border-right: 2px solid gray;
-            {% endif %}
-            width: {%if forloop.last %}{{ kanban.status_width|add:kanban.status_width_remains }}{% else %}{{ kanban.status_width }}{% endif %}%;
+            width: 31.33%;
+            margin: 0 1%;
             left: {% multiply forloop.counter0 kanban.status_width %}%;
         }
         {% endfor %}

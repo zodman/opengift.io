@@ -2353,15 +2353,14 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 /* KANBAN */
 .kanban .project-row {
-    overflow:auto;
     height:auto;
     width:100%;
-    border: 2px solid grey;
     margin-bottom:20px;
     border-radius:5px;
-    overflow: hidden;
     position: relative;
+    border: 1px solid #CCCCCC;
 }
+
 .kanban .tasks-wrapper {
     width:100%;
     height:100%;
@@ -2369,25 +2368,40 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     z-index:1;
 }
 .kanban .project-row .project-name {
+    /*background:#fff;
+    background-image: -webkit-gradient(
+    linear,
+    left top,
+    left bottom,
+    color-stop(0, #FCFCFC),
+    color-stop(1, #F2F2F2)
+);
+    background-image: -o-linear-gradient(bottom, #FCFCFC 0%, #F2F2F2 100%);
+    background-image: -moz-linear-gradient(bottom, #FCFCFC 0%, #F2F2F2 100%);
+    background-image: -webkit-linear-gradient(bottom, #FCFCFC 0%, #F2F2F2 100%);
+    background-image: -ms-linear-gradient(bottom, #FCFCFC 0%, #F2F2F2 100%);
+    background-image: linear-gradient(to bottom, #FCFCFC 0%, #F2F2F2 100%);*/
+    background: #555;
+    border-bottom: 1px solid #222;
+    color: #fff;
+    font-size: 16px;
+    padding-bottom: 10px;
+    padding-top: 10px;
     text-align: center;
-    background: #f4f4f4;
-    padding-bottom: 5px;
-    padding-top: 5px;
-    border-bottom: 2px solid grey;
+    margin: -1px;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
 }
 .kanban .project-row:last-child {
     margin-bottom:0px;
 }
-.kanban .project-row-headers .tasks-header {
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    padding-bottom: 5px;
-    padding-top: 5px;
-}
+
 
 .kanban .project-row-headers {
-    border-bottom: 2px solid grey;
     overflow: auto;
 }
 .kanban .project-row .tasks-column {
@@ -2430,6 +2444,33 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     right:5px;
     width: 30px;
 }
+.tasks-header {
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+    -moz-border-radius-topleft: 5px;
+    -moz-border-radius-topright: 5px;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    color:#fff;
+    text-align: center;
+    font-weight: bold;
+    font-size: 14px;
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.tasks-header.tasks-not_approved {
+    background: #999;
+}
+
+.tasks-header.tasks-revision {
+    background: #ac05a6;
+}
+
+.tasks-header.tasks-ready {
+    background: #47a447;
+}
+
 .kanban .executor .avatar_container {
 }
 .kanban .task-card .due_date {
@@ -2454,7 +2495,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     cursor: default;
 }
 .kanban {
-    min-width:1500px;
     overflow: auto;
 }
 .kanban .task-status {
