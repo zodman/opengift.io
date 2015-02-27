@@ -8,52 +8,39 @@ class Kanban
 	    if /Android/i.test(window.navigator.userAgent)
 	      return false if /Mobile/i.test(window.navigator.userAgent)
 	    return true
-    constructor: (@projectRow, @options) ->
-    	@setDefaultValues()
-    	@setup()
+	@dependencies_resolved: ->
+		return false unless $().draggable?
+		return false unless $().droppable?
+		return true
+
+	constructor: (@projectRow, @options) ->
+		do @setDefaultValues
+		do @setup
+		do @render
+
+	ready: -> 
+	filter: ->
+		console.log "filter"
+	render: ->
+		console.log "render called"
+
 	setup: ->
-		@tasksSelector = @options.tasksSelector if @options.tasksSelector?
-		@dropZoneSelector = @options.dropZoneSelector if @options.dropZoneSelector?
-		do @loadTasks
-		do @loadZones
-		@drawBoard = new DrawBoard({
-			el: @projectRow
-			tasks: @tasks
-			dropZones: @dropZones
-		})
+		if @options? and @options.ready?
+			@ready = @options.ready
 
 	setDefaultValues: ->
-		@projectRow = $ @projectRow
-		@tasksSelector = '.js-task-wrapper'
-		@tasks = []
-		@drawBoard = {}
-		@dropZoneSelector = '.js-tasks-column'
-		@dropZones = []
-		@storageKeyPrefix = 'hl_kb_'
-		@animationTime = 200
-		@dropDefaultLayout = { left: 20, top: 20 }
-	loadTasks: ->
-		@projectRow.find(@tasksSelector).each((index, el) =>
-			@tasks.push(new TaskCard({
-				el: $(el)
-				projectRow: @
-			}))
-		)
-	loadZones: ->
-		@projectRow.find(@dropZoneSelector).each((index, el) =>
-			@dropZones.push(new DropZone({
-				el:$(el)
-				projectRow: @
-			}))
-		)
-
-
+		@OBJECT_READY = 1
+		@OBJECT_NOT_READY = 0
+		@ANIMATION_TIME = 200
+		@STORAGE_PREFIX = 'hl_kb_'
+		@DROP_DEFAULT_STEP = { left: 20, top: 20 }
 
 $ = jQuery
 
 $.fn.extend({
 	kanban: (options) ->
 		return this unless Kanban.browser_is_supported()
+		return this unless Kanban.dependencies_resolved()
 		this.each (projectRow) ->
 			$this = $ this
 			kanban = $this.data('kanban')
@@ -63,6 +50,3 @@ $.fn.extend({
 				$this.data('kanban', new Kanban(this, options))
 		return		
 })
-$(document).ready(-> 
-	$('.js-project-row').kanban({test:'test'})
-)

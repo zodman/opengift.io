@@ -54,3 +54,16 @@
     </div>
     {% endfor %}
 </div>
+<script>
+    $(document).ready(function(){
+        $('.js-project-row').kanban();
+        $('.js-user_source').on("chosen:ready", function(){
+            $(".js-user_source").val(14).trigger("chosen:updated");
+        }).chosen({
+            no_results_text: "Пользователь не найден",
+            width: "100%"
+        }).change(function(event){
+            $(this).parents('.js-project-row').filter($(this).val());
+        }).trigger("change");
+    })
+</script>
