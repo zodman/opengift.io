@@ -1,12 +1,10 @@
-<h1 style="white-space: nowrap; width: 500px;">Приглашение пользователей в проект</h1>
-
+<div class="invite-popup">
+    <h2>Приглашение пользователей в проект</h2>
+    <hr />
 <div class="text-center">
-    <div class="col-sm-12">
         <input type="text" name="email" class="form-control js-email-invite" placeholder="Введите email" />
-    </div>
 </div>
 <div>
-    <div class="col-sm-12">
         <ul class="list-inline" >
             <li><div class="checkbox"><label>
                 <input class="js-role-check-invite"
@@ -26,20 +24,20 @@
                 <span class="fa fa-user"></span>
                 Разработчик</label></div></li>
       </ul>
-    </div>
 </div>
 <div class="clearfix"></div>
-<div>
-    <div class="col-sm-12 text-center">
+
+    <div class="text-center">
         <a href="#" class="btn btn-success" onclick="return document.mainController.inviteUser($(this), $('.js-email-invite'), $('.js-role-check-invite'));">Пригласить</a>
     </div>
-</div>
 
-<div class="clearfix" ></div>
-<hr />
-<h1>Пригласите проверенных специалистов!</h1>
+<div class="clearfix"></div><br><br>
+
+<h2>Пригласите проверенных специалистов!</h2>
+    <hr />
 <p>Для приглашения компетентных исполнителей вам нужно:</p>
 <ul>
     <li>1. Проставить галочки на против задач, которые вы хотите делегировать</li>
     <li>2. Нажать "Пригласить исполнителей" в панели снизу</li>
 </ul>
+</div>

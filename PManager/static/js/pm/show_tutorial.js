@@ -2,9 +2,14 @@ function showTutorial () {
     $('body').addClass('first-task-slider');
     $.fancybox.open(
         [
-            {href: "/static/images/start_slider/first.jpg"},
-            {href: "/static/images/start_slider/apprice.jpg"},
-            {href: "/static/images/start_slider/ctrlv.jpg"}
+            //{href: "/static/images/start_slider/first.jpg"},
+            //{href: "/static/images/start_slider/apprice.jpg"},
+            //{href: "/static/images/start_slider/ctrlv.jpg"}
+            {href: "/static/images/start_slider/slide1.jpg"},
+            {href: "/static/images/start_slider/slide2.jpg"},
+            {href: "/static/images/start_slider/slide3.jpg"},
+            {href: "/static/images/start_slider/slide4.jpg"},
+            {href: "/static/images/start_slider/slide5.jpg"}
         ],
         {
             helpers : {
