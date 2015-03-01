@@ -217,7 +217,7 @@ function setTaskCellsHeight($object){
     if (GLOBAL_RESIZE_TIMER) clearTimeout(GLOBAL_RESIZE_TIMER);
     GLOBAL_RESIZE_TIMER = setTimeout(function(){
         $object.each(function(){
-            $(this).find('.task-drag').css('height', $(this).height());
+            $(this).find('.task-drag').css('height', $(this).height()+1);//task-drag have margin -1 for hide top border of task
          });
     }, 200);
 }

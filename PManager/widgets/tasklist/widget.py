@@ -15,12 +15,12 @@ from tracker.settings import COMISSION
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser):
     userTagSums = {}
-    print 'should be here'
+
     if len(arTagsId) > 0:
         r = ObjectTags.objects.raw(
             'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
                 arTagsId) + ') AND content_type_id=' + str(
-                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id')
+                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id ORDER BY weight_sum DESC')
         for obj1 in r:
             if obj1.content_object:
                 userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
@@ -43,9 +43,8 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser):
 
                 if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
                     currentRecommendedUser = userId
-    print userTagSums
-    return currentRecommendedUser, userTagSums
 
+    return currentRecommendedUser, userTagSums
 
 def get_task_tag_rel_array(task):
     taskTagRelArray = ObjectTags.objects.filter(object_id=task.id,
@@ -300,7 +299,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             addTasks[task.id]['group'] = {
                 'name': task.project.name,
                 'id': task.project.id,
-                'code': 'project'
+                'code': 'project',
+                'url': task.project.url
             }
 
         if subtasksQty:

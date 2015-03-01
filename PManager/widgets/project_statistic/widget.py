@@ -116,23 +116,7 @@ class sumLoanChart(Chart):
     title = u'Текущие долги'
     type = 'table'
     def getData(self):
-        projects = '(' + ','.join([str(s.id) for s in self.projects]) +')'
-        qText = """
-                  SELECT
-                      sum(value) as summ, user_id FROM (
-                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p WHERE project_id IN """+projects+""" GROUP BY user_id
-                          UNION
-                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id IN """+projects+""" GROUP BY user_id
-                      ) as t
-                  GROUP BY t.user_id;
-              """
-        cursor = connection.cursor()
-
-
-        cursor.execute(qText)
-
-
-
+        arDebts = Credit.getUsersDebt(self.projects)
 
         self.cols = [
             {
@@ -143,22 +127,22 @@ class sumLoanChart(Chart):
             }
         ]
         self.rows = []
-        for x in cursor.fetchall():
-            if not x[1]:
-                continue
-
-            user = User.objects.get(pk=int(x[1]))
-            self.rows.append({
-                'cols': [
-                    {
-                        'url': '/user_detail/?id='+str(x[1]),
-                        'text': user.last_name + ' ' + user.first_name
-                    },
-                    {
-                        'text': x[0]
-                    }
-                ]
-            })
+        for x in arDebts:
+            try:
+                user = User.objects.get(pk=int(x[1]))
+                self.rows.append({
+                    'cols': [
+                        {
+                            'url': '/user_detail/?id='+str(x[['user_id']]),
+                            'text': user.last_name + ' ' + user.first_name
+                        },
+                        {
+                            'text': x['sum']
+                        }
+                    ]
+                })
+            except User.DoesNotExist:
+                pass
 
 
 def widget(request, headerValues, a, b):

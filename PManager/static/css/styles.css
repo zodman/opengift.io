@@ -608,14 +608,14 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .task-wrapper.critically {background:#FFECEC;}
 .task-wrapper.task_over, .task-wrapper.critically.task_over {box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6;	-o-box-shadow:0px 1px 2px #FFE0A6;	-webkit-box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6; background:#FFFDF1 !important;}
 
-.task-wrapper {margin-bottom:10px; box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -moz-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -webkit-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; line-height:24px; background:#f4f4f4;}
+.task-wrapper {border-top: 1px solid #eee;border-right: 1px solid #eee;margin-bottom:10px; box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -moz-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -webkit-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; line-height:24px; background:#f4f4f4;}
 
 .temp_task {border-top: 2px dashed #ddd;  border-bottom: 2px dashed #ddd; background:#f9f9f9;  width: 100%;  height: 45px; margin: 0 0 5px;}
 
 				.task {padding:0 15px; position:relative;}
 					.task.ready {background:#e6f0e6;}
 					.task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
-					.task-drag {width:3px; height:0px; position:absolute; left:0px; top:0px; background:#ffa500; cursor:move}
+					.task-drag {width:3px; height:0px; position:absolute; left:0px; top:-1px; background:#ffa500; cursor:move}
 						.task-drag.on-planning {background:#ac05a6;}
 						.task-drag.ready {background:#47a447;}
 						.task-drag.not-approved {background:#999;}

@@ -108,6 +108,7 @@ def widget(request, headerValues, ar, qargs):
                         sum += sumHours
                         projectHours += sumHours
                         # rest += sumHours * (projectBet if projectBet else sp_price)
+
                 projPrice = 0
                 for o in Credit.objects.raw(
                         'SELECT SUM(`value`) as summ, id, user_id, project_id from PManager_credit' +

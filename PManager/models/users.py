@@ -57,11 +57,13 @@ class PM_User(models.Model):
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to="PManager/static/upload/users/")
     sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Ставка')
-    paid = models.IntegerField(blank=True, null=True, default=0)
-    specialty = models.ForeignKey(Specialty, blank=True, null=True) #TODO: deprecated
+
+    premium_till = models.DateTimeField(blank=True, null=True, verbose_name='Оплачен до')
+    paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
+    specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
                                          verbose_name='Специальности')
-    #all_sp = models.IntegerField(null=True,blank=True)
+    # all_sp = models.IntegerField(null=True,blank=True)
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
                                     max_length=20)
 
@@ -78,22 +80,24 @@ class PM_User(models.Model):
     @property
     def avatarSrc(self):
         return str(self.avatar).replace('PManager', '')
-    
+
     @property
     def avatarParams(self):
         return {
-            'id':self.user.id,
-            'color':self.avatar_color,
-            'initials':self.user.last_name[0] + self.user.first_name[0] if self.user.last_name and self.user.first_name else ''
+            'id': self.user.id,
+            'color': self.avatar_color,
+            'initials': self.user.last_name[0] + self.user.first_name[
+                0] if self.user.last_name and self.user.first_name else ''
         }
+
     @property
     def avatar_rel(self):
         import json
+
         if self.avatarSrc:
             return json.dumps({'image': self.avatarSrc, 'id': self.user.id})
         else:
             return json.dumps(self.avatarParams)
-
 
 
     @property
@@ -107,7 +111,7 @@ class PM_User(models.Model):
             return None
 
     @staticmethod
-    def getCurrent(request): #возвращает текущего пользователя
+    def getCurrent(request):  #возвращает текущего пользователя
         if headers.TRACKER and request.user.is_authenticated():
             return PM_User.getByUser(request.user)
 
@@ -129,7 +133,7 @@ class PM_User(models.Model):
     @staticmethod
     def getOrCreateByEmail(email, project, role):
         try:
-            user = User.objects.filter(username=email).get() #достанем пользователя по логину
+            user = User.objects.filter(username=email).get()  #достанем пользователя по логину
         except User.DoesNotExist:
             password = User.objects.make_random_password()
             login = email
@@ -204,7 +208,8 @@ class PM_User(models.Model):
                 return False
 
             if clientRole:
-                userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole, project=project)
+                userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole,
+                                                                          project=project)
                 if type:
                     userRole.payment_type = type
                     userRole.save()
@@ -244,15 +249,15 @@ class PM_User(models.Model):
                     return True
 
                 return (task.resp and self.user.id == task.resp.id) \
-                           or self.user.id in [u.id for u in task.observers.all()] \
-                           or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
-                    or task.subTasks.filter(author=self.user.id, active=True).count() > 0
+                       or self.user.id in [u.id for u in task.observers.all()] \
+                       or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
+                       or task.subTasks.filter(author=self.user.id, active=True).count() > 0
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
-                    or self.user.id == self.task.resp
+                       or self.user.id == self.task.resp
 
     def getBet(self, project, type=''):
         try:
@@ -263,7 +268,7 @@ class PM_User(models.Model):
                 projectRole = projectRole[0]
 
             rate = projectRole.rate if projectRole and projectRole.rate else (
-            int(self.sp_price) if self.sp_price else 0)
+                int(self.sp_price) if self.sp_price else 0)
             if self.rating and not self.user.is_staff:
                 rate += self.rating
             return rate
@@ -283,17 +288,21 @@ class PM_User(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
 def remove_keys(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
     from PManager.models.keys import Key
+
     keys = Key.objects.filter(user=instance)
     for key in keys:
-        GitoliteManager.remove_key_from_user(key,instance)
+        GitoliteManager.remove_key_from_user(key, instance)
+
 
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = PM_User.objects.get_or_create(user=instance)
+
 
 pre_delete.connect(remove_keys, sender=User)
 post_save.connect(create_user_profile, sender=User)

@@ -1,74 +1,79 @@
 {% extends "main/base.html" %}
 {% load thumbnail %}
 {% block content %}
-<script type="text/javascript" src="/static/js/libs/clipboard/zclib.js" ></script>
-<script type="text/javascript">
-function clipboardAppend(t) {
-    $(t).clipboard({
-        path: '/static/js/libs/clipboard/jquery.clipboard.swf',
-        copy: function() {
-            $(t).data('text', $(t).text()).text('пароль скопирован');
-            setTimeout(function(){
-                $(t).text($(t).data('text'));
-            }, 2000);
-            return $(t).data('password');
-        }
-    });
-}
-
-$(function(){
-    $('a.js-copy-password').each(function(){
-        clipboardAppend(this);
-    });
-
-    $('.js-interface-container').on('click', '.js-interface-remove', function(){
-        var $interface = $(this).closest('.js-interface-block');
-        var id = $interface.data('id');
-        $interface.remove();
-        $.post(
-                '/remove_interface/',
-                {
-                    'id': id
+    <script type="text/javascript" src="/static/js/libs/clipboard/zclib.js"></script>
+    <script type="text/javascript" src="/static/js/pm/ajax_inputs.js"></script>
+    <script type="text/javascript">
+        function clipboardAppend(t) {
+            $(t).clipboard({
+                path: '/static/js/libs/clipboard/jquery.clipboard.swf',
+                copy: function () {
+                    $(t).data('text', $(t).text()).text('пароль скопирован');
+                    setTimeout(function () {
+                        $(t).text($(t).data('text'));
+                    }, 2000);
+                    return $(t).data('password');
                 }
-        );
-    });
-});
-</script>
-<link type="text/css" rel="stylesheet" href="/static/css/project.edit.css" />
-<div class="widget">
-	<h1>{{ project.name }} {% if canEdit %}<a class="fa fa-edit" href="/project/edit/?id={{ project.id }}" style="height: 11px;"></a>{% endif %}</h1>
-    <hr />
+            });
+        }
+
+        $(function () {
+            $('a.js-copy-password').each(function () {
+                clipboardAppend(this);
+            });
+
+            $('.js-interface-container').on('click', '.js-interface-remove', function () {
+                var $interface = $(this).closest('.js-interface-block');
+                var id = $interface.data('id');
+                $interface.remove();
+                $.post(
+                        '/remove_interface/',
+                        {
+                            'id': id
+                        }
+                );
+            });
+
+            window.ajaxInputs();
+        });
+    </script>
+    <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
+    <div class="widget">
+    <h1>{{ project.name }} {% if canEdit %}
+        <a class="fa fa-edit" href="/project/edit/?id={{ project.id }}" style="height: 11px;"></a>{% endif %}</h1>
+    <hr/>
 
     <div class="media">
-{#      <a class="pull-left" href="#">#}
-{#        <img src="/static/images/avatar_unknown.png" />#}
-    {% if project.imagePath %}
-        <img class="pull-left" width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" />
-    {% else %}
-        <img src="/static/images/avatar_unknown.png" />
-    {% endif %}
-{#      </a>#}
-      <div class="media-body">
-          {% for role, users in roles.items %}
-              <p>{{ role }}: {% for user in users %}<a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}</p>
-          {% endfor %}
-      </div>
+
+        {% if project.imagePath %}
+            <img class="pull-left" width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}"/>
+        {% else %}
+            <img src="/static/images/avatar_unknown.png"/>
+        {% endif %}
+
+        <div class="media-body">
+            {% for roleName, role in roles.items %}
+                <p>{{ roleName }}: {% for user in role.users %}<a href="/user_detail/?id={{ user.id }}">
+                    {{ user.first_name }} {{ user.last_name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+                </p>
+            {% endfor %}
+        </div>
     </div>
 
-    <hr />
+    <hr/>
 
-   <p>
-   	{{ project.description }}
-   </p>
+    <p>
+        {{ project.description }}
+    </p>
 
-   <hr />
+    <hr/>
 
     <div class="row-fluid clearfix project-buttons">
-            <div class="pull-left">
-                {% if canDelete and not project.closed %}
-            	<a class="btn btn-danger" href="?archive=Y">Перенести в архив</a>
-            	{% endif %}
-                <span style="position:relative;">
+        <div class="pull-left">
+            {% if canDelete and not project.closed %}
+                <a class="btn btn-danger" href="?archive=Y">Перенести в архив</a>
+            {% endif %}
+            <span style="position:relative;">
 {#                    <a class="btn btn-success" href="#">Пригласить пользователя</a>#}
 
 {#                <div class="add-user-popup">#}
@@ -146,97 +151,152 @@ $(function(){
 {#                        </div>#}
 {#                  </div>#}
                 </span>
-            </div>
-            <div class="pull-right">
-            	<a class="btn btn-success" href="#" onclick="$('.add-interface').toggle();return false;">Добавить интерфейс</a>
-            </div>
-   </div>
+        </div>
+        <div class="pull-right">
+            <a class="btn btn-success" href="#" onclick="$('.add-interface').toggle();return false;">Добавить
+                интерфейс</a>
+        </div>
+    </div>
 
-   <div class="add-interface" style="display: none">
-   		<form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/" >
-            <input type="hidden" name="pid" value="{{ project.id }}" />
-        	<div class="my-row clearfix">
-            		<div class="my-row-3">
-                   		<div class="my-row-4">
-                        	<h6>Тип соединения</h6>
+    <div class="add-interface" style="display: none">
+        <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
+            <input type="hidden" name="pid" value="{{ project.id }}"/>
+
+            <div class="my-row clearfix">
+                <div class="my-row-3">
+                    <div class="my-row-4">
+                        <h6>Тип соединения</h6>
                         <select class="form-control" name="protocol">
                             <option value="http">WEB</option>
                             <option value="ssh">SSH</option>
                             <option value="ftp">FTP</option>
                             <option value="rdp">RDP</option>
-                         </select>
-                        </div>
-                        <div class="my-row-6">
-                        	 <h6>Адрес</h6>
-             	            <input type="text" value="" name="address" placeholder="Введите адрес..." class="form-control" />
-                        </div>
+                        </select>
                     </div>
-            		<div class="my-row-3">
-                    	 <h6>Название</h6>
-             			<input type="text" value="" name="name" placeholder="Введите название..." class="form-control">
+                    <div class="my-row-6">
+                        <h6>Адрес</h6>
+                        <input type="text" value="" name="address" placeholder="Введите адрес..."
+                               class="form-control"/>
                     </div>
-                    <div class="my-row-3">
-                        <h6>Доступен</h6>
-                         <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="1"> Клиенты</label>
-                         <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="2"> Разработчики</label>
-                         <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="3"> Менеджеры</label>
-                    </div>
+                </div>
+                <div class="my-row-3">
+                    <h6>Название</h6>
+                    <input type="text" value="" name="name" placeholder="Введите название..." class="form-control">
+                </div>
+                <div class="my-row-3">
+                    <h6>Доступен</h6>
+                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="1">
+                        Клиенты</label>
+                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="2">
+                        Разработчики</label>
+                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="3">
+                        Менеджеры</label>
+                </div>
             </div>
 
-        	<div class="my-row clearfix">
-              <div class="my-row-3">
-                 <h6>Имя пользователя</h6>
-             	<input type="text" value="" name="username" placeholder="Введите имя пользователя..." class="form-control">
-              </div>
-              <div class="my-row-3">
-                <h6>Пароль</h6>
-             	<input type="password" value="" name="password" placeholder="Введите пароль..." class="form-control">
-              </div>
-              <div class="my-row-3">
-              	<input type="submit" class="btn btn-success" onclick="$('.js-add-interface').ajaxSubmit(function(data){var $ic = $('.js-interface-container'); $ic.append(data);clipboardAppend($ic.find('.js-copy-password').last());});return false;" value="Добавить интерфейс"/>
-              </div>
+            <div class="my-row clearfix">
+                <div class="my-row-3">
+                    <h6>Имя пользователя</h6>
+                    <input type="text" value="" name="username" placeholder="Введите имя пользователя..."
+                           class="form-control">
+                </div>
+                <div class="my-row-3">
+                    <h6>Пароль</h6>
+                    <input type="password" value="" name="password" placeholder="Введите пароль..."
+                           class="form-control">
+                </div>
+                <div class="my-row-3">
+                    <input type="submit" class="btn btn-success"
+                           onclick="$('.js-add-interface').ajaxSubmit(function(data){var $ic = $('.js-interface-container'); $ic.append(data);clipboardAppend($ic.find('.js-copy-password').last());});return false;"
+                           value="Добавить интерфейс"/>
+                </div>
             </div>
-   		</form>
-   </div>
+        </form>
+    </div>
 
-   <hr />
-   <div class="js-interface-container">
+    <hr/>
+    <div class="js-interface-container">
         {{ interfaces|safe }}
-{#       <div class="alert alert-warning clearfix">Адрес сайта: <a href="#">http://www.romashka.tv</a></div>#}
-{#       <br />#}
-{#       <div class="alert alert-success clearfix alert-dismissible" role="alert">#}
-{#            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>#}
-{#            <div class="pull-left">#}
-{#                <i class="fa fa-check-circle-o pull-left" style="font-size:64px;"></i>#}
-{#            </div>#}
-{#            <div class="pull-left">#}
-{#                <h4>FTP:</h4>#}
-{#                167.78.65.32<br />Пользователь: user <br />Пароль: <a href="#">cкопировать пароль</a>#}
-{#            </div>#}
-{#       </div>#}
-{#       <br />#}
-{#       <div class="alert alert-danger clearfix alert-dismissible" role="alert">#}
-{#            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>#}
-{#            <div class="pull-left">#}
-{#                <i class="fa fa-exclamation-circle pull-left" style="font-size:64px;"></i>#}
-{#            </div>#}
-{#            <div class="pull-left">#}
-{#                <h4>SSH-Тест:</h4>#}
-{#                167.78.65.32<br />Пользователь: user <br />Пароль: <a href="#">cкопировать пароль</a>#}
-{#            </div>#}
-{#       </div>#}
-{#       <br />#}
-{#       <div class="alert alert-success clearfix alert-dismissible" role="alert">#}
-{#            <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>#}
-{#            <div class="pull-left">#}
-{#                <i class="fa fa-check-circle-o pull-left" style="font-size:64px;"></i>#}
-{#            </div>#}
-{#            <div class="pull-left">#}
-{#                <h4>RDP:</h4>#}
-{#                167.78.65.32<br />Пользователь: user <br />Пароль: <a href="#">cкопировать пароль</a>#}
-{#            </div>#}
-{#       </div>#}
-   </div>
+    </div>
+    {% if bCurUserIsAuthor %}
+        <h2>Начисление бонусов (очков истории)</h2>
+        {% for roleName, o in roles.items %}
+            {{ roleName }} <i>{{ o.text }}</i>:
+            {% for user in o.users %}
+                <div class="user-role-block">
+                    <a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a><br/>
 
-</div><!--widget-->
+                    <form class="form-inline">
+                        <div class="form-group">
+                            <label>Форма начисления бонусов <a href="#"
+                                                               title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></label>
+                            <select class="js-ajax-input form-control" data-action="update_payment_type"
+                                    data-role="{{ user.role_id }}">
+                                <option value="real_time" {% if o.role.payment_type == 'real_time' %}
+                                        selected="selected"{% endif %}>
+                                    За реальное время
+                                </option>
+                                <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
+                                        selected="selected"{% endif %}>
+                                    За плановое время
+                                </option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Ставка</label>
+
+                            <div class="input-group">
+                                <input type="text" class="js-ajax-input form-control" data-action="update_rate"
+                                       data-role="{{ user.role_id }}" value="{{ o.role.rate|default_if_none:'' }}"
+                                       {% if user.rate %}placeholder="{{ user.rate }}"{% endif %} />
+                                <div class="input-group-addon">SP</div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                Накоплено бонусов: <b>{{ user.sum }}</b>
+                            </label>
+                        </div>
+                        <button class="button blue-button js-bonus-complete" rel="{{ user.role_id }}"
+                                data-sum="{{ user.sum|default_if_none:'' }}">погасить бонусы
+                        </button>
+                    </form>
+                </div>
+            {% endfor %}
+            <br/>
+        {% endfor %}
+        <div class="js-user-pay-win hidden">
+            <form>
+                <input type="hidden" class="js-input-role-id" value=""/>
+                <label>Количество бонусов: <input type="text" class="js-input-user-sum" value=""/></label>
+                <input type="button" class="button blue-button" onclick="sendPayment(this);return false;"
+                       value="Погасить бонусы"/>
+            </form>
+        </div>
+        <script type="text/javascript">
+            function sendPayment(el) {
+                var $form = $(el).closest('form'),
+                        data = {'action': 'send_payment'};
+                data['role'] = parseInt($form.find('.js-input-role-id').val());
+                data['sum'] = parseInt($form.find('.js-input-user-sum').val());
+                PM_AjaxPost(
+                        document.URL,
+                        data,
+                        function (data) {
+                            if (data['result']) document.location.reload();
+                        },
+                        'json'
+                );
+            }
+            $(function () {
+                $('.js-bonus-complete').click(function () {
+                    $.fancybox({'content': $('.js-user-pay-win').html()});
+                    $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
+                    $('.js-input-role-id').val($(this).attr('rel'));
+                    return false;
+                })
+            })
+        </script>
+    {% endif %}
+    </div><!--widget-->
 {% endblock %}

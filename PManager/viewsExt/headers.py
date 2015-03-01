@@ -89,6 +89,7 @@ def initGlobals(request):
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
+        'IS_MANAGER': request.user.get_profile().isManager(CURRENT_PROJECT) if CURRENT_PROJECT else False,
         'FIRST_STEP_FORM': WhoAreYouForm,
         'REDIRECT': redirect,
         'COOKIES': request.COOKIES

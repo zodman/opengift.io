@@ -5,25 +5,33 @@
     <div>
         <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}"
               method="POST" name="robo">
-            <span>Очков истории: <strong>{{ project_graph.allProjectPrice|intcomma }} sp.</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
+            <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>&nbsp;&nbsp;{{ project_graph.payForm.as_p }}
             {% if is_staff %}
-                (<a href="#" class="js-start-pay" onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay').val('1'); $.fancybox({'content':$('.js-payment').html()}); return false;">купить очки истории</a>)
+{#                (<a href="#" class="js-start-pay" onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay-type').val('1'); $.fancybox({'content':$('.js-payment').html()}); return false;">купить очки истории</a>)#}
 {#            <input class="btn btn-success"#}
 {#                   onclick=""#}
 {#                   type="submit" value="Пополнить">#}
-                &nbsp;&nbsp;<a href="/payment_info/">Информация об оплате</a>
+
             {% endif %}
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            Цена нормочаса: <span style="color: #c00f00;">{{ project_graph.rate }} sp</span>
+            Ставка бонусов: <span style="color: #c00f00;">{{ project_graph.rate }} SP</span>
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;
-            <a href="#" class="js-start-pay" onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay').val('2'); $.fancybox({'content':$('.js-payment').html()}); return false;">помочь проекту Heliard</a>
+            {% if not is_staff %}
+            <a href="#" class="js-start-pay"
+               onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay-type').val('2'); $.fancybox({'content':$('.js-payment').html()}); return false;">
+                получить Premium
+            </a>
+            &nbsp;&nbsp;<a href="/payment_info/">(информация об оплате)</a>
+            {% else %}
+                 Premium аккаунт до {{ project_graph.premiumTill }}
+            {% endif %}
 
             <div class="js-payment" style="display: none">
                 <h2>Введите сумму</h2>
                 <label class="pull-left">
-                <input type="hidden" name="pay" value="{{ project_graph.bPay }}" class="js-pay" />
+                <input type="hidden" name="pay" value="{{ project_graph.bPay }}" class="js-pay-type" />
                 <input type="text" class="form-control temp-summ" name="summ" value="100" />
                 </label>
                 <input class="btn btn-success js-pay" type="submit" value="Пополнить" />

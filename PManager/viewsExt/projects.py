@@ -1,11 +1,13 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from django.contrib.auth.models import User
-from PManager.models import PM_Project, PM_ProjectRoles, AccessInterface
+from PManager.models import PM_Project, PM_ProjectRoles, AccessInterface, Credit, Payment
 from django import forms
 from tracker.settings import USE_GIT_MODULE
+import json
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -17,24 +19,66 @@ def projectDetail(request, project_id):
     profile = request.user.get_profile()
     if not profile.hasRole(project):
         raise Http404('Project not found')
-    show = {
-        'manager': True
+
+    aMessages = {
+        'client': u'Бонусы за каждый час закрытых задач списываются с клиента, у которого установлена ставка.',
+        'manager': u'Менеджеры получают бонусы за каждый час закрытых задач, в которых они являются наблюдателями.',
+        'employee': u'Сотрудники получают бонусы за время, потраченное ими на задачи. Бонусы за плановое время распределяются поровну.',
     }
+    show = dict(manager=True)
     show['employee'] = profile.isManager(project) or profile.isEmployee(project)
     show['client'] = profile.isManager(project) or profile.isClient(project)
 
-    aRoles = {}
+    aDebts = Credit.getUsersDebt([project])
+    oDebts = dict()
+    for x in aDebts:
+        oDebts[x['user_id']] = x['sum']
+
+    aRoles = dict()
+
     for role in PM_ProjectRoles.objects.filter(project=project):
         if not show[role.role.code]:
             continue
 
         if role.role.name not in aRoles:
-            aRoles[role.role.name] = []
+            aRoles[role.role.name] = dict(role=role, users=[], text=aMessages[role.role.code])
 
-        aRoles[role.role.name].append(role.user)
+        prof = role.user.get_profile()
+        setattr(role.user, 'rate', prof.sp_price + (prof.rating or 0))
+        setattr(role.user, 'sum', oDebts.get(role.user.id, ''))
+        setattr(role.user, 'role_id', role.id)
+        aRoles[role.role.name]['users'].append(role.user)
+
+    bCurUserIsAuthor = request.user.id == project.author.id
+    if bCurUserIsAuthor:
+        action = request.POST.get('action', None)
+        if action:
+            role_id = request.POST.get('role')
+            try:
+                role = PM_ProjectRoles.objects.get(pk=role_id, project=project)
+                if action == 'update_payment_type':
+                    type = 'real_time' if request.POST.get('value') == 'real_time' else 'plan_time'
+                    role.payment_type = type
+                    role.save()
+                    responseObj = {'result': 'payment type updated'}
+                elif action == 'update_rate':
+                    rate = int(request.POST.get('value'))
+                    role.rate = rate
+                    role.save()
+                    responseObj = {'result': 'rate updated'}
+                elif action == 'send_payment':
+                    sum = int(request.POST.get('sum'))
+                    p = Payment(user=role.user, project=project, value=sum)
+                    p.save()
+
+                    responseObj = {'result': 'payment added'}
+
+            except PM_ProjectRoles.DoesNotExist:
+                responseObj = {'error': 'Something is wrong  :-('}
+
+            return HttpResponse(json.dumps(responseObj))
 
     canDeleteInterface = profile.isManager(project)
-
     canDeleteProject = canDeleteInterface
     canEditProject = request.user.is_staff
 
@@ -61,7 +105,9 @@ def projectDetail(request, project_id):
         'form': InterfaceForm(),
         'interfaces': interfaces_html,
         'canDelete': canDeleteProject,
-        'canEdit': canEditProject
+        'canEdit': canEditProject,
+        'bCurUserIsAuthor': bCurUserIsAuthor,
+        'messages': aMessages
     })
     t = loader.get_template('details/project.html')
     return HttpResponse(t.render(c))
