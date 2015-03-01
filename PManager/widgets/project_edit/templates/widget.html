@@ -3,12 +3,31 @@
 <script type="text/javascript" src="/widgets/js/project_edit/script.js"></script>
 <div class="widget">
     <div class="widget-control">
-        <a href="#" class="w-collapse">Свернуть</a>
+{#        <a href="#" class="w-collapse">Свернуть</a>#}
         <a href="#" class="w-close">Закрыть</a>
     </div>
 
     <h3>Изменение проекта</h3>
     <hr>
+{% if project_edit.need_payment %}
+    <form action="{{ project_edit.form.target }}"
+              method="POST" name="robo">
+    {{ project_edit.form.as_p }}
+    </form>
+    <div class="promo_payment">
+    <h4>Premium аккаунт Heliard</h4>
+    <p>С Premium аккаунтом вы можете:</p>
+    <ul>
+        <li>Создавать и вести любое количество своих собственных проектов</li>
+        <li>Приглашать людей в проекты и распределять их роли в них</li>
+        <li>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
+        <li>Вести собственную Wiki по своим проектам</li>
+        <li>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
+    </ul>
+    <span class="price">900</span> руб. / месяц
+    <button class="btn btn-success" onclick="document.robo.submit()">Получить Premium</button>
+    </div>
+{% else %}
     <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
         {% for field in project_edit.form %}
         {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
@@ -192,4 +211,5 @@
     </script>
         {% endif %}
     {% endif %}
+{% endif %}
 </div>

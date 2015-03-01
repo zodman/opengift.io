@@ -10,6 +10,8 @@ from PManager.models.interfaces import AccessInterface
 from PManager.classes.git.gitolite_manager import GitoliteManager
 from tracker.settings import USE_GIT_MODULE
 import json
+from robokassa.forms import RobokassaForm
+
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -82,4 +84,18 @@ def widget(request, headerValues, ar, qargs):
             'settings': projectData.getSettings() if projectData and
                             hasattr(projectData, 'settings') and
                             projectData.settings else {}
+        }
+    else:
+        form = RobokassaForm(initial={
+           'OutSum': 900,#order.total,
+           'InvId': request.user.id + int(time.time()),#order.id,
+           'Desc': 'Premium аккаунт Heliard',#order.name,
+           'Email': request.user.email,
+           'Shp_user': request.user.id
+           # 'IncCurrLabel': '',
+           # 'Culture': 'ru'
+       })
+        return {
+            'need_payment': True,
+            'form': form
         }
