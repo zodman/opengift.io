@@ -17,42 +17,47 @@
     <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
     <script src="/static/js/libs/chosen.jquery.min.js"></script>
 {% endblock %}
-<div class="widget kanban" style="overflow:hidden;">
+
+<div class="kanban">
     {% for project in kanban.projects_data %}
-        <div class="project-row js-project-row" id="project_{{ project.project.id }}">
-        <div class="project-header js-project-header">
-            <div class="project-name">
-                {{ project.project.name }}
+    <div class="widget inner">
+         <div class="project-row js-project-row" id="project_{{ project.project.id }}">
+            <div class="project-header js-project-header">
+                <div class="widget-title clearfix">
+                    {{ project.project.name }}
+                </div>
+                <div>
+                    <select class="js-user_source" multiple
+                            style="display:block; width:100%" data-placeholder="Выберите пользователей">
+                    {% for user in project.user_source %}
+                        <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                    {% endfor %}
+                    </select>
+    
+                </div>
+    
+                <div class="project-row-headers">
+                    {% for status in kanban.statuses %}
+                        <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                    {% endfor %}
+                    <div class="clearfix"></div>
+                </div>
             </div>
-            <div>
-                <select class="js-user_source" multiple
-                        style="display:block; width:100%" data-placeholder="Выберите пользователей">
-                {% for user in project.user_source %}
-                    <option value="{{ user.id }}">{{ user.get_full_name }}</option>
-                {% endfor %}
-                </select>
-
-            </div>
-
-            <div class="project-row-headers">
+            <div class="tasks-wrapper js-tasks-wrapper">
                 {% for status in kanban.statuses %}
-                    <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                    <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
                 {% endfor %}
-                <div class="clearfix"></div>
+                {% for task_data in project.tasks %}
+                    {% show_micro_task task_data.task %}
+                {% endfor %}
             </div>
+            <div class="clearfix"></div>
         </div>
-        <div class="tasks-wrapper js-tasks-wrapper">
-            {% for status in kanban.statuses %}
-                <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
-            {% endfor %}
-            {% for task_data in project.tasks %}
-                {% show_micro_task task_data.task %}
-            {% endfor %}
-        </div>
-        <div class="clearfix"></div>
     </div>
     {% endfor %}
 </div>
+
+
 <div class="add-user-popup dropdown-menu responsibles js-add-user-popup">
     <div class="add-user-popup-header">
         <input type="text" class="form-control js-input-user-name" placeholder="Введите имя человека, которого хотите назначить ответственным" />
