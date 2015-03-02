@@ -1,31 +1,29 @@
 {% load floattags %}
 <script type="text/javascript" src="/static/js/libs/transliterate.js"></script>
 <script type="text/javascript" src="/widgets/js/project_edit/script.js"></script>
-<div class="widget">
-    <div class="widget-control">
-{#        <a href="#" class="w-collapse">Свернуть</a>#}
-        <a href="#" class="w-close">Закрыть</a>
-    </div>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+<!--<div class="widget inner premium clearfix">
 
-    <h3>Изменение проекта</h3>
-    <hr>
+    <div class="widget-title">Изменение проекта</div>-->
+
 {% if project_edit.need_payment %}
     <form action="{{ project_edit.form.target }}"
               method="POST" name="robo">
     {{ project_edit.form.as_p }}
     </form>
     <div class="promo_payment">
-    <h4>Premium аккаунт Heliard</h4>
-    <p>С Premium аккаунтом вы можете:</p>
+    <h4><i class="fa fa-diamond"></i>Premium аккаунт Heliard</h4>
+
+    <p align="center"><b>С Premium аккаунтом вы можете:</b></p>
     <ul>
-        <li>Создавать и вести любое количество своих собственных проектов</li>
-        <li>Приглашать людей в проекты и распределять их роли в них</li>
-        <li>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
-        <li>Вести собственную Wiki по своим проектам</li>
-        <li>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
+        <li><i class="fa fa-folder"></i>Создавать и вести любое количество своих собственных проектов</li>
+        <li><i class="fa fa-user-plus"></i>Приглашать людей в проекты и распределять их роли в них</li>
+        <li><i class="fa fa-paper-plane"></i>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
+        <li><i class="fa fa-file-text-o"></i>Вести собственную Wiki по своим проектам</li>
+        <li><i class="fa fa-star"></i>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
     </ul>
-    <span class="price">900</span> руб. / месяц
-    <button class="btn btn-success" onclick="document.robo.submit()">Получить Premium</button>
+    <p class="price" align="center"><span>900 руб.</span> / месяц <br><button class="btn btn-success btn-large" onclick="document.robo.submit()">Получить Premium</button></p>
+
     </div>
 {% else %}
     <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
@@ -212,4 +210,4 @@
         {% endif %}
     {% endif %}
 {% endif %}
-</div>
+<!--</div>-->
