@@ -356,7 +356,7 @@ $(function(){
              {% if main.CURRENT_PROJECT.id %}
               <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
-              {% if main.IS_MANAGER %}
+              {% if main.CAN_INVITE %}
               <a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
               {% endif %}
               <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;

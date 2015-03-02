@@ -7,7 +7,7 @@ from django.contrib.auth import logout
 TRACKER = PM_Tracker.objects.get(pk=1)
 
 
-#SET_COOKIE - куки, которые необходимо поставить
+# SET_COOKIE - куки, которые необходимо поставить
 #CURRENT_PROJECT - текущий выбранный проект в трекере
 def initGlobals(request):
     SET_COOKIE = {}
@@ -70,7 +70,7 @@ def initGlobals(request):
                     project.name = form.cleaned_data['sitename']
                     project.save()
 
-                redirect = "/?project="+str(project.id)
+                redirect = "/?project=" + str(project.id)
             except PM_Project.DoesNotExist:
                 redirect = "/"
 
@@ -89,7 +89,8 @@ def initGlobals(request):
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
-        'IS_MANAGER': request.user.get_profile().isManager(CURRENT_PROJECT) if CURRENT_PROJECT else False,
+        'CAN_INVITE': request.user.id == CURRENT_PROJECT.id or request.user.get_profile().isManager(
+            CURRENT_PROJECT) if CURRENT_PROJECT and request.user.is_authenticated() else False,
         'FIRST_STEP_FORM': WhoAreYouForm,
         'REDIRECT': redirect,
         'COOKIES': request.COOKIES

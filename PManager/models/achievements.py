@@ -42,18 +42,21 @@ class PM_Achievement(models.Model):
 @receiver(pre_save, sender=PM_Task)
 def addAchievement(sender, instance, **kwargs):
     if instance.id:
-        oldTask = PM_Task.objects.get(pk=instance.id)
-        if instance.closed and \
-            instance.resp and \
-                instance.resp.id != instance.author.id and \
-                not oldTask.wasClosed:
+        try:
+            oldTask = PM_Task.objects.get(pk=instance.id)
+            if instance.closed and \
+                instance.resp and \
+                    instance.resp.id != instance.author.id and \
+                    not oldTask.wasClosed:
 
-            acc = PM_Achievement.objects.get(code='first_closed_task')
-            if (acc.addToUser(instance.resp)):
-                prof = instance.resp.get_profile()
-                rating = prof.rating or 0
-                prof.rating = rating + 10
-                prof.save()
+                acc = PM_Achievement.objects.get(code='first_closed_task')
+                if (acc.addToUser(instance.resp)):
+                    prof = instance.resp.get_profile()
+                    rating = prof.rating or 0
+                    prof.rating = rating + 10
+                    prof.save()
+        except PM_Achievement.DoesNotExist:
+            pass
 
 
 class PM_User_Achievement(models.Model):

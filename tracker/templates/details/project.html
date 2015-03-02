@@ -247,8 +247,8 @@
 
                             <div class="input-group">
                                 <input type="text" class="js-ajax-input form-control" data-action="update_rate"
-                                       data-role="{{ user.role_id }}" value="{{ o.role.rate|default_if_none:'' }}"
-                                       {% if user.rate %}placeholder="{{ user.rate }}"{% endif %} />
+                                       data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
+                                       {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
                                 <div class="input-group-addon">SP</div>
                             </div>
                         </div>

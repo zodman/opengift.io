@@ -44,7 +44,8 @@ def projectDetail(request, project_id):
             aRoles[role.role.name] = dict(role=role, users=[], text=aMessages[role.role.code])
 
         prof = role.user.get_profile()
-        setattr(role.user, 'rate', prof.sp_price + (prof.rating or 0))
+        setattr(role.user, 'rate', role.rate)
+        setattr(role.user, 'defaultRate', prof.sp_price + (prof.rating or 0))
         setattr(role.user, 'sum', oDebts.get(role.user.id, ''))
         setattr(role.user, 'role_id', role.id)
         aRoles[role.role.name]['users'].append(role.user)
