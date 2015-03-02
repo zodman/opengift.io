@@ -2520,7 +2520,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .invite-popup {padding: 15px;}
 .invite-popup ul {list-style: none;}
 
-.fa.fa-diamond {    display: block;
+.promo_payment .fa.fa-diamond {    display: block;
     font-size: 128px;
     margin-bottom: 25px;
     text-align: center;

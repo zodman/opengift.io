@@ -19,13 +19,13 @@
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;
             {% if not is_staff %}
-            <a href="#" class="js-start-pay"
+            <a href="#" class="js-start-pay button btn-success"
                onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay-type').val('2'); $.fancybox({'content':$('.js-payment').html()}); return false;">
-                получить Premium
+                <i class="fa fa-diamond"></i>&nbsp;&nbsp;получить Premium
             </a>
             &nbsp;&nbsp;<a href="/payment_info/">(информация об оплате)</a>
             {% else %}
-                 Premium аккаунт до {{ project_graph.premiumTill }}
+            <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }}
             {% endif %}
 
             <div class="js-payment" style="display: none">
