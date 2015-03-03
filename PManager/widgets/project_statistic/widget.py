@@ -148,7 +148,7 @@ class timeChart(Chart):
     type = 'table'
     def getData(self):
         from django.db.models import Sum
-        aTimers = PM_Timer.objects.filter(project__in=self.projects, dateEnd__range=(self.dateFrom, self.dateTo))\
+        aTimers = PM_Timer.objects.filter(task__project__in=self.projects, dateEnd__range=(self.dateFrom, self.dateTo))\
             .values('user') \
                 .annotate(score = Sum('seconds'))
 
