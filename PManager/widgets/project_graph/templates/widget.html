@@ -6,6 +6,7 @@
         <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}"
               method="POST" name="robo">
             <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
+
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             Ставка бонусов: <span style="color: #c00f00;">{{ project_graph.rate }} SP</span>
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
@@ -20,6 +21,7 @@
             {% else %}
             <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }}
             {% endif %}
+
         </form>
     </div>
 </div>

@@ -148,7 +148,7 @@ class timeChart(Chart):
     type = 'table'
     def getData(self):
         from django.db.models import Sum
-        aTimers = PM_Timer.objects.filter(dateEnd__range=(self.dateFrom, self.dateTo))\
+        aTimers = PM_Timer.objects.filter(project__in=self.projects, dateEnd__range=(self.dateFrom, self.dateTo))\
             .values('user') \
                 .annotate(score = Sum('seconds'))
 
@@ -168,7 +168,7 @@ class timeChart(Chart):
         for x in aTimers:
             try:
                 user = User.objects.get(pk=int(x['user']))
-                closedPlan = user.todo.filter(dateClose__range=(self.dateFrom, self.dateTo))\
+                closedPlan = user.todo.filter(project__in=self.projects, dateClose__range=(self.dateFrom, self.dateTo))\
                     .values('planTime').annotate(score=Sum('planTime'))
                 if closedPlan:
                     closedPlan = closedPlan[0]['score']
