@@ -20,7 +20,7 @@ def show_micro_task(task):
     return {
         'id': task.id,
         'name': task.name,
-        'status': task.status.code,
+        'status': task.status.code if task.status else '',
         'executor': task.resp.get_profile().avatar_rel if task.resp else '',
         'executor_id': task.resp.id if task.resp else '',
         'deadline': task.deadline
