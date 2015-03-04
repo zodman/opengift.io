@@ -495,7 +495,7 @@ class PM_Task(models.Model):
                     profRespBet = profResp.getBet(self.project)
                     curPrice = profRespBet * float(self.planTime)
                     credit = Credit(
-                        user=self.resp.user,
+                        user=self.resp,
                         value=curPrice,
                         project=self.project,
                         task=self
