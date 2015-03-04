@@ -44,7 +44,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
     # if not current_project:
     #     return { 'error': 'Project not selected' }
-    statuses = PM_Task_Status.objects.all().order_by('-id')
+    statuses = PM_Task_Status.objects.all().values_list('id', flat=True)
     filter = dict(closed=False, onPlanning=False, status__in=statuses)
     if current_project:
         filter['project'] = current_project
