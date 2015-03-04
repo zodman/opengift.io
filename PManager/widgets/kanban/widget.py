@@ -7,7 +7,7 @@ from PManager.models.users import PM_User, PM_ProjectRoles, PM_Role
 from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
-import datetime
+import datetime, json
 
 
 @register.simple_tag()
@@ -17,19 +17,27 @@ def multiply(position, width, *args, **kwargs):
 
 @register.inclusion_tag('kanban/templates/task.html')
 def show_micro_task(task):
+    avatar = False
+    if not task:
+        return False
+    if task.resp:
+        avatar = task.resp.get_profile().avatar_rel
+        avatar['size'] = 30
     return {
         'id': task.id,
-        'name': task.name,
+        'name': task.name if task.name else '',
+        'url' : task.url,
         'status': task.status.code if task.status else '',
-        'executor': task.resp.get_profile().avatar_rel if task.resp else '',
+        'executor': json.dumps(avatar) if avatar else '',
         'executor_id': task.resp.id if task.resp else '',
-        'deadline': task.deadline
+        'deadline': task.deadline if task.deadline else ''
     }
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
-
+    if not current_project:
+        return { 'error': 'Project not selected' }
     statuses = PM_Task_Status.objects.all().order_by('-id')
     tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
     projects_data = {}
@@ -37,7 +45,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     for task in tasks['tasks']:
         idx = str(task.project.id)
         if idx not in projects_data:
-            print 'not have attribute'
             projects_data[idx] = {
                 'project': task.project,
                 'date_init': task.project.dateCreate,
@@ -50,12 +57,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     prd_array = []
     for pd in projects_data:
         prd_array.append(projects_data[pd])
-    widget_manager = TaskWidgetManager()
-    users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
     return {
         'projects_data': prd_array,
         'statuses': statuses,
         'status_width': 100 / statuses.count() if statuses.count() != 0 else 100,
         'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0,
-        'users': users
     }

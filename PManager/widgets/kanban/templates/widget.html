@@ -1,716 +1,297 @@
 {% load jsonify %}
-{% block stylesheets %}
-    <link rel="stylesheet" href="/static/css/external/chosen.css"/>
-    <style>
-        {% for status in kanban.statuses %}
-        .kanban .project-row .tasks-{{ status.code }},
-        .kanban .project-row-headers .tasks-{{ status.code }}{
-            float: left;
-            width: 31.33%;
-            margin: 0 1%;
-            left: {% multiply forloop.counter0 kanban.status_width %}%;
-        }
-        {% endfor %}
-    </style>
-{% endblock %}
-{% block scripts %}
-    <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
-    <script src="/static/js/libs/chosen.jquery.min.js"></script>
-{% endblock %}
+{% if kanban.error %}
+    <div class="kanban">
+        <div class="widget inner">
+            <div class="project-row js-project-row">
+                <div class="project-header js-project-header">
+                    <div class="widget-title clearfix">
+                        Необходимо выбрать проект
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% else %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/static/css/external/chosen.css"/>
+        <style>
+            {% for status in kanban.statuses %}
+            .kanban .project-row .tasks-{{ status.code }},
+            .kanban .project-row-headers .tasks-{{ status.code }}{
+                display: inline-block;
+                float: left;
+                width: 31%;
+                height: 100%;
+                margin: 0 1%;
+                left: {% multiply forloop.counter0 kanban.status_width %}%;
+            }
+            {% endfor %}
+            .kanban .project-row .tasks-revision,
+             .kanban .project-row-headers .tasks-revision {
+                width: 32%;
+             }
+             .kanban .project-row .tasks-column.tasks-ready{
+                margin-left: 2%;
+                margin-right: 0;
+             }
+        </style>
+    {% endblock %}
+    {% block scripts %}
+        <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
+        <script src="/static/js/libs/chosen.jquery.min.js"></script>
+        <script src="/static/js/pm/kanban.js"></script>
+    {% endblock %}
 
-<div class="kanban">
-    {% for project in kanban.projects_data %}
-    <div class="widget inner">
-         <div class="project-row js-project-row" id="project_{{ project.project.id }}">
-            <div class="project-header js-project-header">
-                <div class="widget-title clearfix">
-                    {{ project.project.name }}
+    <div class="kanban">
+        {% for project in kanban.projects_data %}
+        <div class="widget inner">
+             <div class="project-row js-project-row" id="project_{{ project.project.id }}">
+                <div class="project-header js-project-header">
+                    <div class="widget-title clearfix">
+                        {{ project.project.name }}
+                    </div>
+                    <div>
+                        <select class="js-user_source" multiple
+                                style="display:block; width:100%" data-placeholder="Выберите пользователей">
+                        {% for user in project.user_source %}
+                            <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                        {% endfor %}
+                        </select>
+        
+                    </div>
+        
+                    <div class="project-row-headers">
+                        {% for status in kanban.statuses %}
+                            <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                        {% endfor %}
+                        <div class="clearfix"></div>
+                    </div>
                 </div>
-                <div>
-                    <select class="js-user_source" multiple
-                            style="display:block; width:100%" data-placeholder="Выберите пользователей">
-                    {% for user in project.user_source %}
-                        <option value="{{ user.id }}">{{ user.get_full_name }}</option>
-                    {% endfor %}
-                    </select>
-    
-                </div>
-    
-                <div class="project-row-headers">
+            <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
                     {% for status in kanban.statuses %}
-                        <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                        <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
                     {% endfor %}
-                    <div class="clearfix"></div>
+                    {% for task_data in project.tasks %}
+                        {% show_micro_task task_data.task %}
+                    {% endfor %}
                 </div>
+                <div class="clearfix"></div>
             </div>
-            <div class="tasks-wrapper js-tasks-wrapper">
-                {% for status in kanban.statuses %}
-                    <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
-                {% endfor %}
-                {% for task_data in project.tasks %}
-                    {% show_micro_task task_data.task %}
-                {% endfor %}
-            </div>
-            <div class="clearfix"></div>
         </div>
+        {% endfor %}
     </div>
-    {% endfor %}
-</div>
 
 
-<div class="add-user-popup dropdown-menu responsibles js-add-user-popup">
-    <div class="add-user-popup-header">
-        <input type="text" class="form-control js-input-user-name" placeholder="Введите имя человека, которого хотите назначить ответственным" />
-    </div>
-    <div class="add-user-popup-content">
-        <div class="add-user-list-of-categories js-categories-list">
-            <ul>
-                <li><a href="#" class="active">Программисты</a></li>
-                <li><a href="#">Менеджеры</a></li>
-                <li><a href="#">Верстальщики</a></li>
-            </ul>
-        </div>
-        <div class="add-user-list-of-users js-user-list-of-user">
-            <ul>
-                {% for resp_user in kanban.users %}
-                    <li class="media js-user-item">
-                        <a class="media-item js-get-rel" rel={{ resp_user.id }}>
-                            <span class="pull-left">
-                                {% if resp_user.get_profile.avatar %}
-                                    <img class="media-object" src="{{ resp_user.get_profile.avatarSrc }}" alt="{{ resp_user.last_name }} {{ resp_user.first_name }}" height="40">
-                                {% else %}
-                                    <div class="avatar_container js-avatar-container" rel='{{ resp_user.get_profile.avatarParams|jsonify|safe }}'></div>
-                                {% endif %}
-                            </span>
-                            <div class="media-body">
-
-                                <span class="user js-user-name" onclick="document.location.href='/user_detail/?id={{ resp_user.id }}';event.stopPropagation();return false;" >{{ resp_user.first_name }} {{ resp_user.last_name }}</span>
-                                <span class="occupation">
-                                    {% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}
-                                    {% if resp_user.openTasksQty %} <b>({{ resp_user.openTasksQty }})</b>{% endif %}
-                                </span>
-                                <div class="progress">
-                                    <div class="js-progress-success progress-bar progress-bar-success"></div>
-                                </div>
-                                <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>
-                            </div>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-    <div class="add-user-popup-footer my-row clearfix">
-        <div class="pull-left my-row-5">
-            <a href="#"><i class="fa fa-check-circle"></i> Выбрать всю категорию</a>
-            <a href="#"><i class="fa fa-bullhorn"></i> Пригласить нового пользователя</a>
-        </div>
-        <div class="pull-right my-row-5">
-            <form role="form" class="js-email-form">
-                <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td><input type="text" class="form-control js-email" placeholder="Введите e-mail"></td>
-                        <td width="110px"><button type="submit" class="btn btn-success js-invite">Пригласить</button></td>
-                    </tr>
-                </table>
-            </form>
-        </div>
-    </div>
-</div>
-<script>
-//TODO: tooltip popup on executor hover
-//TODO: tooltip popup on task name hover
-//TODO: set restriction on moving tasks between columns
-$(document).ready(function(){
+    <script>
+    (function( $ ) {
+        $.JSONstorage = function(key, value) {
+            var STORAGE_PREFIX = 'hl_kb_'
+            if (typeof value === "undefined") {
+                val = window.localStorage.getItem(STORAGE_PREFIX + key);
+                if (val == null) {
+                    return [];
+                }
+                try {
+                    val = JSON.parse(val);
+                    return val;
+                }
+                catch(e) {
+                    return [];
+                }
+            }
+            else {
+                window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
+                return value;
+            }
+        }
+    })(jQuery);
     var taskRespSummary = {};
     {% for project in kanban.projects_data %}
         {% for task_data in project.tasks %}
-            taskRespSummary['{{task_data.task.id}}'] = {{ task_data.responsibleList|jsonify|safe}};
+            taskRespSummary['{{task_data.task.id}}'] = {{ task_data.responsibleList|jsonify|safe }};
         {% endfor %}
     {% endfor %}
+        $(document).ready(function(){
+            // filtering tasks
 
-    function getBoundaries(el) {
-        if(!el) { return {}; }
-        return {
-            left: $(el).offset().left,
-            top: $(el).offset().top,
-            right: $(el).offset().left + $(el).width(),
-            bottom: $(el).offset().top + $(el).height()
-        }
-    }
-    function changeResponsible(){
-    taskManager.ChangeResponsible(this.model.id, uid, function (data) {
-                if (data && data.resp){
-                    for (var k in data) {
-                        obj.model.set(k, data[k]);
+            var kanbanTaskViewClass;
+            kanbanTaskViewClass = window.taskViewClass.extend({
+                showResponsibleArrow : function(userList){
+                    userList.find('.add-user-popup-top-arrow').hide();
+                },
+                responsibleSuccess: function(){
+                    if(this.model.get('resp')) {
+                        var resp = this.model.get('resp')[0];
+                        this.model.set('responsible', resp.id);
+                        this.model.set('avatar', JSON.stringify(resp.avatar));
+                        if(this.model.get('status') !== this.options.task.status) {
+                            this.options.task.setStatus(this.model.get('status'));
+                        }else {
+                            this.options.task.completeMove();        
+                            this.options.task.update();
+                        }
+                    }else {
+                        this.options.task.failMove();
                     }
-                    obj.render();
+                    
+                },
+                responsibleFailure: function(){
+                    this.options.task.failMove();
+                },
+                responsibleMenuPosition: function(userList) {
+                    var mLeft = userList.width() / -2;
+                    var mTop = userList.height() / -2;
+                    userList.css({
+                        'position' : 'fixed',
+                        'top': '50%',
+                        'left': '50%',
+                        'margin-left': mLeft + 'px',
+                        'margin-top': mTop + 'px'
+                    })
+                },
+                render: function() {
+                    this.$el.find('.js-task-name').html(this.model.get('name'));
+                    // todo remove hardcode and replace with statuses from db
+                    this.$el.find('.js-task-status').attr('rel',this.model.get('status')).removeClass('not_approved revision ready').addClass(this.model.get('status'));
+                    this.$el.find('.js-task-executor').attr('rel',this.model.get('responsible'));
+                    var avatar = this.$el.find('.js-avatar-container');
+                    avatar.attr('rel',this.model.get('avatar'));
+                    $.updateAvatar(avatar, { size: 30 });
                 }
-
-            })
-    }
-
-    var storagePrefix = 'hl_kb_';
-    var updateDiffered = false;
-    var revertCard = function(){};
-    $('.js-user_source').on("chosen:ready", function(){
-        $(".user_source").val(restoreFilter($(this))).trigger("chosen:updated");
-    }).chosen({
-        no_results_text: "Пользователь не найден",
-        width: "100%"
-    }).change(function(event){
-        var project = $(this).parents('.js-project-row');
-        var filter = $(this).val();
-        storeFilter($(this),filter);
-        $(project).find('.task-card').each(function(index, el){
-            if (filter && $.inArray($(el).find('.js-task-executor').attr('rel'), filter) == -1) {
-                $(el).parent().hide('fast').addClass('filtered');
-            }
-            else {
-                $(el).parent().show('fast').removeClass('filtered');
-            }
-        });
-
-    }).trigger("change");
-
-    function storeFilter(el, values) {
-        var storeKey = storagePrefix + 'us_' + el.parents('.js-project-row').attr('id');
-        localStorage.setItem(storeKey, JSON.stringify(values));
-    }
-
-    function restoreFilter(el) {
-        var storeKey = storagePrefix + 'us_' + el.parents('.js-project-row').attr('id');
-        var storeVal = localStorage.getItem(storeKey);
-        if (storeVal != null) {
-            try {
-                storeVal = JSON.parse(storeVal);
-                return storeVal;
-            }
-            catch(e) {
-                console.log(e);
-            }
-        }
-    }
-
-    function keyCard(taskEl) {
-        return storagePrefix + 'tsk_' + taskEl.find('.js-task-card').attr('rel');
-    }
-
-    function storeCard(taskEl) {
-        var storeKey = keyCard(taskEl);
-        var storeVal = getBoundaries(taskEl);
-        var containerBound = getBoundaries(taskEl.parents('.tasks-wrapper'));
-        storeVal = { left: storeVal.left - containerBound.left , top: storeVal.top - containerBound.top, row: taskEl.find('.js-task-status').attr('rel') };
-        localStorage.setItem(storeKey, JSON.stringify(storeVal));
-    }
-
-    function moveCard(position, destination) {
-        var moveProp = { left: "-" , top: "-" };
-        var leftMv = position.left - destination.left;
-        if (leftMv < 0) {
-            moveProp.left = "+";
-            leftMv = leftMv * -1;
-        }
-        moveProp.left = moveProp.left + "=" + leftMv + "px";
-        var topMv = position.top - destination.top;
-        if (topMv < 0) {
-            moveProp.top = "+";
-            topMv = topMv * -1;
-        }
-        moveProp.top = moveProp.top + "=" + topMv + "px";
-        return moveProp;
-    }
-
-    function positionContained(storeVal, taskEl) {
-        var status = taskEl.find('.js-task-status').attr('rel');
-        var statusBox = getBoundaries($('.js-task-droppable.js-tasks-' + status));
-        var relBox = getBoundaries($('.js-tasks-wrapper'));
-        statusBox = {
-            left: statusBox.left - relBox.left,
-            right: statusBox.right - relBox.left,
-            top: statusBox.top - relBox.top,
-            bottom: statusBox.bottom - relBox.top
-        };
-        if(storeVal.left < statusBox.left) {
-            return false;
-        }
-        if(storeVal.left + taskEl.find('.js-task-card').width() > statusBox.right) {
-            return false;
-        }
-        if(storeVal.top < statusBox.top) {
-            return false;
-        }
-        if(storeVal.top + taskEl.find('.js-task-card').height() > statusBox.bottom) {
-            return false;
-        }
-        return true;
-    }
-
-    function restoreCard(taskEl, beforeShow) {
-        taskEl.hide();
-        var storeKey = keyCard(taskEl);
-        var storeVal = localStorage.getItem(storeKey);
-        if (storeVal != null) {
-            try {
-                storeVal = JSON.parse(storeVal);
-                if (storeVal.row != taskEl.find('.js-task-status').attr('rel')) {
-                    if(positionContained(storeVal, taskEl)) {
-                        taskEl.offset(storeVal);
-                    } else {
-                        taskEl.offset(getNextOffset(taskEl));
-                    }
-                } else {
-                    taskEl.offset(storeVal);
-                }
-            }
-            catch(e) {
-                console.log(e);
-            }
-        }else {
-            taskEl.offset(getNextOffset(taskEl));
-        }
-        if ( typeof beforeShow == 'function') {
-            beforeShow(taskEl);
-        }
-        if(!taskEl.hasClass('filtered')) {
-            taskEl.show();
-        }
-    }
-    var boxesOffsets = {};
-    function getNextOffset(el){
-        var boundBox = taskDropBoundaries(el);
-        var elWidth = el.find('.js-task-card').width();
-        if(!boxesOffsets.hasOwnProperty(boundBox.selector)) {
-            boxesOffsets[boundBox.selector] = 1;
-        }else {
-            boxesOffsets[boundBox.selector] += 1;
-        }
-        var offsetCount = boxesOffsets[boundBox.selector];
-        var avWidth = boundBox.box.right - boundBox.box.left - 10 - elWidth;
-        var topOffset = boundBox.box.top - el.parent().offset().top + (offsetCount - 1) * 20;
-        return {
-            left: boundBox.box.left - el.parent().offset().left + (((offsetCount - 1) * 20) % avWidth),
-            top:  topOffset
-        }
-
-    }
-
-    function taskDropBoundaries(el){
-        var project  = $(el).parent();
-        var dropSelector = '.js-tasks-' + el.find('.js-task-status').attr('rel');
-        return { selector: dropSelector, box: getBoundaries(project.find(dropSelector)) };
-    }
-
-    function updateTask(task, differed) {
-        var st = '.js-task-card[rel="'+ task +'"]';
-        var taskEl = $(st);
-        $.get('/ajax/micro_task/' + task, function(response){
-            taskEl.attr('rel', response.id);
-            taskEl.find('.js-task-name').html(response.name);
-            taskEl.find('.js-avatar-container').attr('rel', response.executor);
-            var executor = '';
-            try {
-                executor = JSON.parse(response.executor).id;
-            }
-            catch (e){
-                console.log(e);
-            }
-            taskEl.find('.js-task-executor').attr('rel', executor);
-            var status = taskEl.find('.js-task-status');
-            var oldStatus = status.attr('rel');
-            if (differed) {
-                if (response.status != 'revision') {
-                    revertCard(taskEl.parent());
-                }
-            }
-            status.removeClass(oldStatus);
-            status.addClass(response.status);
-            status.attr('rel', response.status);
-            $.updateAvatar(taskEl.find('.js-avatar-container'));
-        });
-    }
-    $( ".js-project-row" ).resizable({
-      handles: "s",
-      minHeight: 400,
-      create: function(){
-        var key  = storagePrefix + '_prj_' + $(this).attr('id');
-        var height = localStorage.getItem(key);
-        if(height == null) {
-            height = $(this).height() - $(this).find('.js-project-header').height();
-        }
-        $(this).css('height', parseInt(height) + parseInt($(this).find('.js-project-header').height()) + 'px');
-        $(this).find('.js-tasks-column').css('height', height + 'px').css('z-index',1);
-        $(this).find('.js-tasks-wrapper').css('height', height + 'px').css('z-index',1)
-      },
-      stop: function(){
-        var key  = storagePrefix + '_prj_' + $(this).attr('id');
-        var height = $(this).height() - $(this).find('.js-project-header').height();
-        $(this).find('.js-tasks-column').css('height', height + 'px').css('z-index',1);
-        $(this).find('.js-tasks-wrapper').css('height', height + 'px').css('z-index',1);
-        localStorage.setItem(key, height);
-      }
-    });
-
-    $(".js-task-properties").click(function(){
-        var task = $(this).parent().attr('rel');
-        var taskEL = $(this).parents('.js-task-wrapper');
-        $.get('/task_edit/?modal=1&id=' + task, function(response){
-            if(response !== 'error') {
-                $('body').prepend(response);
-                $('#myModalLabel').html('Изменение задачи');
-                $('#save_button').removeAttr('onclick').click(function(e){
-                    e.stopPropagation();
-                    var form = $(this).parents('form[name="task_form"]');
-                    var data = form.serializeArray();
-                    var url = form.attr('action');
-                    var id = form.attr('rel');
-                    if (updateDiffered) {
-                       for(i in data) {
-                           if (data[i].name == 'resp' && data[i].value != '') {
-                                data.push({ name: 'status', value: 'revision' });
-                           }
-                       }
-                    }
-                    $.post(url, data, function(){
-                        updateTask(id, updateDiffered);
-                        updateDiffered = false;
-                        $('#modal').modal('hide');
+            });
+            var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
+                var executor = task.el.find('.executor').attr('rel');
+                var status = task.el.find('.js-task-status').attr('rel');
+                var id = task.el.attr('rel');
+                var taskName = task.el.find('.js-task-name').text();
+                var model = new taskClass({
+                        id: id,
+                        responsible: executor,
+                        status: status,
+                        avatar: "",
+                        name: taskName
                     });
-                    return false;
+                var view = new kanbanTaskViewClass({
+                    model: model,
+                    el: task.el,
+                    task: task
                 });
-            }
-        });
-    });
-    var zIndexStart = 2;
-    function getValidBox(el) {
-        var selector = '.js-task-droppable.js-tasks-' + el.find('.js-task-status').attr('rel');
-        return el.parents('.js-project-row').find(selector);
-    }
-    $(".js-task-wrapper").draggable({
-        stack: "div",
-        distance: 0,
-        create: function() {
-            restoreCard($(this), function(te){
-                pushDownDrops();
-                te.css('z-index', zIndexStart++);
-            });
-        },
-        revert: function(droppable){
-            $(droppable).removeClass('highlighted');
-            if($(droppable).hasClass('js-task-droppable')){
-                return false;
-            }
-            return true;
-        },
-        start: function(event, ui){
-            pushDownDrops();
-            var t = getBoundaries($(this));
-            var l = $(this);
-            revertCard = function(newEl) {
-                newEl.animate(moveCard(getBoundaries(newEl), t), 300, function(){
-                    revertCard = function(){};
-                    storeCard(newEl);
-                });
-            };
-        },
-        stop: function(event, ui){
-        }
-    });
-    function pushDownDrops(){
-        var elements = $('.js-tasks-column');
-        elements.each(function(idx, el){
-            $(this).css('z-index',1);
-        });
-    }
-    function showResponsibleMenu(taskId, obj) {
-       if (!$('.js-add-user-popup').hasClass('clone')) {
-            userList = $('.js-add-user-popup').clone().addClass('clone').show();
-            userList.find('a').each(function () {
-                var uId = $(this).attr('rel'), width = 0;
-                if (taskRespSummary[taskId])
-                    if (taskRespSummary[taskId][uId])
-                        var width = 100 * taskRespSummary[taskId][uId];
 
-                $(this).find('.js-progress-success').css('width', width + '%');
-                //responsible change
-                $(this).click(function () {
-                     if (updateDiffered) {
-                        if($(this).attr('rel') == '') {
-                            revertCard(obj);
-                            updateDiffered = false;
+                $.extend(task, {
+                    status: model.get('status'),
+                    model: model,
+                    responsible: model.get('responsible'),
+                    storage: $.JSONstorage,
+                    view: view,
+                    update: function(){
+                        this.status = this.model.get('status');
+                        this.responsible = this.model.get('responsible');
+                        this.id = this.model.get('id');
+                    },
+                    render: function(){
+                        this.view.render();
+                        if (this.el.hasClass('filtered')) {
+                            this.el.hide('fast');
+                        }else if(!this.el.hasClass('invalid')) {
+                            this.el.show('fast');
                         }
-                        else {
-                            taskManager.ChangeResponsible(taskId, $(this).attr('rel'), function(){
-                                taskManager.SetTaskProperty(taskId, 'status', 'revision', function(){
-                                    updateTask(taskId);
-                                    updateDiffered = false;
-                                });
-                            });
-                        }
-                    } else {
-                        taskManager.ChangeResponsible(taskId, $(this).attr('rel'), function(){
-                            updateTask(taskId);
-                        });
                     }
-                    $(this).closest('.js-add-user-popup').remove();
-                    $('.add-user-overlay').remove();
-                    userInput.val("");
-                    $('.js-add-user-popup .js-user-item').show();
-                    return false;
                 });
-            });
-
-            if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
-                userList.find('.js-categories-list').css('display','table-cell');
-            } else {
-                userList.find('.js-categories-list').css('display','none');
-            }
-
-            $('.js_task_responsibles .dropdown-menu').remove();
-            $('<div>').addClass('add-user-overlay').css({
-                'top' : 0,
-                'left': 0,
-                'position': 'fixed',
-                'width': '100%',
-                'height': '100%',
-                'background': '#999',
-                'opacity': '0.5',
-                'z-index': '9999'
-            }).appendTo('body');
-            userList.appendTo('.container.sub-menu');
-            var marginLeft = userList.width() / -2;
-            var marginTop = userList.height() / -2;
-            userList.css({
-                'position': 'fixed',
-                'top': '50%',
-                'left': '50%',
-                'margin-left': marginLeft,
-                'margin-top': marginTop,
-                'z-index': 99999
-            });
-            //todo - resolve this issue
-            userList.find('.js-email-form').each(function () {
-                $(this).submit(function () {
-                    var inputEmail = $('.js-add-user-popup .js-email').val();
-                    if (updateDiffered) {
-                        if(inputEmail == '') {
-                            revertCard(obj);
-                            updateDiffered = false;
-                        }
-                        else {
-                            taskManager.ChangeResponsible(taskId, inputEmail, function(){
-                                taskManager.SetTaskProperty(taskId, 'status', 'revision', function(){
-                                    updateTask(taskId);
-                                    updateDiffered = false;
-                                });
-                            });
-                        }
-                    } else {
-                        taskManager.ChangeResponsible(taskId, inputEmail, function(){
-                            updateTask(taskId);
-                        });
-                    }
-                    $(this).closest('.js-add-user-popup').remove();
-                    $('.add-user-overlay').remove();
-                    userInput.val("");
-                    $('.js-add-user-popup .js-user-item').show();
+            }).on('kanban:ondrop', function(event, data){
+                var task = data.task;
+                var drop = data.drop;
+                if(task.status === drop.status) {
+                    task.completeMove();
+                    //no need to render or update
                     return false;
-                });
-            });
-
-            var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
-            var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
-            var arrowPos = linkRightPos - popupRightPos;
-            userList.find('.add-user-popup-top-arrow').css('right', arrowPos + 21);
-
-            var userItems = $('.js-user-list-of-user .js-user-name');
-            var userInput = $('.js-add-user-popup .js-input-user-name');
-            userInput.focus();
-            userInput.unbind('keyup').keyup(function(){
-                var inputVal = $(this).val();
-                if (inputVal.length > 2) {
-                    $.ajax({
-                      type: "POST",
-                      data: {"action": "getUsers", "q":inputVal},
-                      url: '/users_ajax/',
-                      success: function(response){
-                        var data = $.parseJSON(response);
-                        var mediaItems = [];
-                        $('.js-user-list-of-user .js-get-rel').each(function(){
-                          mediaItems.push($(this).attr('rel'));
-                        });
-                        function in_array(value, array) {
-                            for(var i = 0; i < array.length; i++) {
-                                if(array[i] == value) return true;
-                            }
-                            return false;
-                        }
-                        for (var i in data){
-                            if (data[i].avatar) {
-                                var avatar_type = '<img class="media-object" src="' + data[i].avatar + '" alt="' + data[i].first_name + ' ' + data[i].last_name + '" height="40">';
-                            } else {
-                                var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
-                            }
-                            if (!in_array(data[i].id, mediaItems)) {
-                                $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
-                                '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
-                                '<span class="pull-left">' +
-                                avatar_type +
-                                '</span>' +
-                                '<div class="media-body">' +
-                                '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
-                                '<span class="occupation"></span>' +
-                                '<div class="progress">' +
-                                '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
-                                '</div>' +
-                                '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
-                                '</div>' +
-                                '</a>' +
-                                '</li>');
-                            }
-                        }
-                        userList.find('a').each(function () {
-                            $(this).click(function () {
-                                if (updateDiffered) {
-                                    if($(this).attr('rel') == '') {
-                                        revertCard(obj);
-                                        updateDiffered = false;
-                                    }
-                                    else {
-                                        taskManager.ChangeResponsible(taskId, $(this).attr('rel'), function(){
-                                            taskManager.SetTaskProperty(taskId, 'status', 'revision', function(){
-                                                updateTask(taskId);
-                                                updateDiffered = false;
-                                            });
-                                        });
-                                    }
-                                } else {
-                                    taskManager.ChangeResponsible(taskId, $(this).attr('rel'), function(){
-                                        updateTask(taskId);
-                                    });
-                                }
-                                $(this).closest('.js-add-user-popup').remove();
-                                userInput.val("");
-                                $('.js-user-list-of-user .js-user-item').show();
-                                $('.ajaxAppend').remove();
-                                return false;
-                            });
-                        });
-                        $('.js-avatar-container').each(function(index,el){
-                            if ($(el).html() == '') {
-                                var params = $(el).attr('rel');
-                                if (params.length > 0) {
-                                    $(el).append($.createAvatar(JSON.parse(params)));
-                                }
-                            }
-                        })
-                      }
-                    });
-                } else {
-                    $('.ajaxAppend').remove();
                 }
-                userItems.each(function(){
-                    var userItemVal = $(this).text();
-                    var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
-                    if (userItemIndexOf != -1) {
-                        $(this).parents('.js-user-item').show();
-                    } else {
-                        $(this).parents('.js-user-item').hide();
-                    }
-                });
-            });
+                if(task.status === 'not_approved' && drop.status === 'ready') {
+                    task.failMove();
+                    return false;
+                }
+                if(task.status === 'not_approved' && !task.responsible && drop.status === 'revision') {
+                    task.view.showResponsibleMenu();
+                    return false;
+                }
+                task.completeMove();
+                task.view.render();
 
-            setTimeout(function () {
-                userList.bind('clickoutside', function () {
-                    $('.add-user-overlay').remove();
-                    $(this).remove();
-                    userInput.val("");
-                    $('.js-user-list-of-user .js-user-item').show()
-                    $('.ajaxAppend').remove();
-                    if(updateDiffered) {
-                        revertCard(obj);
-                        updateDiffered = false;
-                    }
+            }).on('kanban:onstatuschange', function(event, task){
+                task.model.set('status', task.status);
+                taskManager.SetTaskProperty(task.id, 'status', task.status, function(){
+                    task.render();
                 })
-            }, 10);
-        } else {
-            $('.js-add-user-popup.clone').remove();
-            $('.js-add-user-popup .js-input-user-name').val("");
-            $('.js-user-list-of-user .js-user-item').show();
-            $('.ajaxAppend').remove();
-        }
-        return false;
-    }
-    $('.js-task-executor').click(function(e){
-        showResponsibleMenu($(this).parents('.js-task-card').attr('rel'),$(this).parents('.js-task-wrapper'));
-    });
-    function collisionResolution(drop, drag) {
-        var resolution = {};
-        if (drop.left > drag.left) {
-            resolution.left = "+=" + (drop.left - drag.left + 10);
-        }
-        if (drop.top > drag.top) {
-            resolution.top = "+=" + (drop.top - drag.top + 10);
-        }
-        if (drop.right < drag.right) {
-            resolution.left = "-=" + (drag.right - drop.right + 10);
-        }
-        if (drop.bottom < drag.bottom) {
-            resolution.top = "-=" + (drag.bottom - drop.bottom + 10);
-        }
-        return resolution;
-    }
-    $( ".js-task-droppable" ).droppable({
-      over: function( event, ui ) {
-        if (ui.draggable.find('.js-task-status').attr('rel') != $(this).attr('rel')) {
-            $(this).addClass('highlighted');
-        }
-        pushDownDrops();
-      },
-      out: function( event, ui ) {
-        $(this).removeClass('highlighted');
-        pushDownDrops();
-      },
-      drop: function(event, ui) {
-        $(this).css('z-index',1);
-        var animateDrag = collisionResolution(getBoundaries($(this)), getBoundaries(ui.draggable));
-        var dropZone = $(this);
-        var newStatus = dropZone.attr('rel');
-        var oldStatus = ui.draggable.find('.js-task-status').attr('rel');
-        var executor = ui.draggable.find('.js-avatar-container').attr('rel');
-        if (oldStatus == 'not_approved' && newStatus == 'revision' && executor == '') {
-            ui.draggable.find('.js-task-executor a').trigger('click');
-            updateDiffered = true;
-        } else if (newStatus != oldStatus) {
-            taskManager.SetTaskProperty(ui.draggable.find('.js-task-card').attr('rel'), 'status', newStatus, function(response_tm){
-                updateTask(elID);
+            }).kanban();
+            $('.js-user_source').on("chosen:ready", function(){
+                var id = $(this).parents('.js-project-row').attr('id');
+                $(this).css('z-index', 999);
+                $(this).parents('.js-project-header').css('z-index', 999);
+                var val = $.JSONstorage('filter_' + id);
+                $(this).val(val).trigger("chosen:updated");
+            }).chosen({
+                no_results_text: "Пользователь не найден",
+                width: "100%"
+            }).change(function(event){
+                var $row = $(this).parents('.js-project-row'); 
+                var id = $row.attr('id');
+                var val = $.JSONstorage('filter_' + id,$(this).val());
+                $row.find('.js-task-wrapper').each(function(index, el){
+                    var $el = $(el);
+                    var executor = $el.find('.js-task-executor').attr('rel');
+                    if(val && $.inArray(executor, val) === -1) {
+                        $el.addClass('filtered');
+                    }else{
+                        $el.removeClass('filtered');
+                    }
+                });
+                $row.find('.js-tasks-wrapper').kanban('update');
+            }).trigger("change");
+             $(".js-task_menu").click(function(){
+                var taskEL = $(this).parents('.js-task-wrapper');
+                var task = $(this).parents('.js-tasks-wrapper').kanban('getTask', taskEL);
+                if(!task) { return false; }
+                if ($('#myModalLabel').length > 0) {
+                    return false;
+                }
+                $.get('/task_edit/?modal=1&id=' + task.id, function(response){
+                    if(response !== 'error') {
+                        $('body').prepend(response);
+                        $('#myModalLabel').html('Изменение задачи');
+                        $('#save_button').removeAttr('onclick').click(function(e){
+                            e.stopPropagation();
+                            var form = $(this).parents('form[name="task_form"]');
+                            var data = form.serializeArray();
+                            var url = form.attr('action');
+                            var id = form.attr('rel');
+                            $.post(url, data, function(){
+                                $('#modal').modal('hide');
+                            });
+                            return false;
+                        });
+                    }
+                });
             });
-        }
-        var elID = ui.draggable.find('.js-task-card').attr('rel');
-        ui.draggable.animate(animateDrag, 200, function(){
-            storeCard(ui.draggable);
-        });
-      },
-      accept: function(draggable) {
-        var dragProject = draggable.parents('.js-project-row').attr('id');
-        var dropProject = $(this).parents('.js-project-row').attr('id');
-        var statusCurrent = draggable.find('.js-task-status').attr('rel');
-        var statusNew = $(this).attr('rel');
-        var statusOk = false;
-        if (statusCurrent == 'not_approved') {
-            statusOk = statusNew == 'revision';
-        }
-        if (statusCurrent == 'revision') {
-            statusOk = true;
-        }
-        if (statusCurrent == 'ready') {
-            statusOk = statusNew == 'revision';
-        }
-        if (statusCurrent === statusNew) {
-            statusOk = true;
-        }
-        return dragProject === dropProject && statusOk;
-      }
-  });
-});
-</script>
+
+            baseConnector.addListener('fs.task.update',function(data){
+                if (data && data.id){
+                    taskEl = $('.js-task-wrapper[rel="' + data.id + '"]');
+                    task = taskEl.parents('.js-tasks-wrapper').kanban('getTask', taskEl);
+                    if (data.closed) {
+                        taskEl.addClass('invalid').hide();
+                        task.render();
+                    }
+                    if (data.status) {
+                        task.setStatus(data.status);
+                    }
+                    if (data.resp) {
+                        task.model.set('responsible', resp.id);
+                        task.model.set('avatar', JSON.stringify(resp.avatar));
+
+                    }
+                    task.update();
+                    task.render();
+                }
+            });
+        })
+    </script>
+{% endif %}

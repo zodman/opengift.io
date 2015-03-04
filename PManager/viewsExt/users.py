@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.classes.git.gitolite_manager import GitoliteManager
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, render
+from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
@@ -9,9 +10,20 @@ from PManager.models.users import PM_User
 from tracker.settings import USE_GIT_MODULE
 from PManager.viewsExt.tasks import TaskWidgetManager
 from django.db.models import Q
+from PManager.viewsExt import headers
 import json
 
 class userHandlers:
+    @staticmethod
+    def getResponsibleMenu(request):
+        headerValues = headers.initGlobals(request)
+        widget_manager = TaskWidgetManager()
+        users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        c = RequestContext(request, {
+            'users': users
+            })
+        t = loader.get_template('helpers/responsible_menu.html')
+        return HttpResponse(t.render(c))
     @staticmethod
     def getMyTeam(request):
         widgetManager = TaskWidgetManager()
@@ -26,9 +38,7 @@ class userHandlers:
             respDict = {
                 'first_name': resp.first_name,
                 'last_name': resp.last_name,
-                #todo should be depricated, avatar_rel handles both src and params, js is handling the rest
-                'avatar': p.avatarSrc,
-                'rel': p.avatar_rel,
+                'rel': json.dumps(p.avatar_rel),
                 'id': resp.id
             }
             histasksQty = resp.todo.filter(active=True, closed=False).count()
