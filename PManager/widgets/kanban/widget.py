@@ -45,7 +45,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     for task in tasks['tasks']:
         idx = str(task.project.id)
         if idx not in projects_data:
-            print 'not have attribute'
             projects_data[idx] = {
                 'project': task.project,
                 'date_init': task.project.dateCreate,
