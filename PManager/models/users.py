@@ -275,9 +275,9 @@ class PM_User(models.Model):
         except PM_ProjectRoles.DoesNotExist:
             return 0
 
-    def getPaymentType(self, project):
+    def getPaymentType(self, project, roleCode=False):
         for role in PM_ProjectRoles.objects.filter(user=self.user, project=project):
-            if role.payment_type:
+            if role.payment_type and (not roleCode or roleCode == role.code):
                 return role.payment_type
 
         return 'real_time'
