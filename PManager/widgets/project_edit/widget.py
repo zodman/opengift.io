@@ -32,7 +32,7 @@ def widget(request, headerValues, ar, qargs):
         old_repository = False
         if 'id' in get:
             try:
-                projectData = PM_Project.objects.get(id=int(get['id']))
+                projectData = PM_Project.objects.get(id=int(get['id']), locked=False)
                 if not request.user.get_profile().isManager(projectData):
                     return {'redirect': '/?error=Нет прав для редактирования проекта'}
 

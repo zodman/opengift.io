@@ -106,7 +106,7 @@ class PM_User(models.Model):
             return PM_Project.objects.filter(pk__in=PM_ProjectRoles.objects.filter(
                 user=self.user,
                 role=PM_Role.objects.get(code='manager')
-            ).values('project__id'))
+            ).values('project__id')).exclude(closed=True, locked=True)
         except PM_Role.DoesNotExist:
             return None
 
@@ -220,7 +220,7 @@ class PM_User(models.Model):
         if only_managed:
             userRoles = userRoles.filter(role__code='manager')
 
-        return PM_Project.objects.filter(id__in=[role.project.id for role in userRoles], closed=False).distinct()
+        return PM_Project.objects.filter(id__in=[role.project.id for role in userRoles], closed=False, locked=False).distinct()
 
     def getRoles(self, project):
         return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user, project=project)]
@@ -277,7 +277,7 @@ class PM_User(models.Model):
 
     def getPaymentType(self, project, roleCode=False):
         for role in PM_ProjectRoles.objects.filter(user=self.user, project=project):
-            if role.payment_type and (not roleCode or roleCode == role.code):
+            if role.payment_type and (not roleCode or roleCode == role.role.code):
                 return role.payment_type
 
         return 'real_time'

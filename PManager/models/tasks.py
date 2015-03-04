@@ -98,7 +98,8 @@ class PM_Project(models.Model):
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
-    closed = models.BooleanField(blank=True, verbose_name=u'Архив')
+    closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
+    locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
 
     @property

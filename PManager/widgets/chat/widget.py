@@ -27,7 +27,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
                 Q(task__onPlanning=True) & Q(project__in=userProjects)
             )
 
-    activeProjects = PM_Project.objects.exclude(closed=True).values_list('id', flat=True)
+    activeProjects = PM_Project.objects.exclude(closed=True, locked=True).values_list('id', flat=True)
 
     result = PM_Task_Message.objects.filter(
         project__in=activeProjects

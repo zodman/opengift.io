@@ -22,7 +22,7 @@ def initGlobals(request):
 
     if 'project' in request.REQUEST:
         try:
-            CURRENT_PROJECT = PM_Project.objects.get(closed=False, id=int(request.REQUEST.get('project', 0)))
+            CURRENT_PROJECT = PM_Project.objects.get(closed=False, locked=False, id=int(request.REQUEST.get('project', 0)))
             if CURRENT_PROJECT.id in projects:
                 SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
                 request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id

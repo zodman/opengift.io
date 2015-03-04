@@ -37,7 +37,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}):
             })
     arProject = []
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
-    projects = PM_Project.objects.filter(pk__in=PM_ProjectRoles.objects.filter(user=request.user).values('project__id'))
+    projects = PM_Project.objects.filter(pk__in=PM_ProjectRoles.objects.filter(user=request.user).values('project__id'))\
+        .exclude(closed=True, locked=True)
+
     for project in projects:
         setattr(project, 'milestoneSet', project.milestones.all())
         for milestone in project.milestoneSet:

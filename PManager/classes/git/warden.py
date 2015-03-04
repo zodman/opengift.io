@@ -61,7 +61,7 @@ class Warden(object):
     @staticmethod
     def get_project(repo_name):
         try:
-            project = PM_Project.objects.get(repository=repo_name)
+            project = PM_Project.objects.get(repository=repo_name).exclude(locked=True, closed=True)
         except PM_Project.DoesNotExist:
             project = None
         return project
