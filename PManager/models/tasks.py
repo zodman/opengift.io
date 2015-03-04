@@ -464,7 +464,7 @@ class PM_Task(models.Model):
                     ob['time'] = userTaskHours
 
                     profResp = cUser.get_profile()
-                    paymentType = profResp.getPaymentType(self.project)
+                    paymentType = profResp.getPaymentType(self.project, 'employee')
                     #set user rating
                     profResp.rating = (profResp.rating or 0) + ob.get('rating', 0)
                     profResp.save()
@@ -490,7 +490,7 @@ class PM_Task(models.Model):
         if allRealTime or self.planTime:
             #responsibles plan time
             profResp = self.resp.get_profile()
-            if profResp.getPaymentType(self.project) == 'plan_time':
+            if profResp.getPaymentType(self.project, 'employee') == 'plan_time':
                 if self.resp.id != self.author.id:
                     profRespBet = profResp.getBet(self.project)
                     curPrice = profRespBet * float(self.planTime)
