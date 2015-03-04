@@ -14,7 +14,7 @@
         }
         var uniqID = getRandomInt(9,99999);
         if (params.image) {
-            return '<img src="' + params.image + '" width="' +  size + '" height="' +  size + '" />';
+            return '<img src="' + params.image + '" width="' +  size + '" />';
         }
         else {
             // since weird font problem with scale by size, wrapper will be have size, instead of viewport
