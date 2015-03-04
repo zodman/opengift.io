@@ -551,84 +551,60 @@ var CRITICALLY_THRESHOLD = 0.7;
             this.$('.task-plantime > .dropdown > .dropdown-menu').hide();
             return false;
         },
-        'showResponsibleMenu': function () {
-            if (!$('.js-add-user-popup').hasClass('clone')) {
-                var taskId = this.model.id,
-                    obj = this,
-                    userList = $('.js-add-user-popup').clone().addClass('clone').show();
-
-                userList.find('a').each(function () {
-                    var uId = $(this).attr('rel'), width = 0;
-                    if (taskRespSummary[taskId])
-                        if (taskRespSummary[taskId][uId])
-                            var width = 100 * taskRespSummary[taskId][uId];
-
-                    $(this).find('.js-progress-success').css('width', width + '%');
-                    //responsible change
-                    $(this).click(function () {
-                        obj.changeResponsible($(this).attr('rel'));
-                        $(this).closest('.js-add-user-popup').remove();
-                        userInput.val("");
-                        $('.js-add-user-popup .js-user-item').show();
-                        return false;
-                    });
-                });
-
-                if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
-                    userList.find('.js-categories-list').css('display','table-cell');
-                } else {
-                    userList.find('.js-categories-list').css('display','none');
+        'loadResponsibleMenu': function () {
+            obj = this;
+            $.get('/ajax/responsible_menu/', function(response){
+                $('body').append(response);
+                obj.showResponsibleMenu();
+            });
+        },
+        'bindResponsibleMenuEvents' : function(userList, userInput, userItems){
+            var obj = this;
+            $('.js-select_resp').bind('click.RespMenu', function(){
+                obj.responsibleFailure();
+                userList.unbind('clickoutside');
+                $('.js-select_resp').unbind('click.RespMenu');
+            })
+            userList.find('a').unbind('click.RespMenu').bind('click.RespMenu', function(){
+                var uId = $(this).attr('rel');
+                obj.changeResponsible(uId);
+                userList.hide();
+                userInput.val("");
+                userList.unbind('clickoutside');
+                return false;
+            });
+            userList.unbind('clickoutside').bind('clickoutside.RepMenu', function () {
+                userList.hide();
+                userInput.val("");
+                if (typeof obj.responsibleFailure === 'function') {
+                    obj.responsibleFailure();
                 }
-
-                $('.js_task_responsibles .dropdown-menu').remove();
-                var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
-                
-                userList.appendTo('.container.sub-menu').css({
-                    'position': 'absolute',
-                    'top': (position.top + position.height + 5)
-                });
-
-                userList.find('.js-email-form').each(function () {
-                    $(this).click(function () {
-                        var inputEmail = $('.js-add-user-popup .js-email').val();
-                        obj.changeResponsible(inputEmail);
-                    });
-                });
-
-                var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
-                var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
-                var arrowPos = linkRightPos - popupRightPos;
-                userList.find('.add-user-popup-top-arrow').css('right', arrowPos + 21);
-
-                var userItems = $('.js-user-list-of-user .js-user-name');
-                var userInput = $('.js-add-user-popup .js-input-user-name');
-                userInput.focus();
-                userInput.unbind('keyup').keyup(function(){
-                    var inputVal = $(this).val();
-                    if (inputVal.length > 2) {
-                        $.ajax({
-                          type: "POST",
-                          data: {"action": "getUsers", "q":inputVal},
-                          url: '/users_ajax/',
-                          success: function(response){
+                obj.responsibleMenuActive = false;
+                userList.unbind('clickoutside');
+            });
+            userList.find('.js-email-form').unbind('submit.RespMenu').bind('submit.RespMenu', function(){
+                var email = $(this).find('.js-email').val();
+                obj.changeResponsible(email);
+                userList.unbind('clickoutside');
+                userList.hide();
+                return false;
+            });
+            userList.find('.js-input-user-name').unbind('keyup.RespMenu').bind('keyup.RespMenu',function(){
+                var inputVal = $(this).val();
+                if (inputVal.length > 2) {
+                    $.ajax({
+                        type: "POST",
+                        data: {"action": "getUsers", "q":inputVal},
+                        url: '/users_ajax/',
+                        success: function(response){
                             var data = $.parseJSON(response);
                             var mediaItems = [];
                             $('.js-user-list-of-user .js-get-rel').each(function(){
                               mediaItems.push($(this).attr('rel'));
                             });
-                            function in_array(value, array) {
-                                for(var i = 0; i < array.length; i++) {
-                                    if(array[i] == value) return true;
-                                }
-                                return false;
-                            }
                             for (var i in data){
-                                if (data[i].avatar) {
-                                    var avatar_type = '<img class="media-object" src="' + data[i].avatar + '" alt="' + data[i].first_name + ' ' + data[i].last_name + '" height="40">';
-                                } else {
-                                    var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
-                                }
-                                if (!in_array(data[i].id, mediaItems)) {
+                                var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
+                                if (!$.inArray(data[i].id, mediaItems)) {
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
                                     '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
@@ -646,54 +622,91 @@ var CRITICALLY_THRESHOLD = 0.7;
                                     '</li>');
                                 }
                             }
-                            userList.find('a').each(function () {
-                                $(this).click(function () {
-                                    obj.changeResponsible($(this).attr('rel'));
-                                    $(this).closest('.js-add-user-popup').remove();
-                                    userInput.val("");
-                                    $('.js-user-list-of-user .js-user-item').show();
-                                    $('.ajaxAppend').remove();
-                                    return false;
-                                });
+                            $('.js-avatar-container').each(function(index, el){
+                                $.updateAvatar(el, { size: 40 });
                             });
-                            $('.js-avatar-container').each(function(index,el){
-                                if ($(el).html() == '') {
-                                    var params = $(el).attr('rel');
-                                    if (params.length > 0) {
-                                        $(el).append($.createAvatar(JSON.parse(params)));
-                                    }
-                                }
-                            })
-                          }
-                        }); 
-                    } else {
-                        $('.ajaxAppend').remove();
-                    }
-                    userItems.each(function(){
-                        var userItemVal = $(this).text();
-                        var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
-                        if (userItemIndexOf != -1) {
-                            $(this).parents('.js-user-item').show();
-                        } else {
-                            $(this).parents('.js-user-item').hide();
                         }
-                    });
+                    }); 
+                } else {
+                    userList.find('.ajaxAppend').remove();
+                }
+                userItems.each(function(){
+                    var userItemVal = $(this).text();
+                    var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
+                    if (userItemIndexOf != -1) {
+                        $(this).parents('.js-user-item').show();
+                    } else {
+                        $(this).parents('.js-user-item').hide();
+                    }
                 });
-
-                setTimeout(function () {
-                    userList.bind('clickoutside', function () {
-                        $(this).remove();
-                        userInput.val("");
-                        $('.js-user-list-of-user .js-user-item').show()
-                        $('.ajaxAppend').remove();
-                    })
-                }, 10);
-            } else {
-                $('.js-add-user-popup.clone').remove();
-                $('.js-add-user-popup .js-input-user-name').val("");
-                $('.js-user-list-of-user .js-user-item').show();
-                $('.ajaxAppend').remove();
+            });
+        },
+        'responsibleSuccess' : function(){
+            // console.log('success! id:' + this.model.id);
+        },
+        'responsibleFailure' : function(){
+            // console.log('failed! id:' + this.model.id);
+        },
+        'responsibleMenuActive' : false,
+        'showResponsibleArrow' : function(userList){
+            var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
+            var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
+            var arrowPos = linkRightPos - popupRightPos;
+            userList.find('.add-user-popup-top-arrow').css('right', arrowPos + 21);
+        },
+        'responsibleMenuPosition' : function(userList){
+            var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
+            userList.css({
+                'position': 'absolute',
+                'top': (position.top + position.height + 5)
+            });
+        },
+        'showResponsibleMenu': function(){
+            if ($('.js-add-user-popup').length === 0) {
+                this.loadResponsibleMenu();
+                return false;
             }
+            
+            var taskId = this.model.id;
+            var obj = this;
+            var userList = $('.js-add-user-popup');
+            var userInput = userList.find('.js-input-user-name');
+            var userItems = userList.find('.js-user-list-of-user .js-user-name');
+            
+
+            if (this.responsibleMenuActive) {
+                if(userList.is(':visible') && parseInt(userList.attr('rel')) === taskId) {
+                    userList.hide();
+                    this.responsibleMenuActive = false;
+                    userList.unbind('clickoutside');
+                    return false;
+                }
+                else {
+                    this.responsibleMenuActive = false;
+                }
+            }
+            this.bindResponsibleMenuEvents(userList, userInput, userItems);    
+            userList.attr('rel', taskId);
+            this.responsibleMenuPosition(userList);
+            userList.show();
+            this.responsibleMenuActive = true;
+            this.showResponsibleArrow(userList);
+            userList.find('a').each(function () {
+                var uId = $(this).attr('rel');
+                var width = 0;
+                if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
+                    width = 100 * taskRespSummary[taskId][uId];
+                $(this).find('.js-progress-success').css('width', width + '%');
+            });
+
+            if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
+                userList.find('.js-categories-list').css('display','table-cell');
+            } else {
+                userList.find('.js-categories-list').css('display','none');
+            }
+            
+
+            userInput.focus();
             return false;
         },
         'responsibleApprove': function (e) {
@@ -972,7 +985,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                     for (var k in data) {
                         obj.model.set(k, data[k]);
                     }
+                    obj.responsibleSuccess();
                     obj.render();
+                } else {
+                    obj.responsibleFailure();
                 }
 
             })

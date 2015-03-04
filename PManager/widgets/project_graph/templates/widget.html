@@ -14,7 +14,7 @@
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;
             {% if not is_staff %}
             <a href="/project/edit/" class="js-start-pay button btn-success"
-               onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); $('.js-pay-type').val('2'); $.fancybox({'content':$('.js-payment').html()}); return false;">
+               onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); ">
                 <i class="fa fa-diamond"></i>&nbsp;&nbsp;получить Premium
             </a>
             &nbsp;&nbsp;<a href="/payment_info/">(информация об оплате)</a>

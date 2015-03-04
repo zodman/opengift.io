@@ -17,11 +17,12 @@
             return '<img src="' + params.image + '" width="' +  size + '" height="' +  size + '" />';
         }
         else {
-            return '<div>'
+            // since weird font problem with scale by size, wrapper will be have size, instead of viewport
+            return '<div style="width:' + size + 'px; height:'+ size +'px">'
                     + '<code style="background-color: transparent;padding: 0;">'
-                    + '<svg viewBox="0 0 '+ size + ' ' +  size + '">'
+                    + '<svg viewBox="0 0 90 90">'
                     + '<title>' + params.initials + '</title>'
-                    + '<rect rx="4" ry="4" x="0" y="0" width="' + size +'" height="' + size +'" style="fill: ' + params.color + '"/>'
+                    + '<rect rx="4" ry="4" x="0" y="0" width="90" height="90" style="fill: ' + params.color + '"/>'
                     + '<g style="font-weight: bold; font-size: 67px;">'
                     + '<defs><mask id="textMask' + params.id + uniqID + '">'
                     + '<text style="fill:white;" x="6" y="72">' + params.initials + '</text>'
@@ -32,7 +33,7 @@
                     + '</filter>'
                     + '</defs>'
                     + '<g mask="url(#textMask' + params.id + uniqID + ')">'
-                    + '<rect x="0" y="0" width="' + size +'" height="' + size +'" style="fill:black"/>'
+                    + '<rect x="0" y="0" width="90" height="90" style="fill:black"/>'
                     + '<text style="fill: ' + params.color + '; filter: url(#innerShadow' + params.id + uniqID + ')" x="6" y="72">'
                     + params.initials + '</text></g>'
                     + '</g>'
@@ -41,11 +42,17 @@
                     + '</div>'
         }
     };
-    $.updateAvatar = function(el) {
+    $.updateAvatar = function(el, options) {
         var params = $(el).attr('rel');
-        if (params.length > 0) {
-            $(el).html($.createAvatar(JSON.parse(params)));
-        };
+        if(params.length <= 0) {
+            return
+        }
+        params = JSON.parse(params);
+        if (typeof options === 'undefined') {
+            options = {};
+        }
+        $.extend(options, params);
+        $(el).html($.createAvatar(options));
     };
 }( jQuery ));
 

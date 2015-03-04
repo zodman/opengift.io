@@ -82,22 +82,22 @@ class PM_User(models.Model):
         return str(self.avatar).replace('PManager', '')
 
     @property
-    def avatarParams(self):
-        return {
+    def avatar_rel(self):
+        import json
+        if self.avatarSrc:
+            return {
+                'image': self.avatarSrc, 
+                'id': self.user.id
+            }
+        else:
+            return {
             'id': self.user.id,
             'color': self.avatar_color,
             'initials': self.user.last_name[0] + self.user.first_name[
                 0] if self.user.last_name and self.user.first_name else ''
-        }
+            }
 
-    @property
-    def avatar_rel(self):
-        import json
 
-        if self.avatarSrc:
-            return json.dumps({'image': self.avatarSrc, 'id': self.user.id})
-        else:
-            return json.dumps(self.avatarParams)
 
 
     @property

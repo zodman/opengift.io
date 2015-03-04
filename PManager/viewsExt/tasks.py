@@ -48,7 +48,7 @@ def microTaskAjax(request, task_id):
     return HttpResponse(json.dumps({
         'id': task.id,
         'name': task.name,
-        'executor': user.avatar_rel if user is not None else '',
+        'executor': json.dumps(user.avatar_rel) if user is not None else '',
         'status': task.status.code
     }), content_type="application/json")
 
@@ -96,7 +96,8 @@ def taskListAjax(request):
             responseText = json.dumps({
                 'resp': [{
                         'id': resp.id,
-                        'name': respName
+                        'name': respName, 
+                        'avatar': resp.get_profile().avatar_rel
                     }],
                 'status': task.status.code
             })
@@ -115,7 +116,8 @@ def taskListAjax(request):
                 {
                     'resp': [{
                         'id': resp.id,
-                        'name': respName
+                        'name': respName,
+                        'avatar': resp.get_profile().avatar_rel if resp else ''
                     }],
                     'viewedOnly': request.user.id,
                     'id': task.id
