@@ -49,7 +49,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     if current_project:
         filter['project'] = current_project
 
-    tasks = PM_Task.getForUser(user, current_project, filter,{
+    tasks = PM_Task.getForUser(user, current_project, filter, [], {
             'order_by': [
                 '-id'
             ]
