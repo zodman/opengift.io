@@ -278,7 +278,7 @@
                     task = taskEl.parents('.js-tasks-wrapper').kanban('getTask', taskEl);
                     if (data.closed) {
                         taskEl.addClass('invalid').hide();
-                        task.close();
+                        task.render();
                     }
                     if (data.status) {
                         task.setStatus(data.status);
