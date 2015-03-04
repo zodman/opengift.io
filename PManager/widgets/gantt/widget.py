@@ -107,7 +107,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         'resp__id'
     )
 
-    tasks = tasks[:200]
+    tasks = tasks[:400]
 
     aTasks = []
     responsibleLastDates = {}
@@ -148,7 +148,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
 
-        if task['parentTask__name']:
+        if task['parentTask__name'] and task['name']:
             task['name'] = task['parentTask__name'] + ' / ' + task['name']
 
         if task['realDateStart']:

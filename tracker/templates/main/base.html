@@ -49,6 +49,8 @@
     <link rel="stylesheet" media="all" href="/static/wiki/markitup/sets/frontend/style.css" />
     <link rel="stylesheet" media="all" href="/static/wiki/css/all.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
+
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     {% block stylesheets %}{% endblock %}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
@@ -207,7 +209,9 @@ $(function(){
             {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
-             	<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}">
+             	<a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
+                   <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />
+                </a>
               	</div>
               	<div class="projects-list-text">
                 <span class="projects-list-control">
@@ -354,9 +358,9 @@ $(function(){
              {% if main.CURRENT_PROJECT.id %}
               <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
-               {% if is_staff %}
+              {% if main.CAN_INVITE %}
               <a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
-               {% endif %}
+              {% endif %}
               <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
               {% if main.CURRENT_PROJECT.id %}
               <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>
@@ -397,9 +401,8 @@ $(function(){
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
-                        {% if user.is_staff %}
-                            <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
-                        {% endif %}
+
+                        <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
                     </div>
                     
                 </li>

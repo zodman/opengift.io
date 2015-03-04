@@ -159,7 +159,7 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-                        <div class="pull-left"><a class="hideFilter btn btn-info" href="#">Свернуть</a></div>
+{#                        <div class="pull-left"><a class="hideFilter btn btn-info" href="#">Свернуть</a></div>#}
                         <div class="pull-right">
                             <button value="Сохранить" onclick="document.task_form.submit();" class="btn btn-large btn-success" id="save_button">
                                 Сохранить
@@ -181,8 +181,8 @@
                    <h4>Планирование</h4>           
                    <hr>
 
-                   <p><label>Плановое время, ч.: </label><input class="form-control" name="planTime" value="{% if task_edit.post.planTime %}{{ task_edit.post.planTime }}{% else %}0{% endif %}" type="text" placeholder="Плановое время"></p>
-                   <p><label>Повторять каждые, ч.: </label><input class="form-control" name="repeatEvery" value="{% if task_edit.post.repeatEvery %}{{ task_edit.post.repeatEvery }}{% else %}0{% endif %}" type="text" placeholder="Повторять каждые"></p>
+                   <p><label>Плановое время, ч.: </label><input class="form-control" name="planTime" value="{{ task_edit.post.planTime|default_if_none:'0' }}" type="text" placeholder="Плановое время"></p>
+                   <p><label>Повторять каждые, ч.: </label><input class="form-control" name="repeatEvery" value="{{ task_edit.post.repeatEvery|default_if_none:'0' }}" type="text" placeholder="Повторять каждые"></p>
 {#                   <p><input class="form-control" type="text" value="" placeholder="Кол-во рабочих часов" ></p>#}
 {#                   <p><input class="form-control" type="text" placeholder="Дата окончанияв" ></p>#}
 {#                   <p><textarea class="form-control" placeholder="Задачи рядом" ></textarea></p>#}
@@ -235,42 +235,17 @@
             </div>
             <div class="widget">                   
                    <h4>Возможные ресурсы</h4>           
-                   <hr>           
+                   <hr>
+
                    <ul>
-                        <li><a href="#">Женя Васютин »</a></li>
-                        <li><a href="#">Егор Маслов »</a></li>
+                       {% for user in task_edit.users %}
+                           {% if user.id|slugify in task_edit.recommendedUsers %}
+                                <li><a href="#">{{ user.first_name }} {{ user.last_name }}»</a></li>
+                           {% endif %}
+                       {% endfor %}
                     </ul>       
             </div>
             </td>
         </tr>
     </table>
 </form>
-<script>
-    $(function(){
-        var mouseXPos = 0,mouseCatch = false, lastButtonPos = 0;
-        $('.params-item .progress a')
-                .mousedown(function(e){
-                    e = fixEvent(e);
-                    mouseXPos = e.pageX;
-                    lastButtonPos = $(this).css('left').replace('px','')*1;
-                    mouseCatch = this;
-                });
-        $(document).mouseup(function(){
-            mouseCatch = false;
-        }).mousemove(function(e){
-            if (mouseCatch){
-                e = fixEvent(e);
-                var newLeft = lastButtonPos+(e.pageX - mouseXPos);
-                if (newLeft > 0 && newLeft < $(mouseCatch).parent().width() - $(mouseCatch).width()){
-                    $(mouseCatch).css('left',newLeft);
-                    var paramValue = Math.round(newLeft*100/($(mouseCatch).parent().width() - $(mouseCatch).width()))/100;
-                    var $paramContainer = $(mouseCatch).parent().prev().find('span');
-                    var dataName = $paramContainer.attr('data-name');
-                    $paramContainer.text(paramValue);
-                    $('input[name='+dataName+']').val(paramValue);
-                }
-            }
-        })
-    });
-
-</script>

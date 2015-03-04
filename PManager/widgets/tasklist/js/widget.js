@@ -770,7 +770,8 @@ var widget_tl, currentGroup;
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
                                 '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
-                                        '' + group.name + (group.date ? ' до ' + group.date : '') + '' +
+                    (group.url? '<a href="'+group.url+'">':'') +
+                    group.name + (group.date ? ' до ' + group.date : '') + (group.url? '</a>':'') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
                 							'<a href="#" class="fa fa-edit"></a>' +
 											'<a href="#" class="fa fa-check-square-o"></a>' +

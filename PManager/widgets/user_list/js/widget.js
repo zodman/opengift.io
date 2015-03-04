@@ -31,12 +31,10 @@ $(function(){
         "setOnlineStatusFromServer":function(){
             var widget = this;
             var $userBlocks = widget.$getUserBlocks();
-//            console.log('get Online Users...');
             baseConnector.send("users:get_online_list", {
                     'data':'test'
                 }, function(receivedUsers){
                     var aUsersOnline = $.parseJSON(receivedUsers);
-//                    console.log(aUsersOnline);
                     for (var i in aUsersOnline){
                         var aUserStatus = aUsersOnline[i];
                         widget.setUserStatus(aUserStatus['id'], aUserStatus);
