@@ -18,7 +18,7 @@ def multiply(position, width, *args, **kwargs):
 @register.inclusion_tag('kanban/templates/task.html')
 def show_micro_task(task):
     avatar = False
-    if not task:
+    if not task or not task.status:
         return False
     if task.resp:
         avatar = task.resp.get_profile().avatar_rel
