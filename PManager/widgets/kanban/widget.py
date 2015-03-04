@@ -18,8 +18,6 @@ def multiply(position, width, *args, **kwargs):
 @register.inclusion_tag('kanban/templates/task.html')
 def show_micro_task(task):
     avatar = False
-    if not task or not task.status:
-        return False
     if task.resp:
         avatar = task.resp.get_profile().avatar_rel
         avatar['size'] = 30
@@ -36,24 +34,26 @@ def show_micro_task(task):
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
-    if not current_project:
+    if not current_project or current_project is None:
         return { 'error': 'Project not selected' }
     statuses = PM_Task_Status.objects.all().order_by('-id')
-    tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
+    tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False})
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:
-        idx = str(task.project.id)
-        if idx not in projects_data:
-            projects_data[idx] = {
-                'project': task.project,
-                'date_init': task.project.dateCreate,
-                'user_source': task.project.getUsers(),
-                'tasks': []
-            }
-        recommended_user, tags = get_user_tag_sums(get_task_tag_rel_array(task), recommended_user)
-        task_data = {'task': task, 'responsibleList': tags}
-        projects_data[idx]['tasks'].append(task_data)
+        if current_project.id == task.project.id and task.status is not None:
+            idx = str(task.project.id)
+            if idx not in projects_data:
+                projects_data[idx] = {
+                    'project': task.project,
+                    'date_init': task.project.dateCreate,
+                    'user_source': task.project.getUsers(),
+                    'tasks': []
+                }
+            recommended_user, tags = get_user_tag_sums(get_task_tag_rel_array(task), recommended_user)
+            task_data = {'task': task, 'responsibleList': tags}
+            print task_data
+            projects_data[idx]['tasks'].append(task_data)
     prd_array = []
     for pd in projects_data:
         prd_array.append(projects_data[pd])
