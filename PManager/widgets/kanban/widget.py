@@ -35,11 +35,15 @@ def show_micro_task(task):
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     user = request.user
-    current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
-    if not current_project:
-        return { 'error': 'Project not selected' }
+    current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
+    # if not current_project:
+    #     return { 'error': 'Project not selected' }
     statuses = PM_Task_Status.objects.all().order_by('-id')
-    tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
+    filter = dict(closed=False, onPlanning=False, status__in=statuses)
+    if current_project:
+        filter['project'] = current_project
+
+    tasks = PM_Task.getForUser(user, current_project, filter)
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:
