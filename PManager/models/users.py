@@ -220,7 +220,8 @@ class PM_User(models.Model):
         if only_managed:
             userRoles = userRoles.filter(role__code='manager')
 
-        return PM_Project.objects.filter(id__in=[role.project.id for role in userRoles], closed=False, locked=False).distinct()
+        arId = [role.project.id for role in userRoles]
+        return PM_Project.objects.filter(id__in=arId, closed=False, locked=False).distinct()
 
     def getRoles(self, project):
         return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user, project=project)]

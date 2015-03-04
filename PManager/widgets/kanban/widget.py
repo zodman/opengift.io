@@ -8,7 +8,12 @@ from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
 import datetime, json
+from django.db import transaction
 
+
+@transaction.commit_manually
+def flush_transaction():
+    transaction.commit()
 
 @register.simple_tag()
 def multiply(position, width, *args, **kwargs):
@@ -34,6 +39,7 @@ def show_micro_task(task):
     }
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
+    flush_transaction()
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
     # if not current_project:
@@ -43,7 +49,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     if current_project:
         filter['project'] = current_project
 
-    tasks = PM_Task.getForUser(user, current_project, filter)
+    tasks = PM_Task.getForUser(user, current_project, filter, {})
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:
