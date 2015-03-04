@@ -2,6 +2,13 @@
   var DropArea, Task;
 
   DropArea = (function() {
+    DropArea.count = 2;
+
+    DropArea.getIndex = function() {
+      DropArea.count += 1;
+      return DropArea.count;
+    };
+
     function DropArea(el, widget) {
       this.el = $(el);
       this.status = this.el.attr(widget.options.attributeName);
@@ -17,6 +24,11 @@
         tolerance: "fit",
         hoverClass: "highlighted",
         scope: widget.scope,
+        create: (function(_this) {
+          return function(event, ui) {
+            return _this.el.css('z-index', 1);
+          };
+        })(this),
         drop: (function(_this) {
           return function(event, ui) {
             var task;
@@ -82,7 +94,9 @@
         scope: this.widget.scope,
         containment: "parent",
         create: (function(_this) {
-          return function() {};
+          return function() {
+            return _this.el.css('z-index', DropArea.getIndex());
+          };
         })(this),
         start: (function(_this) {
           return function() {
@@ -113,6 +127,14 @@
 
     Task.prototype.update = function() {};
 
+    Task.prototype.setStatus = function(value) {
+      this.status = value;
+      if (!this.widget.validBox(this.position, this)) {
+        this.setPosition(null, this.widget.options.animationTime);
+        return this.store();
+      }
+    };
+
     Task.prototype.getStorageKey = function() {
       return "project_" + this.widget.kbnId + "task_" + this.id;
     };
@@ -128,7 +150,7 @@
       var value;
       value = this.storage(this.getStorageKey());
       if ((value != null) && (value.status != null)) {
-        if (this.widget.validBox(this)) {
+        if (this.widget.validBox(value, this)) {
           this.setPosition(value);
           return;
         }
@@ -142,7 +164,17 @@
     };
 
     Task.prototype.completeMove = function() {
-      this.position = this.el.position();
+      var drop, newPosition;
+      newPosition = this.el.position();
+      drop = this.widget.getDropByPosition(newPosition);
+      if (drop == null) {
+        return this.failMove();
+      }
+      this.position = newPosition;
+      if (drop.status !== this.status) {
+        this.status = drop.status;
+        this.widget.onStatusChange(this);
+      }
       return this.store();
     };
 
@@ -162,8 +194,11 @@
       return offset;
     };
 
-    Task.prototype.setPosition = function(position) {
+    Task.prototype.setPosition = function(position, animateDuration) {
       var currentOffset;
+      if (animateDuration == null) {
+        animateDuration = 0;
+      }
       if (position == null) {
         position = this.getPositionDefault();
       }
@@ -172,7 +207,7 @@
         left: position.left,
         top: position.top
       };
-      this.el.animate(position, 0);
+      this.el.animate(position, animateDuration);
       return this.position = this.el.position();
     };
 
@@ -202,23 +237,40 @@
           minHeight: 400
         }
       },
-      validBox: function(task) {
+      getDropByPosition: function(position) {
+        var drop, key, ref;
+        ref = this.dropAreas;
+        for (key in ref) {
+          drop = ref[key];
+          if (drop.position.left + drop.borders.left < position.left && drop.position.left + drop.width - drop.borders.right > position.left) {
+            return drop;
+          }
+        }
+        return false;
+      },
+      validBox: function(position, task) {
         var boundaries, drop;
         drop = this.dropAreas[task.status];
         if (drop == null) {
           return false;
         }
         boundaries = {
-          left: drop.position.left,
-          right: drop.position.left + drop.width
+          left: drop.position.left + drop.borders.left,
+          right: drop.position.left + drop.width - drop.borders.right
         };
-        if (task.position.left < boundaries.left) {
+        if (position.left < boundaries.left) {
           return false;
         }
-        if (task.position.left + task.width > boundaries.right) {
+        if (position.left > boundaries.right) {
+          return false;
+        }
+        if (position.left + task.el.width() > boundaries.right) {
           return false;
         }
         return true;
+      },
+      onStatusChange: function(task) {
+        return this._trigger(':onstatuschange', this, task);
       },
       onDrop: function(task, drop) {
         return this._trigger(':ondrop', this, {
@@ -355,12 +407,12 @@
         return task.initialize();
       },
       render: function() {
-        var results, task;
-        results = [];
-        for (task in this.tasks) {
-          results.push(task.render());
+        var key, ref, task;
+        ref = this.tasks;
+        for (key in ref) {
+          task = ref[key];
+          task.render();
         }
-        return results;
       },
       _browser_is_supported: function() {
         if (window.navigator.appName === "Microsoft Internet Explorer") {

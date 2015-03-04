@@ -1,4 +1,8 @@
 class DropArea
+	@count: 2
+	@getIndex: ->
+		DropArea.count += 1
+		return DropArea.count
 	constructor: (el, widget) ->
 		@el = $ el
 		@status = @el.attr(widget.options.attributeName)
@@ -11,6 +15,8 @@ class DropArea
 			tolerance: "fit"
 			hoverClass: "highlighted"
 			scope: widget.scope
+			create: (event, ui) =>
+				@el.css('z-index', 1)
 			drop:(event, ui) =>
 				task = @widget.getTask(ui.draggable)
 				@widget.onDrop(task, @)

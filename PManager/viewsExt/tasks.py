@@ -96,7 +96,8 @@ def taskListAjax(request):
             responseText = json.dumps({
                 'resp': [{
                         'id': resp.id,
-                        'name': respName
+                        'name': respName, 
+                        'avatar': resp.get_profile().avatar_rel
                     }],
                 'status': task.status.code
             })
@@ -115,7 +116,8 @@ def taskListAjax(request):
                 {
                     'resp': [{
                         'id': resp.id,
-                        'name': respName
+                        'name': respName,
+                        'avatar': resp.get_profile().avatar_rel if resp else ''
                     }],
                     'viewedOnly': request.user.id,
                     'id': task.id

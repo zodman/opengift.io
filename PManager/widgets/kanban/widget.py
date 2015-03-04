@@ -17,21 +17,27 @@ def multiply(position, width, *args, **kwargs):
 
 @register.inclusion_tag('kanban/templates/task.html')
 def show_micro_task(task):
-    avatar = task.resp.get_profile().avatar_rel
-    avatar['size'] = 30
+    avatar = False
+    if not task:
+        return False
+    if task.resp:
+        avatar = task.resp.get_profile().avatar_rel
+        avatar['size'] = 30
     return {
         'id': task.id,
-        'name': task.name,
+        'name': task.name if task.name else '',
+        'url' : task.url,
         'status': task.status.code if task.status else '',
-        'executor': json.dumps(avatar) if task.resp else '',
+        'executor': json.dumps(avatar) if avatar else '',
         'executor_id': task.resp.id if task.resp else '',
-        'deadline': task.deadline
+        'deadline': task.deadline if task.deadline else ''
     }
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
-
+    if not current_project:
+        return { 'error': 'Project not selected' }
     statuses = PM_Task_Status.objects.all().order_by('-id')
     tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
     projects_data = {}

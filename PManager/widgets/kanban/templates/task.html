@@ -1,8 +1,10 @@
 <div class="task js-task-wrapper task-wrapper-kanban" rel="{{ id }}">
     <div class="task-card js-task-card js_task_responsibles">
         <div class="task-status {{ status }} js-task-status" rel="{{ status }}"></div>
-        <div class="name js-task-name">
-            <a href="/task_detail/?id={{ id }}" onclick="window.location.href='/task_detail/?id={{ id }}'; return false;">{{ name }}</a>
+        <div class="name">
+            <a href="{{ url }}" onclick="window.location.href='{{ url }}'; return false;" class="js-task-name">
+                {{ name }}
+            </a>
         </div>
         <div class="executor js-task-executor dropdown" rel="{{ executor_id }}">
             <a data-toggle="dropdown" class="js-select_resp">

@@ -580,7 +580,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                     obj.responsibleFailure();
                 }
                 obj.responsibleMenuActive = false;
-                console.log('clickoutside');
                 userList.unbind('clickoutside');
             });
             userList.find('.js-email-form').unbind('submit.RespMenu').bind('submit.RespMenu', function(){

@@ -2522,6 +2522,12 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 	top: 0;
 	left: 0;
 }
+.kanban .task-wrapper-kanban.invalid {
+	display: none;
+}
+.kanban .js-user_source {
+	display: none;
+}
 
 .invite-popup {padding: 15px;}
 .invite-popup ul {list-style: none;}

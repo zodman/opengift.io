@@ -10,7 +10,7 @@ class Task
 			scope: @widget.scope
 			containment: "parent"
 			create: =>
-
+				@el.css('z-index', DropArea.getIndex())
 			start: =>
 				do @startMove
 				@widget.onDragStart(@)
@@ -25,6 +25,12 @@ class Task
 		@el.show()
 	update: ->
 
+	setStatus:(value) ->
+		@status = value
+		if not @widget.validBox(@position, @)
+			@setPosition(null, @widget.options.animationTime)
+			do @store
+
 	getStorageKey: ->
 		"project_#{@widget.kbnId}task_#{@id}"
 	store: ->
@@ -34,7 +40,7 @@ class Task
 	restore: ->
 		value = @storage(@getStorageKey())
 		if value? and value.status?
-			if @widget.validBox(@)
+			if @widget.validBox(value, @)
 				@setPosition(value)
 				return 
 		do @setPosition
@@ -42,7 +48,13 @@ class Task
 	startMove: ->
 		@position = do @el.position
 	completeMove: ->
-		@position = do @el.position
+		newPosition = do @el.position
+		drop = @.widget.getDropByPosition(newPosition)
+		return do @failMove unless drop?
+		@position = newPosition
+		if drop.status != @status
+			@status = drop.status
+			@widget.onStatusChange(@)
 		do @store
 	failMove: ->
 		@el.animate(@position, @widget.options.animationTime, =>
@@ -53,7 +65,9 @@ class Task
 		elW = do @el.width
 		offset = drop.getNextOffset(elW)
 		return offset
-	setPosition:(position) ->
+	setPosition:(position, animateDuration) ->
+		if not animateDuration? 
+			animateDuration = 0
 		if not position?
 			position = do @getPositionDefault
 		currentOffset = @widget.offset
@@ -61,7 +75,7 @@ class Task
 			left: position.left
 			top: position.top
 		}
-		@el.animate(position, 0)
+		@el.animate(position, animateDuration)
 		@position = do @el.position
 	initialize: ->
 		do @restore

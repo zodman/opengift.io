@@ -1,193 +1,297 @@
 {% load jsonify %}
-{% block stylesheets %}
-    <link rel="stylesheet" href="/static/css/external/chosen.css"/>
-    <style>
-        {% for status in kanban.statuses %}
-        .kanban .project-row .tasks-{{ status.code }},
-        .kanban .project-row-headers .tasks-{{ status.code }}{
-            float: left;
-            width: 31.33%;
-            height: 100%;
-            margin: 0 1%;
-            left: {% multiply forloop.counter0 kanban.status_width %}%;
-        }
-        {% endfor %}
-    </style>
-{% endblock %}
-{% block scripts %}
-    <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
-    <script src="/static/js/libs/chosen.jquery.min.js"></script>
-    <script src="/static/js/pm/kanban.js"></script>
-{% endblock %}
-
-<div class="kanban">
-    {% for project in kanban.projects_data %}
-    <div class="widget inner">
-         <div class="project-row js-project-row" id="project_{{ project.project.id }}">
-            <div class="project-header js-project-header">
-                <div class="widget-title clearfix">
-                    {{ project.project.name }}
-                </div>
-                <div>
-                    <select class="js-user_source" multiple
-                            style="display:block; width:100%" data-placeholder="Выберите пользователей">
-                    {% for user in project.user_source %}
-                        <option value="{{ user.id }}">{{ user.get_full_name }}</option>
-                    {% endfor %}
-                    </select>
-    
-                </div>
-    
-                <div class="project-row-headers">
-                    {% for status in kanban.statuses %}
-                        <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
-                    {% endfor %}
-                    <div class="clearfix"></div>
+{% if kanban.error %}
+    <div class="kanban">
+        <div class="widget inner">
+            <div class="project-row js-project-row">
+                <div class="project-header js-project-header">
+                    <div class="widget-title clearfix">
+                        Необходимо выбрать проект
+                    </div>
                 </div>
             </div>
-        <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
-                {% for status in kanban.statuses %}
-                    <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
-                {% endfor %}
-                {% for task_data in project.tasks %}
-                    {% show_micro_task task_data.task %}
-                {% endfor %}
-            </div>
-            <div class="clearfix"></div>
         </div>
     </div>
-    {% endfor %}
-</div>
+{% else %}
+    {% block stylesheets %}
+        <link rel="stylesheet" href="/static/css/external/chosen.css"/>
+        <style>
+            {% for status in kanban.statuses %}
+            .kanban .project-row .tasks-{{ status.code }},
+            .kanban .project-row-headers .tasks-{{ status.code }}{
+                display: inline-block;
+                float: left;
+                width: 31%;
+                height: 100%;
+                margin: 0 1%;
+                left: {% multiply forloop.counter0 kanban.status_width %}%;
+            }
+            {% endfor %}
+            .kanban .project-row .tasks-revision,
+             .kanban .project-row-headers .tasks-revision {
+                width: 32%;
+             }
+             .kanban .project-row .tasks-column.tasks-ready{
+                margin-left: 2%;
+                margin-right: 0;
+             }
+        </style>
+    {% endblock %}
+    {% block scripts %}
+        <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
+        <script src="/static/js/libs/chosen.jquery.min.js"></script>
+        <script src="/static/js/pm/kanban.js"></script>
+    {% endblock %}
+
+    <div class="kanban">
+        {% for project in kanban.projects_data %}
+        <div class="widget inner">
+             <div class="project-row js-project-row" id="project_{{ project.project.id }}">
+                <div class="project-header js-project-header">
+                    <div class="widget-title clearfix">
+                        {{ project.project.name }}
+                    </div>
+                    <div>
+                        <select class="js-user_source" multiple
+                                style="display:block; width:100%" data-placeholder="Выберите пользователей">
+                        {% for user in project.user_source %}
+                            <option value="{{ user.id }}">{{ user.get_full_name }}</option>
+                        {% endfor %}
+                        </select>
+        
+                    </div>
+        
+                    <div class="project-row-headers">
+                        {% for status in kanban.statuses %}
+                            <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
+                        {% endfor %}
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
+                    {% for status in kanban.statuses %}
+                        <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
+                    {% endfor %}
+                    {% for task_data in project.tasks %}
+                        {% show_micro_task task_data.task %}
+                    {% endfor %}
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
 
 
-<script>
-(function( $ ) {
-    $.JSONstorage = function(key, value) {
-        var STORAGE_PREFIX = 'hl_kb_'
-        if (typeof value === "undefined") {
-            val = window.localStorage.getItem(STORAGE_PREFIX + key);
-            if (val == null) {
-                return [];
-            }
-            try {
-                val = JSON.parse(val);
-                return val;
-            }
-            catch(e) {
-                return [];
-            }
-        }
-        else {
-            window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
-            return value;
-        }
-    }
-})(jQuery);
-var taskRespSummary = {};
-{% for project in kanban.projects_data %}
-    {% for task_data in project.tasks %}
-        taskRespSummary['{{task_data.task.id}}'] = {{ task_data.responsibleList|jsonify|safe }};
-    {% endfor %}
-{% endfor %}
-    $(document).ready(function(){
-        // filtering tasks
-        $('.js-user_source').on("chosen:ready", function(){
-            var id = $(this).parents('.js-project-row').attr('id');
-            var val = $.JSONstorage('filter_' + id);
-            $(this).val(val).trigger("chosen:updated");
-        }).chosen({
-            no_results_text: "Пользователь не найден",
-            width: "100%"
-        }).change(function(event){
-            var $row = $(this).parents('.js-project-row'); 
-            var id = $row.attr('id');
-            var val = $.JSONstorage('filter_' + id,$(this).val());
-            $row.find('.js-task-wrapper').each(function(index, el){
-                var $el = $(el);
-                var executor = $el.find('.js-task-executor').attr('rel');
-                if(val && $.inArray(executor, val) === -1) {
-                    $el.addClass('filtered');
-                }else{
-                    $el.removeClass('filtered');
+    <script>
+    (function( $ ) {
+        $.JSONstorage = function(key, value) {
+            var STORAGE_PREFIX = 'hl_kb_'
+            if (typeof value === "undefined") {
+                val = window.localStorage.getItem(STORAGE_PREFIX + key);
+                if (val == null) {
+                    return [];
                 }
-            });
-        }).trigger("change");
-        var kanbanTaskViewClass;
-        kanbanTaskViewClass = window.taskViewClass.extend({
-            showResponsibleArrow : function(userList){
-                console.log('resp arrow');
-                userList.find('.add-user-popup-top-arrow').hide();
-            },
-            responsibleSuccess: function(){
-                this.options.task.completeMove();
-            },
-            responsibleFailure: function(){
-                this.options.task.failMove();
-            },
-            responsibleMenuPosition: function(userList) {
-                var mLeft = userList.width() / -2;
-                var mTop = userList.height() / -2;
-                userList.css({
-                    'position' : 'fixed',
-                    'top': '50%',
-                    'left': '50%',
-                    'margin-left': mLeft + 'px',
-                    'margin-top': mTop + 'px'
-                })
-            },
-            render: function() {
-                console.log('rendered');
+                try {
+                    val = JSON.parse(val);
+                    return val;
+                }
+                catch(e) {
+                    return [];
+                }
             }
-        });
-        var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
-            var executor = task.el.find('.executor').attr('rel');
-            var status = task.el.find('.js-task-status').attr('rel');
-            var id = task.el.attr('rel');
-            var taskName = task.el.find('.js-task-name').text();
-            var model = new taskClass({
-                    id: id,
-                    responsible: executor,
-                    status: status,
-                    avatar: {},
-                    name: taskName
-                });
-            var view = new kanbanTaskViewClass({
-                model: model,
-                el: task.el,
-                task: task
-            });
+            else {
+                window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
+                return value;
+            }
+        }
+    })(jQuery);
+    var taskRespSummary = {};
+    {% for project in kanban.projects_data %}
+        {% for task_data in project.tasks %}
+            taskRespSummary['{{task_data.task.id}}'] = {{ task_data.responsibleList|jsonify|safe }};
+        {% endfor %}
+    {% endfor %}
+        $(document).ready(function(){
+            // filtering tasks
 
-            $.extend(task, {
-                status: model.get('status'),
-                model: model,
-                responsible: model.get('responsible'),
-                storage: $.JSONstorage,
-                view: view,
-                update: function(){
+            var kanbanTaskViewClass;
+            kanbanTaskViewClass = window.taskViewClass.extend({
+                showResponsibleArrow : function(userList){
+                    userList.find('.add-user-popup-top-arrow').hide();
+                },
+                responsibleSuccess: function(){
+                    if(this.model.get('resp')) {
+                        var resp = this.model.get('resp')[0];
+                        this.model.set('responsible', resp.id);
+                        this.model.set('avatar', JSON.stringify(resp.avatar));
+                        if(this.model.get('status') !== this.options.task.status) {
+                            this.options.task.setStatus(this.model.get('status'));
+                        }else {
+                            this.options.task.completeMove();        
+                            this.options.task.update();
+                        }
+                    }else {
+                        this.options.task.failMove();
+                    }
                     
                 },
-                render: function(){
-                    if (this.el.hasClass('filtered')) {
-                        this.el.hide('fast');
-                    }else {
-                        this.el.show('fast');
-                    }
+                responsibleFailure: function(){
+                    this.options.task.failMove();
+                },
+                responsibleMenuPosition: function(userList) {
+                    var mLeft = userList.width() / -2;
+                    var mTop = userList.height() / -2;
+                    userList.css({
+                        'position' : 'fixed',
+                        'top': '50%',
+                        'left': '50%',
+                        'margin-left': mLeft + 'px',
+                        'margin-top': mTop + 'px'
+                    })
+                },
+                render: function() {
+                    this.$el.find('.js-task-name').html(this.model.get('name'));
+                    // todo remove hardcode and replace with statuses from db
+                    this.$el.find('.js-task-status').attr('rel',this.model.get('status')).removeClass('not_approved revision ready').addClass(this.model.get('status'));
+                    this.$el.find('.js-task-executor').attr('rel',this.model.get('responsible'));
+                    var avatar = this.$el.find('.js-avatar-container');
+                    avatar.attr('rel',this.model.get('avatar'));
+                    $.updateAvatar(avatar, { size: 30 });
                 }
             });
-        }).on('kanban:ondrop', function(event, data){
-            var task = data.task;
-            var drop = data.drop;
-            if(task.status === drop.status) {
-                task.completeMove();
+            var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
+                var executor = task.el.find('.executor').attr('rel');
+                var status = task.el.find('.js-task-status').attr('rel');
+                var id = task.el.attr('rel');
+                var taskName = task.el.find('.js-task-name').text();
+                var model = new taskClass({
+                        id: id,
+                        responsible: executor,
+                        status: status,
+                        avatar: "",
+                        name: taskName
+                    });
+                var view = new kanbanTaskViewClass({
+                    model: model,
+                    el: task.el,
+                    task: task
+                });
 
-                return false;
-            }
-            if(task.status === 'not_approved' && !task.responsible) {
-                task.view.showResponsibleMenu();
-                return false;
-            }
-            task.model.set('status', drop.status);
-            
-        }).kanban();
-    })
-</script>
+                $.extend(task, {
+                    status: model.get('status'),
+                    model: model,
+                    responsible: model.get('responsible'),
+                    storage: $.JSONstorage,
+                    view: view,
+                    update: function(){
+                        this.status = this.model.get('status');
+                        this.responsible = this.model.get('responsible');
+                        this.id = this.model.get('id');
+                    },
+                    render: function(){
+                        this.view.render();
+                        if (this.el.hasClass('filtered')) {
+                            this.el.hide('fast');
+                        }else if(!this.el.hasClass('invalid')) {
+                            this.el.show('fast');
+                        }
+                    }
+                });
+            }).on('kanban:ondrop', function(event, data){
+                var task = data.task;
+                var drop = data.drop;
+                if(task.status === drop.status) {
+                    task.completeMove();
+                    //no need to render or update
+                    return false;
+                }
+                if(task.status === 'not_approved' && drop.status === 'ready') {
+                    task.failMove();
+                    return false;
+                }
+                if(task.status === 'not_approved' && !task.responsible && drop.status === 'revision') {
+                    task.view.showResponsibleMenu();
+                    return false;
+                }
+                task.completeMove();
+                task.view.render();
+
+            }).on('kanban:onstatuschange', function(event, task){
+                task.model.set('status', task.status);
+                taskManager.SetTaskProperty(task.id, 'status', task.status, function(){
+                    task.render();
+                })
+            }).kanban();
+            $('.js-user_source').on("chosen:ready", function(){
+                var id = $(this).parents('.js-project-row').attr('id');
+                $(this).css('z-index', 999);
+                $(this).parents('.js-project-header').css('z-index', 999);
+                var val = $.JSONstorage('filter_' + id);
+                $(this).val(val).trigger("chosen:updated");
+            }).chosen({
+                no_results_text: "Пользователь не найден",
+                width: "100%"
+            }).change(function(event){
+                var $row = $(this).parents('.js-project-row'); 
+                var id = $row.attr('id');
+                var val = $.JSONstorage('filter_' + id,$(this).val());
+                $row.find('.js-task-wrapper').each(function(index, el){
+                    var $el = $(el);
+                    var executor = $el.find('.js-task-executor').attr('rel');
+                    if(val && $.inArray(executor, val) === -1) {
+                        $el.addClass('filtered');
+                    }else{
+                        $el.removeClass('filtered');
+                    }
+                });
+                $row.find('.js-tasks-wrapper').kanban('update');
+            }).trigger("change");
+             $(".js-task_menu").click(function(){
+                var taskEL = $(this).parents('.js-task-wrapper');
+                var task = $(this).parents('.js-tasks-wrapper').kanban('getTask', taskEL);
+                if(!task) { return false; }
+                if ($('#myModalLabel').length > 0) {
+                    return false;
+                }
+                $.get('/task_edit/?modal=1&id=' + task.id, function(response){
+                    if(response !== 'error') {
+                        $('body').prepend(response);
+                        $('#myModalLabel').html('Изменение задачи');
+                        $('#save_button').removeAttr('onclick').click(function(e){
+                            e.stopPropagation();
+                            var form = $(this).parents('form[name="task_form"]');
+                            var data = form.serializeArray();
+                            var url = form.attr('action');
+                            var id = form.attr('rel');
+                            $.post(url, data, function(){
+                                $('#modal').modal('hide');
+                            });
+                            return false;
+                        });
+                    }
+                });
+            });
+
+            baseConnector.addListener('fs.task.update',function(data){
+                if (data && data.id){
+                    taskEl = $('.js-task-wrapper[rel="' + data.id + '"]');
+                    task = taskEl.parents('.js-tasks-wrapper').kanban('getTask', taskEl);
+                    if (data.closed) {
+                        taskEl.addClass('invalid').hide();
+                        task.close();
+                    }
+                    if (data.status) {
+                        task.setStatus(data.status);
+                    }
+                    if (data.resp) {
+                        task.model.set('responsible', resp.id);
+                        task.model.set('avatar', JSON.stringify(resp.avatar));
+
+                    }
+                    task.update();
+                    task.render();
+                }
+            });
+        })
+    </script>
+{% endif %}

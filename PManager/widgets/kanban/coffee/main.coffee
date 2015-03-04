@@ -10,19 +10,28 @@
 			tasks: '.js-task-wrapper'
 			attributeName: 'rel'
 			resizable: {minHeight: 400}
-		}
-		validBox: (task) ->
+		},
+		getDropByPosition: (position) ->
+			for key, drop of @dropAreas
+				if drop.position.left + drop.borders.left < position.left and drop.position.left + drop.width - drop.borders.right > position.left
+					return drop
+			return false
+		validBox: (position, task) ->
 			drop = @dropAreas[task.status]
 			return false unless drop?
 			boundaries = {
-				left: drop.position.left
-				right: drop.position.left + drop.width
+				left: drop.position.left + drop.borders.left
+				right: drop.position.left + drop.width - drop.borders.right
 			}
-			if task.position.left < boundaries.left
+			if position.left < boundaries.left
 				return false
-			if task.position.left + task.width > boundaries.right
+			if position.left > boundaries.right
+				return false
+			if position.left + task.el.width() > boundaries.right
 				return false
 			return true
+		onStatusChange: (task) ->
+			@_trigger(':onstatuschange', @, task)
 		onDrop: (task, drop) ->
 			@_trigger(':ondrop', @, { drop: drop, task: task})
 		onDragRevert:(task) ->
@@ -106,8 +115,9 @@
 			@_trigger(':taskadd', @, @tasks[$el.attr(@options.attributeName)])
 			do task.initialize			
 		render: ->
-			for task of @tasks
+			for key,task of @tasks
 				do task.render
+			return
 		_browser_is_supported: ->
 			if window.navigator.appName == "Microsoft Internet Explorer"
 				return document.documentMode >= 8
