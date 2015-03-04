@@ -6,6 +6,7 @@ import time, datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
 from PManager.viewsExt.tasks import TaskWidgetManager
+from PManager.widgets.tasklist.widget import get_user_tag_sums, get_task_tag_rel_array
 import json
 from django.http import HttpResponse
 
@@ -25,6 +26,8 @@ def widget(request, headerValues, ar, qargs):
         task = PM_Task.objects.get(id=int(request.GET.get('id', False)))
     else:
         task = False
+
+    userTagSums = {}
 
     if name:
         planTime = post.get('planTime', 0)
@@ -90,12 +93,15 @@ def widget(request, headerValues, ar, qargs):
             tagsRelations = ObjectTags.objects.filter(tag__in=tags.values('tag')).annotate(
                 dcount=Count('object_id')) if tags else []
 
+
             if tagsRelations:
                 aTasksFromRelations = []
                 for rel in tagsRelations:
                     aTasksFromRelations.append(rel.object_id)
                 aSimilarTasks = PM_Task.objects.filter(pk__in=aTasksFromRelations, project=task.project).exclude(
                     id=task.id)[:4]
+
+            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), None)
 
             arSaveFields.update({
                 'tags': tags,
@@ -124,5 +130,6 @@ def widget(request, headerValues, ar, qargs):
         'id': request.GET.get('id', False),
         'post': arSaveFields,
         'project': task.project if task and task.project else headerValues['CURRENT_PROJECT'],
-        'users': users
+        'users': users,
+        'recommendedUsers': [i for i, c in userTagSums.iteritems()],
     }

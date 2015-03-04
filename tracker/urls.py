@@ -28,17 +28,28 @@ from robokassa.signals import result_received
 from PManager.models.payments import Payment
 from PManager.models.tasks import PM_Project, PM_ProjectRoles
 from django.contrib.auth.models import User
+import datetime
 
 def payment_received(sender, **kwargs):
-    id = int(kwargs['InvId']) / 1000000
+    id = int(kwargs['Shp_user'])
     user = User.objects.get(id=id)
     # role = PM_ProjectRoles.objects.get(project=project, role__code='client')
-    payment = Payment(
-        # project=PM_Project.objects.get(id=id),
-        value=int(float(kwargs['OutSum'])),
-        payer=user
-    )
-    payment.save()
+    profile = user.get_profile()
+    sum = int(float(kwargs['OutSum']))
+    if sum == 900:
+        user.is_staff = True
+        user.save()
+        date = profile.premium_till or datetime.datetime.now()
+        date = date + datetime.timedelta(days=30)
+        profile.premium_till = date
+        profile.save()
+
+    # payment = Payment(
+    #     # project=PM_Project.objects.get(id=id),
+    #     value=int(float(kwargs['OutSum'])),
+    #     payer=user
+    # )
+    # payment.save()
 
 
 result_received.connect(payment_received)

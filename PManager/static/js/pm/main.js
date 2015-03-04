@@ -57,6 +57,7 @@
 function closePopups() {
     $('.pup').hide();
 }
+
 function getKeyPressed(e) {
     var key;
     if (window.event) {
