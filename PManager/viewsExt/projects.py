@@ -17,7 +17,7 @@ class InterfaceForm(forms.ModelForm):
 def projectDetail(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
     profile = request.user.get_profile()
-    if not profile.hasRole(project):
+    if not profile.hasRole(project) or project.locked:
         raise Http404('Project not found')
 
     aMessages = {
