@@ -31,7 +31,7 @@ def show_micro_task(task):
     return {
         'id': task.id,
         'name': task.name if task.name else '',
-        'url' : task.url,
+        'url': task.url,
         'status': task.status.code if task.status else '',
         'executor': json.dumps(avatar) if avatar else '',
         'executor_id': task.resp.id if task.resp else '',
@@ -49,7 +49,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     if current_project:
         filter['project'] = current_project
 
-    tasks = PM_Task.getForUser(user, current_project, filter, {})
+    tasks = PM_Task.getForUser(user, current_project, filter)
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:
