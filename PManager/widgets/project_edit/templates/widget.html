@@ -24,7 +24,7 @@
     </div>
 {% else %}
     <div class="widget inner premium clearfix">
-        <div class="widget-title">Изменение проекта</div>
+        <div class="widget-title">Изменение проекта</div><br />
         <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
             {% for field in project_edit.form %}
                 {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
