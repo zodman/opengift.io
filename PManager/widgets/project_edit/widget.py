@@ -91,7 +91,7 @@ def widget(request, headerValues, ar, qargs):
            'InvId': request.user.id + int(time.time()),#order.id,
            'Desc': 'Premium аккаунт Heliard',#order.name,
            'Email': request.user.email,
-           'Shp_user': request.user.id
+           'user': request.user.id
            # 'IncCurrLabel': '',
            # 'Culture': 'ru'
        })

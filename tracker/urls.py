@@ -31,7 +31,7 @@ from django.contrib.auth.models import User
 import datetime
 
 def payment_received(sender, **kwargs):
-    id = int(kwargs['Shp_user'])
+    id = int(kwargs['user'])
     user = User.objects.get(id=id)
     # role = PM_ProjectRoles.objects.get(project=project, role__code='client')
     profile = user.get_profile()
