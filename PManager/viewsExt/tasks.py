@@ -48,7 +48,7 @@ def microTaskAjax(request, task_id):
     return HttpResponse(json.dumps({
         'id': task.id,
         'name': task.name,
-        'executor': user.avatar_rel if user is not None else '',
+        'executor': json.dumps(user.avatar_rel) if user is not None else '',
         'status': task.status.code
     }), content_type="application/json")
 

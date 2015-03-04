@@ -116,6 +116,7 @@ urlpatterns = patterns('',
                        url(r'^add_timer/', add_timer),
                        url(r'^kanban/', MainPage.indexRender, {'widgetList': ["kanban"]}),
                        url(r'^ajax/micro_task/(?P<task_id>[0-9_]+)', microTaskAjax),
+                       url(r'^ajax/responsible_menu/$', userHandlers.getResponsibleMenu),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:

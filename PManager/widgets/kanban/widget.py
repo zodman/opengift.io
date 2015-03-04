@@ -7,7 +7,7 @@ from PManager.models.users import PM_User, PM_ProjectRoles, PM_Role
 from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
-import datetime
+import datetime, json
 
 
 @register.simple_tag()
@@ -17,11 +17,13 @@ def multiply(position, width, *args, **kwargs):
 
 @register.inclusion_tag('kanban/templates/task.html')
 def show_micro_task(task):
+    avatar = task.resp.get_profile().avatar_rel
+    avatar['size'] = 30
     return {
         'id': task.id,
         'name': task.name,
-        'status': task.status.code,
-        'executor': task.resp.get_profile().avatar_rel if task.resp else '',
+        'status': task.status.code if task.status else '',
+        'executor': json.dumps(avatar) if task.resp else '',
         'executor_id': task.resp.id if task.resp else '',
         'deadline': task.deadline
     }
@@ -50,12 +52,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     prd_array = []
     for pd in projects_data:
         prd_array.append(projects_data[pd])
-    widget_manager = TaskWidgetManager()
-    users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
     return {
         'projects_data': prd_array,
         'statuses': statuses,
         'status_width': 100 / statuses.count() if statuses.count() != 0 else 100,
         'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0,
-        'users': users
     }

@@ -7,6 +7,7 @@
         .kanban .project-row-headers .tasks-{{ status.code }}{
             float: left;
             width: 31.33%;
+            height: 100%;
             margin: 0 1%;
             left: {% multiply forloop.counter0 kanban.status_width %}%;
         }
@@ -42,7 +43,7 @@
                 <div class="clearfix"></div>
             </div>
         </div>
-        <div class="tasks-wrapper js-tasks-wrapper">
+        <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
             {% for status in kanban.statuses %}
                 <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
             {% endfor %}
@@ -55,15 +56,133 @@
     {% endfor %}
 </div>
 <script>
+(function( $ ) {
+    $.JSONstorage = function(key, value) {
+        var STORAGE_PREFIX = 'hl_kb_'
+        if (typeof value === "undefined") {
+            val = window.localStorage.getItem(STORAGE_PREFIX + key);
+            if (val == null) {
+                return [];
+            }
+            try {
+                val = JSON.parse(val);
+                return val;
+            }
+            catch(e) {
+                return [];
+            }
+        }
+        else {
+            window.localStorage.setItem(STORAGE_PREFIX + key, JSON.stringify(value));
+            return value;
+        }
+    }
+})(jQuery);
+var taskRespSummary = {};
+{% for project in kanban.projects_data %}
+    {% for task_data in project.tasks %}
+        taskRespSummary['{{task_data.task.id}}'] = {{ task_data.responsibleList|jsonify|safe }};
+    {% endfor %}
+{% endfor %}
     $(document).ready(function(){
-        $('.js-project-row').kanban();
+        // filtering tasks
         $('.js-user_source').on("chosen:ready", function(){
-            $(".js-user_source").val(14).trigger("chosen:updated");
+            var id = $(this).parents('.js-project-row').attr('id');
+            var val = $.JSONstorage('filter_' + id);
+            $(this).val(val).trigger("chosen:updated");
         }).chosen({
             no_results_text: "Пользователь не найден",
             width: "100%"
         }).change(function(event){
-            $(this).parents('.js-project-row').filter($(this).val());
+            var $row = $(this).parents('.js-project-row'); 
+            var id = $row.attr('id');
+            var val = $.JSONstorage('filter_' + id,$(this).val());
+            $row.find('.js-task-wrapper').each(function(index, el){
+                var $el = $(el);
+                var executor = $el.find('.js-task-executor').attr('rel');
+                if(val && $.inArray(executor, val) === -1) {
+                    $el.addClass('filtered');
+                }else{
+                    $el.removeClass('filtered');
+                }
+            });
         }).trigger("change");
+        var kanbanTaskViewClass;
+        kanbanTaskViewClass = window.taskViewClass.extend({
+            showResponsibleArrow : function(userList){
+                console.log('resp arrow');
+                userList.find('.add-user-popup-top-arrow').hide();
+            },
+            responsibleSuccess: function(){
+                this.options.task.completeMove();
+            },
+            responsibleFailure: function(){
+                this.options.task.failMove();
+            },
+            responsibleMenuPosition: function(userList) {
+                var mLeft = userList.width() / -2;
+                var mTop = userList.height() / -2;
+                userList.css({
+                    'position' : 'fixed',
+                    'top': '50%',
+                    'left': '50%',
+                    'margin-left': mLeft + 'px',
+                    'margin-top': mTop + 'px'
+                })
+            },
+            render: function() {
+                console.log('rendered');
+            }
+        });
+        var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
+            var executor = task.el.find('.executor').attr('rel');
+            var status = task.el.find('.js-task-status').attr('rel');
+            var id = task.el.attr('rel');
+            var taskName = task.el.find('.js-task-name').text();
+            var model = new taskClass({
+                    id: id,
+                    responsible: executor,
+                    status: status,
+                    avatar: {},
+                    name: taskName
+                });
+            var view = new kanbanTaskViewClass({
+                model: model,
+                el: task.el,
+                task: task
+            });
+
+            $.extend(task, {
+                status: model.get('status'),
+                model: model,
+                responsible: model.get('responsible'),
+                storage: $.JSONstorage,
+                view: view,
+                update: function(){
+                    
+                },
+                render: function(){
+                    if (this.el.hasClass('filtered')) {
+                        this.el.hide('fast');
+                    }else {
+                        this.el.show('fast');
+                    }
+                }
+            });
+        }).on('kanban:ondrop', function(event, data){
+            var task = data.task;
+            var drop = data.drop;
+            if(task.status === drop.status) {
+                task.completeMove();
+
+                return false;
+            }
+            if(task.status === 'not_approved' && !task.responsible) {
+                task.view.showResponsibleMenu();
+                return false;
+            }
+            task.model.set('status', drop.status);
+            
+        }).kanban();
     })
 </script>
