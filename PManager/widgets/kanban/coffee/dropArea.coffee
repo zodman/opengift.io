@@ -39,8 +39,9 @@ class DropArea
 				parseInt(@el.css('padding-bottom')) +
 				parseInt(@el.css('margin-bottom')))
 		}
-	getNextOffset:(elementWidth) ->
+	getNextOffset:(elementWidth, elementHeight) ->
 		widthLimit = @width - elementWidth - @borders.right
+		heightLimit = @el.height() - elementHeight
 		currentOffset = @nextOffset
 		@nextOffset = {
 			left: (@nextOffset.left + @step.left) % widthLimit
@@ -50,6 +51,9 @@ class DropArea
 			left: @borders.left + @position.left + currentOffset.left
 			top:  @borders.top + currentOffset.top
 		}
+		if offs.top > heightLimit
+			@widget.setHeight(offs.top + elementHeight + @borders.bottom)
+
 		return offs
 	setHeight:(height)->
 		if not height?

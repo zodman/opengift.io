@@ -42,10 +42,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     flush_transaction()
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
-    # if not current_project:
-    #     return { 'error': 'Project not selected' }
-    statuses = PM_Task_Status.objects.all().values_list('id', flat=True)
-    filter = dict(closed=False, onPlanning=False, status__in=statuses)
+    statuses = PM_Task_Status.objects.all().order_by('-id')
+    statuses_flat = statuses.values_list('id', flat=True)
+    filter = dict(closed=False, onPlanning=False, status__in=statuses_flat)
     if current_project:
         filter['project'] = current_project
 

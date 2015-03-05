@@ -63,7 +63,8 @@ class Task
 	getPositionDefault: ->
 		drop = @widget.dropAreas[@status]
 		elW = do @el.width
-		offset = drop.getNextOffset(elW)
+		elH = do @el.height
+		offset = drop.getNextOffset(elW, elH)
 		return offset
 	setPosition:(position, animateDuration) ->
 		if not animateDuration? 
@@ -75,6 +76,9 @@ class Task
 			left: position.left
 			top: position.top
 		}
+		elH = do @el.height
+		if elH + position.top > @widget.getHeight()
+			@widget.setHeight(elH + position.top)
 		@el.animate(position, animateDuration)
 		@position = do @el.position
 	initialize: ->

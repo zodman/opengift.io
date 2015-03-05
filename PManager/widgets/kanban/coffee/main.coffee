@@ -72,15 +72,20 @@
 			do @_initTasks
 			do @_initResizable
 			@_trigger(':ready', @)
+		setHeight:(height) ->
+			@element.css('height', height + 'px')
+			for drop of @drops
+				drop.setHeight(height)
+			@_storeHeight(height)
+		getHeight:->
+			return @element.height()
 		_initResizable: ->
 			@element.resizable({
 				handles: "s"
 				minHeight: 400
 				create: =>
 					height = do @_restoreHeight
-					@element.css('height', height + 'px')
-					for drop of @drops
-						drop.setHeight(height)
+					@setHeight(height)
 				stop: =>
 					height = @element.height()
 					for drop of @drops
