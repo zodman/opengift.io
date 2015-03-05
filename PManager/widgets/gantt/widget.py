@@ -114,7 +114,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
     aResp = []
     for task in tasks:
-        if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True).count():
+        if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True):
             continue
 
         if task['resp__id'] and task['resp__id'] not in aResp:

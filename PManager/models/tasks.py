@@ -424,14 +424,13 @@ class PM_Task(models.Model):
 
         if not self.wasClosed and not self.subTasks.count():
             self.setCreditForTime()
-
             self.wasClosed = True
+
         redisSendTaskUpdate({
             'id': self.pk,
             'closed': True
         })
         self.save()
-
 
     def setCreditForTime(self):
         from PManager.models import Credit
@@ -450,6 +449,7 @@ class PM_Task(models.Model):
             if obj.summ:
                 cUser = User.objects.get(pk=int(obj.user_id))
                 cUserProf = cUser.get_profile()
+
                 if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
                     userTaskHours = round(float(obj.summ) / 3600., 2)
                     if self.planTime:
@@ -483,7 +483,8 @@ class PM_Task(models.Model):
                                     user=profResp.user,
                                     value=curPrice,
                                     project=self.project,
-                                    task=self
+                                    task=self,
+                                    type='Resp real time'
                                 )
                                 credit.save()
                                 allSum = allSum + curPrice
@@ -499,7 +500,8 @@ class PM_Task(models.Model):
                         user=self.resp,
                         value=curPrice,
                         project=self.project,
-                        task=self
+                        task=self,
+                        type='Resp plan time'
                     )
                     credit.save()
                     allSum = allSum + curPrice
@@ -521,16 +523,19 @@ class PM_Task(models.Model):
                     curTime = self.planTime
 
                 if curTime:
-                    price = manager.user.get_profile().getBet(self.project) * float(curTime)
+                    bet = manager.user.get_profile().getBet(self.project, manager.role.code)
+                    price = bet * float(curTime)
                     if price:
                         credit = Credit(
                             user=manager.user,
                             value=price,
                             project=self.project,
-                            task=self
+                            task=self,
+                            type='Manager with bet'
                         )
-                        allSum = allSum + price
                         credit.save()
+
+                        allSum = allSum + price
                         manager.user.get_profile().save()
 
             #clients
@@ -557,7 +562,8 @@ class PM_Task(models.Model):
                             payer=client.user,
                             value=price,
                             project=self.project,
-                            task=self
+                            task=self,
+                            type='Client with bet'
                         )
                         credit.save()
                         clientProf.save()
@@ -573,7 +579,8 @@ class PM_Task(models.Model):
                         payer=lastClient.user,
                         value=allSum,
                         project=self.project,
-                        task=self
+                        task=self,
+                        type='Client without bet'
                     )
                     credit.save()
                     lastClient.user.get_profile().save()
@@ -584,7 +591,8 @@ class PM_Task(models.Model):
                 credit = Credit(
                     value=abs(diff),
                     project=self.project,
-                    task=self
+                    task=self,
+                    type='Master'
                 )
                 if diff > 0:
                     credit.user = self.project.author
