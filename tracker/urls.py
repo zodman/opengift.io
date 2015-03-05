@@ -26,7 +26,7 @@ from django_notify.urls import get_pattern as get_notify_pattern
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
 from PManager.models.payments import Payment
-from PManager.models.tasks import PM_Project, PM_ProjectRoles
+from PManager.models.tasks import PM_Project
 from django.contrib.auth.models import User
 import datetime
 
@@ -43,6 +43,8 @@ def payment_received(sender, **kwargs):
         date = date + datetime.timedelta(days=30)
         profile.premium_till = date
         profile.save()
+
+        PM_Project.objects.filter(author=user, locked=True).update(locked=False)
 
     # payment = Payment(
     #     # project=PM_Project.objects.get(id=id),
