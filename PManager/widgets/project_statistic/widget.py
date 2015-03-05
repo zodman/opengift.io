@@ -213,7 +213,7 @@ def widget(request, headerValues, a, b):
         if headerValues['CURRENT_PROJECT']:
             filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
-    projects = PM_Project.objects.all()
+    projects = PM_Project.objects.filter(closed=False, locked=False)
     if filt['projects']:
         projects = projects.filter(id__in=filt['projects'])
 

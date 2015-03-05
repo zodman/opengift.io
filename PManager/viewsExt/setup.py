@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
 from PManager.viewsExt.tools import emailMessage
+import datetime
 
 def recall(request):
     phone = request.POST.get('phone', None)
@@ -33,8 +34,10 @@ def register(request):
             )
 
             project.save()
+
             user = PM_User.getOrCreateByEmail(email, project, 'client')
             user.is_staff = True
+
             user.save()
             project.author = user
             project.save()
@@ -43,8 +46,9 @@ def register(request):
             prof = user.get_profile()
             prof.setRole('manager', project)
             # prof.setRole('client', project, 'plan_time')
-            prof.sp_price = 1500
+            # prof.sp_price = 1500
             prof.account_total = 0
+            prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=7)
             prof.save()
 
             return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')

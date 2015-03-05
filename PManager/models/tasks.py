@@ -98,7 +98,8 @@ class PM_Project(models.Model):
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
-    closed = models.BooleanField(blank=True, verbose_name=u'Архив')
+    closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
+    locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
 
     @property
@@ -1060,7 +1061,7 @@ class PM_Task(models.Model):
                 id__in=aTasksIdFromSubTasks)] #old conditions array | ID of parent tasks of match subtasks
             filter = {}
 
-        tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True).distinct()
+        tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
 
         if arPageParams.get('group') == 'milestones':
             order = ['-milestone__date', '-milestone__id']

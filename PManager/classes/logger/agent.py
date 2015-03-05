@@ -13,7 +13,7 @@ def projectsDailyLog():
                 minDate,
                 maxDate
             )
-    for project in PM_Project.objects.filter(closed=False):
+    for project in PM_Project.objects.filter(closed=False, locked=False):
         commentsQty = PM_Task_Message.objects.filter(
             dateCreate__range=today_range,
             project=project

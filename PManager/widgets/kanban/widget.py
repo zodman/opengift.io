@@ -8,7 +8,12 @@ from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
 import datetime, json
+from django.db import transaction
 
+
+@transaction.commit_manually
+def flush_transaction():
+    transaction.commit()
 
 @register.simple_tag()
 def multiply(position, width, *args, **kwargs):
@@ -26,7 +31,7 @@ def show_micro_task(task):
     return {
         'id': task.id,
         'name': task.name if task.name else '',
-        'url' : task.url,
+        'url': task.url,
         'status': task.status.code if task.status else '',
         'executor': json.dumps(avatar) if avatar else '',
         'executor_id': task.resp.id if task.resp else '',
@@ -34,12 +39,21 @@ def show_micro_task(task):
     }
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
+    flush_transaction()
     user = request.user
-    current_project = headerValues['CURRENT_PROJECT'] if headerValues['CURRENT_PROJECT'] else None
-    if not current_project:
-        return { 'error': 'Project not selected' }
-    statuses = PM_Task_Status.objects.all().order_by('-id')
-    tasks = PM_Task.getForUser(user, current_project, {'closed': False , 'onPlanning': False, 'status__in': statuses})
+    current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
+    # if not current_project:
+    #     return { 'error': 'Project not selected' }
+    statuses = PM_Task_Status.objects.all().values_list('id', flat=True)
+    filter = dict(closed=False, onPlanning=False, status__in=statuses)
+    if current_project:
+        filter['project'] = current_project
+
+    tasks = PM_Task.getForUser(user, current_project, filter, [], {
+            'order_by': [
+                '-id'
+            ]
+        })
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:

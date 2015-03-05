@@ -32,7 +32,7 @@ def widget(request, headerValues, ar, qargs):
         old_repository = False
         if 'id' in get:
             try:
-                projectData = PM_Project.objects.get(id=int(get['id']))
+                projectData = PM_Project.objects.get(id=int(get['id']), locked=False)
                 if not request.user.get_profile().isManager(projectData):
                     return {'redirect': '/?error=Нет прав для редактирования проекта'}
 
@@ -91,7 +91,7 @@ def widget(request, headerValues, ar, qargs):
            'InvId': request.user.id + int(time.time()),#order.id,
            'Desc': 'Premium аккаунт Heliard',#order.name,
            'Email': request.user.email,
-           'Shp_user': request.user.id
+           'user': request.user.id
            # 'IncCurrLabel': '',
            # 'Culture': 'ru'
        })

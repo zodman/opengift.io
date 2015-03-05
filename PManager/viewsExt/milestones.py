@@ -21,7 +21,7 @@ def ajaxMilestonesResponder(request):
     user = request.user
     responsible_id = request.POST.get('responsible',0)
     date = templateTools.dateTime.convertToDateTime(request.POST.get('date',''))
-    id = request.POST.get('id',None)
+    id = request.POST.get('id', None)
     critically = request.POST.get('critically',2)
     action = request.POST.get('action',None)
     if not user.is_authenticated():
@@ -29,10 +29,13 @@ def ajaxMilestonesResponder(request):
 
     try:
         project = PM_Project.objects.get(
-            pk=int(request.POST.get('project',0))
+            pk=int(request.POST.get('project', 0)),
+            closed=False,
+            locked=False
         )
     except PM_Project.DoesNotExist:
         project = None
+
 
     if action == 'remove':
         if id:
@@ -44,6 +47,9 @@ def ajaxMilestonesResponder(request):
                 pass
 
     elif name and date and project:
+        if user.get_profile().isManager(project):
+            return False
+
         milestone = None
         if id:
             try:
@@ -54,7 +60,7 @@ def ajaxMilestonesResponder(request):
             except PM_Milestone.DoesNotExist:
                 pass
         else:
-            milestone = PM_Milestone(name=name,date=date,project=project)
+            milestone = PM_Milestone(name=name, date=date, project=project)
 
         if milestone:
             milestone.save()
@@ -71,6 +77,7 @@ def milestonesResponder(request):
     user = request.user
     if not user.is_authenticated():
         return HttpResponseRedirect('/')
+
     context = RequestContext(request)
     selected_project = context.get("CURRENT_PROJECT")
     if selected_project:
