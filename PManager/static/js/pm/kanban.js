@@ -54,9 +54,10 @@
       };
     };
 
-    DropArea.prototype.getNextOffset = function(elementWidth) {
-      var currentOffset, offs, widthLimit;
+    DropArea.prototype.getNextOffset = function(elementWidth, elementHeight) {
+      var currentOffset, heightLimit, offs, widthLimit;
       widthLimit = this.width - elementWidth - this.borders.right;
+      heightLimit = this.el.height() - elementHeight;
       currentOffset = this.nextOffset;
       this.nextOffset = {
         left: (this.nextOffset.left + this.step.left) % widthLimit,
@@ -66,6 +67,9 @@
         left: this.borders.left + this.position.left + currentOffset.left,
         top: this.borders.top + currentOffset.top
       };
+      if (offs.top > heightLimit) {
+        this.widget.setHeight(offs.top + elementHeight + this.borders.bottom);
+      }
       return offs;
     };
 
@@ -187,15 +191,16 @@
     };
 
     Task.prototype.getPositionDefault = function() {
-      var drop, elW, offset;
+      var drop, elH, elW, offset;
       drop = this.widget.dropAreas[this.status];
       elW = this.el.width();
-      offset = drop.getNextOffset(elW);
+      elH = this.el.height();
+      offset = drop.getNextOffset(elW, elH);
       return offset;
     };
 
     Task.prototype.setPosition = function(position, animateDuration) {
-      var currentOffset;
+      var currentOffset, elH;
       if (animateDuration == null) {
         animateDuration = 0;
       }
@@ -207,6 +212,10 @@
         left: position.left,
         top: position.top
       };
+      elH = this.el.height();
+      if (elH + position.top > this.widget.getHeight()) {
+        this.widget.setHeight(elH + position.top);
+      }
       this.el.animate(position, animateDuration);
       return this.position = this.el.position();
     };
@@ -337,20 +346,26 @@
         this._initResizable();
         return this._trigger(':ready', this);
       },
+      setHeight: function(height) {
+        var drop;
+        this.element.css('height', height + 'px');
+        for (drop in this.drops) {
+          drop.setHeight(height);
+        }
+        return this._storeHeight(height);
+      },
+      getHeight: function() {
+        return this.element.height();
+      },
       _initResizable: function() {
         return this.element.resizable({
           handles: "s",
           minHeight: 400,
           create: (function(_this) {
             return function() {
-              var drop, height, results;
+              var height;
               height = _this._restoreHeight();
-              _this.element.css('height', height + 'px');
-              results = [];
-              for (drop in _this.drops) {
-                results.push(drop.setHeight(height));
-              }
-              return results;
+              return _this.setHeight(height);
             };
           })(this),
           stop: (function(_this) {

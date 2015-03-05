@@ -162,6 +162,10 @@
             var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
                 var executor = task.el.find('.executor').attr('rel');
                 var status = task.el.find('.js-task-status').attr('rel');
+                if(!status) {
+                    task.el.find('.js-task-status').addClass('not_approved').attr('rel', 'not_approved');
+                    status = 'not_approved';
+                }
                 var id = task.el.attr('rel');
                 var taskName = task.el.find('.js-task-name').text();
                 var model = new taskClass({
