@@ -22,7 +22,7 @@ class UserRolesInline(admin.TabularInline):
     extra = 0
 
 class CreditInline(admin.ModelAdmin):
-    list_display = ['user', 'payer', 'project', 'value', 'task', 'date']
+    list_display = ['user', 'payer', 'project', 'value', 'type', 'task', 'date']
     list_filter = ['user', 'payer', 'project__name']
 
 class UserRoles(admin.ModelAdmin):
