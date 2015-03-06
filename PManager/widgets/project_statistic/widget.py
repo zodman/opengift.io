@@ -35,6 +35,24 @@ class Chart:
         self.projects = projects
         self.getData()
 
+class simpleChart(Chart):
+    title = u'Общая маржинальность'
+    type = 'simple'
+    def getData(self):
+        cursor = connection.cursor()
+        projects = '(' + ','.join([str(s.id) for s in self.projects]) + ')'
+        qText = """
+                  SELECT
+                      sum(IF (`payer_id` IS NOT NULL, value, value * -1)) as summ
+                      FROM pmanager_credit
+                      WHERE project_id IN """ + projects + """
+              """
+
+        cursor.execute(qText)
+        self.value = 0
+        for x in cursor.fetchall():
+            self.value += x[0]
+
 class PaymentChart(Chart):
     title = u'Расчетная статистика'
     type = 'chart'
@@ -72,7 +90,7 @@ class PaymentChart(Chart):
         cursor = connection.cursor()
 
         q = """SELECT id, sum(`value`) as sum, date(`date`) as day FROM pmanager_payment WHERE
-            `date` BETWEEN %s AND %s GROUP BY %s"""
+            `payer_id` IS NOT NULL AND `date` BETWEEN %s AND %s GROUP BY %s"""
 
         cursor.execute(q, [dateMin, dateMax, 'day'])
 
@@ -220,7 +238,8 @@ def widget(request, headerValues, a, b):
     payChart = PaymentChart(filt['dateFrom'], filt['dateTo'], projects)
     loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects)
     tChart = timeChart(filt['dateFrom'], filt['dateTo'], projects)
-    charts = [payChart, loanChart, tChart]
+    sChart = simpleChart(filt['dateFrom'], filt['dateTo'], projects)
+    charts = [payChart, loanChart, tChart, sChart]
 
 
     return {
