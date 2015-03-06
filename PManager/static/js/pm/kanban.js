@@ -133,6 +133,7 @@
 
     Task.prototype.setStatus = function(value) {
       this.status = value;
+      this.position = this.el.position();
       if (!this.widget.validBox(this.position, this)) {
         this.setPosition(null, this.widget.options.animationTime);
         return this.store();
