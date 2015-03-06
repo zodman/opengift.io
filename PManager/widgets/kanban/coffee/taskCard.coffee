@@ -27,6 +27,7 @@ class Task
 
 	setStatus:(value) ->
 		@status = value
+		@position = do @el.position
 		if not @widget.validBox(@position, @)
 			@setPosition(null, @widget.options.animationTime)
 			do @store
