@@ -61,7 +61,8 @@
                 {% if chart.type == 'chart' %}
                 <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
                 {% elif chart.type == 'simple' %}
-                    <div class="chart-value" style="font-size:86px;font-weight:bold;text-align: center;margin-top: 20px;height: 200px;padding-top: 40px;">{{ chart.value }}</div>
+                    <div class="chart-value" style="font-size:86px;font-weight:bold;text-align: center;margin-top: 20px;height: 110px;padding-top: 40px;">{{ chart.value }}</div>
+                    <p align="center">{{ chart.value_desc }}</p>
                 {% else %}
                 <table class="table">
                   <thead>
