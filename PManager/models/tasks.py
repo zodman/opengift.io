@@ -1409,28 +1409,27 @@ class PM_Task_Message(models.Model):
 
     def updateFromRequestData(self, data):
         changed = False
-        if 'todo_checked' in data:
+        if 'todo_checked' in data and self.todo_checked != bool(data['todo_checked']):
             self.todo_checked = not not data['todo_checked']
             changed = True
-
-        if 'todo' in data:
+        if 'todo' in data and self.todo != bool(data['todo']):
             self.todo = not not data['todo']
             changed = True
-
         if 'hidden_from_employee' in data:
             r = not not data['hidden_from_employee']
             if self.hidden_from_employee != r:
+                print "===================HFE IS CHANGED"
                 self.hidden_from_employee = r
                 changed = True
         if 'hidden_from_clients' in data:
             r = not not data['hidden_from_clients']
             if self.hidden_from_clients != r:
+                print "===================HFC IS CHANGED"
                 self.hidden_from_clients = r
                 changed = True
 
         if 'text' in data and not changed:
             self.text = data['text']
-
         if 'task' in data:
             try:
                 self.task = PM_Task.objects.get(pk=int(data['task']))
