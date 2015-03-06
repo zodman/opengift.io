@@ -285,6 +285,7 @@
                         task.render();
                     }
                     if (data.status) {
+                        task.model.set('status', data.status);
                         task.setStatus(data.status);
                     }
                     if (data.resp) {

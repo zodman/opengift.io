@@ -133,6 +133,7 @@
 
     Task.prototype.setStatus = function(value) {
       this.status = value;
+      this.position = this.el.position();
       if (!this.widget.validBox(this.position, this)) {
         this.setPosition(null, this.widget.options.animationTime);
         return this.store();
@@ -265,7 +266,7 @@
         }
         boundaries = {
           left: drop.position.left + drop.borders.left,
-          right: drop.position.left + drop.width - drop.borders.right
+          right: drop.position.left + drop.width + drop.borders.left
         };
         if (position.left < boundaries.left) {
           return false;
