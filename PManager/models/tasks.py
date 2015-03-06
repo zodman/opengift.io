@@ -1418,13 +1418,11 @@ class PM_Task_Message(models.Model):
         if 'hidden_from_employee' in data:
             r = not not data['hidden_from_employee']
             if self.hidden_from_employee != r:
-                print "===================HFE IS CHANGED"
                 self.hidden_from_employee = r
                 changed = True
         if 'hidden_from_clients' in data:
             r = not not data['hidden_from_clients']
             if self.hidden_from_clients != r:
-                print "===================HFC IS CHANGED"
                 self.hidden_from_clients = r
                 changed = True
 
