@@ -57,9 +57,9 @@ class simpleChart(Chart):
               """
 
         cursor.execute(qText)
-        self.value = 0
+        self.value_desc = 0
         for x in cursor.fetchall():
-            self.value += x[0]
+            self.value_desc += x[0]
         dateMin = dateToDb(self.dateFrom, 'min')
         dateMax = dateToDb(self.dateTo, 'max')
         qText = """
@@ -71,9 +71,9 @@ class simpleChart(Chart):
               """
 
         cursor.execute(qText, [dateMin, dateMax])
-        self.value_desc = 0
+        self.value = 0
         for x in cursor.fetchall():
-            self.value_desc += x[0]
+            self.value += x[0]
 
 class PaymentChart(Chart):
     title = u'Расчетная статистика'
