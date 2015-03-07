@@ -600,6 +600,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                             var data = $.parseJSON(response);
                             console.log(data);
                             var mediaItems = [];
+                            console.log($('.js-user-list-of-user .js-get-rel'));
                             $('.js-user-list-of-user .js-get-rel').each(function(){
                               mediaItems.push($(this).attr('rel'));
                             });
