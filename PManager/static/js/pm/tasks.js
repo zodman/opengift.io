@@ -598,6 +598,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                         url: '/users_ajax/',
                         success: function(response){
                             var data = $.parseJSON(response);
+                            console.log(data);
                             var mediaItems = [];
                             $('.js-user-list-of-user .js-get-rel').each(function(){
                               mediaItems.push($(this).attr('rel'));
@@ -616,7 +617,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                                     '<div class="progress">' +
                                     '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
                                     '</div>' +
-                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
+//                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
                                     '</div>' +
                                     '</a>' +
                                     '</li>');
