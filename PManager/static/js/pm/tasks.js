@@ -605,7 +605,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                             });
 
                             for (var i in data){
-                                var aPostrof = new RegExp("'\''", 'mig');
+                                var apostrof = new RegExp("'\''", 'mig');
                                 var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel).replace(apostrof, '"') + '></div>';
                                 if ($.inArray(data[i].id, mediaItems) == -1) {
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
