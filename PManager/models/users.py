@@ -83,7 +83,6 @@ class PM_User(models.Model):
 
     @property
     def avatar_rel(self):
-        import json
         if self.avatarSrc:
             return {
                 'image': self.avatarSrc, 
@@ -91,10 +90,10 @@ class PM_User(models.Model):
             }
         else:
             return {
-            'id': self.user.id,
-            'color': self.avatar_color,
-            'initials': self.user.last_name[0] + self.user.first_name[
-                0] if self.user.last_name and self.user.first_name else ''
+                'id': self.user.id,
+                'color': self.avatar_color,
+                'initials': self.user.last_name[0] + self.user.first_name[
+                    0] if self.user.last_name and self.user.first_name else ''
             }
 
 
