@@ -552,7 +552,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             return false;
         },
         'loadResponsibleMenu': function () {
-            obj = this;
+            var obj = this;
             $.get('/ajax/responsible_menu/', function(response){
                 $('body').append(response);
                 obj.showResponsibleMenu();
@@ -564,7 +564,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 obj.responsibleFailure();
                 userList.unbind('clickoutside');
                 $('.js-select_resp').unbind('click.RespMenu');
-            })
+            });
             userList.find('a').unbind('click.RespMenu').bind('click.RespMenu', function(){
                 var uId = $(this).attr('rel');
                 obj.changeResponsible(uId);
@@ -608,8 +608,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 
                                 var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
                                 if ($.inArray(data[i].id, mediaItems) == -1) {
-                                    $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
-                                    '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
+                                    var $userLink = $('<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
                                     avatar_type +
                                     '</span>' +
@@ -621,8 +620,11 @@ var CRITICALLY_THRESHOLD = 0.7;
                                     '</div>' +
 //                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
                                     '</div>' +
-                                    '</a>' +
-                                    '</li>');
+                                    '</a>');
+                                    $('.add-user-list-of-users ul')
+                                        .append($('<li class="media js-user-item ajaxAppend" style="display: list-item;"></li>')
+                                        .append($userLink));
+                                    obj.fillEffectivelyProgress($userLink, obj.model.id);
                                 }
                             }
                             $('.js-avatar-container').each(function(index, el){
@@ -664,6 +666,13 @@ var CRITICALLY_THRESHOLD = 0.7;
                 'top': (position.top + position.height + 5)
             });
         },
+        'fillEffectivelyProgress': function(userLink, taskId){
+            var uId = $(userLink).attr('rel');
+            var width = 0;
+            if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
+                width = 100 * taskRespSummary[taskId][uId];
+            $(userLink).find('.js-progress-success').css('width', width + '%');
+        },
         'showResponsibleMenu': function(){
             if ($('.js-add-user-popup').length === 0) {
                 this.loadResponsibleMenu();
@@ -695,11 +704,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             this.responsibleMenuActive = true;
             this.showResponsibleArrow(userList);
             userList.find('a').each(function () {
-                var uId = $(this).attr('rel');
-                var width = 0;
-                if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
-                    width = 100 * taskRespSummary[taskId][uId];
-                $(this).find('.js-progress-success').css('width', width + '%');
+                obj.fillEffectivelyProgress(this, taskId);
             });
 
             if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
