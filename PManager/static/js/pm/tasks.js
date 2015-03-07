@@ -606,6 +606,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                             for (var i in data){
                                 var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
                                 if (!$.inArray(data[i].id, mediaItems)) {
+                                    console.log($('.add-user-list-of-users ul'));
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
                                     '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
