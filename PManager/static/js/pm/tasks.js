@@ -605,9 +605,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                             });
                             console.log(mediaItems);
                             for (var i in data){
-
+                                console.log($.inArray(data[i].id, mediaItems));
                                 var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
-                                if ($.inArray(data[i].id, mediaItems) == -1) {
+                                if ($.inArray(data[i].id+'', mediaItems) == -1) {
                                     var $userLink = $('<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
                                     avatar_type +
