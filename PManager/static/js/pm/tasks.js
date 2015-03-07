@@ -565,22 +565,22 @@ var CRITICALLY_THRESHOLD = 0.7;
                 userList.unbind('clickoutside');
                 $('.js-select_resp').unbind('click.RespMenu');
             });
-            userList.find('a').unbind('click.RespMenu').bind('click.RespMenu', function(){
+            userList.on('click.RespMenu', 'a', function(){
                 var uId = $(this).attr('rel');
                 obj.changeResponsible(uId);
-                userList.hide();
-                userInput.val("");
-                userList.unbind('clickoutside');
+                userList.remove();
+//                userInput.val("");
+//                userList.unbind('clickoutside');
                 return false;
             });
-            userList.unbind('clickoutside').bind('clickoutside.RepMenu', function () {
+            userList.unbind('clickoutside.RespMenu').bind('clickoutside.RespMenu', function () {
                 userList.hide();
                 userInput.val("");
                 if (typeof obj.responsibleFailure === 'function') {
                     obj.responsibleFailure();
                 }
                 obj.responsibleMenuActive = false;
-                userList.unbind('clickoutside');
+                userList.unbind('clickoutside.RespMenu');
             });
             userList.find('.js-email-form').unbind('submit.RespMenu').bind('submit.RespMenu', function(){
                 var email = $(this).find('.js-email').val();
