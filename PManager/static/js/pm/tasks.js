@@ -598,16 +598,15 @@ var CRITICALLY_THRESHOLD = 0.7;
                         url: '/users_ajax/',
                         success: function(response){
                             var data = $.parseJSON(response);
-                            console.log(data);
                             var mediaItems = [];
+
                             $('.js-user-list-of-user .js-get-rel').each(function(){
                               mediaItems.push($(this).attr('rel'));
                             });
-                            console.log(mediaItems);
+
                             for (var i in data){
                                 var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
-                                if (!$.inArray(data[i].id, mediaItems)) {
-                                    console.log($('.add-user-list-of-users ul'));
+                                if ($.inArray(data[i].id, mediaItems) == -1) {
                                     $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
                                     '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
                                     '<span class="pull-left">' +
