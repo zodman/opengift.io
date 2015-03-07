@@ -560,17 +560,17 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'bindResponsibleMenuEvents' : function(userList, userInput, userItems){
             var obj = this;
-            $('.js-select_resp').bind('click.RespMenu', function(){
-                obj.responsibleFailure();
-                userList.unbind('clickoutside');
-                $('.js-select_resp').unbind('click.RespMenu');
-            });
-            userList.on('click.RespMenu', 'a', function(){
+//            $('.js-select_resp').bind('click.RespMenu', function(){
+//                obj.responsibleFailure();
+//                userList.unbind('.RespMenu').off('.RespMenuLive');
+//                $('.js-select_resp').unbind('click.RespMenu');
+//            });
+            userList.on('click.RespMenuLive', 'a', function(){
                 var uId = $(this).attr('rel');
                 obj.changeResponsible(uId);
-                userList.remove();
-//                userInput.val("");
-//                userList.unbind('clickoutside');
+                userList.hide();
+                userList.unbind('.RespMenu').off('.RespMenuLive');
+                userInput.val("");
                 return false;
             });
             userList.unbind('clickoutside.RespMenu').bind('clickoutside.RespMenu', function () {
@@ -580,12 +580,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                     obj.responsibleFailure();
                 }
                 obj.responsibleMenuActive = false;
-                userList.unbind('clickoutside.RespMenu');
+                userList.unbind('.RespMenu').off('.RespMenuLive');
             });
             userList.find('.js-email-form').unbind('submit.RespMenu').bind('submit.RespMenu', function(){
                 var email = $(this).find('.js-email').val();
                 obj.changeResponsible(email);
-                userList.unbind('clickoutside');
+                userList.unbind('.RespMenu').off('.RespMenuLive');
                 userList.hide();
                 return false;
             });
@@ -617,7 +617,6 @@ var CRITICALLY_THRESHOLD = 0.7;
                                     '<div class="progress">' +
                                     '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
                                     '</div>' +
-//                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
                                     '</div>' +
                                     '</a>');
                                     $('.add-user-list-of-users ul')
