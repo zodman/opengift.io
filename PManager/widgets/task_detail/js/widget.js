@@ -283,7 +283,12 @@ $(function(){
 //                    .html().replace(new RegExp('&lt;','mig'), '<'));
                 return false;
             });
-            widget_td.$userToSelect = $('.combobox').combobox();
+
+           widget_td.$todoContiner.on('click', '.js-todo-checkbox', function(){
+                widget_td.messageListHelper.getById($(this).attr('rel')).view.checkTodo();
+                return false;
+           });
+           widget_td.$userToSelect = $('.combobox').combobox();
         },
         'quote': function(text) {
             if (text){
