@@ -101,7 +101,8 @@ def widget(request, headerValues, ar, qargs):
                 aSimilarTasks = PM_Task.objects.filter(pk__in=aTasksFromRelations, project=task.project).exclude(
                     id=task.id)[:4]
 
-            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), None)
+            aUsersHaveAccess = widgetManager.getResponsibleList(request.user, None).values_list('id', flat=True)
+            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), None, aUsersHaveAccess)
 
             arSaveFields.update({
                 'tags': tags,
