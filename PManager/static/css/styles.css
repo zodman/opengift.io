@@ -2529,6 +2529,22 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .js-user_source {
 	display: none;
 }
+.kanban .chosen-container-multi .chosen-choices li.search-choice a.search-choice-close:before {
+	content: "\f00d";
+	color: #d43f3a;
+	cursor: pointer;
+	position: absolute;
+	top: -2px;
+	left: -1px;
+	width: 10px;
+	height: 10px;
+	z-index: 999999;
+	font-size: 16px;
+	font-family: FontAwesome;
+}
+.kanban .chosen-container-multi .chosen-choices li.search-choice a.search-choice-close {
+	background: none;	
+}
 
 .invite-popup {padding: 15px;}
 .invite-popup ul {list-style: none;}
