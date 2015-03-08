@@ -13,13 +13,28 @@ from tracker.settings import COMISSION
 #It must return only json serializeble values in 'tasks' array
 
 
-def get_user_tag_sums(arTagsId, currentRecommendedUser):
+def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
     userTagSums = {}
     if len(arTagsId) > 0:
+
+        #only filtered users
+        strFilterUsers = ''
+        if users_id:
+            strFilterUsers = ' AND object_id in ('
+            c = len(users_id)
+            for i, uid in enumerate(users_id):
+                strFilterUsers += str(int(uid))
+                if i < c - 1:
+                    strFilterUsers += ', '
+            strFilterUsers += ')'
+
         r = ObjectTags.objects.raw(
             'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
                 arTagsId) + ') AND content_type_id=' + str(
-                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id ORDER BY weight_sum DESC')
+                ContentType.objects.get_for_model(User).id) +
+            strFilterUsers +
+            ' GROUP BY object_id ORDER BY weight_sum DESC')
+
         for obj1 in r:
             if obj1.content_object:
                 userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
@@ -181,7 +196,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             arBets[task.id] = task.planTime * rate
 
         task.time = task.getAllTime()
-        currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser)
+        aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
+        currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser, aUsersHaveAccess)
 
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
         task_delta = task.dateModify + datetime.timedelta(days=1)
