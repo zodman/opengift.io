@@ -13,7 +13,7 @@
                 </div>
                 <div class="form-group">
                     <label for="StartFromDate1" class="sr-only">Выберите начало</label>
-                    <input type="date" placeholder="Выберите начало" id="StartFromDate1" class="form-control">
+                    <input type="date" placeholder="Выберите начало" id="StartFromDate1" class="form-control" value="{{ project_statistic.filt.dateFrom|date:"d.m.Y" }}">
                 </div>
             </div>
 
@@ -23,15 +23,15 @@
                 </div>
                 <div class="form-group">
                     <label for="StartFromDate2" class="sr-only">Выберите окончание</label>
-                    <input type="date" placeholder="Выберите окончание" id="StartFromDate2" class="form-control">
+                    <input type="date" placeholder="Выберите окончание" id="StartFromDate2" class="form-control" value="{{ project_statistic.filt.dateTo|date:"d.m.Y" }}">
                 </div>
             </div>
             <button class="btn btn-success" type="submit">Выбрать</button>
             <div class="stat-widget-choose-date-day">
                 <a href="" class="fa fa-calendar"></a>
-                <span><a href="#">День</a></span>
-                <span><a href="#">Месяц</a></span>
-                <span><a href="#">Год</a></span>
+                <span><a href="#" rel="{{ project_statistic.before.day }}">День</a></span>
+                <span><a href="#" rel="{{ project_statistic.before.day }}">Месяц</a></span>
+                <span><a href="#" rel="{{ project_statistic.before.day }}">Год</a></span>
             </div>
 
 
@@ -93,7 +93,7 @@
                                 </tr>
                             {% empty %}
                                 <tr>
-                                    <td colspan="{{ chart.cols|length }}">
+                                    <td colspan="{{ chart.cols|length }}" align="center">
                                         Нет доступной информации для отчета
                                     </td>
                                 </tr>

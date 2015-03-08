@@ -99,18 +99,16 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                  }
                 return false;
             },
-            'checkTodo': function(e){
-                 if(e.currentTarget) {
-                     var $chk = $(e.currentTarget), checkTodo;
-                     var view = this;
-                     checkTodo = !this.model.get('todo_checked');
-                     this.model.set('todo_checked', checkTodo);
-                     view.render();
+            'checkTodo': function(){
+                 var checkTodo, view = this;
+                 checkTodo = !this.model.get('todo_checked');
+                 this.model.set('todo_checked', checkTodo);
+                 view.render();
 
-                     this.model.saveToServer(function (data) {
-                        $(window).triggerHandler('pmCheckTodo', view.model);
-                     });
-                 }
+                 this.model.saveToServer(function (data) {
+                    $(window).triggerHandler('pmCheckTodo', view.model);
+                 });
+
                 return false;
             },
             'showCommit': function (message) {
@@ -324,7 +322,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
                 var act = 'removeClass';
                 if (this.model.get('todo')) {
-                    var $todoCheckBox = $('<i class="fa js-check-todo"></i>');
+                    var $todoCheckBox = $('<i class="fa js-check-todo"></i>').attr('rel', this.model.id);
                     act = 'addClass';
                     if (this.model.get('todo_checked')) {
                         $todoCheckBox.addClass('fa-check-square-o');
@@ -507,7 +505,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     var $chatWindow = $('#chatWindow');
 
-                    if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) || message.view.$el.hasClass('new-message') || subCode === 'MESSAGES') {
+                    if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) ||
+                        message.view.$el.hasClass('new-message') || subCode === 'MESSAGES') {
                         if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message')) && !t.$commentsContainer.find('.SUBCONTAINER:last').hasClass('MESSAGES')) {
                             var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
                             var colMessages = (containerMessages.find('.task-message')).length - 1;
@@ -631,6 +630,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
             clean: function () {
                 this.messageList.remove(this.messageList.models);
+            },
+
+            getById: function(id) {
+                return this.messageList.get(parseInt(id));
             }
         }
     });

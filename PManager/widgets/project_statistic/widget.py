@@ -262,5 +262,11 @@ def widget(request, headerValues, a, b):
 
     return {
         'charts': charts,
-        'filt': filt
+        'filt': filt,
+        'now': now,
+        'before': {
+            'day': now-datetime.timedelta(days=1),
+            'week': now-datetime.timedelta(days=7),
+            'month': now-datetime.timedelta(days=30),
+        }
     }
