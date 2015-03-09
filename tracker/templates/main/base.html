@@ -267,7 +267,7 @@ $(function(){
                 </li>
                 <li class="{% if activeMenuItem == 'statistic' %} active{% endif %}">
                     <a href="/milestones/">
-                        <span aria-hidden="true" class="fa fa-bar-chart-o"></span>
+                        <span aria-hidden="true" class="fa fa-line-chart"></span>
                         <span>ЦЕЛИ</span>
                     </a>
                 </li>
@@ -363,7 +363,10 @@ $(function(){
               {% endif %}
               <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
               {% if main.CURRENT_PROJECT.id %}
-              <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>
+              <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
+              {% endif %}
+              {% if main.IS_MANAGER %}
+              <a href="/stat/" class="btn btn-default"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
               {% endif %}
             
         </div>
