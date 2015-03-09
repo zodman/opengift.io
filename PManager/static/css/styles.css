@@ -34,6 +34,9 @@ hr.no-top-magin-hr {margin-top:0px;}
     max-width:1640px;
 }
 
+a, a:hover {color: #47a447;}
+
+
 /* bootstrap custom */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 { margin:0px 0px 10px; }
@@ -2529,6 +2532,22 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .js-user_source {
 	display: none;
 }
+.kanban .chosen-container-multi .chosen-choices li.search-choice a.search-choice-close:before {
+	content: "\f00d";
+	color: #d43f3a;
+	cursor: pointer;
+	position: absolute;
+	top: -2px;
+	left: -1px;
+	width: 10px;
+	height: 10px;
+	z-index: 999999;
+	font-size: 16px;
+	font-family: FontAwesome;
+}
+.kanban .chosen-container-multi .chosen-choices li.search-choice a.search-choice-close {
+	background: none;	
+}
 
 .invite-popup {padding: 15px;}
 .invite-popup ul {list-style: none;}
@@ -2559,5 +2578,22 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .price {color: #47a447; font-weight: bold; font-size: 30px; line-height: 36px;}
 .price .btn-large {font-size: 18px; padding: 10px 25px; display: inline-block; margin-top: 15px;}
+
 .price span {color: #47a447;}
 
+
+.nachislenie-bonusov {padding: 25px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.nachislenie-bonusov hr {margin: 25px 0;}
+.user-role-block {
+    background: none repeat scroll 0 0 #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px #ddd;
+    margin: 15px 0;
+    padding: 20px 20px 10px;
+}
+.nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
+.nachislenie-bonusov .row-fluid [class*="span"] {
+        margin-bottom: 10px;
+}
+
+.user-pay-win {padding: 15px !important; width: 300px;}
