@@ -132,6 +132,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     if 'project' in filter and filter['project']:
         if aResp:
+            aOtherTasks = []
             otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True).exclude(project=filter['project']).values(
                 'id',
                 'name',
@@ -154,7 +155,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     continue
 
                 task['name'] = ''
-                aTasks.append(task)
+                aOtherTasks.append(task)
+            aTasks = aOtherTasks + aTasks
+            aTasks = sorted(aTasks, cmp=sortGantt)
+
 
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
@@ -173,15 +177,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     endTime = now
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
-
-    b = []
-    for task in aTasks:
-        b.append(task['id'])
-    aTasks = sorted(aTasks, cmp=sortGantt)
-    a = []
-    for task in aTasks:
-        a.append(task['id'])
-    raise Exception('test')
 
     aTaskMilestones = {}
     for task in aTasks:
