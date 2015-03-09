@@ -261,7 +261,7 @@ pre .variable.global, pre .variable.class, pre .variable.instance {
 .datepicker td,
 .datepicker th {
   text-align: center;
-  width: 20px;
+  width: auto;
   height: 20px;
   -webkit-border-radius: 4px;
   -moz-border-radius: 4px;
