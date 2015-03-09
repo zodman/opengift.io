@@ -150,14 +150,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 task['name'] = ''
                 aTasks.append(task)
 
-    if 'filter' not in widgetParams: # notajax call
-        def sortGantt(a, b):
-            if not a['virgin'] or not b['virgin']:
-                return 0
-            if a['critically'] == b['critically']:
-                return 0
-            return -1 if a['critically'] > b['critically'] else 1
-        aTasks = sorted(aTasks, cmp=sortGantt)
+            if 'filter' not in widgetParams: # not ajax call
+                def sortGantt(a, b):
+                    if not a['virgin'] or not b['virgin']:
+                        return 0
+                    if a['critically'] == b['critically']:
+                        return 0
+                    return -1 if a['critically'] > b['critically'] else 1
+                aTasks = sorted(aTasks, cmp=sortGantt)
 
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
@@ -177,7 +177,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     endTime = now
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
-
 
     aTaskMilestones = {}
     for task in aTasks:
