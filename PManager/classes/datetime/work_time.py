@@ -27,7 +27,7 @@ class WorkTime(object):
         curDay = 0
         iterations = 0
         timeLength = self.taskHours
-        if not self.holyDays: self.holyDays = [6,7]
+        if not self.holyDays: self.holyDays = [6, 7]
 
         if timeLength > 0:
             while curHour < timeLength and iterations < 1000:
@@ -41,7 +41,7 @@ class WorkTime(object):
 
                 if self.isHolyday(curDay):
                     hoursToEndOfDay = 24 - allTime
-                    timeLength += hoursToEndOfDay
+                    timeLength += hoursToEndOfDay + 1
                     curHour += hoursToEndOfDay
                     continue
 
