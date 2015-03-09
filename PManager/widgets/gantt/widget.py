@@ -156,8 +156,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 task['name'] = ''
                 aTasks.append(task)
 
-            aTasks = sorted(aTasks, cmp=sortGantt)
-
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
 
@@ -176,6 +174,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     endTime = now
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
+
+    aTasks = sorted(aTasks, cmp=sortGantt)
 
     aTaskMilestones = {}
     for task in aTasks:
