@@ -133,7 +133,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     if 'project' in filter and filter['project']:
         if aResp:
             aOtherTasks = []
-            otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True).exclude(project=filter['project']).values(
+            otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True, project__closed=False).exclude(project=filter['project']).values(
                 'id',
                 'name',
                 'realDateStart',
