@@ -21,23 +21,7 @@
             <label class="checkbox-inline">
               <input type="checkbox" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
             </label>
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox2" value="option2" checked="checked"> Изменен ответственный#}
-{#            </label>#}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox3" value="option3" checked="checked"> Задача открыта#}
-{#            </label>#}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox4" value="option4" checked="checked"> Задача создана#}
-{#            </label>#}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox5" value="option5" checked="checked"> Критичность понижена#}
-{#            </label>#}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox6" value="option6" checked="checked"> Критичность повышена#}
-{#            </label>    #}
         </div>
-{#    temporary condition while only one item in this list #}
         {% if main.CURRENT_PROJECT %}
         <div class="pull-right">
             {% if main.CURRENT_PROJECT %}
@@ -45,12 +29,6 @@
               <input type="checkbox" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
             </label>
             {% endif %}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox8" value="option8" checked="checked"> Я автор#}
-{#            </label>#}
-{#        	<label class="checkbox-inline">#}
-{#              <input type="checkbox" id="inlineCheckbox9" value="option9" checked="checked"> Я наблюдатель#}
-{#            </label>    #}
         </div>
         {% endif %}
     </div>
@@ -78,132 +56,6 @@
                             <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
                             <div class="viewport">
                                 <div class="overview" id="chatWindow">
-                                    <!--
-                                    <div class="message">
-                                    	<div class="avatar">
-                                            <a class="pull-left" href="/user_detail/?id=1"><img width="90px" class="media-object img-thumbnail" src="/static/upload/users/Avatar457.jpg"></a>
-                                        </div>
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left"><b class="message-desc-status">Статус изменен на "В работе"</b>&nbsp;/&nbsp;<a href="#" class="message-desc-text"><b>Сделать, чтобы кнопка "Согласиться с оценкой" в комментарии к задаче в ленте и на детальной странице задачи была строго по правому краю сообщения</b></a>&nbsp;/&nbsp;<a href="#" class="message-desc-text">дизайн и верстка сообщений в ленте и в задаче</a></div>
-                                                <div class="message-desc-right"><a href="#" class="button grey-button">Согласиться с оценкой в 1281.0</a></div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    <div class="toggle-messages"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще 3...</span></div>
-                                    
-                                    <div class="message apprice">
-                                    	<div class="avatar">
-                                            <a class="pull-left" href="/user_detail/?id=1"><img width="90px" class="media-object img-thumbnail" src="/static/upload/users/Avatar457.jpg"></a>
-                                        </div>
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left"><b class="message-desc-status">Статус изменен на "В работе"</b>&nbsp;/&nbsp;<a href="#" class="message-desc-text"><b>Сделать, чтобы кнопка "Согласиться с оценкой" в комментарии к задаче в ленте и на детальной странице задачи была строго по правому краю сообщения</b></a>&nbsp;/&nbsp;<a href="#" class="message-desc-text">дизайн и верстка сообщений в ленте и в задаче</a></div>
-                                                <div class="message-desc-right"><a href="#" class="button orange-button">Согласиться с оценкой в 1281.0</a></div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    
-                                    <div class="message danger">
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left"><b class="message-desc-status">Статус изменен на "В работе"</b>&nbsp;/&nbsp;<a href="#" class="message-desc-text"><b>Сделать, чтобы кнопка "Согласиться с оценкой" в комментарии к задаче в ленте и на детальной странице задачи была строго по правому краю сообщения</b></a>&nbsp;/&nbsp;<a href="#" class="message-desc-text">дизайн и верстка сообщений в ленте и в задаче</a></div>
-                                                <div class="message-desc-right">
-                                                <a class="button grey-button" href="#">Цитировать</a>
-                                                <a class="button red-button" href="#">Ответить</a>
-                                                </div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    
-                                    <div class="message info">
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left"><b class="message-desc-status">Статус изменен на "В работе"</b>&nbsp;/&nbsp;<a href="#" class="message-desc-text"><b>Сделать, чтобы кнопка "Согласиться с оценкой" в комментарии к задаче в ленте и на детальной странице задачи была строго по правому краю сообщения</b></a>&nbsp;/&nbsp;<a href="#" class="message-desc-text">дизайн и верстка сообщений в ленте и в задаче</a></div>
-                                                <div class="message-desc-right"><a href="#" class="button blue-button">Согласиться с оценкой в 1281.0</a></div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    
-                                    <div class="message success">
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left"><b class="message-desc-status">Статус изменен на "В работе"</b>&nbsp;/&nbsp;<a href="#" class="message-desc-text"><b>Сделать, чтобы кнопка "Согласиться с оценкой" в комментарии к задаче в ленте и на детальной странице задачи была строго по правому краю сообщения</b></a>&nbsp;/&nbsp;<a href="#" class="message-desc-text">дизайн и верстка сообщений в ленте и в задаче</a></div>
-                                                <div class="message-desc-right"><a href="#" class="button green-button">Согласиться с оценкой в 1281.0</a></div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    
-                                    <div class="message warning">
-                                    	<div class="avatar">
-                                            <a class="pull-left" href="/user_detail/?id=1"><img width="90px" class="media-object img-thumbnail" src="/static/upload/users/Avatar457.jpg"></a>
-                                        </div>
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <a href="#" class="message-info-title">Heliard</a>&nbsp;/
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a> для <b>Фомин Митя</b>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left">
-                                                <a href="#" class="message-desc-text"><b>Придать красивый вид ссылкам на странице авторизации на информацию о проекте и оплате</b></a>
-                                                <div class="message-desc-message">На мобиле криво переносятся</div></div>
-                                                <div class="message-desc-right"><a href="#" class="button brown-button">Согласиться с оценкой в 1281.0</a></div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    
-                                    
-                                    <div class="message">
-                                    	<div class="avatar">
-                                            <a class="pull-left" href="/user_detail/?id=1"><img width="90px" class="media-object img-thumbnail" src="/static/upload/users/Avatar457.jpg"></a>
-                                        </div>
-                                        <div class="message-content">
-                                            <div class="message-info">
-                                                <span class="message-info-time">13.10.2014 10:30</span>&nbsp;/
-                                                <a href="#" class="message-info-name"> Маслов Егор</a>&nbsp;<b>(ugeeeen@gmail.com)</b>
-                                                <span class="message-control">
-                                                    <a href="" title="Удалить"><i class="fa fa-times-circle"></i></a>
-                                                    <a href="" title="Изменить"><i class="fa fa-edit"></i></a>
-                                                </span>
-                                            </div>
-                                            <div class="message-desc clearfix"> 
-                                                <div class="message-desc-left">
-                                                <div class="message-desc-message"><blockquote class="well">вот так выглядит новая верстка. уже резиновая и универсальная, можно убирать аватар и кнопка, блок с текстом будет в таком случае шире.</blockquote><a href="http://d.pr/i/1hbKp/1IgzoOM3" target="_blank">http://d.pr/i/1hbKp/1IgzoOM3</a> <br>вот так выглядит новая верстка. уже резиновая и универсальная, можно убирать аватар и кнопка, блок с текстом будет в таком случае шире.</div></div>
-                                                <div class="message-desc-right">
-                                                <a class="button grey-button" href="#">Цитировать</a>
-                                                <a class="button green-button" href="#">Ответить</a>
-                                                </div>
-                                            </div>                                   	
-                                    	</div>
-                                    </div>
-                                    -->
-                                    
                                     <script>
                                         widget_chat_arLogMessages = [];
                                         {% for message in chat.messages %}

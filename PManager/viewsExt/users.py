@@ -38,7 +38,7 @@ class userHandlers:
             respDict = {
                 'first_name': resp.first_name,
                 'last_name': resp.last_name,
-                'rel': json.dumps(p.avatar_rel),
+                'rel': p.avatar_rel,
                 'id': resp.id
             }
             histasksQty = resp.todo.filter(active=True, closed=False).count()

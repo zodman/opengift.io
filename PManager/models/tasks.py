@@ -513,7 +513,7 @@ class PM_Task(models.Model):
                 ).exclude(user__in=PM_ProjectRoles.objects.filter(
                     project=self.project,
                     role__code='client'
-                ).values_list('user__id', flat=True))
+                ).values_list('user__id', flat=True)).distinct()
 
             for manager in managers:
                 curTime = None
@@ -586,21 +586,21 @@ class PM_Task(models.Model):
                     lastClient.user.get_profile().save()
                     clientPaid = allSum
 
-            diff = clientPaid - allSum
-            if diff:
-                credit = Credit(
-                    value=abs(diff),
-                    project=self.project,
-                    task=self,
-                    type='Master'
-                )
-                if diff > 0:
-                    credit.user = self.project.author
-                else:
-                    credit.payer = self.project.author
-
-                credit.save()
-                self.project.author.get_profile().save()
+            # diff = clientPaid - allSum
+            # if diff:
+            #     credit = Credit(
+            #         value=abs(diff),
+            #         project=self.project,
+            #         task=self,
+            #         type='Master'
+            #     )
+            #     if diff > 0:
+            #         credit.user = self.project.author
+            #     else:
+            #         credit.payer = self.project.author
+            #
+            #     credit.save()
+            #     self.project.author.get_profile().save()
 
     def Open(self):
         self.closed = False

@@ -9,6 +9,14 @@ from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 
+def dateToDb(date, type):
+            if type is 'max' or type is 'min':
+                date = datetime.datetime.combine(date, getattr(datetime.time, type))
+
+            strDate = templateTools.dateTime.convertToDb(date)
+
+            return strDate #'STR_TO_DATE(\''+strDate+'\', \'%Y-%m-%d %H:%i:%s\')' if strDate else None
+
 class Axis:
     title = ''
     color = 'rgb(0,0,0)'
@@ -35,6 +43,40 @@ class Chart:
         self.projects = projects
         self.getData()
 
+class simpleChart(Chart):
+    title = u'Маржинальность'
+    type = 'simple'
+    def getData(self):
+        cursor = connection.cursor()
+        projects = '(' + ','.join([str(s.id) for s in self.projects]) + ')'
+        qText = """
+                  SELECT
+                      sum(IF (`payer_id` IS NOT NULL, value, value * -1)) as summ
+                      FROM pmanager_credit
+                      WHERE project_id IN """ + projects + """
+              """
+
+        cursor.execute(qText)
+        self.value_desc = 0
+        for x in cursor.fetchall():
+            if x[0]:
+                self.value_desc += x[0]
+        dateMin = dateToDb(self.dateFrom, 'min')
+        dateMax = dateToDb(self.dateTo, 'max')
+        qText = """
+                  SELECT
+                      sum(IF (`payer_id` IS NOT NULL, value, value * -1)) as summ
+                      FROM pmanager_credit
+                      WHERE project_id IN """ + projects + """
+                      AND `date` BETWEEN %s AND %s
+              """
+
+        cursor.execute(qText, [dateMin, dateMax])
+        self.value = 0
+        for x in cursor.fetchall():
+            if x[0]:
+                self.value += x[0]
+
 class PaymentChart(Chart):
     title = u'Расчетная статистика'
     type = 'chart'
@@ -54,13 +96,7 @@ class PaymentChart(Chart):
             'pout': Axis(u'Погасили бонусов', 'rgba(0, 255, 232, 0.34)'),
         }
 
-        def dateToDb(date, type):
-            if type is 'max' or type is 'min':
-                date = datetime.datetime.combine(date, getattr(datetime.time, type))
 
-            strDate = templateTools.dateTime.convertToDb(date)
-
-            return strDate #'STR_TO_DATE(\''+strDate+'\', \'%Y-%m-%d %H:%i:%s\')' if strDate else None
 
         paymentsIn = []
         paymentsOut = []
@@ -72,7 +108,7 @@ class PaymentChart(Chart):
         cursor = connection.cursor()
 
         q = """SELECT id, sum(`value`) as sum, date(`date`) as day FROM pmanager_payment WHERE
-            `date` BETWEEN %s AND %s GROUP BY %s"""
+            `payer_id` IS NOT NULL AND `date` BETWEEN %s AND %s GROUP BY %s"""
 
         cursor.execute(q, [dateMin, dateMax, 'day'])
 
@@ -220,10 +256,17 @@ def widget(request, headerValues, a, b):
     payChart = PaymentChart(filt['dateFrom'], filt['dateTo'], projects)
     loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects)
     tChart = timeChart(filt['dateFrom'], filt['dateTo'], projects)
-    charts = [payChart, loanChart, tChart]
+    sChart = simpleChart(filt['dateFrom'], filt['dateTo'], projects)
+    charts = [payChart, loanChart, tChart, sChart]
 
 
     return {
         'charts': charts,
-        'filt': filt
+        'filt': filt,
+        'now': now,
+        'before': {
+            'day': now-datetime.timedelta(days=1),
+            'week': now-datetime.timedelta(days=7),
+            'month': now-datetime.timedelta(days=30),
+        }
     }

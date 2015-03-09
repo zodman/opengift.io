@@ -40,6 +40,7 @@ def show_micro_task(task):
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     flush_transaction()
+    widgetManager = TaskWidgetManager()
     user = request.user
     current_project = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] else None
     statuses = PM_Task_Status.objects.all().order_by('-id')
@@ -64,7 +65,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 'user_source': task.project.getUsers(),
                 'tasks': []
             }
-        recommended_user, tags = get_user_tag_sums(get_task_tag_rel_array(task), recommended_user)
+
+        #todo: две строки ниже используются в трех местах, обхединить в метод, когда будет время
+        aUsersHaveAccess = widgetManager.getResponsibleList(request.user, None).values_list('id', flat=True)
+        recommended_user, tags = get_user_tag_sums(get_task_tag_rel_array(task), recommended_user, aUsersHaveAccess)
+
         task_data = {'task': task, 'responsibleList': tags}
         projects_data[idx]['tasks'].append(task_data)
     prd_array = []

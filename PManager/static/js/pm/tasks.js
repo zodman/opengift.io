@@ -552,93 +552,106 @@ var CRITICALLY_THRESHOLD = 0.7;
             return false;
         },
         'loadResponsibleMenu': function () {
-            obj = this;
+            var obj = this;
             $.get('/ajax/responsible_menu/', function(response){
                 $('body').append(response);
                 obj.showResponsibleMenu();
             });
         },
         'bindResponsibleMenuEvents' : function(userList, userInput, userItems){
-            var obj = this;
-            $('.js-select_resp').bind('click.RespMenu', function(){
-                obj.responsibleFailure();
-                userList.unbind('clickoutside');
-                $('.js-select_resp').unbind('click.RespMenu');
-            })
-            userList.find('a').unbind('click.RespMenu').bind('click.RespMenu', function(){
+            var obj = this,
+                unbindAndHideAll = function(){
+                    userInput.val("").trigger('keyup.RespManu');
+                    userList.hide().unbind('.RespMenu').off('.RespMenuLive');
+                    userList.find('.js-email-form').unbind('.RespMenu');
+                    userList.find('.js-input-user-name').unbind('.RespMenu')
+                },
+                MAX_SYMBOLS_FOR_USERS_AJAX = 2;
+
+            unbindAndHideAll();
+
+            userList.on('click.RespMenuLive', 'a', function(){
+                unbindAndHideAll();
+
                 var uId = $(this).attr('rel');
                 obj.changeResponsible(uId);
-                userList.hide();
-                userInput.val("");
-                userList.unbind('clickoutside');
                 return false;
             });
-            userList.unbind('clickoutside').bind('clickoutside.RepMenu', function () {
-                userList.hide();
-                userInput.val("");
+
+            userList.bind('clickoutside.RespMenu', function () {
+                unbindAndHideAll();
+
                 if (typeof obj.responsibleFailure === 'function') {
                     obj.responsibleFailure();
                 }
                 obj.responsibleMenuActive = false;
-                userList.unbind('clickoutside');
             });
-            userList.find('.js-email-form').unbind('submit.RespMenu').bind('submit.RespMenu', function(){
+
+            userList.find('.js-email-form').bind('submit.RespMenu', function(){
+                unbindAndHideAll();
+
                 var email = $(this).find('.js-email').val();
                 obj.changeResponsible(email);
-                userList.unbind('clickoutside');
-                userList.hide();
                 return false;
             });
-            userList.find('.js-input-user-name').unbind('keyup.RespMenu').bind('keyup.RespMenu',function(){
+
+            userList.find('.js-input-user-name').bind('keyup.RespMenu',function(){
                 var inputVal = $(this).val();
-                if (inputVal.length > 2) {
-                    $.ajax({
-                        type: "POST",
-                        data: {"action": "getUsers", "q":inputVal},
-                        url: '/users_ajax/',
-                        success: function(response){
-                            var data = $.parseJSON(response);
-                            var mediaItems = [];
-                            $('.js-user-list-of-user .js-get-rel').each(function(){
-                              mediaItems.push($(this).attr('rel'));
-                            });
-                            for (var i in data){
-                                var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
-                                if (!$.inArray(data[i].id, mediaItems)) {
-                                    $('.add-user-list-of-users ul').append('<li class="media js-user-item ajaxAppend" style="display: list-item;">' +
-                                    '<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
-                                    '<span class="pull-left">' +
-                                    avatar_type +
-                                    '</span>' +
-                                    '<div class="media-body">' +
-                                    '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
-                                    '<span class="occupation"></span>' +
-                                    '<div class="progress">' +
-                                    '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
-                                    '</div>' +
-                                    '<p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>' +
-                                    '</div>' +
-                                    '</a>' +
-                                    '</li>');
+                if ($(this).data('timeout')) clearTimeout($(this).data('timeout'));
+                $(this).data('timeout', setTimeout(function(){
+                    if (inputVal.length > MAX_SYMBOLS_FOR_USERS_AJAX) {
+                        $.ajax({
+                            type: "POST",
+                            data: {"action": "getUsers", "q":inputVal},
+                            url: '/users_ajax/',
+                            success: function(response){
+                                var data = $.parseJSON(response);
+                                var mediaItems = [];
+
+                                $('.js-user-list-of-user .js-get-rel').each(function(){
+                                  mediaItems.push($(this).attr('rel'));
+                                });
+
+                                for (var i in data){
+                                    var avatar_type = '<div class="avatar_container js-avatar-container" rel='+ JSON.stringify(data[i].rel) + '></div>';
+                                    if ($.inArray(data[i].id+'', mediaItems) == -1) {
+                                        var $userLink = $('<a class="media-item js-get-rel" rel="' + data[i].id + '">' +
+                                        '<span class="pull-left">' +
+                                        avatar_type +
+                                        '</span>' +
+                                        '<div class="media-body">' +
+                                        '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
+                                        '<span class="occupation"></span>' +
+                                        '<div class="progress">' +
+                                        '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
+                                        '</div>' +
+                                        '</div>' +
+                                        '</a>');
+                                        $('.add-user-list-of-users ul')
+                                            .append($('<li class="media js-user-item ajaxAppend" style="display: list-item;"></li>')
+                                            .append($userLink));
+                                        obj.fillEffectivelyProgress($userLink, obj.model.id);
+                                    }
                                 }
+                                $('.js-avatar-container').each(function(index, el){
+                                    $.updateAvatar(el, { size: 40 });
+                                });
                             }
-                            $('.js-avatar-container').each(function(index, el){
-                                $.updateAvatar(el, { size: 40 });
-                            });
-                        }
-                    }); 
-                } else {
-                    userList.find('.ajaxAppend').remove();
-                }
-                userItems.each(function(){
-                    var userItemVal = $(this).text();
-                    var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
-                    if (userItemIndexOf != -1) {
-                        $(this).parents('.js-user-item').show();
+                        });
                     } else {
-                        $(this).parents('.js-user-item').hide();
+                        userList.find('.ajaxAppend').remove();
                     }
-                });
+                    userItems.each(function(){
+                        var userItemVal = $(this).text();
+                        var userItemIndexOf = userItemVal.toLowerCase().indexOf(inputVal.toLowerCase());
+                        if (userItemIndexOf != -1) {
+                            $(this).parents('.js-user-item').show();
+                        } else {
+                            $(this).parents('.js-user-item').hide();
+                        }
+                    });
+                }, 200));
+
             });
         },
         'responsibleSuccess' : function(){
@@ -661,29 +674,35 @@ var CRITICALLY_THRESHOLD = 0.7;
                 'top': (position.top + position.height + 5)
             });
         },
+        'fillEffectivelyProgress': function(userLink, taskId){
+            var uId = $(userLink).attr('rel');
+            var width = 0;
+            if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
+                width = 100 * taskRespSummary[taskId][uId];
+            $(userLink).find('.js-progress-success').css('width', width + '%');
+        },
         'showResponsibleMenu': function(){
-            if ($('.js-add-user-popup').length === 0) {
-                this.loadResponsibleMenu();
-                return false;
-            }
-            
             var taskId = this.model.id;
             var obj = this;
             var userList = $('.js-add-user-popup');
+            if (userList.length === 0) {
+                this.loadResponsibleMenu();
+                return false;
+            }
             var userInput = userList.find('.js-input-user-name');
             var userItems = userList.find('.js-user-list-of-user .js-user-name');
             
 
             if (this.responsibleMenuActive) {
                 if(userList.is(':visible') && parseInt(userList.attr('rel')) === taskId) {
-                    userList.hide();
+                    userList.hide().unbind('.RespMenu').off('.RespMenuLive');
                     this.responsibleMenuActive = false;
-                    userList.unbind('clickoutside');
                     return false;
                 }
                 else {
                     this.responsibleMenuActive = false;
                 }
+                return false;
             }
             this.bindResponsibleMenuEvents(userList, userInput, userItems);    
             userList.attr('rel', taskId);
@@ -692,11 +711,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             this.responsibleMenuActive = true;
             this.showResponsibleArrow(userList);
             userList.find('a').each(function () {
-                var uId = $(this).attr('rel');
-                var width = 0;
-                if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
-                    width = 100 * taskRespSummary[taskId][uId];
-                $(this).find('.js-progress-success').css('width', width + '%');
+                obj.fillEffectivelyProgress(this, taskId);
             });
 
             if (userList.find('.js-add-user-popup .js-user-item').length > 9) {
@@ -704,7 +719,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             } else {
                 userList.find('.js-categories-list').css('display','none');
             }
-            
+
 
             userInput.focus();
             return false;
