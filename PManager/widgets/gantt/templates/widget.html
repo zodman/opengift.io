@@ -456,6 +456,7 @@ var GANTT_TASKS = [
                 project: {{ task.project__name|jsonify|safe }},
                 title: {{ task.name|jsonify|safe }},
                 critically: {{ task.critically|jsonify|safe }},
+                virgin: {{ task.virgin|jsonify|safe }},
                 url: {{ task.url|jsonify|safe }},
                 author: "{{ task.author.first_name }} {{ task.author.last_name }}",
                 date_create: "{{ task.dateCreate }}",
