@@ -219,59 +219,64 @@
         {{ interfaces|safe }}
     </div>
     {% if bCurUserIsAuthor %}
+    <div class="nachislenie-bonusov">
         <h2>Начисление бонусов (очков истории)</h2>
+        <hr>
         {% for roleName, o in roles.items %}
-            {{ roleName }} <i>{{ o.text }}</i>:
+            <h4>{{ roleName }}</h4>
+            <p>{{ o.text }}:</p>
             {% for user in o.users %}
                 <div class="user-role-block">
-                    <a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a><br/>
-
-                    <form class="form-inline">
-                        <div class="form-group">
-                            <label>Форма начисления бонусов <a href="#"
-                                                               title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></label>
-                            <select class="js-ajax-input form-control" data-action="update_payment_type"
-                                    data-role="{{ user.role_id }}">
+                    <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
+                    <div class="row-fluid">
+                        <div class="span4">
+                            <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
+                            <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
                                 <option value="real_time" {% if o.role.payment_type == 'real_time' %}
-                                        selected="selected"{% endif %}>
-                                    За реальное время
+                                selected="selected"{% endif %}>
+                                За реальное время
                                 </option>
                                 <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
-                                        selected="selected"{% endif %}>
-                                    За плановое время
+                                selected="selected"{% endif %}>
+                                За плановое время
                                 </option>
                             </select>
-                        </div>
-                        <div class="form-group">
-                            <label>Ставка</label>
-
+                       </div>
+                        <div class="span2">
+                            <p><b>Ставка:</b></p>
                             <div class="input-group">
                                 <input type="text" class="js-ajax-input form-control" data-action="update_rate"
                                        data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
-                                       {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
+                                {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
                                 <div class="input-group-addon">SP</div>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <label>
-                                Накоплено бонусов: <b>{{ user.sum }}</b>
-                            </label>
+                        <div class="span3">
+                            <p><b>Накоплено бонусов:</b></p>
+                            {{ user.sum }}
                         </div>
-                        <button class="button blue-button js-bonus-complete" rel="{{ user.role_id }}"
-                                data-sum="{{ user.sum|default_if_none:'' }}">погасить бонусы
-                        </button>
-                    </form>
+                        <div class="span2">
+                            <p>&nbsp;</p>
+                            <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">погасить бонусы</button>
+                        </div>
+                    </div>
+
+
                 </div>
+
             {% endfor %}
-            <br/>
+        <hr>
         {% endfor %}
         <div class="js-user-pay-win hidden">
+            <div class="user-pay-win">
             <form>
                 <input type="hidden" class="js-input-role-id" value=""/>
-                <label>Количество бонусов: <input type="text" class="js-input-user-sum" value=""/></label>
-                <input type="button" class="button blue-button" onclick="sendPayment(this);return false;"
+                <h3>Количество бонусов: </h3>
+                <p><input type="text" class="js-input-user-sum form-control" value=""/></p>
+                <input type="button" class="btn btn-success form-control" onclick="sendPayment(this);return false;"
                        value="Погасить бонусы"/>
             </form>
+            </div>
         </div>
         <script type="text/javascript">
             function sendPayment(el) {
@@ -297,6 +302,7 @@
                 })
             })
         </script>
+    </div>
     {% endif %}
     </div><!--widget-->
 {% endblock %}
