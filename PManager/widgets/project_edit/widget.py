@@ -1,17 +1,13 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.models import PM_Project
-from django.contrib.auth.models import User
 from django import forms
 from django.template import RequestContext
 from django.core.context_processors import csrf
-from PManager.classes.git import *
-from PManager.models.interfaces import AccessInterface
-from PManager.classes.git.gitolite_manager import GitoliteManager
+# from PManager.classes.git import *
+# from PManager.models.interfaces import AccessInterface
+# from PManager.classes.git.gitolite_manager import GitoliteManager
 from tracker.settings import USE_GIT_MODULE
-import json
-from robokassa.forms import RobokassaForm
-
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -86,16 +82,5 @@ def widget(request, headerValues, ar, qargs):
                             projectData.settings else {}
         }
     else:
-        form = RobokassaForm(initial={
-           'OutSum': 900,#order.total,
-           'InvId': request.user.id + int(time.time()),#order.id,
-           'Desc': 'Premium аккаунт Heliard',#order.name,
-           'Email': request.user.email,
-           'user': request.user.id
-           # 'IncCurrLabel': '',
-           # 'Culture': 'ru'
-       })
-        return {
-            'need_payment': True,
-            'form': form
-        }
+
+       return {'redirect': '/payment/'}

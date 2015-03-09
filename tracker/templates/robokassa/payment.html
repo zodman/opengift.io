@@ -1,0 +1,23 @@
+{% extends "main/base.html" %}
+{% block content %}
+   <form action="{{ form.target }}"
+          method="POST" name="robo">
+        {{ form.as_p }}
+    </form>
+    <div class="promo_payment">
+        <h4><i class="fa fa-diamond"></i>Premium аккаунт Heliard</h4>
+
+        <p align="center"><b>С Premium аккаунтом вы можете:</b></p>
+        <ul>
+            <li><i class="fa fa-folder"></i>Создавать и вести любое количество своих собственных проектов</li>
+            <li><i class="fa fa-user-plus"></i>Приглашать людей в проекты и распределять их роли в них</li>
+            <li><i class="fa fa-paper-plane"></i>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
+            <li><i class="fa fa-file-text-o"></i>Вести собственную Wiki по своим проектам</li>
+            <li><i class="fa fa-star"></i>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
+        </ul>
+        <p class="price" align="center"><span>900 руб.</span> / месяц <br>
+            <button class="btn btn-success btn-large" onclick="document.robo.submit()">{% if request.user.is_staff %}Продлить{% else %}Получить{% endif %} Premium на 1 месяц</button>
+        </p>
+
+    </div>
+{% endblock %}

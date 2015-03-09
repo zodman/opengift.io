@@ -148,7 +148,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 			header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn:last-child {margin-bottom:0px;}
 	
 	header .header .timer-wrapper .user-menu a {line-height:1.42857; padding:2px 7px; position:relative; top:-2px; display:inline-block; vertical-align:middle; color:#47a447;}
-	header .header .timer-wrapper .user-menu a.fa {padding:2px 0px; color:#ffa500; text-decoration:none;}
+	header .header .timer-wrapper .user-menu a.fa {padding:2px 0px; color:#ffa500; text-decoration:none; font-size: 1.3em;}
 	header .header .timer-wrapper .user-menu .btn-danger {color:#fff;}
 	header .header .timer-wrapper .user-menu a i {display:none;}
 

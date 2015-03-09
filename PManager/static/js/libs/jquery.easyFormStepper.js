@@ -112,7 +112,9 @@
       var answers = [];
       var i = 0;
       for (i = steps.length - 1; i >= 0; i--) {
-        answers.push($(steps[i]).find(plugin.settings.inputSelector).val());
+          $(steps[i]).find(plugin.settings.inputSelector).each(function(){
+              answers.push($(this).val());
+          });
       }
       plugin.settings.onSubmit(answers.reverse());
       plugin.close();
