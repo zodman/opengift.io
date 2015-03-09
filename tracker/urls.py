@@ -14,7 +14,7 @@ from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
-from robo.views import paysystems
+from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
 
@@ -141,5 +141,6 @@ urlpatterns = patterns('',
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
                        url(r'^payment_info/', paysystems),
+                       url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
 )
