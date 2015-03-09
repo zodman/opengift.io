@@ -43,7 +43,7 @@ class WorkTime(object):
                 if self.isHolyday(curDay):
                     hoursToEndOfDay = 24 - allTime
                     timeLength += hoursToEndOfDay + 2
-                    curHour += hoursToEndOfDay
+                    curHour += hoursToEndOfDay + 1
                     continue
 
                 if (allTime >= self.endWorkDay) or (allTime < self.startWorkDay):
