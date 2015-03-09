@@ -174,14 +174,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
 
-    b = []
-    for task in aTasks:
-        b.append(task['id'])
     aTasks = sorted(aTasks, cmp=sortGantt)
-    a = []
-    for task in aTasks:
-        a.append(task['id'])
-    raise Exception('test')
 
     aTaskMilestones = {}
     for task in aTasks:
