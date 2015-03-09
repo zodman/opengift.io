@@ -508,12 +508,13 @@ class PM_Task(models.Model):
 
             #managers that not clients
             managers = PM_ProjectRoles.objects.filter(
+                    project=self.project,
                     role__code='manager',
                     user__in=self.observers.all()
                 ).exclude(user__in=PM_ProjectRoles.objects.filter(
                     project=self.project,
                     role__code='client'
-                ).values_list('user__id', flat=True)).distinct()
+                ).values_list('user__id', flat=True))
 
             for manager in managers:
                 curTime = None
