@@ -158,7 +158,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
-
         if task['parentTask__name'] and task['name']:
             task['name'] = task['parentTask__name'] + ' / ' + task['name']
 
@@ -175,7 +174,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
 
+    b = []
+    for task in aTasks:
+        b.append(task['id'])
     aTasks = sorted(aTasks, cmp=sortGantt)
+    a = []
+    for task in aTasks:
+        a.append(task['id'])
+    raise Exception('test')
 
     aTaskMilestones = {}
     for task in aTasks:
