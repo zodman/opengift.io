@@ -11,8 +11,8 @@ TRACKER = PM_Tracker.objects.get(pk=1)
 #CURRENT_PROJECT - текущий выбранный проект в трекере
 def initGlobals(request):
     SET_COOKIE = {}
-
-    if request.user.is_authenticated():
+    bIsAuthenticated = request.user.is_authenticated()
+    if bIsAuthenticated:
         myProjects = request.user.get_profile().getProjects().values('id')
         projects = []
         for project in myProjects:
@@ -76,12 +76,12 @@ def initGlobals(request):
 
         WhoAreYouForm = False
 
-    elif request.user.is_authenticated() and not request.user.last_name:
+    elif bIsAuthenticated and not request.user.last_name:
         WhoAreYouForm = WhoAreYou()
     else:
         WhoAreYouForm = False
 
-    if 'logout' in request.GET and request.user.is_authenticated():
+    if 'logout' in request.GET and bIsAuthenticated:
         if request.GET['logout'] == 'Y':
             logout(request)
             redirect = "/"
@@ -89,8 +89,10 @@ def initGlobals(request):
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
-        'CAN_INVITE': request.user.id == CURRENT_PROJECT.id or request.user.get_profile().isManager(
-            CURRENT_PROJECT) if CURRENT_PROJECT and request.user.is_authenticated() else False,
+        'CAN_INVITE': request.user.id == CURRENT_PROJECT.author.id or request.user.get_profile().isManager(
+            CURRENT_PROJECT) if CURRENT_PROJECT and bIsAuthenticated else False,
+        'IS_MANAGER': request.user.get_profile().isManager(
+            CURRENT_PROJECT) if CURRENT_PROJECT and bIsAuthenticated else False,
         'FIRST_STEP_FORM': WhoAreYouForm,
         'REDIRECT': redirect,
         'COOKIES': request.COOKIES

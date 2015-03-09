@@ -1,4 +1,9 @@
+<script type="text/javascript" src="/widgets/js/project_statistic/script.js" xmlns="http://www.w3.org/1999/html"></script>
 <script type="text/javascript" src="/static/js/libs/charts.js"></script>
+<script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
+<script type="text/javascript" src="/static/js/libs/timepicker/base.js"></script>
+<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
 <div class="widget">
     <h3>Статистика</h3>
     <hr>
@@ -13,7 +18,9 @@
                 </div>
                 <div class="form-group">
                     <label for="StartFromDate1" class="sr-only">Выберите начало</label>
-                    <input type="date" placeholder="Выберите начало" id="StartFromDate1" class="form-control" value="{{ project_statistic.filt.dateFrom|date:"d.m.Y" }}">
+                    <input type="date" placeholder="Выберите начало" name="date_from"
+                           id="StartFromDate1" class="form-control datepicker"
+                           value="{{ project_statistic.filt.dateFrom|date:"d.m.Y" }}" >
                 </div>
             </div>
 
@@ -23,7 +30,9 @@
                 </div>
                 <div class="form-group">
                     <label for="StartFromDate2" class="sr-only">Выберите окончание</label>
-                    <input type="date" placeholder="Выберите окончание" id="StartFromDate2" class="form-control" value="{{ project_statistic.filt.dateTo|date:"d.m.Y" }}">
+                    <input type="date" placeholder="Выберите окончание" name="date_to"
+                           id="StartFromDate2" class="form-control datepicker"
+                           value="{{ project_statistic.filt.dateTo|date:"d.m.Y" }}">
                 </div>
             </div>
             <button class="btn btn-success" type="submit">Выбрать</button>

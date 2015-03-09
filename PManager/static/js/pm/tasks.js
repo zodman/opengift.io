@@ -561,8 +561,8 @@ var CRITICALLY_THRESHOLD = 0.7;
         'bindResponsibleMenuEvents' : function(userList, userInput, userItems){
             var obj = this,
                 unbindAndHideAll = function(){
-                    userInput.val("").trigger('keyup.RespManu');
-                    userList.hide().unbind('.RespMenu').off('.RespMenuLive');
+                    userInput.val("").trigger('keyup.RespMenu');
+                    userList.hide().unbind('.RespMenu').off('.RespMenuLive').unbind('clickoutside');
                     userList.find('.js-email-form').unbind('.RespMenu');
                     userList.find('.js-input-user-name').unbind('.RespMenu')
                 },

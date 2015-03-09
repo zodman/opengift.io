@@ -231,13 +231,13 @@ def widget(request, headerValues, a, b):
     daysBeforeNowForStartFilt = 7
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
 
-    if 'date_from' in request.POST:
-        filt['dateFrom'] = templateTools.dateTime.convertToDateTime(request.POST.get('date_from'))
+    if 'date_from' in request.GET:
+        filt['dateFrom'] = templateTools.dateTime.convertToDateTime(request.GET.get('date_from'))
     else:
         filt['dateFrom'] = now - datetime.timedelta(days=daysBeforeNowForStartFilt)
 
-    if 'date_to' in request.POST:
-        filt['dateTo'] = templateTools.dateTime.convertToDateTime(request.POST.get('date_to'))
+    if 'date_to' in request.GET:
+        filt['dateTo'] = templateTools.dateTime.convertToDateTime(request.GET.get('date_to'))
     else:
         filt['dateTo'] = now
 
