@@ -7,6 +7,7 @@ from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
+from django.http import Http404
 
 from PManager.services.mind.task_mind_core import TaskMind
 from PManager.viewsExt.tools import redisSendTaskUpdate
@@ -28,10 +29,10 @@ def widget(request, headerValues, arFilter, q):
             )[0]
 
         if not task:
-            raise Exception(u'Задача удалена')
+            raise Http404(u'Задача удалена')
 
         if not cur_user.get_profile().hasAccess(task, 'view'):
-            raise Exception(u'Нет прав для просмотра задачи')
+            raise Http404(u'Нет прав для просмотра задачи')
 
         error = ''
         cid = int(request.GET.get('confirm', 0))
