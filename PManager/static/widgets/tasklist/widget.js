@@ -752,7 +752,7 @@ var widget_tl, currentGroup;
                         'name': 'РЎРІРѕР±РѕРґРЅС‹Рµ Р·Р°РґР°С‡Рё'
                     }
                 }
-                var closeButton = group.closed ? '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>': ''
+                var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>'
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
                                 '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
