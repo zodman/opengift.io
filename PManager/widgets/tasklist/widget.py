@@ -83,6 +83,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             headerValues['CURRENT_PROJECT'] and \
             not 'allProjects' in filter:
         project = widgetManager.getProject(headerValues['CURRENT_PROJECT'])
+        if project.locked:
+            return {'redirect': 'payment'}
+
         filter['project'] = project
     else:
         if 'allProjects' in filter:
