@@ -17,5 +17,9 @@ class Command(NoArgsCommand):
         )
 
         users.update(is_staff=False)
-
-        PM_Project.objects.filter(author__in=users, locked=False).update(locked=True)
+        print users.values_list('username', flat=True)
+        print "\r\n"
+        projects = PM_Project.objects.filter(author__in=users, locked=False)
+        projects.update(locked=True)
+        print projects.values_list('title', flat=True)
+        print "\r\n\r\n"

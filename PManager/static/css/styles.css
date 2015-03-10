@@ -34,6 +34,9 @@ hr.no-top-magin-hr {margin-top:0px;}
     max-width:1640px;
 }
 
+a, a:hover {color: #47a447;}
+
+
 /* bootstrap custom */
 h1, h2, h3, h4, h5, h6,
 .h1, .h2, .h3, .h4, .h5, .h6 { margin:0px 0px 10px; }
@@ -148,7 +151,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 			header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn:last-child {margin-bottom:0px;}
 	
 	header .header .timer-wrapper .user-menu a {line-height:1.42857; padding:2px 7px; position:relative; top:-2px; display:inline-block; vertical-align:middle; color:#47a447;}
-	header .header .timer-wrapper .user-menu a.fa {padding:2px 0px; color:#ffa500; text-decoration:none;}
+	header .header .timer-wrapper .user-menu a.fa {padding:2px 0px; color:#ffa500; text-decoration:none; font-size: 1.3em;}
 	header .header .timer-wrapper .user-menu .btn-danger {color:#fff;}
 	header .header .timer-wrapper .user-menu a i {display:none;}
 
@@ -2575,5 +2578,22 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .price {color: #47a447; font-weight: bold; font-size: 30px; line-height: 36px;}
 .price .btn-large {font-size: 18px; padding: 10px 25px; display: inline-block; margin-top: 15px;}
+
 .price span {color: #47a447;}
 
+
+.nachislenie-bonusov {padding: 25px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.nachislenie-bonusov hr {margin: 25px 0;}
+.user-role-block {
+    background: none repeat scroll 0 0 #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 2px #ddd;
+    margin: 15px 0;
+    padding: 20px 20px 10px;
+}
+.nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
+.nachislenie-bonusov .row-fluid [class*="span"] {
+        margin-bottom: 10px;
+}
+
+.user-pay-win {padding: 15px !important; width: 300px;}
