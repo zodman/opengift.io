@@ -1,9 +1,25 @@
 {% load thumbnail %}
+{% load htmlemail %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <title>Новое сообщение в вашей задаче!</title>
+    <style>
+        blockquote {
+            padding: 5px 10px;
+            background: none repeat scroll 0% 0% #FFF;
+            margin-bottom: 10px;
+        }
+        .well {
+            min-height: 20px;
+            margin-bottom: 20px;
+            margin-left: 0px;
+            border: 1px solid #E3E3E3;
+            border-radius: 4px;
+            box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.05) inset;
+        }
+    </style>
 </head>
 
 <body>
@@ -156,7 +172,10 @@
         {% endif %}
         <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;">Новое сообщение в задаче "<a style="color:#51A351" href="http://heliard.ru{{ task.task_url }}">{{ task.name }}</a>"!
             <br /><br />
-            <i>{{ task.message.text }}</i>
+            <div style="font-style:italic">
+            {% autoescape off %}
+            {{ task.message.text|htmlemail }}</div>
+            {% endautoescape %}
             {% for file in task.message.file_list %}
                 {% if forloop.first %}<p>{% endif %}
                 {% if file.is_picture %}

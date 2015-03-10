@@ -1493,7 +1493,7 @@ class PM_Task_Message(models.Model):
                 } if self.task.parentTask else None
             } if self.task else {},
             'code': self.code,
-            'text': TextFilters.getFormattedText(escape(self.text)),
+            'text': self.text,
             'date': templateTools.dateTime.convertToSite(timezone.localtime(self.dateCreate)),
             'files': taskExtensions.getFileList(self.files.all()),
             # 'hidden_from_clients': self.hidden_from_clients,
