@@ -288,9 +288,9 @@ $(function(){
         'quote': function(text) {
             if (text){
                 var nText = "";
-                text = '[Q]' + text + '[/Q]';
+                text = '[Q]' + text.trim() + '[/Q]';
                 var $txtarea = widget_td.$messageForm.find('textarea[name=task_message]');
-                nText = $txtarea.val();
+                nText = $txtarea.val().trim();
                 if (nText) {
                     nText = nText + '\r\n';
                 }

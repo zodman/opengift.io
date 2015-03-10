@@ -151,7 +151,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var arKeys = {
                     'ID': messageInfo.id,
                     'TEXT': messageInfo.text.replace(new RegExp(/\[Q\]([^]+?)\[\/Q\]/mig), '<blockquote class="well">$1</blockquote>')
-                    .replace(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/mgi, trimLinks),
+                    .replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/mgi, trimLinks)
+                    .replace(/(\r\n|\n)/mgi, "<br/>").replace(/(\t)/mgi, "&nbsp;&nbsp;&nbsp;&nbsp;"),
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
