@@ -2559,28 +2559,74 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     vertical-align: middle;}
 
 
-.promo_payment {max-width: 600px; margin: 0px auto 25px; font-size: 18px; line-height: 24px;}
+.promo_payment {max-width: 630px; margin: 0px auto 25px; font-size: 18px; line-height: 24px;}
 .promo_payment h4 {    color: #47a447;
     font-size: 36px;
     margin-bottom: 25px;
-    text-align: center;}
+    text-align: center;
+line-height: 36px;}
 .promo_payment p {margin-bottom: 25px;}
 .promo_payment hr {margin: 25px 0;}
 .promo_payment ul {margin-bottom: 10px; list-style: none;}
-.promo_payment ul li {display: block; margin-bottom: 15px; position: relative;}
+.promo_payment ul li {display: block; margin-bottom: 15px; padding-left: 30px; position: relative;}
 .promo_payment ul li .fa {    display: block;
     float: left;
     font-size: 20px;
-    left: -37px;
-    margin-right: 10px;
+    left: 0px;
     position: absolute;
     top: 3px;}
 
 .price {color: #47a447; font-weight: bold; font-size: 30px; line-height: 36px;}
-.price .btn-large {font-size: 18px; padding: 10px 25px; display: inline-block; margin-top: 15px;}
+.price .btn-large {font-size: 18px; padding: 10px 15px; display: inline-block; margin-top: 15px;}
 
 .price span {color: #47a447;}
 
+.payment-logos {text-align: center; margin: 15px 0;}
+
+.payment-logos a {
+    display: inline-block;
+    padding: 0px;
+    height: 30px;
+    margin: 13px;
+    background-image: url(/static/images/payment.png);
+    background-repeat: no-repeat;
+}
+
+/*.visa{ background-position: 0px 0px;  width: 63px; }
+.master{ background-position: -63px 0px; width: 52px; }
+.maestro{ background-position: 0px 0px; width: 52px;  }
+.am{ background-position: -115px 0px;  width: 34px;  }
+.discover{ background-position: -833px 0px; width: 48px;  }
+.dinners{  background-position: -174px 0px; width: 45px;  }
+.paypal{  background-position: -584px 0px;  width: 89px;  }
+.click{  background-position: -880px 0px; width: 49px;  }
+.gate{  background-position: -741px 0px; width: 92px;   }
+.qiwi{  background-position: -463px 0px;  width: 21px;   }
+.webmoney{  background-position: -326px 0px;  width: 74px;   }
+.jcb{  background-position: -149px 0px; width: 25px;   }
+.rus{  background-position: -219px 0px; width: 107px;  }
+.yandex{ background-position: -400px 0px; width: 63px;   }
+.ocean{  background-position: -672px 0px; width: 68px;   }
+.robokassa{  background-position: -484px 0px; width: 100px;   }
+.yescredit{  background-position: -930px 0px; width: 106px;   }*/
+
+.visa { background-position: 0px bottom; width: 63px; }
+.master { background-position: -63px bottom; width: 52px;}
+.maestro { background-position: 0px bottom;width: 52px;  }
+.am {  background-position: -115px bottom;width: 34px; }
+.discover {  background-position: -833px bottom; width: 48px; }
+.dinners {  background-position: -174px bottom; width: 45px; }
+.paypal {  background-position: -584px bottom; width: 89px;  }
+.click {  background-position: -880px bottom; width: 49px;  }
+.gate {  background-position: -741px bottom; width: 92px;  }
+.qiwi {  background-position: -463px bottom; width: 21px;  }
+.webmoney {  background-position: -326px bottom; width: 74px; }
+.jcb {  background-position: -149px bottom; width: 25px;  }
+.rus {  background-position: -219px bottom; width: 107px;  }
+.yandex {  background-position: -400px bottom; width: 63px; }
+.ocean {  background-position: -672px bottom; width: 68px;  }
+.robokassa {  background-position: -484px bottom; width: 100px;  }
+.yescredit {   background-position: -930px bottom; width: 106px;  }
 
 .nachislenie-bonusov {padding: 25px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
 .nachislenie-bonusov hr {margin: 25px 0;}

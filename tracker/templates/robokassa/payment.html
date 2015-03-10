@@ -15,6 +15,16 @@
             <li><i class="fa fa-file-text-o"></i>Вести собственную Wiki по своим проектам</li>
             <li><i class="fa fa-star"></i>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
         </ul>
+        <div class="payment-logos">
+            <a class="visa" href="#"></a>
+            <a class="master" href="#"></a>
+            <a class="am" href="#"></a>
+            <a class="jcb" href="#"></a>
+            <a class="dinners" href="#"></a>
+            <a class="webmoney" href="#"></a>
+            <a class="yandex" href="#"></a>
+            <a class="qiwi" href="#"></a>
+        </div>
         <p class="price" align="center"><span>900 руб.</span> / месяц <br>
             <button class="btn btn-success btn-large" onclick="document.robo.submit()">{% if request.user.is_staff %}Продлить{% else %}Получить{% endif %} Premium на 1 месяц</button>
         </p>
