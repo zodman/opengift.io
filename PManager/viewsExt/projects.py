@@ -36,7 +36,7 @@ def projectDetail(request, project_id):
 
     aRoles = dict()
 
-    for role in PM_ProjectRoles.objects.filter(project=project):
+    for role in PM_ProjectRoles.objects.filter(project=project, user__is_active=True):
         if not show[role.role.code]:
             continue
 

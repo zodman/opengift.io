@@ -2584,16 +2584,82 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .nachislenie-bonusov {padding: 25px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
 .nachislenie-bonusov hr {margin: 25px 0;}
+.user-role-block-wrapper {margin-right: -20px;}
 .user-role-block {
     background: none repeat scroll 0 0 #ffffff;
     border-radius: 4px;
     box-shadow: 0 1px 2px #ddd;
     margin: 15px 0;
-    padding: 20px 20px 10px;
+    padding: 20px;
+    float: left;
+    width: calc(50% - 20px);
+    margin-right: 20px;
 }
+.user-role-block p {margin:0 0 6px;}
+.col-wrapper {
+    font-size: 0px;
+    vertical-align: top;
+}
+.col-wrapper > div {
+    padding-right: 10px;
+    vertical-align: top;
+    font-size: 13px;
+    display: inline-block;
+    box-sizing: border-box !important;
+    -moz-box-sizing: border-box !important;
+    -webkit-box-sizing: border-box !important;
+    position: relative;
+}
+.col-5 {width: 50%;}
+.col-7 {width: 70%;}
+.col-3 {width: 30%;}
+
+.col-wrapper > div:last-child {
+    padding-right: 0px;
+}
+
+.user-role-block .avatar {float: left; margin-right: 15px; width: 90px;}
+.user-role-block .desc {float: left; width: calc(100% - 105px);}
+
 .nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
 .nachislenie-bonusov .row-fluid [class*="span"] {
         margin-bottom: 10px;
 }
 
+.roleName {position: relative; margin-top: -52px; text-align: center;}
+.roleName h4 {font-size: 30px; color:#47a447; background: #f2f2f2; padding: 15px 25px; display: inline-block; }
+
+.bonuses {
+    background: none repeat scroll 0 0 #edf8ed;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    margin-top: 15px;
+    padding: 7px 15px;
+}
+.bonuses span {display: inline-block; margin-right: 20px; top: 8px; position: relative;}
 .user-pay-win {padding: 15px !important; width: 300px;}
+
+.js-copy-password {color:#333;}
+.js-bonus-complete {float: right;}
+
+
+@media only screen and (max-width: 1024px) {
+    .nachislenie-bonusov .col-7,
+    .nachislenie-bonusov .col-3 {width: 100%; padding-right: 0px; margin-bottom: 10px;}
+
+
+
+
+    .user-role-block {width: calc(100% - 20px);}
+
+    .nachislenie-bonusov {padding: 25px 15px;}
+    .bonuses {
+        margin-top: 5px;
+        padding: 15px;
+        text-align: center;
+    }
+    .bonuses span {display: block; top: 0px; margin: 0;}
+
+    .js-bonus-complete {float: none; display: block; margin: 5px auto 0;}
+}
