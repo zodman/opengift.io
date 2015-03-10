@@ -10,7 +10,7 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         users = User.objects.filter(
             is_staff=True,
-            pk__in=PM_User.objects.filter(
+            id__in=PM_User.objects.filter(
                 premium_till__lt=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
             ).values_list('user__id', flat=True)
         ).exclude(is_superuser=True)
