@@ -164,6 +164,7 @@ class sumLoanChart(Chart):
         for x in arDebts:
             try:
                 user = User.objects.get(pk=int(x['user_id']))
+
                 if x['sum']:
                     self.rows.append({
                         'cols': [
