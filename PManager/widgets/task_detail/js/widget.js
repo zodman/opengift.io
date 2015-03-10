@@ -255,10 +255,9 @@ $(function(){
             });
 
             widget_td.$messageList.on('click', '.js-quote', function(){
-                widget_td.quote($(this).closest('.js-taskMessage')
-                    .find('div.js-messageDetailText').eq(0).clone()
-                    .find('blockquote').remove().end()
-                    .text().replace(new RegExp('&lt;','mig'), '<'));
+                var model = widget_td.messageListHelper.getById($(this).attr('rel'));
+                var text = model.get('text').replace(new RegExp(/\[Q\]([^]+)\[\/Q\]/mig), '');
+                widget_td.quote(text);
                 return false;
             });
             widget_td.$messageList.on('click', '.js-reply', function(){
@@ -277,10 +276,6 @@ $(function(){
                 }
                 widget_td.$messageForm.find('[name=to]').val($(this).attr('rel'));
                 widget_td.$messageForm.find('textarea').focus();
-//                widget_td.quote($(this).closest('.js-taskMessage')
-//                    .find('div.js-messageDetailText').eq(0)
-//                    .find('blockquote').remove().end()
-//                    .html().replace(new RegExp('&lt;','mig'), '<'));
                 return false;
             });
 
@@ -292,12 +287,14 @@ $(function(){
         },
         'quote': function(text) {
             if (text){
-                text = '>> ' + text.replace(new RegExp('<br />(.+)','mig'), "\r\n>> $1")
-                    .replace(new RegExp('<br>(.+)','mig'), "\r\n>> $1")
-                    .replace(new RegExp('&gt;', 'mig'), '>')
-                    .replace(new RegExp('<br>','mig'), '');
+                var nText = "";
+                text = '[Q]' + text.trim() + '[/Q]';
                 var $txtarea = widget_td.$messageForm.find('textarea[name=task_message]');
-                $txtarea.val($txtarea.val() + text + "\r\n").focus();
+                nText = $txtarea.val().trim();
+                if (nText) {
+                    nText = nText + '\r\n';
+                }
+                $txtarea.val(nText + text + "\r\n").focus();
             }
         },
         'removeTempScripts': function(){

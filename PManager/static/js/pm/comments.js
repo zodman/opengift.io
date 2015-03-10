@@ -140,12 +140,19 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
             },
             'template': function (messageInfo) {
+                var trimLinks = function(match){
+                    match = match.trim();
+                    if (match.length > 35) {
+                        return "<a href='" + match + "'>" + match.substr(0, 32) + "...</a>";
+                    }else {
+                        return "<a href='" + match + "'>" + match + "</a>";
+                    }
+                };
                 var arKeys = {
                     'ID': messageInfo.id,
-                    'TEXT': htmlspecialchars_decode(messageInfo.text)
-                        .replace(new RegExp('(>>|&gt;&gt;) (.+?)(\r\n|\n)'), '<blockquote class="well">$2</blockquote>')
-                        .replace(new RegExp('\r\n|\n'), '<br />')
-                        .replace(new RegExp('>> (\r\n|\n)'), ''),
+                    'TEXT': messageInfo.text.replace(new RegExp(/\[Q\]([^]+?)\[\/Q\]/mig), '<blockquote class="well">$1</blockquote>')
+                    .replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/mgi, trimLinks)
+                    .replace(/(\r\n|\n)/mgi, "<br/>").replace(/(\t)/mgi, "&nbsp;&nbsp;&nbsp;&nbsp;"),
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
