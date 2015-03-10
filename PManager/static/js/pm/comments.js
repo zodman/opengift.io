@@ -143,9 +143,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var arKeys = {
                     'ID': messageInfo.id,
                     'TEXT': htmlspecialchars_decode(messageInfo.text)
-                        .replace(new RegExp('&gt;&gt; (.+?)<br />', 'mig'), "<blockquote class='well'>$1</blockquote>") //quotes
-                        .replace(new RegExp('&gt;&gt; (.+?)<br>', 'mig'), "<blockquote class='well'>$1</blockquote>") //quotes
-                        .replace(new RegExp('&gt;&gt; ', 'mig'), ''), //other quote lines
+                        .replace(new RegExp('(>>|&gt;&gt;) (.+?)(\r\n|\n)'), '<blockquote class="well">$2</blockquote>')
+                        .replace(new RegExp('\r\n|\n'), '<br />')
+                        .replace(new RegExp('>> (\r\n|\n)'), ''),
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
@@ -244,7 +244,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 } else {
                     this.$el.show();
                 }
-                this.$el.html(this.template(this.model.toJSON())).addClass('task-message');
+                var qa = this.template(this.model.toJSON());
+                this.$el.html(qa).addClass('task-message');
 //                var $messageTextBlock = this.$el.find('.js-taskMessageText');
 
                 if (!this.model.get('text') && !this.model.get('files')) {
@@ -358,7 +359,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (confirm("Вы действительно хотите удалить сообщение?")) {
                     model.destroy({
                         'success': function (model, response) {
-                            console.log(response);
                             if (response == 'Message has been deleted')
                                 t.remove();
                         }
@@ -381,11 +381,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var tags = new RegExp('\<[^>]+\>', 'mig');
                     $messageTextBlock.replaceWith(
                         $textarea.val(
-                            $messageTextBlock.html()
-                                .replace('<br>', "\r\n")
-                                .replace('<br />', "\r\n")
-                                .replace('<br/>', "\r\n")
-                                .replace(tags, '')
+                            htmlspecialchars_decode(t.model.get('text'))
                         )
                     );
                     this.$('.js-quote').hide();
@@ -406,9 +402,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var $textarea = this.$('.' + this.textareaClass);
                 this.$('.js-quote').show();
                 this.$('.js-reply').show();
-                var newText = $textarea.val().replace("\r\n", '<br />');
+                var newText = $('<div />').text($textarea.val()).html();
                 var view = this;
-
                 this.model.set('text', newText);
                 this.model.saveToServer(function (data) {
                     view.render();
