@@ -2625,6 +2625,10 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .nachislenie-bonusov .row-fluid [class*="span"] {
         margin-bottom: 10px;
 }
+
+.roleName {position: relative; margin-top: -52px; text-align: center;}
+.roleName h4 {font-size: 30px; color:#47a447; background: #f2f2f2; padding: 15px 25px; display: inline-block; }
+
 .bonuses {
     background: none repeat scroll 0 0 #edf8ed;
     border-radius: 4px;

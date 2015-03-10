@@ -224,13 +224,13 @@
         <hr>
 
         {% for roleName, o in roles.items %}
-            <h4>{{ roleName }}</h4>
-            <p>{{ o.text }}:</p>
+            <div class="roleName"><h4>{{ roleName }}</h4></div>
+                <p>{{ o.text }}:</p>
             <div class="clearfix user-role-block-wrapper">
             {% for user in o.users %}
                 <div class="user-role-block">
                     <div class="avatar">
-                        <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="/static/upload/users/avatar_2.jpg"></a>
+                        <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="http://heliard.ru/static/images/avatar_male.png"></a>
                     </div>
                     <div class="desc">
                         <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
@@ -262,7 +262,7 @@
 
                     <div class="clearfix"></div>
                     <div class="bonuses clearfix">
-                        <span><b>Накоплено бонусов:</b> 1500 {{ user.sum }}</span>
+                        <span><b>Накоплено бонусов:</b> {{ user.sum }}</span>
                         <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Списать бонусы</button>
                     </div>
 
