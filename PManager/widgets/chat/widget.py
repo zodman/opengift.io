@@ -79,7 +79,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
 
     for message in result:
         addParams = {}
-        if request.user.get_profile().isManager(message.task.project):
+        if message.task and request.user.get_profile().isManager(message.task.project):
             addParams = {
                 'hidden_from_employee': message.hidden_from_employee,
                 'hidden_from_clients': message.hidden_from_clients

@@ -305,9 +305,9 @@
                   <div class="add-aim-body-item">
                     <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
                   </div>
-                  <div class="add-aim-body-item">
-                      <input type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
-                          <a class="js-calendar-icon fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
+                  <label style="position: relative; z-index:99999999">
+                  <input style="position: relative; z-index:100000000" type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
+                      <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
                       </label>
                   </div>
               </div>
@@ -320,6 +320,33 @@
         </div>
       </div>
     </div>
+    <div class="modal fade" id="edit-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            <h2 class="modal-title" id="myModalLabel2">Изменить цель</h2>
+          </div>
+          <form role="form" class="js-milestone-form" method="post" action="/milestone_ajax/">
+              <div class="modal-body">
+                <div class="form-group">
+                  <label>
+                    <input type="text" class="form-control" name="ms_name" maxlength="255" placeholder="Название" />
+                  </label>
+                  <label style="position: relative; z-index:9999">
+                      <input style="position: relative; z-index:99999" type="text" class="js-date form-control" maxlength="10" name="ms_date" placeholder="Дата" />
+                  </label>
+              </div>
+              </div>
+              <div class="modal-footer">
+                <div class="js-tasks-for-milestone"></div>
+                <input type="submit" name="edit-milestone" class="btn btn-success js-edit-milestone" value="Сохранить" />
+                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+              </div>
+          </form>
+        </div>
+      </div>
+    </div>    
     <div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
