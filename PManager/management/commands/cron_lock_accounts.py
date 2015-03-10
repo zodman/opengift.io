@@ -15,11 +15,13 @@ class Command(NoArgsCommand):
                 premium_till__lt=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
             ).values_list('user__id', flat=True)
         )
-
+        print PM_User.objects.filter(
+                premium_till__lt=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+            ).values_list('user__id', flat=True)
         users.update(is_staff=False)
         print users.values_list('username', flat=True)
         print "\r\n"
         projects = PM_Project.objects.filter(author__in=users, locked=False)
         projects.update(locked=True)
-        print projects.values_list('title', flat=True)
+        print projects.values_list('name', flat=True)
         print "\r\n\r\n"
