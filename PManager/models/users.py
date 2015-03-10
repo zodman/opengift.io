@@ -214,13 +214,17 @@ class PM_User(models.Model):
                     userRole.save()
         return self
 
-    def getProjects(self, only_managed=False):
+    def getProjects(self, only_managed=False, locked=False):
         userRoles = PM_ProjectRoles.objects.filter(user=self.user)
         if only_managed:
             userRoles = userRoles.filter(role__code='manager')
 
         arId = [role.project.id for role in userRoles]
-        return PM_Project.objects.filter(id__in=arId, closed=False, locked=False).distinct()
+        projects = PM_Project.objects.filter(id__in=arId, closed=False)
+        if not locked:
+            projects = projects.filter(locked=False)
+        projects = projects.distinct()
+        return projects
 
     def getRoles(self, project):
         return [r.role for r in PM_ProjectRoles.objects.filter(user=self.user, project=project)]
