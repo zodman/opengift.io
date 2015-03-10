@@ -22,9 +22,6 @@ class Command(NoArgsCommand):
 
         users.update(is_staff=False)
 
-        print aUserIds
-        print "\r\n"
-
         projects = PM_Project.objects.filter(author__in=aUserIds).exclude(locked=True)
         print projects.values_list('name')
         projects.update(locked=True)
