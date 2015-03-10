@@ -17,6 +17,12 @@ from PManager.viewsExt.tools import templateTools
 def flush_transaction():
     transaction.commit()
 
+def sortGantt(a, b):
+    if not a['virgin'] or not b['virgin']:
+        return 0
+    if a['critically'] == b['critically']:
+        return 0
+    return -1 if a['critically'] > b['critically'] else 1
 
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     from django.db.models import Q
@@ -126,7 +132,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     if 'project' in filter and filter['project']:
         if aResp:
-            otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True).exclude(project=filter['project']).values(
+            aOtherTasks = []
+            otherTasks = PM_Task.objects.filter(resp__in=aResp, closed=False, active=True, project__closed=False).exclude(project=filter['project']).values(
                 'id',
                 'name',
                 'realDateStart',
@@ -148,20 +155,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     continue
 
                 task['name'] = ''
-                aTasks.append(task)
+                aOtherTasks.append(task)
+            aTasks = aOtherTasks + aTasks
+            aTasks = sorted(aTasks, cmp=sortGantt)
 
-    if 'filter' not in widgetParams: # notajax call
-        def sortGantt(a, b):
-            if not a['virgin'] or not b['virgin']:
-                return 0
-            if a['critically'] == b['critically']:
-                return 0
-            return -1 if a['critically'] > b['critically'] else 1
-        aTasks = sorted(aTasks, cmp=sortGantt)
 
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
     for task in aTasks:
-
         if task['parentTask__name'] and task['name']:
             task['name'] = task['parentTask__name'] + ' / ' + task['name']
 
@@ -178,12 +178,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
 
-
     aTaskMilestones = {}
     for task in aTasks:
         #если время задачи не задано, его надо расчитать
         if not task['planTime']:
-            task['planTime'] = 2 #TODO: продумать, как можно сделать этот параметр динамическим
+            task['planTime'] = 4 #TODO: продумать, как можно сделать этот параметр динамическим
 
         if task['realDateStart']:
             task['dateCreateGantt'] = task['realDateStart']

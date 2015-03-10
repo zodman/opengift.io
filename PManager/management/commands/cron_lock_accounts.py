@@ -10,16 +10,19 @@ class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         users = User.objects.filter(
             is_staff=True,
-            is_superuser=False,
-            pk__in=PM_User.objects.filter(
+            is_active=True,
+            id__in=PM_User.objects.filter(
                 premium_till__lt=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
             ).values_list('user__id', flat=True)
-        )
+        ).exclude(is_superuser=True)
+
+        aUserIds = list(users.values_list('id', flat=True))
+        print aUserIds
+        print "\r\n"
 
         users.update(is_staff=False)
-        print users.values_list('username', flat=True)
-        print "\r\n"
-        projects = PM_Project.objects.filter(author__in=users, locked=False)
+
+        projects = PM_Project.objects.filter(author__in=aUserIds).exclude(locked=True)
+        print projects.values_list('name')
         projects.update(locked=True)
-        print projects.values_list('title', flat=True)
         print "\r\n\r\n"
