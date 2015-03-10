@@ -451,8 +451,8 @@ def add_timer(request):
 
     userTasks = PM_Task.objects.filter(
         active=True,
-        closed=False,
-        resp=request.user
+        closed=False
+        # resp=request.user
     ).exclude(status__code='not_approved')
     if headerValues['CURRENT_PROJECT']:
         userTasks = userTasks.filter(project=headerValues['CURRENT_PROJECT'])
