@@ -142,10 +142,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             'template': function (messageInfo) {
                 var arKeys = {
                     'ID': messageInfo.id,
-                    'TEXT': htmlspecialchars_decode(messageInfo.text)
-                        .replace(new RegExp('(>>|&gt;&gt;) (.+?)(\r\n|\n)'), '<blockquote class="well">$2</blockquote>')
-                        .replace(new RegExp('\r\n|\n'), '<br />')
-                        .replace(new RegExp('>> (\r\n|\n)'), ''),
+                    'TEXT': messageInfo.text.replace(new RegExp(/\[Q\]([^]+?)\[\/Q\]/mig), '<blockquote class="well">$1</blockquote>')
+                    .replace(/(^|\s)((https?:\/\/)?[\w-]+(\.[\w-]+)+\.?(:\d+)?(\/\S*)?)/mgi, '<a href="$2">$2</a>'),
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
