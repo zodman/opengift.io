@@ -17,9 +17,11 @@ class Command(NoArgsCommand):
         ).exclude(is_superuser=True)
 
         aUserIds = users.values_list('id', flat=True)
-        users.update(is_staff=False)
         print aUserIds
         print "\r\n"
+
+        users.update(is_staff=False)
+
         projects = PM_Project.objects.filter(author__in=aUserIds).exclude(locked=True)
         print projects.values_list('name', flat=True)
         projects.update(locked=True)
