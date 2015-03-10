@@ -18,6 +18,7 @@ class Command(NoArgsCommand):
         print PM_User.objects.filter(
                 premium_till__lt=timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
             ).values_list('user__id', flat=True)
+        print users.values_list('id')
         users.update(is_staff=False)
         print users.values_list('username', flat=True)
         print "\r\n"
