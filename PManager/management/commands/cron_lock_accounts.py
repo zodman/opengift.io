@@ -16,7 +16,7 @@ class Command(NoArgsCommand):
             ).values_list('user__id', flat=True)
         ).exclude(is_superuser=True)
 
-        aUserIds = users.values_list('id').clone()
+        aUserIds = list(users.values_list('id', flat=True))
         print aUserIds
         print "\r\n"
 
