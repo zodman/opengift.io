@@ -262,7 +262,7 @@
 
                     <div class="clearfix"></div>
                     <div class="bonuses clearfix">
-                        <span><b>Накоплено бонусов:</b> {{ user.sum }}</span>
+                        <span><b>Накоплено бонусов:</b> {{ user.sum|default_if_none:"0" }}</span>
                         <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Списать бонусы</button>
                     </div>
 

@@ -15,6 +15,9 @@ class InterfaceForm(forms.ModelForm):
         fields = ["name", "address", "port", "protocol", "username", "password", "access_roles", "project"]
 
 def projectDetail(request, project_id):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/')
+
     project = get_object_or_404(PM_Project, id=project_id)
     profile = request.user.get_profile()
     if not profile.hasRole(project) or project.locked:

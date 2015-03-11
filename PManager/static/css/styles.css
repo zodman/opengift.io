@@ -545,7 +545,12 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left;}
+.file-upload {float:left; position: relative;}
+.task-file-upload {
+    height: 34px;
+    left: 5px;
+    position: absolute;
+    width: 40px;}
 .file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
 .file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
 
@@ -2709,3 +2714,5 @@ line-height: 36px;}
 
     .js-bonus-complete {float: none; display: block; margin: 5px auto 0;}
 }
+
+

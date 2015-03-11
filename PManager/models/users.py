@@ -250,7 +250,7 @@ class PM_User(models.Model):
 
             if rule == 'view':
                 if task.onPlanning and not task.resp:
-                    return True
+                    return self.hasRole(task.project)
 
                 return (task.resp and self.user.id == task.resp.id) \
                        or self.user.id in [u.id for u in task.observers.all()] \

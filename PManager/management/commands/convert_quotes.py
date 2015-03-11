@@ -18,12 +18,14 @@ class Command(BaseCommand):
         self.__convert_quotes(options['dry'])
 
     def __convert_quotes(self, dry_run):
-         repl = re.compile(r'&gt;&gt; (.+?)(\r\n|\n)', re.IGNORECASE and re.S and re.U)
+         repl = re.compile(ur'&gt;&gt; (.+?)(\r\n|\n)', re.UNICODE)
          msgs = PM_Task_Message.objects.filter(code__isnull=True)
          for msg in msgs:
             print "-------MESSAGE--------" + str(msg.id) + "-------------------"
-            msg.text = repl.sub(r'[Q]\1[/Q]', msg.text)
-            print msg.text
+            # print msg.text
+            print len(msg.text)
+            msg.text = repl.sub(r'[Q]\1[/Q]', unicode(msg.text))
+
             if not dry_run:
                 msg.save()
             print "----------END------------"

@@ -740,7 +740,7 @@ class PM_Task(models.Model):
         return allTime
 
     def canPMUserView(self, pm_user):
-        return True
+        return pm_user.hasAccess(self, 'view')
 
     def canPMUserRemove(self, pm_user):
         if self.realDateStart:
