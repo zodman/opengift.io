@@ -13,6 +13,7 @@ def get_current_path(request):
 
 def get_head_variables(request):
     currentPath = request.get_full_path()
+
     result = {
         'is_wiki': 'Y' if currentPath.find('wiki/') > -1 else 'N',
         'main': headers.initGlobals(request),
