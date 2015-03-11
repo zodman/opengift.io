@@ -23,7 +23,7 @@ DATABASES = {
 }
 
 SESSION_COOKIE_DOMAIN = 'heliard.dev'
-SOCKET_SERVER_ADDRESS = 'localhost'
+SOCKET_SERVER_ADDRESS = 'heliard.dev'
 project_root = '/vagrant/'
 # GIT MODULE SETTINGS
 USE_GIT_MODULE = True
@@ -42,3 +42,9 @@ CACHES = {
         'LOCATION': '/vagrant/PManager/static/cache',
     }
 }
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = '127.0.0.1'
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_PORT = 1025
+EMAIL_USE_TLS = False
