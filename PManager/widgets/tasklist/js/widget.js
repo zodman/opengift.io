@@ -356,30 +356,6 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить разработчиков HELIARD', '#invite-developers', function(){
-                            var tasks = [];
-//                            if (ACCOUNT_TOTAL <= 0) {
-//                                alert('Данная услуга доступна только при положительном балансе. Пожалуйста, пополните ваш счет.');
-//                                return false;
-//                            }else{
-                                $('.js-task-checkbox:checked').each(function(){
-                                    tasks.push($(this).attr('name'));
-                                    $(this).attr('checked', false);
-
-    //                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
-                                });
-                                PM_AjaxPost("/task_handler",
-                                    {
-                                        'action': 'inviteUsers',
-                                        'tasks': tasks
-                                    },
-                                    function(data){
-                                        bottomPanel.hide();
-                                    }
-                                );
-//                            }
-                        });
-                         bottomPanel.addBlock('inviteDevelopers', $block);
                     }else{
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');

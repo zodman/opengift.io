@@ -451,8 +451,8 @@ def add_timer(request):
 
     userTasks = PM_Task.objects.filter(
         active=True,
-        closed=False,
-        resp=request.user
+        closed=False
+        # resp=request.user
     ).exclude(status__code='not_approved')
     if headerValues['CURRENT_PROJECT']:
         userTasks = userTasks.filter(project=headerValues['CURRENT_PROJECT'])
@@ -464,19 +464,22 @@ def add_timer(request):
     if seconds and comment and task_id:
         task = userTasks.get(pk=int(task_id))
         if task:
-            # add timer
-            dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
-            timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
-            timer.save()
-            # add comment
-            comment = PM_Task_Message(
-                task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
-                hidden_from_clients=True)
-            comment.save()
-            #add user log
-            logger = Logger()
-            logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-            return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+            if task.canPMUserView(request.user.get_profile()):
+                # add timer
+                dateEnd = datetime.datetime.now() + datetime.timedelta(seconds=int(seconds))
+                timer = PM_Timer(dateEnd=dateEnd, seconds=seconds, task=task, user=request.user, comment=comment)
+                timer.save()
+                # add comment
+                comment = PM_Task_Message(
+                    task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
+                    hidden_from_clients=True)
+                comment.save()
+                #add user log
+                logger = Logger()
+                logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
+                return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+            else:
+                return HttpResponse('Operation not permitted')
 
     tasks = []
     for task in userTasks:
