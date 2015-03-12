@@ -117,7 +117,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (this.get('canBaneUser')) {
                 arItems.push({
                     'itemClass': 'baneUser',
-                    'itemText': 'Пользователь не справился',
+                    'itemText': 'Исполнитель не справился',
                     'itemMethod': 'baneUser',
                     'icon': 'exclamation-o'
                 });

@@ -278,7 +278,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
                           ПОДМЕНЮ ПОД ШАПКОЙ
     ###############################################################*/
 
-.sub-menu {}
+.sub-menu {font-size: 0px;}
 .sub-menu ul.list-inline {margin-bottom:0px !important;}
 .sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
 .sub-menu_line_section-user li > a.bold {font-weight: bold;}
@@ -287,7 +287,11 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 .sub-menu_line_section-user .files { background-position: 0px -343px; }
 .sub-menu_line_section-user .new_task { background-position: 0px -498px; }
 
-.sub-menu_line_section-user a {background:#fff;background-image: -webkit-gradient(
+.sub-menu_line_section-user a {
+    display: inline-block;
+    margin-right: 10px;
+    background:#fff;
+    background-image: -webkit-gradient(
 	linear,
 	left top,
 	left bottom,
@@ -545,7 +549,12 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left;}
+.file-upload {float:left; position: relative;}
+.task-file-upload {
+    height: 34px;
+    left: 5px;
+    position: absolute;
+    width: 40px;}
 .file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
 .file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
 
@@ -2708,4 +2717,9 @@ line-height: 36px;}
     .bonuses span {display: block; top: 0px; margin: 0;}
 
     .js-bonus-complete {float: none; display: block; margin: 5px auto 0;}
+}
+
+@media only screen and (max-width: 576px) {
+    header .header > nav > ul > li {width: 16.66%;}
+    .hide-on-mobile {display: none !important;}
 }
