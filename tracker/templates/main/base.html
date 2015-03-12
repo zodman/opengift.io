@@ -241,7 +241,7 @@ $(function(){
 		{% if user.is_authenticated %}
         <nav class="menu">
             <ul>
-                <li class="{% if activeMenuItem == 'main' %} active{% endif %}">
+                <li class="hide-on-mobile {% if activeMenuItem == 'main' %} active{% endif %}">
                     <a href="/kanban">
                         <span aria-hidden="true" class="fa fa-desktop"></span>
                         <span>Канбан</span>
@@ -356,10 +356,10 @@ $(function(){
         <div class="sub-menu_line_section-user col-xs-8">
 
              {% if main.CURRENT_PROJECT.id %}
-              <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
+              <a href="/new_task_wizard/" class="hide-on-mobile js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
               {% if main.CAN_INVITE %}
-              <a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
+              <a href="/static/invite_info.html?10" class="hide-on-mobile js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
               {% endif %}
               <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
               {% if main.CURRENT_PROJECT.id %}
