@@ -34,16 +34,16 @@ $(function(){
                 oTask =  new window.taskClass(aTaskList[i]);
                 widget_ud.taskList.add(oTask);
             }
-            for (var i in aTaskListObservers){
-                oTask = widget_ud.taskList.get(aTaskListObservers[i]['id']);
-                if (oTask) {
-                    oTask.set('is_observer_list', true);
-                }else{
-                    aTaskListObservers[i]['is_observer_list'] = true;
-                    oTask =  new window.taskClass(aTaskListObservers[i]);
-                    widget_ud.taskList.add(oTask);
-                }
-            }
+//            for (var i in aTaskListObservers){
+//                oTask = widget_ud.taskList.get(aTaskListObservers[i]['id']);
+//                if (oTask) {
+//                    oTask.set('is_observer_list', true);
+//                }else{
+//                    aTaskListObservers[i]['is_observer_list'] = true;
+//                    oTask =  new window.taskClass(aTaskListObservers[i]);
+//                    widget_ud.taskList.add(oTask);
+//                }
+//            }
             this.addOnlineStatusListeners();
             widget_ud.taskList.each(function(task){
                 if (task.get('is_observer_list')){

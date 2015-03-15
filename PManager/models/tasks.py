@@ -1073,7 +1073,7 @@ class PM_Task(models.Model):
         tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
 
         if arPageParams.get('group') == 'milestones':
-            order = ['-milestone__date', '-milestone__id']
+            order = ['milestone__closed', '-milestone__date']
         else:
             order = []
 
