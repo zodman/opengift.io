@@ -2823,3 +2823,25 @@ line-height: 36px;}
     .activity-wrapper .activity-avatar {width: 100%;}
     .activity-wrapper .activity-task {width: 100%;padding-top: 0px;}
 }
+
+
+.message-desc-status {
+    border-left: 1px solid rgba(1, 1, 1, 0.15);
+    border-right: 1px solid rgba(1, 1, 1, 0.15);
+    margin-left: 12px;
+    margin-right: 12px;
+    padding-left: 12px;
+    padding-right: 12px;
+}
+
+.message-info-time {
+    border-right: 1px solid rgba(1, 1, 1, 0.15);
+    padding-right: 12px;
+    margin-right: 12px;
+}
+
+.message-info-title {
+    padding-right: 12px;
+    margin-right: 12px;
+    border-right: 1px solid rgba(1, 1, 1, 0.15);
+}
