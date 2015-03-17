@@ -7,3 +7,4 @@ PManager/static/cache/*
 PManager/services/mind/Hodor.brain
 gunicorn.log
 gunicorn.pid
+PManager/migrations/*
