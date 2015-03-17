@@ -203,14 +203,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 if (messageInfo.task && messageInfo.task.name) {
                     if (messageInfo.project && messageInfo.project.name) {
-                        arKeys['PROJECT_LINE'] = '<a href="'+messageInfo.project.url+'" class="message-info-title">'+messageInfo.project.name+'</a>&nbsp;/&nbsp;';
+                        arKeys['PROJECT_LINE'] = '<a href="'+messageInfo.project.url+'" class="message-info-title">'+messageInfo.project.name+'</a>';
                     }
 
                     if (messageInfo.task.parent && messageInfo.task.parent.id) {
                         var p = messageInfo.task.parent;
-                        arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '/ <a href="' + p.url + '" class="message-desc-text">' + p.name + '</a> ';
+                        arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '<a href="' + p.url + '" class="message-desc-text">' + p.name + '</a> ';
                     }
-                    arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '/ <a href="' + messageInfo.task.url + '" class="message-desc-text"><strong>' +
+                    arKeys['TASK_LINE'] = arKeys['TASK_LINE'] + '<a href="' + messageInfo.task.url + '" class="message-desc-text"><strong>' +
                         messageInfo.task.name + '</strong></a>';
                 }
                 if (messageInfo.author.id != document.mainController.userId)
