@@ -54,6 +54,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 '-id'
             ]
         })
+    tasks['tasks'] = tasks['tasks'][:100]
     projects_data = {}
     recommended_user = None
     for task in tasks['tasks']:
@@ -75,6 +76,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     prd_array = []
     for pd in projects_data:
         prd_array.append(projects_data[pd])
+
     return {
         'projects_data': prd_array,
         'statuses': statuses,
