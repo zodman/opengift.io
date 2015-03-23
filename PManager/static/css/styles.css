@@ -478,6 +478,16 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .widget.inner {padding:0px;}
 .widget.inner .widget-title { width:100%; background: #555; position:relative; padding:10px 20px; line-height:16px; border-radius:0px;border-top-left-radius: 4px;border-top-right-radius: 4px; color: #fff; }
+
+.widget.inner .widget-title.danger {background: #d43f3a;}
+.widget.inner .widget-title.danger .task-manage > a,
+.widget.inner .widget-title.danger .task-manage > span > a,
+.widget.inner .widget-title.danger .task-manage > span,
+.widget.inner .widget-title.danger .task-manage > span > span,
+.widget.inner .widget-title.danger .task-manage > a,
+.widget.inner .widget-title.danger .task-manage > span,
+.widget.inner .widget-title.danger .pull-left .time {color:#fff;}
+
 .widget.inner.span4 {height:200px;}
 .achievement-ico {background:url(../images/super.png) 0px 0px no-repeat; width:27px; height:32px; position:absolute; top:12px; padding-top:11px; text-align:center; right:20px; color: #555; font-size:13px; font-weight:bold; display:block;}
 .widget.inner .widget-title .pull-left a {color:#fff;}

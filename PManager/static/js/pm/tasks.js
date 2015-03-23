@@ -119,7 +119,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'itemClass': 'baneUser',
                     'itemText': 'Исполнитель не справился',
                     'itemMethod': 'baneUser',
-                    'icon': 'exclamation-o'
+                    'icon': 'fa-exclamation'
                 });
             }
 
