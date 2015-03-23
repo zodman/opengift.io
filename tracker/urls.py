@@ -8,7 +8,7 @@ from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder, mi
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register, recall
-from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder
+from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
@@ -130,6 +130,7 @@ urlpatterns = patterns('',
                        url(r'^kanban/', MainPage.indexRender, {'widgetList': ["kanban"]}),
                        url(r'^ajax/micro_task/(?P<task_id>[0-9_]+)', microTaskAjax),
                        url(r'^ajax/responsible_menu/$', userHandlers.getResponsibleMenu),
+                       url(r'^ajax/milestone_create/$', milestoneForm),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
