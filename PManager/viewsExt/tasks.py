@@ -260,6 +260,7 @@ def taskListAjax(request):
         task_close = request.POST.get('close', '') == 'Y'
         b_resp_change = request.POST.get('responsible_change', '') == 'Y'
         hidden = (request.POST.get('hidden', '') == 'Y' and to)
+        solution = (request.POST.get('solution', 'N') == 'Y')
         task = PM_Task.objects.get(id=task_id)
 
         files = request.FILES.getlist('file') if 'file' in request.FILES else []
@@ -285,7 +286,7 @@ def taskListAjax(request):
         author = request.user
         if task:
             text = text.replace('<', '&lt;').replace('>', '&gt;')
-            message = PM_Task_Message(text=text, task=task, author=author)
+            message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
             message.hidden = hidden
             message.hidden_from_clients = hidden_from_clients
             message.hidden_from_employee = hidden_from_employee
@@ -598,9 +599,13 @@ class taskManagerCreator:
         else:
             return False
 
-    def addMessage(self, message):
+    def addMessage(self, message, solution=0):
+        if solution == 1:
+            code = "SOLUTION"
+        else:
+            code = ""
         message = PM_Task_Message(text=u'Время: ' + unicode(self.task.currentTimer) + "\r\n" + message, task=self.task,
-                                  author=self.currentUser)
+                                  author=self.currentUser, solution=solution, code=code)
         message.save()
         responseJson = message.getJson({
             'canEdit': message.canEdit(self.currentUser),
@@ -948,10 +953,11 @@ class taskAjaxManagerCreator(object):
     def process_taskStop(self):
         comment = self.getRequestData('comment')
         public = self.getRequestData('public', FORMAT_TO_INTEGER)
+        solution = self.getRequestData('solution', FORMAT_TO_INTEGER)
 
         if self.taskManager.stopTimer(comment):
             if public and public > 0 and comment:
-                self.taskManager.addMessage(comment)
+                self.taskManager.addMessage(comment, solution)
 
             self.taskManager.task.setChangedForUsers(self.currentUser)
             return 'ok'

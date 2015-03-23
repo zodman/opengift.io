@@ -51,7 +51,7 @@
                 	<h3>Введите комментарий</h3>
                     <textarea name="comment" class="form-control"></textarea>
                     <label class="checkbox">
-                        <input type="checkbox" checked="checked" name="addComment" disabled="disabled" value="Y"> Опубликовать в задаче
+                        <input type="checkbox" name="solution" disabled="disabled" value="Y"> Задача решена
                     </label>
                     <a class="btn btn-success pause_comment_success" >Ок</a>
                     <a class="btn btn-danger pause_comment_cancel" >Отменить таймер</a>
@@ -128,6 +128,9 @@
             Ответственный: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
         </p>
         {% endif %}
+        {% if task_detail.solutions %}
+            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Есть опубликованные решения подобных задач</a>
+        {% endif %}
         {% if task_detail.task.observersList %}
         <hr />
         <p class="text-success">
@@ -160,12 +163,13 @@
         <div class="task_add-message">
             <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                 <h4>Добавить сообщение</h4>
-                <select class="combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
+                <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
                     <option value="">Кому</option>
                     {% for resp_user in task_detail.users %}
                         <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
                     {% endfor %}
-                </select><label class="left"><input type="checkbox" name="hidden" value="Y" /> Лично</label>
+                </select><label class="left"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
+                <label class="left"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Решение задачи</label>
                 <hr>
                 {% csrf_token %}
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
@@ -240,6 +244,36 @@
         </div>
     </div>
 </div>
+{% if task_detail.solutions %}
+<div class="modal fade" id="similar-solutions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Похожие задачи</h2>
+    </div>
+    <div class="modal-body">
+        <div class="js-solutions">
+            {% for solution in task_detail.solutions %}
+                {% if solution %}
+                <div class="similar-solution message">
+                    <div class="message-content">
+                        <div class="text">{{ solution.text }}</div>
+                        <div class="author">{{ solution.author }}</div>
+                        <div class="date">{{ solution.dateCreate }}</div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+        </div> 
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+    </div>
+</div>
+</div>
+</div>
+{% endif %}
 <script type="text/javascript" class="temp_scripts">
     var taskDetail = {
         'id':{{ task_detail.task.id }},
@@ -287,18 +321,17 @@
     {% endfor %}
     task_detail_message_tpl = {{ task_detail.templates|jsonify|safe }};
 
-{#TODO: удалить#}
     $(function(){
+        $('.js-solution-set').change(function(){
+            if($(this).prop('checked')) {
+                $('.js-personal').prop('checked', false);
+                $('.js-personal').prop('disabled', true);
+            }else{
+                $('.js-personal').prop('disabled', false);
+            }
+        });
         $('.js-task-checkbox').remove();
-
         $('.js-todo-checkbox').click(function(){
-
         });
     });
 </script>
-{#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
-{#<div id="qunit"></div>#}
-{#<div id="qunit-fixture"></div>#}
-{#<script src="/static/js/libs/QUnit/qunitjs.js"></script>#}
-{#<script src="/static/js/pm/tests/fakeModelSyncServer.js"></script>#}
-{#<script src="/static/js/pm/tests/messageManagerTest.js"></script>#}

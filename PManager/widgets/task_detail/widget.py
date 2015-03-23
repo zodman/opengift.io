@@ -8,6 +8,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
 from django.http import Http404
+from PManager.services.similar_tasks import similar_solutions
 
 from PManager.services.mind.task_mind_core import TaskMind
 from PManager.viewsExt.tools import redisSendTaskUpdate
@@ -221,6 +222,7 @@ def widget(request, headerValues, arFilter, q):
             'taskTemplate': taskTemplate,
             'users': users,
             'messages': messages,
+            'solutions': similar_solutions(task.id),
             'lamp': lamp,
             'hiddenSubTasksExist': hiddenSubTasksExist,
             'templates': templates,

@@ -21,7 +21,7 @@ from tracker.settings import COMISSION
 from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
-from django.db.models.signals import post_save, pre_delete, post_delete
+from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 # from PManager.customs.storages import MyFileStorage
 # mfs = MyFileStorage()
 
@@ -1382,6 +1382,7 @@ class PM_Task_Message(models.Model):
     read = models.BooleanField(blank=True)
     todo = models.BooleanField(blank=True)
     todo_checked = models.BooleanField(blank=True)
+    solution = models.BooleanField(default=False)
 
     def __unicode__(self):
         return self.text
@@ -1688,6 +1689,18 @@ def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
         prof.last_activity_date = datetime.datetime.now()
         prof.save()
 
+def setOnlySolution(sender, instance, **kwargs):
+    if instance.solution:
+        instance.code = u"SOLUTION"
+        try:
+            solution_messages_old = PM_Task_Message.objects.filter(code=u"SOLUTION", project=instance.task.project)
+            for message in solution_messages_old:
+                message.solution = False
+                message.code = None
+                message.save()
+        except (PM_Task_Message.DoesNotExist, ValueError) as e:
+            pass
+
 def remove_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
@@ -1733,3 +1746,4 @@ post_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_save.connect(update_git, sender=PM_Project)
 pre_delete.connect(remove_git, sender=PM_Project)
 post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)
+pre_save.connect(setOnlySolution, sender=PM_Task_Message)
