@@ -81,29 +81,17 @@ def widget(request, headerValues, ar, qargs):
             return {'redirect': backurl}
 
     elif request.GET.get('id', False):
+        from PManager.services.similar_tasks import tags_relations, similar_tasks
         arSaveFields = task
         if arSaveFields:
-            tagsRelations = []
-            aSimilarTasks = []
-
+            tagsRelations = tags_relations(arSaveFields)
+            aSimilarTasks = similar_tasks(arSaveFields.id, tagsRelations=tagsRelations)
             resp = arSaveFields.resp
-            observers = arSaveFields.observers.all()
             tags = arSaveFields.tags.all()
-            arSaveFields = arSaveFields.__dict__
-            tagsRelations = ObjectTags.objects.filter(tag__in=tags.values('tag')).annotate(
-                dcount=Count('object_id')) if tags else []
-
-
-            if tagsRelations:
-                aTasksFromRelations = []
-                for rel in tagsRelations:
-                    aTasksFromRelations.append(rel.object_id)
-                aSimilarTasks = PM_Task.objects.filter(pk__in=aTasksFromRelations, project=task.project).exclude(
-                    id=task.id)[:4]
-
+            observers = arSaveFields.observers.all()
             aUsersHaveAccess = widgetManager.getResponsibleList(request.user, None).values_list('id', flat=True)
             currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), None, aUsersHaveAccess)
-
+            arSaveFields = arSaveFields.__dict__
             arSaveFields.update({
                 'tags': tags,
                 'resp': resp,

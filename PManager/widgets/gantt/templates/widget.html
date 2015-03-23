@@ -4,50 +4,13 @@
 <script type="text/javascript" src="/widgets/js/gantt/gantt.js"></script>
 <script type="text/javascript" src="/widgets/js/gantt/script.js"></script>
 <script type="text/javascript" src="/widgets/js/gantt/dragndrop.js"></script>
-<div class="modal fade" id="new-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Создание майлстоуна</h2>
-      </div>
-      <form role="form" class="js-milestone-form" method="post">
-      <div class="modal-body">
-          <div class="form-group">
-            <input type="text" name="milestone-name" class="form-control" placeholder="Введите название">
-          </div>
-
-          <div class="form-group choose-date">
-          	<input type="text" value="" name="milestone-date" placeholder="Формат даты дд.мм.ггг" class="form-control"> <a href="#" onclick="$(this).prev().focus();" class="fa fa-calendar"></a>
-          </div>
-{#          <div class="btn-group">#}
-{#              <a onclick="$(this).next().toggle();return false;" href="#">Выбрать задачу&nbsp;<span class="caret"></span></a>#}
-{#              <ul role="menu" class="dropdown-menu choose-task-popup">#}
-{#                <li><input type="text"  placeholder="Введите название задачи" class="form-control"/></li>#}
-{#                <li>#}
-{#                    <div class="overflow-y">#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 2</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 3</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 4</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 5</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 6</label></div>#}
-{#                        <div class="checkbox"><label><input type="checkbox">Название задачи 7</label></div>#}
-{#                    </div>#}
-{#                </li>#}
-{#                <li class="divider"></li>#}
-{#                <li><a class="btn btn-success" href="#">Выбрать</a></li>#}
-{#              </ul>#}
-{#          </div>#}
-      </div>
-      <div class="modal-footer">
-        <input type="submit" name="create-milestone" class="btn btn-success js-create-milestone" value="Создать" />
-        <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-      </div>
-      </form>
-    </div>
-  </div>
-</div>
+<script>
+  $(document).ready(function(){
+    $.get('/ajax/milestone_create/', function(response){
+      $('body').append(response);
+    });
+  });
+</script>
 
 <!--calendar-bar-tools-->
 <div class="widget gantt" style="overflow:hidden;">
@@ -500,5 +463,5 @@ var MILESTONES = [
 <script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
 <link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
 <script type="text/javascript" src="/static/js/libs/timepicker/base.js"></script>
-<script type="text/javascript" src="/static/js/libs/fullscreen.js"></script>
 <link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
+<script type="text/javascript" src="/static/js/libs/fullscreen.js"></script>

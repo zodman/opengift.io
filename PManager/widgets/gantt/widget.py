@@ -9,6 +9,7 @@ import datetime
 from django.utils import timezone
 from django.db import transaction
 from PManager.viewsExt.gantt import WorkTime
+from PManager.models.tasks import PM_Project
 from PManager.widgets.tasklist.widget import TaskWidgetManager as widgetManager
 from PManager.viewsExt.tools import templateTools
 
@@ -24,20 +25,27 @@ def sortGantt(a, b):
         return 0
     return -1 if a['critically'] > b['critically'] else 1
 
-def widget(request, headerValues, widgetParams={}, qArgs=[]):
-    from django.db.models import Q
+def create_milestone_from_post(request, headerValues):
     def pst(n):
         return request.POST.get(n, '')
-
-    bProjectSelected = 'CURRENT_PROJECT' in headerValues
-
-    if pst('milestone-name'):
+    try:
+        project_id = pst('milestone-project')
+        project = PM_Project.objects.get(pk=int(project_id))
+    except (PM_Project.DoesNotExist, ValueError) as e:
+        project = headerValues['CURRENT_PROJECT']
+    if pst('milestone-name') != '' and project:
         name = pst('milestone-name')
         date = pst('milestone-date')
         date = templateTools.dateTime.convertToDateTime(date)
-        milestone = PM_Milestone(name=name, date=date, project=headerValues['CURRENT_PROJECT'])
+        milestone = PM_Milestone(name=name, date=date, project=project)
         milestone.save()
         return {'redirect': ''}
+
+def widget(request, headerValues, widgetParams={}, qArgs=[]):
+    from django.db.models import Q
+    bProjectSelected = 'CURRENT_PROJECT' in headerValues
+
+    create_milestone_from_post(request, headerValues)
 
     def getTaskResponsibleDates(aDates, task, endTime):
         if task['resp__id']:

@@ -4,6 +4,7 @@ from PManager.models import PM_Milestone, PM_Project
 from django.template import RequestContext
 from PManager.viewsExt.tools import templateTools
 from PManager.viewsExt import headers
+from PManager.widgets.gantt.widget import create_milestone_from_post
 
 class ajaxMilestoneManager:
     def __init__(self,request):
@@ -14,6 +15,8 @@ class ajaxMilestoneManager:
             return self.request.POST[key]
         else:
             return None
+def milestoneForm(request):
+    return render(request, 'helpers/milestone_create.html', dict())
 
 def ajaxMilestonesResponder(request):
     responseText = 'bad query'
@@ -74,6 +77,9 @@ def ajaxMilestonesResponder(request):
     return HttpResponse(responseText)
 
 def milestonesResponder(request):
+    from PManager.viewsExt import headers
+    headerValues = headers.initGlobals(request)
+    create_milestone_from_post(request, headerValues)
     user = request.user
     if not user.is_authenticated():
         return HttpResponseRedirect('/')
