@@ -1,12 +1,39 @@
 {% extends 'main/base.html' %}
+{% block stylesheets %}
+<style type="text/css">
+    .new-milestone {
+      background: url(/static/images/new-milestone.png) 0px 0px no-repeat;
+      height: 32px;
+      width: 32px;
+      display: inline-block;
+      text-indent: -99999em;
+      background-size: contain;
+      position: absolute;
+      right: 0px;
+      top: -7px;
+    }
+    .project-milestones {
+        position: relative;
+    }
+</style>
+{% endblock %}
 {% block content %}
+<script>
+    $(document).ready(function(){
+        $.get('/ajax/milestone_create/', function(response){
+            $('body').append(response);
+        });
+        
+    });
+</script>
 <div class="widget milestones_summary">
     <h1>Мои цели</h1>
     <hr />
         {% for project in m_projects %}
         	{% if project.openMilestones %}
         		<div class="project-milestones">
-        				<p align="center"><h3 align="center">{{project.name}}</h3></p>
+        				<p align="center"><h3 align="center">{{project.name}}</h3>
+                        <a href="#" class="new-milestone" data-toggle="modal" data-target="#new-milestone" data-project-id="{{ project.id }}">Создать майлстоун</a></p>
                         <table class="table table-striped ">
 		        		{% for milestone in project.openMilestones %}
                         <tr>

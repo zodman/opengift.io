@@ -119,7 +119,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'itemClass': 'baneUser',
                     'itemText': 'Исполнитель не справился',
                     'itemMethod': 'baneUser',
-                    'icon': 'exclamation-o'
+                    'icon': 'fa-exclamation'
                 });
             }
 
@@ -769,7 +769,8 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (!onlyView)
                 taskManager.TaskStop(this.model.id, {
                     'comment': comment,
-                    'public': (this.$('input[name=addComment]').is(':checked') ? 1 : 0)
+                    'public': 1,
+                    'solution': (this.$('input[name=solution]').is(':checked') ? 1 : 0)
                 }, function (data) {
                     obj.model.set({
                         'started': false,

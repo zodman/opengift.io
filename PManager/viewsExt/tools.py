@@ -137,7 +137,8 @@ class templateTools:
             'set_plan_time': 'log_message_task_set_plan_time.html',
             'confirm_estimation': 'log_message_task_status_revision.html',
             'task_open': 'log_message_task_critically_up.html',
-            'git_commit': 'log_message_git_commit.html'
+            'git_commit': 'log_message_git_commit.html',
+            'solution': 'solution_task_comment.html'
         }
         templates = {}
 
