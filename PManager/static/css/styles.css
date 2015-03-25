@@ -2403,7 +2403,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     position: relative;
 }
 
-.kanban .widget.inner  {padding-bottom:15px;}
+.kanban .widget.inner  {
+	padding-bottom:15px;
+}
 
 .kanban .tasks-wrapper {
     width:100%;
@@ -2412,7 +2414,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     z-index:1;
     top: 15px;
 }
-.kanban .widget-title,
 .activity .widget-title {text-align:center; font-size:18px;}
 
 .kanban .project-row:last-child {
@@ -2438,7 +2439,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 .kanban .task-card {
     display: block;
-    width: 230px;
+    width: 100%;
     height: 100px;
     overflow: hidden;
     position:relative;
@@ -2467,31 +2468,29 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     width: 30px;
 }
 .tasks-header {
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    color:#fff;
-    text-align: center;
-    font-weight: bold;
+	color: #fff;
     font-size: 14px;
+    font-weight: bold;
     padding-bottom: 8px;
     padding-top: 8px;
+    text-align: center;
 }
 
 .tasks-header.tasks-not_approved {
 	background: none repeat scroll 0 0 #f2f2f2;
-    border-bottom: 2px solid #ddd;
+    border-bottom: 2px solid #999;
     color: #999;
 }
 
 .tasks-header.tasks-revision {
-	 background: none repeat scroll 0 0 #ffe8fe;
-    border-bottom: 2px solid #f1daf0;
+	background: none repeat scroll 0 0 #ffe8fe;
+    border-bottom: 2px solid #ac05a6;
     color: #ac05a6;
 }
 
-.tasks-header.tasks-ready {    background: none repeat scroll 0 0 #e9fde9;
-    border-bottom: 2px solid #d3f5d3;
+.tasks-header.tasks-ready {    
+	background: none repeat scroll 0 0 #e9fde9;
+    border-bottom: 2px solid #47a447;
     color: #47a447;
 }
 
@@ -2573,6 +2572,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 .kanban .js-user_source {
 	display: none;
+}
+.kanban .widget-title {
+	margin-bottom: 15px;
 }
 .kanban .chosen-container-multi .chosen-choices li.search-choice a.search-choice-close:before {
 	content: "\f00d";
