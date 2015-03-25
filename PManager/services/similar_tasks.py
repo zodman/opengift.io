@@ -3,7 +3,6 @@ __author__ = 'Tonakai'
 from PManager.models.tasks import PM_Task, ObjectTags, PM_Task_Message
 from django.db.models import Count
 
-
 def similar_tasks(task_id, limit=4, tagsRelations=[]):
     aSimilarTasks = []
     try:
@@ -12,12 +11,7 @@ def similar_tasks(task_id, limit=4, tagsRelations=[]):
         return aSimilarTasks
     if not tagsRelations:
         tagsRelations = tags_relations(task)
-<<<<<<< HEAD
-    task = task.__dict__
-    raise
-=======
 
->>>>>>> 5683a2bb9f2fed30b45ba7075c00265f4402ffb4
     if tagsRelations:
         aTasksFromRelations = []
         for rel in tagsRelations:
