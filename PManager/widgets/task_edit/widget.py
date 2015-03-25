@@ -70,9 +70,11 @@ def widget(request, headerValues, ar, qargs):
 
         task.observers.clear()
         task.observers.add(*aObservers)
-
         task.saveTaskTags()
 
+        if 'tags' not in arSaveFields:
+            arSaveFields['tags'] = task.tags.all()
+            
         arEmail = task.getUsersEmail([request.user.id])
         task.sendTaskEmail('task_changed', arEmail, 'Задача изменена')
 
@@ -114,7 +116,6 @@ def widget(request, headerValues, ar, qargs):
     for field, val in arSaveFields.iteritems():
         if isinstance(val, datetime.datetime):
             arSaveFields[field] = val.strftime('%d.%m.%Y %H:%M')
-
     return {
         'id': request.GET.get('id', False),
         'post': arSaveFields,
