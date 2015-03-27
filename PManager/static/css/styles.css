@@ -1735,9 +1735,11 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 .wiki .navbar-search.pull-right {float: none !important;}
 .wiki .navbar {margin-bottom: 0px;}
 .wiki #article-breadcrumbs {position: relative; top: 0px;}
+    .wiki .breadcrumb {margin-bottom: 15px; margin-top: 15px;}
+    .wiki #article-breadcrumbs .pull-left {margin-top: 15px;}
 }
 
-.wiki .navbar {min-height: auto; margin-top: 10px;}
+.wiki .navbar {min-height: auto; margin-top: 0px;}
 .wiki .list-inline.pull-right {margin-bottom: 0px; margin-top: 5px;}
 
 @media screen and (max-width: 860px) {
@@ -1745,6 +1747,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
  .wiki .navbar .col-xs-7 {width: 100%;}
     .wiki .navbar .brand {margin-bottom: 10px;}
     .wiki .navbar .col-xs-5 .list-inline.pull-right {float: none !important;}
+
 }
 
 div.markItUpContainer { margin-right: 0px;}
