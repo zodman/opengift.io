@@ -8,3 +8,4 @@ Replace this with more appropriate tests for your application.
 from django.test import TestCase
 
 from PManager.classes.git.tests.diff_parser_test import TestDiffParser
+from PManager.models.tests import *

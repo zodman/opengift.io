@@ -356,6 +356,14 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
+                        
+                        $block = menuTaskBlock('Отдать на Аутсорс', '#invite-developers', function(){
+                            var $taskInputContainer = $('.js-tasks-for-developers').empty();
+                            $('.js-task-checkbox:checked').each(function(){
+                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                            });
+                        });
+                        bottomPanel.addBlock('inviteDevelopers', $block);
                     }else{
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');
