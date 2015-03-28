@@ -108,7 +108,7 @@
                     <li class="active"><a href="#svodka">Сводка</a></li>
                     <li><a href="#ychastvyet">Участвует в проектах</a></li>
                     <li><a href="#tekyshie_zadachi">Текущие задачи</a></li>
-                    <li><a href="#observer">Наблюдатель</a></li>
+{#                    <li><a href="#observer">Наблюдатель</a></li>#}
 {#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
                     <li><a href="#dostizheniya">Достижения</a></li>
                     <li><a href="#activity">Активность</a></li>
@@ -225,23 +225,23 @@
                     {% endfor %}
                     </script>
                 </div>
-                <div class="js-tasks-observers tab-pane" id="observer">
-                    <script language="javascript">
-                    var aTaskListObservers = [], arTimers = {}, taskRespSummary = {};
-                    {% for task in user_detail.task.observers.tasks %}
-                        aTaskListObservers.push({{ task|jsonify|safe }});
-                        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
-                        {% if task.time %}
-                            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
-                            {% if task.startedTimerExist %}
-                                arTimers['{{ task.id }}'].start();
-                            {% endif %}
-                        {% endif %}
-                    {% empty %}
-                       document.write('<p>Нет ни одной задачи</p>');
-                    {% endfor %}
-                    </script>
-                </div>
+{#                <div class="js-tasks-observers tab-pane" id="observer">#}
+{#                    <script language="javascript">#}
+{#                    var aTaskListObservers = [], arTimers = {}, taskRespSummary = {};#}
+{#                    {% for task in user_detail.task.observers.tasks %}#}
+{#                        aTaskListObservers.push({{ task|jsonify|safe }});#}
+{#                        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}#}
+{#                        {% if task.time %}#}
+{#                            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});#}
+{#                            {% if task.startedTimerExist %}#}
+{#                                arTimers['{{ task.id }}'].start();#}
+{#                            {% endif %}#}
+{#                        {% endif %}#}
+{#                    {% empty %}#}
+{#                       document.write('<p>Нет ни одной задачи</p>');#}
+{#                    {% endfor %}#}
+{#                    </script>#}
+{#                </div>#}
                 <div class="tab-pane" id="dostizheniya">
                     {% if user_detail.achievements %}
                         {% for c in user_detail.achievements %}
