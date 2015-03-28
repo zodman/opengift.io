@@ -531,7 +531,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var codeElementLast = t.$commentsContainer.find('.SUBCONTAINER:last');
                     var codeElementFirst = t.$commentsContainer.find('.SUBCONTAINER:first');
                     codeElementLast.find('.last').removeClass('last');                
-                    if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
+                    if (message.view.$el.hasClass('new-message') && $chatWindow.length > 0) {
                         codeElementFirst[func](message.view.$el);
                     } else if (message.view.$el.hasClass('new-message') && $('#chatWindow').length === 0) {
                         codeElementLast.addClass('show-msg')[func](message.view.$el);
