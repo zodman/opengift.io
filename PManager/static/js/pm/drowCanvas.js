@@ -45,6 +45,7 @@
 			depthBlock = $(this).find(".brushDepth"), // Блок для линии
 			saveButton = $(this).find(".canvasSave"), // Кпонка сохранить
 			clearButton = $(this).find(".canvasClear"), // Кнопка очистить
+			textButton = $(this).find(".canvasText"), // Кнопка текст
 			saveImgBlock = $(this).find("#savedCopyContainer");
 
 		if(options.colors.length) {//Инициализация цвет киста
@@ -78,7 +79,13 @@
 		}
 
 		//Обработка событие на canvas элементе
-		canvas.mousedown(function(e){ startDrawing(e) });
+		canvas.mousedown(function(e){
+			if (depthBlock.find('.size').hasClass('active')) {
+				startDrawing(e);
+			} else {
+				writeText();
+			};
+		});
 		canvas.mousemove(function(e){ draw(e) });
 		canvas.bind("mouseup mouseover", function(){ stopDrawing() });
 
@@ -87,6 +94,13 @@
 		// Обработка кнопки "Сохранить"
 		//saveButton.on("click", function(){ saveCanvas() });
 
+		// Обработка кнопки "Текст"
+		textButton.on("click", function(){
+			depthBlock.find('.size.active').removeClass('active');
+			$(this).addClass('active');
+			canvas.removeClass('drawing').addClass('writeText');
+		});
+
 		// Меняеть цвет киста
 		brashInColor = options.colors[0];
 		context.strokeStyle = brashInColor;
@@ -94,6 +108,7 @@
 		colorBlock.find(".color").on("click", function(){
 			brashInColor = $(this).attr("rgbcolor"); //Получить цвет
 			context.strokeStyle = brashInColor; // Установить цвет
+			$('.CanvasContainer').css('color', brashInColor); // Цвет текста
 			$(this).siblings().removeClass("active").end().addClass("active");
 		});
 
@@ -103,10 +118,41 @@
 		depthBlock.find(".size").on("click", function(){
 			var getBrushLineWidth = $(this).attr("relsize");
 			context.lineWidth = getBrushLineWidth;
+			textButton.removeClass('active');
 			$(this).siblings().removeClass("active").end().addClass("active");
+			$(canvas).removeClass('writeText');
 		});
 
 		// Функции
+		function writeText() {
+			canvas.click(function(e){
+				if ($('.writeTextContainer').length == 0 && textButton.hasClass('active')) {
+				    var offset = $(this).offset();
+				    var scrollTop = $('.CanvasContainer').scrollTop();
+				    var scrollLeft = $('.CanvasContainer').scrollLeft();
+				    var x = e.pageX - offset.left + 16 - scrollLeft;
+				    var y = e.pageY - offset.top + 62 - scrollTop;
+				    $('.CanvasContainer').prepend('<div class="writeTextContainer"><textera class="writeText" contenteditable="true"></textera><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
+				    $('.writeTextContainer').css('left', x).css('top', y);
+					$('.writeTextContainer .writeText').focus();
+				
+					$('.writeTextContainer .apply').on("click", function(){
+						var text = $('.writeTextContainer .writeText').text();
+						context.fillStyle = brashInColor;
+					    context.font = "25px Arial";
+					    context.fillText(text, x - 16.5 + scrollLeft, y - 54 + scrollTop);
+					    $('.writeTextContainer').remove();
+					    return false;
+					});
+
+					$('.writeTextContainer .remove').on("click", function(){
+						$('.writeTextContainer').remove();
+						return false;
+					});
+				};
+			});
+		}
+
 		function startDrawing(e) {
 			isDrawing = true;
 			context.beginPath();
