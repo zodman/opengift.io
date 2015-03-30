@@ -2911,3 +2911,7 @@ line-height: 36px;}
 .similar-solution {
 	margin-bottom:10px;
 }
+
+.resolve-message {
+    background-color: rgba(44, 192, 174, 0.43);
+}

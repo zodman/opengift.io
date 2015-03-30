@@ -41,7 +41,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         Q(
              unManagedQ
         )
-    )
+    ).select_related('author', 'project', 'task', 'task__parentTask')
     # result = result.filter(task__active=True)
     options = {
         'OTHER_PROJECTS': True,
