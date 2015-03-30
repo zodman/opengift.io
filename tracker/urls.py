@@ -46,13 +46,6 @@ def payment_received(sender, **kwargs):
 
         PM_Project.objects.filter(author=user, locked=True).update(locked=False)
 
-    # payment = Payment(
-    #     # project=PM_Project.objects.get(id=id),
-    #     value=int(float(kwargs['OutSum'])),
-    #     payer=user
-    # )
-    # payment.save()
-
 
 result_received.connect(payment_received)
 
