@@ -283,6 +283,7 @@ $.fn.addFilePaste = function(options){
                     '<div class="canvasTools">'+
                         '<div class="brushColor"></div>'+
                         '<div class="brushDepth"></div>'+
+                        '<div class="canvasText"><i class="fa fa-pencil-square-o"></i></div>'+
                     '</div><hr>'+
                     '<div class="CanvasContainer"></div>'+
                     '<hr><div class="canvasBottons">'+
