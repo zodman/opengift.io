@@ -723,21 +723,32 @@ class PM_Task(models.Model):
 
         return self
 
+
+    @staticmethod
+    def getAllTimeOfTasksWithSubtasks(aId):
+        if not aId:
+            return
+
+        aTime = PM_Timer.getSumsOfTasks(aId)
+        aTasksId = aTime.keys()
+        timers = PM_Timer.objects.filter(
+            Q(Q(task__in=aTasksId) | Q(task__parentTask_id__in=aTasksId)), dateEnd__isnull=True, dateStart__isnull=False
+        ).values('dateStart', 'task_id', 'user_id', 'task__parentTask_id')
+        now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+
+        for t in timers:
+            delta = now - t['dateStart']
+            aCurObj = aTime[t['task__parentTask_id']] if 'task__parentTask_id' in t and t['task__parentTask_id'] in aTime else aTime[t['task_id']]
+            if t['user_id'] not in aCurObj:
+                aCurObj[t['user_id']] = 0
+
+            aCurObj[t['user_id']] += delta.seconds
+
+        return aTime
+
     def getAllTime(self):
-        timers = PM_Timer.objects.raw(
-            'SELECT SUM(`seconds`) as summ,id,user_id from PManager_pm_timer WHERE `task_id`=' + str(int(self.id)) + '')
-        allTime = 0#int(self.realTime) if self.realTime is not None else 0
-        for timer in timers:
-            allTime += timer.summ if timer.summ else 0
-
-        timers = PM_Timer.objects.filter(task=self, dateEnd__isnull=True).values('dateStart')
-        for timer in timers:
-            if timer.get('dateStart', False):
-                delta = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone()) - timer.get(
-                    'dateStart', False)
-                allTime += delta.seconds
-
-        return allTime
+        aTime = PM_Timer.getSumsOfTasks([self.id])
+        return sum(aTime[self.id].values()) if self.id in aTime else 0
 
     def canPMUserView(self, pm_user):
         return pm_user.hasAccess(self, 'view')
@@ -1024,13 +1035,11 @@ class PM_Task(models.Model):
         return arr
 
     @staticmethod
-    def getForUser(user, project, filter={}, filterQArgs=[], arPageParams={}):
+    def getForUser(user, project, filter={}, filterQArgs=[], arOrderParams={}):
         from django.db.models import Count
 
-        order_by = arPageParams.get('order_by', 'closed')
+        order_by = arOrderParams.get('order_by', 'closed')
 
-        if 'page' not in arPageParams:
-            arPageParams['page'] = 1
 
         pm_user = user.get_profile()
 
@@ -1043,7 +1052,7 @@ class PM_Task(models.Model):
             }
             filterQArgs = []
 
-        filterQArgs += PM_Task.getQArgsFilterForUser(user, project, arPageParams.get('invite', False))
+        filterQArgs += PM_Task.getQArgsFilterForUser(user, project, arOrderParams.get('invite', False))
 
         excludeFilter = {}
         if 'exclude' in filter:
@@ -1072,8 +1081,8 @@ class PM_Task(models.Model):
 
         tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
 
-        if arPageParams.get('group') == 'milestones':
-            order = ['-milestone__date', '-milestone__id']
+        if arOrderParams.get('group') == 'milestones':
+            order = ['milestone__closed', '-milestone__date']
         else:
             order = []
 
@@ -1094,17 +1103,8 @@ class PM_Task(models.Model):
         if excludeFilter:
             tasks = tasks.exclude(**excludeFilter)
 
-        qty = tasks.count()
-        if 'pageCount' in arPageParams:
-            tasks = tasks[
-                    (arPageParams['page'] - 1) * arPageParams['pageCount']:arPageParams['page'] * arPageParams[
-                        'pageCount']]
 
         return {
-            'paginator': {
-                'all_qty': qty,
-                'lastPage': (qty <= arPageParams['page'] * arPageParams['pageCount'])
-            } if 'pageCount' in arPageParams else {},
             'tasks': tasks,
             'filter': filterQArgs
         }
@@ -1343,6 +1343,40 @@ class PM_Timer(models.Model):
         objTime = templateTools.dateTime.timeFromTimestamp(delta.total_seconds())
 
         return objTime
+
+    @staticmethod
+    def getSumsOfTasks(aTaskId):
+        if not aTaskId:
+            return
+
+        timers = PM_Timer.objects.filter(task_id__in=aTaskId).values('task_id', 'user_id').annotate(summ=Sum('seconds'))
+        allTime = {}
+        for timer in timers:
+            if timer['task_id'] not in allTime:
+                allTime[timer['task_id']] = {}
+
+            allTime[timer['task_id']][timer['user_id']] = timer['summ'] if timer['summ'] else 0
+
+        aSubtasksByTask = dict()
+        subTasks = PM_Task.objects.filter(parentTask__in=aTaskId, virgin=False, active=True).values('id', 'parentTask_id')
+
+        for s in subTasks:
+            if s['parentTask_id'] not in aSubtasksByTask:
+                aSubtasksByTask[s['parentTask_id']] = []
+
+            aSubtasksByTask[s['parentTask_id']].append(s['id'])
+
+        for taskId in aSubtasksByTask:
+            if not taskId in allTime:
+                allTime[taskId] = {}
+            timers = PM_Timer.objects.filter(task_id__in=aSubtasksByTask[taskId]).values('task_id', 'user_id').annotate(summ=Sum('seconds'))
+            for t in timers:
+                if t['user_id'] not in allTime[taskId]:
+                    allTime[taskId][t['user_id']] = 0
+
+                allTime[taskId][t['user_id']] += t['summ'] if t['summ'] else 0
+
+        return allTime
 
     class Meta:
         app_label = 'PManager'

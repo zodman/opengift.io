@@ -160,7 +160,7 @@ def widget(request, headerValues, arFilter, q):
         messages = task.messages.order_by('dateCreate')
         # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
         if not request.user.is_superuser:
-            messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id))
+            messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
 
         if not prof.isManager(task.project):
             if prof.isClient(task.project):

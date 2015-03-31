@@ -69,17 +69,17 @@ def widget(request, headerValues, ar, qargs):
                 [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
             )
 
-            tasksObserverResult = taskList(
-                request,
-                headerValues, {
-                    'filter': {
-                        'observers': user,
-                        'closed': False,
-                        'allProjects': True
-                    }
-                },
-                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
-            )
+            # tasksObserverResult = taskList(
+            #     request,
+            #     headerValues, {
+            #         'filter': {
+            #             'observers': user,
+            #             'closed': False,
+            #             'allProjects': True
+            #         }
+            #     },
+            #     [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
+            # )
 
             taskSum = PM_Task.objects.filter(resp=user, closed=False, dateClose__isnull=True, active=True, project__in=currentUserAccessProjects).count()
             taskSumPerMonth = PM_Task.objects.filter(
@@ -158,8 +158,8 @@ def widget(request, headerValues, ar, qargs):
             for task in tasksResult['tasks']:
                 task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']
 
-            for task in tasksObserverResult['tasks']:
-                task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']
+            # for task in tasksObserverResult['tasks']:
+            #     task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']
 
             userProjects = profile.getProjects().filter(pk__in=currentUserAccessProjects)
             for project in userProjects:
@@ -239,7 +239,7 @@ def widget(request, headerValues, ar, qargs):
                     #'summ':taskSum,
                     #'summPerMonth':taskSumPerMonth,
                     'list': tasksResult,
-                    'observers': tasksObserverResult
+                    # 'observers': tasksObserverResult
                 },
                 'taskSumm': taskSum,
                 'taskLastMonth': taskSumPerMonth,

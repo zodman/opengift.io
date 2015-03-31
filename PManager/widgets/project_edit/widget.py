@@ -16,6 +16,10 @@ class ProjectForm(forms.ModelForm):
         if USE_GIT_MODULE:
             fields.append("repository")
 
+    def clean_repository(self):
+        if USE_GIT_MODULE:
+            return self.cleaned_data['repository'].strip()
+
 def widget(request, headerValues, ar, qargs):
     if request.user.is_staff:
         SET_USER_ROLE = 'manager'

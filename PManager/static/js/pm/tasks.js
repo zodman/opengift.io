@@ -119,7 +119,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'itemClass': 'baneUser',
                     'itemText': 'Исполнитель не справился',
                     'itemMethod': 'baneUser',
-                    'icon': 'fa-exclamation'
+                    'icon': 'thumbs-down'
                 });
             }
 
@@ -132,7 +132,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     criticallyObj['icon'] = 'ban';
                     criticallyObj['itemText'] = 'Не критичная';
                 } else {
-                    criticallyObj['icon'] = 'exclamation';
+                    criticallyObj['icon'] = 'exclamation-circle';
                     criticallyObj['itemText'] = 'Критичная';
                 }
                 arItems.push(criticallyObj);
