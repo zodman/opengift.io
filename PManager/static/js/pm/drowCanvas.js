@@ -132,15 +132,40 @@
 				    var scrollLeft = $('.CanvasContainer').scrollLeft();
 				    var x = e.pageX - offset.left + 16 - scrollLeft;
 				    var y = e.pageY - offset.top + 62 - scrollTop;
-				    $('.CanvasContainer').prepend('<div class="writeTextContainer"><textera class="writeText" contenteditable="true"></textera><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
+				    $('.CanvasContainer').prepend('<div class="writeTextContainer"><div class="writeText" contenteditable="true">Надпись</div><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
 				    $('.writeTextContainer').css('left', x).css('top', y);
-					$('.writeTextContainer .writeText').focus();
-				
+					$('.writeTextContainer .writeText').click(function() {
+						var e=this; 
+						if(window.getSelection){ 
+							var s=window.getSelection(); 
+							if(s.setBaseAndExtent){ 
+								s.setBaseAndExtent(e,0,e,e.innerText.length-1); 
+							}else{ 
+								var r=document.createRange(); 
+								r.selectNodeContents(e); 
+								s.removeAllRanges(); 
+								s.addRange(r);} 
+							}else if(document.getSelection){ 
+								var s=document.getSelection(); 
+								var r=document.createRange(); 
+								r.selectNodeContents(e); 
+								s.removeAllRanges(); 
+								s.addRange(r); 
+							}else if(document.selection){ 
+								var r=document.body.createTextRange(); 
+								r.moveToElementText(e); 
+								r.select();}
+						}).trigger( "click" );
+
 					$('.writeTextContainer .apply').on("click", function(){
-						var text = $('.writeTextContainer .writeText').text();
+						String.prototype.stripTags = function() {
+						  return this.replace(/<\/?[^>]+>/g, '\n');
+						};
+						var text = $('.writeTextContainer .writeText').html();
+						var text2 = text.stripTags();
 						context.fillStyle = brashInColor;
 					    context.font = "25px Arial";
-					    context.fillText(text, x - 16.5 + scrollLeft, y - 54 + scrollTop);
+					    context.fillText(text2, x - 16.5 + scrollLeft, y - 54 + scrollTop);
 					    $('.writeTextContainer').remove();
 					    return false;
 					});
