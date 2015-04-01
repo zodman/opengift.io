@@ -361,10 +361,17 @@ $.fn.addFilePaste = function (options) {
                     'x2': $img.width() - 10,
                     'y2': $img.height() - 10
                 };
-                $img.imgAreaSelect($.extend({
-                    'onSelectEnd': function (img, selection) {
-                        pasteFunc.initSelectedCoordinates(img, selection);
-                    }}, startedCoords));
+
+                $img.imgAreaSelect(
+                    $.extend(
+                        {
+                            'onSelectEnd': function (img, selection) {
+                                pasteFunc.initSelectedCoordinates(img, selection);
+                            }
+                        },
+                        startedCoords
+                    )
+                );
                 pasteFunc.initSelectedCoordinates($img, startedCoords);
                 if (whiteCanvas) {
                     editImg();
