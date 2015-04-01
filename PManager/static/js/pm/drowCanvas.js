@@ -70,7 +70,7 @@
 		canvasBlock.html('<canvas id="drawingCanvas" width="'+options.width+'" height="'+options.height+'"></canvas>');
 		canvas = $(this).find("#drawingCanvas");
 		context = canvas[0].getContext("2d");
-
+		
 		if(options.onImages != ''){
 			var image = new Image();
 			image.src = canImg.img.attr("src");
