@@ -70,7 +70,7 @@
 		canvasBlock.html('<canvas id="drawingCanvas" width="'+options.width+'" height="'+options.height+'"></canvas>');
 		canvas = $(this).find("#drawingCanvas");
 		context = canvas[0].getContext("2d");
-		
+
 		if(options.onImages != ''){
 			var image = new Image();
 			image.src = canImg.img.attr("src");
@@ -128,13 +128,15 @@
 			canvas.click(function(e){
 				if ($('.writeTextContainer').length == 0 && textButton.hasClass('active')) {
 				    var offset = $(this).offset();
-				    var scrollTop = $('.CanvasContainer').scrollTop();
-				    var scrollLeft = $('.CanvasContainer').scrollLeft();
+				    var scrollTop = canvasBlock.scrollTop();
+				    var scrollLeft = canvasBlock.scrollLeft();
 				    var x = e.pageX - offset.left + 16 - scrollLeft;
 				    var y = e.pageY - offset.top + 62 - scrollTop;
-				    $('.CanvasContainer').prepend('<div class="writeTextContainer"><div class="writeText" contenteditable="true">Надпись</div><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
-				    $('.writeTextContainer').css('left', x).css('top', y);
-					$('.writeTextContainer .writeText').click(function() {
+				    canvasBlock.prepend('<div class="writeTextContainer"><div class="writeText" contenteditable="true" onkeypress="if(event.keyCode == 13) return false;">Надпись</div><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
+				    var writeTextContainer = $('.writeTextContainer'),
+				    writeText = writeTextContainer.find('.writeText');
+				    writeTextContainer.css('left', x).css('top', y);
+					writeText.focus().each(function() {
 						var e=this; 
 						if(window.getSelection){ 
 							var s=window.getSelection(); 
@@ -155,23 +157,19 @@
 								var r=document.body.createTextRange(); 
 								r.moveToElementText(e); 
 								r.select();}
-						}).trigger( "click" );
+						});
 
-					$('.writeTextContainer .apply').on("click", function(){
-						String.prototype.stripTags = function() {
-						  return this.replace(/<\/?[^>]+>/g, '\n');
-						};
-						var text = $('.writeTextContainer .writeText').html();
-						var text2 = text.stripTags();
+					writeTextContainer.find('.apply').on("click", function(){
+						var text = writeText.text();
 						context.fillStyle = brashInColor;
 					    context.font = "25px Arial";
-					    context.fillText(text2, x - 16.5 + scrollLeft, y - 54 + scrollTop);
-					    $('.writeTextContainer').remove();
+					    context.fillText(text, x - 16.5 + scrollLeft, y - 54 + scrollTop);
+					    writeTextContainer.remove();
 					    return false;
 					});
 
-					$('.writeTextContainer .remove').on("click", function(){
-						$('.writeTextContainer').remove();
+					writeTextContainer.find('.remove').on("click", function(){
+						writeTextContainer.remove();
 						return false;
 					});
 				};

@@ -975,6 +975,7 @@ overflow:hidden;}
 .task_add-message_message-detail input[type="file"] { margin-top: 6px; }
 .message-detail_add-file a:hover { text-decoration: none; }
 .task_add-message .btn {margin-bottom:5px;}
+.addPic {padding-top: 7px; display: inline-block;}
 
 .task_add-message .form-horizontal .left {display: inline-block; height: 14px; line-height: 14px; margin-left: 13px; position: relative; top: -10px;}
 .task_add-message .form-horizontal .left input[type="checkbox"] {margin-top:-4px; margin-right:5px;}

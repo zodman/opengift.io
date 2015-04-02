@@ -260,10 +260,6 @@ $.fn.addFilePaste = function(options){
 
             $form.find('a.edit').on("click", editImg);
 
-            if (whiteCanvas) {
-                setTimeout(editImg, 100);
-            };
-
             function editImg() {
                 var getImg = $form.find("#newPastedImg");
                 var setImg = $('<div id="js-setImage" style="display: none;"></div>').append(getImg.clone());
@@ -355,18 +351,30 @@ $.fn.addFilePaste = function(options){
             }
 
             $img.get(0).onload = function(){
-                var startedCoords = {
-                    'handles':true,
-                    'x1': 10,
-                    'y1': 10,
-                    'x2': $img.width()-10,
-                    'y2': $img.height()-10
+                if (!whiteCanvas) {
+                    var startedCoords = {
+                        'handles':true,
+                        'x1': 10,
+                        'y1': 10,
+                        'x2': $img.width()-10,
+                        'y2': $img.height()-10
+                    }
+                } else {
+                    var startedCoords = {
+                        'x1': 0,
+                        'y1': 0,
+                        'x2': $img.width()-10,
+                        'y2': $img.height()-10
+                    }
                 }
                 $img.imgAreaSelect($.extend({
                     'onSelectEnd': function (img, selection) {
                         pasteFunc.initSelectedCoordinates(img,selection);
                     }},startedCoords));
                 pasteFunc.initSelectedCoordinates($img,startedCoords);
+                if (whiteCanvas) {
+                    editImg();
+                };
             }
 
             $form.append('<hr><div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Отправить" class="btn btn-success btn-large" /></div></div>')
