@@ -18,14 +18,16 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     unManagedQ = Q(project__in=managedProjects)
     if len(userProjects) != len(managedProjects):
         unManagedQ = unManagedQ | Q(
-                Q(task__observers=request.user) &
-                    Q(hidden_from_clients=False) &
-                    Q(hidden_from_employee=False) |
+                                        Q(
+                                            Q(task__observers=request.user) &
+                                            Q(hidden_from_clients=False) &
+                                            Q(hidden_from_employee=False) |
 
-                Q(task__resp=request.user) |
-                Q(task__author=request.user) | #todo: add hidden from clients and hidden from employee
-                Q(task__onPlanning=True) & Q(project__in=userProjects)
-            )
+                                            Q(task__resp=request.user) |
+                                            Q(task__author=request.user)  #todo: add hidden from clients and hidden from employee
+                                        ) &
+                                        Q(project__in=userProjects)
+                                    )
 
     activeProjects = PM_Project.objects.exclude(closed=True, locked=True).values_list('id', flat=True)
 
@@ -39,7 +41,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         Q(
              unManagedQ
         )
-    )
+    ).select_related('author', 'project', 'task', 'task__parentTask')
     # result = result.filter(task__active=True)
     options = {
         'OTHER_PROJECTS': True,

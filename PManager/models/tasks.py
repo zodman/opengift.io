@@ -941,18 +941,9 @@ class PM_Task(models.Model):
         except Exception:
             print 'Message is not sent'
 
-    def getPrice(self, profile):
-        bet = profile.getBet(self.project)
-
-        if profile.isClient(self.project):
-            pass
-        elif profile.isEmployee(self.project):
-            pass
-
     @staticmethod
     def getListPrepare(tasks, addTasks, join_project_name=False):
         for task in tasks:
-        #            if 'id' not in task: continue
             task.update(addTasks[task['id']])
             if 'time' in task:
                 task['time'] = templateTools.dateTime.timeFromTimestamp(task['time'])
@@ -1140,6 +1131,7 @@ class PM_Task(models.Model):
 
         return arTasks
 
+    #get user rating comparing with other user ratings
     def getUserQuality(self, userId):
         taskTagRelArray = ObjectTags.objects.filter(object_id=self.id,
                                                     content_type=ContentType.objects.get_for_model(self))
@@ -1149,10 +1141,10 @@ class PM_Task(models.Model):
         userTagSums = {}
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                                                                            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
-                                                                            ' from PManager_objecttags WHERE' +
-                                                                    ' tag_id in (' + ', '.join(arTagsId) + ')' +
-                                            ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
+                            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
+                            ' from PManager_objecttags WHERE' +
+                            ' tag_id in (' + ', '.join(arTagsId) + ')' +
+                            ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
                             ' GROUP BY object_id'):
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
@@ -1163,7 +1155,6 @@ class PM_Task(models.Model):
                 if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
                 if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
 
-            currentRecommendedUser = None
             if maxTagCount > 0:
                 for userId in userTagSums:
                     if minTagCount == maxTagCount:
@@ -1172,6 +1163,7 @@ class PM_Task(models.Model):
                         userTagSums[userId] = float((int(userTagSums[userId]) - int(minTagCount))) / float(
                             (int(maxTagCount) - int(minTagCount)))
             return userTagSums[userId] if userId in userTagSums else 0
+
         return 0
 
     def getUsersEmail(self, excludeUsers=None):
@@ -1248,10 +1240,12 @@ class PM_Task(models.Model):
 
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
-                                    arTagsId) + ') AND object_id=' + str(
-                    user.id) + ' AND content_type_id=' + str(
-                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
+                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from ' +
+                    'PManager_objecttags WHERE tag_id in (' +
+                    ', '.join(arTagsId) + ') AND object_id=' +
+                    str(user.id) + ' AND content_type_id=' +
+                    str(ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
+
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
 

@@ -175,7 +175,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
     tasks = PM_Task.getForUser(cur_user, project, filter, qArgs)
     tasks = tasks['tasks']
-
+    tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
     qty = tasks.count()
     if 'page' not in arPageParams:
             arPageParams['page'] = 1
