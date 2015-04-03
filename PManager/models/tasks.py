@@ -527,6 +527,7 @@ class PM_Task(models.Model):
                     bet = manager.user.get_profile().getBet(self.project, manager.role.code)
                     price = bet * float(curTime)
                     if price:
+                        p = manager.user.get_profile()
                         credit = Credit(
                             user=manager.user,
                             value=price,
@@ -537,7 +538,8 @@ class PM_Task(models.Model):
                         credit.save()
 
                         allSum = allSum + price
-                        manager.user.get_profile().save()
+
+                        p.save()
 
             #clients
             clients = PM_ProjectRoles.objects.filter(
