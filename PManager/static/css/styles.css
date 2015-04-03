@@ -600,8 +600,11 @@ js-similar_result > a {color: #333; font-weight: bold;}
 /* убираем в ИЕ кнопку сброса фильтра */
 
 .search-input::-ms-clear { display: none; }
-.tasks-toolbar .icon-remove { position:absolute; right:245px; top:10px; opacity:0.4; display:none; }
+.tasks-toolbar .icon-remove { position:absolute; right:5px; top:10px; opacity:0.4; display:none; }
 .tasks-toolbar .icon-remove:hover { text-decoration: none; }
+.find-container {position: relative;}
+.find-container .form-control {padding: 6px 18px 6px 12px}
+.find-container .icon-remove.fa-times {color: #999999;}
 
 .search-input {border-right:0px;}
 
@@ -972,6 +975,7 @@ overflow:hidden;}
 .task_add-message_message-detail input[type="file"] { margin-top: 6px; }
 .message-detail_add-file a:hover { text-decoration: none; }
 .task_add-message .btn {margin-bottom:5px;}
+.addPic {padding-top: 7px; display: inline-block;}
 
 .task_add-message .form-horizontal .left {display: inline-block; height: 14px; line-height: 14px; margin-left: 13px; position: relative; top: -10px;}
 .task_add-message .form-horizontal .left input[type="checkbox"] {margin-top:-4px; margin-right:5px;}
