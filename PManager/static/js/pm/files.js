@@ -353,6 +353,34 @@ $.fn.addFilePaste = function (options) {
                 });
             }
 
+<<<<<<< HEAD
+            $img.get(0).onload = function(){
+                if (!whiteCanvas) {
+                    var startedCoords = {
+                        'handles':true,
+                        'x1': 10,
+                        'y1': 10,
+                        'x2': $img.width()-10,
+                        'y2': $img.height()-10
+                    }
+                } else {
+                    var startedCoords = {
+                        'x1': 0,
+                        'y1': 0,
+                        'x2': $img.width()-10,
+                        'y2': $img.height()-10
+                    }
+                }
+                $img.imgAreaSelect($.extend({
+                    'onSelectEnd': function (img, selection) {
+                        pasteFunc.initSelectedCoordinates(img,selection);
+                    }},startedCoords));
+                pasteFunc.initSelectedCoordinates($img,startedCoords);
+                if (whiteCanvas) {
+                    editImg();
+                };
+            }
+=======
             $img.get(0).onload = function () {
                 var startedCoords = {
                     'handles': true,
@@ -377,6 +405,7 @@ $.fn.addFilePaste = function (options) {
                     editImg();
                 }
             };
+>>>>>>> 2f2fda03eb6e8202b9107a65c004d2df38d8ab27
 
             $form.append('<hr><div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Отправить" class="btn btn-success btn-large" /></div></div>')
                 .ajaxForm(function (data) {
