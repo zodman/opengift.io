@@ -823,6 +823,7 @@ border-top-right-radius: 4px;}
 	.stat-widget-choose-a-project button {float:none !important;}
 
 @media only screen and (max-width: 920px) {
+    .stat-widget {float: none; width: 100%; margin-right: 0px;}
 
 .stat-widget-choose-form {display:block;}
 	
@@ -2917,5 +2918,6 @@ line-height: 36px;}
 }
 
 .resolve-message {
-    background-color: rgba(44, 192, 174, 0.43);
+    background-color: #fff2e8;
+    border-color: #fddfc7;
 }
