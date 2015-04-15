@@ -629,7 +629,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .task-wrapper:hover {transition: box-shadow 0.2s linear 0s;}
 
 
-.task-wrapper.active {background:#f9f9f9;}
+.task-wrapper.active, .task-wrapper.visible, .task-wrapper.visible-items {background:#f9f9f9;}
 .task-wrapper.critically {background:#FFECEC;}
 .task-wrapper.task_over, .task-wrapper.critically.task_over {box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6;	-o-box-shadow:0px 1px 2px #FFE0A6;	-webkit-box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6; background:#FFFDF1 !important;}
 
