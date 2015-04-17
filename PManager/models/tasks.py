@@ -147,7 +147,7 @@ class PM_File_Category(models.Model):
 
 
 class PM_Files(models.Model):
-    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'instance.projectId.id'))
+    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'str(instance.projectId.id)'))
     authorId = models.ForeignKey(User, null=True)
     projectId = models.ForeignKey(PM_Project, null=True)
     category = models.ForeignKey(PM_File_Category, related_name="files", null=True, blank=True)
