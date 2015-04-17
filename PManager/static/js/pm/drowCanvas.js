@@ -134,14 +134,16 @@
             canvas.click(function (e) {
                 var $canvasContainer = $('.CanvasContainer');
                 if ($('.writeTextContainer').length == 0 && textButton.hasClass('active')) {
-                    var offset = $(this).offset();
-                    var scrollTop = $canvasContainer.scrollTop();
-                    var scrollLeft = $canvasContainer.scrollLeft();
-                    var x = e.pageX - offset.left + 16 - scrollLeft;
-                    var y = e.pageY - offset.top + 62 - scrollTop;
+                    var offset = $(this).offset(),
+	                    scrollTop = $canvasContainer.scrollTop(),
+	                    scrollLeft = $canvasContainer.scrollLeft(),
+	                    x = e.pageX - offset.left + 16 - scrollLeft,
+	                    y = e.pageY - offset.top + 62 - scrollTop;
                     $canvasContainer.prepend('<div class="writeTextContainer"><div class="writeText" contenteditable="true">Надпись</div><div class="buttons clearfix"><a href="#" class="remove btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a><a href="#" class="apply btn btn-success btn-mini"><i class="fa fa-check icon-remove icon-white"></i></a></div></div>');
-                    $('.writeTextContainer').css('left', x).css('top', y);
-                    $('.writeTextContainer .writeText').each(function () {
+                    var $writeTextContainer = $canvasContainer.find('.writeTextContainer'),
+                    	$writeText = $writeTextContainer.find('.writeText');
+                    $writeTextContainer.css('left', x).css('top', y);
+                    $writeText.each(function () {
                         var e = this;
                         if (window.getSelection) {
                             var s = window.getSelection();
@@ -166,21 +168,24 @@
                         }
                     });
 
-                    $('.writeTextContainer .apply').on("click", function () {
-                        String.prototype.stripTags = function () {
-                            return this.replace(/<\/?[^>]+>/g, '\n');
-                        };
-                        var text = $('.writeTextContainer .writeText').html();
-                        var text2 = text.stripTags();
+					function applyWrite() {
+                        var text = $writeText.text();
                         context.fillStyle = brashInColor;
                         context.font = "25px Arial";
-                        context.fillText(text2, x - 16.5 + scrollLeft, y - 54 + scrollTop);
-                        $('.writeTextContainer').remove();
+                        context.fillText(text, x - 16.5 + scrollLeft, y - 55 + scrollTop);
+                        $writeTextContainer.remove();
                         return false;
-                    });
+					}
 
-                    $('.writeTextContainer .remove').on("click", function () {
-                        $('.writeTextContainer').remove();
+                    $writeTextContainer.find('.apply').on("click", applyWrite);
+					$writeText.keypress(function(e){
+						if(e.keyCode==13){
+							applyWrite();
+						}
+					});
+
+                    $writeTextContainer.find('.remove').on("click", function () {
+                        $writeTextContainer.remove();
                         return false;
                     });
                 };
