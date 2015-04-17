@@ -8,13 +8,13 @@ def path_and_rename(path, pSubdir=False):
     def wrapper(instance, filename):
         isPasted = False
 
-        try:
-            path = path
-            if pSubdir:
-                path = os.path.join(path, eval(pSubdir))
-        except UnboundLocalError:
-            path = 'PManager/static/upload/'
-            isPasted = True
+        # try:
+        path = path
+        if pSubdir:
+            path = os.path.join(path, eval(pSubdir))
+        # except UnboundLocalError:
+        #     path = 'PManager/static/upload/'
+        #     isPasted = True
 
         ext = filename.split('.')[-1]
         # get filename
