@@ -13,7 +13,7 @@ def path_and_rename(path, pSubdir=False):
             if pSubdir:
                 path = os.path.join(path, eval(pSubdir))
         except UnboundLocalError:
-            path = 'PManager/static/upload/projects/'+instance.projectId.id+'/'
+            path = 'PManager/static/upload/files/'
             isPasted = True
 
         ext = filename.split('.')[-1]
