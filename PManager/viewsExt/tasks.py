@@ -343,7 +343,6 @@ def taskListAjax(request):
 
             for filePost in files:
                 file = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
-                file.save()
                 file.file = filePost
                 file.save()
                 message.files.add(file.id)
