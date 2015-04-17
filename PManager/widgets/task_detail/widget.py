@@ -226,7 +226,7 @@ def widget(request, headerValues, arFilter, q):
             'lamp': lamp,
             'hiddenSubTasksExist': hiddenSubTasksExist,
             'templates': templates,
-            # 'resultTime': task.planTime if task.planTime else int(round(brain.check(task))),
+            'resultTime': task.planTime if task.planTime else int(round(brain.check(task))),
             'error': error
             # 'dataSet': len(arParams),
             # 'similarSet': len(tasksSimilar),
