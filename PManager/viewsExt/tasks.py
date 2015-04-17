@@ -342,7 +342,8 @@ def taskListAjax(request):
                         stask.Close(request.user)
 
             for filePost in files:
-                file = PM_Files(file=filePost, authorId=request.user, projectId=task.project, name=filePost.name)
+                file = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
+                file.file = filePost
                 file.save()
                 message.files.add(file.id)
 
