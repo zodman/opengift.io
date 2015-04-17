@@ -69,7 +69,7 @@ class PM_Tasks_Connector():
             mess = PM_Task_Message.objects.get(pk=id)
 
             if mess.canDelete(user):
-                mess.delete()
+                mess.delete(True)
                 return 'Message has been deleted'
             else:
                 return 'Failed to delete'
