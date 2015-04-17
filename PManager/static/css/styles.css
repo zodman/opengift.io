@@ -978,14 +978,16 @@ overflow:hidden;}
 .task_add-message .btn {margin-bottom:5px;}
 .addPic {padding-top: 7px; display: inline-block;}
 
-.task_add-message .form-horizontal .left {display: inline-block; height: 14px; line-height: 14px; margin-left: 13px; position: relative; top: -10px;}
+.task_add-message .form-horizontal .left {display: inline-block; height: 14px; line-height: 14px; position: relative; top: -10px; margin: 10px 0 0 0;}
 .task_add-message .form-horizontal .left input[type="checkbox"] {margin-top:-4px; margin-right:5px;}
+.task_add-message .form-horizontal .left_check {display: inline-block; margin-right: 13px;}
 
 .withstyles input, .withstyles textarea, input.combobox {display:block;width:100%;height:34px;padding:6px 12px;font-size:14px;line-height:1.428571429;color:#555555;vertical-align:middle;background-color:#ffffff;border:1px solid #cccccc;border-radius:4px;-webkit-box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);box-shadow:inset 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;}
 .withstyles input:focus, .withstyles textarea:focus, input.combobox:focus {border-color:#66afe9;outline:0;-webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);box-shadow:inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);}
 
-.task_add-message h4 {display:inline-block; margin:3px 10px 0 0 !important; float:left;}
+.task_add-message h4 {display:inline-block; margin:3px 10px 10px 0 !important; float:left;}
 .combobox-container {display:inline-block; margin:0px !important;}
+.newMessage.form-horizontal .combobox-container{margin-right: 13px !important;}
 .task_add-message .combobox-container .btn {margin-bottom:0px !important;}
 input.combobox {display:inline-block; height:30px; width:auto;}
 
