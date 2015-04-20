@@ -124,20 +124,20 @@ $(function(){
                                 }
                             }
                         }
-                        if (CURRENT_TASK_VIEW && CURRENT_TASK_VIEW.model.id == data.id){
-                            for (var k in data){
-                                CURRENT_TASK_VIEW.model.set(k, data[k]);
-                            }
-
-                            if (data.started === true){
-                                t.start();
-                            }else if (data.started === false){
-                                if (CURRENT_TASK_VIEW.model.get('started'))
-                                    t.stop();
-                            }
-
-                            CURRENT_TASK_VIEW.render();
-                        }
+//                        if (CURRENT_TASK_VIEW && CURRENT_TASK_VIEW.model.id == data.id){
+//                            for (var k in data){
+//                                CURRENT_TASK_VIEW.model.set(k, data[k]);
+//                            }
+//
+//                            if (data.started === true){
+//                                t.start();
+//                            }else if (data.started === false){
+//                                if (CURRENT_TASK_VIEW.model.get('started'))
+//                                    t.stop();
+//                            }
+//
+//                            CURRENT_TASK_VIEW.render();
+//                        }
                     }
                 });
 
