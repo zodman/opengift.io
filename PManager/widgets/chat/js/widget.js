@@ -144,13 +144,13 @@ $(function(){
                 widget_chat.addMessageRow(data);
             });
 
-            baseConnector.addListener("userLogin", function(data){
-                widget_chat.userLogin(data);
-            });
-
-            baseConnector.addListener("userLogout", function(data){
-                widget_chat.userLogout(data);
-            });
+//            baseConnector.addListener("userLogin", function(data){
+//                widget_chat.userLogin(data);
+//            });
+//
+//            baseConnector.addListener("userLogout", function(data){
+//                widget_chat.userLogout(data);
+//            });
 
             this.input.enterPressed(function(obj){
                 widget_chat.sendMessage($(obj).val());

@@ -54,7 +54,7 @@ var baseConnector = {};
 $(function(){
     baseConnector = new baseConnectorClass({
         'url':'http://heliard.ru:8082'
-//       'url':'http://heliard.dev:8081'//TODO: изменить перед коммитом
+//       'url':'http://heliard.dev:8081'
     });
 });
 (function($){
