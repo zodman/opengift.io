@@ -143,7 +143,7 @@
                     var $writeTextContainer = $canvasContainer.find('.writeTextContainer'),
                     	$writeText = $writeTextContainer.find('.writeText');
                     $writeTextContainer.css('left', x).css('top', y);
-                    $writeText.each(function () {
+                    $writeText.focus().each(function () {
                         var e = this;
                         if (window.getSelection) {
                             var s = window.getSelection();
