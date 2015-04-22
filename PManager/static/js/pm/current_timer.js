@@ -32,6 +32,7 @@ var currentTaskInit = function(data, model){
     CURRENT_TASK_VIEW.render();
     return currentTask;
 }
+
 if (window.taskViewClass)
     mytaskViewClass  = window.taskViewClass.extend({
         events: {
@@ -110,6 +111,7 @@ $(function(){
                 }
                 return this;
             }
+
             var t = this;
             baseConnector.addListener('fs.task.update',function(data){
                     if (data && data.id){
@@ -118,7 +120,7 @@ $(function(){
                                 if (window.widget_tl && window.widget_tl.TL_TaskTemplates[data.id]){
                                     currentTaskInit(data, widget_tl.TL_TaskTemplates[data.id].model);
                                 }else{
-                                    currentTaskInit(data); 
+                                    currentTaskInit(data);
                                 }
                             }
                         }
@@ -144,6 +146,7 @@ $(function(){
 
         baseConnector.addListener('disconnect', function(){
             if (!window.unloadPage) {
+//                alert('disconnect');
                 window.disconnectTimeout = setTimeout(function(){
                     if (oMyCurrentTimer && oMyCurrentTimer.started) {
                         window.mainTimer.stop();

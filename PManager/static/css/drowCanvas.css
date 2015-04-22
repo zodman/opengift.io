@@ -27,7 +27,7 @@
 }
 
 .canvasTools{
-    height: 30px;
+    height: 31px;
     margin: 0 0 15px 0;
 }
 
@@ -162,4 +162,4 @@ canvas#drawingCanvas.writeText{
     border: none;
 }
 
-#canvasPaint hr {width: 750px;}
+#canvasPaint hr {width: 100%;}

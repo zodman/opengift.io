@@ -291,10 +291,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'canEdit': task.canEdit(cur_user),
             'canRemove': task.canPMUserRemove(cur_prof),
             'canSetOnPlanning': arBIsManager[task.id] or False,
-            'canApprove': arBIsManager[task.id] or request.user.id == task.author.id,
+            'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
             #todo: разрешать платным пользователям только если денег хватает
-            'canClose': arBIsManager[task.id] or request.user.id == task.author.id,
-            'canSetCritically': arBIsManager[task.id] or request.user.id == task.author.id,
+            'canClose': arBIsManager[task.id] or cur_user.id == task.author.id,
+            'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
             'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
             'canBaneUser': bCanBaneUser,
             'planPrice': arBets.get(task.id, 0),

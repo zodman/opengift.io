@@ -147,7 +147,7 @@ class PM_File_Category(models.Model):
 
 
 class PM_Files(models.Model):
-    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'instance.projectId.id'))
+    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'str(instance.projectId.id)'))
     authorId = models.ForeignKey(User, null=True)
     projectId = models.ForeignKey(PM_Project, null=True)
     category = models.ForeignKey(PM_File_Category, related_name="files", null=True, blank=True)
@@ -527,6 +527,7 @@ class PM_Task(models.Model):
                     bet = manager.user.get_profile().getBet(self.project, manager.role.code)
                     price = bet * float(curTime)
                     if price:
+                        p = manager.user.get_profile()
                         credit = Credit(
                             user=manager.user,
                             value=price,
@@ -537,7 +538,8 @@ class PM_Task(models.Model):
                         credit.save()
 
                         allSum = allSum + price
-                        manager.user.get_profile().save()
+
+                        p.save()
 
             #clients
             clients = PM_ProjectRoles.objects.filter(

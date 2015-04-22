@@ -73,6 +73,11 @@ $(function(){
                 }else{
                     this.$el.removeClass('closed').find('.js-task_done').removeClass('closed');
                 }
+                if (this.model.get('critically') > CRITICALLY_THRESHOLD){
+                    this.$el.addClass('danger');
+                }else{
+                    this.$el.removeClass('danger');
+                }
                 if (this.model.get('startedTimerExist')){
                     this.$('.js-task_play').addClass('started').find('.fa').removeClass('fa-play-circle').addClass('fa-pause');
                 }else{
@@ -160,15 +165,17 @@ $(function(){
             $(document).keydown(function(event) {
                 if (event.which == 13 && (event.ctrlKey || event.metaKey)){
                     $('.sendTaskMessage:not(.btn-close, .js-change_resp)').click();
+                    return false;
                 };
             });
 
-            $(document).on("keypress", "form.newMessage .combobox-container .combobox", function(e){
+            widget_td.$container.on("keypress", "form.newMessage .combobox-container .combobox", function(e){
                 if(e.which == 13){
                     $('.sendTaskMessage:not(.btn-close)').click();
                     $("form.newMessage").submit(function(){
                         return false;
                     });
+                    return false;
                 }
             });
 
