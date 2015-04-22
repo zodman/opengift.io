@@ -2888,6 +2888,15 @@ line-height: 36px;}
     border-right: 1px solid rgba(1, 1, 1, 0.08);
 }
 
+.canvas-left {width: 72%; float: left;}
+.canvas-right {width: 22%; float: right;}
+
+
+@media only screen and (max-width: 1280px) {
+    .canvas-left {width: 60%;}
+    .canvas-right {width: 25%;}
+}
+
 @media only screen and (max-width: 1024px) {
     .message-desc-text {
         display: block;
@@ -2896,6 +2905,9 @@ line-height: 36px;}
         margin-top: 5px;
     }
     .message-desc-status {border-right:0px;}
+
+    .canvas-left {width: 60%;}
+    .canvas-right {width: 25%;}
 }
 
 @media only screen and (max-width: 576px) {
@@ -2910,6 +2922,15 @@ line-height: 36px;}
         border-top: 1px solid rgba(1, 1, 1, 0.08);
         display: block;
     }
+
+    .stat-widget {height: auto;}
+    .canvas-left {width: 100%;}
+    .canvas-right {
+        padding-left: 13px !important;
+        padding-top: 20px;
+        width: 100%;
+    }
+    .stat-widget-text {max-height: 100%;}
 
 }
 /* БАЗА ЗНАНИЙ */

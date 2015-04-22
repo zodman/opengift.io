@@ -69,8 +69,9 @@
 
                 <div class="stat-widget-text">
                     {% if chart.type == 'chart' %}
-                        <canvas id="chart_1" width="500px" height="220px" class="img-responsive"
-                                style="float:left;margin-right: 15px;"></canvas>
+                        <div class="canvas-left">
+                            <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
+                        </div>
                     {% elif chart.type == 'simple' %}
                         <div class="chart-value"
                              style="font-size:86px;font-weight:bold;text-align: center;margin-top: 20px;height: 110px;padding-top: 40px;">{{ chart.value }}</div>
@@ -142,9 +143,9 @@
                     'pointDot': true,
                     'showTooltips': true,
                     'datasetFill': false,
-                    'legendTemplate': "<ul class=\"legend\"><%for (var i=0;i<datasets.length;i++){ %><li style=\"color:<%=datasets[i].strokeColor%>\"> <span style=\"color:black;\"><%=datasets[i].label%><% } %></span></li></ul>"
+                    'legendTemplate': "<div class=\"canvas-right\"><ul class=\"legend\"><%for (var i=0;i<datasets.length;i++){ %><li style=\"color:<%=datasets[i].strokeColor%>\"> <span style=\"color:black;\"><%=datasets[i].label%><% } %></span></li></ul></div>"
                 });
-                $(canvas{{ forloop.counter }}).parent().append(chart{{ forloop.counter }}.generateLegend());
+                $(canvas{{ forloop.counter }}).parent().parent().append(chart{{ forloop.counter }}.generateLegend());
             });
         {% endif %}
     {% endfor %}
