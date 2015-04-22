@@ -1476,9 +1476,10 @@ div.fixed-buttons {position:absolute; left:40px; padding:15px 20px; right:40px; 
 		
 		.files-wrapper-packs ul li.separator > a, .files-wrapper-packs ul li.separator > a:hover {position:relative; color:#fff; background:#5cb85c; border-top:0; border-bottom:1px solid #4cae4c; padding:13px 20px 11px; font-size:16px; line-height:20px; height:auto;box-shadow:0 0 3px rgba(1, 1, 1, 0.3); -moz-box-shadow:0 0 3px rgba(1, 1, 1, 0.3); -webkit-box-shadow:0 0 3px rgba(1, 1, 1, 0.3); z-index:3; position:relative; max-height:65px; overflow:hidden;}
 		.files-wrapper-packs ul li.separator > a:before {position:absolute; bottom:0px; width:100%; left:0px; height:10px; background:#5cb85c; content:"";}
-		.files-wrapper-packs ul li a {padding:13px 20px; display:block; font-weight:bold; color:#000; text-decoration:none; line-height:16px; border-bottom:1px solid #ddd; border-top:1px solid rgba(255,255,255,0.5);}
+		.files-wrapper-packs ul li a {padding:13px 40px 13px 20px; display:block; font-weight:bold; color:#000; text-decoration:none; line-height:16px; border-bottom:1px solid #ddd; border-top:1px solid rgba(255,255,255,0.5);}
 		.files-wrapper-packs ul li a:hover, .files-wrapper-packs ul li a.active {background:#fafafa;}
 		.files-wrapper-packs ul li a.active {background:#fafafa; position:relative;}
+        .files-wrapper-packs ul li .fa.fa-times-circle {margin-top: -7px; position: absolute; right: 20px; top: 50%;}
 		
 		.files-wrapper-packs ul ul {overflow-y:auto; max-height:361px;}
 	
@@ -1895,7 +1896,7 @@ border-top-right-radius: 0;}
 .qq-uploader {width: 100%; text-align:center; position:relative; z-index:1;}
 .qq-uploader .btn-group {position:relative; left:10px; top: 2px;}
 .qq-upload-list {background:none repeat scroll 0 0 #F7F7F7; margin: 10px 0;}
-.qq-upload-drop-area {background: none repeat scroll 0 0 #f7f7f7; color: #999; font-size: 20px; padding: 12px 0; position: relative; text-align: center; z-index: 1; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; margin: 10px 0;}
+.qq-upload-drop-area {background: none repeat scroll 0 0 #f7f7f7; color: #999; font-size: 20px; padding: 12px 0; left: 2px; right: 2px; top: -6px; position: absolute; text-align: center; z-index: 1; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif; margin: 10px 0;}
 /*.qq-upload-drop-area > span {left:0px; width:100%; margin-top:-10px; top:50%; position:absolute;}*/
 .qq-upload-list li {display:block; padding: 10px 0 0 0;}
 .qq-upload-list li:last-child {padding-bottom: 9px;}
@@ -2890,6 +2891,15 @@ line-height: 36px;}
     border-right: 1px solid rgba(1, 1, 1, 0.08);
 }
 
+.canvas-left {width: 72%; float: left;}
+.canvas-right {width: 22%; float: right;}
+
+
+@media only screen and (max-width: 1280px) {
+    .canvas-left {width: 60%;}
+    .canvas-right {width: 25%;}
+}
+
 @media only screen and (max-width: 1024px) {
     .message-desc-text {
         display: block;
@@ -2898,6 +2908,9 @@ line-height: 36px;}
         margin-top: 5px;
     }
     .message-desc-status {border-right:0px;}
+
+    .canvas-left {width: 60%;}
+    .canvas-right {width: 25%;}
 }
 
 @media only screen and (max-width: 576px) {
@@ -2913,6 +2926,15 @@ line-height: 36px;}
         display: block;
     }
 
+    .stat-widget {height: auto;}
+    .canvas-left {width: 100%;}
+    .canvas-right {
+        padding-left: 13px !important;
+        padding-top: 20px;
+        width: 100%;
+    }
+    .stat-widget-text {max-height: 100%;}
+
 }
 /* БАЗА ЗНАНИЙ */
 .similar-solution {
@@ -2920,6 +2942,6 @@ line-height: 36px;}
 }
 
 .resolve-message {
-    background-color: #fff2e8;
-    border-color: #fddfc7;
+    background-color: #eaf8fe;
+    border-color: #ddf4ff;
 }
