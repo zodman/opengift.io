@@ -63,11 +63,11 @@ def widget(request, headerValues=None, ar=None, qargs=None):
 
     opt = 'USER_MESSAGES'
     if not options[opt]:
-        result = result.exclude(isSystemLog=False)
+        result = result.exclude(isSystemLog=False, commit__isnull=True)
 
     opt = 'COMMITS'
     if not options[opt]:
-        result = result.exclude(commit=True)
+        result = result.exclude(commit__isnull=False)
 
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)

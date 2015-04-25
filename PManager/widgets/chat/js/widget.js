@@ -87,12 +87,14 @@ $(function(){
     widget_chat.options = {
         'SYSTEM_MESSAGES':true,
         'OTHER_PROJECTS':true,
-        'USER_MESSAGES':true
+        'USER_MESSAGES':true,
+        'COMMITS':true
     };
     widget_chat.optionsClasses = {
         'SYSTEM_MESSAGES':'sm',
         'OTHER_PROJECTS':'op',
-        'USER_MESSAGES':'um'
+        'USER_MESSAGES':'um',
+        'COMMITS':'cm'
     };
     widget_chat.$options = widget_chat.$container.find('.js-feed-options');
     widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates);
@@ -109,6 +111,9 @@ $(function(){
                 } else {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
                 }
+                if (this.get('commit')) {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['COMMITS']);
+                }
             });
             widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
             widget_chat.messageListHelper.reversed = true;
@@ -124,6 +129,8 @@ $(function(){
                 $('.toggle-messages.minimize').remove();
             });
             baseConnector.addListener('fs.comment.add', function(data){
+                console.log(data);
+                console.log(widget_chat.options);
                 for (var k in widget_chat.options){
                     if (!widget_chat.options[k]){
                         switch (k){
@@ -134,7 +141,10 @@ $(function(){
                                 if (data.system) return;
                                 break;
                             case 'USER_MESSAGES':
-                                if (!data.system) return;
+                                if (!data.system && !data.commit) return;
+                                break;
+                            case 'COMMITS':
+                                if (data.commit) return;
                                 break;
                             default:
                                 break;
