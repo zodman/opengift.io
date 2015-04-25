@@ -268,11 +268,18 @@
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title" id="myModalLabel">Приглашения отправлены</h2>
-              <p>В течение нескольких минут в разделе "Отклики" у вас появятся оценки наших разработчиков!</p>
-              <center>
+            <h2 class="modal-title" id="myModalLabel">Список Задач</h2>
+            <form role="form" class="js-invite-form" method="post" action="/task_handler">
+              <div class="modal-body">
+                Создать список задач на аутсорс для приглашения специалистов?
+              </div>
+              <div class="modal-footer">
+                <div class="js-tasks-for-developers"></div>
+                  <input type="hidden" name="action" value="inviteUsers" />
+                <input type="submit" name="add-developers" class="btn btn-success js-add-developers" value="Создать" />
                 <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
-              </center>
+              </div>
+            </form>
           </div>
         </div>
       </div>

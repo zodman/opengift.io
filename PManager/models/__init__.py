@@ -10,4 +10,4 @@ from PManager.models.log import *
 from PManager.models.payments import *
 from PManager.models.interfaces import *
 from PManager.models.keys import *
-from PManager.models.tasklist import *
+from PManager.models.taskdraft import *

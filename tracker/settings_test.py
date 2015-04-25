@@ -217,19 +217,19 @@ ROBOKASSA_EXTRA_PARAMS = ['user']
 COMISSION = 1
 USE_GIT_MODULE = False
 
+DEBUG = True
+# from databases.database import DATABASES
+SOUTH_TESTS_MIGRATE = False
+DATABASES = dict()
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.sqlite3'
+}
+SESSION_COOKIE_DOMAIN = 'heliard.dev'
+SOCKET_SERVER_ADDRESS = 'localhost'
+project_root = '/projects/heliard/'
 
-from platform import node
-LOCAL_NODE = 'Gvam'
-ALL_DEVELOPMENT_NODE = 'workpc'
-DEVELOPMENT_NODE = 'heliarddev'
-PRODUCTION_NODE = 'HELIANT-VM-11'
-if node() == LOCAL_NODE:
-    from settings_local import *
-elif node() == DEVELOPMENT_NODE:
-    from settings_vagrant import *
-elif node() == ALL_DEVELOPMENT_NODE:
-    from settings_dev import *
-elif node() == PRODUCTION_NODE:
-    from settings_production import *
-else:
-    from settings_production import *
+# GIT MODULE SETTINGS
+USE_GIT_MODULE = False
+GITOLITE_ACCESS_URL = 'heliard@localhost'
+GITOLITE_ADMIN_REPOSITORY = '/projects/heliard/gitolite-admin'
+GITOLITE_REPOS_PATH = '/projects/heliard/repositories'

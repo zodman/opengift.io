@@ -99,11 +99,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         mId = int(pst('milestone')) if pst('milestone') else 0
         mName = pst('milestone_name')
         mDate = pst('milestone_date')
-
+        milestone = None
         if mId:
             milestone = PM_Milestone.objects.get(pk=mId)
         elif project:
-            milestone = None
             if mName:
                 mName = mName.strip()
                 if mDate:

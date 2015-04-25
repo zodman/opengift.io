@@ -360,7 +360,7 @@ var widget_tl, currentGroup;
                         $block = menuTaskBlock('Отдать на Аутсорс', '#invite-developers', function(){
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-task-checkbox:checked').each(function(){
-                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                                $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });
                         });
                         bottomPanel.addBlock('inviteDevelopers', $block);

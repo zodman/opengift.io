@@ -26,7 +26,7 @@ def initGlobals(request):
             if CURRENT_PROJECT.id in projects:
                 SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
                 request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id
-        except PM_Project.DoesNotExist:
+        except (PM_Project.DoesNotExist, ValueError):
             CURRENT_PROJECT = 0
 
         SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id if CURRENT_PROJECT else 0
