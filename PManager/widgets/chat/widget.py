@@ -67,7 +67,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
 
     opt = 'COMMITS'
     if not options[opt]:
-        result = result.exclude(code='GIT_COMMIT')
+        result = result.exclude(commit__isnull=False)
 
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
