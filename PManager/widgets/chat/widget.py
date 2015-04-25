@@ -47,7 +47,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
         'USER_MESSAGES': True,
-        'COMMIT': True,
+        'COMMITS': True,
     }
     for k in headerValues['COOKIES']:
         if k.startswith('FEED_OPTION_'):
