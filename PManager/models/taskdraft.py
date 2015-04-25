@@ -14,7 +14,6 @@ class TaskDraft(models.Model):
         (CLOSED, u'Закрыт')
     )
     created_at = models.DateTimeField(auto_now_add=True, blank=True)
-    project = models.ForeignKey(PM_Project, related_name='task_drafts')
     users = models.ManyToManyField(User, blank=True)
     author = models.ForeignKey(User, blank=False, related_name='task_drafts')
     tasks = models.ManyToManyField(PM_Task, blank=True)

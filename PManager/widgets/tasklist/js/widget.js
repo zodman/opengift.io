@@ -359,6 +359,19 @@ var widget_tl, currentGroup;
                         
                         $block = menuTaskBlock('Отдать на Аутсорс', '#invite-developers', function(){
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
+                            $('.js-add-developers').click(function(e){
+                                e.preventDefault();
+                                var $form = $(this).parents('form.js-invite-form');
+                                var data = $form.serialize();
+                                var url = $form.attr('action');
+                                $.post(url, data, function(response){
+                                    if(response.error) {
+                                        alert(response.error);
+                                    }
+                                    $('#invite-developers').modal('hide');
+                                    window.location.reload();
+                                });
+                            })
                             $('.js-task-checkbox:checked').each(function(){
                                 $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });

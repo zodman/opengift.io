@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskList, \
+from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
     PM_Project
 import datetime, json, codecs
 from django.utils import simplejson, timezone
@@ -747,21 +747,9 @@ class taskAjaxManagerCreator(object):
     def process_inviteUsers(self):
         import datetime
         task_ids = self.request.POST.getlist('tasks[]')
-        project_id = self.request.REQUEST.get('project', '')
-        try:
-            project = PM_Project.objects.get(pk=int(project_id))
-        except ValueError:
-            try:
-                task = PM_Task.objects.get(pk=int(task_ids[0]))
-                project = task.project
-            except (ValueError, PM_Task.DoesNotExist):
-                return HttpResponse(json.dumps({'result': 'ERROR', 'error': 'project not found'}))
-        except PM_Project.DoesNotExist:
-            return HttpResponse(json.dumps({'result': 'ERROR', 'error': 'project not found'}))
-
         tasks = PM_Task.objects.filter(id__in=task_ids)
-        task_list = TaskList.objects.create(project=project)
-        task_list.users.add(self.currentUser)
+        task_draft = TaskDraft.objects.create(author=self.currentUser)
+        task_draft.users.add(self.currentUser)
         for task in tasks:
             if not task.canEdit(self.currentUser):
                 continue
@@ -773,48 +761,9 @@ class taskAjaxManagerCreator(object):
                 'id': task.id,
                 'onPlanning': True
             })
-            task_list.tasks.add(task)
-        task_list.status = TaskList.OPEN
-        task_list.save()
-        #
-        #
-        #
-        # for id in aId:
-        #     id = int(id)
-        #     t = PM_Task.objects.get(id=id)
-        #
-        #     if t.canEdit(self.currentUser):
-        #         t.onPlanning = True
-        #         t.resp = None
-        #         t.setStatus('not_approved')
-        #         t.save()
-        #         redisSendTaskUpdate({
-        #             'id': t.id,
-        #             'onPlanning': True
-        #         })
-        #         aTasks.append(t)
-        #
-        # users = PM_User.objects.filter(#todo: приглашать только у которых стоит галочка "аутсорс"
-        #     is_autsource=True,
-        #     user__is_active=True,
-        #     last_activity_date__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
-        # )
-        # aEmail = []
-        # for user in users:
-        #     if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
-        #         aEmail.append(user.user.email)
-        #
-        # aEmail.append('gvamm3r@gmail.com')
-        #
-        # sendMes = emailMessage(
-        #     'invite',
-        #     {
-        #        'project': self.globalVariables['CURRENT_PROJECT'],
-        #        'tasks': aTasks
-        #     },
-        #     'Задачи на оценку'
-        # )
-        # sendMes.send(aEmail)
+            task_draft.tasks.add(task)
+        task_draft.status = TaskDraft.OPEN
+        task_draft.save()
         return HttpResponse(json.dumps({'result': 'OK'}))
 
     @task_ajax_action
