@@ -87,12 +87,14 @@ $(function(){
     widget_chat.options = {
         'SYSTEM_MESSAGES':true,
         'OTHER_PROJECTS':true,
-        'USER_MESSAGES':true
+        'USER_MESSAGES':true,
+        'COMMITS':true
     };
     widget_chat.optionsClasses = {
         'SYSTEM_MESSAGES':'sm',
         'OTHER_PROJECTS':'op',
-        'USER_MESSAGES':'um'
+        'USER_MESSAGES':'um',
+        'COMMITS':'cm'
     };
     widget_chat.$options = widget_chat.$container.find('.js-feed-options');
     widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates);
@@ -108,6 +110,9 @@ $(function(){
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['SYSTEM_MESSAGES']);
                 } else {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
+                }
+                if (this.get('commit')) {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['COMMITS']);
                 }
             });
             widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
@@ -134,7 +139,10 @@ $(function(){
                                 if (data.system) return;
                                 break;
                             case 'USER_MESSAGES':
-                                if (!data.system) return;
+                                if (!data.system && !data.commit) return;
+                                break;
+                            case 'COMMITS':
+                                if (data.commit) return;
                                 break;
                             default:
                                 break;
