@@ -294,11 +294,12 @@ def taskListAjax(request):
             if to:
                 try:
                     to = User.objects.get(pk=int(to))
-                    if b_resp_change:
-                        task.resp = to
-                        task.save()
-                    task.observers.add(to) #TODO: подумать, надо ли добавлять в наблюдатели
-                    message.userTo = to
+                    if to.get_profile().hasRole(task.project): #todo здесь надо заменить на проверку, есть ли адресат в команде текущего пользователя
+                        if b_resp_change:
+                            task.resp = to
+                            task.save()
+                        task.observers.add(to)
+                        message.userTo = to
                 except User.DoesNotExist:
                     pass
 
@@ -342,7 +343,8 @@ def taskListAjax(request):
                         stask.Close(request.user)
 
             for filePost in files:
-                file = PM_Files(file=filePost, authorId=request.user, projectId=headerValues['CURRENT_PROJECT'], name=filePost.name)
+                file = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
+                file.file = filePost
                 file.save()
                 message.files.add(file.id)
 
@@ -388,11 +390,12 @@ def taskListAjax(request):
                 }
             }
 
-            sendMes = emailMessage('new_task_message',
-                                   {
-                                       'task': taskdata
-                                   },
-                                   'Новое сообщение в вашей задаче!'
+            sendMes = emailMessage(
+                'new_task_message',
+                {
+                   'task': taskdata
+                },
+                'Новое сообщение в вашей задаче!'
             )
 
             try:

@@ -715,21 +715,6 @@ var widget_tl, currentGroup;
 
                             obj.TL_CreateTaskRow(taskInfo, params.parent);
                         }
-                            
-                        if (!$('.task-wrapper.active .subtask').html()) {
-                            if (!$('.task-wrapper.active').hasClass('visible-items')) {
-                                $('.task-wrapper.active').addClass('visible').removeClass('active');
-                                $('.task-wrapper.visible .add-task-input').find('input').bind('blur.subtask', function(){
-                                    $('.task-wrapper.visible .subtask').hide();
-                                    $(this).parents('.visible').removeClass('active').removeClass('visible');
-                                    $(this).parent().hide();
-                                })
-                            };
-                        } else {
-                            if (!$('.task-wrapper.active').hasClass('visible')) {
-                                $('.task-wrapper.active').addClass('visible-items').removeClass('active');
-                            };
-                        }
 
                         if ((!tasks || tasks.length <= 0) && !params.parent && !params.page){
                             obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
@@ -1030,32 +1015,83 @@ var widget_tl, currentGroup;
             var $subtaskContainer = $task.parent().find('.subtask');
             var is_open = $subtaskContainer.is(':visible');
 
-            if (!is_open){
-                $taskWrapper.addClass('active');
-                $task.parent().find('.add-task-input').show();
-                if (!$subtaskContainer.html()){
-                    widget_tl.TL_SilentSearch({'parent':taskId});
+            if (!$('.show-subtasks.add-subtask').hasClass('openSubtask')) {
+                if (!is_open){
+                    $taskWrapper.addClass('active');
+                    $task.parent().find('.add-task-input').show();
+                    if (!$subtaskContainer.html()){
+                        widget_tl.TL_SilentSearch({'parent':taskId});
+                        if ($(this).text().replace(/(^\s+|\s+$)/g,'') == '') {
+                            $taskWrapper.find('.show-subtasks.add-subtask').addClass('openSubtask');
+                        };
+                        $taskWrapper.find('.add-task-input').find('input').bind('blur.subtask', function(){
+                            if ($taskWrapper.find('.subtask').html()) {
+                                $taskWrapper.addClass('visible-items').removeClass('active');
+                            };
+                            if (!$taskWrapper.hasClass('visible-items')) {
+                                $(document).click(function(e) {
+                                    if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {        
+                                        $subtaskContainer.hide();
+                                        $taskWrapper.removeClass('active').removeClass('visible-items');
+                                        $taskWrapper.find('.add-task-input').hide();
+                                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
+                                    };
+                                });
+                                $('.show-subtasks').click(function() {
+                                    if (!$(this).hasClass('openSubtask') && !$taskWrapper.hasClass('visible-items')) {
+                                        $subtaskContainer.hide();
+                                        $taskWrapper.removeClass('active').removeClass('visible-items');
+                                        $taskWrapper.find('.add-task-input').hide();
+                                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
+                                    } else {
+                                        if (!$taskWrapper.hasClass('visible-items')) {
+                                            $subtaskContainer.hide();
+                                            $taskWrapper.removeClass('active').removeClass('visible-items');
+                                            $taskWrapper.find('.add-task-input').hide();
+                                        };
+                                    }
+                                });
+                            };
+                        });
+                    }else{
+                        if (!$taskWrapper.hasClass('visible-items')) {
+                            $taskWrapper.addClass('visible-items').removeClass('active');
+                        } else {
+                            $taskWrapper.removeClass('visible-items');
+                        }
+                    }
+
+                    $subtaskContainer.show().prev().find('input').focus().enterPressed(function(obj){
+                        if ($(obj).val())
+                            widget_tl.TL_CreateTask({
+                                'taskname':$(obj).val()
+                            },$(obj).data('parent'));
+
+                        $(obj).val('');
+
+                        $taskWrapper.addClass('visible-items').removeClass('active');
+                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
+
+                        var numSubStr = $taskWrapper.find('.js-subNum').text();
+                        var numSub = parseFloat(numSubStr);
+                        if (isNaN(numSub)) {
+                            numSub = 0;
+                        };
+                        var newNumSub = numSub + 1;
+                        $taskWrapper.find('.js-subNum').text(newNumSub + ' ');
+                    });//.addTaskFilePasteSimple();
                 }else{
-                    if (!$('.task-wrapper.active').hasClass('visible')) {
-                        $('.task-wrapper.active').addClass('visible-items').removeClass('active');
-                    };
+                    $taskWrapper.removeClass('active').removeClass('visible-items');
+                    $task.parent().find('.add-task-input').hide();
+                    $subtaskContainer.hide();
                 }
 
-                $subtaskContainer.show().prev().find('input').focus().enterPressed(function(obj){
-                    if ($(obj).val())
-                        widget_tl.TL_CreateTask({
-                            'taskname':$(obj).val()
-                        },$(obj).data('parent'));
-
-                    $(obj).val('');
-                });//.addTaskFilePasteSimple();
-            }else{
-                $taskWrapper.removeClass('active').removeClass('visible').removeClass('visible-items');
-                $task.parent().find('.add-task-input').hide();
-                $subtaskContainer.hide();
+            } else {
+                $('.show-subtasks.add-subtask').removeClass('openSubtask');
             }
 
             return false;
+
         });
 
         var search_timeout = false;

@@ -27,7 +27,7 @@
 }
 
 .canvasTools{
-    height: 30px;
+    height: 31px;
     margin: 0 0 15px 0;
 }
 
@@ -59,7 +59,56 @@
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) inset, 0 0 8px rgba(102, 175, 233, 1);
 }
 
-.canvasTools .brushDepth .size.active{
+.canvasText{
+    display: inline-block;
+    position: relative;
+    width: 30px;
+    height: 30px;
+    padding: 6px 0 0 0;
+    margin: 5px;
+    cursor: pointer;
+    float: right;
+    font-size: 18px;
+    text-align: center;
+}
+
+.writeTextContainer{
+    font-size: 25px;
+    position: absolute;
+    z-index:100;
+}
+
+.CanvasContainer {
+    color: #C00F01;
+}
+
+.CanvasContainer .writeTextContainer .btn-mini{
+    border-radius: 50%;
+}
+
+.writeTextContainer .writeText{
+    float: left;
+}
+
+.writeTextContainer .buttons{
+    float: right;
+}
+
+.writeTextContainer .remove{
+    float: right;
+    position: absolute;
+    top: -15px;
+    padding: 0 5px !important;
+}
+
+.writeTextContainer .apply{
+    bottom: -15px;
+    position: absolute;
+    font-size: 11px;
+    padding: 2px 5px !important;
+}
+
+.canvasTools .brushDepth .size.active, .canvasText.active{
 	background:none repeat scroll 0 0 #aaa;
 	border-radius:25px;
 	-moz-border-radius:25px;
@@ -101,6 +150,10 @@ canvas#drawingCanvas{
     cursor: crosshair;
 }
 
+canvas#drawingCanvas.writeText{
+    cursor: text;
+}
+
 #savedCopyContainer {
     display: none;
 }
@@ -108,3 +161,5 @@ canvas#drawingCanvas{
 #savedCopyContainer img {
     border: none;
 }
+
+#canvasPaint hr {width: 100%;}

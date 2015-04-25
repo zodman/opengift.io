@@ -952,6 +952,21 @@ var CRITICALLY_THRESHOLD = 0.7;
                 taskManager.deleteTask(this.model.id, function () {
 
                 });
+
+                if ('.js-subNum'){
+                    var numSubStr = this.$el.parents('.visible-items').find('.js-subNum').text();
+                    var numSub = parseFloat(numSubStr);
+                    if (isNaN(numSub)) {
+                        numSub = 0;
+                    };
+                    var newNumSub = numSub - 1;
+                    if (newNumSub == 0) {
+                        this.$el.parents('.visible-items').find('.js-subNum').text(' ');
+                    } else {
+                        this.$el.parents('.visible-items').find('.js-subNum').text(newNumSub + ' ');
+                    }
+                }
+
                 this.model.destroy();
                 if (!this.model.get('parent'))
                     this.$el.parent().remove();

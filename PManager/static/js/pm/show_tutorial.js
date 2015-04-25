@@ -8,8 +8,7 @@ function showTutorial () {
             {href: "/static/images/start_slider/slide1.jpg"},
             {href: "/static/images/start_slider/slide2.jpg"},
             {href: "/static/images/start_slider/slide3.jpg"},
-            {href: "/static/images/start_slider/slide4.jpg"},
-            {href: "/static/images/start_slider/slide5.jpg"}
+            {href: "/static/images/start_slider/slide4.jpg"}
         ],
         {
             helpers : {

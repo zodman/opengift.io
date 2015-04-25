@@ -5,16 +5,15 @@ import os
 from uuid import uuid4
 
 def path_and_rename(path, pSubdir=False):
-    def wrapper(instance, filename):
-        isPasted = False
 
+    def wrapper(instance, filename):
         try:
             path = path
-            if pSubdir:
-                path = os.path.join(path, eval(pSubdir))
         except UnboundLocalError:
-            path = 'PManager/static/upload/'
-            isPasted = True
+            path = 'PManager/static/upload/projects/'
+
+        if pSubdir:
+            path = os.path.join(path, eval(pSubdir))
 
         ext = filename.split('.')[-1]
         # get filename

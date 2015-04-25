@@ -168,8 +168,14 @@
                     {% for resp_user in task_detail.users %}
                         <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
                     {% endfor %}
-                </select><label class="left"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
-                <label class="left"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Решение задачи</label>
+                </select>
+                <div class="left clearfix">
+                    <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
+                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Решение задачи</label>
+                </div>
+                <div class="left">
+                    <a href="#" class="addPic js-addPic" onclick="return false">Нарисовать рисунок</a>
+                </div>
                 <hr>
                 {% csrf_token %}
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
@@ -182,7 +188,6 @@
                 <div class="uploaded_file"></div>
 
                 <div class="task_add-message_message-detail form-group">
-
                     <label class="col-sm-2 control-label">Прикрепить файл</label>
                     <div class="col-sm-2">
                         <input name="file" type="file">

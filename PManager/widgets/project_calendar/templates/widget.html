@@ -89,7 +89,24 @@
 .calendar-task-date i {margin-top:0px; opacity:0.6; -moz-opacity:0.6; -webkit-opacity:0.6;}
 .bxec-event-actions {margin:5px 0;}
 .calendar-project-title h4 {margin-bottom:5px; font-weight:bold; font-size:18px;}
-.calendar-project-title img {border-radius:50px; -moz-border-radius:50px; -webkit-border-radius:50px; height:100px; width:100px;}
+.calendar-project-title .calendar-project-img {
+    background: none repeat scroll 0 0 #fff;
+    border-radius: 50px;
+    display: block;
+    height: 100px;
+    margin: 15px auto 0;
+    overflow: hidden;
+    position: relative;
+    width: 100px;
+}
+.calendar-project-title .calendar-project-img span {
+    display: table-cell;
+    height: 100px;
+    padding: 0;
+    vertical-align: middle;
+    width: 100px;
+}
+.calendar-project-title img {max-width: 100%; width: 100px;}
 .holiday {background:#fff7f7 !important; color:#e38787 !important;}
 </style>
 
@@ -106,7 +123,9 @@
         <td style="vertical-align:middle !important; text-align:center !important;" class="calendar-project-title">
             <h4>{{ project.name }}</h4>
             {% if project.imagePath %}
-            <img src="{{ project.imagePath|thumbnail:"100x100" }}" />
+            <span class="calendar-project-img">
+                <span><img src="{{ project.imagePath|thumbnail:"100x100" }}" /></span>
+            </span>
             {% endif %}
         </td>
         {% for day in project_calendar.arDays %}

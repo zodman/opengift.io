@@ -159,7 +159,7 @@ class PM_File_Category(models.Model):
 
 
 class PM_Files(models.Model):
-    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'instance.projectId.id'))
+    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'str(instance.projectId.id)'))
     authorId = models.ForeignKey(User, null=True)
     projectId = models.ForeignKey(PM_Project, null=True)
     category = models.ForeignKey(PM_File_Category, related_name="files", null=True, blank=True)
@@ -539,6 +539,7 @@ class PM_Task(models.Model):
                     bet = manager.user.get_profile().getBet(self.project, manager.role.code)
                     price = bet * float(curTime)
                     if price:
+                        p = manager.user.get_profile()
                         credit = Credit(
                             user=manager.user,
                             value=price,
@@ -549,7 +550,8 @@ class PM_Task(models.Model):
                         credit.save()
 
                         allSum = allSum + price
-                        manager.user.get_profile().save()
+
+                        p.save()
 
             #clients
             clients = PM_ProjectRoles.objects.filter(
@@ -1152,11 +1154,39 @@ class PM_Task(models.Model):
 
         return arTasks
 
-    # deprecated, should use service directly instead
     def getUserQuality(self, userId):
-        #todo refactor to take user instead of userId
-        from PManager.services.rating import get_user_quality_for_task
-        return get_user_quality_for_task(self, userId)
+        taskTagRelArray = ObjectTags.objects.filter(object_id=self.id,
+                                                    content_type=ContentType.objects.get_for_model(self))
+
+        arTagsId = [str(tagRel.tag.id) for tagRel in taskTagRelArray]
+
+        userTagSums = {}
+        if len(arTagsId) > 0:
+            for obj1 in ObjectTags.objects.raw(
+                                                                            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
+                                                                            ' from PManager_objecttags WHERE' +
+                                                                    ' tag_id in (' + ', '.join(arTagsId) + ')' +
+                                            ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
+                            ' GROUP BY object_id'):
+                if obj1.content_object:
+                    userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+
+            minTagCount, maxTagCount = False, 0
+
+            for userId in userTagSums:
+                if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
+                if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
+
+            currentRecommendedUser = None
+            if maxTagCount > 0:
+                for userId in userTagSums:
+                    if minTagCount == maxTagCount:
+                        userTagSums[userId] = 1 if userTagSums[userId] == minTagCount else 0
+                    else:
+                        userTagSums[userId] = float((int(userTagSums[userId]) - int(minTagCount))) / float(
+                            (int(maxTagCount) - int(minTagCount)))
+            return userTagSums[userId] if userId in userTagSums else 0
+        return 0
 
     def getUsersEmail(self, excludeUsers=None):
         if not excludeUsers:
@@ -1221,10 +1251,26 @@ class PM_Task(models.Model):
         except PM_Task.DoesNotExist:
             return False
 
-    # deprecated, should use service instead
     def getUserRating(self, user):
-        from PManager.services.rating import get_user_rating_for_task
-        return get_user_rating_for_task(self, user)
+        assert user.id > 0
+
+        userTagSums = {}
+        taskTagRelArray = ObjectTags.objects.filter(object_id=self.id,
+                                                    content_type=ContentType.objects.get_for_model(self))
+
+        arTagsId = [str(tagRel.tag.id) for tagRel in taskTagRelArray]
+
+        if len(arTagsId) > 0:
+            for obj1 in ObjectTags.objects.raw(
+                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
+                                    arTagsId) + ') AND object_id=' + str(
+                    user.id) + ' AND content_type_id=' + str(
+                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
+                if obj1.content_object:
+                    userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+
+            return userTagSums.get(str(user.id), 0)
+        return 0
 
     def systemMessage(self, text, user=None, code=None):
         message = PM_Task_Message(text=text, task=self, author=user, isSystemLog=True, code=code)
@@ -1710,6 +1756,7 @@ def remove_git(sender, instance, **kwargs):
         if instance.repository and GitoliteManager.repository_exists(instance.repository):
             GitoliteManager.remove_repo(instance)
 
+
 def update_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
     from PManager.classes.git.gitolite_manager import GitoliteManager
@@ -1721,6 +1768,7 @@ def update_git(sender, instance, **kwargs):
         else:
             if instance.repository:
                 GitoliteManager.regenerate_access(instance)
+
 
 def rewrite_git_access(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
