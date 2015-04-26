@@ -16,3 +16,4 @@ from project_graph import *
 from project_statistic import *
 from life import *
 from kanban import *
+from taskdrafts import *

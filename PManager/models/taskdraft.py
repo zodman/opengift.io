@@ -21,7 +21,7 @@ class TaskDraft(models.Model):
     _status = models.IntegerField(blank=True, null=True, default=CLOSED, choices=status_choices, db_column='status')
 
     def __unicode__(self):
-        return "%s#%s" % (self.id, self.project.id)
+        return "#%s" % (self.id)
 
     @property
     def status(self):
