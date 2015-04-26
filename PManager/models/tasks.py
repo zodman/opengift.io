@@ -1117,7 +1117,6 @@ class PM_Task(models.Model):
         if excludeFilter:
             tasks = tasks.exclude(**excludeFilter)
 
-
         return {
             'tasks': tasks,
             'filter': filterQArgs

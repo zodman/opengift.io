@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% load thumbnail %}
+{% load jsonify %}
+{% block content %}
+    <div class="widget draft">
+        <div class="status">
+            {{ draft.status_humanize }}
+        </div>
+        <div class="users">
+            <ul style="list-style-type: none">
+                {% for user in users %}
+                    <li class="user">
+                        <a href="/user_detail/?id={{ user.id }}">{{ user.get_full_name }}</a>
+                    </li>
+                {% endfor %}
+            </ul>
+            {{ draft }}
+        </div>
+
+        <div class="js-tasks">
+
+        </div>
+    </div>
+    <script language="javascript">
+        var aTaskList = [],taskRespSummary = {};
+        {% for task in tasks %}
+            aTaskList.push({{ task|jsonify|safe }});
+            taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+            {% if task.time %}
+                arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                {% if task.startedTimerExist %}
+                    arTimers['{{ task.id }}'].start();
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+    </script>
+{% endblock %}

@@ -11,6 +11,7 @@ from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
+from PManager.viewsExt.task_drafts import taskdraft_detail
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
@@ -100,6 +101,7 @@ urlpatterns = patterns('',
                        url(r'^milestone_ajax/$', ajaxMilestonesResponder),
                        url(r'^taskdrafts/$', MainPage.indexRender,
                            {'widgetList': ['taskdrafts'], 'activeMenuItem': 'main'}),
+                       url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})$', taskdraft_detail),
                        url(r'^milestones/$', milestonesResponder),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
