@@ -88,7 +88,8 @@
             });
             for(var i= 0, len= aTaskList.length; i < len; i++) {
                 var view = new draftViewClass({
-                    model: new taskClass(aTaskList[i])
+                    model: new taskClass(aTaskList[i]),
+                    responsibleMenuUrl: "/ajax/responsible_menu/?draft_id={{ draft.id }}"
                 });
                 views[aTaskList[i].id] = view;
                 view.createEl();

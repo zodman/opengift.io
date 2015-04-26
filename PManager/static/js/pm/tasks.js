@@ -173,6 +173,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                 }
         },
         'initialize': function () {
+            if (!this.options.responsibleMenuUrl) {
+                this.options.responsibleMenuUrl = '/ajax/responsible_menu/';
+            }
             if (!this.el) {
                 this.$el = $('.taskLine_' + this.model.id);
                 this.el = this.$el.get(0);
@@ -553,7 +556,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'loadResponsibleMenu': function () {
             var obj = this;
-            $.get('/ajax/responsible_menu/', function(response){
+            $.get(this.options.responsibleMenuUrl, function(response){
                 $('body').append(response);
                 obj.showResponsibleMenu();
             });

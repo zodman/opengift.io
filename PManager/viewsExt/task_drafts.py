@@ -42,18 +42,12 @@ def __show(request, draft):
         }
     tasks = tasks_to_tuple(tasks)
     tasks = task_list_prepare(tasks, add_tasks)
-    responsible_list = dict()
-    for user in users:
-        if user.id == draft.author.id:
-            continue
-        responsible_list[user.id] = 1
 
     context = RequestContext(request, {
         'users': users,
         'tasks': tasks,
         'draft': draft,
-        'tasks_template': templateTools.get_task_template('draft_task'),
-        'responsible_list': responsible_list
+        'tasks_template': templateTools.get_task_template('draft_task')
     })
     template = loader.get_template('details/taskdraft.html')
     return HttpResponse(template.render(context))

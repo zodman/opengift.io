@@ -18,12 +18,22 @@ class userHandlers:
     def getResponsibleMenu(request):
         headerValues = headers.initGlobals(request)
         widget_manager = TaskWidgetManager()
-        users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        draft_id = request.GET.get('draft_id', None)
+        if draft_id:
+            from PManager.services.task_drafts import get_draft_by_id
+            draft = get_draft_by_id(draft_id, request.user)
+            if draft:
+                users = draft.users.exclude(id=draft.author_id)
+            else:
+                users = dict()
+        else:
+            users = widget_manager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
         c = RequestContext(request, {
             'users': users
             })
         t = loader.get_template('helpers/responsible_menu.html')
         return HttpResponse(t.render(c))
+
     @staticmethod
     def getMyTeam(request):
         widgetManager = TaskWidgetManager()
