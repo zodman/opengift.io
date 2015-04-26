@@ -3,6 +3,7 @@
         <div class="widget">
             <div class="widget-title clearfix">
                 {{ draft.id }}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
+                <span style="margin-right: 20px;float:right">Статус:&nbsp;{{ draft.status_humanize }}</span>
                 {% if draft.author.id == request.user.id %}
                     <div class="right" style="float:right">
                         <form action="/taskdraft/{{ draft.slug }}" method="POST">

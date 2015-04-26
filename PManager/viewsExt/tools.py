@@ -118,8 +118,9 @@ class templateTools:
         return ''.join([random.choice(allowed_chars) for i in range(length)])
 
     @staticmethod
-    def getDefaultTaskTemplate():
-        with file(settings.project_root + 'tracker/templates/item_templates/task/task.html') as f:
+    def get_task_template(name='task'):
+        file_name = "%stracker/templates/item_templates/task/%s.html" % (settings.project_root, name)
+        with file(file_name) as f:
             template = f.read()
         return template
 

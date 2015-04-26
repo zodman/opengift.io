@@ -2,30 +2,35 @@
 {% load thumbnail %}
 {% load jsonify %}
 {% block content %}
-    <div class="widget draft">
-        <div class="status">
-            {{ draft.status_humanize }}
+    <div class="widget inner draft">
+        <div class="widget-title clearfix">
+            Список задач: {{ draft }}
+            <div class="status" style="float:right">
+                Статус: {{ draft.status_humanize }}
+            </div>
         </div>
-        <div class="users">
-            <ul style="list-style-type: none">
-                {% for user in users %}
-                    <li class="user">
-                        <a href="/user_detail/?id={{ user.id }}">{{ user.get_full_name }}</a>
-                    </li>
-                {% endfor %}
-            </ul>
-            {{ draft }}
-        </div>
+        <div style="padding:10px 20px;">
+            <div>
+                Список участников:&nbsp;<ul style="list-style-type: none; display: inline-block">
+                    {% for user in users %}
+                        <li style="display: inline-block">
+                            <a href="/user_detail/?id={{ user.id }}">{{ user.get_full_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
 
-        <div class="js-tasks">
+            <div class="js-tasks">
 
+            </div>
         </div>
     </div>
     <script language="javascript">
+        window.taskHtml = {{ tasks_template|jsonify|safe }};
         var aTaskList = [],taskRespSummary = {};
         {% for task in tasks %}
             aTaskList.push({{ task|jsonify|safe }});
-            taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+            taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
             {% if task.time %}
                 arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
                 {% if task.startedTimerExist %}
@@ -33,5 +38,87 @@
                 {% endif %}
             {% endif %}
         {% endfor %}
+        var draftViewClass = window.taskViewClass.extend({
+            'render': function(){
+                var templateParams = {
+
+                }
+
+                var playBtnStatus = 'disabled';
+                if (this.model.get('subtasksQty') > 0) {
+                    templateParams.responsibleTag = 'span';
+                    templateParams.timerTag = 'span';
+                    playBtnStatus = 'transparent';
+                }
+                this.$el.html(this.template(this.model.toJSON(), templateParams));
+
+                if (this.model.get('onPlanning'))
+                    this.$el.addClass('onplan').attr('data-onplan', 'Y');
+                else this.$el.removeClass('onplan').attr('data-onplan', 'N');
+
+                var iSTUID = this.model.get('startedTimerUserId');
+                if (iSTUID) {
+                    this.$el.attr('data-started_timer_user_id', iSTUID);
+                    if (window.baseUserParams.userId != iSTUID) playBtnStatus = 'disabled';
+                }
+
+                if (this.model.get('critically') > CRITICALLY_THRESHOLD) this.$el.addClass('critically').parent('.task-wrapper').addClass('critically');
+                else this.$el.removeClass('critically').parent('.task-wrapper').removeClass('critically');
+
+                if (this.model.get('startedTimerExist')) this.$el.addClass('started');
+                else this.$el.removeClass('started');
+
+                if (!this.model.get('viewed')) this.$el.addClass('newEvent');
+                else this.$el.removeClass('newEvent');
+
+                this.disableTimerButton();
+                this.hideTimerButton();
+                this.delegateEvents();
+                if (this.$el.parent().get(0)) {
+                    setTaskCellsHeight(this.$el);
+                }
+                return this;
+            }
+        });
+        $('document').ready(function(){
+            var views = [];
+            var $task_container = $('.js-tasks')
+            $.extend($task_container, {
+                'TL_Tasks': new window.taskList()
+            });
+            for(var i= 0, len= aTaskList.length; i < len; i++) {
+                var view = new draftViewClass({
+                    model: new taskClass(aTaskList[i])
+                });
+                views[aTaskList[i].id] = view;
+                view.createEl();
+                console.log(view.$el);
+                $task_container.append(view.$el);
+                view.render();
+                view.$el.wrap("<div class='task-wrapper'></div>");
+                $task_container.TL_Tasks.add(view);
+
+            }
+            baseConnector.addListener('fs.task.update',function(data){
+                if (data && data.id){
+                    if (views[data.id]){
+                        var view = views[data.id];
+                        view.checkModel(function(){
+                            for (var i in data){
+                                if (i == 'viewedOnly') {
+                                    if (data[i] != document.mainController.userId) {
+                                        view.model.set('viewed', false);
+                                    }
+                                }
+                                if (i != 'id'){
+                                    view.model.set(i, data[i]);
+                                }
+                            }
+                            view.render();
+                        });
+                    }
+                }
+            });
+        });
     </script>
 {% endblock %}

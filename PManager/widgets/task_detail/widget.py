@@ -204,7 +204,7 @@ def widget(request, headerValues, arFilter, q):
 
         setattr(task, 'todo', arTodo)
         templates = templateTools.getMessageTemplates()
-        taskTemplate = templateTools.getDefaultTaskTemplate()
+        taskTemplate = templateTools.get_task_template()
 
         brain = TaskMind()
         return {

@@ -963,33 +963,11 @@ class PM_Task(models.Model):
         elif profile.isEmployee(self.project):
             pass
 
+    # should be removed, since deprecated
     @staticmethod
-    def getListPrepare(tasks, addTasks, join_project_name=False):
-        for task in tasks:
-        #            if 'id' not in task: continue
-            task.update(addTasks[task['id']])
-            if 'time' in task:
-                task['time'] = templateTools.dateTime.timeFromTimestamp(task['time'])
-            if join_project_name and 'project__name' in task and not task.get('parentTask', False):
-                task['name'] = task['project__name'] + ": " + task['name']
-
-            if task['deadline']:
-                bDeadlineLessThanNow = task['deadline'] < timezone.make_aware(datetime.datetime.now(),
-                                                                              timezone.get_default_timezone())
-                if (bDeadlineLessThanNow and not task['closed']) or (
-                                task['closed'] and task['dateClose'] and task['deadline'] and (
-                            task['dateClose'] > task['deadline'])):
-                    task['overdue'] = True
-
-            if task['dateClose']:
-                task['dateClose'] = templateTools.dateTime.convertToSite(task['dateClose'])
-            if task['deadline']:
-                task['deadline'] = templateTools.dateTime.convertToSite(task['deadline'])
-            if 'date' in task['last_message']:
-                task['last_message']['date'] = templateTools.dateTime.convertToSite(task['last_message']['date'])
-
-            task['name'] = task['name'].replace('<', "&lt;").replace('>', "&gt;")
-        return tasks
+    def getListPrepare(tasks, add_tasks, join_project_name=False):
+        from PManager.services.task_list import task_list_prepare
+        return task_list_prepare(tasks, add_tasks, join_project_name)
 
     @staticmethod
     def getQtyForUser(user, project=None, addFilter={}):
