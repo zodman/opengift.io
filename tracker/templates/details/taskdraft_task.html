@@ -15,10 +15,37 @@
                 <p>{{ task.text|safe }}</p>
             </div>
             <div class="clearfix"></div>
+            <h5>Оценки</h5>
+            <div style="border-top: 1px solid black; padding-top:10px;">
+                {% for evaluation in evaluations %}
+                    <div class="task-message row-fluid show-grid js-taskMessage js-op js-um" style="display: block;">
+                        <div class="message">
+                            <div class="message-content">
+                                <div class="message-desc clearfix" style="display: inline-block;">
+                                    <div class="message-desc-left js-taskMessageText">
+                                        <div class="message-desc-text-p">{{ evaluation.text|safe }}</div>
+                                        {% if draft.author.id == request.user.id %}
+                                            <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}/accept-developer" method="POST">
+                                                <input type="hidden" value="{{ evaluation.author.id }}" name="user_id"/>
+                                                <button class="btn btn-success js-accept-developer">Выбрать исполнителем</button>
+                                            </form>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="message-info" style="display: inline-block; float: right">
+                                    <span class="message-info-time">{{ evaluation.created_at }}</span>
+                                    <a href="/user_detail/?id={{ evaluation.author.id }}" class="message-info-name">{{ evaluation.author.get_full_name }}</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
             <h5>Обсуждение:</h5>
             <div style="border-top: 1px solid black; padding-top:10px;">
                 {% for message in simple_messages %}
-                    <div class="task-message row-fluid show-grid js-taskMessage js-op js-um last" style="display: block;">
+                    <div class="task-message row-fluid show-grid js-taskMessage js-op js-um" style="display: block;">
                         <div class="message">
                             <div class="message-content">
                                 <div class="message-desc clearfix" style="display: inline-block;">
@@ -46,4 +73,22 @@
             </form>
         </div>
     </div>
+    <script>
+        $(document).ready(function(){
+           $('.js-accept-developer').click(function(ev){
+               ev.preventDefault();
+               var data = $(this).parent('form').serializeArray();
+               var url = $(this).parent('form').attr('action');
+               $.post(url, data, function(response){
+                  if(response.error){
+                      alert(response.error);
+                  }else if(response.result) {
+                      alert(response.result);
+                      window.location.reload();
+                  }
+               });
+               return false;
+           })
+        });
+    </script>
 {% endblock %}

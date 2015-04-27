@@ -9,8 +9,8 @@ from PManager.services.task_list import tasks_to_tuple, task_list_prepare
 from PManager.models.tasks import PM_Task
 from PManager.models.simple_message import SimpleMessage
 from django.shortcuts import redirect
-from PManager.services.task_drafts import draft_simple_msg_cnt
-from PManager.services.invites import executors_available, send_invites
+from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user
+from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
 
 def taskdraft_detail(request, draft_slug):
@@ -63,15 +63,36 @@ def taskdraft_task_discussion(request, draft_slug, task_id):
         raise Http404
     if request.method == 'POST':
         return __add_message(request, draft, task)
-
+    evaluations = get_evaluations(request.user, draft)
     messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('-created_at')
     context = RequestContext(request, {
         'draft': draft,
         'task': task,
-        'simple_messages': messages.all()
+        'simple_messages': messages.all(),
+        'evaluations': evaluations
     })
     template = loader.get_template('details/taskdraft_task.html')
     return HttpResponse(template.render(context))
+
+
+def taskdraft_accept_developer(request, draft_slug, task_id):
+    draft = get_draft_by_slug(draft_slug, request.user)
+    user_accepted_id = request.POST.get('user_id', False)
+    if not draft:
+        return HttpResponse(json.dumps({'error': 'Список задач не найден'}), content_type="application/json")
+    if request.method != "POST":
+        return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
+    if draft.tasks.count() < 1:
+        return HttpResponse(json.dumps({'error': 'Нет задач в списке'}), content_type="application/json")
+    if draft.author.id != request.user.id:
+        return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
+    if user_accepted_id is False:
+        return HttpResponse(json.dumps({'error': 'Неверный ID пользователя'}), content_type="application/json")
+    if not accept_user(draft, task_id, user_accepted_id, request.user):
+        return HttpResponse(json.dumps({'error': 'Неудалось подключить пользователя к проекту'}),
+                            content_type="application/json")
+    return HttpResponse(json.dumps({'result': 'Пользователь добавлен в проект'}),
+                        content_type="application/json")
 
 
 def __add_message(request, draft, task):

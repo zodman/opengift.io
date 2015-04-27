@@ -1,8 +1,9 @@
 __author__ = 'rayleigh'
 from django.db.models import Q
-from PManager.models import TaskDraft
+from PManager.models import TaskDraft, PM_Task
 from django.contrib.auth.models import User
 from PManager.models.simple_message import SimpleMessage
+from PManager.models import PM_Task_Message, PM_ProjectRoles
 
 
 def draft_cnt(user):
@@ -65,3 +66,48 @@ def draft_simple_msg_cnt(task, draft):
         return cnt
     except (ValueError, SimpleMessage.DoesNotExist):
         return 0
+
+
+def accept_user(draft, task_id, user_accepted_id, cur_user):
+    from tracker.settings import USE_GIT_MODULE
+    if not cur_user.id == draft.author.id:
+        return False
+    try:
+        task = PM_Task.objects.get(pk=int(task_id))
+        user = User.objects.get(pk=int(user_accepted_id))
+    except (ValueError, PM_Task.DoesNotExist, User.DoesNotExist):
+        return False
+    if task.resp is not None:
+        return False
+    try:
+        already_in_project = PM_ProjectRoles.objects.filter(user=user, project=task.project).count() > 0
+    except PM_ProjectRoles.DoesNotExist:
+        already_in_project = False
+    if not already_in_project:
+        user.get_profile().setRole("employee", task.project)
+        if USE_GIT_MODULE:
+            from PManager.classes.git.gitolite_manager import GitoliteManager
+            GitoliteManager.regenerate_access(task.project)
+    task.resp = user
+    task.save()
+    __create_message_from_simple_messages(draft, task, cur_user, user)
+    return True
+
+
+def __create_message_from_simple_messages(draft, task, author, recipient):
+    text = ""
+    compile_messages = SimpleMessage.objects.filter(task_draft=draft, task=task)
+    for cm in compile_messages:
+        text += "<div>"
+        text += "<span class='user'>%s</span>:&nbsp;" % cm.author
+        text += "<span class='message'>%s</span>" % cm.text
+        text += "</div>"
+    message = PM_Task_Message.objects.create(text=text, author=author,
+                                             userTo=recipient, isSystemLog=True, code='COMPILE_OUTSOURCE')
+    message.save()
+
+
+
+
+
+
