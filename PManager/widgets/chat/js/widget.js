@@ -129,8 +129,7 @@ $(function(){
                 $('.toggle-messages.minimize').remove();
             });
             baseConnector.addListener('fs.comment.add', function(data){
-                console.log(data);
-                console.log(widget_chat.options);
+
                 for (var k in widget_chat.options){
                     if (!widget_chat.options[k]){
                         switch (k){
