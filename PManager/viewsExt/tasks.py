@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
-from django.http import Http404
-
 __author__ = 'Gvammer'
+
+from django.http import Http404
 from django.db.models import Q
 from django.db import transaction
 from tracker.settings import COMISSION
@@ -9,7 +9,8 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User
+from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
+    PM_Project, PM_Files
 import datetime, json, codecs
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
@@ -52,373 +53,392 @@ def microTaskAjax(request, task_id):
         'status': task.status.code
     }), content_type="application/json")
 
-def taskListAjax(request):
-    from PManager.widgets.tasklist.widget import widget as taskList
-    from PManager.models import PM_Files, PM_User_PlanTime, PM_Task_Status
 
-    headerValues = headers.initGlobals(request)
-    ajaxTaskManager = taskAjaxManagerCreator(request)
-
-    if not request.user.is_authenticated():
-        responseText = json.dumps({'unauthorized': True})
-
-    elif ajaxTaskManager.tryToSetActionFromRequest():
-        ajaxTaskManager.process()
-        responseText = ajaxTaskManager.getResponse()
-
-    elif request.POST.get('resp', False): #смена ответственного
-        task_id = int(request.POST.get('id', 0)) #переданный id задачи
-        if task_id:
-            task = PM_Task.objects.get(id=task_id) #вот она, задачка
-            strResp = request.POST.get('resp', False)
-            if strResp.find('@') > -1:
-                task.resp = PM_User.getOrCreateByEmail(strResp, task.project, 'employee')
+def __change_resp(request):
+    task_id = int(request.POST.get('id', 0))  # переданный id задачи
+    profile = request.user.get_profile()
+    if not task_id:
+        return 'bad query'
+    try:
+        task = PM_Task.objects.get(id=int(task_id))  # вот она, задачка
+    except (ValueError, PM_Task.DoesNotExist):
+        return 'bad query'
+    if not task.canPMUserView(profile):
+        return 'bad query'
+    is_manager = profile.isManager(project=task.project)
+    str_resp = request.POST.get('resp', False)
+    if str_resp.find('@') > -1 and is_manager:
+        task.resp = PM_User.getOrCreateByEmail(str_resp, task.project, 'employee')
+    elif str_resp.find('@') == -1:
+        try:
+            resp_id = int(str_resp)
+            task.resp = TaskWidgetManager.getResponsibleList(request.user, task.project).get(pk=resp_id)
+        except User.DoesNotExist:
+            from PManager.services.task_drafts import task_draft_is_user_participate
+            user = task_draft_is_user_participate(task.id, resp_id, request.user.id)
+            if user:
+                task.resp = user
             else:
-                task.resp = User.objects.get(pk=int(strResp))
+                return 'bad query'
+        except ValueError:
+            return 'bad query'
+    else:
+        return 'bad query'
+
+    if task.parentTask:
+        task.parentTask.observers.add(task.resp)
+
+    r_prof = task.resp.get_profile()
+    if not r_prof.hasRole(task.project):
+        r_prof.setRole('employee', task.project)
+    # outsource
+    if r_prof.getBet(task.project) >= 0:  # if finance relationship
+        task.setStatus('not_approved')
+    else:
+        task.setStatus('revision')
+    #end outsource
+
+    task.save()
+
+    resp = task.resp
+    resp_name = ' '.join([resp.first_name, resp.last_name])
+    response_text = json.dumps({
+        'resp': [{
+                 'id': resp.id,
+                 'name': resp_name,
+                 'avatar': resp.get_profile().avatar_rel
+                 }],
+        'status': task.status.code
+    })
+
+    if task.resp.email:
+        ar_email = [task.resp.email if task.resp.id != request.user.id else None]
+
+        task.sendTaskEmail('new_task', ar_email)
+
+    task.systemMessage(
+        u'изменен ответственный на ' + resp_name,
+        request.user,
+        'NEW_RESPONSIBLE'
+    )
+    redisSendTaskUpdate(
+        {
+            'resp': [{
+                     'id': resp.id,
+                     'name': resp_name,
+                     'avatar': resp.get_profile().avatar_rel if resp else ''
+                     }],
+            'viewedOnly': request.user.id,
+            'id': task.id
+        }
+    )
+    return response_text
+
+
+def __search_filter(header_values, request):
+    # todo: как можно скорее перенести в actions
+    from PManager.viewsExt.tools import templateTools
+    from PManager.widgets.tasklist.widget import widget as task_list
+
+    search_text, action, group = request.POST.get('task_search'), request.POST.get('action',
+                                                                                   False), request.POST.get('group',
+                                                                                                            False)
+    ar_filter = {}
+    ar_exclude = {}
+    if search_text:
+        number = None
+        if search_text.startswith(u'#') or search_text.startswith(u'№'):
+            try:
+                number = int(search_text
+                             .replace(u'#', '')
+                             .replace(u'№', '')
+                             .replace(u' ', '')
+                             )
+            except ValueError:
+                pass
+        if number:
+            ar_filter['number'] = number
+        else:
+            ar_filter['name__icontains'] = search_text
+    qArgs = []
+    if action == 'not_approved':
+        ar_filter['status__code'] = 'not_approved'
+        ar_filter['closed'] = False
+    elif action == 'deadline':
+        ar_filter['deadline__lt'] = datetime.datetime.now()
+        ar_filter['closed'] = False
+    elif action == 'arc':
+        ar_filter['closed'] = True
+    elif action == 'ready':
+        ar_filter['status__code'] = 'ready'
+        ar_filter['closed'] = False
+    elif action == 'not_ready':
+        qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
+        ar_filter['closed'] = False
+    elif action == 'started':
+        ar_filter['realDateStart__isnull'] = False
+        ar_filter['closed'] = False
+    elif action == 'all':
+        pass
+    if 'responsible[]' in request.POST:
+        ar_filter['resp__in'] = request.POST.getlist('responsible[]')
+    if 'observers[]' in request.POST:
+        ar_filter['observers__in'] = request.POST.getlist('observers[]')
+    if 'author[]' in request.POST:
+        ar_filter['author__in'] = request.POST.getlist('author[]')
+    if 'closed[]' in request.POST:
+        ar_closed_flags = request.POST.getlist('closed[]')
+        if 'N' not in ar_closed_flags:
+            ar_filter['closed'] = True
+        elif 'Y' not in ar_closed_flags:
+            ar_filter['closed'] = False
+    if 'viewed[]' in request.POST:
+        a_viewed_flags = request.POST.getlist('viewed[]')
+        if 'N' not in a_viewed_flags:
+            ar_filter['viewedUsers'] = request.user
+        elif 'Y' not in a_viewed_flags:
+            ar_exclude['viewedUsers'] = request.user
+    dates_tmp = []
+    if 'date_create[]' in request.POST:
+        dates_tmp.append({
+            'date': request.POST.getlist('date_create[]'),
+            'key': 'dateCreate'
+        })
+    if 'date_modify[]' in request.POST:
+        dates_tmp.append({
+            'date': request.POST.getlist('date_modify[]'),
+            'key': 'dateModify'
+        })
+    if dates_tmp:
+        for dateTmp in dates_tmp:
+            if len(dateTmp['date']) == 1:  # only one date
+                date = templateTools.dateTime.convertToDateTime(dateTmp['date'][0])
+                ar_filter[dateTmp['key'] + '__gt'] = date
+                ar_filter[dateTmp['key'] + '__lt'] = date + datetime.timedelta(days=1)
+            elif len(dateTmp['date']) == 2:  # from - to
+                filter_date_from_tmp = templateTools.dateTime.convertToDateTime(dateTmp['date'][0])
+                filter_date_to_tmp = templateTools.dateTime.convertToDateTime(dateTmp['date'][1])
+                ar_filter[dateTmp['key'] + '__gt'] = filter_date_from_tmp
+                ar_filter[dateTmp['key'] + '__lt'] = filter_date_to_tmp + datetime.timedelta(days=1)
+    if 'parent' in request.POST:
+        ar_filter['parentTask'] = request.POST.get('parent')
+    if action == 'deadline':
+        qArgs.append(
+            Q(
+                Q(deadline__gt=datetime.datetime.now()),
+                Q(closed=False)
+            ) | Q(dateClose__gt=datetime.datetime.now())
+        )
+    page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
+    if start_page:
+        page = start_page
+
+    # if page > 2:
+    #     # count = 2 ** (page - 2) * 10
+    #     page = 2
+    if start_page:
+        count *= page
+        page = 1
+    ar_page_params = {
+        'pageCount': count,
+        'page': page,
+        'startPage': start_page,
+        'group': group
+    }
+    tasks = task_list(request, header_values, {'filter': ar_filter, 'exclude': ar_exclude}, qArgs, ar_page_params)
+    paginator = tasks['paginator']
+    tasks = tasks['tasks']
+    response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
+    return response_text
+
+
+def __task_message(request):
+    text = request.POST.get('task_message', '')
+    task_id = request.POST.get('task_id', '')
+    to = request.POST.get('to', None)
+    task_close = request.POST.get('close', '') == 'Y'
+    b_resp_change = request.POST.get('responsible_change', '') == 'Y'
+    hidden = (request.POST.get('hidden', '') == 'Y' and to)
+    solution = (request.POST.get('solution', 'N') == 'Y')
+    task = PM_Task.objects.get(id=task_id)
+    files = request.FILES.getlist('file') if 'file' in request.FILES else []
+    profile = request.user.get_profile()
+    is_manager = profile.isManager(task.project)
+    hidden_from_employee = False
+    hidden_from_clients = False
+    if is_manager:  # TODO: разобраться с тем, как должно работать скрытие от автора
+        hidden_from_clients = request.POST.get('hidden_from_clients', '') == 'Y'
+        hidden_from_employee = request.POST.get('hidden_from_employee', '') == 'Y'
+    project_settings = task.project.getSettings()
+    if project_settings.get('autohide_messages', False):
+        if profile.isEmployee(task.project):
+            hidden_from_clients = True
+        elif profile.isClient(task.project):
+            hidden_from_employee = True
+    status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
+    uploaded_files = request.POST.getlist('uploaded_files') if 'uploaded_files' in request.POST else []
+    author = request.user
+    if task:
+        text = text.replace('<', '&lt;').replace('>', '&gt;')
+        message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
+        message.hidden = hidden
+        message.hidden_from_clients = hidden_from_clients
+        message.hidden_from_employee = hidden_from_employee
+        if to:
+            try:
+                to = User.objects.get(pk=int(to))
+                if to.get_profile().hasRole(
+                        task.project):  # todo здесь надо заменить на проверку, есть ли адресат в команде текущего пользователя
+                    if b_resp_change:
+                        task.resp = to
+                        task.save()
+                    task.observers.add(to)
+                    message.userTo = to
+            except User.DoesNotExist:
+                pass
+
+        message.save()
+
+        task.setChangedForUsers(request.user)
+        if status:
+            task.setStatus(status)
+            logger = Logger()
+            logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
+        if task_close:
+            if task.started:
+                task.Stop()
+                task.endTimer(request.user, u'Закрытие задачи')
+
+            task.Close(request.user)
+            if task.milestone and not task.milestone.closed:
+                tasks_in_milestone_cnt = PM_Task.objects.filter(active=True, milestone=task.milestone, closed=False).count()
+                if not tasks_in_milestone_cnt:
+                    task.milestone.closed = True
+                    task.milestone.save()
 
             if task.parentTask:
-                task.parentTask.observers.add(task.resp)
-
-            rProf = task.resp.get_profile()
-            if not rProf.hasRole(task.project):
-                rProf.setRole('employee', task.project)
-            #outsource
-            if rProf.getBet(task.project) >= 0: #if finance relationship
-                task.setStatus('not_approved')
+                c = task.parentTask.subTasks.filter(closed=False).count()
+                if c == 0:
+                    task.parentTask.wasClosed = True  # чтобы не учитывалось время за родительскую задачу
+                    task.parentTask.Close(request.user)
+                    # TODO: убрать дублирование с блоком выше
+                    if task.parentTask.milestone and not task.parentTask.milestone.closed:
+                        tasks_in_milestone_cnt = PM_Task.objects.filter(active=True, milestone=task.parentTask.milestone,
+                                                         closed=False).count()
+                        if not tasks_in_milestone_cnt:
+                            task.parentTask.milestone.closed = True
+                            task.parentTask.milestone.save()
             else:
-                task.setStatus('revision')
-            #end outsource
+                for sub_tasks in task.subTasks.filter(active=True):
+                    if sub_tasks.started:
+                        sub_tasks.Stop()
+                        sub_tasks.endTimer(request.user, u'Закрытие задачи')
 
-            task.save()
+                    sub_tasks.Close(request.user)
 
-            resp = task.resp
-            respName = ' '.join([resp.first_name, resp.last_name])
-            responseText = json.dumps({
-                'resp': [{
-                        'id': resp.id,
-                        'name': respName, 
-                        'avatar': resp.get_profile().avatar_rel
-                    }],
-                'status': task.status.code
-            })
+        for filePost in files:
+            file_obj = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
+            file_obj.file = filePost
+            file_obj.save()
+            message.files.add(file_obj.id)
 
-            if task.resp.email:
-                arEmail = [task.resp.email if task.resp.id != request.user.id else None]
+        for filePost in uploaded_files:
+            try:
+                file_obj = PM_Files.objects.get(pk=filePost)
+                message.files.add(file_obj)
+            except PM_Files.DoesNotExist():
+                pass
 
-                task.sendTaskEmail('new_task', arEmail)
+        ar_email = task.getUsersEmail([author.id])
 
-            task.systemMessage(
-                u'изменен ответственный на ' + respName,
-                request.user,
-                'NEW_RESPONSIBLE'
-            )
-            redisSendTaskUpdate(
-                {
-                    'resp': [{
-                        'id': resp.id,
-                        'name': respName,
-                        'avatar': resp.get_profile().avatar_rel if resp else ''
-                    }],
-                    'viewedOnly': request.user.id,
-                    'id': task.id
-                }
-            )
+        if hidden:
+            ar_email = [to.email]
+            # for email in arEmail:
+            # if email != to.email:
+            #         arEmail.remove(email)
+
+        else:
+            if hidden_from_clients:
+                while task.author and \
+                        task.author.is_active and \
+                        task.author.email and \
+                                task.author.email in ar_email:
+                    ar_email.remove(task.author.email)
+
+            if hidden_from_employee:
+                if task.resp:
+                    while task.resp.email and task.resp.email in ar_email:
+                        ar_email.remove(task.resp.email)
+
+        if to and hasattr(to, 'email'):
+            ar_email.append(to.email)
+
+        task_data = {
+            'task_url': message.task.url,
+            'name': message.task.name,
+            'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()),
+            'message': {
+                'text': message.text,
+                'author': ' '.join([message.author.first_name, message.author.last_name]),
+                'file_list': taskExtensions.getFileList(message.files.all())
+            }
+        }
+
+        mail_sender = emailMessage(
+            'new_task_message',
+            {
+                'task': task_data
+            },
+            'Новое сообщение в вашей задаче!'
+        )
+
+        try:
+            mail_sender.send(ar_email)
+        except Exception:
+            print 'Email has not sent'
+
+        response_json = message.getJson({
+            'canEdit': message.canEdit(request.user),
+            'canDelete': message.canDelete(request.user),
+            'noveltyMark': True
+        })
+
+        mess = RedisMessage(service_queue,
+                            objectName='comment',
+                            type='add',
+                            fields=response_json)
+        mess.send()
+
+        task_update_push_data = {'viewedOnly': request.user.id, 'id': task.id}
+        if status:
+            task_update_push_data['status'] = status
+        redisSendTaskUpdate(task_update_push_data)
+        response_text = json.dumps(response_json)
+    return response_text
+
+
+def taskListAjax(request):
+    from PManager.models import PM_Files, PM_User_PlanTime, PM_Task_Status
+
+    header_values = headers.initGlobals(request)
+    ajax_task_manager = taskAjaxManagerCreator(request)
+
+    if not request.user.is_authenticated():
+        response_text = json.dumps({'unauthorized': True})
+
+    elif ajax_task_manager.tryToSetActionFromRequest():
+        ajax_task_manager.process()
+        response_text = ajax_task_manager.getResponse()
+    elif request.POST.get('resp', False):  # смена ответственного
+        response_text = __change_resp(request)
 
     elif request.POST.get('task_search', False) or \
             request.POST.get('action', False) or \
             request.POST.get('parent', False):
-        #todo: как можно скорее перенести в actions
-        from PManager.viewsExt.tools import templateTools
-
-        search_text, action, group = request.POST.get('task_search'), request.POST.get('action',
-                                                                                       False), request.POST.get('group',
-                                                                                                                False)
-        arFilter = {}
-        arFilterExclude = {}
-        if search_text:
-            number = None
-            if search_text.startswith(u'#') or search_text.startswith(u'№'):
-                try:
-                    number = int(search_text
-                    .replace(u'#', '')
-                    .replace(u'№', '')
-                    .replace(u' ', '')
-                    )
-                except ValueError:
-                    pass
-            if number:
-                arFilter['number'] = number
-            else:
-                arFilter['name__icontains'] = search_text
-
-        qArgs = []
-
-        if action == 'not_approved':
-            arFilter['status__code'] = 'not_approved'
-            arFilter['closed'] = False
-        elif action == 'deadline':
-            arFilter['deadline__lt'] = datetime.datetime.now()
-            arFilter['closed'] = False
-        elif action == 'arc':
-            arFilter['closed'] = True
-        elif action == 'ready':
-            arFilter['status__code'] = 'ready'
-            arFilter['closed'] = False
-        elif action == 'not_ready':
-            qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
-            arFilter['closed'] = False
-        elif action == 'started':
-            arFilter['realDateStart__isnull'] = False
-            arFilter['closed'] = False
-        elif action == 'all':
-            pass
-
-        if 'responsible[]' in request.POST:
-            arFilter['resp__in'] = request.POST.getlist('responsible[]')
-        if 'observers[]' in request.POST:
-            arFilter['observers__in'] = request.POST.getlist('observers[]')
-        if 'author[]' in request.POST:
-            arFilter['author__in'] = request.POST.getlist('author[]')
-        if 'closed[]' in request.POST:
-            aClosedFlags = request.POST.getlist('closed[]')
-            if 'N' not in aClosedFlags:
-                arFilter['closed'] = True
-            elif 'Y' not in aClosedFlags:
-                arFilter['closed'] = False
-        if 'viewed[]' in request.POST:
-            aViewedFlags = request.POST.getlist('viewed[]')
-            if 'N' not in aViewedFlags:
-                arFilter['viewedUsers'] = request.user
-            elif 'Y' not in aViewedFlags:
-                arFilterExclude['viewedUsers'] = request.user
-
-        aDatesTmp = []
-        if 'date_create[]' in request.POST:
-            aDatesTmp.append({
-                'date': request.POST.getlist('date_create[]'),
-                'key': 'dateCreate'
-            })
-
-        if 'date_modify[]' in request.POST:
-            aDatesTmp.append({
-                'date': request.POST.getlist('date_modify[]'),
-                'key': 'dateModify'
-            })
-
-        if aDatesTmp:
-            for dateTmp in aDatesTmp:
-                if len(dateTmp['date']) == 1: #only one date
-                    date = templateTools.dateTime.convertToDateTime(dateTmp['date'][0])
-                    arFilter[dateTmp['key'] + '__gt'] = date
-                    arFilter[dateTmp['key'] + '__lt'] = date + datetime.timedelta(days=1)
-                elif len(dateTmp['date']) == 2: #from - to
-                    filterDateFromTmp = templateTools.dateTime.convertToDateTime(dateTmp['date'][0])
-                    filterDateToTmp = templateTools.dateTime.convertToDateTime(dateTmp['date'][1])
-                    arFilter[dateTmp['key'] + '__gt'] = filterDateFromTmp
-                    arFilter[dateTmp['key'] + '__lt'] = filterDateToTmp + datetime.timedelta(days=1)
-
-        if 'parent' in request.POST:
-            arFilter['parentTask'] = request.POST.get('parent')
-
-        if action == 'deadline':
-            qArgs.append(
-                Q(
-                    Q(deadline__gt=datetime.datetime.now()),
-                    Q(closed=False)
-                ) | Q(dateClose__gt=datetime.datetime.now())
-            )
-
-        page, count, startPage = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
-        if startPage:
-            page = startPage
-
-        # if page > 2:
-        #     # count = 2 ** (page - 2) * 10
-        #     page = 2
-
-        if startPage:
-            count *= page
-            page = 1
-
-        arPageParams = {
-            'pageCount': count,
-            'page': page,
-            'startPage': startPage,
-            'group': group
-        }
-
-        tasks = taskList(request, headerValues, {'filter': arFilter, 'exclude': arFilterExclude}, qArgs, arPageParams)
-        paginator = tasks['paginator']
-        tasks = tasks['tasks']
-
-        responseText = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
+        response_text = __search_filter(header_values, request)
 
     elif 'task_message' in request.POST:
-        text = request.POST.get('task_message', '')
-        task_id = request.POST.get('task_id', '')
-        to = request.POST.get('to', None)
-        task_close = request.POST.get('close', '') == 'Y'
-        b_resp_change = request.POST.get('responsible_change', '') == 'Y'
-        hidden = (request.POST.get('hidden', '') == 'Y' and to)
-        solution = (request.POST.get('solution', 'N') == 'Y')
-        task = PM_Task.objects.get(id=task_id)
-
-        files = request.FILES.getlist('file') if 'file' in request.FILES else []
-        profile = request.user.get_profile()
-        bIsManager = profile.isManager(task.project)
-        hidden_from_employee = False
-        hidden_from_clients = False
-
-        if bIsManager: #TODO: разобраться с тем, как должно работать скрытие от автора
-            hidden_from_clients = request.POST.get('hidden_from_clients', '') == 'Y'
-            hidden_from_employee = request.POST.get('hidden_from_employee', '') == 'Y'
-
-        settings = task.project.getSettings()
-        if settings.get('autohide_messages', False):
-            if profile.isEmployee(task.project):
-                hidden_from_clients = True
-            elif profile.isClient(task.project):
-                hidden_from_employee = True
-
-        status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
-        uploaded_files = request.POST.getlist('uploaded_files') if 'uploaded_files' in request.POST else []
-
-        author = request.user
-        if task:
-            text = text.replace('<', '&lt;').replace('>', '&gt;')
-            message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
-            message.hidden = hidden
-            message.hidden_from_clients = hidden_from_clients
-            message.hidden_from_employee = hidden_from_employee
-            if to:
-                try:
-                    to = User.objects.get(pk=int(to))
-                    if to.get_profile().hasRole(task.project): #todo здесь надо заменить на проверку, есть ли адресат в команде текущего пользователя
-                        if b_resp_change:
-                            task.resp = to
-                            task.save()
-                        task.observers.add(to)
-                        message.userTo = to
-                except User.DoesNotExist:
-                    pass
-
-            message.save()
-
-            task.setChangedForUsers(request.user)
-            if status:
-                task.setStatus(status)
-                logger = Logger()
-                logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
-            if task_close:
-                if task.started:
-                    task.Stop()
-                    task.endTimer(request.user, u'Закрытие задачи')
-
-                task.Close(request.user)
-                if task.milestone and not task.milestone.closed:
-                    qtyInMS = PM_Task.objects.filter(active=True, milestone=task.milestone, closed=False).count()
-                    if not qtyInMS:
-                        task.milestone.closed = True
-                        task.milestone.save()
-
-                if task.parentTask:
-                    c = task.parentTask.subTasks.filter(closed=False).count()
-                    if c == 0:
-                        task.parentTask.wasClosed = True #чтобы не учитывалось время за родительскую задачу
-                        task.parentTask.Close(request.user)
-                        #TODO: убрать дублирование с блоком выше
-                        if task.parentTask.milestone and not task.parentTask.milestone.closed:
-                            qtyInMS = PM_Task.objects.filter(active=True, milestone=task.parentTask.milestone,
-                                                             closed=False).count()
-                            if not qtyInMS:
-                                task.parentTask.milestone.closed = True
-                                task.parentTask.milestone.save()
-                else:
-                    for stask in task.subTasks.filter(active=True):
-                        if stask.started:
-                            stask.Stop()
-                            stask.endTimer(request.user, u'Закрытие задачи')
-
-                        stask.Close(request.user)
-
-            for filePost in files:
-                file = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
-                file.file = filePost
-                file.save()
-                message.files.add(file.id)
-
-            for filePost in uploaded_files:
-                try:
-                    file = PM_Files.objects.get(pk=filePost)
-                    message.files.add(file)
-                except PM_Files.DoesNotExist():
-                    pass
-
-            arEmail = task.getUsersEmail([author.id])
-
-            if hidden:
-                arEmail = [to.email]
-                # for email in arEmail:
-                #     if email != to.email:
-                #         arEmail.remove(email)
-
-            else:
-                if hidden_from_clients:
-                    while task.author and \
-                            task.author.is_active and \
-                            task.author.email and \
-                                    task.author.email in arEmail:
-                        arEmail.remove(task.author.email)
-
-                if hidden_from_employee:
-                    if task.resp:
-                        while task.resp.email and task.resp.email in arEmail:
-                            arEmail.remove(task.resp.email)
-
-            if to and hasattr(to, 'email'):
-                arEmail.append(to.email)
-
-            taskdata = {
-                'task_url': message.task.url,
-                'name': message.task.name,
-                'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()),
-                'message': {
-                    'text': message.text,
-                    'author': ' '.join([message.author.first_name, message.author.last_name]),
-                    'file_list': taskExtensions.getFileList(message.files.all())
-                }
-            }
-
-            sendMes = emailMessage(
-                'new_task_message',
-                {
-                   'task': taskdata
-                },
-                'Новое сообщение в вашей задаче!'
-            )
-
-            try:
-                sendMes.send(arEmail)
-            except Exception:
-                print 'Email has not sent'
-
-            responseJson = message.getJson({
-                'canEdit': message.canEdit(request.user),
-                'canDelete': message.canDelete(request.user),
-                'noveltyMark': True
-            })
-
-            mess = RedisMessage(service_queue,
-                                objectName='comment',
-                                type='add',
-                                fields=responseJson)
-            mess.send()
-
-            taskUpdatePushData = {'viewedOnly': request.user.id, 'id': task.id}
-            if status:
-                taskUpdatePushData['status'] = status
-            redisSendTaskUpdate(taskUpdatePushData)
-            responseText = json.dumps(responseJson)
+        response_text = __task_message(request)
 
     elif request.POST.get('prop', False):
         property = request.POST.get('prop', False)
@@ -430,12 +450,13 @@ def taskListAjax(request):
             sendData = {}
             if task:
                 if property == "planTime" and value:
-                    task.setPlanTime(value, request)
 
+                    task.setPlanTime(value, request)
+                    from PManager.services.rating import get_user_rating_for_task
                     # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
                     task.systemMessage(
                         u'оценил(а) задачу в ' + str(value) + u'ч. с опытом '
-                        + str(task.getUserRating(request.user)),
+                        + str(get_user_rating_for_task(task, request.user)),
                         # + u' (' + intcomma(taskPlanPrice) + u' sp)',
                         request.user,
                         'SET_PLAN_TIME'
@@ -521,15 +542,15 @@ def taskListAjax(request):
                     sendData['viewedOnly'] = request.user.id
                     redisSendTaskUpdate(sendData)
 
-                responseText = json.dumps(sendData)
+                response_text = json.dumps(sendData)
             else:
-                responseText = 'none'
+                response_text = 'none'
         else:
-            responseText = 'none'
+            response_text = 'none'
     else:
-        responseText = 'bad query'
+        response_text = 'bad query'
 
-    return HttpResponse(responseText)
+    return HttpResponse(response_text)
 
 
 class taskManagerCreator:
@@ -744,45 +765,27 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_inviteUsers(self):
         import datetime
-        aId = self.request.POST.getlist('tasks[]')
-        aTasks = []
-        for id in aId:
-            id = int(id)
-            t = PM_Task.objects.get(id=id)
-
-            if t.canEdit(self.currentUser):
-                t.onPlanning = True
-                t.resp = None
-                t.setStatus('not_approved')
-                t.save()
-                redisSendTaskUpdate({
-                    'id': t.id,
-                    'onPlanning': True
-                })
-                aTasks.append(t)
-
-        users = PM_User.objects.filter(#todo: приглашать только у которых стоит галочка "аутсорс"
-            is_autsource=True,
-            user__is_active=True,
-            last_activity_date__gt=(datetime.datetime.now() - datetime.timedelta(days=30))#todo: убрать цифру в настройки
-        )
-        aEmail = []
-        for user in users:
-            if user.user.hisTasks.filter(active=True, closed=False).count() < 3:#todo: убрать цифру в настройки
-                aEmail.append(user.user.email)
-
-        aEmail.append('gvamm3r@gmail.com')
-
-        sendMes = emailMessage(
-            'invite',
-            {
-               'project': self.globalVariables['CURRENT_PROJECT'],
-               'tasks': aTasks
-            },
-            'Задачи на оценку'
-        )
-        sendMes.send(aEmail)
-        return HttpResponse(json.dumps({'result':'OK'}))
+        from PManager.services.task_drafts import get_unique_slug
+        task_ids = self.request.POST.getlist('tasks[]')
+        title = self.request.POST.get('title', '')
+        tasks = PM_Task.objects.filter(id__in=task_ids)
+        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=get_unique_slug(), title=title)
+        task_draft.users.add(self.currentUser)
+        for task in tasks:
+            if not task.canEdit(self.currentUser):
+                continue
+            task.onPlanning = True
+            task.resp = None
+            task.setStatus('not_approved')
+            task.save()
+            redisSendTaskUpdate({
+                'id': task.id,
+                'onPlanning': True
+            })
+            task_draft.tasks.add(task)
+        task_draft.status = TaskDraft.OPEN
+        task_draft.save()
+        return HttpResponse(json.dumps({'result': 'OK'}))
 
     @task_ajax_action
     def process_baneUser(self):

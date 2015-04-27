@@ -3,6 +3,7 @@ __author__ = 'Tonakai'
 from PManager.models.tasks import PM_Task, ObjectTags, PM_Task_Message
 from django.db.models import Count
 
+
 def similar_tasks(task_id, limit=4, tagsRelations=[]):
     aSimilarTasks = []
     try:
@@ -21,6 +22,7 @@ def similar_tasks(task_id, limit=4, tagsRelations=[]):
 
     return aSimilarTasks
 
+
 def tags_relations(task):
     tags = task.tags.all()
     return ObjectTags.objects.filter(tag__in=tags.values('tag')).annotate(
@@ -30,13 +32,13 @@ def tags_relations(task):
 def similar_solutions(task_id, limit=4):
     tasks = similar_tasks(task_id, limit)
     tasks_ids = set(task.id for task in tasks)
-    aMessages = []
+    a_messages = []
     try:
         messages = PM_Task_Message.objects.filter(task__in=tasks_ids, solution=True)
         for message in messages:
-            aMessages.append(message)
-        return aMessages
+            a_messages.append(message)
+        return a_messages
     except PM_Task_Message.DoesNotExist:
-        return aMessages
+        return a_messages
 
 

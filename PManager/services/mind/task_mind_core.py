@@ -67,7 +67,8 @@ class TaskMind:
             if tasksUserQty:
                 timeUser = timeUser / float(tasksUserQty)
 
-            userQuality = task.getUserQuality(task.resp)
+            from PManager.services.rating import get_user_quality_for_task
+            user_quality = get_user_quality_for_task(task, task.resp)
 
             return (
                 f(similarQty),
@@ -75,7 +76,7 @@ class TaskMind:
                 f(similarQtyUser),
                 f(similarTimeUser),
                 f(timeUser),
-                userQuality
+                user_quality
             )
 
         return False

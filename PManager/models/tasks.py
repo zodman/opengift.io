@@ -73,6 +73,20 @@ class ObjectTags(models.Model):
     class Meta:
         app_label = 'PManager'
 
+    @classmethod
+    def get_weights(cls, tag_ids, content_type_id, obj_id=None, filter_content=[]):
+        request_str = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` ' +\
+                      'from PManager_objecttags WHERE tag_id in (' +\
+                      ', '.join(tag_ids) + ') AND content_type_id=' +\
+                      str(content_type_id)
+        if obj_id is not None:
+            request_str += ' AND object_id=' + str(obj_id)
+        if filter_content:
+            request_str += ' AND object_id NOT IN (' + ', '.join(filter_content) + ')'
+        request_str += " GROUP BY object_id"
+        return cls.objects.raw(str)
+
+
 
 class PM_Tracker(models.Model):
     name = models.CharField(max_length=255)
@@ -943,32 +957,19 @@ class PM_Task(models.Model):
         except Exception:
             print 'Message is not sent'
 
+    def getPrice(self, profile):
+        bet = profile.getBet(self.project)
+
+        if profile.isClient(self.project):
+            pass
+        elif profile.isEmployee(self.project):
+            pass
+
+    # should be removed, since deprecated
     @staticmethod
-    def getListPrepare(tasks, addTasks, join_project_name=False):
-        for task in tasks:
-            task.update(addTasks[task['id']])
-            if 'time' in task:
-                task['time'] = templateTools.dateTime.timeFromTimestamp(task['time'])
-            if join_project_name and 'project__name' in task and not task.get('parentTask', False):
-                task['name'] = task['project__name'] + ": " + task['name']
-
-            if task['deadline']:
-                bDeadlineLessThanNow = task['deadline'] < timezone.make_aware(datetime.datetime.now(),
-                                                                              timezone.get_default_timezone())
-                if (bDeadlineLessThanNow and not task['closed']) or (
-                                task['closed'] and task['dateClose'] and task['deadline'] and (
-                            task['dateClose'] > task['deadline'])):
-                    task['overdue'] = True
-
-            if task['dateClose']:
-                task['dateClose'] = templateTools.dateTime.convertToSite(task['dateClose'])
-            if task['deadline']:
-                task['deadline'] = templateTools.dateTime.convertToSite(task['deadline'])
-            if 'date' in task['last_message']:
-                task['last_message']['date'] = templateTools.dateTime.convertToSite(task['last_message']['date'])
-
-            task['name'] = task['name'].replace('<', "&lt;").replace('>', "&gt;")
-        return tasks
+    def getListPrepare(tasks, add_tasks, join_project_name=False):
+        from PManager.services.task_list import task_list_prepare
+        return task_list_prepare(tasks, add_tasks, join_project_name)
 
     @staticmethod
     def getQtyForUser(user, project=None, addFilter={}):
@@ -1096,7 +1097,6 @@ class PM_Task(models.Model):
         if excludeFilter:
             tasks = tasks.exclude(**excludeFilter)
 
-
         return {
             'tasks': tasks,
             'filter': filterQArgs
@@ -1133,7 +1133,8 @@ class PM_Task(models.Model):
 
         return arTasks
 
-    #get user rating comparing with other user ratings
+    # deprecated, since brought by merge from another branch, something is changed?
+    # see PManager.services.rating.get_user_quality_for_task
     def getUserQuality(self, userId):
         taskTagRelArray = ObjectTags.objects.filter(object_id=self.id,
                                                     content_type=ContentType.objects.get_for_model(self))
@@ -1143,10 +1144,10 @@ class PM_Task(models.Model):
         userTagSums = {}
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
-                            ' from PManager_objecttags WHERE' +
-                            ' tag_id in (' + ', '.join(arTagsId) + ')' +
-                            ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
+                                                                            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
+                                                                            ' from PManager_objecttags WHERE' +
+                                                                    ' tag_id in (' + ', '.join(arTagsId) + ')' +
+                                            ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
                             ' GROUP BY object_id'):
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
@@ -1157,6 +1158,7 @@ class PM_Task(models.Model):
                 if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
                 if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
 
+            currentRecommendedUser = None
             if maxTagCount > 0:
                 for userId in userTagSums:
                     if minTagCount == maxTagCount:
@@ -1165,7 +1167,6 @@ class PM_Task(models.Model):
                         userTagSums[userId] = float((int(userTagSums[userId]) - int(minTagCount))) / float(
                             (int(maxTagCount) - int(minTagCount)))
             return userTagSums[userId] if userId in userTagSums else 0
-
         return 0
 
     def getUsersEmail(self, excludeUsers=None):
@@ -1231,6 +1232,8 @@ class PM_Task(models.Model):
         except PM_Task.DoesNotExist:
             return False
 
+    # deprecated, since brought by merge from another branch, something is changed?
+    # see PManager.services.rating.get_user_rating_for_task
     def getUserRating(self, user):
         assert user.id > 0
 
@@ -1242,12 +1245,10 @@ class PM_Task(models.Model):
 
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from ' +
-                    'PManager_objecttags WHERE tag_id in (' +
-                    ', '.join(arTagsId) + ') AND object_id=' +
-                    str(user.id) + ' AND content_type_id=' +
-                    str(ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
-
+                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
+                                    arTagsId) + ') AND object_id=' + str(
+                    user.id) + ' AND content_type_id=' + str(
+                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
 

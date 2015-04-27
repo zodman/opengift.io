@@ -1,0 +1,20 @@
+<div>
+    {% for draft in taskdrafts.drafts %}
+        <div class="widget">
+            <div class="widget-title clearfix">
+                {{ draft.id }}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
+                {% if draft.author.id == request.user.id %}
+                    <div class="right" style="float:right">
+                        <form action="/taskdraft/{{ draft.slug }}" method="POST">
+                            <input type="hidden" name="_method" value="DELETE"/>
+                            <a href="" title="Удалить" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
+                                <i class="fa-trash-o fa"></i>
+                            </a>
+                        </form>
+                    </div>
+                {% endif %}
+                <span style="margin-right: 20px;float:right">Статус:&nbsp;{{ draft.status_humanize }}</span>
+            </div>
+        </div>
+    {% endfor %}
+</div>

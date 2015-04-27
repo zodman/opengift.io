@@ -1,0 +1,23 @@
+<div id="taskLine_#TASK_ID#" class="task clearfix input-group" data-taskid="#TASK_ID#" >
+	<div class="task-border clearfix">
+    	<span class="task-id js-number-link">#TASK_NUMBER#</span><!-- ===== НОМЕР ЗАДАЧИ -->
+       	<span class="task-drag js-drag-task task-name_status"></span><!-- ===== ПЕРЕТЯГИВАТЕЛЬ -->
+
+       <div class="task-title">
+           <input class="js-task-checkbox" type="checkbox" name="#TASK_ID#" />
+           <a title="#LAST_MESSAGE#" class="js-name-link" href="#TASK_URL#">#TASK_NAME#</a>
+       #FILE_LIST#
+       #DEADLINE#
+       </div><!-- ===== ИМЯ ЗАДАЧИ -->
+
+		<div class="task-info">
+            <div class="task-info-message-board" style="  position: relative;top: 1px;  width: 130px;  text-align: left;  white-space: nowrap;  overflow: hidden;">Сообщений: #MESSAGES#</div>
+            <div class="task-info-author"><span class="title-to-hide">Ответственный:&nbsp;</span><span class="js_task_responsibles"><span class="dropdown"></span></span></div>
+            <div class="task-info-time task_play-wrap">
+            	<span class="dropdown">
+            		<a href="#" class="link-with-popup js-time" data-toggle="dropdown" ></a>&nbsp;<span class="task-plantime"></span>
+                </span>
+            </div><!--task-info-time-->
+		</div><!--task-info-->
+	</div>
+</div>

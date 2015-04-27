@@ -4,7 +4,7 @@ __author__ = 'Tonakai'
 from django.shortcuts import HttpResponse, render
 from PManager.models import PM_Task_Message
 from django.http import Http404
-from PManager.classes.git.warden import Warden
+from tracker import settings
 
 
 class GitView(object):
@@ -23,7 +23,11 @@ class GitView(object):
 
     @classmethod
     def __diff_render(cls, request, message):
-        diff = Warden.get_diff(message)
-        if not diff:
-            raise Http404
+        if settings.USE_GIT_MODULE:
+            from PManager.classes.git.warden import Warden
+            diff = Warden.get_diff(message)
+            if not diff:
+                raise Http404
+        else:
+            diff = None
         return render(request, 'details/git_diff.html', {"diff": diff})

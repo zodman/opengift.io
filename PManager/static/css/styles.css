@@ -6,6 +6,7 @@ body {
     line-height: 20px;
     color: #333333;
 	padding-top:70px;
+    overflow-y: scroll;
 }
 
 h1, .h1 {font-size:26px; line-height:28px;}

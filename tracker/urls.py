@@ -11,6 +11,8 @@ from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
+from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
+    taskdraft_resend_invites, taskdraft_accept_developer
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
@@ -56,7 +58,6 @@ default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 def wikiCustomView(*args, **kwargs):
     wikiRealView = get_wiki_pattern()
 
-
 urlpatterns = patterns('',
                        # Examples:
                        url(r'^$', MainPage.indexRender,
@@ -98,6 +99,13 @@ urlpatterns = patterns('',
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"]}),
                        url(r'^new_task_wizard/$', ajaxNewTaskWizardResponder),
                        url(r'^milestone_ajax/$', ajaxMilestonesResponder),
+                       url(r'^taskdrafts/$', MainPage.indexRender,
+                           {'widgetList': ['taskdrafts'], 'activeMenuItem': 'main'}),
+                       url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})/resend-invites$', taskdraft_resend_invites),
+                       url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})/(?P<task_id>[0-9]+)/accept-developer$',
+                           taskdraft_accept_developer),
+                       url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})/(?P<task_id>[0-9]+)$', taskdraft_task_discussion),
+                       url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})$', taskdraft_detail),
                        url(r'^milestones/$', milestonesResponder),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
@@ -138,3 +146,4 @@ urlpatterns = patterns('',
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
 )
+
