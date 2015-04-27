@@ -8,6 +8,7 @@ from PManager.services import get_draft_by_slug
 from django.template import loader, RequestContext
 from PManager.services.task_list import tasks_to_tuple, task_list_prepare
 
+
 def taskdraft_detail(request, draft_slug):
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
