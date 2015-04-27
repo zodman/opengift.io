@@ -21,6 +21,9 @@
             <label class="checkbox-inline">
               <input type="checkbox" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
             </label>
+	        <label class="checkbox-inline">
+              <input type="checkbox" name="COMMITS" value="Y" {% if chat.options.COMMITS %}checked="checked"{% endif %}> Коммиты
+            </label>
         </div>
         {% if main.CURRENT_PROJECT %}
         <div class="pull-right">

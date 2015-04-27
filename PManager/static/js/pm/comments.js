@@ -588,7 +588,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 /* Mininimize messages */
-                
+                //TODO: убрать дублирование селекторов
                 if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
                     var subcontainer = $('.SUBCONTAINER');
                     var $chatWindow = $('#chatWindow');
