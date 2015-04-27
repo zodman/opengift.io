@@ -1,12 +1,15 @@
 # -*- coding:utf-8 -*-
+__author__ = 'Rayleigh'
 from PManager.viewsExt.tools import templateTools
-
-__author__ = 'rayleigh'
 import json
 from django.http import HttpResponse, Http404
 from PManager.services import get_draft_by_slug
 from django.template import loader, RequestContext
 from PManager.services.task_list import tasks_to_tuple, task_list_prepare
+from PManager.models.tasks import PM_Task
+from PManager.models.simple_message import SimpleMessage
+from django.shortcuts import redirect
+from PManager.services.task_drafts import draft_simple_msg_cnt
 
 
 def taskdraft_detail(request, draft_slug):
@@ -26,6 +29,49 @@ def taskdraft_detail(request, draft_slug):
     raise Http404
 
 
+def taskdraft_resend_invites(request, draft_slug):
+    draft = get_draft_by_slug(draft_slug, request.user)
+    if not draft:
+        return HttpResponse(json.dumps({'error': 'Список задач не найден'}), content_type="application/json")
+    if request.method != "POST":
+        return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
+    if draft.author.id != request.user.id:
+        return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
+    # todo result taskdraft execute list
+    return HttpResponse(json.dumps({'result': 'Приглашения отправлены'}), content_type="application/json")
+
+
+
+def taskdraft_task_discussion(request, draft_slug, task_id):
+    draft = get_draft_by_slug(draft_slug, request.user)
+    if not draft:
+        raise Http404
+    try:
+        task = PM_Task.objects.get(pk=int(task_id))
+    except (ValueError, PM_Task.DoesNotExist):
+        raise Http404
+    if request.method == 'POST':
+        return __add_message(request, draft, task)
+
+    messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('-created_at')
+    context = RequestContext(request, {
+        'draft': draft,
+        'task': task,
+        'simple_messages': messages.all()
+    })
+    template = loader.get_template('details/taskdraft_task.html')
+    return HttpResponse(template.render(context))
+
+
+def __add_message(request, draft, task):
+    message = request.POST.get('task_message', None)
+    if not message:
+        return
+    message = SimpleMessage.objects.create(text=message.strip(), author=request.user, task=task, task_draft=draft)
+    message.save()
+    return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
+
+
 def __show(request, draft):
     users = draft.users.all()
     tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status').all()
@@ -33,16 +79,18 @@ def __show(request, draft):
     user = request.user.get_profile()
     for task in tasks:
         add_tasks[task.id] = {
-            'url': task.url,
+            'url': "/taskdraft/%s/%s" % (draft.slug, task.id),
             'project': {
                 'name': task.project.name
             },
             'canSetPlanTime': task.canPMUserSetPlanTime(user),
             'status': task.status.code if task.status else '',
             'last_message': {'text': task.text},
+            'messages': draft_simple_msg_cnt(task, draft),
             'resp': [
                 {'id': task.resp.id,
-                 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
+                 'name': task.resp.get_full_name()
+                 } if task.resp else {}
             ]
         }
     tasks = tasks_to_tuple(tasks)
@@ -63,4 +111,4 @@ def __delete(request, draft):
         return HttpResponse(json.dumps({'result': 'error'}))
     draft.deleted = True
     draft.save()
-    return HttpResponse(json.dumps({'result': 'ok'}))
+    return redirect('/taskdrafts/')

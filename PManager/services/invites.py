@@ -6,10 +6,7 @@ from PManager.services.activity import last_project_activity
 from PManager.models.tasks import PM_Task, PM_Milestone
 from datetime import timedelta
 from django.utils import timezone
-
-# should return true if no activity on the project and we can
-# invite devs to close projects tasks
-# todo implement this
+from django.contrib.auth.models import User
 
 
 def should_suggest_outsource(project):
@@ -20,7 +17,6 @@ def is_project_stale(project):
     return timezone.now() - timedelta(days=5) > last_project_activity(project)
 
 
-# should return true if hours in tasks more than left in milestone
 def is_project_failing(project):
     return has_dead_milestones(project) or has_dead_tasks(project)
 
@@ -43,19 +39,17 @@ def has_dead_milestones(project):
         return False
 
 
-# return users that can take tasks from tasks_list
-def executors_available(tasklist):
+def executors_available(task_draft):
     from PManager.services.rating import get_top_users
     user_ids = set()
-    for task in tasklist.tasks.all():
+    for task in task_draft.tasks.all():
         for user_id, weight in get_top_users(task):
             user_ids.add(user_id)
-
-    # we have users that qualify, so now we need to get those, who available? no
-    # we need to sort before/ what to do if task has no available users?
-    # already request in iteration, which is baaaaad
+    users = User.objects.filter(pk__in=user_ids)
     return users
 
+# taskdraft - > just send invites ()
+# discuss/rate, can assign?
 # what i should do
 # 1. should system suggest outsource (condition)
 # 2. grab tasks from project to form a tasklist

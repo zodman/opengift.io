@@ -1,0 +1,49 @@
+{% extends "main/base.html" %}
+{% load thumbnail %}
+{% load jsonify %}
+{% block content %}
+    <div class="widget inner draft">
+        <div class="widget-title clearfix">
+            Список задач: <a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
+            <div class="status" style="float:right">
+                Статус: {{ draft.status_humanize }}
+            </div>
+        </div>
+        <div style="padding:10px 20px;">
+            <div class="task-info-detail row-fluid" style="padding: 20px">
+                <h2>{{ task.name|safe }}</h2>
+                <p>{{ task.text|safe }}</p>
+            </div>
+            <div class="clearfix"></div>
+            <h5>Обсуждение:</h5>
+            <div style="border-top: 1px solid black; padding-top:10px;">
+                {% for message in simple_messages %}
+                    <div class="task-message row-fluid show-grid js-taskMessage js-op js-um last" style="display: block;">
+                        <div class="message">
+                            <div class="message-content">
+                                <div class="message-desc clearfix" style="display: inline-block;">
+                                    <div class="message-desc-left js-taskMessageText">
+                                        <div class="message-desc-text-p">{{ message.text|safe }}</div>
+                                    </div>
+                                </div>
+                                <div class="message-info" style="display: inline-block; float: right">
+                                    <span class="message-info-time">{{ message.created_at }}</span>
+                                    <a href="/user_detail/?id={{ message.author.id }}" class="message-info-name">{{ message.author.get_full_name }}</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}" method="POST">
+                <div class="col-xs-12">
+                    <textarea name="task_message" rows="5" class="form-control" placeholder="Напишите сообщение"></textarea>
+                </div>
+                <div class="col-xs-12" style="padding-top: 10px;">
+                    <input type="submit" class="btn btn-success sendTaskMessage" value="Добавить сообщение"/>
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

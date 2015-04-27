@@ -1,14 +1,8 @@
-from django.db.models import Q
-
 __author__ = 'rayleigh'
-
+from django.db.models import Q
 from PManager.models import TaskDraft
 from django.contrib.auth.models import User
-
-# todo implement this
-def create_tasklist_from_project(project):
-    # should get tasks which can be outsourced
-    pass
+from PManager.models.simple_message import SimpleMessage
 
 
 def draft_cnt(user):
@@ -48,7 +42,7 @@ def get_draft_by_slug(slug, user):
 def drafts(user):
     query = TaskDraft.objects.filter(
         Q(users__id=user.id, _status=TaskDraft.OPEN) |
-        Q(author=user.id, closed_at__isnull=True)).filter(deleted=False)
+        Q(author=user.id, closed_at__isnull=True)).filter(deleted=False).distinct()
     return query
 
 
@@ -64,3 +58,10 @@ def __slug(length=64):
     import string
     return ''.join([random.choice(string.ascii_letters + string.digits) for n in xrange(length)])
 
+
+def draft_simple_msg_cnt(task, draft):
+    try:
+        cnt = SimpleMessage.objects.filter(task=task, task_draft=draft).count()
+        return cnt
+    except (ValueError, SimpleMessage.DoesNotExist):
+        return 0

@@ -18,7 +18,17 @@
                         </li>
                     {% endfor %}
                 </ul>
+                {% if request.user.id == draft.author.id %}
+                    <div class="invite-developers" style="padding:10px;float: right">
+                        <a href="/taskdraft/{{ draft.slug }}/resend-invites"
+                           class="btn btn-success js-invite-developers">
+                            <i class="fa fa-paper-plane"></i>&nbsp;Отправить приглашения
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                {% endif %}
             </div>
+
 
             <div class="js-tasks">
 
@@ -41,7 +51,7 @@
         var draftViewClass = window.taskViewClass.extend({
             'render': function(){
                 var templateParams = {
-
+                    responsibleTag: {% if draft.author.id == request.user.id %}'a'{% else %}'span'{% endif %}
                 }
 
                 var playBtnStatus = 'disabled';
@@ -86,6 +96,23 @@
             $.extend($task_container, {
                 'TL_Tasks': new window.taskList()
             });
+            $('.js-invite-developers').click(function(ev){
+                ev.preventDefault();
+                var url = $(this).attr('href');
+                $.post(url, function(response){
+                    if(response.error) {
+                        alert(response.error);
+                    }
+                    if(response.result) {
+                        if (alert(response.result)){
+                            window.location.reload();
+                        }else{
+                            window.location.reload();
+                        }
+                    }
+                });
+                return false;
+            });
             for(var i= 0, len= aTaskList.length; i < len; i++) {
                 var view = new draftViewClass({
                     model: new taskClass(aTaskList[i]),
@@ -93,7 +120,6 @@
                 });
                 views[aTaskList[i].id] = view;
                 view.createEl();
-                console.log(view.$el);
                 $task_container.append(view.$el);
                 view.render();
                 view.$el.wrap("<div class='task-wrapper'></div>");

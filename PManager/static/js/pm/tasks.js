@@ -225,6 +225,9 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#TASK\_NUMBER\#/ig, taskInfo.number);
             html = html.replace(/\#TASK\_URL\#/ig, taskInfo.url);
             html = html.replace(/\#TASK\_NAME\#/ig, taskInfo.name);
+            if (taskInfo.hasOwnProperty('messages')) {
+                html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);
+            }
 
             var sLastMessage;
             if (taskInfo.last_message && taskInfo.last_message.author)
