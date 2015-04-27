@@ -38,7 +38,11 @@ def __show(request, draft):
             },
             'canSetPlanTime': task.canPMUserSetPlanTime(user),
             'status': task.status.code if task.status else '',
-            'last_message': {'text': task.text}
+            'last_message': {'text': task.text},
+            'resp': [
+                {'id': task.resp.id,
+                 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
+            ]
         }
     tasks = tasks_to_tuple(tasks)
     tasks = task_list_prepare(tasks, add_tasks)
