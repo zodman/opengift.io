@@ -74,13 +74,15 @@ class ObjectTags(models.Model):
         app_label = 'PManager'
 
     @classmethod
-    def get_weights(cls, tag_ids, content_type_id, obj_id=None):
+    def get_weights(cls, tag_ids, content_type_id, obj_id=None, filter_content=[]):
         request_str = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` ' +\
                       'from PManager_objecttags WHERE tag_id in (' +\
                       ', '.join(tag_ids) + ') AND content_type_id=' +\
                       str(content_type_id)
         if obj_id is not None:
             request_str += ' AND object_id=' + str(obj_id)
+        if filter_content:
+            request_str += ' AND object_id NOT IN (' + ', '.join(filter_content) + ')'
         request_str += " GROUP BY object_id"
         return cls.objects.raw(str)
 
@@ -1131,6 +1133,8 @@ class PM_Task(models.Model):
 
         return arTasks
 
+    # deprecated, since brought by merge from another branch, something is changed?
+    # see PManager.services.rating.get_user_quality_for_task
     def getUserQuality(self, userId):
         taskTagRelArray = ObjectTags.objects.filter(object_id=self.id,
                                                     content_type=ContentType.objects.get_for_model(self))
@@ -1228,6 +1232,8 @@ class PM_Task(models.Model):
         except PM_Task.DoesNotExist:
             return False
 
+    # deprecated, since brought by merge from another branch, something is changed?
+    # see PManager.services.rating.get_user_rating_for_task
     def getUserRating(self, user):
         assert user.id > 0
 

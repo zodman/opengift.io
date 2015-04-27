@@ -23,3 +23,10 @@ def last_task_activity(task):
     except PM_Task_Message.DoesNotExist:
         return task.dateCreate
 
+
+def user_active_tasks(user):
+    try:
+        tasks_cnt = PM_Task.objects.filter(resp=user, closed=False, status='revision').count()
+        return tasks_cnt
+    except PM_Task.DoesNotExist:
+        return 0

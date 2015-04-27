@@ -55,10 +55,13 @@ def get_user_rating_for_task(task, user):
     return 0
 
 
-def get_top_users(task, limit=5):
+def get_top_users(task, limit=5, user_filter=None):
     assert task is not None
     assert limit >= 0
-
+    if user_filter:
+        user_filter = user_filter.values_list('id', flat=True)
+    else:
+        user_filter = []
     user_tag_sums = dict()
     task_tags_rel = ObjectTags.objects.filter(object_id=task.id,
                                               content_type=ContentType.objects.get_for_model(task))
@@ -66,7 +69,8 @@ def get_top_users(task, limit=5):
     tag_ids = [str(tag_rel.tag.id) for tag_rel in task_tags_rel]
 
     if len(tag_ids) > 0:
-        related_users = ObjectTags.get_weights(tag_ids, ContentType.objects.get_for_model(User).id)
-        for obj1 in related_users.order('weight_sum')[:limit]:
+        related_users = ObjectTags.get_weights(tag_ids, ContentType.objects.get_for_model(User).id,
+                                               filter_content=user_filter)
+        for obj1 in related_users.order('-weight_sum')[:limit]:
             user_tag_sums[str(obj1.content_object.id)] = int(obj1.weight_sum)
     return user_tag_sums

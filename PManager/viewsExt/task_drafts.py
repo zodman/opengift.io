@@ -10,7 +10,8 @@ from PManager.models.tasks import PM_Task
 from PManager.models.simple_message import SimpleMessage
 from django.shortcuts import redirect
 from PManager.services.task_drafts import draft_simple_msg_cnt
-
+from PManager.services.invites import executors_available, send_invites
+from PManager.models.taskdraft import TaskDraft
 
 def taskdraft_detail(request, draft_slug):
     draft = get_draft_by_slug(draft_slug, request.user)
@@ -35,11 +36,21 @@ def taskdraft_resend_invites(request, draft_slug):
         return HttpResponse(json.dumps({'error': 'Список задач не найден'}), content_type="application/json")
     if request.method != "POST":
         return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
+    if draft.tasks.count() < 1:
+        return HttpResponse(json.dumps({'error': 'Нет задач в списке'}), content_type="application/json")
+
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
-    # todo result taskdraft execute list
+    users = executors_available(draft)
+    if not users:
+        return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
+                            content_type="application/json")
+    send_invites(users, draft)
+    for profile in users:
+        draft.users.add(profile.user)
+    draft.status = TaskDraft.OPEN
+    draft.save()
     return HttpResponse(json.dumps({'result': 'Приглашения отправлены'}), content_type="application/json")
-
 
 
 def taskdraft_task_discussion(request, draft_slug, task_id):

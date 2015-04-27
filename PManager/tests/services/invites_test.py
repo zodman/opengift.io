@@ -64,11 +64,4 @@ class TaskDraftsTestCase(TestCase):
     def get_users(self):
         return dict()
 
-    # def test_has_enough_users(self):
-    #     tasklist = self.get_tasklist()
-    #     expected_users = self.get_users()
-    #     users = executors_available(tasklist)
-    #     self.assertEqual(len(users), 5)
-    #     self.assertListEqual(users, expected_users, "only subset of users should be available")
-
 
