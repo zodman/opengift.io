@@ -69,13 +69,16 @@ def executors_available(task_draft, active_task_limit=3):
                                        last_activity_date__gt=(
                                            datetime.now() - timedelta(days=TIME_INACTIVE_MAX_DAYS)))
         users.exclude(user__in=task_draft.users.distinct()).exclude(user__in=task.project.getUsers()).distinct()
-        for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=users):
-            user_ids.add(user_id)
+        for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=users).iteritems():
+            try:
+                user_ids.add(int(user_id))
+            except ValueError:
+                continue
 
     users_acceptable = set()
-    for user in users:
-        if user_active_tasks(user) < active_task_limit:
-            users_acceptable.add(user)
+    for user_id in user_ids:
+        if user_active_tasks(user_id) < active_task_limit:
+            users_acceptable.add(user_id)
     return users_acceptable
 
 

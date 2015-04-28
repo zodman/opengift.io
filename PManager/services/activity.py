@@ -24,9 +24,9 @@ def last_task_activity(task):
         return task.dateCreate
 
 
-def user_active_tasks(user):
+def user_active_tasks(user_id):
     try:
-        tasks_cnt = PM_Task.objects.filter(resp=user, closed=False, status='revision').count()
+        tasks_cnt = PM_Task.objects.filter(resp__id=user_id, closed=False, status__code='revision').count()
         return tasks_cnt
     except PM_Task.DoesNotExist:
         return 0

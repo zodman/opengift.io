@@ -8,6 +8,7 @@ from django.template import loader, RequestContext
 from PManager.services.task_list import tasks_to_tuple, task_list_prepare
 from PManager.models.tasks import PM_Task
 from PManager.models.simple_message import SimpleMessage
+from PManager.models.users import PM_User
 from django.shortcuts import redirect
 from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user
 from PManager.services.invites import executors_available, send_invites, get_evaluations
@@ -41,10 +42,14 @@ def taskdraft_resend_invites(request, draft_slug):
 
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
-    users = executors_available(draft)
-    if not users:
+    user_ids = executors_available(draft)
+    if not user_ids:
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
+    try:
+        users = PM_User.objects.filter(pk__in=user_ids)
+    except (ValueError, PM_User.DoesNotExist):
+        users = ()
     send_invites(users, draft)
     for profile in users:
         draft.users.add(profile.user)
