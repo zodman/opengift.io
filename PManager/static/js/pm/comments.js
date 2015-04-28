@@ -84,75 +84,75 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             'initialize': function (data) {
                 this.tpl = data.templateHTML;
             },
-            'setTodo': function(e){
-                 if(e.currentTarget) {
-                     var $btn = $(e.currentTarget), setTodo;
-                     var view = this;
-                     $btn.toggleClass('checked');
-                     setTodo = $btn.is('.checked');
-                     this.model.set('todo', setTodo);
+            'setTodo': function (e) {
+                if (e.currentTarget) {
+                    var $btn = $(e.currentTarget), setTodo;
+                    var view = this;
+                    $btn.toggleClass('checked');
+                    setTodo = $btn.is('.checked');
+                    this.model.set('todo', setTodo);
 
-                     this.model.saveToServer(function (data) {
-                         view.render();
+                    this.model.saveToServer(function (data) {
+                        view.render();
                         $(window).triggerHandler('pmSetTodo', view.model);
-                     });
-                 }
+                    });
+                }
                 return false;
             },
-            'checkTodo': function(){
-                 var checkTodo, view = this;
-                 checkTodo = !this.model.get('todo_checked');
-                 this.model.set('todo_checked', checkTodo);
-                 view.render();
+            'checkTodo': function () {
+                var checkTodo, view = this;
+                checkTodo = !this.model.get('todo_checked');
+                this.model.set('todo_checked', checkTodo);
+                view.render();
 
-                 this.model.saveToServer(function (data) {
+                this.model.saveToServer(function (data) {
                     $(window).triggerHandler('pmCheckTodo', view.model);
-                 });
+                });
 
                 return false;
             },
             'showCommit': function (message) {
-                if(message.currentTarget) {
+                if (message.currentTarget) {
                     var commit_body = $(message.currentTarget).parent().parent().find('.js-commit-body');
                     var url = $(message.currentTarget).attr('href');
                     $(message.currentTarget).prop('disabled', true);
-                    $(commit_body).load(url, function(response, status){
-                       if(status == 'error') {
+                    $(commit_body).load(url, function (response, status) {
+                        if (status == 'error') {
                             $(message.currentTarget).parent().remove();
                             alert('Не удалось загрузить коммит');
-                       }
-                       if(response) {
+                        }
+                        if (response) {
                             $(message.currentTarget).parent().remove();
-                       }
-                       else {
+                        }
+                        else {
                             $(message.currentTarget).prop('disabled', false);
-                       }
+                        }
                     });
                 }
                 return false;
             },
             'showFileDiff': function (message) {
-                if(message.currentTarget) {
+                if (message.currentTarget) {
                     $(message.currentTarget).parent().css('width', $(message.currentTarget).outerWidth() + 2);
-                    if(message.currentTarget.nextElementSibling) {
-                       $(message.currentTarget.nextElementSibling).slideToggle();
+                    if (message.currentTarget.nextElementSibling) {
+                        $(message.currentTarget.nextElementSibling).slideToggle();
                     }
                 }
             },
             'template': function (messageInfo) {
-                var trimLinks = function(match){
+                var trimLinks = function (match) {
                     match = match.trim();
                     if (match.length > 35) {
                         return "<a href='" + match + "'>" + match.substr(0, 32) + "...</a>";
-                    }else {
+                    } else {
                         return "<a href='" + match + "'>" + match + "</a>";
                     }
                 };
                 var arKeys = {
                     'ID': messageInfo.id,
                     'TEXT': messageInfo.text.replace(new RegExp(/\[Q\]([^]+?)\[\/Q\]/mig), '<blockquote class="well">$1</blockquote>')
-                    .replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/mgi, trimLinks)
-                    .replace(/(\r\n|\n)/mgi, "<br/>").replace(/(\t)/mgi, "&nbsp;&nbsp;&nbsp;&nbsp;"),
+                        .replace(/(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/mgi, trimLinks)
+                        .replace(/(\r\n|\n)/mgi, "<br/>").replace(/(\t)/mgi, "&nbsp;&nbsp;&nbsp;&nbsp;"),
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
@@ -168,7 +168,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var id = messageInfo.id;
                     var text = messageInfo.author.last_name[0] + messageInfo.author.name[0];
                     var color = messageInfo.author.avatar_color;
-                    arKeys['AVATAR'] += $.createAvatar({'id':id, 'initials':text, 'color':color});
+                    arKeys['AVATAR'] += $.createAvatar({'id': id, 'initials': text, 'color': color});
                 }
                 if (messageInfo.hidden) {
                     arKeys['HIDDEN_LABEL'] += 'Личное ';
@@ -197,13 +197,13 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['PROJECT_LINE'] = '';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
-                arKeys['TODO_BTN'] = '<a class="to-do-button '+(messageInfo.todo?'checked':'')+' js-set-todo" href="#">To Do</a>';
+                arKeys['TODO_BTN'] = '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">To Do</a>';
                 //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.todo_checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
                 if (messageInfo.task && messageInfo.task.name) {
                     if (messageInfo.project && messageInfo.project.name) {
-                        arKeys['PROJECT_LINE'] = '<a href="'+messageInfo.project.url+'" class="message-info-title">'+messageInfo.project.name+'</a>';
+                        arKeys['PROJECT_LINE'] = '<a href="' + messageInfo.project.url + '" class="message-info-title">' + messageInfo.project.name + '</a>';
                     }
 
                     if (messageInfo.task.parent && messageInfo.task.parent.id) {
@@ -214,7 +214,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         messageInfo.task.name + '</strong></a>';
                 }
                 if (messageInfo.author.id != document.mainController.userId)
-                        arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="'+(messageInfo.hidden?1:0)+'" href="'+messageInfo.task.url+'" rel="'+messageInfo.author.id+'">Ответить</a>';
+                    arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="' + (messageInfo.hidden ? 1 : 0) + '" href="' + messageInfo.task.url + '" rel="' + messageInfo.author.id + '">Ответить</a>';
 
 
                 if (messageInfo.system) {
@@ -350,7 +350,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     this.$('.js-removeTaskMessage').show();
                 }
                 if (this.model.get('noveltyMark')) {
-                    this.$el.addClass('new-message');
+                    this.$el.addClass('new-message js-new');
                 }
 //                this.$('.fnc').fancybox();
                 this.$('.fnc_ajax').fancybox({
@@ -444,9 +444,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
-	        this.bNeedToGroup = needToGroup;
+            this.bNeedToGroup = !!needToGroup;
             this.init();
-        }
+        };
 
         messageListManager.prototype = {
             init: function () {
@@ -491,7 +491,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                                 }
                             );
                         }
-                        knock();    
+                        knock();
                     } else {
                         func = 'append';
                     }
@@ -505,51 +505,63 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (subCode == null) {
                         subCode = 'MESSAGES';
                     }
+                    var $lastContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
+                        isNewMessage = message.get('noveltyMark'),
+                        isLastSubContainerHasNotSimpleType = !$lastContainer.hasClass('MESSAGES');
 
-                    var $chatWindow = $('#chatWindow');
+                    if (
+                        !$lastContainer.hasClass(subCode) ||
+                        isNewMessage ||
+                        subCode === 'MESSAGES'
+                        ) { //create new subcontainer
 
-                    if (!t.$commentsContainer.find('.SUBCONTAINER:last').hasClass(subCode) ||
-                        message.view.$el.hasClass('new-message') || subCode === 'MESSAGES') {
-                        if ((t.$commentsContainer.find('.SUBCONTAINER:last').find('.task-message').length > 1) && (!message.view.$el.hasClass('new-message')) && !t.$commentsContainer.find('.SUBCONTAINER:last').hasClass('MESSAGES')) {
-                            var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
-                            var colMessages = (containerMessages.find('.task-message')).length - 1;
-                            var msgs = containerMessages.find('.task-message');
-                            if (this.bNeedToGroup == true) {
-	                            var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
-                                btnMinimize.click(function(){
-	                                msgs.show();
-	                                $(this).remove();
-	                            });
-	                            containerMessages.append(btnMinimize);
+                        if (
+                            $lastContainer.find('.task-message').length > 1
+                            && isNewMessage
+                            && isLastSubContainerHasNotSimpleType //we don't group simple messages
+                            ) {
+
+                            var $lastContMessages = $lastContainer.find('.task-message'),
+                                colMessages = $lastContMessages.length - 1;
+
+                            if (t.bNeedToGroup) {
+                                var $btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>');
+                                $btnMinimize.click(function () {
+                                    $lastContMessages.show();
+                                    $(this).remove();
+                                });
+                                $lastContainer.append($btnMinimize);
                             }
-
                         }
-                        var containerMessages = $('<div class="' + subCode +' SUBCONTAINER"></div>');
-                        if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
-                            t.$commentsContainer.prepend(containerMessages);
+
+                        var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
+                        if (isNewMessage && t.$commentsContainer.length > 0) {
+                            t.$commentsContainer.prepend($newSubContainer);
                         } else {
-                            t.$commentsContainer.append(containerMessages);
+                            t.$commentsContainer.append($newSubContainer);
                         }
                     }
 
-                    var codeElementLast = t.$commentsContainer.find('.SUBCONTAINER:last');
-                    var codeElementFirst = t.$commentsContainer.find('.SUBCONTAINER:first');
-                    codeElementLast.find('.last').removeClass('last');                
-                    if (message.view.$el.hasClass('new-message') && $chatWindow.length > 0) {
-                        codeElementFirst[func](message.view.$el);
-                    } else if (message.view.$el.hasClass('new-message') && $('#chatWindow').length === 0) {
-                        codeElementLast.addClass('show-msg')[func](message.view.$el);
+                    var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
+                        $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first');
+
+                    $lastSubContainer.find('.last').removeClass('last');
+
+                    if (isNewMessage && t.$commentsContainer.length > 0) {
+                        $firstSubContainer[func](message.view.$el);
+                    } else if (isNewMessage && t.$commentsContainer.length === 0) {
+                        $lastSubContainer.addClass('show-msg')[func](message.view.$el);
                     } else {
-                        codeElementLast[func](message.view.$el);
+                        $lastSubContainer[func](message.view.$el);
                     }
 
-                    if (!message.view.$el.hasClass('new-message')) {
+                    if (!isNewMessage) {
                         var sel = ":last";
-                        if($chatWindow.length > 0){
+                        if (t.$commentsContainer.length > 0) {
                             sel = ":first"
                         }
-                        codeElementLast.find('.task-message' + sel).addClass('last');
-                        codeElementLast.find('.task-message:not(.last)').hide();
+                        $lastSubContainer.find('.task-message' + sel).addClass('last');
+                        $lastSubContainer.find('.task-message:not(.last)').hide();
                     }
 
                     /* /Mininimize system messages */
@@ -567,7 +579,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }, 0);
             },
             addMessages: function (aMessagesData) {
-                var i, l = aMessagesData.length;
+                var i, l = aMessagesData.length, t = this, $showAllBtn = $('.js-show-all');
                 if (this.showLast > 0) { //TODO: все, что в этом услови, должно быть во вьюхах
                     for (var k in aMessagesData) {
                         i++;
@@ -578,12 +590,12 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         }
 
                         if (i == l - this.showLast && l > this.showLast) {
-                            $('.js-show-all').show();
+                            $showAllBtn.show();
                         }
 
                         this.messageList.add([mes]);
                     }
-                    $('.js-show-all').click(function () {
+                    $showAllBtn.click(function () {
                         $('.js-taskMessage').show();
                         $(this).remove();
                     });
@@ -594,34 +606,52 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Mininimize messages */
                 //TODO: убрать дублирование селекторов
                 if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
-                    var subcontainer = $('.SUBCONTAINER');
-                    var $chatWindow = $('#chatWindow');
-                    if ($chatWindow.length === 0 && subcontainer.length > 7 && !subcontainer.parent().hasClass('minimize-messages')) {
-                        $(subcontainer).parent().addClass('minimize-messages');
-                        var btnMinimizeMsg = $('<div class="btn show-msg-btn" style="margin-bottom: 10px;"><div style="text-align: center;">Показать все сообщения...</div></div>');
-                        if ($('.SUBCONTAINER').find('.btn.show-msg-btn').length === 0) {
-                            $(subcontainer).find('.task-message').eq(1).after(btnMinimizeMsg);
-                        };
-                        btnMinimizeMsg.click(function(){
-                            $(subcontainer).parent().removeClass('minimize-messages');
+                    var $subContainer = $('.SUBCONTAINER'),
+                        maxVisibleCommentsOnLoadPage = 7;
+
+                    if (t.$commentsContainer.length === 0 &&
+                        $subContainer.length > maxVisibleCommentsOnLoadPage && !$subContainer.parent().hasClass('minimize-messages')) {
+
+                        $subContainer.parent().addClass('minimize-messages');
+                        var btnMinimizeMsg = $(
+                                '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
+                                '<div style="text-align: center;">Показать все сообщения...</div></div>'
+                        );
+
+                        if ($subContainer.find('.btn.show-msg-btn').length === 0) {
+                            $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
+                        }
+
+                        btnMinimizeMsg.click(function () {
+                            $subContainer.parent().removeClass('minimize-messages');
                             $(this).remove();
                         });
-                    };
-                    $('.SUBCONTAINER:lt(2)').addClass('show-msg');
-                    var lastItem = subcontainer.length - (subcontainer.length - 6);
-                    $('.SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
-                    if ($chatWindow.length === 0 && $('.SUBCONTAINER:last').find('.task-message').length > 1 && !$('.SUBCONTAINER:last').find('.task-message').hasClass('new-message')) {
-                        var containerMessages = $('.SUBCONTAINER:last');
-                        var colMessages = (containerMessages.find('.task-message')).length - 1;
-                        var msgs = containerMessages.find('.task-message');
-                        var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
-                        btnMinimize.click(function(){
-                            msgs.show();
+                    }
+
+                    var lastItem = maxVisibleCommentsOnLoadPage - 1,
+                        $lastSubContainer = $subContainer.filter(':last'),
+                        $lastSubContainerMessages = $lastSubContainer.find('.task-message');
+
+                    //first 2 and last 6 items stay visible
+                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+
+                    if (
+                        t.$commentsContainer.length === 0 &&
+                        $lastSubContainerMessages.length > 1 && !$lastSubContainerMessages.hasClass('js-new')
+                        ) {
+                        var colMessages = $lastSubContainerMessages.length - 1;
+                        var btnMinimize = $(
+                                '<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' +
+                                colMessages +
+                                '...</span></div>'
+                        );
+                        btnMinimize.click(function () {
+                            $lastSubContainerMessages.show();
                             $(this).remove();
                         });
-                        containerMessages.append(btnMinimize);
-                    };
-                };
+                        $lastSubContainer.append(btnMinimize);
+                    }
+                }
 
                 /* /Mininimize messages */
             },
@@ -638,7 +668,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 this.messageList.remove(this.messageList.models);
             },
 
-            getById: function(id) {
+            getById: function (id) {
                 return this.messageList.get(parseInt(id));
             }
         }
