@@ -88,7 +88,7 @@ class ObjectTags(models.Model):
             request_str += " ORDER BY %s %s" % order_by
         if limit is not None:
             request_str += " LIMIT %s" % limit
-        return cls.objects.raw(str)
+        return cls.objects.raw(request_str)
 
 
 
