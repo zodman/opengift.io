@@ -70,7 +70,8 @@ def get_top_users(task, limit=5, user_filter=None):
 
     if len(tag_ids) > 0:
         related_users = ObjectTags.get_weights(tag_ids, ContentType.objects.get_for_model(User).id,
-                                               filter_content=user_filter)
-        for obj1 in related_users.order('-weight_sum')[:limit]:
+                                               filter_content=user_filter, order_by=('weight_sum', 'DESC'),
+                                               limit=limit)
+        for obj1 in related_users:
             user_tag_sums[str(obj1.content_object.id)] = int(obj1.weight_sum)
     return user_tag_sums
