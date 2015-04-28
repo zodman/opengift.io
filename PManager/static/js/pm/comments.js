@@ -434,7 +434,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             }
         });
 
-        messageListManager = function ($element, taskId, arMessageTpl) {
+        messageListManager = function ($element, taskId, arMessageTpl, needToGroup) {
             this.taskId = taskId;
             this.$commentsContainer = $element;
             if (arMessageTpl)
@@ -444,6 +444,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
+	        this.bNeedToGroup = needToGroup;
             this.init();
         }
 
@@ -513,12 +514,15 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             var containerMessages = t.$commentsContainer.find('.SUBCONTAINER:last');
                             var colMessages = (containerMessages.find('.task-message')).length - 1;
                             var msgs = containerMessages.find('.task-message');
-                            var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
-                            btnMinimize.click(function(){
-                                msgs.show();
-                                $(this).remove();
-                            });
-                            containerMessages.append(btnMinimize);
+                            if (this.bNeedToGroup == true) {
+	                            var btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages +'...</span></div>');
+                                btnMinimize.click(function(){
+	                                msgs.show();
+	                                $(this).remove();
+	                            });
+	                            containerMessages.append(btnMinimize);
+                            }
+
                         }
                         var containerMessages = $('<div class="' + subCode +' SUBCONTAINER"></div>');
                         if (message.view.$el.hasClass('new-message') && $('#chatWindow').length > 0) {
