@@ -18,7 +18,7 @@
                         </li>
                     {% endfor %}
                 </ul>
-                {% if request.user.id == draft.author.id %}
+                {% if request.user.id == draft.author.id and tasks %}
                     <div class="invite-developers" style="padding:10px;float: right">
                         <a href="/taskdraft/{{ draft.slug }}/resend-invites"
                            class="btn btn-success js-invite-developers">
@@ -31,7 +31,28 @@
 
 
             <div class="js-tasks">
+                {% if not tasks and draft.author.id == request.user.id %}
+                    <div class="task-wrapper">
+                        <div class="task" style="padding:10px; line-height: 31px;">
+                            Нет задач без исполнителей в списке.
+                            <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right;">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <a class="btn btn-danger"  href="" title="Удалить список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
+                                    <i class="fa-trash-o fa"></i>&nbsp;Удалить список
+                                </a>
+                            </form>
+                            <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right; margin-right: 10px;">
+                                <input type="hidden" name="_method" value="PUT"/>
+                                <input type="hidden" name="set_status" value="close"/>
+                                <a class="btn btn-warning" href="" title="Закрыть список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
+                                    <i class="fa-times-circle fa"></i>&nbsp;Закрыть список
+                                </a>
+                            </form>
 
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% endif %}
             </div>
         </div>
     </div>
