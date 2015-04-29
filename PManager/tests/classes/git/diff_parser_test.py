@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Tonakai'
 from django.test import TestCase
-from ..diff_parser import DiffParser
+from PManager.classes.git.diff_parser import DiffParser
 
 
 class TestDiffParser(TestCase):

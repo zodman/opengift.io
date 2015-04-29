@@ -1,0 +1,172 @@
+{% extends "main/base.html" %}
+{% load thumbnail %}
+{% load jsonify %}
+{% block content %}
+    <div class="widget inner draft">
+        <div class="widget-title clearfix">
+            Список задач: {{ draft }}
+            <div class="status" style="float:right">
+                Статус: {{ draft.status_humanize }}
+            </div>
+        </div>
+        <div style="padding:10px 20px;">
+            <div>
+                Список участников:&nbsp;<ul style="list-style-type: none; display: inline-block">
+                    {% for user in users %}
+                        <li style="display: inline-block">
+                            <a href="/user_detail/?id={{ user.id }}">{{ user.get_full_name }}</a>
+                        </li>
+                    {% endfor %}
+                </ul>
+                {% if request.user.id == draft.author.id and tasks %}
+                    <div class="invite-developers" style="padding:10px;float: right">
+                        <a href="/taskdraft/{{ draft.slug }}/resend-invites"
+                           class="btn btn-success js-invite-developers">
+                            <i class="fa fa-paper-plane"></i>&nbsp;Отправить приглашения
+                        </a>
+                    </div>
+                    <div class="clearfix"></div>
+                {% endif %}
+            </div>
+
+
+            <div class="js-tasks">
+                {% if not tasks and draft.author.id == request.user.id %}
+                    <div class="task-wrapper">
+                        <div class="task" style="padding:10px; line-height: 31px;">
+                            Нет задач без исполнителей в списке.
+                            <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right;">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <a class="btn btn-danger"  href="" title="Удалить список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
+                                    <i class="fa-trash-o fa"></i>&nbsp;Удалить список
+                                </a>
+                            </form>
+                            <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right; margin-right: 10px;">
+                                <input type="hidden" name="_method" value="PUT"/>
+                                <input type="hidden" name="set_status" value="close"/>
+                                <a class="btn btn-warning" href="" title="Закрыть список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
+                                    <i class="fa-times-circle fa"></i>&nbsp;Закрыть список
+                                </a>
+                            </form>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <script language="javascript">
+        window.taskHtml = {{ tasks_template|jsonify|safe }};
+        var aTaskList = [],taskRespSummary = {};
+        {% for task in tasks %}
+            aTaskList.push({{ task|jsonify|safe }});
+            taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
+            {% if task.time %}
+                arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                {% if task.startedTimerExist %}
+                    arTimers['{{ task.id }}'].start();
+                {% endif %}
+            {% endif %}
+        {% endfor %}
+        var draftViewClass = window.taskViewClass.extend({
+            'render': function(){
+                var templateParams = {
+                    responsibleTag: {% if draft.author.id == request.user.id %}'a'{% else %}'span'{% endif %}
+                }
+
+                var playBtnStatus = 'disabled';
+                if (this.model.get('subtasksQty') > 0) {
+                    templateParams.responsibleTag = 'span';
+                    templateParams.timerTag = 'span';
+                    playBtnStatus = 'transparent';
+                }
+                this.$el.html(this.template(this.model.toJSON(), templateParams));
+
+                if (this.model.get('onPlanning'))
+                    this.$el.addClass('onplan').attr('data-onplan', 'Y');
+                else this.$el.removeClass('onplan').attr('data-onplan', 'N');
+
+                var iSTUID = this.model.get('startedTimerUserId');
+                if (iSTUID) {
+                    this.$el.attr('data-started_timer_user_id', iSTUID);
+                    if (window.baseUserParams.userId != iSTUID) playBtnStatus = 'disabled';
+                }
+
+                if (this.model.get('critically') > CRITICALLY_THRESHOLD) this.$el.addClass('critically').parent('.task-wrapper').addClass('critically');
+                else this.$el.removeClass('critically').parent('.task-wrapper').removeClass('critically');
+
+                if (this.model.get('startedTimerExist')) this.$el.addClass('started');
+                else this.$el.removeClass('started');
+
+                if (!this.model.get('viewed')) this.$el.addClass('newEvent');
+                else this.$el.removeClass('newEvent');
+
+                this.disableTimerButton();
+                this.hideTimerButton();
+                this.delegateEvents();
+                if (this.$el.parent().get(0)) {
+                    setTaskCellsHeight(this.$el);
+                }
+                return this;
+            }
+        });
+        $('document').ready(function(){
+            var views = [];
+            var $task_container = $('.js-tasks')
+            $.extend($task_container, {
+                'TL_Tasks': new window.taskList()
+            });
+            $('.js-invite-developers').click(function(ev){
+                ev.preventDefault();
+                var url = $(this).attr('href');
+                $.post(url, function(response){
+                    if(response.error) {
+                        alert(response.error);
+                    }
+                    if(response.result) {
+                        if (alert(response.result)){
+                            window.location.reload();
+                        }else{
+                            window.location.reload();
+                        }
+                    }
+                });
+                return false;
+            });
+            for(var i= 0, len= aTaskList.length; i < len; i++) {
+                var view = new draftViewClass({
+                    model: new taskClass(aTaskList[i]),
+                    responsibleMenuUrl: "/ajax/responsible_menu/?draft_id={{ draft.id }}"
+                });
+                views[aTaskList[i].id] = view;
+                view.createEl();
+                $task_container.append(view.$el);
+                view.render();
+                view.$el.wrap("<div class='task-wrapper'></div>");
+                $task_container.TL_Tasks.add(view);
+
+            }
+            baseConnector.addListener('fs.task.update',function(data){
+                if (data && data.id){
+                    if (views[data.id]){
+                        var view = views[data.id];
+                        view.checkModel(function(){
+                            for (var i in data){
+                                if (i == 'viewedOnly') {
+                                    if (data[i] != document.mainController.userId) {
+                                        view.model.set('viewed', false);
+                                    }
+                                }
+                                if (i != 'id'){
+                                    view.model.set(i, data[i]);
+                                }
+                            }
+                            view.render();
+                        });
+                    }
+                }
+            });
+        });
+    </script>
+{% endblock %}

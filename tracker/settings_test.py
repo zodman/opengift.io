@@ -5,7 +5,6 @@ TEMPLATE_DEBUG = DEBUG
 
 ADMINS = (
     ('Egor', 'gvamm3r@gmail.com'),
-    ('Artyom', 'tonakai.personal@gmail.com'),
 )
 
 MANAGERS = ADMINS
@@ -78,13 +77,13 @@ SECRET_KEY = '%n#5@8#8qxv@&amp;d7r^w#e_ygja@8*=pq^5q6k)%l&amp;yy@f-%p8ey'
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-    # 'django.template.loaders.eggs.Loader',
+#     'django.template.loaders.eggs.Loader',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    # 'django.middleware.csrf.CsrfViewMiddleware',
+    #'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     # Uncomment the next line for simple clickjacking protection:
@@ -97,13 +96,12 @@ ROOT_URLCONF = 'tracker.urls'
 WSGI_APPLICATION = 'tracker.wsgi.application'
 
 import os.path
-
 TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\', '/'),
-    os.path.join(os.path.dirname(__file__), '../PManager/widgets').replace('\\', '/'),
+    os.path.join(os.path.dirname(__file__),'templates').replace('\\','/'),
+    os.path.join(os.path.dirname(__file__),'../PManager/widgets').replace('\\','/'),
 )
 
 INSTALLED_APPS = (
@@ -153,8 +151,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "sekizai.context_processors.sekizai",
 )
 PYMORPHY_DICTS = {
-    'ru': {'dir': os.path.join(os.path.dirname(__file__), '../PManager/dicts/ru.sqlite-json')},
-}
+    'ru': { 'dir': os.path.join(os.path.dirname(__file__), '../PManager/dicts/ru.sqlite-json') },
+    }
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -204,7 +202,7 @@ ALLOWED_HOSTS = [
 ]
 
 # HAYSTACK_CONNECTIONS = {
-# 'default': {
+#     'default': {
 #         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
 #     },
 # }
@@ -219,19 +217,19 @@ ROBOKASSA_EXTRA_PARAMS = ['user']
 COMISSION = 1
 USE_GIT_MODULE = False
 
-from platform import node
+DEBUG = True
+# from databases.database import DATABASES
+SOUTH_TESTS_MIGRATE = False
+DATABASES = dict()
+DATABASES['default'] = {
+    'ENGINE': 'django.db.backends.sqlite3'
+}
+SESSION_COOKIE_DOMAIN = 'heliard.dev'
+SOCKET_SERVER_ADDRESS = 'localhost'
+project_root = '/projects/heliard/'
 
-LOCAL_NODE = 'Gvam'
-ALL_DEVELOPMENT_NODE = 'workpc'
-DEVELOPMENT_NODE = 'heliarddev'
-PRODUCTION_NODE = 'HELIANT-VM-11'
-if node() == LOCAL_NODE:
-    from settings_local import *
-elif node() == DEVELOPMENT_NODE:
-    from settings_vagrant import *
-elif node() == ALL_DEVELOPMENT_NODE:
-    from settings_dev import *
-elif node() == PRODUCTION_NODE:
-    from settings_production import *
-else:
-    from settings_production import *
+# GIT MODULE SETTINGS
+USE_GIT_MODULE = False
+GITOLITE_ACCESS_URL = 'heliard@localhost'
+GITOLITE_ADMIN_REPOSITORY = '/projects/heliard/gitolite-admin'
+GITOLITE_REPOS_PATH = '/projects/heliard/repositories'

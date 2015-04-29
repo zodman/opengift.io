@@ -97,7 +97,8 @@ $(function(){
         'COMMITS':'cm'
     };
     widget_chat.$options = widget_chat.$container.find('.js-feed-options');
-    widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates);
+	widget_chat.bNeedToGroup = true;
+    widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates, widget_chat.bNeedToGroup);
 
     $.extend(widget_chat,{
         'init':function(){
@@ -108,11 +109,12 @@ $(function(){
                 }
                 if (this.get('system')) {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['SYSTEM_MESSAGES']);
-                } else {
-                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
                 }
-                if (this.get('commit')) {
+	            if (this.get('commit')) {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['COMMITS']);
+                }
+	            else {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
                 }
             });
             widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
@@ -127,10 +129,12 @@ $(function(){
             widget_chat.$options.find('input').each(v).click(v).click(function(){
                 widget_chat.reset();
                 $('.toggle-messages.minimize').remove();
+	            if (widget_chat.options['SYSTEM_MESSAGES'] == false && widget_chat.options['USER_MESSAGES'] == false && widget_chat.options['COMMITS'] == true) {
+		            widget_chat.bNeedToGroup = false
+	            }
             });
             baseConnector.addListener('fs.comment.add', function(data){
-                console.log(data);
-                console.log(widget_chat.options);
+
                 for (var k in widget_chat.options){
                     if (!widget_chat.options[k]){
                         switch (k){

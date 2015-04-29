@@ -153,7 +153,7 @@ def widget(request, headerValues, ar, qargs):
                 userKeys = []
             userRoles = [role for role in user.userRoles.filter(project__in=currentUserAccessProjects)]
 
-            taskTemplate = templateTools.getDefaultTaskTemplate()
+            taskTemplate = templateTools.get_task_template()
 
             for task in tasksResult['tasks']:
                 task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']

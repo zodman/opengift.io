@@ -10,13 +10,13 @@ from django.utils import timezone
 from PManager.viewsExt.tasks import TaskWidgetManager
 from tracker.settings import COMISSION
 from django.db.models import Sum
-
+from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 # This function are used in many controllers.
 #It must return only json serializeble values in 'tasks' array
 
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
-    userTagSums = {}
+    userTagSums = dict()
     if len(arTagsId) > 0:
 
         #only filtered users
@@ -99,11 +99,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         mId = int(pst('milestone')) if pst('milestone') else 0
         mName = pst('milestone_name')
         mDate = pst('milestone_date')
-
+        milestone = None
         if mId:
             milestone = PM_Milestone.objects.get(pk=mId)
         elif project:
-            milestone = None
             if mName:
                 mName = mName.strip()
                 if mDate:
@@ -386,23 +385,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     if aTasksId:
         #todo: all queries
         aTimers = PM_Task.getAllTimeOfTasksWithSubtasks(aTasksId)
-
-        tasks = tasks.values(*(addFields + [
-            'critically',
-            'planTime',
-            'realTime',
-            'onPlanning',
-            'name',
-            'text',
-            'id',
-            'deadline',
-            'closed',
-            'started',
-            'dateClose',
-            'number'
-        ])
-        )
-        tasks = PM_Task.getListPrepare(tasks, addTasks, False)
+        tasks = tasks_to_tuple(tasks, addFields)
+        tasks = task_list_prepare(tasks, addTasks, False)
 
         for task in tasks:
             task['time'] = 0
@@ -421,7 +405,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     today = timezone.make_aware(datetime.datetime.today(), timezone.get_current_timezone())
     yesterday = timezone.make_aware(datetime.datetime.today() - datetime.timedelta(days=1),
                                     timezone.get_current_timezone())
-    template = templateTools.getDefaultTaskTemplate()
+    template = templateTools.get_task_template()
 
     title = (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'Задачи'
 
