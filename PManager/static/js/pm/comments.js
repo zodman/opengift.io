@@ -434,7 +434,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             }
         });
 
-        messageListManager = function ($element, taskId, arMessageTpl, needToGroup) {
+        messageListManager = function ($element, taskId, arMessageTpl) {//, needToGroup) {
             this.taskId = taskId;
             this.$commentsContainer = $element;
             if (arMessageTpl)
@@ -444,7 +444,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
-            this.bNeedToGroup = !!needToGroup;
+            //this.bNeedToGroup = !!needToGroup;
             this.init();
         };
 
@@ -524,14 +524,17 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             var $lastContMessages = $lastContainer.find('.task-message'),
                                 colMessages = $lastContMessages.length - 1;
 
-                            if (t.bNeedToGroup) {
-                                var $btnMinimize = $('<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>');
-                                $btnMinimize.click(function () {
-                                    $lastContMessages.show();
-                                    $(this).remove();
-                                });
-                                $lastContainer.append($btnMinimize);
-                            }
+                            var $btnMinimize = $(
+	                            '<div class="toggle-messages minimize">' +
+	                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
+	                            '</span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>'
+                            );
+
+                            $btnMinimize.click(function () {
+                                $lastContMessages.show();
+                                $(this).remove();
+                            });
+                            $lastContainer.append($btnMinimize);
                         }
 
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
@@ -542,8 +545,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         }
                     }
 
-                    var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
-                        $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first');
+                    var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
+                        $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
 
                     $lastSubContainer.find('.last').removeClass('last');
 
@@ -560,8 +563,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         if (t.$commentsContainer.length > 0) {
                             sel = ":first"
                         }
-                        $lastSubContainer.find('.task-message' + sel).addClass('last');
-                        $lastSubContainer.find('.task-message:not(.last)').hide();
+	                    if (t.bNeedToGroup) {
+                            $lastSubContainer.find('.task-message' + sel).addClass('last');
+		                    $lastSubContainer.find('.task-message:not(.last)').hide();
+	                    }
                     }
 
                     /* /Mininimize system messages */
@@ -603,13 +608,13 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     this.messageList.add(aMessagesData);
                 }
 
-                /* Mininimize messages */
+                /* Minimize messages */
                 //TODO: убрать дублирование селекторов
                 if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
                     var $subContainer = $('.SUBCONTAINER'),
                         maxVisibleCommentsOnLoadPage = 7;
 
-                    if (t.$commentsContainer.length === 0 &&
+                    if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                         $subContainer.length > maxVisibleCommentsOnLoadPage && !$subContainer.parent().hasClass('minimize-messages')) {
 
                         $subContainer.parent().addClass('minimize-messages');
@@ -641,7 +646,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         ) {
                         var colMessages = $lastSubContainerMessages.length - 1;
                         var btnMinimize = $(
-                                '<div class="toggle-messages minimize"><span class="btn btn-xs"><span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' +
+                                '<div class="toggle-messages minimize"><span class="btn btn-xs">' +
+                                '<span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' +
                                 colMessages +
                                 '...</span></div>'
                         );
@@ -653,7 +659,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
                 }
 
-                /* /Mininimize messages */
+                /* /Minimize messages */
             },
 
             ready: function (callback) {
