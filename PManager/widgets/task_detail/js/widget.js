@@ -325,6 +325,7 @@ $(function(){
                 widget_td.$messageForm.ajaxSubmit({
                     'success': function(data){
                         data = $.parseJSON(data);
+                        data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
                         widget_td.$messageForm.find('textarea[name=task_message], input:file').val('');
                         widget_td.$messageForm.find('.uploaded_file').empty();
