@@ -609,7 +609,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 /* Minimize messages */
-                //TODO: убрать дублирование селекторов
                 if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
                     var $subContainer = $('.SUBCONTAINER'),
                         maxVisibleCommentsOnLoadPage = 7;
