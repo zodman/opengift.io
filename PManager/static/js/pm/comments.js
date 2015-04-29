@@ -538,7 +538,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         }
 
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
-                        if (isNewMessage && t.$commentsContainer.length > 0) {
+                        if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                             t.$commentsContainer.prepend($newSubContainer);
                         } else {
                             t.$commentsContainer.append($newSubContainer);
@@ -550,9 +550,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     $lastSubContainer.find('.last').removeClass('last');
 
-                    if (isNewMessage && t.$commentsContainer.length > 0) {
+                    if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                         $firstSubContainer[func](message.view.$el);
-                    } else if (isNewMessage && t.$commentsContainer.length === 0) {
+                    } else if (isNewMessage && t.$commentsContainer.length === 0 && t.reversed) {
                         $lastSubContainer.addClass('show-msg')[func](message.view.$el);
                     } else {
                         $lastSubContainer[func](message.view.$el);
