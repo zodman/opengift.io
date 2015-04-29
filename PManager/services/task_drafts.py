@@ -1,4 +1,5 @@
-__author__ = 'rayleigh'
+# -*- coding:utf-8 -*-
+__author__ = 'Rayleigh'
 from django.db.models import Q
 from PManager.models import TaskDraft, PM_Task
 from django.contrib.auth.models import User
@@ -71,14 +72,18 @@ def draft_simple_msg_cnt(task, draft):
 def accept_user(draft, task_id, user_accepted_id, cur_user):
     from tracker.settings import USE_GIT_MODULE
     if not cur_user.id == draft.author.id:
-        return False
+        return "Вы не являетесь автором списка задач"
     try:
         task = PM_Task.objects.get(pk=int(task_id))
         user = User.objects.get(pk=int(user_accepted_id))
-    except (ValueError, PM_Task.DoesNotExist, User.DoesNotExist):
-        return False
+    except (ValueError, ):
+        return "Ошибка идентификатора"
+    except PM_Task.DoesNotExist:
+        return "Задача не найдена"
+    except User.DoesNotExist:
+        return "Пользователь не найден"
     if task.resp is not None:
-        return False
+        return "У данной задачи уже есть ответственный"
     try:
         already_in_project = PM_ProjectRoles.objects.filter(user=user, project=task.project).count() > 0
     except PM_ProjectRoles.DoesNotExist:
@@ -91,7 +96,7 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
     task.resp = user
     task.save()
     __create_message_from_simple_messages(draft, task, cur_user, user)
-    return True
+    return False
 
 
 def __create_message_from_simple_messages(draft, task, author, recipient):

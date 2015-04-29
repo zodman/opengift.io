@@ -14,6 +14,7 @@ from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user
 from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
 
+
 def taskdraft_detail(request, draft_slug):
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
@@ -25,7 +26,7 @@ def taskdraft_detail(request, draft_slug):
         if req_method == 'DELETE':
             return __delete(request, draft)
         elif req_method == 'PUT':
-            raise Http404
+            return __put(request, draft)
         else:
             raise Http404
     raise Http404
@@ -92,11 +93,13 @@ def taskdraft_accept_developer(request, draft_slug, task_id):
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
     if user_accepted_id is False:
-        return HttpResponse(json.dumps({'error': 'Неверный ID пользователя'}), content_type="application/json")
-    if not accept_user(draft, task_id, user_accepted_id, request.user):
-        return HttpResponse(json.dumps({'error': 'Неудалось подключить пользователя к проекту'}),
+        return HttpResponse(json.dumps({'error': 'Неверный Идентификатор пользователя'}),
                             content_type="application/json")
-    return HttpResponse(json.dumps({'result': 'Пользователь добавлен в проект'}),
+    error = accept_user(draft, task_id, user_accepted_id, request.user)
+    if error is False:
+        return HttpResponse(json.dumps({'result': 'Пользователь добавлен в проект'}),
+                            content_type="application/json")
+    return HttpResponse(json.dumps({'error': 'Неудалось подключить пользователя к проекту:\n' + error}),
                         content_type="application/json")
 
 
@@ -111,7 +114,8 @@ def __add_message(request, draft, task):
 
 def __show(request, draft):
     users = draft.users.all()
-    tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status').all()
+    tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')\
+        .filter(resp__isnull=True)
     add_tasks = dict()
     user = request.user.get_profile()
     for task in tasks:
@@ -149,3 +153,20 @@ def __delete(request, draft):
     draft.deleted = True
     draft.save()
     return redirect('/taskdrafts/')
+
+
+def __put(request, draft):
+    if draft.author.id != request.user.id:
+        return HttpResponse(json.dumps({'result': 'error'}))
+    status_change = request.POST.get('set_status', False)
+    if status_change is False:
+        return HttpResponse(json.dumps({'result': 'error'}))
+    if status_change == 'close':
+        draft.status = TaskDraft.CLOSED
+        draft.save()
+        return redirect('/taskdrafts/')
+    elif status_change == 'open':
+        draft.status = TaskDraft.OPEN
+        draft.save()
+        return redirect('/taskdrafts/')
+    return HttpResponse(json.dumps({'result': 'error'}))
