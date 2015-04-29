@@ -124,7 +124,7 @@ def __show(request, draft):
             'project': {
                 'name': task.project.name
             },
-            'canSetPlanTime': task.canPMUserSetPlanTime(user),
+            'canSetPlanTime': request.user in users,
             'status': task.status.code if task.status else '',
             'last_message': {'text': task.text},
             'messages': draft_simple_msg_cnt(task, draft),
