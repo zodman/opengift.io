@@ -549,11 +549,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
 
                     $lastSubContainer.find('.last').removeClass('last');
-
+                    $lastSubContainer.addClass('show-msg');
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                         $firstSubContainer[func](message.view.$el);
-                    } else if (isNewMessage && t.$commentsContainer.length === 0 && t.reversed) {
-                        $lastSubContainer.addClass('show-msg')[func](message.view.$el);
                     } else {
                         $lastSubContainer[func](message.view.$el);
                     }
@@ -609,12 +607,13 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 /* Minimize messages */
-                if (aMessagesData.length > 0 && !aMessagesData[0].hasOwnProperty('noveltyMark')) {
+                if (aMessagesData.length > 0 && t.taskId) {
                     var $subContainer = $('.SUBCONTAINER'),
                         maxVisibleCommentsOnLoadPage = 7;
 
                     if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
-                        $subContainer.length > maxVisibleCommentsOnLoadPage && !$subContainer.parent().hasClass('minimize-messages')) {
+                        $subContainer.length > maxVisibleCommentsOnLoadPage &&
+                        !$subContainer.parent().hasClass('minimize-messages')) {
 
                         $subContainer.parent().addClass('minimize-messages');
                         var btnMinimizeMsg = $(
