@@ -126,13 +126,20 @@ $(function(){
                 widget_chat.options[this.name] = $(this).is(':checked') ? true : false;
                 $.cookie('FEED_OPTION_'+this.name, widget_chat.options[this.name] ? 'Y' : 'N');
             };
+            var setGroupFlag = function() {
+                widget_chat.messageListHelper.bNeedToGroup = !(
+                        !widget_chat.options['SYSTEM_MESSAGES'] &&
+                        !widget_chat.options['USER_MESSAGES'] &&
+                        widget_chat.options['COMMITS']
+                    );
+            };
+            setGroupFlag();
             widget_chat.$options.find('input').each(v).click(v).click(function(){
                 widget_chat.reset();
                 $('.toggle-messages.minimize').remove();
-	            if (widget_chat.options['SYSTEM_MESSAGES'] == false && widget_chat.options['USER_MESSAGES'] == false && widget_chat.options['COMMITS'] == true) {
-		            widget_chat.messageListHelper.bNeedToGroup = false
-	            }
+                setGroupFlag();
             });
+
             baseConnector.addListener('fs.comment.add', function(data){
 
                 for (var k in widget_chat.options){
