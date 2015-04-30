@@ -500,7 +500,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
 
                     /* Mininimize system messages */
-
                     var subCode = message.get('code');
                     if (subCode == null) {
                         subCode = 'MESSAGES';
