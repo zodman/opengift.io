@@ -82,7 +82,7 @@ class ObjectTags(models.Model):
         if obj_id is not None:
             request_str += ' AND object_id=' + str(obj_id)
         if filter_content:
-            request_str += ' AND object_id NOT IN (' + ', '.join(filter_content) + ')'
+            request_str += ' AND object_id NOT IN (' + ', '.join(str(x) for x in filter_content) + ')'
         request_str += " GROUP BY object_id"
         if order_by and len(order_by) == 2:
             request_str += " ORDER BY %s %s" % order_by
