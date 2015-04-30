@@ -434,7 +434,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             }
         });
 
-        messageListManager = function ($element, taskId, arMessageTpl) {//, needToGroup) {
+        messageListManager = function ($element, taskId, arMessageTpl, needToGroup) {
             this.taskId = taskId;
             this.$commentsContainer = $element;
             if (arMessageTpl)
@@ -444,7 +444,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
-            //this.bNeedToGroup = !!needToGroup;
+            this.bNeedToGroup = !!needToGroup;
             this.init();
         };
 
@@ -607,13 +607,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 /* Minimize messages */
-                if (aMessagesData.length > 0 && t.taskId) {
+                if (aMessagesData.length > 0) {
                     var $subContainer = $('.SUBCONTAINER'),
                         maxVisibleCommentsOnLoadPage = 7;
 
                     if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                         $subContainer.length > maxVisibleCommentsOnLoadPage &&
-                        !$subContainer.parent().hasClass('minimize-messages')) {
+                        !$subContainer.parent().hasClass('minimize-messages') &&
+                        t.taskId) {
 
                         $subContainer.parent().addClass('minimize-messages');
                         var btnMinimizeMsg = $(
