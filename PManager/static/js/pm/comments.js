@@ -510,6 +510,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         isNewSubContainerCreated = false;
 
                     if (
+                        !t.bNeedToGroup ||
                         !$lastContainer.hasClass(subCode) ||
                         isNewMessage ||
                         subCode === 'MESSAGES'
