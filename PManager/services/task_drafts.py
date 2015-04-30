@@ -4,7 +4,7 @@ from django.db.models import Q
 from PManager.models import TaskDraft, PM_Task
 from django.contrib.auth.models import User
 from PManager.models.simple_message import SimpleMessage
-from PManager.models import PM_Task_Message, PM_ProjectRoles
+from PManager.models import PM_Task_Message, PM_ProjectRoles, PM_User_PlanTime
 
 
 def draft_cnt(user):
@@ -93,7 +93,13 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
         if USE_GIT_MODULE:
             from PManager.classes.git.gitolite_manager import GitoliteManager
             GitoliteManager.regenerate_access(task.project)
+    try:
+        plan_time = PM_User_PlanTime.objects.get(user=user, task=task)
+        task.planTime = plan_time
+    except (ValueError, PM_User_PlanTime.DoesNotExist):
+        return "Отсутствует оценка от пользователя"
     task.resp = user
+    task.onPlanning = False
     task.save()
     __create_message_from_simple_messages(draft, task, cur_user, user)
     return False
