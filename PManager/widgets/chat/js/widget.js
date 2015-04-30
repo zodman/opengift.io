@@ -133,12 +133,13 @@ $(function(){
                         widget_chat.options['COMMITS']
                     );
             };
-            setGroupFlag();
+
             widget_chat.$options.find('input').each(v).click(v).click(function(){
                 widget_chat.reset();
                 $('.toggle-messages.minimize').remove();
                 setGroupFlag();
             });
+            setGroupFlag();
 
             baseConnector.addListener('fs.comment.add', function(data){
 
