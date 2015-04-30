@@ -609,7 +609,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 //first 2 and last 6 items stay visible
                 if (t.taskId) {
-                    $('.SUBCONTAINER').not('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').hide();
+                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
