@@ -613,6 +613,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
+                    if ($(this).find('.js-taskMessage').size() <= 1) return;
                     $(this).find('.js-btn-minimize').remove();
 
                     var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
