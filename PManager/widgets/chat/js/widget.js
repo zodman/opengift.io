@@ -117,11 +117,7 @@ $(function(){
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
                 }
             });
-            widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
-            widget_chat.messageListHelper.reversed = true;
-            widget_chat.bGettingFromServer = false;
-            widget_chat.lastMessageId = -1;
-            widget_chat.setLastId(widget_chat.arStartMessages);
+
             var v = function(){
                 widget_chat.options[this.name] = $(this).is(':checked') ? true : false;
                 $.cookie('FEED_OPTION_'+this.name, widget_chat.options[this.name] ? 'Y' : 'N');
@@ -140,6 +136,12 @@ $(function(){
                 setGroupFlag();
             });
             setGroupFlag();
+
+            widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
+            widget_chat.messageListHelper.reversed = true;
+            widget_chat.bGettingFromServer = false;
+            widget_chat.lastMessageId = -1;
+            widget_chat.setLastId(widget_chat.arStartMessages);
 
             baseConnector.addListener('fs.comment.add', function(data){
 
