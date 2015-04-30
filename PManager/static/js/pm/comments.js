@@ -505,6 +505,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (subCode == null) {
                         subCode = 'MESSAGES';
                     }
+
                     var $lastContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
                         isNewMessage = message.get('noveltyMark'),
                         isNewSubContainerCreated = false;
