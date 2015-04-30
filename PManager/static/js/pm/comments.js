@@ -507,7 +507,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
                     var $lastContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
                         isNewMessage = message.get('noveltyMark'),
-                        isLastSubContainerHasNotSimpleType = !$lastContainer.hasClass('MESSAGES');
+                        isNewSubContainerCreated = false;
 
                     if (
                         !$lastContainer.hasClass(subCode) ||
@@ -521,30 +521,21 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         } else {
                             t.$commentsContainer.append($newSubContainer);
                         }
+                        isNewSubContainerCreated = true;
                     }
 
                     var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
 
-                    $lastSubContainer.find('.last').removeClass('last');
                     $lastSubContainer.addClass('show-msg');
+
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                         $firstSubContainer[func](message.view.$el);
                     } else {
                         $lastSubContainer[func](message.view.$el);
                     }
 
-                    if (!isNewMessage) {
-                        var sel = ":last";
-                        if (t.$commentsContainer.length > 0) {
-                            sel = ":first"
-                        }
-	                    if (t.bNeedToGroup) {
-                            $lastSubContainer.find('.task-message' + sel).addClass('last');
-		                    $lastSubContainer.find('.task-message:not(.last)').hide();
-	                    }
-                    }
-
+                    if (!isNewSubContainerCreated) message.view.$el.hide();
                     /* /Mininimize system messages */
 
                 });
