@@ -507,7 +507,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
                     var $lastContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
                         isNewMessage = message.get('noveltyMark'),
-                        isLastSubContainerHasNotSimpleType = !$lastContainer.hasClass('MESSAGES');
+                        isNewSubContainerCreated = false;
 
                     if (
                         !$lastContainer.hasClass(subCode) ||
@@ -515,58 +515,27 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         subCode === 'MESSAGES'
                         ) { //create new subcontainer
 
-                        if (
-                            $lastContainer.find('.task-message').length > 1
-                            && isNewMessage
-                            && isLastSubContainerHasNotSimpleType //we don't group simple messages
-                            ) {
-
-                            var $lastContMessages = $lastContainer.find('.task-message'),
-                                colMessages = $lastContMessages.length - 1;
-
-                            var $btnMinimize = $(
-	                            '<div class="toggle-messages minimize">' +
-	                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
-	                            '</span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>'
-                            );
-
-                            $btnMinimize.click(function () {
-                                $lastContMessages.show();
-                                $(this).remove();
-                            });
-                            $lastContainer.append($btnMinimize);
-                        }
-
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
                         if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                             t.$commentsContainer.prepend($newSubContainer);
                         } else {
                             t.$commentsContainer.append($newSubContainer);
                         }
+                        isNewSubContainerCreated = true;
                     }
 
                     var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
 
-                    $lastSubContainer.find('.last').removeClass('last');
-                    $lastSubContainer.addClass('show-msg');
+
+
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                         $firstSubContainer[func](message.view.$el);
                     } else {
                         $lastSubContainer[func](message.view.$el);
                     }
 
-                    if (!isNewMessage) {
-                        var sel = ":last";
-                        if (t.$commentsContainer.length > 0) {
-                            sel = ":first"
-                        }
-	                    if (t.bNeedToGroup) {
-                            $lastSubContainer.find('.task-message' + sel).addClass('last');
-		                    $lastSubContainer.find('.task-message:not(.last)').hide();
-	                    }
-                    }
-
+                    if (!isNewSubContainerCreated) message.view.$el.hide();
                     /* /Mininimize system messages */
 
                 });
@@ -583,6 +552,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             addMessages: function (aMessagesData) {
                 var i, l = aMessagesData.length, t = this, $showAllBtn = $('.js-show-all');
+                if (!aMessagesData) return;
+
                 if (this.showLast > 0) { //TODO: все, что в этом услови, должно быть во вьюхах
                     for (var k in aMessagesData) {
                         i++;
@@ -607,56 +578,56 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 /* Minimize messages */
-                if (aMessagesData.length > 0) {
-                    var $subContainer = $('.SUBCONTAINER'),
-                        maxVisibleCommentsOnLoadPage = 7;
 
-                    if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
-                        $subContainer.length > maxVisibleCommentsOnLoadPage &&
-                        !$subContainer.parent().hasClass('minimize-messages') &&
-                        t.taskId) {
+                var $subContainer = $('.SUBCONTAINER'),
+                    maxVisibleCommentsOnLoadPage = 7;
 
-                        $subContainer.parent().addClass('minimize-messages');
-                        var btnMinimizeMsg = $(
-                                '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
-                                '<div style="text-align: center;">Показать все сообщения...</div></div>'
-                        );
+                if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
+                    $subContainer.length > maxVisibleCommentsOnLoadPage &&
+                    !$subContainer.parent().hasClass('minimize-messages') &&
+                    t.taskId) {
 
-                        if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                            $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
-                        }
+                    $subContainer.parent().addClass('minimize-messages');
+                    var btnMinimizeMsg = $(
+                            '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
+                            '<div style="text-align: center;">Показать все сообщения...</div></div>'
+                    );
 
-                        btnMinimizeMsg.click(function () {
-                            $subContainer.parent().removeClass('minimize-messages');
-                            $(this).remove();
-                        });
+                    if ($subContainer.find('.btn.show-msg-btn').length === 0) {
+                        $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
                     }
 
-                    var lastItem = maxVisibleCommentsOnLoadPage - 1,
-                        $lastSubContainer = $subContainer.filter(':last'),
-                        $lastSubContainerMessages = $lastSubContainer.find('.task-message');
-
-                    //first 2 and last 6 items stay visible
-                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
-
-                    if (
-                        t.$commentsContainer.length === 0 &&
-                        $lastSubContainerMessages.length > 1 && !$lastSubContainerMessages.hasClass('js-new')
-                        ) {
-                        var colMessages = $lastSubContainerMessages.length - 1;
-                        var btnMinimize = $(
-                                '<div class="toggle-messages minimize"><span class="btn btn-xs">' +
-                                '<span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' +
-                                colMessages +
-                                '...</span></div>'
-                        );
-                        btnMinimize.click(function () {
-                            $lastSubContainerMessages.show();
-                            $(this).remove();
-                        });
-                        $lastSubContainer.append(btnMinimize);
-                    }
+                    btnMinimizeMsg.click(function () {
+                        $subContainer.parent().removeClass('minimize-messages');
+                        $(this).remove();
+                    });
                 }
+
+                var lastItem = maxVisibleCommentsOnLoadPage - 1,
+                    $lastSubContainer = $subContainer.filter(':last'),
+                    $lastSubContainerMessages = $lastSubContainer.find('.task-message');
+
+                //first 2 and last 6 items stay visible
+                if (t.taskId) {
+                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+                }
+
+                $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
+                    if (!$(this).find('.js-btn-minimize').size()){
+                        var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
+                        var $btnMinimize = $(
+                            '<div class="toggle-messages minimize js-btn-minimize">' +
+                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
+                            '</span>&nbsp;&nbsp;Еще ' + hiddenMsgsQty + '...</span></div>'
+                        );
+
+                        $btnMinimize.click(function () {
+                            $(this).siblings().show();
+                            $(this).remove();
+                        });
+                        $(this).append($btnMinimize);
+                    }
+                });
 
                 /* /Minimize messages */
             },
