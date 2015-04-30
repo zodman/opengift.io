@@ -619,14 +619,15 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
                         if (!$(this).find('.js-btn-minimize')){
+                            var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
                             var $btnMinimize = $(
 	                            '<div class="toggle-messages minimize js-btn-minimize">' +
 	                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
-	                            '</span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>'
+	                            '</span>&nbsp;&nbsp;Еще ' + hiddenMsgsQty + '...</span></div>'
                             );
 
                             $btnMinimize.click(function () {
-                                $lastContMessages.show();
+                                $(this).siblings().show();
                                 $(this).remove();
                             });
                             $(this).append($btnMinimize);
