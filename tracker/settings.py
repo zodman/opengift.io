@@ -200,7 +200,8 @@ ALLOWED_HOSTS = [
     'heliard',
     'heliard.ru',
     'heliard.dev',
-    'localhost'
+    'localhost',
+    '46.101.145.165'
 ]
 
 # HAYSTACK_CONNECTIONS = {
@@ -222,7 +223,7 @@ USE_GIT_MODULE = False
 from platform import node
 
 LOCAL_NODE = 'Gvam'
-ALL_DEVELOPMENT_NODE = 'workpc'
+ALL_DEVELOPMENT_NODE = 'HeliardDev'
 DEVELOPMENT_NODE = 'heliarddev'
 PRODUCTION_NODE = 'HELIANT-VM-11'
 if node() == LOCAL_NODE:
