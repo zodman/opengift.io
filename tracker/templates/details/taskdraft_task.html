@@ -23,18 +23,17 @@
                             <div class="message-content">
                                 <div class="message-desc clearfix" style="display: inline-block;">
                                     <div class="message-desc-left js-taskMessageText">
-                                        <div class="message-desc-text-p">{{ evaluation.text|safe }}</div>
+                                        <div class="message-desc-text-p">оценил задачу в {{ evaluation.time|safe }}ч.</div>
                                         {% if draft.author.id == request.user.id %}
                                             <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}/accept-developer" method="POST">
-                                                <input type="hidden" value="{{ evaluation.author.id }}" name="user_id"/>
+                                                <input type="hidden" value="{{ evaluation.user.id }}" name="user_id"/>
                                                 <button class="btn btn-success js-accept-developer">Выбрать исполнителем</button>
                                             </form>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="message-info" style="display: inline-block; float: right">
-                                    <span class="message-info-time">{{ evaluation.created_at }}</span>
-                                    <a href="/user_detail/?id={{ evaluation.author.id }}" class="message-info-name">{{ evaluation.author.get_full_name }}</a>
+                                    <a href="/user_detail/?id={{ evaluation.user.id }}" class="message-info-name">{{ evaluation.user.get_full_name }}</a>
                                 </div>
 
                             </div>

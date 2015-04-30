@@ -3,7 +3,7 @@ from PManager.viewsExt.tools import emailMessage
 
 __author__ = 'Rayleigh'
 from PManager.services.activity import last_project_activity, user_active_tasks
-from PManager.models.tasks import PM_Task, PM_Milestone, PM_Task_Message
+from PManager.models.tasks import PM_Task, PM_Milestone, PM_Task_Message, PM_User_PlanTime
 from datetime import timedelta, datetime
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -42,18 +42,18 @@ def has_dead_milestones(project):
         return False
 
 
-def get_evaluations(user, draft):
+def get_evaluations(user, draft, task):
     if not user:
         return None
     if not draft:
         return None
+    if not task:
+        return None
     try:
-        user_str = '' if user.id == draft.author.id else " AND author_id='" + str(int(user.id)) + "'"
-        evaluations = PM_Task_Message.objects.raw(
-            "SELECT id, author_id, task_id, text, MAX(dateCreate) as last_create_date " +
-            "FROM pmanager_pm_task_message WHERE code='SET_PLAN_TIME'" +
-            user_str +
-            " GROUP BY author_id")
+        if user.id == draft.author.id:
+            evaluations = PM_User_PlanTime.objects.filter(user__in=draft.users.distinct(), task=task)
+        else:
+            evaluations = PM_User_PlanTime.objects.filter(user=user, task=task)
         return evaluations
     except (ValueError, PM_Task_Message.DoesNotExist):
         return None

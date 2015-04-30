@@ -50,7 +50,8 @@ def taskdraft_resend_invites(request, draft_slug):
     try:
         users = PM_User.objects.filter(pk__in=user_ids)
     except (ValueError, PM_User.DoesNotExist):
-        users = ()
+        return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
+                            content_type="application/json")
     send_invites(users, draft)
     for profile in users:
         draft.users.add(profile.user)
@@ -69,7 +70,7 @@ def taskdraft_task_discussion(request, draft_slug, task_id):
         raise Http404
     if request.method == 'POST':
         return __add_message(request, draft, task)
-    evaluations = get_evaluations(request.user, draft)
+    evaluations = get_evaluations(request.user, draft, task)
     messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('-created_at')
     context = RequestContext(request, {
         'draft': draft,
