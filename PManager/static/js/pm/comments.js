@@ -515,28 +515,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         subCode === 'MESSAGES'
                         ) { //create new subcontainer
 
-                        if (
-                            $lastContainer.find('.task-message').length > 1
-                            && isNewMessage
-                            && isLastSubContainerHasNotSimpleType //we don't group simple messages
-                            ) {
-
-                            var $lastContMessages = $lastContainer.find('.task-message'),
-                                colMessages = $lastContMessages.length - 1;
-
-                            var $btnMinimize = $(
-	                            '<div class="toggle-messages minimize">' +
-	                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
-	                            '</span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>'
-                            );
-
-                            $btnMinimize.click(function () {
-                                $lastContMessages.show();
-                                $(this).remove();
-                            });
-                            $lastContainer.append($btnMinimize);
-                        }
-
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
                         if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                             t.$commentsContainer.prepend($newSubContainer);
@@ -639,23 +617,22 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     //first 2 and last 6 items stay visible
                     $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
 
-                    if (
-                        t.$commentsContainer.length === 0 &&
-                        $lastSubContainerMessages.length > 1 && !$lastSubContainerMessages.hasClass('js-new')
-                        ) {
-                        var colMessages = $lastSubContainerMessages.length - 1;
-                        var btnMinimize = $(
-                                '<div class="toggle-messages minimize"><span class="btn btn-xs">' +
-                                '<span class="fa fa-caret-down"></span>&nbsp;&nbsp;Еще ' +
-                                colMessages +
-                                '...</span></div>'
-                        );
-                        btnMinimize.click(function () {
-                            $lastSubContainerMessages.show();
-                            $(this).remove();
-                        });
-                        $lastSubContainer.append(btnMinimize);
-                    }
+                    $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
+                        if (!$(this).find('.js-btn-minimize')){
+                            var $btnMinimize = $(
+	                            '<div class="toggle-messages minimize js-btn-minimize">' +
+	                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
+	                            '</span>&nbsp;&nbsp;Еще ' + colMessages + '...</span></div>'
+                            );
+
+                            $btnMinimize.click(function () {
+                                $lastContMessages.show();
+                                $(this).remove();
+                            });
+                            $(this).append($btnMinimize);
+                        }
+                    });
+
                 }
 
                 /* /Minimize messages */
