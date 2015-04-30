@@ -97,8 +97,8 @@ $(function(){
         'COMMITS':'cm'
     };
     widget_chat.$options = widget_chat.$container.find('.js-feed-options');
-	widget_chat.bNeedToGroup = true;
-    widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates, widget_chat.bNeedToGroup);
+
+    widget_chat.messageListHelper = new messageListManager(widget_chat.$chatWindow, false, widget_chat_log_item_templates, true);
 
     $.extend(widget_chat,{
         'init':function(){
@@ -130,7 +130,7 @@ $(function(){
                 widget_chat.reset();
                 $('.toggle-messages.minimize').remove();
 	            if (widget_chat.options['SYSTEM_MESSAGES'] == false && widget_chat.options['USER_MESSAGES'] == false && widget_chat.options['COMMITS'] == true) {
-		            widget_chat.bNeedToGroup = false
+		            widget_chat.messageListHelper.bNeedToGroup = false
 	            }
             });
             baseConnector.addListener('fs.comment.add', function(data){
