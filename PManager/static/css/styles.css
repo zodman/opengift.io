@@ -2946,3 +2946,20 @@ line-height: 36px;}
     background-color: #eaf8fe;
     border-color: #ddf4ff;
 }
+
+.green-popup .modal-header {
+    background: none repeat scroll 0 0 #47a447;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-radius: 5px 5px 0 0;
+    color: #fff;
+    text-align: center;
+}
+
+.green-popup .modal-footer {
+    background: #eee;
+    text-align: center;
+    border-radius: 0 0 5px 5px;
+    -moz-border-radius: 0 0 5px 5px;
+    -webkit-border-radius: 0 0 5px 5px;
+}
