@@ -9,67 +9,57 @@
                 Статус: {{ draft.status_humanize }}
             </div>
         </div>
-        <div style="padding:10px 20px;">
-            <div class="task-info-detail row-fluid" style="padding: 20px">
+        <div class="widget-body">
                 <h2>{{ task.name|safe }}</h2>
                 <p>{{ task.text|safe }}</p>
-            </div>
+            <hr>
             <div class="clearfix"></div>
-            <h5>Оценки</h5>
-            <div style="border-top: 1px solid black; padding-top:10px;">
+            <h4 class="uppercase">Оценки</h4>
+
                 {% for evaluation in evaluations %}
                     <div class="task-message row-fluid show-grid js-taskMessage js-op js-um" style="display: block;">
-                        <div class="message">
+                        <div class="message warning">
                             <div class="message-content">
-                                <div class="message-desc clearfix" style="display: inline-block;">
-                                    <div class="message-desc-left js-taskMessageText">
-                                        <div class="message-desc-text-p">оценил задачу в {{ evaluation.time|safe }}ч.</div>
+                                    <a class="message-info-name" href="/user_detail/?id={{ evaluation.user.id }}">{{ evaluation.user.get_full_name }}</a>
+                                    <b class="message-desc-status last js-taskMessageText">оценил задачу в {{ evaluation.time|safe }}ч.</b>
                                         {% if draft.author.id == request.user.id %}
-                                            <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}/accept-developer" method="POST">
-                                                <input type="hidden" value="{{ evaluation.user.id }}" name="user_id"/>
-                                                <button class="btn btn-success js-accept-developer">Выбрать исполнителем</button>
-                                            </form>
+                                        <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}/accept-developer" method="POST" class="inline">
+                                            <input type="hidden" value="{{ evaluation.user.id }}" name="user_id"/>
+                                            <button class="btn btn-xs btn-success js-accept-developer">Выбрать исполнителем</button>
+                                        </form>
                                         {% endif %}
-                                    </div>
-                                </div>
-                                <div class="message-info" style="display: inline-block; float: right">
-                                    <a href="/user_detail/?id={{ evaluation.user.id }}" class="message-info-name">{{ evaluation.user.get_full_name }}</a>
-                                </div>
-
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-            </div>
-            <h5>Обсуждение:</h5>
-            <div style="border-top: 1px solid black; padding-top:10px;">
+            <hr>
+            <h4 class="uppercase">Обсуждение:</h4>
                 {% for message in simple_messages %}
                     <div class="task-message row-fluid show-grid js-taskMessage js-op js-um" style="display: block;">
                         <div class="message">
                             <div class="message-content">
-                                <div class="message-desc clearfix" style="display: inline-block;">
-                                    <div class="message-desc-left js-taskMessageText">
-                                        <div class="message-desc-text-p">{{ message.text|safe }}</div>
-                                    </div>
-                                </div>
-                                <div class="message-info" style="display: inline-block; float: right">
-                                    <span class="message-info-time">{{ message.created_at }}</span>
-                                    <a href="/user_detail/?id={{ message.author.id }}" class="message-info-name">{{ message.author.get_full_name }}</a>
-                                </div>
+                                <span class="message-info-time">{{ message.created_at }}</span>
+                                <a class="message-info-name" href="/user_detail/?id={{ message.author.id }}">{{ message.author.get_full_name }}</a>
+                                <span class="message-desc-status js-taskMessageText last">{{ message.text|safe }}</span>
 
                             </div>
                         </div>
                     </div>
                 {% endfor %}
-            </div>
+
+            <hr>
+            <div class="task_add-message form-horizontal">
             <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}" method="POST">
-                <div class="col-xs-12">
-                    <textarea name="task_message" rows="5" class="form-control" placeholder="Напишите сообщение"></textarea>
-                </div>
-                <div class="col-xs-12" style="padding-top: 10px;">
-                    <input type="submit" class="btn btn-success sendTaskMessage" value="Добавить сообщение"/>
+                <div class="form-group">
+                    <div class="col-xs-12">
+                        <textarea name="task_message" rows="5" class="form-control" placeholder="Напишите сообщение"></textarea>
+                    </div>
+                    <div class="col-xs-12" style="padding-top: 10px;">
+                        <input type="submit" class="btn btn-success sendTaskMessage" value="Добавить сообщение"/>
+                    </div>
                 </div>
             </form>
+            </div>
         </div>
     </div>
     <script>
