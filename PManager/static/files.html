@@ -1,3 +1,4 @@
+{% load get_settings %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -191,7 +192,7 @@ $(function() {
                         <label>
                             <input type="checkbox">
                             <span class="files-wrapper-item-img-wrapper">
-                            	<span class="files-wrapper-item-img"><img src="http://heliard.ru/static/upload/projects/2/pasted_13_200x200.png"></span>
+                            	<span class="files-wrapper-item-img"><img src="{% get_settings "HTTP_ROOT_URL" %}/static/upload/projects/2/pasted_13_200x200.png"></span>
                             </span>
                             <span class="files-wrapper-item-settings">
                                 <a title="Загрузить новую версию" class="fa fa-repeat" href="#"></a>

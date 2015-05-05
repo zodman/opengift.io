@@ -1,3 +1,4 @@
+{% load get_settings %}
 <!DOCTYPE HTML>
 <html>
 <head>
@@ -509,7 +510,7 @@
     </section>
     
     <section class="content">
-    По всем вопросам по работе сервиса пишите на info@heliard.ru
+    По всем вопросам по работе сервиса пишите на <a href="mailto:{% get_settings "INFO_EMAIL" %}">{% get_settings "INFO_EMAIL" %}</a>
     </section>
     
     

@@ -10,6 +10,7 @@ from django.contrib.auth.models import User
 from django.db.models import Q, F
 from PManager.services.rating import get_top_users
 from PManager.models.users import PM_User
+from tracker.settings import ADMIN_EMAIL
 
 
 def should_suggest_outsource(project):
@@ -87,13 +88,13 @@ def send_invites(users, draft):
     for user in users:
         emails.append(user.user.email)
 
-    emails.append('gvamm3r@gmail.com')
+    emails.append(ADMIN_EMAIL)
 
     sender = emailMessage(
         'invite_draft',
         {
-           'draft': draft,
-           'tasks': draft.tasks.all()
+            'draft': draft,
+            'tasks': draft.tasks.all()
         },
         'Приглашение к сотрудничеству'
     )

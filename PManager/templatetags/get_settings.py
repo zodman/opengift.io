@@ -14,7 +14,9 @@ def get_settings(value):
         'STATIC_URL',
         'SERVER_ROOT_URL',
         'HTTP_ROOT_URL',
-        'SITE_EMAIL'
+        'SITE_EMAIL',
+        'ADMIN_EMAIL',
+        'INFO_EMAIL'
     )
     if hasattr(settings, value) and value in accessible_values:
         return settings[value]

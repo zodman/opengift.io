@@ -151,8 +151,10 @@ class PM_User(models.Model):
             )
 
             message.send([email])
-            #admin
-            message.send(['gvamm3r@gmail.com'])
+            # admin
+            # todo: Move this method to a service
+            from tracker.settings import ADMIN_EMAIL
+            message.send([ADMIN_EMAIL])
 
         if project:
             p_user = PM_User.getByUser(user)

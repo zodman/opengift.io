@@ -240,6 +240,7 @@ HTTP_ROOT_URL = 'http://localhost'
 SITE_EMAIL = 'admin@localhost'
 ADMIN_EMAIL = 'admin@localhost'
 INFO_EMAIL = 'info@localhost'
+NO_REPLY_EMAIL = 'no-reply@localhost'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from tracker.settings import PROJECT_ROOT
+from tracker.settings import PROJECT_ROOT, HTTP_ROOT_URL, STATIC_URL
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Files
 import os
@@ -18,7 +18,7 @@ def docxView(request):
         copyfile(image_path, destination_path)
 
         # Return the `src` attribute to be used in the img tag
-        return 'http://heliard.ru/static/upload/%s' % filename
+        return '%s/static/upload/%s' % (HTTP_ROOT_URL, filename)
 
     fp = request.GET.get('f', None)
 

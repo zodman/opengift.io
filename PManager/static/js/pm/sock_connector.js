@@ -53,8 +53,7 @@ var baseConnector = {};
 
 $(function(){
     baseConnector = new baseConnectorClass({
-        'url':'http://heliard.ru:8082'
-//       'url':'http://heliard.dev:8081'
+        'url':window.heliardSettings['HTTP_ROOT_URL'] + ':8082'
     });
 });
 (function($){
