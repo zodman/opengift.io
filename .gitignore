@@ -8,3 +8,4 @@ PManager/services/mind/Hodor.brain
 gunicorn.log
 gunicorn.pid
 PManager/migrations/*
+tracker/settings.py

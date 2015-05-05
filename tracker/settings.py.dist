@@ -1,16 +1,29 @@
+# -*- coding:utf-8 -*-
 # Django settings for tracker project.
+__author__ = 'Rayleigh'
 
+import os.path
+
+# SITE ID
+# todo: ADD PURPOSE TO THIS
+SITE_ID = 1
+
+# DEBUG MODE
 DEBUG = False
-TEMPLATE_DEBUG = DEBUG
 
+# TEMPLATE DEBUG MODE
+TEMPLATE_DEBUG = False
+
+# list of admins
 ADMINS = (
-    ('Egor', 'gvamm3r@gmail.com'),
+    ('admin', 'admin@example.com'),
 )
 
-MANAGERS = ADMINS
-
-
-
+# list of managers
+MANAGERS = (
+    ('manager', 'manager@example.com'),
+)
+# ######################## TIME_SETTINGS ###########################
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
 # although not all choices may be available on all operating systems.
@@ -20,8 +33,6 @@ TIME_ZONE = 'Europe/Moscow'
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'ru-ru'
-
-SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -34,6 +45,9 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+# ####################### PATHS_SETTINGS ###############################
+# ROOT PATH
+PROJECT_ROOT = '/home/heliard/heliard/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = ''
@@ -52,6 +66,8 @@ STATIC_ROOT = ''
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
+
+# todo: REMOVE WITH WIKI ALTOGETHER
 WIKI_IMAGES_PATH = 'PManager/static/upload/wiki%aid/'
 
 # Additional locations of static files
@@ -59,9 +75,18 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    "/projects/heliard/PManager/static",
 )
 
+# template locations
+TEMPLATE_DIRS = (
+    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+    # Always use forward slashes, even on Windows.
+    # Don't forget to use absolute paths, not relative paths.
+    PROJECT_ROOT + 'tracker/templates',
+    PROJECT_ROOT + 'PManager/widgets'
+)
+
+# ######################### DJANGO CONFIGURATIONS ################################
 # List of finder classes that know how to find static files in
 # various locations.
 STATICFILES_FINDERS = (
@@ -71,38 +96,30 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = '%n#5@8#8qxv@&amp;d7r^w#e_ygja@8*=pq^5q6k)%l&amp;yy@f-%p8ey'
+SECRET_KEY = 'SECRET_KEY'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
+    # 'django.template.loaders.eggs.Loader',
 )
 
+# todo: ADD DESCRIPTION
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+# todo: ADD DESCRIPTION
 ROOT_URLCONF = 'tracker.urls'
 
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'tracker.wsgi.application'
-
-import os.path
-TEMPLATE_DIRS = (
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__),'templates').replace('\\','/'),
-    os.path.join(os.path.dirname(__file__),'../PManager/widgets').replace('\\','/'),
-)
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -112,7 +129,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.humanize',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
     'rest_framework',
     # 'robokassa',
@@ -131,16 +147,13 @@ INSTALLED_APPS = (
     'wiki.plugins.macros',
     'gunicorn',
     'less',
-    # 'haystack'
-    # Uncomment the next line to enable admin documentation:
-    # 'django.contrib.admindocs',
 )
 
+# todo: ADD DESCRIPTION
 TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.auth.context_processors.auth",
     "PManager.context_processors.get_current_path",
     "PManager.context_processors.get_head_variables",
-
     "django.core.context_processors.debug",
     "django.core.context_processors.i18n",
     "django.core.context_processors.media",
@@ -150,9 +163,11 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.contrib.messages.context_processors.messages",
     "sekizai.context_processors.sekizai",
 )
+
+# todo: ADD DESCRIPTION
 PYMORPHY_DICTS = {
-    'ru': { 'dir': os.path.join(os.path.dirname(__file__), '../PManager/dicts/ru.sqlite-json') },
-    }
+    'ru': {'dir': os.path.join(os.path.dirname(__file__), '../PManager/dicts/ru.sqlite-json')},
+}
 
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
@@ -183,53 +198,100 @@ LOGGING = {
     }
 }
 
-SESSION_COOKIE_HTTPONLY = False
-SESSION_COOKIE_SECURE = False
-SET_COOKIE = {}
+# CACHES SETTINGS
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    },
+    'git_diff_cache': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': '/home/heliard/heliard/PManager/static/cache',
+    }
+}
 
+# DATABASE SETTINGS
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
+        'NAME': 'tracker',                      # Or path to database file if using sqlite3.
+        'USER': 'root',                         # Not used with sqlite3.
+        'PASSWORD': 'root',                     # Not used with sqlite3.
+        'HOST': 'localhost',                    # Set to empty string for localhost. Not used with sqlite3.
+        'PORT': '3306',                         # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# todo: ADD DESCRIPTION
 AUTH_PROFILE_MODULE = 'PManager.PM_User'
 
-ORDERS_REDIS_HOST = 'localhost'
-ORDERS_REDIS_PORT = 6379
-ORDERS_REDIS_PASSWORD = None
-ORDERS_REDIS_DB = None
-
+# Allowed hosts for this application
 ALLOWED_HOSTS = [
-    'heliard',
-    'heliard.ru',
-    'heliard.dev',
     'localhost'
 ]
 
-# HAYSTACK_CONNECTIONS = {
-#     'default': {
-#         'ENGINE': 'haystack.backends.simple_backend.SimpleEngine',
-#     },
-# }
+# Socket server address
+SOCKET_SERVER_ADDRESS = 'localhost'
 
+# Server root url
+SERVER_ROOT_URL = 'localhost'
 
-ROBOKASSA_LOGIN = 'HeliardErp'
-ROBOKASSA_PASSWORD1 = 'EDEcsE3H7aqpzSpPfsWZ'
-ROBOKASSA_PASSWORD2 = '6DVTJQmDNuEzDSEh0stf'
-# ROBOKASSA_TEST_MODE = True
+# ######################### COOKIES SETTINGS #############################
+# todo: ADD DESCRIPTION
+SESSION_COOKIE_HTTPONLY = False
+
+# todo: ADD DESCRIPTION
+SESSION_COOKIE_SECURE = False
+
+# todo: ADD DESCRIPTION
+SET_COOKIE = {}
+
+# todo: ADD DESCRIPTION
+SESSION_COOKIE_DOMAIN = 'localhost.'
+
+# ######################### REDIS SETTINGS ##############################
+# REDIS SERVER HOST
+ORDERS_REDIS_HOST = 'localhost'
+
+# REDIS SERVER PORT
+ORDERS_REDIS_PORT = 6379
+
+# REDIS SERVER PASSWORD
+ORDERS_REDIS_PASSWORD = None
+
+# REDIS SERVER DB NAME
+ORDERS_REDIS_DB = None
+
+# #################### ROBOKASSA SETTINGS ##################################
+# ROBOKASSA_LOGIN
+ROBOKASSA_LOGIN = ''
+
+# ROBOKASSA PASS
+ROBOKASSA_PASSWORD1 = ''
+
+# ROBOKASSA PASS 2
+ROBOKASSA_PASSWORD2 = ''
+
+# ROBOKASSA TEST MODE
+ROBOKASSA_TEST_MODE = True
+
+# ROBOKASSA EXTRA PARAMS ARRAY
 ROBOKASSA_EXTRA_PARAMS = ['user']
 
+# todo: ADD DESCRIPTION
 COMISSION = 1
+
+# ########################## GIT MODULE SETTINGS ######################################
+# GIT MODULE IS ENABLED
 USE_GIT_MODULE = False
 
-DEBUG = True
-# from databases.database import DATABASES
-SOUTH_TESTS_MIGRATE = False
-DATABASES = dict()
-DATABASES['default'] = {
-    'ENGINE': 'django.db.backends.sqlite3'
-}
-SESSION_COOKIE_DOMAIN = 'heliard.dev'
-SOCKET_SERVER_ADDRESS = 'localhost'
-project_root = '/projects/heliard/'
+#DOCKER
+DOCKER_USER_NAME = 'dockhost'
+DOCKER_HOST = 'heliard-platform.ru'
+DOCKER_APP_KEY = ''
 
-# GIT MODULE SETTINGS
-USE_GIT_MODULE = False
-GITOLITE_ACCESS_URL = 'heliard@localhost'
-GITOLITE_ADMIN_REPOSITORY = '/projects/heliard/gitolite-admin'
-GITOLITE_REPOS_PATH = '/projects/heliard/repositories'
+# Gitolite admin repository path
+GITOLITE_ADMIN_REPOSITORY = ''
+# Gitolite ssh url credentials and domain string
+GITOLITE_ACCESS_URL = ''
+# Gitolite users repositories path
+GITOLITE_REPOS_PATH = ''

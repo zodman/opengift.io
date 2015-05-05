@@ -119,7 +119,7 @@ class templateTools:
 
     @staticmethod
     def get_task_template(name='task'):
-        file_name = "%stracker/templates/item_templates/task/%s.html" % (settings.project_root, name)
+        file_name = "%stracker/templates/item_templates/task/%s.html" % (settings.PROJECT_ROOT, name)
         with file(file_name) as f:
             template = f.read()
         return template
@@ -144,7 +144,7 @@ class templateTools:
         templates = {}
 
         for (c, f) in templateFiles.iteritems():
-            with file(settings.project_root + 'tracker/templates/item_templates/messages/' + f) as f:
+            with file(settings.PROJECT_ROOT + 'tracker/templates/item_templates/messages/' + f) as f:
                 templates[c] = f.read()
 
         return templates
