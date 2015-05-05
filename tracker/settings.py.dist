@@ -234,6 +234,12 @@ SOCKET_SERVER_ADDRESS = 'localhost'
 
 # Server root url
 SERVER_ROOT_URL = 'localhost'
+HTTP_ROOT_URL = 'http://localhost'
+
+# Site default email url
+SITE_EMAIL = 'admin@localhost'
+ADMIN_EMAIL = 'admin@localhost'
+INFO_EMAIL = 'info@localhost'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION

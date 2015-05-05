@@ -1,10 +1,14 @@
-<!DOCTYPE html>
-<html>
-<head lang="en">
-    <meta charset="UTF-8">
-    <title></title>
-</head>
-<body>
-{{ phone }}
-</body>
-</html>
+{% extends 'mail_templates/default_template.html' %}
+
+{% block subject %}Перезвонить срочно!{% endblock %}
+
+{% block top_running_title %}
+    <strong>SETUP.PY - phone_recall</strong><br/>
+    {% now "SHORT_DATETIME_FORMAT" %}
+{% endblock %}
+
+{% block title %}Перезвонить{% endblock %}
+
+{% block content %}
+    <p>Номер телефона: {{ phone }}</p>
+{% endblock %}
