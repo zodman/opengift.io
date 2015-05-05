@@ -6,8 +6,8 @@ from tracker import settings
 register = Library()
 
 
-@register.filter(name='get_settings')
-def get_settings(value):
+@register.simple_tag(name='get_settings')
+def get_settings(setting_name):
     accessible_values = (
         'GITOLITE_ACCESS_URL',
         'SOCKET_SERVER_ADDRESS',
@@ -18,6 +18,6 @@ def get_settings(value):
         'ADMIN_EMAIL',
         'INFO_EMAIL'
     )
-    if hasattr(settings, value) and value in accessible_values:
-        return settings[value]
+    if hasattr(settings, setting_name) and setting_name in accessible_values:
+        return getattr(settings, setting_name)
     return ""
