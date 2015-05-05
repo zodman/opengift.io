@@ -1226,7 +1226,6 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list .user td {vertical-align:top;}
 .user-list .user td.avatar {width:100px;}
 .user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden;}
-.user-list .user td.avatar a img {height:100px;}
 .user-list .user td.avatar a svg {width:90px;height: 90px;}
 .user-list .user td.about-user {padding-left:15px;}
 .user-list .user td.about-user a:not(.startedTask) {vertical-align:middle; display:block; text-decoration:none; color:#57A957;}
