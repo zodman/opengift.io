@@ -500,16 +500,17 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     }
 
                     /* Mininimize system messages */
-
                     var subCode = message.get('code');
                     if (subCode == null) {
                         subCode = 'MESSAGES';
                     }
+
                     var $lastContainer = t.$commentsContainer.find('.SUBCONTAINER:last'),
                         isNewMessage = message.get('noveltyMark'),
                         isNewSubContainerCreated = false;
 
                     if (
+                        !t.bNeedToGroup ||
                         !$lastContainer.hasClass(subCode) ||
                         isNewMessage ||
                         subCode === 'MESSAGES'
@@ -527,7 +528,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
 
-                    $lastSubContainer.addClass('show-msg');
+
 
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
                         $firstSubContainer[func](message.view.$el);
@@ -609,24 +610,25 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 //first 2 and last 6 items stay visible
                 if (t.taskId) {
-                    $('.SUBCONTAINER').not('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').hide();
+                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
-                    if (!$(this).find('.js-btn-minimize').size()){
-                        var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
-                        var $btnMinimize = $(
-                            '<div class="toggle-messages minimize js-btn-minimize">' +
-                            '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
-                            '</span>&nbsp;&nbsp;Еще ' + hiddenMsgsQty + '...</span></div>'
-                        );
+                    if ($(this).find('.js-taskMessage').size() <= 1) return;
+                    $(this).find('.js-btn-minimize').remove();
 
-                        $btnMinimize.click(function () {
-                            $(this).siblings().show();
-                            $(this).remove();
-                        });
-                        $(this).append($btnMinimize);
-                    }
+                    var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
+                    var $btnMinimize = $(
+                        '<div class="toggle-messages minimize js-btn-minimize">' +
+                        '<span class="btn btn-xs"><span class="fa fa-caret-down">' +
+                        '</span>&nbsp;&nbsp;Еще ' + hiddenMsgsQty + '...</span></div>'
+                    );
+
+                    $btnMinimize.click(function () {
+                        $(this).siblings().show();
+                        $(this).remove();
+                    });
+                    $(this).append($btnMinimize);
                 });
 
                 /* /Minimize messages */
