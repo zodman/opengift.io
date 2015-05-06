@@ -15,10 +15,10 @@ DATABASES = {
 
 SESSION_COOKIE_DOMAIN = '46.101.145.165'
 SOCKET_SERVER_ADDRESS = 'localhost'
-project_root = '/root/heliard/'
+project_root = '/home/heliard/heliard/'
 
 # GIT MODULE SETTINGS
 USE_GIT_MODULE = False
-GITOLITE_ACCESS_URL = 'root@localhost'
-GITOLITE_ADMIN_REPOSITORY = '/root/heliard/gitolite-admin'
-GITOLITE_REPOS_PATH = '/root/heliard/repositories'
+GITOLITE_ACCESS_URL = 'heliard@localhost'
+GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
+GITOLITE_REPOS_PATH = '/home/heliard/repositories'
