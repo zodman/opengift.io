@@ -164,14 +164,14 @@ def set_cookie(response, key, value, days_expire=7):
 class taskExtensions:
     @staticmethod
     def getFileList(queryset):
-        from PManager.templatetags.thumbnail import thumbnail
+        from PManager.templatetags.thumbnail import thumbnail, protected
 
         return [{
                     'name': file.name,
                     'url': str(file),
                     'viewUrl': '/docx/?f=' + str(file.id) if file.type == 'docx' else '',
                     'type': file.type,
-                    'thumb100pxUrl': thumbnail(str(file), '100x100') if file.isPicture else '',
+                    'thumb100pxUrl': protected(thumbnail(str(file), '100x100')) if file.isPicture else '',
                     'is_picture': file.isPicture,
                     'date_create': templateTools.dateTime.convertToSite(file.date_create)
                 } for file in queryset]

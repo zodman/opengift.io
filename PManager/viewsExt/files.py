@@ -7,7 +7,7 @@ from django.core.files.base import ContentFile
 from PIL import Image
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions
-from PManager.templatetags.thumbnail import thumbnail
+from PManager.templatetags.thumbnail import thumbnail, protected
 import hashlib
 import time
 from django.http import HttpResponseBadRequest, Http404, HttpResponseNotAllowed
@@ -67,9 +67,6 @@ def fileSave(request):
             )
 
         file.save()
-        #print str(file.file).replace('PManager','')
-        #im = im.thumbnail((128, 128), Image.ANTIALIAS)
-        #print json.dumps({'path':str(file.file).replace('PManager',''),'fid':file.id})
         return HttpResponse(json.dumps({'path': str(file.file).replace('PManager', ''), 'fid': file.id}))
     return HttpResponse(json.dumps({'error': 'PNG expected'}))
 
@@ -149,7 +146,7 @@ def ajaxFilesResponder(request):
             for fileObject in files:
                 fileJson = fileObject.getJson()
                 fileJson.update({
-                    'thumbnail': thumbnail(str(fileObject), '200x200') if fileObject.isPicture else '',
+                    'thumbnail': protected(thumbnail(str(fileObject), '200x200')) if fileObject.isPicture else '',
                     'resolution': '' if fileObject.isPicture else ''
                 })
                 arFiles.append(fileJson)
@@ -366,7 +363,7 @@ class AjaxFileUploader(object):
                     'type': fileNow.type,
                     'date_create': fileNow.date_create,
                     'size': fileNow.size,
-                    'thumbnail': thumbnail(str(fileNow), '167x167') if fileNow.isPicture else ''
+                    'thumbnail': protected(thumbnail(str(fileNow), '167x167')) if fileNow.isPicture else ''
                 })
                 # although "application/json" is the correct content type, IE throws a fit
             return HttpResponse(json.dumps(ret_json, cls=DjangoJSONEncoder), content_type='text/html; charset=utf-8')
