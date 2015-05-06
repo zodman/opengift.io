@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.models import PM_Files, PM_File_Category
-from PManager.templatetags.thumbnail import thumbnail
+from PManager.templatetags.thumbnail import thumbnail, protected
 import os
 
 def widget(request,headerValues,ar,qargs):
@@ -49,7 +49,7 @@ def widget(request,headerValues,ar,qargs):
 
         fileJson.update({
             'resolution': '' if fileObject.isPicture else '',
-            'thumbnail': thumbnail(str(fileObject), '167x167') if fileObject.isPicture else ''
+            'thumbnail': protected(thumbnail(str(fileObject), '167x167')) if fileObject.isPicture else ''
         })
         aFiles.append(fileJson)
 

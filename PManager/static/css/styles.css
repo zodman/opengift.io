@@ -1410,10 +1410,14 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .user-prizes ul {display:block; overflow:hidden; height:100%;}
 .user-prizes ul li {display:block; float:left; text-align:center; margin:0 10px; font-weight:bold; text-transform:uppercase; font-size:11px;}
 
-td.statistic-list, td.statistic-graph, td.statistic-detail {vertical-align:top;}
-td.statistic-list {background-color: #eee; padding: 15px; border-radius:10px; -moz-border-radius:10px; width:250px; -webkit-border-radius:10px;}
+.statistic-list, .statistic-graph, .statistic-detail {float: left;}
 
-td.statistic-graph {padding:0 25px;}
+.statistic-list {background-color: #eee; padding: 15px; border-radius:10px; -moz-border-radius:10px; width:250px; -webkit-border-radius:10px;}
+.statistic-graph {width: calc(100% - 400px);}
+.statistic-graph #myChart {width: 100%;}
+.statistic-detail {width: 150px;}
+
+.statistic-graph {padding:0 25px;}
 
 .sp .dropdown-menu:after {top:auto !important; bottom: -6px; border-bottom:none; border-top:6px solid #FFFFFF;}
 .sp .dropdown-menu:before {top:auto !important; bottom: -7px; border-bottom: none; border-top: 7px solid rgba(0, 0, 0, 0.2);}

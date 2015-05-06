@@ -16,9 +16,11 @@ from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discu
 from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
+from PManager.viewsExt.assets import protected_file
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
+
 
 admin.autodiscover()
 
@@ -31,6 +33,7 @@ from PManager.models.payments import Payment
 from PManager.models.tasks import PM_Project
 from django.contrib.auth.models import User
 import datetime
+
 
 def payment_received(sender, **kwargs):
     id = int(kwargs['extra']['user'])
@@ -132,6 +135,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/micro_task/(?P<task_id>[0-9_]+)', microTaskAjax),
                        url(r'^ajax/responsible_menu/$', userHandlers.getResponsibleMenu),
                        url(r'^ajax/milestone_create/$', milestoneForm),
+                       url(r'^file_access/', protected_file),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:

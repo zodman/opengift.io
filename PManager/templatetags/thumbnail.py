@@ -30,3 +30,7 @@ def thumbnail(file, size='200x200', resample=0):
             except IOError:
                 return file
     return miniature_url
+
+@register.filter(name='protected')
+def protected(url):
+    return '/protected' + url
