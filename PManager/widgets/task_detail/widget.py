@@ -19,18 +19,18 @@ def widget(request, headerValues, arFilter, q):
     prof = request.user.get_profile()
     task = None
     if 'id' in request.GET or 'number' in request.GET:
-        if 'id' in request.GET:
-            task = PM_Task.objects.filter(id=int(request.GET.get('id')), active=True).get()
-        elif 'number' in request.GET and 'project' in request.GET:
-            try:
+        try:
+            if 'id' in request.GET:
+                task = PM_Task.objects.filter(id=int(request.GET.get('id')), active=True).get()
+            elif 'number' in request.GET and 'project' in request.GET:
                 task = PM_Task.objects.filter(
                     number=int(request.GET.get('number')),
                     project=int(request.GET.get('project')),
                     parentTask__isnull=True,
                     active=True
                 )[0]
-            except (PM_Task.DoesNotExist, ValueError, IndexError):
-                task = None
+        except (PM_Task.DoesNotExist, ValueError, IndexError):
+            task = None
 
         if not task:
             raise Http404(u'Задача удалена')
