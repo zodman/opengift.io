@@ -34,7 +34,7 @@ def widget(request, headerValues, a, b):
 
     usersResult = []
     maxTaskEffective = 0
-    maxEventsQty = 0
+    maxEventsQty = 1
     ratingUsers = deque()
     for user in users:
         userJoinTime = now - datetime.timedelta(days=30)
