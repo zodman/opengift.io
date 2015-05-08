@@ -112,7 +112,7 @@ class PM_Project(models.Model):
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, verbose_name=u'Описание')
     author = models.ForeignKey(User, related_name='createdProjects')
-    image = models.ImageField(upload_to=path_and_rename("PManager/static/upload/projects/"), null=True,
+    image = models.ImageField(upload_to=path_and_rename("PManager/static/upload/project_thumbnails/"), null=True,
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
