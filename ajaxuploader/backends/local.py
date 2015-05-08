@@ -38,13 +38,13 @@ class LocalUploadBackend(AbstractUploadBackend):
         filename_suffix = 0
         filename = filename.encode('utf-8')
         # Check if file at filename exists
-        try:
-            os.path.isfile(os.path.join(self._dir, filename))
-        except UnicodeEncodeError:
-            ext = filename.split('.')[-1]
-            hash = hashlib.new('md5')
-            hash.update(filename)
-            filename = '{}.{}'.format(hash.hexdigest(), ext)
+        # try:
+        #     os.path.isfile(os.path.join(self._dir, filename))
+        # except UnicodeEncodeError:
+        ext = filename.split('.')[-1]
+        hash = hashlib.new('md5')
+        hash.update(filename)
+        filename = '{}.{}'.format(hash.hexdigest(), ext)
 
         if os.path.isfile(os.path.join(self._dir, filename)):
             while not unique_filename:

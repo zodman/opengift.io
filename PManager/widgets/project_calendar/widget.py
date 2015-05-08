@@ -8,37 +8,39 @@ import random
 from PManager.viewsExt.tasks import TaskWidgetManager
 
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}):
-
     date = datetime.datetime.now()
     arWeekdays = {
-        'Sun':u'Вс',
-        'Mon':u'Пн',
-        'Tue':u'Вт',
-        'Wed':u'Ср',
-        'Thu':u'Чт',
-        'Fri':u'Пт',
-        'Sat':u'Сб'
+        'Sun': u'Вс',
+        'Mon': u'Пн',
+        'Tue': u'Вт',
+        'Wed': u'Ср',
+        'Thu': u'Чт',
+        'Fri': u'Пт',
+        'Sat': u'Сб'
     }
+
     arDates = {}
     arDays = [{
-                  'dateFormatted':date.date,
-                  'date':date.strftime('%d.%m.%Y'),
-                  'weekday':arWeekdays[date.strftime('%a')] + date.strftime(' %d.%m'),
-                  'weekdayMark':date.strftime('%a')
+                  'dateFormatted': date.date,
+                  'date': date.strftime('%d.%m.%Y'),
+                  'weekday': arWeekdays[date.strftime('%a')] + date.strftime(' %d.%m'),
+                  'weekdayMark': date.strftime('%a')
               }]
-    for i in range(1,7):
+
+    for i in range(1, 7):
         arDates[i] = date + datetime.timedelta(days=i)
         arDays.append({
-                'dateObject':arDates[i],
-                'dateFormatted':arDates[i].date,
-                'date':arDates[i].strftime('%d.%m.%Y'),
-                'weekday':arWeekdays[arDates[i].strftime('%a')] + arDates[i].strftime(' %d.%m'),
-                'weekdayMark':arDates[i].strftime('%a')
-            })
+            'dateObject': arDates[i],
+            'dateFormatted': arDates[i].date,
+            'date': arDates[i].strftime('%d.%m.%Y'),
+            'weekday': arWeekdays[arDates[i].strftime('%a')] + arDates[i].strftime(' %d.%m'),
+            'weekdayMark': arDates[i].strftime('%a')
+        })
     arProject = []
+
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
-    projects = PM_Project.objects.filter(pk__in=PM_ProjectRoles.objects.filter(user=request.user).values('project__id'))\
-        .exclude(closed=True, locked=True)
+
+    projects = request.user.get_profile().getProjects()
 
     for project in projects:
         setattr(project, 'milestoneSet', project.milestones.all())
@@ -47,11 +49,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}):
                 milestone.date = datetime.datetime.now()
                 milestone.save()
             setattr(milestone, 'respSet', milestone.responsible.all())
-            setattr(milestone, 'critically', random.randrange(1,4))
+            setattr(milestone, 'critically', random.randrange(1, 4))
         arProject.append(project)
 
     return {
-        'projects':arProject,
-        'arDays':arDays,
-        'users':TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
+        'projects': arProject,
+        'arDays': arDays,
+        'users': TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     }
