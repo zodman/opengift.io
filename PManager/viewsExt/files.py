@@ -355,6 +355,7 @@ class AjaxFileUploader(object):
                     except PM_Files.DoesNotExist:
                         pass
                         #                print fileNow.file.file.size
+
                 ret_json.update({
                     'id': fileNow.id,
                     'name': fileNow.name,
