@@ -364,7 +364,7 @@
 
                           <script>
                               var freqData=[
-                                  [{% for vals in user_detail.timeGraph %}{State:'{{ vals.date }}',freq:{time:{{ vals.time }}, tasks:{{ vals.tasksClosed }}}}{% if not forloop.last %},{% endif %}{% endfor %}]
+                                  {% for vals in user_detail.timeGraph %}{State:'{{ vals.date }}',freq:{time:{{ vals.time }}, tasks:{{ vals.tasksClosed }}}}{% if not forloop.last %},{% endif %}{% endfor %}
                               ];
 
                               dashboard('#dashboard',freqData);
