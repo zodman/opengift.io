@@ -173,7 +173,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     if 'exclude' in widgetParams:
         filter['exclude'] = widgetParams['exclude']
 
-    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arPageParams)
+    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, {'group': arPageParams['group']})
     tasks = tasks['tasks']
     tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
     qty = tasks.count()
