@@ -365,7 +365,7 @@ function dashboard(id, fData) {
 
             // update the frequencies.
             l.select(".legendFreq").text(function (d) {
-                return d3.format(",")(d.freq);
+                return d3.format(",")(d.freq.toFixed(2));
             });
 
             // update the percentage column.
