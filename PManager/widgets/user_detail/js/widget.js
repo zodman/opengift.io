@@ -388,7 +388,7 @@ function dashboard(id, fData) {
                 return v.freq;
             }));
             if (!f) return 0;
-            return d3.format("%")(d.freq / f);
+            return d3.format("%")((d.freq / f).toFixed(2));
         }
 
         return leg;
