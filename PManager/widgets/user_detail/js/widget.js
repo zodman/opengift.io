@@ -349,7 +349,7 @@ function dashboard(id, fData) {
         // create the third column for each segment.
         tr.append("td").attr("class", 'legendFreq')
             .text(function (d) {
-                return d3.format(",")(d.freq);
+                return d3.format(",")(d.freq.toFixed(2));
             });
 
         // create the fourth column for each segment.
