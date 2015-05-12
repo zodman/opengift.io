@@ -136,7 +136,7 @@ $(function () {
 });
 
 function dashboard(id, fData) {
-    var barColor = 'steelblue';
+    var barColor = '#555';
 
     function segColor(c) {
         return {time: "#d9534f", tasks: "#4cae4c"}[c];
