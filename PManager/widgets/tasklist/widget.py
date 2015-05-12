@@ -125,6 +125,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 task.save()
 
         return {'redirect': ''}
+
     elif pst('add-observers'):
         #todo: объединить с выше
         tasksId = request.POST.getlist('task')
@@ -172,7 +173,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     if 'exclude' in widgetParams:
         filter['exclude'] = widgetParams['exclude']
 
-    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs)
+    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arPageParams)
     tasks = tasks['tasks']
     tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
     qty = tasks.count()
