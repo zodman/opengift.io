@@ -145,7 +145,7 @@ function dashboard(id, fData) {
     // compute total for each state.
     fData.forEach(function (d) {
         var time = d.freq.time || 1;
-        d.total = d.freq.tasks/time;
+        d.total = (d.freq.tasks/time).toFixed(2);
     });
 
     // function to handle histogram.
