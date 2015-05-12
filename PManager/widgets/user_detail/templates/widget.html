@@ -326,10 +326,6 @@
             </div>
 
             <script>
-               $('#myTab a').click(function (e) {
-                    e.preventDefault();
-                    $(this).tab('show');
-               });
                {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                    $('.js-openKeyForm').click(function(){
                         $.get('/user_key_handle/add', function(response){
@@ -360,3 +356,8 @@
             </script>
     </div><!--widget-body-->
 </div><!--widget-->
+<style>
+    table.legend td {
+        padding: 3px;
+    }
+</style>
