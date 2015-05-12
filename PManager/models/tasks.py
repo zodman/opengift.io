@@ -1108,7 +1108,7 @@ class PM_Task(models.Model):
 
     @staticmethod
     def getSimilar(text, project):
-        SIMILARITY_PERCENT = 30
+        SIMILARITY_PERCENT = 60
 
         def sortByTagsCount(task):
             return task.tagSimilarCount
