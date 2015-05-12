@@ -122,32 +122,12 @@
                         {% for user in users %}
                         <li class="clearfix">
                             <div class="invite-user-item-left">
-                                <span><img src="http://heliard.ru/static/upload/users/OZ7P8tMHa7A.jpg"></span>
+                                <span><img src="{{ user.get_profile.avatarSrc }}"></span>
                             </div>
                             <div class="invite-user-item-right">
                                 <a href="/user_detail/?id={{ user.id }}"><b>{{ user.get_full_name }}</b></a><br>
-                                верстальщик, дизайнер<br>
-                                <span class="invite-user-item-rate">Закрыто задач за месяц: 43 (1,43)</span>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <div class="invite-user-item-left">
-                                <span><img src="http://heliard.ru/static/upload/users/OZ7P8tMHa7A.jpg"></span>
-                            </div>
-                            <div class="invite-user-item-right">
-                                <a href="/user_detail/?id={{ user.id }}"><b>{{ user.get_full_name }}</b></a><br>
-                                верстальщик, дизайнер<br>
-                                <span class="invite-user-item-rate">Закрыто задач за месяц: 43 (1,43)</span>
-                            </div>
-                        </li>
-                        <li class="clearfix">
-                            <div class="invite-user-item-left">
-                                <span><img src="http://heliard.ru/static/upload/users/OZ7P8tMHa7A.jpg"></span>
-                            </div>
-                            <div class="invite-user-item-right">
-                                <a href="/user_detail/?id={{ user.id }}"><b>{{ user.get_full_name }}</b></a><br>
-                                верстальщик, дизайнер<br>
-                                <span class="invite-user-item-rate">Закрыто задач за месяц: 43 (1,43)</span>
+                                верстальщик, дизайнер, разработчик<br>
+                                <span class="invite-user-item-rate">Закрыто задач: {{ user.todo.count }} ({{ user.get_profile.rating }})</span>
                             </div>
                         </li>
                         {% endfor %}
