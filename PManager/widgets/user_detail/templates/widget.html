@@ -169,7 +169,7 @@
                                   function segColor(c){ return {time:"#807dba", tasks:"#e08214"}[c]; }
 
                                   // compute total for each state.
-                                  fData.forEach(function(d){d.total=d.freq.time+d.freq.tasks;});
+                                  fData.forEach(function(d){console.log(d);d.total=d.freq.time+d.freq.tasks;});
 
                                   // function to handle histogram.
                                   function histoGram(fD){
