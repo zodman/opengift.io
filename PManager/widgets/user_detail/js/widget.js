@@ -136,7 +136,7 @@ $(function () {
 });
 
 function dashboard(id, fData) {
-    var barColor = 'steelblue';
+    var barColor = '#555';
 
     function segColor(c) {
         return {time: "#d9534f", tasks: "#4cae4c"}[c];
@@ -144,7 +144,8 @@ function dashboard(id, fData) {
 
     // compute total for each state.
     fData.forEach(function (d) {
-        d.total = d.freq.time + d.freq.tasks;
+        var time = d.freq.time || 1;
+        d.total = d.freq.tasks/time;
     });
 
     // function to handle histogram.
@@ -256,7 +257,8 @@ function dashboard(id, fData) {
                 .attr("y", function (d) {
                     return y(d[1]) - 5;
                 });
-        }
+        };
+
         return hG;
     }
 
@@ -292,7 +294,7 @@ function dashboard(id, fData) {
         pC.update = function (nD) {
             piesvg.selectAll("path").data(pie(nD)).transition().duration(500)
                 .attrTween("d", arcTween);
-        }
+        };
         // Utility function to be called on mouseover a pie slice.
         function mouseover(d) {
             // call the update function of histogram with new data.
@@ -370,13 +372,14 @@ function dashboard(id, fData) {
             l.select(".legendPerc").text(function (d) {
                 return getLegend(d, nD);
             });
-        }
+        };
 
         function msg(d){
             var a = {
                 'time': 'Затраченное время, ч.',
                 'tasks': 'Закрытые задачи'
-            }
+            };
+
             return a[d];
         }
 
@@ -391,9 +394,12 @@ function dashboard(id, fData) {
 
     // calculate total frequency by segment for all state.
     var tF = ['time', 'tasks'].map(function (d) {
-        return {type: d, freq: d3.sum(fData.map(function (t) {
-            return t.freq[d];
-        }))};
+        return {
+            type: d,
+            freq: d3.sum(fData.map(function (t) {
+                return t.freq[d];
+            }))
+        };
     });
 
     // calculate total frequency by state for all segment.
