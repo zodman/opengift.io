@@ -140,10 +140,10 @@ $(function () {
 });
 
 function dashboard(id, fData) {
-    var barColor = '#555';
+    var barColor = '#eee';
 
     function segColor(c) {
-        return {time: "#d9534f", tasks: "#4cae4c"}[c];
+        return {time: "#428bca", tasks: "#4cae4c"}[c];
     }
 
     // compute total for each state.
