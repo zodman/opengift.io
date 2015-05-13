@@ -16,7 +16,7 @@ def thumbnail(file, size='200x200', resample=0):
 #    print basename
     miniature = basename + '_' + size + '.' +  format
     miniature_filename = os.path.join(settings.STATIC_ROOT, 'PManager'+miniature)
-
+    miniature_filename = miniature_filename.replace('static/', 'static/thumbnails/')
     miniature_url = os.path.join(settings.STATIC_URL, miniature)
     # if the image wasn't already resized, resize it
     if not os.path.exists(miniature_filename):
