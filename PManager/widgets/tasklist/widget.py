@@ -439,6 +439,5 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'deadline': PM_Task.getQtyForUser(cur_user, project,
                                               {'deadline__lt': datetime.datetime.now(), 'deadline__isnull': False,
                                                'closed': False, 'active': True})
-        },
-        'isInvite': arPageParams['invite']
+        }
     }
