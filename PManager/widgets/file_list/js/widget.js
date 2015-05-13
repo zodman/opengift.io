@@ -392,7 +392,7 @@ fileObject.prototype = {
 
         var thumb = '';
         if (t.isPicture)
-            thumb = '<img src="' + t.thumbnail + '" />';
+            thumb = '<span style="' + t.thumbnail + '"></span>';
         else if (t.type == 'doc' || t.type == 'docx')
             thumb = '<i class="fa fa-file-word-o"></i>';
         else if (t.type == 'xls' || t.type == 'xlsx')
