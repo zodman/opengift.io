@@ -234,11 +234,13 @@ $.fn.addFilePaste = function (options) {
 
             showOverlay();
             var $img = $('<img />').attr({'src': src, 'id': 'newPastedImg', 'class': 'img-responsive'}).appendTo('<div class="picture_container js-pict-container"></div>');
+            if (!window.currentProject) window.currentProject = 0;
             var $form = $('<form></form>').attr({
                 'action': '/sendfile/',
                 'method': 'POST',
                 'enctype': 'multipart/form-data',
-                'id': 'posted_img_form'
+                'id': 'posted_img_form',
+                'project': window.currentProject
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
                 .append('<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>')
