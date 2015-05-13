@@ -10,7 +10,10 @@ def path_and_rename(path, pSubdir=False):
         try:
             path = path
         except UnboundLocalError:
-            path = 'PManager/static/upload/projects/'
+            if pSubdir:
+                path = 'PManager/static/upload/projects/'
+            else:
+                path = 'PManager/static/upload/'
 
         if pSubdir:
             path = os.path.join(path, eval(pSubdir))
