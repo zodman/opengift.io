@@ -12,7 +12,7 @@ from tracker.settings import COMISSION
 from django.db.models import Sum
 from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 # This function are used in many controllers.
-#It must return only json serializeble values in 'tasks' array
+# It must return only json serializeble values in 'tasks' array
 
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
@@ -168,22 +168,28 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     else:
         arPageParams = {}  #выводим все подзадачи, а не только кусок, как для задач
 
-    arPageParams['invite'] = widgetParams.get('invite', False)
-
     if 'exclude' in widgetParams:
         filter['exclude'] = widgetParams['exclude']
 
-    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs)
+    tasks = PM_Task.getForUser(
+        cur_user,
+        project,
+        filter,
+        qArgs,
+        {
+            'group': arPageParams.get('group', None)
+        }
+    )
     tasks = tasks['tasks']
     tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
     qty = tasks.count()
     if 'page' not in arPageParams:
-            arPageParams['page'] = 1
+        arPageParams['page'] = 1
 
     paginator = {}
     if 'pageCount' in arPageParams:
         tasks = tasks[
-                (arPageParams['page'] - 1) * arPageParams['pageCount'] : arPageParams['page'] * arPageParams[
+                (arPageParams['page'] - 1) * arPageParams['pageCount']: arPageParams['page'] * arPageParams[
                     'pageCount']]
 
         paginator = {
@@ -238,7 +244,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if 'parentTask' not in filter:
             # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
-            filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project, widgetParams.get('invite', False))
+            filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project)
             filterQArgs = PM_Task.mergeFilterObjAndArray({'parentTask': task, 'active': True}, filterQArgs)
             subtasksQuery = PM_Task.objects.filter(*filterQArgs).distinct()
             subtasksQty = subtasksQuery.count()
