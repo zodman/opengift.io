@@ -21,9 +21,7 @@
         <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
-            	<table width="100%" cellpadding="0" cellspacing="0">
-                	<tr>
-                    	<td style="vertical-align:top;">
+
              			<div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text" placeholder="Добавить задачу (Ctrl+K)...">
                     <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
@@ -92,16 +90,14 @@
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">16 ч.</a></li>
                     </ul>
                			 </div>
-               			</td>
-                        <td width="135" style="vertical-align:top;">
+
                         <div class="file-upload">
                             <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                             <button class="btn btn-success task-create" type="submit">Создать</button>
-                            <div class="task-file-upload"></div>
                         </div>
-                        </td>
-                   </tr>
-               </table>
+            <div class="clearfix"></div>
+            <div class="task-file-upload"></div>
+
         </form>
 
         <div class="clearfix"></div>

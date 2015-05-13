@@ -537,7 +537,7 @@ border-bottom-right-radius: 0px;}
 .btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
 .btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
-.big-input { float:left; width:100%; position:relative; }
+.big-input { float:left; width:calc(100% - 135px); position:relative; }
 .big-input .input-block-level { padding:4px 12px; }
 .task-create-wrapper > ul,
 .add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
@@ -562,12 +562,24 @@ js-similar_result > a {color: #333; font-weight: bold;}
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left; position: relative;}
-.task-file-upload {
-    height: 34px;
-    left: 5px;
-    position: absolute;
-    width: 40px;}
+.file-upload {float:left; position: relative; width: 135px;}
+.task-file-upload {}
+.task-file-upload .qq-upload-drop-area {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    left: 0;
+    position: relative;
+    right: 0;
+    top: 0;
+}
+
+.task-file-upload .qq-upload-list {
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
 .file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
 .file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
 
