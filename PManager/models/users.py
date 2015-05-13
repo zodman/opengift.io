@@ -6,7 +6,7 @@ from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Proje
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import emailMessage
 from django.db.models.signals import post_save, pre_delete
-
+from PManager.customs.storages import path_and_rename
 
 class Specialty(models.Model):
     code = models.CharField(max_length=255, null=True, blank=True)
@@ -55,7 +55,7 @@ class PM_User(models.Model):
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
     birthday = models.DateTimeField(blank=True, null=True)
-    avatar = models.ImageField(blank=True, upload_to="PManager/static/upload/users/")
+    avatar = models.ImageField(blank=True, upload_to=path_and_rename("PManager/static/upload/users/"))
     sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Ставка')
 
     premium_till = models.DateTimeField(blank=True, null=True, verbose_name='Оплачен до')
