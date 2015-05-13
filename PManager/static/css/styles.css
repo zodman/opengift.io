@@ -1551,8 +1551,8 @@ background-image: linear-gradient(to bottom, #5CB85C 0%, #4CAE4C 100%); color:#f
 						.files-wrapper-item-img img {width:100%; height:100%; display:inline-block; vertical-align:middle;} 
 						.files-wrapper-item-img i {color:#57a957; font-size: 4vw; margin-top:20%;}
 					
-				.files-wrapper-item-settings {bottom: 30px; padding-bottom: 5px; padding-right: 8px; padding-top: 5px; position: absolute; right: 0; text-align: right; width: 100%; background: none repeat scroll 0 0 #57a957}
-					.files-wrapper-item-settings a {font-size:16px; color:#57a957; margin-left:5px; text-decoration:none;}
+				.files-wrapper-item-settings {bottom: 20px; padding-bottom: 5px; padding-right: 8px; padding-top: 5px; position: absolute; right: 0; text-align: right; width: 100%; background: none repeat scroll 0 0 #57a957}
+					.files-wrapper-item-settings a {font-size:16px; color:#fff; margin-left:5px; text-decoration:none;}
 =
 				.files-wrapper-item-title {display:block; padding:0 10px; height:30px; line-height:30px; max-width:100%; overflow:hidden; white-space:nowrap; text-overflow: ellipsis;}
 					.files-wrapper-item-title a {color:#000;}
@@ -1560,7 +1560,7 @@ background-image: linear-gradient(to bottom, #5CB85C 0%, #4CAE4C 100%); color:#f
 					.files-wrapper-list.box ul li label.active .files-wrapper-item-title, 
 					.files-wrapper-list.box ul li label.active .files-wrapper-item-title a {background:#57a957; color:#fff;}
 
-                    .files-wrapper-item-img > span {height: 100%; width: 100%; background-size: cover; background-repeat: no-repeat;}
+                    .files-wrapper-item-img > span {height: 100%; width: 100%; background-size: cover !important; background-repeat: no-repeat !important; display: block;}
 
 			.files-wrapper-list.box ul li label.active {box-shadow:0 3px 15px #aaa; -moz-box-shadow:0 3px 15px #aaa; -webkit-box-shadow:0 3px 15px #aaa; font-weight:bold;} 
 		
