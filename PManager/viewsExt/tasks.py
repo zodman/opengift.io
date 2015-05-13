@@ -140,9 +140,10 @@ def __search_filter(header_values, request):
     from PManager.viewsExt.tools import templateTools
     from PManager.widgets.tasklist.widget import widget as task_list
 
-    search_text, action, group = request.POST.get('task_search'), request.POST.get('action',
-                                                                                   False), request.POST.get('group',
-                                                                                                            False)
+    search_text, action, group = request.POST.get('task_search'), \
+                                 request.POST.get('action', False), \
+                                 request.POST.get('group', False)
+
     ar_filter = {}
     ar_exclude = {}
     if search_text:
@@ -249,8 +250,8 @@ def __search_filter(header_values, request):
     paginator = tasks['paginator']
     tasks = tasks['tasks']
     response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
-    return response_text
 
+    return response_text
 
 def __task_message(request):
     text = request.POST.get('task_message', '')

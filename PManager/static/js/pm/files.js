@@ -234,6 +234,7 @@ $.fn.addFilePaste = function (options) {
 
             showOverlay();
             var $img = $('<img />').attr({'src': src, 'id': 'newPastedImg', 'class': 'img-responsive'}).appendTo('<div class="picture_container js-pict-container"></div>');
+            if (!window.currentProject) window.currentProject = 0;
             var $form = $('<form></form>').attr({
                 'action': '/sendfile/',
                 'method': 'POST',
@@ -250,7 +251,8 @@ $.fn.addFilePaste = function (options) {
                 .append('<input type="hidden" name="posted_image_x2" />')
                 .append('<input type="hidden" name="posted_image_y2" />')
                 .append('<input type="hidden" name="posted_image_size_w" />')
-                .append('<input type="hidden" name="posted_image_size_h" />');
+                .append('<input type="hidden" name="posted_image_size_h" />')
+                .append('<input type="hidden" name="project" value="'+window.currentProject+'" />');
 
             $form.find('a.close').on("click", function () {
                 $(this).closest('.preview_img_form').remove();

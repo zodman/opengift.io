@@ -789,8 +789,8 @@ var widget_tl, currentGroup;
 
                 if (!currentGroup && task.get('group').id
                     || currentGroup && currentGroup.id != task.get('group').id) {
-                    currentGroup = task.get('group');
 
+                    currentGroup = task.get('group');
                     this.addGroupRow(task.get('group'));
                 }
                 var view = new window.taskViewClass({'model': task});
