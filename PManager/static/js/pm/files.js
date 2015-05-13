@@ -239,8 +239,7 @@ $.fn.addFilePaste = function (options) {
                 'action': '/sendfile/',
                 'method': 'POST',
                 'enctype': 'multipart/form-data',
-                'id': 'posted_img_form',
-                'project': window.currentProject
+                'id': 'posted_img_form'
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
                 .append('<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>')
@@ -252,7 +251,8 @@ $.fn.addFilePaste = function (options) {
                 .append('<input type="hidden" name="posted_image_x2" />')
                 .append('<input type="hidden" name="posted_image_y2" />')
                 .append('<input type="hidden" name="posted_image_size_w" />')
-                .append('<input type="hidden" name="posted_image_size_h" />');
+                .append('<input type="hidden" name="posted_image_size_h" />')
+                .append('<input type="hidden" name="project" value="'+window.currentProject+'" />');
 
             $form.find('a.close').on("click", function () {
                 $(this).closest('.preview_img_form').remove();
