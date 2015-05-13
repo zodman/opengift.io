@@ -8,7 +8,7 @@ block="/etc/nginx/sites-available/heliard" # Уточнить путь к кон
 # Если новый файл конфига к каждому поддомену 
 # block="/etc/nginx/sites-available/$domain"
 
-config=$(cat <<"EOF"
+config=$(cat <<EOF
 \n
 server {\n
 	\tserver_name $domain;\n
