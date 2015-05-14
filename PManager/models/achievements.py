@@ -13,6 +13,7 @@ class PM_Achievement(models.Model):
     description = models.TextField()
     condition = models.TextField()
     code = models.CharField(max_length=100)
+    delete_on_first_view = models.BooleanField(blank=True, null=True)
 
     @property
     def smallImageUrl(self):
@@ -55,6 +56,7 @@ def addAchievement(sender, instance, **kwargs):
                     rating = prof.rating or 0
                     prof.rating = rating + 10
                     prof.save()
+
         except PM_Achievement.DoesNotExist:
             pass
 
@@ -64,6 +66,7 @@ class PM_User_Achievement(models.Model):
     achievement = models.ForeignKey(PM_Achievement, related_name='achievement_users')
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(blank=True, default=False)
+    text = models.CharField(max_length=400, blank=True, null=True)
 
     class Meta:
         app_label = 'PManager'
