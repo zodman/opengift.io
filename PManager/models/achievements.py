@@ -13,7 +13,7 @@ class PM_Achievement(models.Model):
     description = models.TextField()
     condition = models.TextField()
     code = models.CharField(max_length=100)
-    delete_on_first_view = models.BooleanField(blank=True, null=True)
+    delete_on_first_view = models.BooleanField(blank=True)
 
     @property
     def smallImageUrl(self):
