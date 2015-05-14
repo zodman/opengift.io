@@ -55,7 +55,7 @@ class MainPage:
                     if request.GET.get('from', '') == 'mobile':
                         return HttpResponse('{"unauthorized": false}', content_type='application/json')
                     else:
-                        return HttpResponseRedirect('/')
+                        return HttpResponseRedirect(request.POST.get('backurl', '/'))
                 else:
                     return HttpResponse(loader
                                         .get_template('main/unauth.html')
