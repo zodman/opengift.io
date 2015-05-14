@@ -17,7 +17,7 @@ def thumbnail(file, size='200x200', resample=0):
     miniature = basename + '_' + size + '.' +  format
     miniature_filename = os.path.join(settings.STATIC_ROOT, 'PManager'+miniature)
     miniature_filename = miniature_filename.replace('static/', 'static/thumbnails/')
-    miniature_url = os.path.join(settings.STATIC_URL, miniature)
+    miniature_url = os.path.join(settings.STATIC_URL, miniature_filename)
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
     miniature_dir = '/'.join(miniature_dir)
@@ -29,9 +29,8 @@ def thumbnail(file, size='200x200', resample=0):
 
         if os.path.isfile(filename):
             try:
-                dirname = os.path.join(settings.STATIC_ROOT, miniature_dir)
                 if not os.path.exists(miniature_dir):
-                    os.makedirs(dirname)
+                    os.makedirs(miniature_dir)
 
                 image = Image.open(filename)
                 image.thumbnail([x, y], resample) # generate a 200x200 thumbnail
