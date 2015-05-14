@@ -203,7 +203,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     arBIsManager = {}
 
     arBets = {}
-
+    arClientBets = {}
+    aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
     for task in tasks:
         if not task.id in arBIsManager:
             arBIsManager[task.id] = task.project.id in aManagedProjectsId
@@ -214,19 +215,22 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                         task.status.code == 'not_approved':
             #if client have fix price
             try:
-                clientBet = PM_ProjectRoles.objects.get(
-                    rate__isnull=False,
-                    role__code='client',
-                    project=task.project,
-                    payment_type='plan_time'
-                )
-                rate = clientBet.rate
+                if task.project.id in arClientBets:
+                    rate = arClientBets[task.project.id]
+                else:
+                    clientBet = PM_ProjectRoles.objects.get(
+                        rate__isnull=False,
+                        role__code='client',
+                        project=task.project,
+                        payment_type='plan_time'
+                    )
+                    rate = clientBet.rate
+                    arClientBets[task.project.id] = rate
             except PM_ProjectRoles.DoesNotExist:
                 rate = task.resp.get_profile().getBet(task.project) * COMISSION
 
             arBets[task.id] = task.planTime * rate
 
-        aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
         currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
                                                                 aUsersHaveAccess)
 
