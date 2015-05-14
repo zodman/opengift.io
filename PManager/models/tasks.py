@@ -1097,10 +1097,12 @@ class PM_Task(models.Model):
         order.append('-dateClose')
         order.append('-number')
 
-        tasks = tasks.order_by(*order)
+
 
         if excludeFilter:
             tasks = tasks.exclude(**excludeFilter)
+
+        tasks = tasks.order_by(*order)
 
         return {
             'tasks': tasks,
