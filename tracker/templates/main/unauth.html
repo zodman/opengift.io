@@ -42,7 +42,7 @@
                         <input class="input-medium form-control" type="text" name="username" value="Логин" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
                         <input class="input-medium form-control" type="password" name="password" value="Пароль" onfocus="if(this.value==this.defaultValue)this.value='';" onblur="if(this.value=='')this.value=this.defaultValue;" />
                         <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти" />
-                        <input type="hidden" name="backurl" value="{{ current_path }}" />
+                        <input type="hidden" name="backurl" value="{{ request.POST.backurl }}" />
                 </form>
             </div>
             {% ifequal error "not_found" %}
