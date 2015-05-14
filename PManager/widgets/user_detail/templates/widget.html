@@ -94,7 +94,7 @@
                                 <p>Последняя активность: <strong>{{ user_detail.user.last_activity }}</strong></p>
                                 {% endif %}
                                 {% if user_detail.user.birthday %}
-                                <p>Дата рождения: <strong>{{ user_detail.user.birthday }}</strong></p>
+                                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed }}</strong></p>
                                 <hr />
                                 {% endif %}
                                 <h4>Набрал баллов</h4>
@@ -109,7 +109,7 @@
                                 <hr />
                                 {% if user_detail.profile.sp_price and user_detail.current_user_is_admin or user_detail.profile.sp_price and user_detail.userIsEqualCurrentUser %}
                                 <h4>Финансы</h4>
-                                <p>Цена за SP: {{ user_detail.profile.sp_price }} руб.</p>
+                                <p>Цена за SP: {{ user_detail.profile.sp_price }} бонусов.</p>
                                 <div class="sp">
                                     Всего SP:
                                     <span class="dropdown dropup">
@@ -117,13 +117,13 @@
                                         <ul class="dropdown-menu">
                                             {% for arBet in user_detail.bets %}
                                                 {% if arBet.price %}
-                                                <li>{{ arBet.project }} —  <b>{{ arBet.price }} руб. ({{ arBet.bet }} руб./ч.)</b></li>
+                                                <li>{{ arBet.project }} —  <b>{{ arBet.price }} бонусов. ({{ arBet.bet }} бонусов./ч.)</b></li>
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
                                     </span>
                                 </div>
-                                <p>Неоплачено: {{ user_detail.profile.sp.rest }}</p>
+                                <p>Не погашено: {{ user_detail.profile.sp.rest }}</p>
                                 {% endif %}
                            </div>
 

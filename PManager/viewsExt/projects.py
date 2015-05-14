@@ -53,7 +53,7 @@ def projectDetail(request, project_id):
         setattr(role.user, 'role_id', role.id)
         aRoles[role.role.name]['users'].append(role.user)
 
-    bCurUserIsAuthor = request.user.id == project.author.id
+    bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
     if bCurUserIsAuthor:
         action = request.POST.get('action', None)
         if action:

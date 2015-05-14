@@ -211,6 +211,7 @@ def widget(request, headerValues, ar, qargs):
             return {
                 'user': user,
                 'profile': profile,
+                'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
                 'timers': [
                     {
