@@ -89,6 +89,7 @@ class MainPage:
         import datetime
         from PManager.viewsExt.tools import TextFilters
         from django.utils.html import escape
+        import urllib
 
         agents = Agent.objects.filter(Q(Q(datetime__lt=datetime.datetime.now()) | Q(datetime__isnull=True)))
         for agent in agents:
@@ -170,7 +171,7 @@ class MainPage:
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
                 t = loader.get_template('main/promo.html')
             else:
-                t = loader.get_template('main/unauth.html')
+                return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
         cur_notice = PM_Notice.getForUser(
             request.user,
