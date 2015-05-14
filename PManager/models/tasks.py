@@ -1065,7 +1065,7 @@ class PM_Task(models.Model):
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
-            subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).exclude(project__closed=True, project__locked=True).values('parentTask__id').annotate(
+            subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).filter(project__closed=False, project__locked=False).values('parentTask__id').annotate(
                 dcount=Count('parentTask__id'))
             aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
         else:
