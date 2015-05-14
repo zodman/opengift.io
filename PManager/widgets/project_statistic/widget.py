@@ -175,7 +175,7 @@ class sumLoanChart(Chart):
                 self.rows.append({
                     'cols': [
                         {
-                            'url': '/user_detail/?id='+str(x['user_id']),
+                            'url': '/user_detail/?id='+str(user.id),
                             'text': user.last_name + ' ' + user.first_name
                         },
                         {
