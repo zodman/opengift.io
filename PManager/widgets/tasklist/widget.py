@@ -283,16 +283,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         bCanBaneUser = False
         if arBIsManager[task.id] and task.resp:
-            lastRespMessageDate = last_message_q.filter(author=task.resp)
-            lastRespMessageDate = lastRespMessageDate[0] if lastRespMessageDate else None
-            if lastRespMessageDate:
-                lastRespMessageDateCreate = lastRespMessageDate.dateCreate
-            else:
-                lastRespMessageDateCreate = task.realDateStart or task.dateCreate
-
-            bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
-                datetime.datetime.now(), timezone.get_current_timezone()
-            ) - datetime.timedelta(days=2)
+            bCanBaneUser = True
+            # lastRespMessageDate = last_message_q.filter(author=task.resp)
+            # lastRespMessageDate = lastRespMessageDate[0] if lastRespMessageDate else None
+            # if lastRespMessageDate:
+            #     lastRespMessageDateCreate = lastRespMessageDate.dateCreate
+            # else:
+            #     lastRespMessageDateCreate = task.realDateStart or task.dateCreate
+            #
+            # bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
+            #     datetime.datetime.now(), timezone.get_current_timezone()
+            # ) - datetime.timedelta(days=2)
 
         last_mes = last_message_q[0] if last_message_q else None
         addTasks[task.id] = {
