@@ -1078,7 +1078,7 @@ class PM_Task(models.Model):
                 id__in=aTasksIdFromSubTasks)] #old conditions array | ID of parent tasks of match subtasks
             filter = {}
 
-        tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
+        tasks = PM_Task.objects.filter(*filterQArgs, **filter).filter(project__closed=False, project__locked=False).distinct()
 
         if arOrderParams.get('group') == 'milestones':
             order = ['milestone__closed', '-milestone__date']
