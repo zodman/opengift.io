@@ -172,14 +172,15 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     if 'exclude' in widgetParams:
         filter['exclude'] = widgetParams['exclude']
 
+    arTaskOrderParams = {
+        'group': arPageParams.get('group', None)
+    }
     tasks = PM_Task.getForUser(
         cur_user,
         project,
         filter,
         qArgs,
-        {
-            'group': arPageParams.get('group', None)
-        }
+        arTaskOrderParams
     )
     tasks = tasks['tasks']
     tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
