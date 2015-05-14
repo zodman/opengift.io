@@ -15,9 +15,9 @@ def thumbnail(file, size='200x200', resample=0):
     basename, format = file.rsplit('.', 1)
 #    print basename
     miniature = basename + '_' + size + '.' +  format
+    miniature = miniature.replace('static/', 'static/thumbnails/')
     miniature_filename = os.path.join(settings.STATIC_ROOT, 'PManager'+miniature)
-    miniature_filename = miniature_filename.replace('static/', 'static/thumbnails/')
-    miniature_url = os.path.join(settings.STATIC_URL, miniature_filename)
+    miniature_url = os.path.join(settings.STATIC_URL, miniature)
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
     miniature_dir = '/'.join(miniature_dir)
