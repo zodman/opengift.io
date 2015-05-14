@@ -66,8 +66,8 @@ class Tags(models.Model):
 class ObjectTags(models.Model):
     tag = models.ForeignKey(Tags, related_name='objectLinks')
     weight = models.PositiveIntegerField(default=0)
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.PositiveIntegerField()
+    content_type = models.ForeignKey(ContentType, db_index=True)
+    object_id = models.PositiveIntegerField(db_index=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
     class Meta:
