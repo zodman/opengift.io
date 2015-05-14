@@ -150,11 +150,14 @@ class sumLoanChart(Chart):
     title = u'Текущие бонусы'
     type = 'table'
     def getData(self):
-        arDebts = Credit.getUsersDebt(self.projects)
+        arDebts = Credit.objects.filter(project__in=self.projects)
 
         self.cols = [
             {
                 'name': u'ФИО'
+            },
+            {
+                'name': u'Задача'
             },
             {
                 'name': u'Сумма'
@@ -162,21 +165,27 @@ class sumLoanChart(Chart):
         ]
         self.rows = []
         for x in arDebts:
+            if not x.task:
+                continue
             try:
-                user = User.objects.get(pk=int(x['user_id']))
+                user = x.user or x.payer
+                if x.payer:
+                    x.value = -x.value
 
-                if x['sum']:
-                    self.rows.append({
-                        'cols': [
-                            {
-                                'url': '/user_detail/?id='+str(x['user_id']),
-                                'text': user.last_name + ' ' + user.first_name
-                            },
-                            {
-                                'text': x['sum']
-                            }
-                        ]
-                    })
+                self.rows.append({
+                    'cols': [
+                        {
+                            'url': '/user_detail/?id='+str(x['user_id']),
+                            'text': user.last_name + ' ' + user.first_name
+                        },
+                        {
+                            'text': x.task.name
+                        },
+                        {
+                            'text': x.value
+                        }
+                    ]
+                })
             except User.DoesNotExist:
                 pass
 
