@@ -240,6 +240,7 @@ def __search_filter(header_values, request):
     if start_page:
         count *= page
         page = 1
+
     ar_page_params = {
         'pageCount': count,
         'page': page,
@@ -1135,7 +1136,7 @@ class TaskWidgetManager:
     def getUsersThatUserHaveAccess(user, project):
         from PManager.models import PM_Role, PM_ProjectRoles
 
-        users = User.objects.filter(is_active=True)
+        users = User.objects.order_by('last_name').filter(is_active=True)
         if project:
             if user.get_profile().isManager(project):
                 users = users.filter(pk__in=PM_ProjectRoles.objects.filter(
