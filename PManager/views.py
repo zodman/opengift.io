@@ -163,8 +163,11 @@ class MainPage:
             uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
             userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
             if userAchievement:
-                userAchievement.read = True
-                userAchievement.save()
+                if userAchievement.achievement.delete_on_first_view:
+                    userAchievement.delete()
+                else:
+                    userAchievement.read = True
+                    userAchievement.save()
         else:
             import re
             #if is not main page

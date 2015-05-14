@@ -451,7 +451,7 @@ class PM_Task(models.Model):
         self.save()
 
     def setCreditForTime(self):
-        from PManager.models import Credit
+        from PManager.models import Credit, PM_Achievement
 
         allSum = 0
         allRealTime = 0
@@ -471,14 +471,20 @@ class PM_Task(models.Model):
                 if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
                     userTaskHours = round(float(obj.summ) / 3600., 2)
                     if self.planTime:
-                        if userTaskHours > self.planTime * 2:
-                            ob['rating'] = -50
-                        elif userTaskHours > self.planTime * 1.5:
-                            ob['rating'] = -10
-                        elif userTaskHours > self.planTime:
-                            ob['rating'] = -5
+
+                        if userTaskHours > self.planTime:
+                            ob['rating'] = -(40 * (userTaskHours - self.planTime) / self.planTime)
+                            accCode = 'rating_minus'
                         else:
+                            accCode = 'rating_plus'
                             ob['rating'] = 1
+
+                        if accCode:
+                            try:
+                                acc = PM_Achievement.objects.get(code=accCode)
+                                acc.addToUser(cUser)
+                            except PM_Achievement.DoesNotExist:
+                                pass
 
                     ob['time'] = userTaskHours
 
