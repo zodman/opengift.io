@@ -27,14 +27,15 @@ class Credit(models.Model):
     type = models.CharField(max_length=100, blank=True, null=True)
 
     @staticmethod
-    def getUsersDebt(projects):
-        projects = '(' + ','.join([str(s.id) for s in projects]) + ')'
+    def getUsersDebt(projects=[]):
+        if projects:
+            projects = ' WHERE project_id IN (' + ','.join([str(s.id) for s in projects]) + ')'
         qText = """
                   SELECT
                       sum(value) as summ, user_id FROM (
-                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p WHERE project_id IN """ + projects + """ GROUP BY user_id
+                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p""" + projects + """ GROUP BY user_id
                           UNION
-                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c WHERE project_id IN """ + projects + """ GROUP BY user_id
+                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c""" + projects + """ GROUP BY user_id
                       ) as t
                   GROUP BY t.user_id;
               """
