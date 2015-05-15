@@ -27,9 +27,12 @@ class Credit(models.Model):
     type = models.CharField(max_length=100, blank=True, null=True)
 
     @staticmethod
-    def getUsersDebt(projects=[]):
+    def getUsersDebt(projects=None):
         if projects:
             projects = ' WHERE project_id IN (' + ','.join([str(s.id) for s in projects]) + ')'
+        else:
+            projects = ''
+
         qText = """
                   SELECT
                       sum(value) as summ, user_id FROM (

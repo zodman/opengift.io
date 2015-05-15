@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task
+from PManager.models import PM_Task, Credit
 from PManager.services.task_drafts import draft_cnt
 
 def widget(request, headerValues, ar, qargs):
@@ -10,7 +10,7 @@ def widget(request, headerValues, ar, qargs):
 
     profile = request.user.get_profile()
 
-    total = profile.account_total or 0
+    total = Credit.getUsersDebt() or 0
     projectData = {
         'allProjectPrice': total,
         'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True})),
