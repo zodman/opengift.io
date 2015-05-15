@@ -167,6 +167,7 @@ def __search_filter(header_values, request):
         ar_filter['closed'] = False
     elif action == 'deadline':
         ar_filter['deadline__lt'] = datetime.datetime.now()
+        ar_filter['deadline__isnull'] = False
         ar_filter['closed'] = False
     elif action == 'arc':
         ar_filter['closed'] = True
@@ -221,8 +222,10 @@ def __search_filter(header_values, request):
                 filter_date_to_tmp = templateTools.dateTime.convertToDateTime(dateTmp['date'][1])
                 ar_filter[dateTmp['key'] + '__gt'] = filter_date_from_tmp
                 ar_filter[dateTmp['key'] + '__lt'] = filter_date_to_tmp + datetime.timedelta(days=1)
+
     if 'parent' in request.POST:
         ar_filter['parentTask'] = request.POST.get('parent')
+
     if action == 'deadline':
         qArgs.append(
             Q(
