@@ -411,7 +411,7 @@ div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #a
 div.widget-control {position:absolute; right:20px; }
 div.widget-control .w-collapse, div.widget-control .w-close {background-image:url(../images/sprite.png); background-repeat:no-repeat; text-decoration:none; text-indent:-99999em; width:15px; height:15px; display:inline-block; margin-left:2px;}
 div.widget-control .w-collapse {background-position:0px -396px;}
-div.widget-control .w-close {background-position:-15px -396px;}
+div.widget-control .w-close {background-position:-15px -396px; padding: 0px;}
 
 /* фикс issue#611 */
 .tasklist + .gantt { position: inherit; }
@@ -603,10 +603,11 @@ border-bottom-right-radius: 0px;}
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
-.task-tab-filter {margin: 0px; background: none repeat scroll 0 0 #eee; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin: 0; padding: 4px 15px;}
-.task-tab-filter > li {padding: 0 15px 0 0; display:block; float:left;}
-.task-tab-filter a { padding: 3px 0px; display:block; float:left; position:relative;}
-.task-tab-filter a span {     background: none repeat scroll 0 0 #4cae4c;
+.task-tab-filter {margin: 0px; background: none repeat scroll 0 0 #eee; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin: 0;}
+.task-tab-filter > li {padding: 0; display:block; float:left;}
+.task-tab-filter a {padding: 7px 15px; display:block; float:left; position:relative;}
+.task-tab-filter a span {
+    background: none repeat scroll 0 0 #4cae4c;
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -618,10 +619,47 @@ border-bottom-right-radius: 0px;}
     text-align: center;
     vertical-align: top;
     width: 20px;
-    z-index: 1;}
-.task-tab-filter > .active > a { background-color: #999999; color: #fff; text-align: center; border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; -webkit-border-radius:3px; padding: 3px 15px;}
+    z-index: 1;
+}
+.task-tab-filter > .active > a {background-color: #999999; text-decoration: none; color: #fff; text-align: center; border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; -webkit-border-radius:3px; padding: 7px 10px 7px 15px;}
 .task-tab-filter a:hover { text-decoration: none; }
 
+
+.stavka {
+    background: none repeat scroll 0 0 #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    margin-right: 7px;
+    padding: 5px 2px 5px 10px;
+}
+.stavka .bonus {
+    border-radius: 3px;
+    color: #000;
+    background: #ddd;
+    margin-left: 7px;
+    padding: 3px 6px;
+}
+
+.stavka.success .bonus {
+    background: none repeat scroll 0 0 #47a447;
+    color: #fff;
+}
+
+.stavka.success {
+    background: none repeat scroll 0 0 #edf8ed;
+    border: 1px solid #47a447;
+    color: #47a447;
+}
+.stavka.danger .bonus {
+    background: none repeat scroll 0 0 #d9534f;
+    color: #fff;
+}
+
+.stavka.danger {
+    background: none repeat scroll 0 0 #ffdfde;
+    border: 1px solid #d9534f;
+    color: #d9534f;
+}
 /* убираем в ИЕ кнопку сброса фильтра */
 
 .search-input::-ms-clear { display: none; }
@@ -1089,8 +1127,10 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 
 .bootstrap-growl .close {
 	font-size:30px;
-	position:relative;
-	top:-10px;
+	position:absolute;
+	top: 4px;
+    right: 15px;
+    cursor: pointer;
 }
 
 
