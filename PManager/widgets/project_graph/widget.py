@@ -11,13 +11,14 @@ def widget(request, headerValues, ar, qargs):
     profile = request.user.get_profile()
 
     total = profile.account_total or 0
+    bet = profile.getBet(current_project)
     projectData = {
         'allProjectPrice': total,
         'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True})),
         'tasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': False, 'active': True})),
         'bPay': bPay,
         'rating': profile.rating or 0,
-        'rate': profile.getBet(current_project) - profile.rating,
+        'rate': bet - profile.rating if bet else 0,
         'premiumTill': profile.premium_till or '01.06.2015' if request.user.is_staff else '',
         'taskdrafts_cnt': draft_cnt(request.user)
     }
