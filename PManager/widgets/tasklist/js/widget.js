@@ -444,7 +444,7 @@ var widget_tl, currentGroup;
                     })
                         .text(oTab.name)
                         .addClass('userTab'),
-                    $removeLink = $('<div class="widget-control" style="right:-5px;top:-5px;"><a class="w-close js-removeTab">Закрыть</a></div>');
+                    $removeLink = $('<div class="widget-control" style="right: -6px; top: -6px;"><a class="w-close js-removeTab">Закрыть</a></div>');
 
                 this.$tabContainer.prepend($newTab.append($tabLink).append($removeLink));
                 return $newTab;
