@@ -16,8 +16,9 @@ def widget(request, headerValues, ar, qargs):
         'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True})),
         'tasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': False, 'active': True})),
         'bPay': bPay,
-        'rate': profile.getBet(current_project),
-        'premiumTill': profile.premium_till or '01.04.2014' if request.user.is_staff else '',
+        'rating': profile.rating,
+        'rate': profile.getBet(current_project) - profile.rating,
+        'premiumTill': profile.premium_till or '01.06.2015' if request.user.is_staff else '',
         'taskdrafts_cnt': draft_cnt(request.user)
     }
 

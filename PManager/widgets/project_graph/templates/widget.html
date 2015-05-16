@@ -8,9 +8,9 @@
             <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
 
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            Ставка бонусов: <b>{{ project_graph.rate }}</b> SP
 
-            <!--Ставка бонусов: <span class="stavka success danger">{{ project_graph.rate }}<span class="bonus">+11</span></span>SP-->
+            Ставка бонусов: <span class="stavka success danger">{{ project_graph.rate }}
+            <span class="bonus">{% if project_graph.rating < 0 %}-{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
             <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;
