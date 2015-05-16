@@ -1127,8 +1127,10 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 
 .bootstrap-growl .close {
 	font-size:30px;
-	position:relative;
-	top:-10px;
+	position:absolute;
+	top: 4px;
+    right: 15px;
+    cursor: pointer;
 }
 
 
