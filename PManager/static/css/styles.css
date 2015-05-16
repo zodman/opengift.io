@@ -2093,8 +2093,8 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 											.message.success .message-desc-status, .todo-message .message-desc-status {color:#468847;}
 
                                         .message.created {
-                                            background: none repeat scroll 0 0 #ffeada;
-                                            border-color: #ffdec5;
+                                            background: none repeat scroll 0 0 #fff4da;
+                                            border-color: #feeabb;
                                             color: #f86a02;
                                         }
 
