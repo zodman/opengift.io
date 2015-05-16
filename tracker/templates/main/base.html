@@ -348,13 +348,13 @@ $(function(){
 <div class="container sub-menu">
     <div class="row sub-menu_line">
         {% if user.is_authenticated %}
-        <div class="sub-menu_line_section-user col-xs-8">
+        <div class="sub-menu_line_section-user col-xs-7">
 
              {% if main.CURRENT_PROJECT.id %}
-              <a href="/new_task_wizard/" class="hide-on-mobile js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
+              <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
               {% if main.CAN_INVITE %}
-              <a href="/static/invite_info.html?10" class="hide-on-mobile js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
+              <a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
               {% endif %}
               <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
               {% if main.CURRENT_PROJECT.id %}
@@ -366,7 +366,7 @@ $(function(){
             
         </div>
 
-        <div class="sub-menu_line_section-tracker col-xs-4">
+        <div class="sub-menu_line_section-tracker col-xs-5">
             <ul class="list-inline navbar-right">
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">
@@ -404,15 +404,22 @@ $(function(){
                     </div>
                     
                 </li>
-                <li class="projects-list-select">
-                	<select class="form-control" onchange="document.location.href='/?project='+$(this).val();">
+                <li class="projects-list-select clearfix">
+                    <div class="left">
+                	    <select class="form-control" onchange="document.location.href='/?project='+$(this).val();">
                             <option{% if not main.CURRENT_PROJECT.id %} selected{% endif %} value="0">
                                 Все проекты
                             </option>
                          {% for project in projects %}
                          <option{% if project.id == main.CURRENT_PROJECT.id %} selected{% endif %} value="{{ project.id }}">{{ project.name }}</option>
                          {% endfor %}
-                   </select>   
+                        </select>
+                   </div>
+                   <div class="right">
+                       {% if main.CURRENT_PROJECT.id %}
+                        <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
+                       {% endif %}<a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
+                    </div>
                 </li>
                 
 {#                <li>#}

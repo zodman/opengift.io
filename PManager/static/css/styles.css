@@ -386,6 +386,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00f0f0f0', e
 .sub-menu_line_section-tracker .fa.fa-plus {top:7px; font-size:24px;} 
 
 .list-inline > li.projects-list-select {display:none;}
+.projects-list-select .left {float: left; width: calc(100% - 80px);}
+.projects-list-select .right {float: right; width: 80px; text-align: right;}
+
+
+@media only screen and (max-width: 768px) {
+.sub-menu_line .col-xs-7,
+.sub-menu_line .col-xs-5 {width: 100%; float: none;}
+    .sub-menu .sub-menu_line_section-tracker > .navbar-right.list-inline {float: none; margin-bottom: 10px !important;}
+    .list-inline > li.projects-list-select {display: block !important;}
+}
 
 
 /*  ###############################################################
@@ -543,7 +553,7 @@ border-bottom-right-radius: 0px;}
 .add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
 
 .js-similar_result {background:#ececec; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px; margin-top:5px; padding:7px 12px;}
-js-similar_result > a {color: #333; font-weight: bold;}
+.js-similar_result > a {color: #333; font-weight: bold;}
 .js-similar_result  .dropdown-menu {width:100%; margin-top:-3px;}
 .js-similar_result  .dropdown-menu a {border: none !important; border-bottom:1px solid #cccccc; padding:7px 12px; white-space:inherit;}
 
@@ -585,7 +595,7 @@ js-similar_result > a {color: #333; font-weight: bold;}
 
 /* ====================== ФИЛЬТРЫ */
 
-.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px;}
+.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px; padding: 5px 0;}
 .search_items_holder h6 {line-height:20px; display:inline-block; clear:both; margin:0 5px 0 0;}
 .search_items_holder > span {margin:5px 0; display:block;}
 .search_items_holder span .close {float:none; color:#CD0000; font-size:20px; line-height: 20px; display:inline-block; vertical-align: text-bottom;}
@@ -593,24 +603,23 @@ js-similar_result > a {color: #333; font-weight: bold;}
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
-.task-tab-filter {margin: 0px;}
-.task-tab-filter > li {padding: 0px; display:block; float:left;}
-.task-tab-filter a { padding: 7px 10px; display:block; float:left; position:relative;}
-.task-tab-filter a span {  background: none repeat scroll 0 0 #4cae4c;
-    border-radius: 10px;
-    -moz-border-radius: 10px;
-    -webkit-border-radius: 10px;
+.task-tab-filter {margin: 0px; background: none repeat scroll 0 0 #eee; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin: 0; padding: 4px 15px;}
+.task-tab-filter > li {padding: 0 15px 0 0; display:block; float:left;}
+.task-tab-filter a { padding: 3px 0px; display:block; float:left; position:relative;}
+.task-tab-filter a span {     background: none repeat scroll 0 0 #4cae4c;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
     color: #fff;
     display: inline-block;
-	font-size:10px;
+    font-size: 10px;
     height: 20px;
-    position: absolute;
-    right: -8px;
+    margin-left: 5px;
     text-align: center;
-    top: -8px;
+    vertical-align: top;
     width: 20px;
     z-index: 1;}
-.task-tab-filter > .active > a { background-color: #999999; color: #fff; text-align: center; border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; -webkit-border-radius:3px;}
+.task-tab-filter > .active > a { background-color: #999999; color: #fff; text-align: center; border-radius:3px; -moz-border-radius:3px; -ms-border-radius:3px; -o-border-radius:3px; -webkit-border-radius:3px; padding: 3px 15px;}
 .task-tab-filter a:hover { text-decoration: none; }
 
 /* убираем в ИЕ кнопку сброса фильтра */
@@ -1369,7 +1378,7 @@ div.progress-item .progress {height:5px; margin-bottom:5px;}
 .project_hint.top:after { bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
 .project_hint.top:after { border-color: rgba(0, 0, 0, 0); border-bottom-color: rgba(0, 0, 0, 0.8); border-width: 6px; left: 50%; margin-left: -6px; }
 
-
+.well.hide-on-mobile span, .well.hide-on-mobile a {vertical-align: inherit;}
 
 div.task-details {background: none repeat scroll 0 0 #f0f0f0;
     box-shadow: -2px 0 2px rgba(1, 1, 1, 0.1);
@@ -1843,8 +1852,8 @@ border-top-right-radius: 0;}
 .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
 .tasks-toolbar > div {width:100%;}
-.tasks-toolbar > div.col-xs-7 {margin-top:10px;}
-.tasks-toolbar > div.col-xs-7 ul.pull-right {float:left !important;}
+.tasks-toolbar > div.col-xs-8 {margin-top:10px;}
+.tasks-toolbar > div.col-xs-8 ul.pull-right {float:none !important;}
 }
 
 
