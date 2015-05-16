@@ -9,7 +9,7 @@
 
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
 
-            Ставка бонусов: <span class="stavka success danger">{{ project_graph.rate }}
+            Ставка бонусов: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
             <span class="bonus">{% if project_graph.rating < 0 %}-{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
             &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
             <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
