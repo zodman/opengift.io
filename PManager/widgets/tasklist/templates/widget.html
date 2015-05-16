@@ -21,7 +21,7 @@
         <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
-
+            <div class="clearfix">
              			<div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text" placeholder="Добавить задачу (Ctrl+K)...">
                     <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
@@ -95,12 +95,11 @@
                             <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                             <button class="btn btn-success task-create" type="submit">Создать</button>
                         </div>
-            <div class="clearfix"></div>
+            </div>
             <div class="task-file-upload"></div>
 
         </form>
 
-        <div class="clearfix"></div>
 
 {% endif %}
 {% if not tasklist.tasks %}
@@ -224,12 +223,11 @@
                     </table>
                     </div>
                 <!--</div> /.input-group -->
-                <div class="search_items_holder" ></div>
             </div>
 
 
-            <div class="col-xs-7">
-                <ul class="task-tab-filter list-inline pull-right">
+            <div class="col-xs-8">
+                <ul class="task-tab-filter list-inline pull-right clearfix">
                     <li class="active"><a>Все</a></li>
                     <li><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                     <li><a rel="ready">На проверке{% if tasklist.qty.ready %}<span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
@@ -240,6 +238,7 @@
                 </ul>
             </div>
         </div>
+        <div class="search_items_holder" ></div>
 {% endif %}
         <hr class="no-top-magin-hr">
         <script language="javascript">
