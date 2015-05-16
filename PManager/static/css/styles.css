@@ -1248,7 +1248,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 	.user-list .widget.span4 {width:100%; margin-left:0px;}
 	}
 @media only screen and (max-width: 868px) {
-    .radio-inline, .checkbox-inline {margin-bottom:10px; margin-left:0px !important; display: block;}
+    .radio-inline, .checkbox-inline {margin-left:0px !important; display: block;}
     .radio-inline + .radio-inline, .checkbox-inline + .checkbox-inline {margin-bottom:0px !important;}
 .list-inline > li.projects-list-menu, .list-inline > li.section-tracker_menu_name  {display:none;}
 .list-inline > li.projects-list-select {display:inline-block;}
