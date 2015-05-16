@@ -2091,7 +2091,13 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 										.message.success, .todo-message {background:#edf8ed; border-color:#deecd8;}
 											.message.success .message-info, .todo-message .message-info {border-color:#deecd8;}											
 											.message.success .message-desc-status, .todo-message .message-desc-status {color:#468847;}
-											
+
+                                        .message.created {
+                                            background: none repeat scroll 0 0 #ffeada;
+                                            border-color: #ffdec5;
+                                            color: #f86a02;
+                                        }
+
 										/*ЖЕЛТОЕ СООБЩЕНИЕ*/	
 										.message.warning {background:#fffdf1; border-color:#f5f3ea;}
 											.message.warning .message-info {border-color:#f5f3ea;}											
