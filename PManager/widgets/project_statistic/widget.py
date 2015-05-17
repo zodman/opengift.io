@@ -150,7 +150,7 @@ class sumLoanChart(Chart):
     title = u'Текущие бонусы'
     type = 'table'
     def getData(self):
-        arDebts = Credit.objects.filter(project__in=self.projects)
+        arDebts = Credit.objects.filter(project__in=self.projects).order_by('-id')[:100]
 
         self.cols = [
             {
