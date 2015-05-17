@@ -100,7 +100,8 @@
                                 <hr />
                                 {% if user_detail.profile.sp_price and user_detail.current_user_is_admin or user_detail.profile.sp_price and user_detail.userIsEqualCurrentUser %}
                                 <h4>Финансы</h4>
-                                <p>Ставка: <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">{{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span>SP</p>
+                                <p>Ставка: <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span>SP</p>
 
                                 <div class="sp">
                                     Всего SP:

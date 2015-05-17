@@ -68,7 +68,7 @@ class userHandlers:
         response = u''
         if action == 'setRole':
             userId = request.POST['user']
-            projectId = int(request.REQUEST.get('project', 0))
+            projectId = int(request.REQUEST.get('roleProject', 0))
             if projectId:
                 managedProjects = curUser.get_profile().managedProjects
                 for p in managedProjects:
