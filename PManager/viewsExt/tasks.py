@@ -1133,7 +1133,7 @@ class TaskWidgetManager:
             pk__in=PM_ProjectRoles.objects.filter(
                 role__in=PM_Role.objects.filter(code__in=aRoleCodes), project=project
             ).values('user__id')
-        )
+        ).select_related('profile')
 
     @staticmethod
     def getUsersThatUserHaveAccess(user, project):
