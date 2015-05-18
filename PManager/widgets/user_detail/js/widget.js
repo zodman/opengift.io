@@ -141,13 +141,13 @@ $(function () {
 
     document.mainController.widgetsData["user_detail"] = widget_ud;
 
-    $('.TabsMenu li').click(
-        function () {
-            $(this).addClass('Active').siblings().removeClass('Active');
-            $('.TabsHolder .Block').removeClass('visible').filter('.' + $(this).attr('data-block')).addClass('visible');
-            return false;
-        }
-    );
+//    $('.TabsMenu li').click(
+//        function () {
+//            $(this).addClass('Active').siblings().removeClass('Active');
+//            $('.TabsHolder .Block').removeClass('visible').filter('.' + $(this).attr('data-block')).addClass('visible');
+//            return false;
+//        }
+//    );
     $('#myTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
