@@ -6,6 +6,21 @@
  */
 
 $(function () {
+	$('.user-prizes-slider').bxSlider({
+		slideWidth: 150,
+		minSlides: 3,
+		maxSlides: 3,
+		controls:true,
+		pager:false,
+        hideControlOnEnd:true,
+        infiniteLoop:false,
+		mode:'horizontal',
+		auto:true,
+		pause:5000,
+        nextText:'<i class="fa fa-angle-right"></i>',
+        prevText:'<i class="fa fa-angle-left"></i>'
+	});
+	
     var widget_ud = new widgetObject({id: 'user_detail'});
     widget_ud.state = {
         taskCreate: false,
@@ -417,3 +432,4 @@ function dashboard(id, fData) {
         pC = pieChart(tF), // create the pie-chart.
         leg = legend(tF);  // create the legend.
 }
+

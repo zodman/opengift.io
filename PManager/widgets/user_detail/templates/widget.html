@@ -1,5 +1,5 @@
 {% load floattags jsonify %}
-
+<script type="text/javascript" src="/static/js/jquery.bxslider.min.js"></script>
 <script type="text/javascript" src="/static/js/libs/raphael-min.js"></script>
 <script type="text/javascript" src="/static/js/libs/charts.js"></script>
 <script type="text/javascript" src="/widgets/js/user_detail/script.js"></script>
@@ -28,43 +28,47 @@
 
     <div class="widget-body">
         <div class="user-personal row-fluid clearfix">
+            <div class="user-personal-left clearfix">
+                <div class="user-avatar pull-left">
+                    <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                </div>
 
-            <div class="user-avatar pull-left">
-                <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
-            </div>
 
-            <div class="user-contacts pull-left">
-                <ul>
-{#                    {% if user_detail.user.email %}#}
-{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
-{#                    {% else %}#}
-{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
-{#                    {% endif %}#}
-                    {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
-                    {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
-                </ul>
-            </div>
-            <div class="user-tasks-info pull-left">
+                <div class="user-contacts pull-left">
+                    <ul>
+    {#                    {% if user_detail.user.email %}#}
+    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
+    {#                    {% else %}#}
+    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
+    {#                    {% endif %}#}
+                        {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
+                        {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
+                    </ul>
+                </div>
+                <div class="user-tasks-info pull-left">
                   <ul>
                     <li><b>Открытых задач:</b> <a href="#">{{ user_detail.taskSumm }}</a></li>
                     <li><b>Закрыто за последний месяц:</b> <a href="#">{{ user_detail.taskLastMonth }}</a></li>
                   </ul>
-             </div>
+                </div>
+            </div>
 
-             <div class="user-prizes pull-right">
-                    <ul>
-                        {% if user_detail.achievements %}
-                            {% for c in user_detail.achievements %}
-                                <li><img src="{{ c.smallImageUrl }}" alt="" width="64px"><br>{{ c.name }}</li>
-                            {% endfor %}
-                        {% endif %}
-                  </ul>
+            <div class="user-personal-left">
+                <div class="user-prizes">
+                    <ul class="user-prizes-slider clearfix">
+                            {% if user_detail.achievements %}
+                                {% for c in user_detail.achievements %}
+                                    <li><img src="{{ c.smallImageUrl }}" alt="" width="64px"><br>{{ c.name }}</li>
+                                {% endfor %}
+                            {% endif %}
+                      </ul>
+                </div>
             </div>
 
         </div><!--user-personal-->
         <hr>
 
-        <div class="row-fluid clearfix" id="myTab">
+        <div class="row-fluid clearfix user-inner-tabs" id="myTab">
             <div class="pull-left">
                 <ul class="nav nav-pills">
                     <li class="active"><a href="#svodka">Сводка</a></li>
@@ -79,10 +83,13 @@
                     {% endif %}
                 </ul>
             </div>
-            <div class="pull-right"><a href="#add-project" class="btn btn-success">Добавить в проект</a></div>
-            {% if user_detail.current_user_is_admin %}
-            <div class="pull-right" style="margin-right: 10px;"><form method="POST" action=""><input name="action" type="hidden" value="delete_user" /><input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form></div>
-            {% endif %}
+            <div class="pull-right">
+                {% if user_detail.current_user_is_admin %}
+                <form method="POST" action="" class="inline-block"><input name="action" type="hidden" value="delete_user" />
+                    <input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form>&nbsp;&nbsp;
+                {% endif %}
+                <a href="#add-project" class="btn btn-success">Добавить в проект</a>
+            </div>
         </div><!--ТАБЫ-->
         <hr>
 
@@ -120,11 +127,12 @@
                                 {% endif %}
                            </div>
 
-
-                          <div class="statistic-graph"><h3>Затраченное время</h3>
-                          <div id='dashboard'></div>
+                          <div class="statistic-graph-wrapper">
+                              <div class="statistic-graph"><h3>Затраченное время</h3>
+                                    <div id='dashboard'></div>
+                              </div>
+                              <div class="statistic-detail js-user-legend"></div>
                           </div>
-                          <div class="statistic-detail js-user-legend"></div>
                     </div>
                 </div><!--ВКЛАДКА "СВОДКА" - svodka-->
                 <div class="tab-pane" id="ychastvyet">

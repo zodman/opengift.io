@@ -219,6 +219,11 @@ ROBOKASSA_EXTRA_PARAMS = ['user']
 COMISSION = 1
 USE_GIT_MODULE = False
 
+#DOCKER
+DOCKER_USER_NAME = 'dockhost'
+DOCKER_HOST = 'heliard-platform.ru'
+DOCKER_APP_KEY = 'q253kjhAS(*Fln2q34i6ts7dlSIHF3948657A>SKLSJFHl3895647aiojf.kerht89&ETIEt.jweht987'
+
 from platform import node
 
 LOCAL_NODE = 'Gvam'
