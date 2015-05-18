@@ -107,7 +107,7 @@ def projectDetail(request, project_id):
         'project': project,
         'roles': aRoles,
         'form': InterfaceForm(),
-        'interfaces': interfaces_html,
+        # 'interfaces': interfaces_html,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
