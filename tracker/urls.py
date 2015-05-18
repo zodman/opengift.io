@@ -13,7 +13,7 @@ from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
     taskdraft_resend_invites, taskdraft_accept_developer
-from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder
+from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder, project_server_setup, project_server_status
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
 from PManager.viewsExt.assets import protected_file
@@ -83,6 +83,8 @@ urlpatterns = patterns('',
                            {'widgetList': ["project_calendar"], 'activeMenuItem': 'calendar'}),
                        url(r'^profile/edit/', MainPage.indexRender,
                            {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile'}),
+                       url(r'^project/(?P<project_id>[0-9_]+)/server-setup', project_server_setup),
+                       url(r'^project/(?P<project_id>[0-9_]+)/server-status', project_server_status),
                        url(r'^project/(?P<project_id>[0-9_]+)', projectDetail),
                        url(r'^add_interface/', addInterface),
                        url(r'^remove_interface/', removeInterface),

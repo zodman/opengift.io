@@ -219,6 +219,11 @@ ROBOKASSA_EXTRA_PARAMS = ['user']
 COMISSION = 1
 USE_GIT_MODULE = False
 
+#DOCKER
+DOCKER_USER_NAME = 'dockhost'
+DOCKER_HOST = 'docker.dev'
+DOCKER_APP_KEY = 'default_key'
+
 from platform import node
 
 LOCAL_NODE = 'Gvam'
