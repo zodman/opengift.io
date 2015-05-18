@@ -10,6 +10,7 @@ class AccessInterface(models.Model):
         ('ssh', 'SSH'),
         ('ftp', 'FTP'),
         ('rdp', 'RDP'),
+        ('mysql', 'MySQL'),
     )
     name = models.CharField(max_length=200, verbose_name=u'Название')
     address = models.CharField(max_length=200, verbose_name=u'Адрес')
@@ -35,10 +36,23 @@ class AccessInterface(models.Model):
         interface.save()
         return interface
 
+    @classmethod
+    def create_mysql_interface(cls, password, project, host):
+        interface = cls(
+            name=u'База данных Тестового сервера',
+            address=host,
+            protocol='mysql',
+            is_git=False,
+            project=project,
+            username=project.repository,
+            password=password
+        )
+        interface.save()
+        return interface
 
     def git_path(self):
         return GITOLITE_ACCESS_URL + ':/' + self.address + '.git'
-        
+
 
     def check(self):
         if self.check_flag != None:

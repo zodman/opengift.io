@@ -159,3 +159,28 @@ def checkUniqRepNameResponder(request):
         else:
             return HttpResponse(reponame)
     return HttpResponse("OK")
+
+def project_server_setup(request, project_id):
+    if not project_id:
+        raise Http404
+    try:
+        from PManager.services.docker import server_request
+        project = PM_Project.objects.get(pk=project_id)
+        server_request(project)
+        return HttpResponse("OK")
+    except (PM_Project.DoesNotExist, RuntimeError, AttributeError):
+        raise Http404
+
+def project_server_status(request, project_id):
+    if not project_id:
+        raise Http404
+    try:
+        from PManager.services.docker import server_status_request
+        project = PM_Project.objects.get(pk=project_id)
+        status = server_status_request(project)
+        if status:
+            return HttpResponse("OK")
+        else:
+            return HttpResponse("ERROR")
+    except (PM_Project.DoesNotExist, RuntimeError, AttributeError):
+        raise Http404
