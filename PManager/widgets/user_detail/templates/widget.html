@@ -34,7 +34,7 @@
                 </div>
 
 
-                <div class="user-contacts pull-left">
+                <!--<div class="user-contacts pull-left">
                     <ul>
     {#                    {% if user_detail.user.email %}#}
     {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
@@ -44,13 +44,14 @@
                         {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
                         {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
                     </ul>
-                </div>
+                </div>-->
                 <div class="user-tasks-info pull-left">
                   <ul>
                     <li><b>Открытых задач:</b> <a href="#">{{ user_detail.taskSumm }}</a></li>
                     <li><b>Закрыто за последний месяц:</b> <a href="#">{{ user_detail.taskLastMonth }}</a></li>
                   </ul>
                 </div>
+
 
             </div>
 
