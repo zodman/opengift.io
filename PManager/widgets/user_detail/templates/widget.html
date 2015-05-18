@@ -33,53 +33,36 @@
                     <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
                 </div>
 
-                <!--<div class="user-contacts pull-left">
-                <ul>
-{#                    {% if user_detail.user.email %}#}
-{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
-{#                    {% else %}#}
-{#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
-{#                    {% endif %}#}
-                    {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
-                    {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
-                </ul>
-            </div>-->
+
                 <div class="user-contacts pull-left">
-                <ul>
-                    {% if user_detail.user.email %}
-                    <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>
-                    {% else %}
-                    <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>
-                    {% endif %}
-                    {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
-                    {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
-                </ul>
-            </div>
+                    <ul>
+    {#                    {% if user_detail.user.email %}#}
+    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
+    {#                    {% else %}#}
+    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
+    {#                    {% endif %}#}
+                        {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
+                        {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
+                    </ul>
+                </div>
                 <div class="user-tasks-info pull-left">
                   <ul>
                     <li><b>Открытых задач:</b> <a href="#">{{ user_detail.taskSumm }}</a></li>
                     <li><b>Закрыто за последний месяц:</b> <a href="#">{{ user_detail.taskLastMonth }}</a></li>
                   </ul>
-             </div>
+                </div>
+
             </div>
 
             <div class="user-personal-left">
-                <!-- <div class="user-prizes pull-right">
-                        <ul>
+                <div class="user-prizes">
+                    <ul class="user-prizes-slider clearfix">
                             {% if user_detail.achievements %}
                                 {% for c in user_detail.achievements %}
                                     <li><img src="{{ c.smallImageUrl }}" alt="" width="64px"><br>{{ c.name }}</li>
                                 {% endfor %}
                             {% endif %}
                       </ul>
-                </div>-->
-                <div class="user-prizes">
-                    <ul class="user-prizes-slider clearfix">
-                        <li><img width="64px" alt="" src="http://heliard.ru//static/upload/achievement/goodStart_2_1.png">Хорошее начало</li>
-                        <li><img width="64px" alt="" src="http://heliard.ru//static/upload/achievement/chihuahua_bone.png">Дар богов</li>
-                        <li><img width="64px" alt="" src="http://heliard.ru//static/upload/achievement/ava.png">Загрузить аватарку</li>
-                        <li><img width="64px" alt="" src="http://heliard.ru//static/upload/achievement/ava.png">Загрузить аватарку</li>
-                    </ul>
                 </div>
             </div>
 
