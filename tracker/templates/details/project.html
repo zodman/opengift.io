@@ -37,6 +37,59 @@
             window.ajaxInputs();
         });
     </script>
+           <script type="text/javascript">
+         $(document).ready(function(){
+            var requestForServer = function(is_new) {
+                if (is_new !== true) {
+                    is_new = false;
+                }
+                $('.js-working').show();
+                var servUp = $.ajax({
+                    type: "GET",
+                    url: "/project/{{ project.id }}/server-setup",
+                    data: { "new" : is_new }
+                });
+                servUp.done(function(msg){
+                    if(confirm('Сервер запустится в течении 10 минут')){
+                        window.location.reload();
+                    } else {
+                        window.location.reload();
+                    }
+
+                });
+                servUp.fail(function(jqXHR, textStatus){
+                    alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
+                    $('.js-working').hide();
+                });
+            }
+            $('.js-server-status').click(function(){
+                $('.js-working').show();
+                var servStatus = $.ajax({
+                    type: "GET",
+                    url: "/project/{{ project.id }}/server-status"
+                });
+                servStatus.done(function(msg){
+                    $('.js-working').hide();
+                    console.log(msg);
+                    if (msg === 'OK') {
+                        alert('Сервер работает');
+                    }
+                    else {
+                        alert('Сервер не работает');
+                    }
+
+                    //window.location.reload
+                });
+                servStatus.fail(function(jqXHR, textStatus){
+                    alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
+                    $('.js-working').hide();
+                });
+            });
+            $('.js-server-create').click(function(){
+                requestForServer(true);
+            });
+         });
+        </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
     <div class="widget">
     <h1>{{ project.name }} {% if canEdit %}
@@ -224,60 +277,7 @@
             </form>
             </div>
         </div>
-        <script type="text/javascript">
-         $(document).ready(function(){
-            var requestForServer = function(is_new) {
-                if (is_new !== true) {
-                    is_new = false;
-                }
-                $('.js-working').show();
-                var servUp = $.ajax({
-                    type: "GET",
-                    url: "/project/{{ project.id }}/server-setup",
-                    data: { "new" : is_new }
-                });
-                servUp.done(function(msg){
-                    if(confirm('Сервер запустится в течении 10 минут')){
-                        window.location.reload();
-                    } else {
-                        window.location.reload();
-                    }
-
-                });
-                servUp.fail(function(jqXHR, textStatus){
-                    alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
-                    $('.js-working').hide();
-                });
-            }
-            $('.js-server-status').click(function(){
-                $('.js-working').show();
-                var servStatus = $.ajax({
-                    type: "GET",
-                    url: "/project/{{ project.id }}/server-status"
-                });
-                servStatus.done(function(msg){
-                    $('.js-working').hide();
-                    console.log(msg);
-                    if (msg === 'OK') {
-                        alert('Сервер работает');
-                    }
-                    else {
-                        alert('Сервер не работает');
-                    }
-
-                    //window.location.reload
-                });
-                servStatus.fail(function(jqXHR, textStatus){
-                    alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
-                    $('.js-working').hide();
-                });
-            });
-            $('.js-server-create').click(function(){
-                requestForServer(true);
-            });
-         });
-        </script>
-        <script type="text/javascript">
+         <script type="text/javascript">
             function sendPayment(el) {
                 var $form = $(el).closest('form'),
                         data = {'action': 'send_payment'};
