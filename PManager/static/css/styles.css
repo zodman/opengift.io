@@ -18,6 +18,7 @@ h6, .h6 {font-size:13px; line-height:16px; margin:0 0 5px;}
 
 h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
+.inline-block {display: inline-block;}
 .clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
 
 hr {padding:0px; margin:10px 0; border:0px; border-bottom:1px solid #fff; border-top:1px solid #ddd; height:0px; }
@@ -835,6 +836,32 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 					.task-info .task-info-time {padding:0px;}
 					}
 
+.user-inner-tabs {margin-bottom: -5px;}
+.user-inner-tabs .pull-left {width: calc(100% - 350px);}
+.user-inner-tabs .pull-right {width: 350px; text-align: right;}
+@media only screen and (max-width: 900px) {
+    .user-inner-tabs .pull-left,
+    .user-inner-tabs .pull-right {width: 100%; text-align: left;}
+}
+.user-inner-tabs .nav {}
+.user-inner-tabs .nav > li {margin-left: 0px; margin-right: 5px; margin-bottom: 5px;}
+.user-inner-tabs .btn {margin-bottom: 5px;}
+.user-inner-tabs .nav > li > a {
+    background: none repeat scroll 0 0 #eee;
+    border: 1px solid #eee;
+    color: #333;
+    display: block;
+    font-size: 14px;
+    line-height: 1.42857;
+    padding: 6px 15px;
+    position: relative;
+}
+
+.user-inner-tabs .nav > li.active > a {
+    border: 1px solid #428bca;
+    background: #428bca;
+    color: #ffffff;
+}
 
 .Task_Detail .task-wrapper {margin-bottom:15px;}
 .Task_Detail h2 {margin:10px 0 20px;}
@@ -1457,6 +1484,11 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 /*  ###############################################################
                              ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
     ###############################################################*/
+.user-personal-left {width: 50%; float: left;}
+@media (max-width:838px) {
+    .user-personal-left {width: 100%; float: none;}
+    .user-personal-left:first-child {margin-bottom: 15px;}
+}
 
 .user-avatar,
 .user-contacts,
@@ -1469,13 +1501,27 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 
 .user-tasks-info li {line-height:20px; margin-bottom:5px; list-style:none;}
 
+.bx-wrapper {position: relative; padding: 0; *zoom: 1;}
+.bx-wrapper img {max-width: 100%; display: block; margin: 0 auto;}
+.bx-wrapper .bx-viewport {-webkit-transform: translatez(0); -moz-transform: translatez(0);	-ms-transform: translatez(0); -o-transform: translatez(0); transform: translatez(0);}
+.bx-wrapper .bx-pager,
+.bx-wrapper .bx-controls-auto {position: absolute; bottom: -30px; width: 100%;}
+.bx-wrapper .bx-loading {min-height: 50px; background: url(../images/bx_loader.gif) center center no-repeat #fff; height: 100%; width: 100%; position: absolute; top: 0; left: 0; z-index: 2000;}
+.bx-wrapper .bx-prev {left: -20px;}
+.bx-wrapper .bx-next {right: -20px;}
+.bx-wrapper .bx-controls-direction a {position: absolute; top: 50%; font-size: 50px; margin-top: -35px; outline: 0; width: 20px; height: 50px; color: #666; z-index: 9999;}
+.bx-wrapper .bx-controls-direction a.disabled {color: #ddd;}
+
+
+.user-prizes {margin-right: 20px; margin-left: 20px;}
 .user-prizes ul {display:block; overflow:hidden; height:100%;}
-.user-prizes ul li {display:block; float:left; text-align:center; margin:0 10px; font-weight:bold; text-transform:uppercase; font-size:11px;}
+.user-prizes ul li {display:block; float:left; text-align:center; font-weight:bold; text-transform:uppercase; font-size:11px;}
 
 .statistic-list, .statistic-graph, .statistic-detail {float: left;}
 
 .statistic-list {background-color: #eee; padding: 15px; border-radius:10px; -moz-border-radius:10px; width:250px; -webkit-border-radius:10px;}
-.statistic-graph {width: calc(100% - 540px);}
+.statistic-graph-wrapper {width: calc(100% - 250px); float: left;}
+.statistic-graph {width: calc(100% - 290px);}
 .statistic-graph #myChart {width: 100%;}
 .statistic-detail {width: 290px; margin-top: 25px; background: #f9f9f9;}
 .statistic-detail table {width: 100%;}
@@ -1483,6 +1529,22 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .statistic-detail table td:first-child {padding-left: 10px;}
 .statistic-detail table td:last-child {padding-right: 10px;}
 .statistic-detail table td svg {vertical-align: top; margin-top: 3px;}
+
+@media only screen and (max-width: 1024px) {
+    .statistic-graph, .statistic-detail {width: 100%; float: none;}
+}
+
+
+@media only screen and (max-width: 768px) {
+    .statistic-list,
+    .statistic-graph-wrapper {width: 100%; float: none;}
+
+    .statistic-list {margin-bottom: 25px;}
+}
+
+.user-prizes-slider {width: 450px;}
+.user-prizes-slider li {width: 150px; float: left;}
+.user-prizes-slider img {display: block; margin: 0 auto;}
 
 .statistic-graph {padding:0 25px;}
 

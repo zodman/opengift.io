@@ -91,23 +91,23 @@ def projectDetail(request, project_id):
         project.save()
         return HttpResponseRedirect('/project/'+str(project.id)+'/')
 
-    interfaces = AccessInterface.objects.filter(project=project)
-    interfaces_html = ''
-    t = loader.get_template('details/interface.html')
-    for interface in interfaces:
-        c = RequestContext(request, {
-            'interface': interface,
-            'canDelete': canDeleteInterface,
-            'show_git': USE_GIT_MODULE
-        })
-
-        interfaces_html += t.render(c)
+    # interfaces = AccessInterface.objects.filter(project=project)
+    # interfaces_html = ''
+    # t = loader.get_template('details/interface.html')
+    # for interface in interfaces:
+    #     c = RequestContext(request, {
+    #         'interface': interface,
+    #         'canDelete': canDeleteInterface,
+    #         'show_git': USE_GIT_MODULE
+    #     })
+    #
+    #     interfaces_html += t.render(c)
 
     c = RequestContext(request, {
         'project': project,
         'roles': aRoles,
         'form': InterfaceForm(),
-        'interfaces': interfaces_html,
+        # 'interfaces': interfaces_html,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
