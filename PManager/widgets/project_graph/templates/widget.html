@@ -3,30 +3,33 @@
 
 <div class="well hide-on-mobile">
     <div>
-        <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}"
-              method="POST" name="robo">
-            <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
-
-            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-
+        <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}" method="POST" name="robo">
+            <div class="inline-block border-right">
+                <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
+            </div>
+            <div class="inline-block border-right">
             Ставка бонусов: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
             <span class="bonus">{% if project_graph.rating < 0 %}-{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
-            &nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;
-            <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
-            <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;&nbsp;| &nbsp;&nbsp;
+            </div>
+
+            <div class="inline-block border-right">
+                <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
+                <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>
+            </div>
+
             {% if not is_staff %}
             <a href="/project/edit/" class="js-start-pay button btn-success"
                onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); ">
                 <i class="fa fa-diamond"></i>&nbsp;&nbsp;получить Premium
             </a>
-            &nbsp;&nbsp;<a href="/payment_info/">(информация об оплате)</a>
+            <a href="/payment_info/">(информация об оплате)</a>
             {% else %}
             <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }} &nbsp;<a href="/payment/" class="btn">продлить</a>
             {% endif %}
             {% if project_graph.taskdrafts_cnt %}
-                &nbsp;&nbsp;| &nbsp;&nbsp;
                 <a href="/taskdrafts/" class="btn"><i class="fa fa-list"></i>&nbsp;&nbsp;Списки задач &nbsp;({{ project_graph.taskdrafts_cnt }})</a>
             {% endif %}
+
         </form>
     </div>
 </div>
