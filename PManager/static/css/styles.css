@@ -1587,6 +1587,15 @@ div.rate a:hover, div.rate a.active {color:#FFA500;}
 .tags .tags-ul li > span i.fa.fa-times {margin-left: 5px; color: #d43f3a; position: relative; top: -1px; cursor: pointer;}
 .tags .tags-ul li a.btn.btn-success.btn-xs {padding: 2px 6px;}
 
+.border-right {
+    border-right: 1px solid #dddddd;
+    box-shadow: 1px 0 0 #fff;
+    -moz-box-shadow: 1px 0 0 #fff;
+    -webkit-box-shadow: 1px 0 0 #fff;
+    margin-right: 15px;
+    padding-right: 16px;
+}
+
 .skills-block {
     background: none repeat scroll 0 0 #f9f9f9;
     border-radius: 4px;
