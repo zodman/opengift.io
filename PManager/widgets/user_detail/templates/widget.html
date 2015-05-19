@@ -24,6 +24,22 @@
 {#                &nbsp;&nbsp;<i class="icon-tag icon-white"></i>&nbsp;<a href="#">Дать задание</a>#}
 {#                &nbsp;&nbsp;<i class="icon-wrench icon-white"></i>&nbsp;<a href="#">Редактировать профиль</a>#}
         </div>
+        <!-- ТЭГИ пользователя <div class="tags clearfix">
+            <ul class="tags-ul">
+                <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                <li>
+                    <a href="#" class="btn btn-success btn-xs">Добавить навык</a>
+                    <div class="skills-block"><input type="text" name="additional_tags" class="form-control"></div>
+                </li>
+            </ul>
+        </div>-->
     </div><!--widget-title-->
 
     <div class="widget-body">
@@ -58,7 +74,7 @@
                     <ul class="user-prizes-slider clearfix">
                             {% if user_detail.achievements %}
                                 {% for c in user_detail.achievements %}
-                                    <li><img src="{{ c.smallImageUrl }}" alt="" width="64px"><br>{{ c.name }}</li>
+                                    <li><img src="{{ c.smallImageUrl }}" alt="" width="64px">{{ c.name }}</li>
                                 {% endfor %}
                             {% endif %}
                       </ul>
