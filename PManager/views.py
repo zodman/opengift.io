@@ -113,7 +113,7 @@ class MainPage:
         aMessages = []
         pageTitle = ''
         if request.user.is_authenticated():
-            messages = PM_Task_Message.objects.filter(userTo=request.user, read=False).order_by('-dateCreate')[:5]
+            messages = PM_Task_Message.objects.filter(userTo=request.user, read=False).order_by('-dateCreate')
             messages_qty = messages.count()
 
             for mes in messages:
@@ -151,6 +151,7 @@ class MainPage:
 
                     c.update({widgetName: widget})
                     results.append(loader.get_template("%s/templates/widget.html" % widgetName).render(c))
+
             if request.is_ajax():
                 if request.GET.get('modal', None) is not None:
                     t = loader.get_template('main/xhr_response_modal.html')
@@ -158,10 +159,12 @@ class MainPage:
                     t = loader.get_template('main/xhr_response.html')
             else:
                 t = loader.get_template('index.html')
+
             c.update({'widget_results': u" ".join(results)})
 
             uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
             userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+
             if userAchievement:
                 if userAchievement.achievement.delete_on_first_view:
                     userAchievement.delete()

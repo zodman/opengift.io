@@ -86,16 +86,16 @@
 
         <div class="row-fluid clearfix user-inner-tabs" id="myTab">
             <div class="pull-left">
-                <ul class="nav nav-pills">
-                    <li class="active"><a href="#svodka">Сводка</a></li>
-                    <li><a href="#ychastvyet">Участвует в проектах</a></li>
-                    <li><a href="#tekyshie_zadachi">Текущие задачи</a></li>
+                <ul class="nav nav-pills js-tab-menu">
+                    <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Сводка</a></li>
+                    <li><a href="#ychastvyet" role="tab" data-toggle="tab">Участвует в проектах</a></li>
+                    <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab">Текущие задачи</a></li>
 {#                    <li><a href="#observer">Наблюдатель</a></li>#}
 {#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
-                    <li><a href="#dostizheniya">Достижения</a></li>
-                    <li><a href="#activity">Активность</a></li>
+                    <li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>
+                    <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
                     {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
-                        <li><a href="#keys">Ключи</a></li>
+                        <li><a href="#keys" role="tab" data-toggle="tab">Ключи</a></li>
                     {% endif %}
                 </ul>
             </div>

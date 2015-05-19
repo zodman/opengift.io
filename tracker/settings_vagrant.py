@@ -30,6 +30,7 @@ USE_GIT_MODULE = True
 GITOLITE_ADMIN_REPOSITORY = '/home/vagrant/gitolite-admin'
 GITOLITE_ACCESS_URL = 'vagrant@heliard.dev'
 GITOLITE_REPOS_PATH = '/home/vagrant/repositories'
+GITOLITE_DEFAULT_USER = 'git_rsa'
 
 # TODO: change to dummycache when caching is tested
 #'BACKEND': 'django.core.cache.backends.dummy.DummyCache',

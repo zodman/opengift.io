@@ -63,7 +63,8 @@
         {% endif %}
         window.baseUserParams = {
             'userId':{{ user.id }}
-        }
+        };
+
         WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
         $(function() {
             APNG.ifNeeded(function() {
@@ -86,11 +87,12 @@
                 'project': {
                     'name': {{ userTimer.task.project.name|jsonify|safe }}
                 }
-            }
+            };
+
             {% if userTimer.task.parentTask %}
                 CURRENT_TASK_DATA['parentTask'] = {
                     'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
-                }
+                };
             {% endif %}
         {% endif %}
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
@@ -177,7 +179,6 @@ $(function(){
     </div>
 {% endif %}
 <header>
-
     {% if projects|length > 4 %}
     <div class="overflow" style="display: none;"></div>
     <div class="popup projects-popup js-projects" style="display: none;">
@@ -224,7 +225,6 @@ $(function(){
         	</div>
             {% endfor %}
         </div>
-
     </div>
     {% endif %}    
     <div class="header clearfix">
@@ -350,7 +350,7 @@ $(function(){
         {% if user.is_authenticated %}
         <div class="sub-menu_line_section-user col-xs-7">
 
-             {% if main.CURRENT_PROJECT.id %}
+             {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
               <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
               {% if main.CAN_INVITE %}

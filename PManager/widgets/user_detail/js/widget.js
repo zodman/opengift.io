@@ -6,21 +6,21 @@
  */
 
 $(function () {
-	$('.user-prizes-slider').bxSlider({
-		slideWidth: 150,
-		minSlides: 3,
-		maxSlides: 3,
-		controls:true,
-		pager:false,
-        hideControlOnEnd:true,
-        infiniteLoop:false,
-		mode:'horizontal',
-		auto:true,
-		pause:5000,
-        nextText:'<i class="fa fa-angle-right"></i>',
-        prevText:'<i class="fa fa-angle-left"></i>'
-	});
-	
+//	$('.user-prizes-slider').bxSlider({
+//		slideWidth: 150,
+//		minSlides: 3,
+//		maxSlides: 3,
+//		controls:true,
+//		pager:false,
+//        hideControlOnEnd:true,
+//        infiniteLoop:false,
+//		mode:'horizontal',
+//		auto:true,
+//		pause:5000,
+//        nextText:'<i class="fa fa-angle-right"></i>',
+//        prevText:'<i class="fa fa-angle-left"></i>'
+//	});
+//
     var widget_ud = new widgetObject({id: 'user_detail'});
     widget_ud.state = {
         taskCreate: false,
@@ -141,16 +141,17 @@ $(function () {
 
     document.mainController.widgetsData["user_detail"] = widget_ud;
 
-    $('.TabsMenu li').click(
-        function () {
-            $(this).addClass('Active').siblings().removeClass('Active');
-            $('.TabsHolder .Block').removeClass('visible').filter('.' + $(this).attr('data-block')).addClass('visible');
-            return false;
-        }
-    );
+//    $('.TabsMenu li').click(
+//        function () {
+//            $(this).addClass('Active').siblings().removeClass('Active');
+//            $('.TabsHolder .Block').removeClass('visible').filter('.' + $(this).attr('data-block')).addClass('visible');
+//            return false;
+//        }
+//    );
     $('#myTab a').click(function (e) {
         e.preventDefault();
         $(this).tab('show');
+        return false;
     });
 });
 
