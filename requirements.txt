@@ -8,7 +8,7 @@ TornadIO2==0.0.4
 argparse==1.2.1
 async==0.6.1
 certifi==14.05.14
-chardet==2.0.1
+chardet
 django-classy-tags==0.5.1
 django-less==0.7.2
 django-mptt==0.5.3
