@@ -30,7 +30,8 @@ $(function () {
             'Date': false,
             'Author': false
         }
-    }
+    };
+
     widget_ud.templateUrl = "/static/item_templates/tasklist/task.html";
     widget_ud.container = $('#user_detail');
     widget_ud.user_id = global_user_id;
