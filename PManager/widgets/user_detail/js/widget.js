@@ -11,6 +11,7 @@ $(function () {
 		minSlides: 3,
 		maxSlides: 3,
 		controls:true,
+        autoControls:false,
 		pager:false,
         hideControlOnEnd:true,
         infiniteLoop:false,
