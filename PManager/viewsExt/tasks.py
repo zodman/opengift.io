@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
-    PM_Project, PM_Files
+    PM_Project, PM_Files, PM_Reminder
 import datetime, json, codecs
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
@@ -480,10 +480,22 @@ def taskListAjax(request):
                             break
                     task.save()
                 elif property == "deadline":
-                    sendData['deadline'] = value
-                    value = templateTools.dateTime.convertToDateTime(value)
-                    task.deadline = value
+                    deadline_date = value
+                    reminder_date = request.POST.get('valrem', False)
+                    sendData['deadline'] = deadline_date
+                    sendData['reminder'] = reminder_date
+                    deadline_date = templateTools.dateTime.convertToDateTime(deadline_date)
+                    task.deadline = deadline_date
                     task.save()
+                    if reminder_date:
+                        reminder_date = templateTools.dateTime.convertToDateTime(reminder_date)
+                        try:
+                            task_reminder = PM_Reminder.objects.get(task=task_id)
+                            task_reminder.date = reminder_date
+                            task_reminder.save()
+                        except PM_Reminder.DoesNotExist:
+                            task_reminder = PM_Reminder(task=task, date=reminder_date)
+                            task_reminder.save()
                 elif property == "critically":
                     value = float(value)
                     bCriticallyIsGreater = task.critically < value

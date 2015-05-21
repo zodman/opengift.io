@@ -1718,6 +1718,18 @@ class PM_User_PlanTime(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
+class PM_Reminder(models.Model):
+    task = models.ForeignKey(PM_Task)
+    date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name='Напоминание')
+
+    def __unicode__(self):
+        return unicode(self.date.strftime("%Y-%m-%d %H:%M:%S"))
+
+    class Meta:
+        app_label = 'PManager'
+
+
 #SIGNALS
 
 def setActivityOfMessageAuthor(sender, instance, created, **kwargs):

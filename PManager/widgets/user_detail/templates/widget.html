@@ -71,13 +71,13 @@
 
             <div class="user-personal-left">
                 <div class="user-prizes">
+                    {% if user_detail.achievements %}
                     <ul class="user-prizes-slider clearfix">
-                            {% if user_detail.achievements %}
                                 {% for c in user_detail.achievements %}
                                     <li><img src="{{ c.smallImageUrl }}" alt="" width="64px">{{ c.name }}</li>
                                 {% endfor %}
-                            {% endif %}
                       </ul>
+                    {% endif %}
                 </div>
             </div>
 

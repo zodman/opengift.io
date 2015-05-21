@@ -6,7 +6,8 @@ from PManager.models import Credit, Payment, Specialty, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
     PM_Timer, PM_Role, PM_Task, PM_ProjectRoles, \
     PM_Properties, PM_Project, PM_Tracker, PM_User, \
-    PM_User_Achievement, PM_Achievement, AccessInterface
+    PM_User_Achievement, PM_Achievement, AccessInterface, \
+    PM_Reminder
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -38,6 +39,9 @@ class Timers(admin.ModelAdmin):
 class PaymentsInline(admin.ModelAdmin):
     list_display = ['user', 'payer', 'project', 'value', 'date']
 
+class Reminder(admin.ModelAdmin):
+    list_display = ['task', 'date']
+
 admin.site.register(PM_Role)
 admin.site.register(PM_Task)
 admin.site.register(PM_ProjectRoles, UserRoles)
@@ -56,6 +60,7 @@ admin.site.register(PM_Notice)
 admin.site.register(PM_NoticedUsers)
 admin.site.register(PM_Milestone)
 admin.site.register(PM_File_Category)
+admin.site.register(PM_Reminder, Reminder)
 admin.site.register(Agent)
 admin.site.register(LogData, LogDatas)
 admin.site.register(Specialty)
