@@ -14,6 +14,6 @@ class Command(NoArgsCommand):
         now = datetime.datetime.now()
         start = datetime.datetime.combine(now, datetime.time.min)
         end = datetime.datetime.combine(now, datetime.time.max)
-        reminders = PM_Reminder.objects.filter(datetime__range=(start, end))
+        reminders = PM_Reminder.objects.filter(date__range=(start, end))
         for reminder in reminders:
             remind(reminder)
