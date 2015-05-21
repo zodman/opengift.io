@@ -139,7 +139,7 @@
                                         </ul>
                                     </span>
                                 </div>
-                                <p>Не погашено: {{ user_detail.profile.sp.rest }}</p>
+                                <p>Не погашено: {{ user_detail.profile.sp.rest|default_if_none:'0' }}</p>
                                 {% endif %}
                            </div>
 
