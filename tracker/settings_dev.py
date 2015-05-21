@@ -22,3 +22,4 @@ USE_GIT_MODULE = False
 GITOLITE_ACCESS_URL = 'heliard@localhost'
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 GITOLITE_REPOS_PATH = '/home/heliard/repositories'
+GITOLITE_DEFAULT_USER = 'id_rsa'

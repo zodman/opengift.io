@@ -1510,10 +1510,10 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .bx-wrapper .bx-prev {left: -20px;}
 .bx-wrapper .bx-next {right: -20px;}
 .bx-wrapper .bx-controls-direction a {position: absolute; top: 50%; font-size: 50px; margin-top: -35px; outline: 0; width: 20px; height: 50px; color: #666; z-index: 9999;}
-.bx-wrapper .bx-controls-direction a.disabled {color: #ddd;}
+.bx-wrapper .bx-controls-direction a.disabled .fa {color: #fff;}
 
 
-.user-prizes {margin-right: 20px; margin-left: 20px;}
+.user-prizes {margin-right: 20px; margin-left: 20px; float: right;}
 .user-prizes ul {display:block; overflow:hidden; height:100%;}
 .user-prizes ul li {display:block; float:left; text-align:center; font-weight:bold; text-transform:uppercase; font-size:11px;}
 
@@ -1532,6 +1532,7 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 
 @media only screen and (max-width: 1024px) {
     .statistic-graph, .statistic-detail {width: 100%; float: none;}
+    .user-prizes {float: none;}
 }
 
 
@@ -1577,7 +1578,6 @@ div.rate a:hover, div.rate a.active {color:#FFA500;}
 .add-tags li > span {background:#EDF4F8;  border-radius:4px 4px 4px 4px; -moz-border-radius:4px 4px 4px 4px; -webkit-border-radius:4px 4px 4px 4px; padding:2px 5px; display:inline-block;}
 .add-tags li .icon-remove {opacity:0.4; filter: alpha(opacity=40); cursor:pointer;}
 .add-tags li input {border:0px !important; padding:0px !important; float:left !important; margin:2px 0 0 5px !important; height:20px !important;  line-height:20px !important; box-shadow:none !important;}
-
 
 .tags {margin-top: 5px;}
 .tags-title {font-weight: bold; width: 70px; float: left; line-height: 32px; margin-top: 5px;}
@@ -1631,6 +1631,20 @@ div.params-item h5 span {color:#429C03;}
 .choose-time span a {display:inline-block; margin-left:15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
 
 .hideFilter i {opacity:0.7; filter: alpha(opacity=70); }
+
+.test-server {
+    padding: 10px 20px;
+    background: #edf8ed;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-top: 5px;
+}
+.project-buttons .test-server a.btn {margin-bottom: 0px;}
+.server-name {float: left; margin-right: 15px; padding-top: 10px; font-size: 16px; padding-top: 7px;}
+.server-status {float: left;}
+
+.test-server .progress {margin-left: 0px; margin-top: 10px;}
 
 /* редактирование профиля */
 .profile-edit input[type="text"], .profile-edit input[type="file"], .profile-edit textarea { display: block; width: 100%; padding: 6px 12px; font-size: 14px; color: #555555; border: 1px solid #cccccc; border-radius: 4px; }
@@ -2877,7 +2891,7 @@ line-height: 36px;}
 .robokassa {  background-position: -484px bottom; width: 100px;  }
 .yescredit {   background-position: -930px bottom; width: 106px;  }
 
-.nachislenie-bonusov {padding: 25px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.nachislenie-bonusov {padding: 25px 20px; background: #f2f2f2; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
 .nachislenie-bonusov hr {margin: 25px 0;}
 .user-role-block-wrapper {margin-right: -20px;}
 .user-role-block {
@@ -3159,3 +3173,13 @@ line-height: 36px;}
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
+.green-popup .modal-header button.close {color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+
+.deadline-wrapper {margin-right: -20px;}
+.deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
+.deadline-input {position: relative; margin-bottom: 5px;}
+    .deadline-input .fa-calendar {
+        position: absolute;
+        right: 10px;
+        top: 9px;
+    }

@@ -96,7 +96,7 @@
         <a class="fa fa-edit" href="/project/edit/?id={{ project.id }}" style="height: 11px;"></a>{% endif %}</h1>
     <hr/>
 
-    <div class="media">
+    <div class="media clearfix">
 
         {% if project.imagePath %}
             <img class="pull-left" width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}"/>
@@ -111,13 +111,12 @@
                 </p>
             {% endfor %}
         </div>
+        <hr/>
+        <p>
+            {{ project.description }}
+        </p>
     </div>
 
-    <hr/>
-
-    <p>
-        {{ project.description }}
-    </p>
 
     <hr/>
 
@@ -130,26 +129,31 @@
                 </span>
         </div>
         <div class="pull-right">
-            <a class="btn btn-success" href="#" onclick="$('.add-interface').toggle();return false;">Добавить
-                интерфейс</a>
+            <a class="btn btn-success" href="#" onclick="$('.add-interface').toggle();return false;">Добавить интерфейс</a>
             {% if project.repository and not project.api_key %}
-                <a href="#" class="btn btn-warning js-server-create">
-                    Выгрузить на тестовый сервер
-                </a>
+            <a href="#" class="btn btn-warning js-server-create">
+                Выгрузить на тестовый сервер
+            </a>
             {% endif %}
-            {% if project.api_key %}
-                <span class="server-name">{{ project.repository }}.heliard-platform.ru</span><a href="#" class="btn js-server-status" style="width: 226px;">
-                    Проверить статус сервера
-                </a>
-            {% endif %}
-            <div class="working js-working" style="display:none; width:226px;">
-                <div class="progress progress-striped active">
-                  <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 226px;height:30px;line-height:30px;">
-                    <span class="sr-only">Запускаем сервер...</span>
-                  </div>
-                </div>
-            </div>
         </div>
+        <div class="clearfix"></div>
+        {% if project.api_key %}
+        <div class="clearfix test-server">
+
+            <div class="server-name">Тестовый сервер: <b>{{ project.repository }}.heliard-platform.ru</b></div>
+            <div class="server-status">
+                <a href="#" class="btn btn-success js-server-status">Проверить статус сервера</a>
+            </div>
+            <div class="clearfix"></div>
+                <div class="server-progress working js-working" style="display: none;">
+                    <div class="progress progress-striped active">
+                        <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                            <span class="sr-only">Запускаем сервер...</span>
+                        </div>
+                    </div>
+                </div>
+        </div>
+        {% endif %}
 
     </div>
     <div class="add-interface" style="display: none">
