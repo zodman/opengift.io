@@ -53,7 +53,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 				});
 				arItems.push({
 					'itemClass': 'Deadline',
-					'itemText': 'Крайний срок',
+					'itemText': 'Сроки',
 					'itemMethod': 'setDeadline',
 					'icon': 'calendar'
 				});

@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h3 class="modal-title">Установить крайний срок</h3>
+        <h3 class="modal-title">Установить сроки</h3>
       </div>
       <div class="modal-body clearfix deadline-wrapper">
         <h5>№#TASK_NUMBER# — #TASK_NAME#</h5>
@@ -28,7 +28,7 @@
               <a href="#" class="js-changeReminderDate" data-time="day">За день</a>&nbsp;&nbsp;&nbsp;
               <a href="#" class="js-changeReminderDate" data-time="week">За неделю</a>
           </div>
-        <script>
+        <script type="text/javascript">
           $("input[name=deadline_date], input[name=reminder_date]").datepicker({
             'weekStart': 1,
             'format': 'dd.mm.yyyy',
@@ -65,15 +65,15 @@
             var dRemindDate;
             switch ($(this).attr('data-time')) {
               case 'hour':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60)
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60);
                 dDate = formatDate(dRemindDate);
                 break;
               case 'day':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 24)
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 24);
                 dDate = formatDate(dRemindDate);
                 break;
               case 'week':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168)
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168);
                 dDate = formatDate(dRemindDate);
                 break;
                 break;
