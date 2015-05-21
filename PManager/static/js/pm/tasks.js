@@ -1037,15 +1037,15 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'setDeadline': function () {
 			var obj = this;
-			console.log(obj.model.id);
 			$.get('/static/templates/deadline.html', function (data) {
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
 				html = html.replace('#TASK_NAME#', obj.model.get('name'));
 				$(html).on('shown.bs.modal', function () {
 					$(this).find('.js-date').click(function () {
-						var deadline_date = $("input[name=deadline_date]").val();
-						taskManager.SetTaskProperty(obj.model.id, 'deadline', deadline_date, function () {
+						var deadline_date = $(".js-deadlinedate").val(),
+							reminder_date = $(".js-reminderdate").val();
+						taskManager.SetDeadlineReminder(obj.model.id, 'deadline', deadline_date, reminder_date, function () {
 							obj.checkModel(function () {
 								obj.model.set('deadline', deadline_date);
 								obj.render();
@@ -1168,6 +1168,16 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'id': task_id,
 					'prop': prop_code,
 					'val': val
+				}, call);
+			}
+		},
+		'SetDeadlineReminder': function (task_id, prop_code, val1, val2, call) {
+			if (task_id && prop_code && val1 && val2) {
+				this.taskAjaxRequest({
+					'id': task_id,
+					'prop': prop_code,
+					'val': val1,
+					'valrem': val2
 				}, call);
 			}
 		},

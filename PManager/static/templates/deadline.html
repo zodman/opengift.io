@@ -11,33 +11,34 @@
 	    <div class="deadline-block">
             <h6>Крайний срок</h6>
 	        <div class="deadline-input">
-                <input type="text" class="js-date form-control" maxlength="10" name="deadline_date" placeholder="Дата" />
+                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="Дата" />
 		        <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
             </div>
-            <a href="#" class="js-changeDate" data-time="today">Сегодня</a>&nbsp;&nbsp;&nbsp;
-            <a href="#" class="js-changeDate" data-time="tomorrow">Завтра</a>&nbsp;&nbsp;&nbsp;
-            <a href="#" class="js-changeDate" data-time="week">Неделя</a>
+            <a href="#" class="js-changeDeadlineDate" data-time="today">Сегодня</a>&nbsp;&nbsp;&nbsp;
+            <a href="#" class="js-changeDeadlineDate" data-time="tomorrow">Завтра</a>&nbsp;&nbsp;&nbsp;
+            <a href="#" class="js-changeDeadlineDate" data-time="week">Неделя</a>
 	    </div>
           <div class="deadline-block">
               <h6>Напомнить</h6>
               <div class="deadline-input">
-                  <input type="text" class="js-date form-control" maxlength="10" name="deadline_date" placeholder="Дата" />
+                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="Дата" />
                   <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
               </div>
-              <a href="#" class="js-changeDate" data-time="today">За час</a>&nbsp;&nbsp;&nbsp;
-              <a href="#" class="js-changeDate" data-time="tomorrow">За день</a>&nbsp;&nbsp;&nbsp;
-              <a href="#" class="js-changeDate" data-time="week">За неделю</a>
+              <a href="#" class="js-changeReminderDate" data-time="hour">За час</a>&nbsp;&nbsp;&nbsp;
+              <a href="#" class="js-changeReminderDate" data-time="day">За день</a>&nbsp;&nbsp;&nbsp;
+              <a href="#" class="js-changeReminderDate" data-time="week">За неделю</a>
           </div>
         <script>
-          $("input[name=deadline_date]").datepicker({
+          $("input[name=deadline_date], input[name=reminder_date]").datepicker({
             'weekStart': 1,
             'format': 'dd.mm.yyyy',
             'autoclose': true
           });
 
-          $('.js-changeDate').click(function () {
+          var dFinalDate;
+
+          $('.js-changeDeadlineDate').click(function () {
             var dDate;
-            var dFinalDate;
             var dThisDate = new Date();
             switch ($(this).attr('data-time')) {
               case 'today':
@@ -56,6 +57,28 @@
                 break;
             }
             $("input[name=deadline_date]").val(dDate).datepicker("setDate", dFinalDate);
+            return false;
+          });
+
+          $('.js-changeReminderDate').click(function () {
+            var dDate;
+            var dRemindDate;
+            switch ($(this).attr('data-time')) {
+              case 'hour':
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60)
+                dDate = formatDate(dRemindDate);
+                break;
+              case 'day':
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 24)
+                dDate = formatDate(dRemindDate);
+                break;
+              case 'week':
+                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168)
+                dDate = formatDate(dRemindDate);
+                break;
+                break;
+            }
+            $("input[name=reminder_date]").val(dDate).datepicker("setDate", dRemindDate);
             return false;
           });
         </script>
