@@ -3173,3 +3173,13 @@ line-height: 36px;}
     -moz-border-radius: 0 0 5px 5px;
     -webkit-border-radius: 0 0 5px 5px;
 }
+.green-popup .modal-header button.close {color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+
+.deadline-wrapper {margin-right: -20px;}
+.deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
+.deadline-input {position: relative; margin-bottom: 5px;}
+    .deadline-input .fa-calendar {
+        position: absolute;
+        right: 10px;
+        top: 9px;
+    }
