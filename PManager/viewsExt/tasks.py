@@ -479,6 +479,11 @@ def taskListAjax(request):
                             task.planTime = planTime.time
                             break
                     task.save()
+                elif property == "deadline":
+                    sendData['deadline'] = value
+                    value = templateTools.dateTime.convertToDateTime(value)
+                    task.deadline = value
+                    task.save()
                 elif property == "critically":
                     value = float(value)
                     bCriticallyIsGreater = task.critically < value

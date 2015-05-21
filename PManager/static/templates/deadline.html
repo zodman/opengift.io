@@ -1,0 +1,56 @@
+<div class="modal fade js-set-deadline" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h3 class="modal-title">Установить крайний срок</h3>
+		<h5 class="modal-title" >#TASK_NUMBER# - #TASK_NAME#</h5>
+      </div>
+      <div class="modal-body">
+	    <label style="position: relative; z-index:99999999">
+        <input type="hidden">
+	    <input style="position: relative; z-index:100000000" type="text" class="js-date form-control" maxlength="10" name="deadline_date" placeholder="Дата" />
+		  <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
+          <span><a href="#" class="js-changeDate" data-time="today">Сегодня</a></span>
+          <span><a href="#" class="js-changeDate" data-time="tomorrow">Завтра</a></span>
+          <span><a href="#" class="js-changeDate" data-time="week">Неделя</a></span>
+	    </label>
+        <script>
+          $("input[name=deadline_date]").datepicker({
+            'weekStart': 1,
+            'format': 'dd.mm.yyyy',
+            'autoclose': true
+          });
+
+          $('.js-changeDate').click(function () {
+            var dDate;
+            var dFinalDate;
+            var dThisDate = new Date();
+            switch ($(this).attr('data-time')) {
+              case 'today':
+                dDate = formatDate(dThisDate);
+                dFinalDate = dThisDate;
+                break;
+              case 'tomorrow':
+                var dDateTomorrow = new Date(dThisDate.getTime() + 1000 * 60 * 60 * 24);
+                dDate = formatDate(dDateTomorrow);
+                dFinalDate = dDateTomorrow;
+                break;
+              case 'week':
+                var dDateWeek = new Date(dThisDate.getTime() + 1000 * 60 * 60 * 168);
+                dDate = formatDate(dDateWeek);
+                dFinalDate = dDateWeek;
+                break;
+            }
+            $("input[name=deadline_date]").val(dDate).datepicker("setDate", dFinalDate);
+            return false;
+          });
+        </script>
+      </div>
+      <div class="modal-footer">
+		<input type="submit" name="deadline" class="btn btn-success js-date" data-dismiss="modal" value="Сохранить" />
+		<button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+	  </div>
+    </div>
+  </div>
+</div>
