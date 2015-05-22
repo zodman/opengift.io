@@ -3177,3 +3177,12 @@ line-height: 36px;}
         right: 10px;
         top: 9px;
     }
+
+
+.add-aim-body {margin-right: -20px;}
+.add-aim-body-item {float: left; width: calc(33.33% - 20px); margin-right: 20px; position: relative; }
+.add-aim-body-item .fa-calendar {
+    position: absolute;
+    right: 10px;
+    top: 9px;
+}
