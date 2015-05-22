@@ -15,7 +15,7 @@ def remind(reminder):
            {
                'task': reminder.task
            },
-           'Вы просили напомнить вам про задачу "' + reminder.task.name + '"'
+           u'Вы просили напомнить вам про задачу "' + reminder.task.name + '"'
         )
 
         try:
