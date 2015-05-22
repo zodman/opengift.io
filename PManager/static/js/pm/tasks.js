@@ -1045,7 +1045,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					$(this).find('.js-date').click(function () {
 						var deadline_date = $(".js-deadlinedate").val(),
 							reminder_date = $(".js-reminderdate").val();
-						taskManager.SetDeadlineReminder(obj.model.id, 'deadline', deadline_date, reminder_date, function () {
+						taskManager.SetDeadlineReminder(obj.model.id, deadline_date, reminder_date, function () {
 							obj.checkModel(function () {
 								obj.model.set('deadline', deadline_date);
 								obj.render();
@@ -1173,13 +1173,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 				}, call);
 			}
 		},
-		'SetDeadlineReminder': function (task_id, prop_code, val1, val2, call) {
-			if (task_id && prop_code && (val1 || val2)) {
+		'SetDeadlineReminder': function (task_id, deadline_date, reminder_date, call) {
+			if (task_id && (deadline_date || reminder_date)) {
 				this.taskAjaxRequest({
 					'id': task_id,
-					'prop': prop_code,
-					'val': val1,
-					'valrem': val2
+					'prop': 'deadline',
+					'val': deadline_date,
+					'valrem': reminder_date
 				}, call);
 			}
 		},
