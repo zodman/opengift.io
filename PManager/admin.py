@@ -40,7 +40,7 @@ class PaymentsInline(admin.ModelAdmin):
     list_display = ['user', 'payer', 'project', 'value', 'date']
 
 class Reminder(admin.ModelAdmin):
-    list_display = ['task', 'date']
+    list_display = ['user', 'task', 'date']
 
 admin.site.register(PM_Role)
 admin.site.register(PM_Task)

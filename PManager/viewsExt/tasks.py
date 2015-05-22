@@ -484,9 +484,10 @@ def taskListAjax(request):
                     reminder_date = request.POST.get('valrem', False)
                     sendData['deadline'] = deadline_date
                     sendData['reminder'] = reminder_date
-                    deadline_date = templateTools.dateTime.convertToDateTime(deadline_date)
-                    task.deadline = deadline_date
-                    task.save()
+                    if deadline_date:
+                        deadline_date = templateTools.dateTime.convertToDateTime(deadline_date)
+                        task.deadline = deadline_date
+                        task.save()
                     if reminder_date:
                         reminder_date = templateTools.dateTime.convertToDateTime(reminder_date)
                         try:
@@ -494,7 +495,7 @@ def taskListAjax(request):
                             task_reminder.date = reminder_date
                             task_reminder.save()
                         except PM_Reminder.DoesNotExist:
-                            task_reminder = PM_Reminder(task=task, date=reminder_date)
+                            task_reminder = PM_Reminder(task=task, date=reminder_date, user=request.user)
                             task_reminder.save()
                 elif property == "critically":
                     value = float(value)

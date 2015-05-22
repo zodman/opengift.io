@@ -1722,6 +1722,7 @@ class PM_User_PlanTime(models.Model):
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)
     date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name='Напоминание')
+    user = models.ForeignKey(User)
 
     def __unicode__(self):
         return unicode(self.date.strftime("%Y-%m-%d %H:%M:%S"))

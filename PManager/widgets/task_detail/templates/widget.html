@@ -298,7 +298,9 @@
         'canRemove': {{ task_detail.task.canRemove|jsonify }},
         'canSetCritically': {{ task_detail.task.canSetCritically|jsonify }},
         'planTime': {{ task_detail.task.taskPlanTime|jsonify|safe }},
-        'resp': {{ task_detail.task.taskResp|jsonify|safe }}
+        'resp': {{ task_detail.task.taskResp|jsonify|safe }},
+        'name': {{ task_detail.task.name|jsonify|safe }},
+        'number': {{ task_detail.task.number|jsonify|safe }}
     }
     window.taskHtml = {{ task_detail.taskTemplate|jsonify|safe }};
     var arJSParams = {
