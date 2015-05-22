@@ -3159,9 +3159,6 @@ line-height: 36px;}
 
 .green-popup .modal-header {
     background: none repeat scroll 0 0 #47a447;
-    border-radius: 5px 5px 0 0;
-    -moz-border-radius: 5px 5px 0 0;
-    -webkit-border-radius: 5px 5px 0 0;
     color: #fff;
     text-align: center;
 }
@@ -3169,11 +3166,8 @@ line-height: 36px;}
 .green-popup .modal-footer {
     background: #eee;
     text-align: center;
-    border-radius: 0 0 5px 5px;
-    -moz-border-radius: 0 0 5px 5px;
-    -webkit-border-radius: 0 0 5px 5px;
 }
-.green-popup .modal-header button.close {color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+.green-popup .modal-header button.close {font-size: 28px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
