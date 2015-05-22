@@ -7,10 +7,11 @@
 var widget_tl, currentGroup;
 (function($){
     $(function(){
-        $("input.js-date").datepicker({
-           'weekStart':1,
-           'format': 'dd.mm.yyyy',
-           'autoclose':true
+        $("input.js-date").datetimepicker({
+            'dayOfWeekStart': 1,
+            'format': 'd/m/Y',
+            'lang':'ru',
+            'closeOnDateSelect': true
         });
         $('.js-select-milestone').change(function(){
             var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');

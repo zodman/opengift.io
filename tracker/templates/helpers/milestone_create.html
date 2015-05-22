@@ -24,11 +24,6 @@
     </div>
   </div>
 </div>
-<script type="text/javascript" src="/static/js/libs/jquery-ui.custom.min.js"></script>
-<script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
-<script type="text/javascript" src="/static/js/libs/timepicker/base.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
 <script>
   $(document).ready(function(){
     $('#new-milestone').on('show.bs.modal', function(e) {
@@ -37,10 +32,11 @@
           $(e.currentTarget).find('input[name="milestone-project"]').val(projectId);
         }
     });
-    $("input[name=milestone-date]").datepicker({
-      'weekStart': 1,
-      'format': 'dd.mm.yyyy',
-      'autoclose': true
+    $("input[name=milestone-date]").datetimepicker({
+        'dayOfWeekStart': 1,
+        'format': 'd/m/Y',
+        'lang':'ru',
+        'closeOnDateSelect': true
     });
 
     $('.fa-calendar').click(function(){

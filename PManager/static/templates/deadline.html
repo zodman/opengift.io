@@ -28,11 +28,14 @@
               <a href="#" class="js-changeReminderDate" data-time="day">За день</a>&nbsp;&nbsp;&nbsp;
               <a href="#" class="js-changeReminderDate" data-time="week">За неделю</a>
           </div>
+        <script type="text/javascript" src="/static/js/libs/timepicker/jquery.datetimepicker.js"></script>
+        <link type="text/css" rel="stylesheet" href="/static/js/libs/timepicker/jquery.datetimepicker.css" />
         <script type="text/javascript">
-          $("input[name=deadline_date], input[name=reminder_date]").datepicker({
-            'weekStart': 1,
-            'format': 'dd.mm.yyyy',
-            'autoclose': true
+          $("input[name=deadline_date], input[name=reminder_date]").datetimepicker({
+            'lang':'ru',
+            'format':'d/m/Y H:i',
+            'dayOfWeekStart': 1,
+            'closeOnDateSelect':true
           });
 
           var dFinalDate;
@@ -56,29 +59,31 @@
                 dFinalDate = dDateWeek;
                 break;
             }
-            $("input[name=deadline_date]").val(dDate).datepicker("setDate", dFinalDate);
+            $("input[name=deadline_date]").val(dDate).datetimepicker("setDate", dFinalDate);
             return false;
           });
 
           $('.js-changeReminderDate').click(function () {
             var dDate;
             var dRemindDate;
-            switch ($(this).attr('data-time')) {
-              case 'hour':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60);
-                dDate = formatDate(dRemindDate);
-                break;
-              case 'day':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 24);
-                dDate = formatDate(dRemindDate);
-                break;
-              case 'week':
-                dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168);
-                dDate = formatDate(dRemindDate);
-                break;
-                break;
+            if (dFinalDate) {
+              switch ($(this).attr('data-time')) {
+                case 'hour':
+                  dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60);
+                  dDate = formatDate(dRemindDate);
+                  break;
+                case 'day':
+                  dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 24);
+                  dDate = formatDate(dRemindDate);
+                  break;
+                case 'week':
+                  dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168);
+                  dDate = formatDate(dRemindDate);
+                  break;
+                  break;
+              }
             }
-            $("input[name=reminder_date]").val(dDate).datepicker("setDate", dRemindDate);
+            $("input[name=reminder_date]").val(dDate).datetimepicker("setDate", dRemindDate);
             return false;
           });
         </script>
