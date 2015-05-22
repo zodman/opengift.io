@@ -1,8 +1,9 @@
 $(function(){
-    $("input.datepicker").datepicker({
-        'weekStart':1,
-        'format': 'dd.mm.yyyy',
-        'autoclose':true
+    $("input.datepicker").datetimepicker({
+        'dayOfWeekStart':1,
+        'format': 'd/m/Y',
+	    'lang':'ru',
+        'closeOnDateSelect':true
     });
 });
 

@@ -102,10 +102,11 @@ $(function () {
         eventObject.preventDefault();
     });
 
-    $("input[name=deadline]").datepicker({
-        'weekStart': 1,
-        'format': 'dd.mm.yyyy',
-        'autoclose': true
+    $("input[name=deadline]").datetimepicker({
+        'dayOfWeekStart': 1,
+        'format': 'd/m/Y',
+        'lang':'ru',
+        'closeOnDateSelect': true
     });
 
     $('.js-changeDate').click(function () {
@@ -128,7 +129,7 @@ $(function () {
                 dFinelDate = dDateWeek;
                 break;
         }
-        $("input[name=deadline]").val(dDate).datepicker("setDate", dFinelDate);
+        $("input[name=deadline]").val(dDate).datetimepicker("setDate", dFinelDate);
         return false;
     });
 

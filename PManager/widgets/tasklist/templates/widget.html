@@ -286,7 +286,7 @@
         </div>
       </div>
     </div>
-    <div class="modal fade" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal fade green-popup" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -294,28 +294,28 @@
             <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post">
-              <div class="modal-body">
-                  <div class="form-group">
-                    <select class="form-control js-select-milestone" name="milestone">
+              <div class="modal-body add-aim-body clearfix">
+                  <div class="add-aim-body-item">
+                      <select class="form-control js-select-milestone" name="milestone">
                         <option value="">Новая цель</option>
                         {% for milestone in tasklist.milestones %}
                         <option value="{{ milestone.id }}">{{ milestone.name }}</option>
                         {% endfor %}
-                    </select>
-                  <br />
-                  <label>
-                  <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
-                  </label>
-                  <label style="position: relative; z-index:99999999">
-                  <input style="position: relative; z-index:100000000" type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
-                      <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;" onclick="$(this).prev().focus();"></a>
-                  </label>
+                      </select>
+                  </div>
+                  <div class="add-aim-body-item">
+                    <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
+                  </div>
+                  <div class="add-aim-body-item">
+                      <input type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
+                          <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
+                      </label>
                   </div>
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-milestone"></div>
                 <input type="submit" name="add-to-milestone" class="btn btn-success js-create-milestone" value="Добавить" />
-                <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
               </div>
           </form>
         </div>
