@@ -11,7 +11,11 @@ def widget(request, headerValues, ar, qargs):
     profile = request.user.get_profile()
 
     total = profile.account_total or 0
-    bet = profile.getBet(current_project)
+    if current_project:
+        bet = profile.getBet(current_project)
+    else:
+        bet = profile.sp_price
+
     projectData = {
         'allProjectPrice': total,
         'closedTasksQty': int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True})),
