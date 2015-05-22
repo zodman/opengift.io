@@ -14,10 +14,16 @@ var widget_tl, currentGroup;
             'closeOnDateSelect': true
         });
         $('.js-select-milestone').change(function(){
-            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');
+            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date], .js-calendar-icon');
+            var $parent = $(this).parent();
+            var w100 = '96%';
             if ($(this).val()) {
+                if (!$parent.data('w')) {
+                    $parent.data('w', $parent.css('width')).css('width', w100);
+                }
                 $newMilestoneFields.hide();
             } else {
+                $parent.css('width', $parent.data('w')).data('w', false);
                 $newMilestoneFields.show();
             }
         });
