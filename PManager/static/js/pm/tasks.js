@@ -1053,6 +1053,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 						});
 					});
 					//$('.js-date').focus();
+				}).on('hidden.bs.modal', function () {
+					$(this).modal('hide').remove();
 				}).modal('show');
 			});
 
@@ -1172,7 +1174,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			}
 		},
 		'SetDeadlineReminder': function (task_id, prop_code, val1, val2, call) {
-			if (task_id && prop_code && val1 && val2) {
+			if (task_id && prop_code && (val1 || val2)) {
 				this.taskAjaxRequest({
 					'id': task_id,
 					'prop': prop_code,
