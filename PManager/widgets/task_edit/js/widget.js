@@ -104,7 +104,7 @@ $(function () {
 
     $("input[name=deadline]").datetimepicker({
         'dayOfWeekStart': 1,
-        'format': 'd/m/Y',
+        'format': 'd.m.Y',
         'lang':'ru',
         'closeOnDateSelect': true
     });

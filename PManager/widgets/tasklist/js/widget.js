@@ -9,7 +9,7 @@ var widget_tl, currentGroup;
     $(function(){
         $("input.js-date").datetimepicker({
             'dayOfWeekStart': 1,
-            'format': 'd/m/Y',
+            'format': 'd.m.Y',
             'lang':'ru',
             'closeOnDateSelect': true
         });
