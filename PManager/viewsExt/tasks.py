@@ -445,6 +445,15 @@ def taskListAjax(request):
     elif 'task_message' in request.POST:
         response_text = __task_message(request)
 
+    elif 'task_endtime' in request.POST:
+        task_id = request.POST.get('id', False)
+        task = PM_Task.objects.get(id=task_id)
+        task_timer = WorkTime(taskHours=task.planTime,
+                             startDateTime=timezone.make_aware(datetime.datetime.now(),
+                                                               timezone.get_default_timezone()))
+        # result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
+        response_text = json.dumps({'endDate': task_timer.endDateTime})
+
     elif request.POST.get('prop', False):
         property = request.POST.get('prop', False)
         task_id = request.POST.get('id', False)

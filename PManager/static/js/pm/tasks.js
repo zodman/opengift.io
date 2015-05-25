@@ -1041,7 +1041,15 @@ var CRITICALLY_THRESHOLD = 0.7;
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
 				html = html.replace('#TASK_NAME#', obj.model.get('name'));
+				taskManager.CheckEndTime(obj.model.id, function (data) {
+					//console.log(data);
+					//data = $.parseJSON(data);
+					//console.log(data);
+					html = html.replace('#MIN_DATE#', data.endDate)
+				});
 				$(html).on('shown.bs.modal', function () {
+					var plan = obj.model.get('planTime');
+					console.log('holder');
 					$(this).find('.js-date').click(function () {
 						var deadline_date = $(".js-deadlinedate").val(),
 							reminder_date = $(".js-reminderdate").val();
@@ -1057,8 +1065,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 					$(this).modal('hide').remove();
 				}).modal('show');
 			});
-
-
 		},
 		'showMenu': function (e) {
 			var arMenu = this.model.getMenuItems(),
@@ -1182,6 +1188,14 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'valrem': reminder_date
 				}, call);
 			}
+		},
+		'CheckEndTime': function (task_id, call) {
+			if (!task_id) return false;
+			this.taskAjaxRequest({
+				'id': task_id,
+				'task_endtime': 'task_endtime'
+			}, call);
+			return this;
 		},
 		'AddToPlanning': function (id, call) {
 			if (id) {

@@ -177,11 +177,11 @@
 
 			</td>
         	<td width="300" style="padding-left:25px;" valign="top">
-            <div class="widget">                   
+            <div class="widget js-widget">
                    <h4>Планирование</h4>           
                    <hr>
 
-                   <p><label>Плановое время, ч.: </label><input class="form-control" name="planTime" value="{{ task_edit.post.planTime|default_if_none:'0' }}" type="text" placeholder="Плановое время"></p>
+                   <p><label>Плановое время, ч.: </label><input class="form-control js-planTime" name="planTime" value="{{ task_edit.post.planTime|default_if_none:'0' }}" type="text" placeholder="Плановое время"></p>
                    <p><label>Повторять каждые, ч.: </label><input class="form-control" name="repeatEvery" value="{{ task_edit.post.repeatEvery|default_if_none:'0' }}" type="text" placeholder="Повторять каждые"></p>
 {#                   <p><input class="form-control" type="text" value="" placeholder="Кол-во рабочих часов" ></p>#}
 {#                   <p><input class="form-control" type="text" placeholder="Дата окончанияв" ></p>#}
