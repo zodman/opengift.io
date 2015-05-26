@@ -434,7 +434,7 @@ def taskListAjax(request):
     elif ajax_task_manager.tryToSetActionFromRequest():
         ajax_task_manager.process()
         response_text = ajax_task_manager.getResponse()
-    elif request.POST.get('resp', False):  # смена ответственного
+    elif 'resp' in request.POST:  # смена ответственного
         response_text = __change_resp(request)
 
     elif request.POST.get('task_search', False) or \
@@ -445,14 +445,12 @@ def taskListAjax(request):
     elif 'task_message' in request.POST:
         response_text = __task_message(request)
 
-    elif 'task_endtime' in request.POST:
-        task_id = request.POST.get('id', False)
-        task = PM_Task.objects.get(id=task_id)
-        task_timer = WorkTime(taskHours=task.planTime,
+    elif 'get_endtime' in request.POST:
+        task_timer = WorkTime(taskHours=request.POST.get('plan_time', False),
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
-        # result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
-        response_text = json.dumps({'endDate': task_timer.endDateTime})
+        result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
+        response_text = json.dumps({'endDate': 4})# task_timer.endDateTime})
 
     elif request.POST.get('prop', False):
         property = request.POST.get('prop', False)
@@ -818,6 +816,17 @@ class taskAjaxManagerCreator(object):
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
         return HttpResponse(json.dumps({'result': 'OK'}))
+
+    @task_ajax_action
+    def process_getEndTime(self):
+        plan = self.request.POST.get('plan_time', False)
+        task_timer = WorkTime(taskHours=int(plan),
+                             startDateTime=timezone.make_aware(datetime.datetime.now(),
+                                                               timezone.get_default_timezone()))
+        # result = str(task_timer.endDateTime)
+        result = templateTools.dateTime.convertToSite(task_timer.endDateTime)
+        # response_text = json.dumps({'endDate': 4})# task_timer.endDateTime})
+        return HttpResponse(json.dumps({'endDate': result}))
 
     @task_ajax_action
     def process_baneUser(self):

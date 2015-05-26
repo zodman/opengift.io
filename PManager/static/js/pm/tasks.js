@@ -781,7 +781,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'comment': comment,
 					'public': 1,
 					'solution': (this.$('input[name=solution]').is(':checked') ? 1 : 0)
-				}, function (data) {
+				}, function (data) {nd
 					obj.model.set({
 						'started': false,
 						'startedTimerExist': false
@@ -1037,19 +1037,20 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'setDeadline': function () {
 			var obj = this;
+			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
+				data = $.parseJSON(data);
+				if (data.endDate) {
+					var date = data.endDate.split(' ')[0],
+						time = data.endDate.split(' ')[1];
+					$('.js-deadlinedate').attr('min-date', date).attr('min-time', time);
+					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
+				}
+			});
 			$.get('/static/templates/deadline.html', function (data) {
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
 				html = html.replace('#TASK_NAME#', obj.model.get('name'));
-				taskManager.CheckEndTime(obj.model.id, function (data) {
-					//console.log(data);
-					//data = $.parseJSON(data);
-					//console.log(data);
-					html = html.replace('#MIN_DATE#', data.endDate)
-				});
 				$(html).on('shown.bs.modal', function () {
-					var plan = obj.model.get('planTime');
-					console.log('holder');
 					$(this).find('.js-date').click(function () {
 						var deadline_date = $(".js-deadlinedate").val(),
 							reminder_date = $(".js-reminderdate").val();
@@ -1189,11 +1190,11 @@ var CRITICALLY_THRESHOLD = 0.7;
 				}, call);
 			}
 		},
-		'CheckEndTime': function (task_id, call) {
-			if (!task_id) return false;
+		'CheckEndTime': function (plan_time, call) {
+			if (!plan_time) return false;
 			this.taskAjaxRequest({
-				'id': task_id,
-				'task_endtime': 'task_endtime'
+				'action': 'getEndTime',
+				'plan_time': plan_time
 			}, call);
 			return this;
 		},
