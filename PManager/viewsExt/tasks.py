@@ -823,9 +823,7 @@ class taskAjaxManagerCreator(object):
         task_timer = WorkTime(taskHours=int(plan),
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
-        # result = str(task_timer.endDateTime)
         result = templateTools.dateTime.convertToSite(task_timer.endDateTime)
-        # response_text = json.dumps({'endDate': 4})# task_timer.endDateTime})
         return HttpResponse(json.dumps({'endDate': result}))
 
     @task_ajax_action
