@@ -1041,9 +1041,20 @@ var CRITICALLY_THRESHOLD = 0.7;
 				data = $.parseJSON(data);
 				if (data.endDate) {
 					var date = data.endDate.split(' ')[0],
-						time = data.endDate.split(' ')[1];
-					$('.js-deadlinedate').attr('min-date', date).attr('min-time', time);
+						time = data.endDate.split(' ')[1],
+						check = new Date(data.endDateForCheck.replace(' ', 'T')),
+						today = new Date();
+					today.setHours(23,59,59,999);
+					var tomorrow = new Date(today.getTime() + 1000 * 60 * 60 * 24);
+
 					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
+
+					if (check > today) {
+						$(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
+						if (check > tomorrow) {
+							$(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Завтра</s></span>");
+						}
+					}
 				}
 			});
 			$.get('/static/templates/deadline.html', function (data) {
