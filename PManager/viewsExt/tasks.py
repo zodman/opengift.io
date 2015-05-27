@@ -823,8 +823,11 @@ class taskAjaxManagerCreator(object):
         task_timer = WorkTime(taskHours=int(plan),
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
-        result = templateTools.dateTime.convertToSite(task_timer.endDateTime)
-        return HttpResponse(json.dumps({'endDate': result}))
+
+        pretty = templateTools.dateTime.convertToSite(task_timer.endDateTime)
+        date = templateTools.dateTime.convertToDb(task_timer.endDateTime)
+
+        return HttpResponse(json.dumps({'endDate': pretty, 'endDateForCheck': date}))
 
     @task_ajax_action
     def process_baneUser(self):
