@@ -781,7 +781,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'comment': comment,
 					'public': 1,
 					'solution': (this.$('input[name=solution]').is(':checked') ? 1 : 0)
-				}, function (data) {nd
+				}, function (data) {
 					obj.model.set({
 						'started': false,
 						'startedTimerExist': false
@@ -958,7 +958,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			});
 		},
 		'removeTask': function () {
-			if (confirm('Вы действительно хтотите удалить эту задачу?')) {
+			if (confirm('Вы действительно хотите удалить эту задачу?')) {
 				taskManager.deleteTask(this.model.id, function () {
 
 				});
