@@ -789,6 +789,7 @@ class PM_Task(models.Model):
     def canPMUserSetPlanTime(self, pm_user):
         return pm_user.isManager(self.project) or \
             not self.realDateStart and (
+                int(self.author.id) == int(pm_user.user.id) or
                 self.onPlanning or (
                     #is responsible and planTime is empty
                     hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
