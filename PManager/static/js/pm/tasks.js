@@ -958,7 +958,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			});
 		},
 		'removeTask': function () {
-			if (confirm('Вы действительно хтотите удалить эту задачу?')) {
+			if (confirm('Вы действительно хотите удалить эту задачу?')) {
 				taskManager.deleteTask(this.model.id, function () {
 
 				});
@@ -1037,19 +1037,31 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'setDeadline': function () {
 			var obj = this;
+			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
+				data = $.parseJSON(data);
+				if (data.endDate) {
+					var date = data.endDate.split(' ')[0],
+						time = data.endDate.split(' ')[1],
+						check = new Date(data.endDateForCheck.replace(' ', 'T')),
+						today = new Date();
+					today.setHours(23,59,59,999);
+					var tomorrow = new Date(today.getTime() + 1000 * 60 * 60 * 24);
+
+					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
+
+					if (check > today) {
+						$(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
+						if (check > tomorrow) {
+							$(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Завтра</s></span>");
+						}
+					}
+				}
+			});
 			$.get('/static/templates/deadline.html', function (data) {
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
 				html = html.replace('#TASK_NAME#', obj.model.get('name'));
-				taskManager.CheckEndTime(obj.model.id, function (data) {
-					//console.log(data);
-					//data = $.parseJSON(data);
-					//console.log(data);
-					html = html.replace('#MIN_DATE#', data.endDate)
-				});
 				$(html).on('shown.bs.modal', function () {
-					var plan = obj.model.get('planTime');
-					console.log('holder');
 					$(this).find('.js-date').click(function () {
 						var deadline_date = $(".js-deadlinedate").val(),
 							reminder_date = $(".js-reminderdate").val();
@@ -1189,11 +1201,11 @@ var CRITICALLY_THRESHOLD = 0.7;
 				}, call);
 			}
 		},
-		'CheckEndTime': function (task_id, call) {
-			if (!task_id) return false;
+		'CheckEndTime': function (plan_time, call) {
+			if (!plan_time) return false;
 			this.taskAjaxRequest({
-				'id': task_id,
-				'task_endtime': 'task_endtime'
+				'action': 'getEndTime',
+				'plan_time': plan_time
 			}, call);
 			return this;
 		},

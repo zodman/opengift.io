@@ -54,6 +54,11 @@ def microTaskAjax(request, task_id):
     }), content_type="application/json")
 
 
+# def modifiedBy(task, user):
+#     task.lastModifiedBy = user
+#     return task
+
+
 def __change_resp(request):
     task_id = int(request.POST.get('id', 0))  # переданный id задачи
     profile = request.user.get_profile()
@@ -97,7 +102,8 @@ def __change_resp(request):
     else:
         task.setStatus('revision')
     #end outsource
-
+    # task = modifiedBy(task, request.user)
+    task.lastModifiedBy = request.user
     task.save()
 
     resp = task.resp
@@ -434,7 +440,7 @@ def taskListAjax(request):
     elif ajax_task_manager.tryToSetActionFromRequest():
         ajax_task_manager.process()
         response_text = ajax_task_manager.getResponse()
-    elif request.POST.get('resp', False):  # смена ответственного
+    elif 'resp' in request.POST:  # смена ответственного
         response_text = __change_resp(request)
 
     elif request.POST.get('task_search', False) or \
@@ -445,14 +451,12 @@ def taskListAjax(request):
     elif 'task_message' in request.POST:
         response_text = __task_message(request)
 
-    elif 'task_endtime' in request.POST:
-        task_id = request.POST.get('id', False)
-        task = PM_Task.objects.get(id=task_id)
-        task_timer = WorkTime(taskHours=task.planTime,
+    elif 'get_endtime' in request.POST:
+        task_timer = WorkTime(taskHours=request.POST.get('plan_time', False),
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
-        # result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
-        response_text = json.dumps({'endDate': task_timer.endDateTime})
+        result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
+        response_text = json.dumps({'endDate': 4})# task_timer.endDateTime})
 
     elif request.POST.get('prop', False):
         property = request.POST.get('prop', False)
@@ -464,7 +468,8 @@ def taskListAjax(request):
             sendData = {}
             if task:
                 if property == "planTime" and value:
-
+                    # task = modifiedBy(task, request.user)
+                    task.lastModifiedBy = request.user
                     task.setPlanTime(value, request)
                     from PManager.services.rating import get_user_rating_for_task
                     # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
@@ -511,6 +516,8 @@ def taskListAjax(request):
                     bCriticallyIsGreater = task.critically < value
                     sendData['critically'] = value
                     task.critically = value
+                    # task = modifiedBy(task, request.user)
+                    task.lastModifiedBy = request.user
                     task.save()
                     task.systemMessage(
                         u'Критичность ' + (u'повышена' if bCriticallyIsGreater else u'понижена'),
@@ -820,6 +827,18 @@ class taskAjaxManagerCreator(object):
         return HttpResponse(json.dumps({'result': 'OK'}))
 
     @task_ajax_action
+    def process_getEndTime(self):
+        plan = self.request.POST.get('plan_time', False)
+        task_timer = WorkTime(taskHours=int(plan),
+                             startDateTime=timezone.make_aware(datetime.datetime.now(),
+                                                               timezone.get_default_timezone()))
+
+        pretty = templateTools.dateTime.convertToSite(task_timer.endDateTime)
+        date = templateTools.dateTime.convertToDb(task_timer.endDateTime)
+
+        return HttpResponse(json.dumps({'endDate': pretty, 'endDateForCheck': date}))
+
+    @task_ajax_action
     def process_baneUser(self):
         from PManager.models import Credit
         t = self.taskManager.task
@@ -1013,7 +1032,8 @@ class taskAjaxManagerCreator(object):
         if taskInputText:
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
-
+                # task = modifiedBy(task, self.currentUser)
+                task.lastModifiedBy = self.currentUser
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:

@@ -11,7 +11,7 @@
 	    <div class="deadline-block">
             <h6>Крайний срок</h6>
 	        <div class="deadline-input">
-                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="Дата" min-date="#MIN_DATE#"/>
+                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="ДД.ММ.ГГГГ чч:мм"/>
 		        <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
             </div>
             <a href="#" class="js-changeDeadlineDate" data-time="today">Сегодня</a>&nbsp;&nbsp;&nbsp;
@@ -21,7 +21,7 @@
           <div class="deadline-block">
               <h6>Напомнить</h6>
               <div class="deadline-input">
-                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="Дата" />
+                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="ДД.ММ.ГГГГ чч:мм" />
                   <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
               </div>
               <a href="#" class="js-changeReminderDate" data-time="hour">За час</a>&nbsp;&nbsp;&nbsp;
@@ -37,11 +37,12 @@
             'dayOfWeekStart': 1,
             'closeOnDateSelect':true,
 	        'onShow':function() {
-		        console.log($(this).attr('min-date'));
-		        var min_date = $(this).attr('min-date');
+		        var min_select = '.js-deadlinedate';
 		        this.setOptions({
-			        minDate:min_date,
-			        formatDate:'d.m.Y H:i'
+			        minDate:($(min_select).data('min-date')),
+			        formatDate:'d.m.Y',
+			        minTime:($(min_select).data('min-time')),
+			        formatTime:'H:i'
 		        })
 	        }
           });
