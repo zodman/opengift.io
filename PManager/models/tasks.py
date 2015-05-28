@@ -1806,7 +1806,7 @@ def check_task_save(sender, instance, **kwargs):
         #             (task.lastModifiedBy.managedProjects in projects)
         # ):
         #     pass
-        template = task.resp.last_name + task.resp.first_name + u' теперь не укладывается в '
+        template = task.resp.last_name + u' ' + task.resp.first_name + u' теперь не укладывается в '
         if len(result) == 2:
             template += u'цель ' + result[1]['name']
         else:
