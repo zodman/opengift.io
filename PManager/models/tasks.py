@@ -351,6 +351,7 @@ class PM_Task(models.Model):
     resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')
     responsible = models.ManyToManyField(User, related_name='hisTasks', null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdTasks', null=True, blank=True)
+    lastModifiedBy = models.ForeignKey(User, related_name='modifiedBy', null=True, blank=True)
     status = models.ForeignKey(PM_Task_Status, related_name='tasksByStatus', null=True, blank=True,
                                verbose_name='Статус')
     observers = models.ManyToManyField(User, related_name='tasksLooking', null=True, blank=True)
@@ -788,6 +789,7 @@ class PM_Task(models.Model):
     def canPMUserSetPlanTime(self, pm_user):
         return pm_user.isManager(self.project) or \
             not self.realDateStart and (
+                int(self.author.id) == int(pm_user.user.id) or
                 self.onPlanning or (
                     #is responsible and planTime is empty
                     hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
@@ -1791,9 +1793,43 @@ def rewrite_git_access(sender, instance, **kwargs):
     if USE_GIT_MODULE and project and project.repository:
         GitoliteManager.regenerate_access(project)
 
+def check_task_save(sender, instance, **kwargs):
+    from PManager.services.check_milestone import check_milestones
+    task = instance
+    result = check_milestones(task)
+    # projects = [milestone['project'] for milestone in result[1:]]
+    if result[0]:
+        pass
+    else:
+        # if not (
+        #             (task.lastModifiedBy == task.resp) or
+        #             (task.lastModifiedBy.managedProjects in projects)
+        # ):
+        #     pass
+        template = task.resp + u' теперь не укладывается в '
+        if len(result) == 2:
+            template += u'цель ' + result[1]['name']
+        else:
+            template += u'следующие цели:' + "\n"
+            for milestone in result[1:]:
+                template += milestone['name']
+        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.lastModifiedBy,
+                                  userTo=task.lastModifiedBy, code='WARNING', hidden=True)
+        message.save()
+        responseJson = message.getJson()
+
+        mess = RedisMessage(service_queue,
+                            objectName='comment',
+                            type='add',
+                            fields=responseJson
+        )
+        mess.send()
+
+
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_save.connect(update_git, sender=PM_Project)
 pre_delete.connect(remove_git, sender=PM_Project)
 post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)
 pre_save.connect(setOnlySolution, sender=PM_Task_Message)
+post_save.connect(check_task_save, sender=PM_Task)

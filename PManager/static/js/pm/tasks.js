@@ -958,7 +958,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			});
 		},
 		'removeTask': function () {
-			if (confirm('Вы действительно хтотите удалить эту задачу?')) {
+			if (confirm('Вы действительно хотите удалить эту задачу?')) {
 				taskManager.deleteTask(this.model.id, function () {
 
 				});
@@ -1037,6 +1037,26 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'setDeadline': function () {
 			var obj = this;
+			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
+				data = $.parseJSON(data);
+				if (data.endDate) {
+					var date = data.endDate.split(' ')[0],
+						time = data.endDate.split(' ')[1],
+						check = new Date(data.endDateForCheck.replace(' ', 'T')),
+						today = new Date();
+					today.setHours(23,59,59,999);
+					var tomorrow = new Date(today.getTime() + 1000 * 60 * 60 * 24);
+
+					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
+
+					if (check > today) {
+						$(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
+						if (check > tomorrow) {
+							$(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Завтра</s></span>");
+						}
+					}
+				}
+			});
 			$.get('/static/templates/deadline.html', function (data) {
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
@@ -1057,8 +1077,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 					$(this).modal('hide').remove();
 				}).modal('show');
 			});
-
-
 		},
 		'showMenu': function (e) {
 			var arMenu = this.model.getMenuItems(),
@@ -1182,6 +1200,14 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'valrem': reminder_date
 				}, call);
 			}
+		},
+		'CheckEndTime': function (plan_time, call) {
+			if (!plan_time) return false;
+			this.taskAjaxRequest({
+				'action': 'getEndTime',
+				'plan_time': plan_time
+			}, call);
+			return this;
 		},
 		'AddToPlanning': function (id, call) {
 			if (id) {

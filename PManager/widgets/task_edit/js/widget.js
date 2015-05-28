@@ -111,25 +111,30 @@ $(function () {
 
     $('.js-changeDate').click(function () {
         var dDate;
-        var dFinelDate;
+        var dFinalDate;
         var dThisDate = new Date();
         switch ($(this).attr('data-time')) {
             case 'today':
+                var planTime = $(this).closest('.js-widget').find('.js-planTime').val();
+                if (planTime) {
+                    planTime = parseInt(planTime);
+                    dThisDate = new Date(dThisDate.getTime() + 1000 * 60 * 60 * planTime);
+		        }
                 dDate = formatDate(dThisDate);
-                dFinelDate = dThisDate;
+                dFinalDate = dThisDate;
                 break;
             case 'tomorrow':
                 var dDateTomorrow = new Date(dThisDate.getTime() + 1000 * 60 * 60 * 24);
                 dDate = formatDate(dDateTomorrow);
-                dFinelDate = dDateTomorrow;
+                dFinalDate = dDateTomorrow;
                 break;
             case 'week':
                 var dDateWeek = new Date(dThisDate.getTime() + 1000 * 60 * 60 * 168);
                 dDate = formatDate(dDateWeek);
-                dFinelDate = dDateWeek;
+                dFinalDate = dDateWeek;
                 break;
         }
-        $("input[name=deadline]").val(dDate).datetimepicker("setDate", dFinelDate);
+        $("input[name=deadline]").val(dDate).datetimepicker("setDate", dFinalDate);
         return false;
     });
 

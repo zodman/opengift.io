@@ -162,13 +162,25 @@ function formatDate(date) {
     var dd = date.getDate();
     var mm = date.getMonth() + 1;
     var yyyy = date.getFullYear();
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
     if (dd < 10) {
         dd = '0' + dd;
     }
     if (mm < 10) {
         mm = '0' + mm;
     }
-    return dd + '.' + mm + '.' + yyyy;
+    var formatted = dd + '.' + mm + '.' + yyyy;
+    if (hours && minutes) {
+        if (hours < 10) {
+            hours = '0' + hours;
+        }
+        if (minutes < 10) {
+            minutes = '0' + minutes;
+        }
+        formatted += ' ' + hours + ':' + minutes;
+    }
+    return formatted;
 }
 function PM_AjaxPost(url, data, func, type) {
     if (window.currentProject)

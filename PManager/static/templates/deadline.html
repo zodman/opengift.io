@@ -11,7 +11,7 @@
 	    <div class="deadline-block">
             <h6>Крайний срок</h6>
 	        <div class="deadline-input">
-                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="Дата" />
+                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="ДД.ММ.ГГГГ чч:мм"/>
 		        <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
             </div>
             <a href="#" class="js-changeDeadlineDate" data-time="today">Сегодня</a>&nbsp;&nbsp;&nbsp;
@@ -21,7 +21,7 @@
           <div class="deadline-block">
               <h6>Напомнить</h6>
               <div class="deadline-input">
-                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="Дата" />
+                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="ДД.ММ.ГГГГ чч:мм" />
                   <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
               </div>
               <a href="#" class="js-changeReminderDate" data-time="hour">За час</a>&nbsp;&nbsp;&nbsp;
@@ -35,7 +35,16 @@
             'lang':'ru',
             'format':'d.m.Y H:i',
             'dayOfWeekStart': 1,
-            'closeOnDateSelect':true
+            'closeOnDateSelect':true,
+	        'onShow':function() {
+		        var min_select = '.js-deadlinedate';
+		        this.setOptions({
+			        minDate:($(min_select).data('min-date')),
+			        formatDate:'d.m.Y',
+			        minTime:($(min_select).data('min-time')),
+			        formatTime:'H:i'
+		        })
+	        }
           });
 
           var dFinalDate;
@@ -45,6 +54,10 @@
             var dThisDate = new Date();
             switch ($(this).attr('data-time')) {
               case 'today':
+	            var planTime = $(this).attr('default-time');
+		        if (planTime) {
+			        dThisDate = new Date(dThisDate.getTime() + 1000 * 60 * 60 * planTime);
+		        }
                 dDate = formatDate(dThisDate);
                 dFinalDate = dThisDate;
                 break;
@@ -69,7 +82,7 @@
             if (dFinalDate) {
               switch ($(this).attr('data-time')) {
                 case 'hour':
-                  dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60);
+                  dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60);
                   dDate = formatDate(dRemindDate);
                   break;
                 case 'day':
@@ -79,7 +92,6 @@
                 case 'week':
                   dRemindDate = new Date(dFinalDate.getTime() - 1000 * 60 * 60 * 168);
                   dDate = formatDate(dRemindDate);
-                  break;
                   break;
               }
             }
