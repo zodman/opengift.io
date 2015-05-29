@@ -1,10 +1,6 @@
 {% load floattags %}
 {% load arraytags %}
 
-<script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
-<script type="text/javascript" src="/static/js/libs/timepicker/base.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />
 <script type="text/javascript" src="/widgets/js/task_edit/script.js"></script>
 
 <form name="task_form" method="POST" action="{% if task_edit.id %}/task_edit/?id={{ task_edit.id }}{% endif %}{% if request.is_ajax %}&modal=1{% endif%}" rel="{% if task_edit.id %}{{ task_edit.id }}{% endif %}">
