@@ -11,7 +11,7 @@
 	    <div class="deadline-block">
             <h6>Крайний срок</h6>
 	        <div class="deadline-input">
-                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="ДД.ММ.ГГГГ чч:мм"/>
+                <input type="text" class="js-deadlinedate form-control" maxlength="10" name="deadline_date" placeholder="ДД.ММ.ГГГГ ЧЧ:ММ"/>
 		        <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
             </div>
             <a href="#" class="js-changeDeadlineDate" data-time="today">Сегодня</a>&nbsp;&nbsp;&nbsp;
@@ -21,7 +21,7 @@
           <div class="deadline-block">
               <h6>Напомнить</h6>
               <div class="deadline-input">
-                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="ДД.ММ.ГГГГ чч:мм" />
+                  <input type="text" class="js-reminderdate form-control" maxlength="10" name="reminder_date" placeholder="ДД.ММ.ГГГГ ЧЧ:ММ" />
                   <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
               </div>
               <a href="#" class="js-changeReminderDate" data-time="hour">За час</a>&nbsp;&nbsp;&nbsp;
@@ -31,23 +31,29 @@
         <script type="text/javascript" src="/static/js/libs/timepicker/jquery.datetimepicker.js"></script>
         <link type="text/css" rel="stylesheet" href="/static/js/libs/timepicker/jquery.datetimepicker.css" />
         <script type="text/javascript">
+	      var dFinalDate;
+
           $("input[name=deadline_date], input[name=reminder_date]").datetimepicker({
             'lang':'ru',
             'format':'d.m.Y H:i',
             'dayOfWeekStart': 1,
             'closeOnDateSelect':true,
+	        'todayButton':true,
 	        'onShow':function() {
 		        var min_select = '.js-deadlinedate';
 		        this.setOptions({
-			        minDate:($(min_select).data('min-date')),
-			        formatDate:'d.m.Y',
-			        minTime:($(min_select).data('min-time')),
-			        formatTime:'H:i'
-		        })
+			        minDate: ($(min_select).data('min-date')),
+			        formatDate: 'd.m.Y',
+			        minTime: ($(min_select).data('min-time')),
+			        formatTime: 'H:i'
+		        });
+	        },
+	        'onClose':function(ct, $i) {
+		        if ($i.attr('name') == 'deadline_date') {
+			        dFinalDate = ct
+		        }
 	        }
           });
-
-          var dFinalDate;
 
           $('.js-changeDeadlineDate').click(function () {
             var dDate;
@@ -72,7 +78,7 @@
                 dFinalDate = dDateWeek;
                 break;
             }
-            $("input[name=deadline_date]").val(dDate).datetimepicker("setDate", dFinalDate);
+            $("input[name=deadline_date]").val(dDate);
             return false;
           });
 
@@ -95,7 +101,7 @@
                   break;
               }
             }
-            $("input[name=reminder_date]").val(dDate).datetimepicker("setDate", dRemindDate);
+            $("input[name=reminder_date]").val(dDate);
             return false;
           });
         </script>

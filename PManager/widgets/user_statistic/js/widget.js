@@ -3,6 +3,7 @@ $(function(){
         'dayOfWeekStart': 1,
         'format': 'd.m.Y',
         'lang':'ru',
+        'todayButton':true,
         'closeOnDateSelect': true
     });
 });
