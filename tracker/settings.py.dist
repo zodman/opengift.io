@@ -222,7 +222,7 @@ DATABASES = {
 }
 
 # todo: ADD DESCRIPTION
-AUTH_PROFILE_MODULE = 'PManager.PM_User'
+AUTH_PROFILE_MODULE = 'PManager.models.users.PM_User'
 
 # Allowed hosts for this application
 ALLOWED_HOSTS = [

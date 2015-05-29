@@ -1,14 +1,15 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Tracker, PM_Project
+from PManager.models import PM_Project
 from PManager.viewsExt.forms import WhoAreYou
 from django.contrib.auth import logout
+from PManager.services.trackers import get_tracker
 
-TRACKER = PM_Tracker.objects.get(pk=1)
+TRACKER = get_tracker(1)
 
 
 # SET_COOKIE - куки, которые необходимо поставить
-#CURRENT_PROJECT - текущий выбранный проект в трекере
+# CURRENT_PROJECT - текущий выбранный проект в трекере
 def initGlobals(request):
     SET_COOKIE = {}
     bIsAuthenticated = request.user.is_authenticated()

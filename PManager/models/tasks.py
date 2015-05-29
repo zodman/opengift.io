@@ -990,8 +990,10 @@ class PM_Task(models.Model):
             filterForUser.append(Q(project=project))
 
         filterForUser.append(Q(**addFilter))
-
-        return PM_Task.objects.filter(*filterForUser).distinct().count()
+        try:
+            return PM_Task.objects.filter(*filterForUser).distinct().count()
+        except ValueError:
+            return 0
 
     @staticmethod
     def getQArgsFilterForUser(user, project=None):
@@ -1068,8 +1070,11 @@ class PM_Task(models.Model):
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
-            subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).filter(project__closed=False, project__locked=False).values('parentTask__id').annotate(
-                dcount=Count('parentTask__id'))
+            try:
+                subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
+                    dcount=Count('parentTask__id'))
+            except ValueError:
+                subTasks = []
             aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
         else:
             aTasksIdFromSubTasks = None
@@ -1081,7 +1086,10 @@ class PM_Task(models.Model):
                 id__in=aTasksIdFromSubTasks)] #old conditions array | ID of parent tasks of match subtasks
             filter = {}
 
-        tasks = PM_Task.objects.filter(*filterQArgs, **filter).filter(project__closed=False, project__locked=False).distinct()
+        try:
+            tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
+        except ValueError:
+            tasks = None
 
         if arOrderParams.get('group') == 'milestones':
             order = ['milestone__closed', '-milestone__date']
@@ -1099,9 +1107,10 @@ class PM_Task(models.Model):
         order.append('-dateStart')
         order.append('-dateClose')
         order.append('-number')
-
-        if excludeFilter:
-            tasks = tasks.exclude(**excludeFilter)
+        if tasks is not None:
+            tasks = tasks.order_by(*order)
+            if excludeFilter:
+                tasks = tasks.exclude(**excludeFilter)
 
         tasks = tasks.order_by(*order)
 

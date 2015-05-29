@@ -9,3 +9,6 @@ gunicorn.log
 gunicorn.pid
 PManager/migrations/*
 tracker/settings.py
+*.log
+reports/*
+node_modules/*
