@@ -160,7 +160,7 @@ def widget(request, headerValues, arFilter, q):
             if isinstance(val, datetime.datetime):
                 setattr(task, field, val.strftime('%d.%m.%Y %H:%M'))
 
-        messages = task.messages.order_by('dateCreate')
+        messages = task.messages.order_by('dateCreate').exclude(code="WARNING")
         # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
         if not request.user.is_superuser:
             messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))

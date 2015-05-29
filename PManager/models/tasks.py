@@ -1814,10 +1814,10 @@ def check_task_save(sender, instance, **kwargs):
             template += u'следующие цели:'
             for milestone in result[1:]:
                 template += "\n" + milestone['name']
-        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.lastModifiedBy,
+        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
                                   userTo=task.lastModifiedBy, code='WARNING', hidden=True)
-        lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, code='WARNING',
-                                                      task=task, text=template).exists()  # Проверка на дублирование
+        lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, author=task.resp,
+                                                      code='WARNING', text=template).exists()  # Проверка на дублирование
 
         if not lastMessages:
             message.save()

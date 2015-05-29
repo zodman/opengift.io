@@ -114,6 +114,7 @@ class MainPage:
         pageTitle = ''
         if request.user.is_authenticated():
             messages = PM_Task_Message.objects.filter(userTo=request.user, read=False).order_by('-dateCreate')
+            messages = messages.exclude(code="WARNING")
             messages_qty = messages.count()
 
             for mes in messages:
