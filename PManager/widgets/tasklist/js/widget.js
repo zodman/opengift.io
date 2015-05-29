@@ -11,6 +11,7 @@ var widget_tl, currentGroup;
             'dayOfWeekStart': 1,
             'format': 'd.m.Y',
             'lang':'ru',
+            'todayButton':true,
             'closeOnDateSelect': true
         });
         $('.js-select-milestone').change(function(){

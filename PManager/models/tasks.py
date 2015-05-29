@@ -1794,6 +1794,7 @@ def rewrite_git_access(sender, instance, **kwargs):
         GitoliteManager.regenerate_access(project)
 
 def check_task_save(sender, instance, **kwargs):
+    # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
     result = check_milestones(task)
@@ -1810,20 +1811,24 @@ def check_task_save(sender, instance, **kwargs):
         if len(result) == 2:
             template += u'цель ' + result[1]['name']
         else:
-            template += u'следующие цели:' + "\n"
+            template += u'следующие цели:'
             for milestone in result[1:]:
-                template += milestone['name']
-        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.lastModifiedBy,
+                template += "\n" + milestone['name']
+        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
                                   userTo=task.lastModifiedBy, code='WARNING', hidden=True)
-        message.save()
-        responseJson = message.getJson()
+        lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, author=task.resp,
+                                                      code='WARNING', text=template).exists()  # Проверка на дублирование
 
-        mess = RedisMessage(service_queue,
-                            objectName='comment',
-                            type='add',
-                            fields=responseJson
-        )
-        mess.send()
+        if not lastMessages:
+            message.save()
+            responseJson = message.getJson()
+
+            mess = RedisMessage(service_queue,
+                                objectName='comment',
+                                type='add',
+                                fields=responseJson
+                                )
+            mess.send()
 
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
