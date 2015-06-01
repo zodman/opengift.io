@@ -88,5 +88,6 @@ def widget(request, headerValues, ar, qargs):
         'user': user,
         'profile': profile,
         'form': form,
-        'uform': uform
+        'uform': uform,
+        'title': u'Редактирование профиля'
     }

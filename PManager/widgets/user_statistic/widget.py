@@ -118,4 +118,5 @@ def widget(request,headerValues,a,b):
         'filterForm':filterForm,
         'now': templateTools.dateTime.convertToSite(timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())),
         'week_ago': templateTools.dateTime.convertToSite(timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()) - datetime.timedelta(days=7)),
+        'title': u'Статистика пользователей'
     }
