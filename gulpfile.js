@@ -8,11 +8,18 @@ var get_path = function(evt) {
         .replace('.robot','')
         .replace(/\//g,'.')
         .replace('.__init__','')
+        .replace('.gl_resource','')
 };
 
 
-gulp.task('default', function() {
-    //empty default task
+gulp.task('test', function() {
+    return gulp.src('').pipe(shell(
+        ['pybot -d reports tests'],
+        {
+            ignoreErrors: true,
+            errorMessage: 'tests failed'
+        }
+    ))
 });
 
 
