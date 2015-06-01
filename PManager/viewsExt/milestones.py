@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, render, HttpResponseRedirect
 from PManager.models import PM_Milestone, PM_Project
@@ -90,4 +91,4 @@ def milestonesResponder(request):
         mprojects = (selected_project,)
     else:
         mprojects = context.get("projects")
-    return render(request, 'milestones/index.html', {'m_projects': mprojects})
+    return render(request, 'milestones/index.html', {'m_projects': mprojects, 'pageTitle': u'Цели'})

@@ -105,6 +105,7 @@ def projectDetail(request, project_id):
 
     c = RequestContext(request, {
         'project': project,
+        'pageTitle': project.name,
         'roles': aRoles,
         'form': InterfaceForm(),
         'interfaces': interfaces_html,
