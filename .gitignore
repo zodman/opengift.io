@@ -1,6 +1,7 @@
 .vagrant/*
 .idea/*
 PManager/static/upload/*
+PManager/static/thumbnails/upload/*
 PManager/static/project_comments/*
 PManager/static/cache/*
 *.pyc

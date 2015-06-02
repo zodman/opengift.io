@@ -302,3 +302,5 @@ GITOLITE_ADMIN_REPOSITORY = ''
 GITOLITE_ACCESS_URL = ''
 # Gitolite users repositories path
 GITOLITE_REPOS_PATH = ''
+# Gitolite default user for docker
+GITOLITE_DEFAULT_USER = 'dockhost'
