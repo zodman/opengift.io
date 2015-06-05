@@ -278,5 +278,6 @@ def widget(request, headerValues, a, b):
             'day': now-datetime.timedelta(days=1),
             'week': now-datetime.timedelta(days=7),
             'month': now-datetime.timedelta(days=30),
-        }
+        },
+        'title': u'Статистика проекта'
     }

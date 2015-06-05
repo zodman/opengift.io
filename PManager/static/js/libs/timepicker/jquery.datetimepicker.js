@@ -434,7 +434,7 @@
             }
 		},
 		value: '',
-		lang: 'en',
+		lang: 'ru',
 
 		format:	'd.m.Y H:i',
 		formatTime:	'H:i',
@@ -481,7 +481,7 @@
 		hours12: false,
 		next: 'xdsoft_next',
 		prev : 'xdsoft_prev',
-		dayOfWeekStart: 0,
+		dayOfWeekStart: 1,
 		parentID: 'body',
 		timeHeightInTimePicker: 25,
 		timepickerScrollbar: true,
@@ -498,8 +498,8 @@
 		mask: false,
 		validateOnBlur: true,
 		allowBlank: true,
-		yearStart: 1950,
-		yearEnd: 2050,
+		yearStart: 2015,
+		yearEnd: 2020,
 		monthStart: 0,
 		monthEnd: 11,
 		style: '',

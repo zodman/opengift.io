@@ -74,5 +74,6 @@ def widget(request, headerValues, a, b):
 
     return {
         'users': users,
-        'currentProject': int(request.GET.get('project', 0))
+        'currentProject': int(request.GET.get('project', 0)),
+        'title': u'Список пользователей'
     }

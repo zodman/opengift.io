@@ -1,8 +1,6 @@
 {% load jsonify %}
 <script type="text/javascript" src="/widgets/js/tasklist/script.js"></script>
 <script type="text/javascript" src="/static/js/pm/show_tutorial.js"></script>
-<script type="text/javascript" src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
 <script language="JavaScript">
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
@@ -371,8 +369,6 @@ $(function(){
 <script src="/static/js/fileup/dnd.js"></script>
 <script src="/static/js/fileup/uploader.js"></script>
 <script src="/static/js/fileup/jquery-plugin.js"></script>
-<script src="/static/js/libs/timepicker/jquery.timepicker.js"></script>
-<script src="/static/js/libs/timepicker/base.js"></script>
 {#{% if user.is_superuser %}#}
 {#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
 {#<div id="qunit"></div>#}
@@ -380,5 +376,3 @@ $(function(){
 {#<script src="/static/js/libs/QUnit/qunitjs.js"></script>#}
 {#<script src="/static/js/pm/tests/taskCreateTest.js"></script>#}
 {#{% endif %}#}
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/jquery.timepicker.css" />
-<link rel="stylesheet" type="text/css" href="/static/js/libs/timepicker/base.css" />

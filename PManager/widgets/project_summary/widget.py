@@ -14,5 +14,6 @@ def widget(request,headerValues,a,b):
         setattr(project,'overdueTaskQty',overdueTaskQty)
 
     return {
-        'projects':projects
+        'projects':projects,
+        'title': u'Сводка по проектам'
     }

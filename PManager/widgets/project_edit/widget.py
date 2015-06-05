@@ -78,6 +78,7 @@ def widget(request, headerValues, ar, qargs):
 
         return {
             'projectData': projectData,
+            'title': u'Изменение проекта',
             'use_git': USE_GIT_MODULE,
             'form': pform,
             'is_new': is_new,
