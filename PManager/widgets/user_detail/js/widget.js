@@ -155,6 +155,11 @@ $(function () {
         $(this).tab('show');
         return false;
     });
+    $('.js-link-tasks').click(
+        function() {
+            $('.js-current-tasks').click()
+        }
+    );
 });
 
 function dashboard(id, fData) {
