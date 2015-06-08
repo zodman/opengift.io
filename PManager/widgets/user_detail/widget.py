@@ -248,7 +248,8 @@ def widget(request, headerValues, ar, qargs):
                 'projectsForAddUser': currentUserManagedProjects.exclude(id__in=[k.project.id for k in userRoles]),
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
-                'timeGraph': timeGraph
+                'timeGraph': timeGraph,
+                'payments': Payment.objects.filter(user=user).order_by('-date')
             }
         except User.DoesNotExist:
             pass
