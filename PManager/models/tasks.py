@@ -1801,7 +1801,7 @@ def check_task_save(sender, instance, **kwargs):
         task.backup = None
         task.save()
     else:
-        # Restore from backup
+        # Save backup
         backup = {'rollback': True, 'byServer': True}
         fields = ['resp__id', 'milestone__id', 'planTime', 'critically']
         taskBackup = PM_Task.objects.get(id=task.id).values(*fields)
@@ -1843,6 +1843,7 @@ def check_task_save(sender, instance, **kwargs):
             mess.send()
 
 def after_check(sender, instance, **kwargs):
+    # Restore from backup
     task = instance
     if 'rollback' in task.backup:
         if 'resp__id' in task.backup:
