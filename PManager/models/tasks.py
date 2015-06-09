@@ -1797,7 +1797,9 @@ def check_task_save(sender, instance, **kwargs):
     from PManager.services.check_milestone import check_milestones
     task = instance
     overdueMilestones = check_milestones(task)
-    if not overdueMilestones or task.backup['ignoreMilestoneCheck']:
+    if not overdueMilestones:
+        pass
+    elif task.backup['ignoreMilestoneCheck']:
         task.backup = None
         task.save()
     else:
@@ -1849,20 +1851,22 @@ def check_task_save(sender, instance, **kwargs):
 def after_check(sender, instance, **kwargs):
     # Restore from backup
     task = instance
-    if 'needRollback' in task.backup:
+    if task.backup:
+        if 'needRollback' in task.backup:
 
-        if 'resp__id' in task.backup:
-            task.resp = User.objects.get(pk=task.backup['resp__id'])
-        if 'milestone__id' in task.backup:
-            task.milestone = PM_Milestone.objects.get(pk=task.backup['milestone__id'])
+            if 'resp__id' in task.backup:
+                task.resp = User.objects.get(pk=task.backup['resp__id'])
+            if 'milestone__id' in task.backup:
+                task.milestone = PM_Milestone.objects.get(pk=task.backup['milestone__id'])
 
-        if 'planTime' in task.backup:
-            task.planTime = task.backup['planTime']
-        if 'critically' in task.backup:
-            task.critically = task.backup['critically']
+            if 'planTime' in task.backup:
+                task.planTime = task.backup['planTime']
+            if 'critically' in task.backup:
+                task.critically = task.backup['critically']
 
-        task.backup['ignoreMilestoneCheck'] = True
-        task.save()
+            task.backup['ignoreMilestoneCheck'] = True
+            task.save()
+
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
 post_delete.connect(rewrite_git_access, sender=PM_ProjectRoles)
