@@ -1855,9 +1855,9 @@ def after_check(sender, instance, **kwargs):
     if task.backup:
         if 'needRollback' in task.backup:
 
-            if 'resp__id' in task.backup:
+            if 'resp__id' in task.backup and task.backup['resp__id']:
                 task.resp = User.objects.get(pk=task.backup['resp__id'])
-            if 'milestone__id' in task.backup:
+            if 'milestone__id' in task.backup and task.backup['milestone__id']:
                 task.milestone = PM_Milestone.objects.get(pk=task.backup['milestone__id'])
 
             if 'planTime' in task.backup:
