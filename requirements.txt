@@ -38,3 +38,4 @@ model_mommy
 robot
 robotframework==2.8.7
 robotframework-selenium2library==1.6.0
+maildump
