@@ -122,4 +122,5 @@ def widget(request, headerValues, ar, qargs):
         'project': task.project if task and task.project else headerValues['CURRENT_PROJECT'],
         'users': users,
         'recommendedUsers': [i for i, c in userTagSums.iteritems()],
+        'title': u'Изменение задачи'
     }

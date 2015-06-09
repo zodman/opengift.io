@@ -63,7 +63,7 @@
                 </div>
                 <div class="user-tasks-info pull-left">
                   <ul>
-                    <li><b>Открытых задач:</b> <a href="#">{{ user_detail.taskSumm }}</a></li>
+                    <li><b>Открытых задач:</b> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></li>
                     <li><b>Закрыто за последний месяц:</b> <a href="#">{{ user_detail.taskLastMonth }}</a></li>
                   </ul>
                 </div>
@@ -89,13 +89,16 @@
                 <ul class="nav nav-pills js-tab-menu">
                     <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Сводка</a></li>
                     <li><a href="#ychastvyet" role="tab" data-toggle="tab">Участвует в проектах</a></li>
-                    <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab">Текущие задачи</a></li>
+                    <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab" class="js-current-tasks">Текущие задачи</a></li>
 {#                    <li><a href="#observer">Наблюдатель</a></li>#}
 {#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
                     <li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>
                     <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
                     {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                         <li><a href="#keys" role="tab" data-toggle="tab">Ключи</a></li>
+                    {% endif %}
+                    {% if user_detail.userIsEqualCurrentUser %}
+                    <li><a href="#payments" role="tab" data-toggle="tab">Оплаты</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -310,6 +313,30 @@
                         {% endif %}
                         <a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
                     </div><!--ВКЛАДКА "Ключи"-->
+                {% endif %}
+                {% if user_detail.userIsEqualCurrentUser %}
+	                <div class="tab-pane" id="payments">
+	                        {% if user_detail.payments %}
+	                        <table class="table table-bordered table-striped">
+	                          <thead>
+	                            <tr>
+	                              <th>#</th>
+	                              <th>Дата</th>
+	                              <th>Сумма</th>
+	                            </tr>
+	                          </thead>
+	                          <tbody>
+	                          {% for payment in user_detail.payments %}
+	                              <tr>
+	                                  <td>{{ payment.id }}</td>
+	                                  <td>{{ payment.date }}</td>
+	                                  <td>{{ payment.value }}</td>
+	                              </tr>
+	                          {% endfor %}
+	                          </tbody>
+	                        </table>
+	                        {% endif %}
+	                    </div><!--ВКЛАДКА "Оплаты"-->
                 {% endif %}
                 <div class="tab-pane" id="add-project">
                     <h2>Добавить пользователя в проект</h2>

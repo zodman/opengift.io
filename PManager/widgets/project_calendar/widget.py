@@ -53,6 +53,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}):
         arProject.append(project)
 
     return {
+        'title': u'Календарь ответственности',
         'projects': arProject,
         'arDays': arDays,
         'users': TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])

@@ -150,11 +150,16 @@ $(function () {
 //            return false;
 //        }
 //    );
-    $('#myTab a').click(function (e) {
+    $('#myTab a').bind(function (e) {
         e.preventDefault();
         $(this).tab('show');
         return false;
     });
+    $('.js-link-tasks').click(
+        function() {
+            $('.js-current-tasks').trigger('click');
+        }
+    );
 });
 
 function dashboard(id, fData) {

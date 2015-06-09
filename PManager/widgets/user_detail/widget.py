@@ -211,6 +211,7 @@ def widget(request, headerValues, ar, qargs):
             return {
                 'user': user,
                 'profile': profile,
+                'title': u'Профиль пользователя',
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
                 'timers': [
@@ -247,7 +248,8 @@ def widget(request, headerValues, ar, qargs):
                 'projectsForAddUser': currentUserManagedProjects.exclude(id__in=[k.project.id for k in userRoles]),
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
-                'timeGraph': timeGraph
+                'timeGraph': timeGraph,
+                'payments': Payment.objects.filter(user=user).order_by('-date')
             }
         except User.DoesNotExist:
             pass

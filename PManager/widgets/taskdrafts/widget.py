@@ -12,5 +12,6 @@ def widget(request, header_values, ar, qargs):
     draft_list = drafts(user).all()
     return {
         "drafts": draft_list,
-        "headers": header_values
+        "headers": header_values,
+        "title": u'Списки задач'
     }

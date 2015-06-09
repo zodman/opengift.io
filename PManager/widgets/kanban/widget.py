@@ -79,6 +79,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     return {
         'projects_data': prd_array,
+        'title': u'Канбан',
         'statuses': statuses,
         'status_width': 100 / statuses.count() if statuses.count() != 0 else 100,
         'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0,

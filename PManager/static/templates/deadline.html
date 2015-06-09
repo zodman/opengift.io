@@ -28,24 +28,14 @@
               <a href="#" class="js-changeReminderDate" data-time="day">За день</a>&nbsp;&nbsp;&nbsp;
               <a href="#" class="js-changeReminderDate" data-time="week">За неделю</a>
           </div>
-        <script type="text/javascript" src="/static/js/libs/timepicker/jquery.datetimepicker.js"></script>
-        <link type="text/css" rel="stylesheet" href="/static/js/libs/timepicker/jquery.datetimepicker.css" />
         <script type="text/javascript">
 	      var dFinalDate;
 
           $("input[name=deadline_date], input[name=reminder_date]").datetimepicker({
-            'lang':'ru',
-            'format':'d.m.Y H:i',
-            'dayOfWeekStart': 1,
-            'closeOnDateSelect':true,
-	        'todayButton':true,
 	        'onShow':function() {
 		        var min_select = '.js-deadlinedate';
 		        this.setOptions({
-			        minDate: ($(min_select).data('min-date')),
-			        formatDate: 'd.m.Y',
-			        minTime: ($(min_select).data('min-time')),
-			        formatTime: 'H:i'
+			        minDate: ($(min_select).data('min-date'))
 		        });
 	        },
 	        'onClose':function(ct, $i) {

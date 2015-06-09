@@ -8,4 +8,4 @@ def widget(request,headerValues,ar,qargs):
         if ach.achievement_users.filter(user=request.user):
             setattr(ach, 'mine', True)
 
-    return {'achievements':achievements}
+    return {'achievements': achievements, 'title': u'Достижения'}
