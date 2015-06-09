@@ -1796,13 +1796,14 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    overdueMilestones = check_milestones(task)
-    if not overdueMilestones:
-        pass
-    elif task.backup:
+    if task.backup:
         if task.backup['ignoreMilestoneCheck']:
             task.backup = None
-            task.save()
+            return
+
+    overdueMilestones = check_milestones(task)
+    if not overdueMilestones:
+        return
     else:
         # Save backup
         backup = {'needRollback': True}

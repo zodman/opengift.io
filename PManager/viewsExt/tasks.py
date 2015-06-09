@@ -54,9 +54,6 @@ def microTaskAjax(request, task_id):
     }), content_type="application/json")
 
 
-# def modifiedBy(task, user):
-#     task.lastModifiedBy = user
-#     return task
 
 
 def __change_resp(request):
@@ -470,6 +467,7 @@ def taskListAjax(request):
                 if property == "planTime" and value:
                     # task = modifiedBy(task, request.user)
                     task.lastModifiedBy = request.user
+                    task.save()
                     task.setPlanTime(value, request)
                     from PManager.services.rating import get_user_rating_for_task
                     # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
@@ -1032,8 +1030,8 @@ class taskAjaxManagerCreator(object):
         if taskInputText:
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
-                # task = modifiedBy(task, self.currentUser)
                 task.lastModifiedBy = self.currentUser
+                task.save()
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:
