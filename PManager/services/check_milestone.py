@@ -69,8 +69,9 @@ def check_milestones(task):
                 return [True]  # Если старт изначальная задача будет позже уже просроченных майлстоунов
         if task['milestone__id']:
             milestone = milestones.get(id=task['milestone__id'])
-            if task['endTime'] > milestone['date']:
-                result[0] = False
-                result.append(milestone)
+            if milestone not in result:
+                if task['endTime'] > milestone['date']:
+                    result[0] = False
+                    result.append(milestone)
 
     return result
