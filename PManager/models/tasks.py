@@ -1799,9 +1799,10 @@ def check_task_save(sender, instance, **kwargs):
     overdueMilestones = check_milestones(task)
     if not overdueMilestones:
         pass
-    elif task.backup['ignoreMilestoneCheck']:
-        task.backup = None
-        task.save()
+    elif task.backup:
+        if task.backup['ignoreMilestoneCheck']:
+            task.backup = None
+            task.save()
     else:
         # Save backup
         backup = {'needRollback': True}
@@ -1816,7 +1817,7 @@ def check_task_save(sender, instance, **kwargs):
             backup['planTime'] = taskBackup['planTime']
         if not task.critically == taskBackup['critically']:
             backup['critically'] = taskBackup['critically']
-
+        task.backup = backup
         # Send message
         template = u'При изменении задачи ' + task.resp.last_name + u' ' +\
                    task.resp.first_name + u' будет не укладывается в '
