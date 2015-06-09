@@ -1807,7 +1807,7 @@ def check_task_save(sender, instance, **kwargs):
         # Save backup
         backup = {'needRollback': True}
         fields = ['resp__id', 'milestone__id', 'planTime', 'critically']
-        taskBackup = PM_Task.objects.get(id=task.id).values(*fields)
+        taskBackup = PM_Task.objects.filter(id=task.id).values(*fields)
         taskBackup = taskBackup[0]
         if not task.resp == taskBackup['resp__id']:
             backup['resp__id'] = taskBackup['resp__id']
