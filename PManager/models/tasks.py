@@ -1820,7 +1820,7 @@ def check_task_save(sender, instance, **kwargs):
         task.backup = backup
         # Send message
         template = u'При изменении задачи ' + task.resp.last_name + u' ' +\
-                   task.resp.first_name + u' будет не укладываться в '
+                   task.resp.first_name + u' не будет укладываться в '
 
         if len(overdueMilestones) > 1:
             template += u'следующие цели:'
