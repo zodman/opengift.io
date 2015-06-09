@@ -467,7 +467,6 @@ def taskListAjax(request):
                 if property == "planTime" and value:
                     # task = modifiedBy(task, request.user)
                     task.lastModifiedBy = request.user
-                    task.save()
                     task.setPlanTime(value, request)
                     from PManager.services.rating import get_user_rating_for_task
                     # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
