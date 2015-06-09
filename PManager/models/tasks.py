@@ -1796,13 +1796,13 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    result = check_milestones(task)
-    if result[0] or task.backup['byServer']:
+    overdueMilestones = check_milestones(task)
+    if not overdueMilestones or task.backup['ignoreMilestoneCheck']:
         task.backup = None
         task.save()
     else:
         # Save backup
-        backup = {'rollback': True, 'byServer': True}
+        backup = {'needRollback': True}
         fields = ['resp__id', 'milestone__id', 'planTime', 'critically']
         taskBackup = PM_Task.objects.get(id=task.id).values(*fields)
         taskBackup = taskBackup[0]
@@ -1818,16 +1818,20 @@ def check_task_save(sender, instance, **kwargs):
         # Send message
         template = u'При изменении задачи ' + task.resp.last_name + u' ' +\
                    task.resp.first_name + u' будет не укладывается в '
-        if len(result) == 2:
-            template += u'цель ' + result[1]['name']
-        else:
+
+        if len(overdueMilestones) > 1:
             template += u'следующие цели:'
-            for milestone in result[1:]:
+            for milestone in overdueMilestones:
                 template += "\n" + milestone['name']
+        else:
+            template += u'цель ' + overdueMilestones[0]['name']
+
         template += "\n" + u'Мы вернули предыдущие значения в следующих полях: ' \
-                           u'отвественный, цель, планируемое время, критичность.'
+                           u'отвественный, цель, плановое время, критичность.'
+
         message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
                                   userTo=task.lastModifiedBy, code='WARNING', hidden=True)
+
         lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, author=task.resp,
                                                       code='WARNING', text=template).exists()  # Проверка на дублирование
 
@@ -1845,15 +1849,19 @@ def check_task_save(sender, instance, **kwargs):
 def after_check(sender, instance, **kwargs):
     # Restore from backup
     task = instance
-    if 'rollback' in task.backup:
+    if 'needRollback' in task.backup:
+
         if 'resp__id' in task.backup:
-            task.resp = task.backup['resp__id']
+            task.resp = User.objects.get(pk=task.backup['resp__id'])
         if 'milestone__id' in task.backup:
-            task.milestone = task.backup['milestone__id']
+            task.milestone = PM_Milestone.objects.get(pk=task.backup['milestone__id'])
+
         if 'planTime' in task.backup:
             task.planTime = task.backup['planTime']
         if 'critically' in task.backup:
             task.critically = task.backup['critically']
+
+        task.backup['ignoreMilestoneCheck'] = True
         task.save()
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)

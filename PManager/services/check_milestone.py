@@ -13,7 +13,7 @@ import datetime
 
 
 def check_milestones(task):
-    result = [True]
+    result = []
     order = ['-critically', '-dateCreate']
     initTask = task  #PM_Task.objects.get(id=task_id)
     responsible = initTask.resp
@@ -66,12 +66,11 @@ def check_milestones(task):
     for task in aTasks:
         if task['id'] == initTask.id:
             if task['dateCreateGantt'] > milestones[0]['date']:
-                return [True]  # Если старт изначальная задача будет позже уже просроченных майлстоунов
+                return []  # Если старт изначальная задача будет позже уже просроченных майлстоунов
         if task['milestone__id']:
             milestone = milestones.get(id=task['milestone__id'])
             if milestone not in result:
                 if task['endTime'] > milestone['date']:
-                    result[0] = False
                     result.append(milestone)
 
     return result
