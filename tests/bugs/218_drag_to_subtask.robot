@@ -9,11 +9,13 @@ Resource         ../gl_resource.robot
 *** Test Cases ***
 User should be able to drag one task into another
     select new project
-    go to                       ${root url}
-    ${task}=                    create task
-    ${sub_task}=                create task
-    drag item to                ${task}             ${sub_task}
-    should be subtask           ${task}             ${sub_task}
+    go to                           ${root url}
+    ${task}=                        create task
+    ${sub task}=                    create task
+    drag item to                    ${task}             ${sub task}
+    wait until keyword succeeds     5 seconds   1 second        task should not be present      ${sub task}
+    task should be present          ${task}
+    should be subtask               ${task}             ${sub task}
 
 *** Keywords ***
 drag item to
@@ -21,11 +23,11 @@ drag item to
     reload page
     ${sub task id}=     get task id     ${sub}
     ${task id}=         get task id     ${task}
-    set selenium speed  5 seconds
-    mouse down          css=#${task id}>div>.js-drag-task
-    mouse up            css=#${sub task id}
-    capture page screenshot
+    drag and drop       css=#${sub task id}>div>.js-drag-task       css=#${task id}
+    confirm action
 
 
 should be subtask
     [Arguments]     ${task}      ${sub}
+    click link      partial link=${task}
+    task should be present       ${sub}
