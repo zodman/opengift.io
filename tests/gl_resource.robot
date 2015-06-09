@@ -15,18 +15,15 @@ ${test project}     Heliard
 *** Keywords ***
 Start the webserver
     # run process     database should be clean slate w only user
-#    ${django process}=  start process   python  manage.py     runserver   localhost:${port}
-#    set global variable  ${django process}
-    log     "test s;elrkslker"
+    ${django process}=  start process   python  manage.py     runserver   localhost:${port}
+    set global variable  ${django process}
+    create webdriver    ${browser}
 
 Stop the webserver
-#    terminate process   ${django process}
-#    close all browsers
-    log     "test s;elrkslker"
+    terminate process   ${django process}
+    close all browsers
 
 Authorized user has project
-    start the webserver
-    create webdriver    ${browser}
     go to   ${root url}/login/
     page should contain     Система ведения проектов, специально разработанная для IT-команд
     page should contain element     name=username
@@ -37,5 +34,3 @@ Authorized user has project
 
 Logout user
     click link  partial link=Выход
-    close all browsers
-    stop the webserver
