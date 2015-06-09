@@ -1029,8 +1029,6 @@ class taskAjaxManagerCreator(object):
         if taskInputText:
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
-                task.lastModifiedBy = self.currentUser
-                task.save()
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:
