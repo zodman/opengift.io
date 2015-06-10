@@ -927,7 +927,7 @@ class PM_Task(models.Model):
                 # elif task.parentTask:
         #     for resp in task.parentTask.responsible.all():
     #         task.responsible.add(resp) #17.04.2014 task #553
-
+        task.lastModifiedBy = currentUser
         task.save()
 
         for file in arFiles:
@@ -1829,6 +1829,18 @@ def check_task_save(sender, instance, **kwargs):
                 template += "\n" + milestone['name']
         else:
             template += u'цель ' + overdueMilestones[0]['name']
+
+        # Managers can edit tasks instead of anything, no backup needed
+        # TODO Not implemented, waiting for reaction
+        # for milestone in overdueMilestones:
+        #     managers = PM_ProjectRoles.objects.filter(project=milestone.project,
+        #                                               role__code='manager').values_list('user', flat=True)
+            # if task.lastModifiedBy.id not in managers:
+            #     TODO Перенести сюда строку про возврат значений
+            #     pass
+            # else:
+            #     backup = {'needRollback': False}
+            #     template += "\n" + u'Если возможно, измените критичность задачи или поменяйте ответственного.'
 
         template += "\n" + u'Мы вернули предыдущие значения в следующих полях: ' \
                            u'отвественный, цель, плановое время, критичность.'
