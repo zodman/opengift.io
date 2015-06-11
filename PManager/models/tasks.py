@@ -1826,9 +1826,9 @@ def check_task_save(sender, instance, **kwargs):
         if len(overdueMilestones) > 1:
             template += u'следующие цели:'
             for milestone in overdueMilestones:
-                template += "\n" + milestone['name'] + u' проекта ' + milestone['project__name']
+                template += "\n" + milestone['project__name'] + u': ' + milestone['name'] + u' проекта '
         else:
-            template += u'цель ' + overdueMilestones[0]['name'] + u' проекта ' + overdueMilestones[0]['project__name']
+            template += u'цель ' + overdueMilestones[0]['project__name'] + u': ' + overdueMilestones[0]['name']
 
         # Managers can edit tasks instead of anything, no backup needed
         # TODO Not implemented, waiting for reaction
