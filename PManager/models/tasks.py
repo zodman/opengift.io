@@ -1809,16 +1809,17 @@ def check_task_save(sender, instance, **kwargs):
         backup = {'needRollback': True}
         fields = ['resp__id', 'milestone__id', 'planTime', 'critically']
         taskBackup = PM_Task.objects.filter(id=task.id).values(*fields)
-        taskBackup = taskBackup[0]
-        if not task.resp == taskBackup['resp__id']:
-            backup['resp__id'] = taskBackup['resp__id']
-        if not task.milestone == taskBackup['milestone__id']:
-            backup['milestone__id'] = taskBackup['milestone__id']
-        if not task.planTime == taskBackup['planTime']:
-            backup['planTime'] = taskBackup['planTime']
-        if not task.critically == taskBackup['critically']:
-            backup['critically'] = taskBackup['critically']
-        task.backup = backup
+        if taskBackup:
+            taskBackup = taskBackup[0]
+            if not task.resp == taskBackup['resp__id']:
+                backup['resp__id'] = taskBackup['resp__id']
+            if not task.milestone == taskBackup['milestone__id']:
+                backup['milestone__id'] = taskBackup['milestone__id']
+            if not task.planTime == taskBackup['planTime']:
+                backup['planTime'] = taskBackup['planTime']
+            if not task.critically == taskBackup['critically']:
+                backup['critically'] = taskBackup['critically']
+            task.backup = backup
         # Send message
         template = u'При изменении задачи ' + task.resp.last_name + u' ' +\
                    task.resp.first_name + u' не будет укладываться в '
