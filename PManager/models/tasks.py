@@ -1847,10 +1847,13 @@ def check_task_save(sender, instance, **kwargs):
         template += "\n" + u'Мы вернули предыдущие значения в следующих полях: ' \
                            u'отвественный, цель, плановое время, критичность.'
 
+        secondsAgo = datetime.datetime.now() - datetime.timedelta(seconds=5)
+        secondsAgo = timezone.make_aware(secondsAgo)
 
-
-        lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, author=task.resp,
-                                                      code='WARNING', text=template).exists()  # Проверка на дублирование
+        lastMessages = PM_Task_Message.objects.filter(
+            userTo=task.lastModifiedBy, author=task.resp,
+            code='WARNING', text=template, dateCreate__lt=secondsAgo
+        ).exists()  # Проверка на дублирование
 
         if not lastMessages:
             message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
@@ -1862,7 +1865,7 @@ def check_task_save(sender, instance, **kwargs):
                                 objectName='comment',
                                 type='add',
                                 fields=responseJson
-                                )
+                            )
             mess.send()
 
 def after_check(sender, instance, **kwargs):

@@ -76,9 +76,7 @@ def __change_resp(request):
     elif str_resp.find('@') == -1:
         try:
             resp_id = int(str_resp)
-
             task.resp = TaskWidgetManager.getResponsibleList(request.user, task.project).get(pk=resp_id)
-            return str(resp_id) + task.resp.first_name
         except User.DoesNotExist:
             from PManager.services.task_drafts import task_draft_is_user_participate
             user = task_draft_is_user_participate(task.id, resp_id, request.user.id)
@@ -105,9 +103,9 @@ def __change_resp(request):
     #end outsource
     # task = modifiedBy(task, request.user)
     task.lastModifiedBy = request.user
-    resp = task.resp
-    task.save()
 
+    task.save()
+    resp = task.resp
 
     resp_name = ' '.join([resp.first_name, resp.last_name])
     response_text = json.dumps({
