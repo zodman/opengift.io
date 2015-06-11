@@ -205,7 +205,7 @@
                             {% endif %}
                         {% endif %}
                     {% empty %}
-                       document.write('<p>Нет ни одной задачи</p>')
+                       document.write('<p>Нет ни одной задачи</p>');
                     {% endfor %}
                     </script>
                 </div>
@@ -322,15 +322,17 @@
 	                            <tr>
 	                              <th>#</th>
 	                              <th>Дата</th>
-	                              <th>Сумма</th>
+		                          <th>Сумма</th>
+	                              <th>Проект</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>
 	                          {% for payment in user_detail.payments %}
 	                              <tr>
-	                                  <td>{{ payment.id }}</td>
+	                                  <td>{{ forloop.revcounter}}</td>
 	                                  <td>{{ payment.date }}</td>
 	                                  <td>{{ payment.value }}</td>
+		                              <td>{{ payment.project.name }}</td>
 	                              </tr>
 	                          {% endfor %}
 	                          </tbody>

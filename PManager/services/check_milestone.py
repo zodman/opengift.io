@@ -35,7 +35,7 @@ def check_milestones(task):
         'id',
         'name',
         'date',
-        'project'
+        'project__name'
     )
     aTasks = []
     for task in tasks:

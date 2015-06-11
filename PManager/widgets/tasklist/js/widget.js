@@ -12,7 +12,8 @@ var widget_tl, currentGroup;
             'format': 'd.m.Y',
             'lang':'ru',
             'todayButton':true,
-            'closeOnDateSelect': true
+            'closeOnDateSelect': true,
+            'timepicker': false
         });
         $('.js-select-milestone').change(function(){
             var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date], .js-calendar-icon');

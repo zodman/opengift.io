@@ -251,7 +251,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if 'parentTask' not in filter:
             # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
             filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project)
-            filterQArgs = PM_Task.mergeFilterObjAndArray({'parentTask': task, 'active': True}, filterQArgs)
+            filterQArgs = PM_Task.mergeFilterObjAndArray(
+                {'parentTask': task, 'active': True},
+                filterQArgs
+            )
             subtasksQuery = PM_Task.objects.filter(*filterQArgs).distinct()
             subtasksQty = subtasksQuery.count()
 
@@ -333,6 +336,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'subtasksQty': subtasksQty,
             'subtasksActiveQty': subtasksActiveQty,
             'observer': True if task.observers.filter(id=cur_user.id) else False,
+            'groupr': arPageParams.get('group'),
             'group': {
                 'name': task.milestone.name,
                 'id': task.milestone.id,

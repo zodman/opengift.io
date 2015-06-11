@@ -4,7 +4,8 @@ $(function(){
         'format': 'd.m.Y',
 	    'lang':'ru',
 	    'todayButton':true,
-        'closeOnDateSelect':true
+        'closeOnDateSelect':true,
+	    'timepicker': false
     });
 });
 
