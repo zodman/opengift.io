@@ -78,7 +78,6 @@ def __change_resp(request):
             resp_id = int(str_resp)
 
             task.resp = TaskWidgetManager.getResponsibleList(request.user, task.project).get(pk=resp_id)
-            return str(resp_id) + task.resp.first_name
         except User.DoesNotExist:
             from PManager.services.task_drafts import task_draft_is_user_participate
             user = task_draft_is_user_participate(task.id, resp_id, request.user.id)
