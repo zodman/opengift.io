@@ -76,8 +76,9 @@ def __change_resp(request):
     elif str_resp.find('@') == -1:
         try:
             resp_id = int(str_resp)
-            return resp_id
+
             task.resp = TaskWidgetManager.getResponsibleList(request.user, task.project).get(pk=resp_id)
+            return str(resp_id) + task.resp.firstname
         except User.DoesNotExist:
             from PManager.services.task_drafts import task_draft_is_user_participate
             user = task_draft_is_user_participate(task.id, resp_id, request.user.id)
