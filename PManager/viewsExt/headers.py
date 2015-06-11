@@ -3,6 +3,7 @@ __author__ = 'Gvammer'
 from PManager.models import PM_Tracker, PM_Project
 from PManager.viewsExt.forms import WhoAreYou
 from django.contrib.auth import logout
+from django.http import Http404
 
 TRACKER = PM_Tracker.objects.get(pk=1)
 
@@ -26,6 +27,9 @@ def initGlobals(request):
             if CURRENT_PROJECT.id in projects:
                 SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
                 request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id
+            else:
+                raise Http404
+
         except (PM_Project.DoesNotExist, ValueError):
             CURRENT_PROJECT = 0
 
