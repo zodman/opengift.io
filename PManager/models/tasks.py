@@ -1827,7 +1827,8 @@ def check_task_save(sender, instance, **kwargs):
         if len(overdueMilestones) > 1:
             template += u'следующие цели:'
             for milestone in overdueMilestones:
-                template += "\n" + milestone['project__name'] + u': ' + milestone['name'] + u' проекта '
+                template += "\n" + milestone['project__name'] + u': ' + milestone['name'] + ' '
+
         else:
             template += u'цель ' + overdueMilestones[0]['project__name'] + u': ' + overdueMilestones[0]['name']
 
@@ -1846,13 +1847,14 @@ def check_task_save(sender, instance, **kwargs):
         template += "\n" + u'Мы вернули предыдущие значения в следующих полях: ' \
                            u'отвественный, цель, плановое время, критичность.'
 
-        message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
-                                  userTo=task.lastModifiedBy, code='WARNING', hidden=True)
+
 
         lastMessages = PM_Task_Message.objects.filter(userTo=task.lastModifiedBy, author=task.resp,
                                                       code='WARNING', text=template).exists()  # Проверка на дублирование
 
         if not lastMessages:
+            message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
+                                  userTo=task.lastModifiedBy, code='WARNING', hidden=True)
             message.save()
             responseJson = message.getJson()
 
