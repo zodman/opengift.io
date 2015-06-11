@@ -1848,7 +1848,7 @@ def check_task_save(sender, instance, **kwargs):
                            u'отвественный, цель, плановое время, критичность.'
 
         secondsAgo = datetime.datetime.now() - datetime.timedelta(seconds=5)
-        secondsAgo = timezone.make_aware(secondsAgo)
+        secondsAgo = timezone.make_aware(secondsAgo, timezone.get_default_timezone())
 
         lastMessages = PM_Task_Message.objects.filter(
             userTo=task.lastModifiedBy, author=task.resp,
