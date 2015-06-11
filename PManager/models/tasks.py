@@ -1852,7 +1852,7 @@ def check_task_save(sender, instance, **kwargs):
 
         lastMessages = PM_Task_Message.objects.filter(
             userTo=task.lastModifiedBy, author=task.resp,
-            code='WARNING', text=template, dateCreate__lt=secondsAgo
+            code='WARNING', text=template, dateCreate__gt=secondsAgo
         ).exists()  # Проверка на дублирование
 
         if not lastMessages:
