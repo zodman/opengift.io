@@ -101,9 +101,10 @@ def __change_resp(request):
     #end outsource
     # task = modifiedBy(task, request.user)
     task.lastModifiedBy = request.user
+    resp = task.resp
     task.save()
 
-    resp = task.resp
+
     resp_name = ' '.join([resp.first_name, resp.last_name])
     response_text = json.dumps({
         'resp': [{
