@@ -336,7 +336,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'subtasksQty': subtasksQty,
             'subtasksActiveQty': subtasksActiveQty,
             'observer': True if task.observers.filter(id=cur_user.id) else False,
-            'groupr': arPageParams.get('group'),
             'group': {
                 'name': task.milestone.name,
                 'id': task.milestone.id,
