@@ -453,10 +453,11 @@ $(function(){
 {% if is_wiki == 'Y' %}
     <div class="widget wiki">
     {% block wiki_navbar %}
-
-        <div class="navbar" >
-            <form class="navbar-search pull-right" id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-                <div class="input-group">
+    <div class="clearfix article-breadcrumbs-wiki-search">
+        <div class="article-breadcrumbs">{% block wiki_breadcrumbs %}{% endblock %}</div>
+        <div class="navbar wiki-search clearfix">
+            <form class="navbar-search clearfix" id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
+                <div class="input-group pull-right">
                     <input type="search" class="form-control search-query" name="q" placeholder="{% trans "Поиск..." %}" />
                         <span class="input-group-btn">
                             <button class="btn btn-default" type="button">
@@ -501,9 +502,10 @@ $(function(){
                 </div>
             </div>
         </div>
+    </div>
 
     {% endblock %}
-        {% block wiki_breadcrumbs %}{% endblock %}
+
         {% block wiki_contents %}{% endblock %}
 
     </div>
