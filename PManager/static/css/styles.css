@@ -1954,9 +1954,6 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 @media screen and (max-width: 660px) {
 .wiki .navbar-search.pull-right {float: none !important;}
 .wiki .navbar {margin-bottom: 0px;}
-.wiki #article-breadcrumbs {position: relative; top: 0px;}
-    .wiki .breadcrumb {margin-bottom: 15px; margin-top: 15px;}
-    .wiki #article-breadcrumbs .pull-left {margin-top: 15px;}
 }
 
 .wiki .navbar {min-height: auto; margin-top: 0px;}
@@ -2990,7 +2987,6 @@ line-height: 36px;}
     .hide-on-mobile {display: none !important;}
 }
 
-#article-breadcrumbs {position: absolute; top: 21px;}
 
 
 .activity-header {
@@ -3195,4 +3191,16 @@ line-height: 36px;}
     position: absolute;
     right: 10px;
     top: 9px;
+}
+
+.article-breadcrumbs-wiki-search {display: table; width: 100%; margin-bottom: 20px;}
+.article-breadcrumbs {display: table-cell; width: calc(100% - 200px); padding-right: 20px; vertical-align: top;}
+.wiki-search {display: table-cell; width: 200px; vertical-align: top;}
+
+.article-breadcrumbs .breadcrumb {margin-bottom: 15px;}
+
+
+@media only screen and (max-width: 768px) {
+    .article-breadcrumbs {display: block; width: 100%;}
+    .wiki-search {display: block; width: 100%; }
 }
