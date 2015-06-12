@@ -235,7 +235,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                                                 aUsersHaveAccess)
 
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
-        task_delta = task.dateModify + datetime.timedelta(days=1)
         last_message_q = task.messages
         if not arBIsManager[task.id]:
             last_message_q = last_message_q.filter(
@@ -356,7 +355,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if subtasksQty:
             addTasks[task.id]['planTime'] = subtaskPlanTime
 
-        addTasks[task.id]['needRespRecommendation'] = now > task_delta and (
+        addTasks[task.id]['needRespRecommendation'] = (
             len(addTasks[task.id]['resp']) <= 0 or
             not addTasks[task.id]['resp'][0]
         )
