@@ -1,4 +1,6 @@
 # -*- coding:utf-8 -*-
+import time
+
 __author__ = 'Rayleigh'
 __version__ = '0.0.1'
 ROBOT_LIBRARY_SCOPE = 'GLOBAL'
@@ -25,8 +27,25 @@ class Mails:
         return "--smtp-ip {} --smtp-port {} --http-ip {} -a".format(self.host,
                                                                     self.port, self.web)
 
-    def email_received(self, to="", frm="", subject="", body="", body_partial=""):
-        self.sel.go_to(self.web)
+    def find_email(self, recipient):
+        self.sel.click_element("xpath=//td[contains(text(),'" + recipient + "')]")
 
     def get_url(self):
         return "http://{}/".format(self.web)
+
+    def get_random_email(self, partial="test-email"):
+        return "{}{}@heliard.ru".format(partial, time.time())
+
+    def get_password(self):
+        css_path = "css=table>tbody>tr:nth-child(7)>td:nth-child(7)>p:nth-child(8)"
+        el = self.sel._element_find(css_path, True, True, tag='p')
+        if el is None:
+            raise AssertionError("Cannot receive password")
+        return el.text.replace(u'Пароль:','').strip()
+
+    def get_login(self):
+        xpath_path = "xpath=//table/tbody/tr[7]/td[7]/p[2]"
+        el = self.sel._element_find(xpath_path, True, True, tag='p')
+        if el is None:
+            raise AssertionError("Cannot receive password")
+        return el.text.replace(u'Логин:','').strip()

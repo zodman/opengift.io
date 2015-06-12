@@ -11,6 +11,7 @@ ${user}         gvammer
 ${password}     qweqweqwe
 ${root dir}     /home/rayleigh/projects/heliard
 ${test project}     Heliard
+${maildump url}     127.0.0.1:1080
 
 *** Keywords ***
 Start the webserver
@@ -24,13 +25,17 @@ Stop the webserver
     close all browsers
 
 Authorized user has project
-    go to   ${root url}/login/
-    page should contain     Система ведения проектов, специально разработанная для IT-команд
-    page should contain element     name=username
-    input text  name=username   ${user}
-    input password  name=password   ${password}
-    submit form     name=authform
-    page should contain link    partial link=Выход
+    Login       ${user}     ${password}
 
 Logout user
     click link  partial link=Выход
+
+Login
+    [Arguments]     ${login user}     ${login password}
+    go to   ${root url}/login/
+    page should contain     Система ведения проектов, специально разработанная для IT-команд
+    page should contain element     name=username
+    input text  name=username   ${login user}
+    input password  name=password   ${login password}
+    submit form     name=authform
+    page should contain link    partial link=Выход
