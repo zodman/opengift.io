@@ -3,7 +3,7 @@ Documentation    Suites Resources
 Library     Selenium2Library
 
 *** Variables ***
-${port}     8081
+${port}     8080
 ${host}     heliard.dev:${port}
 ${root url}     http://${host}
 ${browser}      Firefox
@@ -16,12 +16,12 @@ ${maildump url}     127.0.0.1:1080
 *** Keywords ***
 Start the webserver
     # run process     database should be clean slate w only user
-    ${django process}=  start process   python  manage.py     runserver   localhost:${port}
-    set global variable  ${django process}
+#    ${django process}=  start process   python  manage.py     runserver   localhost:${port}
+#    set global variable  ${django process}
     create webdriver    ${browser}
 
 Stop the webserver
-    terminate process   ${django process}
+#    terminate process   ${django process}
     close all browsers
 
 Authorized user has project

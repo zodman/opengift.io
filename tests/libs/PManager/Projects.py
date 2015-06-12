@@ -6,8 +6,7 @@ ROBOT_LIBRARY_VERSION = '0.0.1'
 
 from robot.libraries.BuiltIn import BuiltIn
 from datetime import datetime
-from tracker.settings import PROJECT_ROOT
-
+from Tools import Tools
 
 
 class Projects:
@@ -29,7 +28,9 @@ class Projects:
         self.sel = BuiltIn().get_library_instance('Selenium2Library')
 
     def create_project(self, description="This is default project description",
-                       picture=PROJECT_ROOT + "tests/uploads/default.png", options=None):
+                       picture=None, options=None):
+        if picture is None:
+            picture = Tools.default_picture()
         if not options:
             options = []
         project_name = self.PROJECT_NAME_PREFIX + str(datetime.now())
@@ -77,5 +78,7 @@ class Projects:
     def select_new_project(self):
         project_name = self.create_project()
         self.select_project(project_name)
+        self.sel.maximize_browser_window()
+        self.sel.reload_page()
         self.current_project_should_be(project_name)
         return project_name
