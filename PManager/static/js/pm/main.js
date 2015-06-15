@@ -171,7 +171,8 @@ function formatDate(date) {
         mm = '0' + mm;
     }
     var formatted = dd + '.' + mm + '.' + yyyy;
-    if (hours && minutes) {
+    if (typeof hours === 'number' && typeof minutes === 'number') {
+        // hours and minutes can be 0
         if (hours < 10) {
             hours = '0' + hours;
         }
