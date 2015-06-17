@@ -54,8 +54,6 @@ def microTaskAjax(request, task_id):
     }), content_type="application/json")
 
 
-
-
 def __change_resp(request):
     task_id = int(request.POST.get('id', 0))  # переданный id задачи
     profile = request.user.get_profile()
@@ -315,37 +313,6 @@ def __task_message(request):
             task.setStatus(status)
             logger = Logger()
             logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
-        if task_close:
-            if task.started:
-                task.Stop()
-                task.endTimer(request.user, u'Закрытие задачи')
-
-            task.Close(request.user)
-            if task.milestone and not task.milestone.closed:
-                tasks_in_milestone_cnt = PM_Task.objects.filter(active=True, milestone=task.milestone, closed=False).count()
-                if not tasks_in_milestone_cnt:
-                    task.milestone.closed = True
-                    task.milestone.save()
-
-            if task.parentTask:
-                c = task.parentTask.subTasks.filter(closed=False).count()
-                if c == 0:
-                    task.parentTask.wasClosed = True  # чтобы не учитывалось время за родительскую задачу
-                    task.parentTask.Close(request.user)
-                    # TODO: убрать дублирование с блоком выше
-                    if task.parentTask.milestone and not task.parentTask.milestone.closed:
-                        tasks_in_milestone_cnt = PM_Task.objects.filter(active=True, milestone=task.parentTask.milestone,
-                                                         closed=False).count()
-                        if not tasks_in_milestone_cnt:
-                            task.parentTask.milestone.closed = True
-                            task.parentTask.milestone.save()
-            else:
-                for sub_tasks in task.subTasks.filter(active=True):
-                    if sub_tasks.started:
-                        sub_tasks.Stop()
-                        sub_tasks.endTimer(request.user, u'Закрытие задачи')
-
-                    sub_tasks.Close(request.user)
 
         for filePost in files:
             file_obj = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
@@ -958,7 +925,7 @@ class taskAjaxManagerCreator(object):
                    },
                    u'Задача закрыта: ' + t.name
                 )
-                sendMes.send([t.author.email])
+                sendMes.send([t.author.email, t.resp.email])
 
             elif (not t.status) or t.status.code != 'ready':
                 t.setStatus('ready')
