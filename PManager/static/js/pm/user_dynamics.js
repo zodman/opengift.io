@@ -5,19 +5,16 @@
  * Time: 18:24
  */
 var userDynamics = {
-    'getOpenTask': function(){
-        if (taskManager){
+    'getOpenTask': function () {
+        if (taskManager) {
             taskManager.taskAjaxRequest({
                 'action': 'getUserLastOpenTask'
-            }, function(task){
+            }, function (task) {
                 if (task && task['name']) {
-                    $.bootstrapGrowl(
-                        "Вы можете вернуться к задаче <a href='" + task['url'] + "'>"
-                            + task['project__name'] + '/ ' + task['name'] + "</a>",
-                        {
-                            'delay': 0,
-                            'width': 'auto'
-                        }
+                    toastr.info(
+                        "<a href='" + task['url'] + "'>" + task['project__name'] + '/ '
+                        + task['name'] + "</a>",
+                        'Вы можете вернуться к задаче'
                     );
                 }
             }, 'json');
