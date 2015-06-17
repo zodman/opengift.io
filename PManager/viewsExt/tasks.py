@@ -1090,38 +1090,38 @@ class taskAjaxManagerCreator(object):
                                                'parentTask__isnull': True,
                                                'exclude': {'id': task.id}
                                            }, [], {'order_by': '-critically'})
-                prevCriticaly = None
+                prevCritically = None
                 taskSet = []
                 secondTaskSet = []
                 for eTask in tasks['tasks']:
                     taskSet.append(eTask)
                     if eTask.id == taskAfter.id:
-                        if prevCriticaly and prevCriticaly > eTask.critically: #we just put cur task beyond two
-                            if eTask.critically < task.critically < prevCriticaly: #if task was at the same place
+                        if prevCritically and prevCritically > eTask.critically: #we just put cur task beyond two
+                            if eTask.critically < task.critically < prevCritically: #if task was at the same place
                                 return json.dumps({'result': 'task did not modified'})
                             else:
-                                task.critically = (prevCriticaly + eTask.critically) / 2
+                                task.critically = (prevCritically + eTask.critically) / 2
                                 task.save()
                                 return json.dumps({'result': '1 task modified'})
-                        elif prevCriticaly and (prevCriticaly <= 1): #previous task exist
+                        elif prevCritically and (prevCritically <= 1): #previous task exist
                             secondTaskSet.append(task)
                             taskSet.reverse()
                             for uTask in taskSet:
                                 secondTaskSet.append(uTask)
-                                if prevCriticaly < uTask.critically:
-                                    critPoint = (uTask.critically - prevCriticaly) / len(secondTaskSet)
+                                if prevCritically < uTask.critically:
+                                    critPoint = (uTask.critically - prevCritically) / len(secondTaskSet)
                                     i = 0
                                     for rTask in secondTaskSet:
-                                        rTask.critically = prevCriticaly + (i * critPoint)
+                                        rTask.critically = prevCritically + (i * critPoint)
                                         rTask.save()
                                         i += 1
                                     return json.dumps({'result': str(len(secondTaskSet)) + ' tasks modified'})
 
                             #if all tasks before taskAfter have similar critically (but lesser that 1)
-                            critPoint = (1 - prevCriticaly) / (len(secondTaskSet) + 1)
+                            critPoint = (1 - prevCritically) / (len(secondTaskSet) + 1)
                             i = 0
                             for rTask in secondTaskSet:
-                                rTask.critically = prevCriticaly + (i * critPoint)
+                                rTask.critically = prevCritically + (i * critPoint)
                                 rTask.save()
                                 i += 1
 
@@ -1130,9 +1130,9 @@ class taskAjaxManagerCreator(object):
                             task.critically = taskAfter.critically + 0.01
                             task.save()
                             return json.dumps({'result': '1 first task modified'})
-                    prevCriticaly = eTask.critically
+                    prevCritically = eTask.critically
 
-            return json.dumps({'result': prevCriticaly})
+            return json.dumps({'result': prevCritically})
 
     @task_ajax_action
     def process_appendTask(self):
