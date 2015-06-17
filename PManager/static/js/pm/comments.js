@@ -483,13 +483,15 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     if (t.reversed) {
                         func = 'prepend';
                         if (message.get('userTo') && message.get('userTo')['id'] == document.mainController.userId) {
-                            $.bootstrapGrowl(
-                                message.view.$el.children().find('img, .js-quote, .js-answer').remove().end().html(),
-                                {
-                                    'delay': 0,
-                                    'width': 'auto'
-                                }
-                            );
+                            var mes = message.view.$el.children().find('img, .js-quote, .js-answer').remove().end().html(),
+                                mesType;
+                            if (code == 'warning') {
+                                mesType = "warning"
+                            }
+                            else {
+                                mesType = "info"
+                            }
+                            toastr[mesType](mes);
                         }
                         knock();
                     } else {

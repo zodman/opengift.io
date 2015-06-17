@@ -11,28 +11,10 @@ var userDynamics = {
                 'action': 'getUserLastOpenTask'
             }, function (task) {
                 if (task && task['name']) {
-                    //$.bootstrapGrowl(
-                    //    "Вы можете вернуться к задаче <a href='" + task['url'] + "'>"
-                    //        + task['project__name'] + '/ ' + task['name'] + "</a>",
-                    //    {
-                    //        'delay': 0,
-                    //        'width': 'auto'
-                    //    }
-                    //);
                     toastr.info(
                         "<a href='" + task['url'] + "'>" + task['project__name'] + '/ '
                         + task['name'] + "</a>",
-                        'Вы можете вернуться к задаче',
-                        {
-                            "closeButton": true,
-                            "newestOnTop": false,
-                            "positionClass": "toast-top-full-width",
-                            "preventDuplicates": true,
-                            "onclick": null,
-                            "timeOut": 0,
-                            "extendedTimeOut": 0,
-                            "tapToDismiss": false
-                        }
+                        'Вы можете вернуться к задаче'
                     );
                 }
             }, 'json');
