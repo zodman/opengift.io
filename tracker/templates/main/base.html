@@ -1,4 +1,4 @@
-{% load thumbnail sekizai_tags i18n wiki_tags jsonify less get_settings %}{% load url from future %}
+{% load thumbnail sekizai_tags i18n jsonify less get_settings %}{% load url from future %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -45,9 +45,6 @@
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/add.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/panel.css" />
-    <link rel="stylesheet" media="all" href="/static/wiki/markitup/skins/simple/style.css" />
-    <link rel="stylesheet" media="all" href="/static/wiki/markitup/sets/frontend/style.css" />
-    <link rel="stylesheet" media="all" href="/static/wiki/css/all.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
     <link type="text/css" rel="stylesheet" href="/static/js/libs/timepicker/jquery.datetimepicker.css" />
 
@@ -247,18 +244,6 @@ $(function(){
                         <span>Канбан</span>
                     </a>
                 </li>
-                <!--<li class="{% if activeMenuItem == 'profile' %} active{% endif %}">
-                    <a href="/profile/edit/">
-                        <span aria-hidden="true" class="fa fa-user"></span>
-                        <span>ПРОФИЛЬ</span>
-                    </a>
-                </li>-->
-                <li class="{% if is_wiki == 'Y' %} active{% endif %}">
-                    <a href="/wiki/">
-                        <span aria-hidden="true" class="fa fa-file-text"></span>
-                        <span>ВИКИ</span>
-                    </a>
-                </li>
                 <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">
                     <a href="/calendar/">
                         <span aria-hidden="true" class="fa fa-calendar-o"></span>
@@ -451,66 +436,6 @@ $(function(){
 <div class="container">
 
 {% block content %}{% endblock %}
-{% block wiki_body %}{% endblock %}
-
-{% if is_wiki == 'Y' %}
-    <div class="widget wiki">
-    {% block wiki_navbar %}
-
-        <div class="navbar" >
-            <form class="navbar-search pull-right" id="wiki-search-form" method="GET" action="{% url 'wiki:search' %}">
-                <div class="input-group">
-                    <input type="search" class="form-control search-query" name="q" placeholder="{% trans "Поиск..." %}" />
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="button">
-                                <span class="fa fa-search"></span>
-                            </button>
-                        </span>
-                </div><!-- /input-group -->
-            </form>
-
-            <div class="nav-collapse collapse navbar-responsive-collapse">
-                <div class="pull-right-block-on-responsive">
-                    {% if user.is_authenticated %}
-{#                            <ul class="nav navbar-nav">                                               #}
-{#                                <li class="dropdown">                                                 #}
-{#                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">       #}
-{#                                        <span class="badge notification-cnt">0</span>                 #}
-{#                                        {{ user }}                                                    #}
-{#                                        <b class="caret"></b>                                         #}
-{#                                    </a>                                                              #}
-{#                                    <ul class="dropdown-menu">                                        #}
-{#                                        <li>                                                          #}
-{#                                            <a href="{% url 'wiki:logout' %}">                        #}
-{#                                                <i class="icon-off"></i>                              #}
-{#                                                {% trans "Log out" %}                                 #}
-{#                                            </a>                                                      #}
-{#                                        </li>                                                         #}
-{#                                        {% include "wiki/plugins/notifications/menubaritem.html" %}   #}
-{#                                    </ul>                                                             #}
-{#                                </li>                                                                 #}
-{#                            </ul>                                                                     #}
-                    {% else %}
-
-                        <ul class="nav navbar-nav">
-                            <li>
-                                <a href="{% login_url as wiki_login_url %}{{ wiki_login_url }}">{% trans "Log in" %}</a>
-                            </li>
-                            <li>
-                                <a href="{% url 'wiki:signup' %}">{% trans "Sign up" %}</a>
-                            </li>
-                        </ul>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
-
-    {% endblock %}
-        {% block wiki_breadcrumbs %}{% endblock %}
-        {% block wiki_contents %}{% endblock %}
-
-    </div>
-{% endif %}
 
 {% if current_notice %}
     <script language="javascript">

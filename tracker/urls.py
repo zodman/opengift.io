@@ -24,7 +24,6 @@ from django.shortcuts import HttpResponse
 
 admin.autodiscover()
 
-from wiki.urls import get_pattern as get_wiki_pattern
 from django_notify.urls import get_pattern as get_notify_pattern
 
 from ajaxuploader.backends.local import LocalUploadBackend
@@ -57,9 +56,6 @@ result_received.connect(payment_received)
 
 default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 
-
-def wikiCustomView(*args, **kwargs):
-    wikiRealView = get_wiki_pattern()
 
 urlpatterns = patterns('',
                        # Examples:
@@ -110,7 +106,6 @@ urlpatterns = patterns('',
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
                        url(r'^user_key_handle/add/$', KeyHandler.key_add),
                        url(r'^user_key_handle/remove/(?P<key_id>[0-9_]+)', KeyHandler.key_remove),
-                       url(r'^wiki/', get_wiki_pattern()),
                        url(r'^notify/', get_notify_pattern()),
                        url(r'^import_teamlab/', XML_Import.importView),
                        url(r'^statistic/$', MainPage.indexRender, {'widgetList': ["user_statistic"]}),
