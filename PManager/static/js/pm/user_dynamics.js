@@ -19,26 +19,18 @@ var userDynamics = {
                     //        'width': 'auto'
                     //    }
                     //);
-                    toastr.success(
+                    toastr.info(
                         "<a href='" + task['url'] + "'>" + task['project__name'] + '/ '
-                        + task['name'] + "</a>" + "<br /><br /><button type='button' class='btn clear'>OK</button>",
+                        + task['name'] + "</a>",
                         'Вы можете вернуться к задаче',
                         {
                             "closeButton": true,
-                            "debug": false,
                             "newestOnTop": false,
-                            "progressBar": false,
                             "positionClass": "toast-top-full-width",
-                            "preventDuplicates": false,
+                            "preventDuplicates": true,
                             "onclick": null,
-                            "showDuration": "300",
-                            "hideDuration": "1000",
                             "timeOut": 0,
                             "extendedTimeOut": 0,
-                            "showEasing": "swing",
-                            "hideEasing": "linear",
-                            "showMethod": "fadeIn",
-                            "hideMethod": "fadeOut",
                             "tapToDismiss": false
                         }
                     );
