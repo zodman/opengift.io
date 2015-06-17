@@ -1,6 +1,7 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Notice
+
 def noticeSetRead(request):
     id = request.POST.get('id', None)
     if id:

@@ -48,12 +48,6 @@ def initGlobals(request):
             except ValueError:
                 CURRENT_PROJECT = 0
 
-    # if not CURRENT_PROJECT:
-    #     CURRENT_PROJECT = PM_Project.objects.filter(tracker=TRACKER, pk__in=projects)
-    #     if CURRENT_PROJECT:
-    #         CURRENT_PROJECT = CURRENT_PROJECT[0]
-    #         SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
-
     redirect = False
 
     if request.method == 'POST':

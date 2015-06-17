@@ -3,7 +3,9 @@ __author__ = 'Gvammer'
 from django.core.files.storage import FileSystemStorage
 import os
 from uuid import uuid4
-
+# todo: remove this, what if path will be changed? cdn can be an option
+# will fail if filesystem file descriptors limit, should not use hardcoded path
+# should be FileStorage engine instead of a function
 def path_and_rename(path, pSubdir=False):
 
     def wrapper(instance, filename):

@@ -22,17 +22,8 @@ from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
-# from PManager.customs.storages import MyFileStorage
-# mfs = MyFileStorage()
+from PManager.services.service_queue import service_queue
 
-
-# опять удобства
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
 
 
 def redisSendTaskUpdate(fields):

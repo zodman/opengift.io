@@ -1,4 +1,4 @@
-{% load thumbnail sekizai_tags i18n jsonify less get_settings %}{% load url from future %}
+{% load thumbnail i18n jsonify less get_settings %}{% load url from future %}
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -6,30 +6,7 @@
     <meta name="description" content="">
     <meta name="keywords" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
-
-    <script type="text/javascript" src="/static/js/libs/jquery.min.js"></script>
-    <script type="text/javascript" src="/static/js/libs/html5shiv.js"></script>
-    <script type="text/javascript" src="/static/js/libs/jquery.history.min.js"></script>
-    <script type="text/javascript" src="/static/js/libs/howler.min.js"></script>
-    <script type="text/javascript" src="/static/js/libs/timepicker/jquery.datetimepicker.js"></script>
-    <script type="text/javascript" src="/static/js/pm/script.js"></script>
-    <script type="text/javascript" src="/static/js/pm/main.js"></script>
-
-    <script type="text/javascript" src="/static/js/libs/backbone.js"></script>
-    <script type="text/javascript" src="/static/js/libs/backbone.iobind.js"></script>
-    <script type="text/javascript" src="/static/js/libs/backbone.iosync.js"></script>
-    <script type="text/javascript" src="/static/js/pm/panel.js"></script>
-    <script type="text/javascript" src="/static/js/pm/tasks.js"></script>
-    <script type="text/javascript" src="/static/js/pm/files.js"></script>
-    <script type="text/javascript" src="/static/js/pm/beep.js"></script>
-    <script type="text/javascript" src="/static/js/pm/hint.js"></script>
-    <script type="text/javascript" src="/static/js/pm/user_dynamics.js"></script>
-    <script type="text/javascript" src="/static/js/pm/sock_connector.js"></script>
-    <script type="text/javascript" src="/static/js/pm/user-notice.js"></script>
-    <script type="text/javascript" src="/static/js/libs/socket.io.js"></script>
-    <script type="text/javascript" src="/static/js/pm/current_timer.js"></script>
-    <script type="text/javascript" src="/static/js/pm/drowCanvas.js" xmlns="http://www.w3.org/1999/html"></script>
-    <script type="text/javascript" src="/static/js/libs/jquery.createAvatar.js"></script>
+    {% compressed_js 'base' %}
 
     <link type="text/css" rel="stylesheet" href="/static/css/reset.css" />
     <link type="text/css" rel="stylesheet" href="/static/css/external/imgareaselect-animated.css" />
@@ -508,38 +485,11 @@ $(function(){
 {% block jstests %}{% endblock %}
 <iframe id="fileinput" src="" style="display:none;"></iframe>
 
-<script src="/static/js/bootstrap/bootstrap.min.js"></script>
-<script src="/static/js/bootstrap/typehead.js"></script>
-<script src="/static/js/libs/boostrap.growl.js"></script>
-
 
 <link type="text/css" rel="stylesheet" href="/static/css/bootstrap-combobox.css" />
-<script type="text/javascript" src="/static/js/bootstrap/bootstrap-combobox.js"></script>
-
-{#<script src="/static/js/bootstrap/bootstrap-transition.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-alert.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-modal.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-dropdown.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-scrollspy.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-tab.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-tooltip.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-popover.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-button.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-collapse.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-carousel.js"></script>#}
-{#<script src="/static/js/bootstrap/bootstrap-typeahead.js"></script>#}
-
-
-<script src="/static/js/libs/jquery.event.outside.min.js"></script>
-<script src="/static/js/libs/apng-canvas.js"></script>
-<script src="/static/js/libs/jquery.imgareaselect.min.js"></script>
-<script src="/static/js/libs/jquery.form.js"></script>
-<script src="/static/js/libs/jquery.cookie.js"></script>
-<script src="/static/js/libs/fancybox.js"></script>
 <!--[if lte IE 7]>
     <link type="text/css" rel="stylesheet" href="/static/css/external/linecons/linecons-ie7.css" />
     <script src="/static/js/linecons/lte-ie7.js"></script>
 <![endif]-->
-{% render_block "js" %}
 </body>
 </html>

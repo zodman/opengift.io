@@ -6,14 +6,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 from django.utils import timezone
 from PManager.classes.server.message import RedisMessage
-
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
-
+from PManager.services.service_queue import service_queue
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,

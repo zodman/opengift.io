@@ -56,9 +56,6 @@ def fileSave(request):
             # todo: убрать все, что отвечало за обрезку изображения
             outfile = "PManager/static/upload/tmp/cropped.png"
             im.save(outfile, "PNG")
-            # hash = hashlib.sha1()
-            # hash.update(str(time.time()))
-            # hash.hexdigest()[:10]
             file.file.delete()
             #сохраняем картинку в базу
             file.file.save(
@@ -339,13 +336,8 @@ class AjaxFileUploader(object):
                         fileNow.category = PM_File_Category.objects.get(pk=sId)
                     except PM_File_Category.DoesNotExist:
                         pass
-                        #fileNow.file = File(file(os.path.join(ret_json['path'])))
-                        #print File(file(os.path.join(ret_json['path']))).size
 
-                fileNow.file.name = os.path.join(
-                    ret_json['path'])#save(filename,File(file(os.path.join(ret_json['path']))))
-
-                #fileNow.file.save(filename,ContentFile(file(ret_json['path'])))
+                fileNow.file.name = os.path.join(ret_json['path'])
                 fileNow.save()
 
                 if version_of:
@@ -354,7 +346,6 @@ class AjaxFileUploader(object):
                         fileOld.addNewVersion(fileNow)
                     except PM_Files.DoesNotExist:
                         pass
-                        #                print fileNow.file.file.size
 
                 ret_json.update({
                     'id': fileNow.id,

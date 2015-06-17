@@ -24,7 +24,6 @@ class PM_MailEvent:
                 msg = EmailMessage(self.subject, self.message, self.from_address, [self.to])
                 msg.content_subtype = "html"  # Main content is now text/html
                 msg.send()
-                #send_mail(self.subject, self.message, self.from_address,self.to, fail_silently=True)
             except BadHeaderError:
                 return 'Invalid header found.'
 

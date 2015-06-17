@@ -5,8 +5,6 @@ from pymorphy.contrib import tokenizers
 class trackMorphy():
     text = u'' #текст для обработки
     tags = []  #массив тэгов (каждый тэг является объектом Tags)
-    #relatedUser = models.ForeignKey(User,null=True)
-    #relatedTask = models.ForeignKey(PM_Task,null=True)
     allowWordClasses = [u'С',u'ИНФИНИТИВ',u'Г',u'П']
 
     #parse text and returns array of tags
