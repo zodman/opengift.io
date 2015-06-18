@@ -12,13 +12,10 @@ from django.utils import timezone
 import datetime
 
 
-def check_milestones(task):
+def check_milestones(initTask):
     result = []
     order = ['-critically', '-dateCreate']
-    initTask = task  #PM_Task.objects.get(id=task_id)
     responsible = initTask.resp
-    if not responsible:
-        return result
     tasks = PM_Task.objects.filter(resp=responsible, closed=False, virgin=True)
     tasks = tasks.order_by(*order)
     tasks = tasks.values(

@@ -1794,6 +1794,18 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
+    origin = PM_Task.objects.get(id=task.id)
+
+    if not task.resp:
+        return
+
+    if (
+        origin.resp and
+        task.critically == origin.critically and
+        task.planTime == origin.planTime and
+        task.resp.id == origin.resp.id
+    ):
+        return
 
     overdueMilestones = check_milestones(task)
     if not overdueMilestones:
