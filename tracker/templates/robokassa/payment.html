@@ -4,30 +4,72 @@
           method="POST" name="robo">
         {{ form.as_p }}
     </form>
-    <div class="promo_payment">
-        <h4><i class="fa fa-diamond"></i>Premium аккаунт Heliard</h4>
-
-        <p align="center"><b>С Premium аккаунтом вы можете:</b></p>
-        <ul>
-            <li><i class="fa fa-folder"></i>Создавать и вести любое количество своих собственных проектов</li>
-            <li><i class="fa fa-user-plus"></i>Приглашать людей в проекты и распределять их роли в них</li>
-            <li><i class="fa fa-paper-plane"></i>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
-            <li><i class="fa fa-file-text-o"></i>Вести собственную Wiki по своим проектам</li>
-            <li><i class="fa fa-star"></i>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
-        </ul>
-        <div class="payment-logos">
-            <a class="visa" href="#"></a>
-            <a class="master" href="#"></a>
-            <a class="am" href="#"></a>
-            <a class="jcb" href="#"></a>
-            <a class="dinners" href="#"></a>
-            <a class="webmoney" href="#"></a>
-            <a class="yandex" href="#"></a>
-            <a class="qiwi" href="#"></a>
+<script src="/static/js/jquery.fancyform.min.js"></script>
+        <script>
+            $(function(){
+                $(".promo_payment_plan input:radio").transformRadio({
+                    base : "class" // Can be image or class, if class a span will be added
+                });
+             });
+        </script>
+<div class="promo_payment_wrapper">
+    <div class="promo_payment clearfix">
+        <div class="promo_payment_header clearfix">
+            <div class="tariff-item-wrapper tariff-item-wrapper-basic">
+                <div class="tariff-item-title">Базовый</div>
+                <div class="tariff-item">1 проект</div>
+                <div class="tariff-item grey-bg">неограничено</div>
+                <div class="tariff-item"><i class="fa fa-remove"></i></div>
+                <div class="tariff-item grey-bg"><i class="fa fa-remove"></i></div>
+                <div class="tariff-item">1 Gb</div>
+                <div class="tariff-item grey-bg last"><span class="for-free">Бесплатно</span></div>
+            </div>
+            <div class="tariff-item-wrapper tariff-item-wrapper-premium">
+                <div class="tariff-item-title">Премиум</div>
+                <div class="tariff-item"><span class="hidden-tariff-item"><b>Проектов:</b>&nbsp;</span>неограничено</div>
+                <div class="tariff-item grey-bg"><span class="hidden-tariff-item"><b>Исполнителей:</b>&nbsp;</span>неограничено</div>
+                <div class="tariff-item"><span class="hidden-tariff-item"><b>Git-репозиториев:</b>&nbsp;</span>1 на каждый проект</div>
+                <div class="tariff-item grey-bg"><span class="hidden-tariff-item"><b>Shared-хостингов:</b>&nbsp;</span>1 на каждый проект</div>
+                <div class="tariff-item"><span class="hidden-tariff-item"><b>Файловое хранилище:</b>&nbsp;</span>неограничено</div>
+                <div class="tariff-item grey-bg last">в месяц<span class="premium">900 руб.</span></div>
+            </div>
+            <div class="tariff-item-wrapper tariff-item-wrapper-desc">
+                <div class="tariff-item-title">&nbsp;</div>
+                <div class="tariff-item">проектов</div>
+                <div class="tariff-item grey-bg">исполнителей</div>
+                <div class="tariff-item">git-репозиториев</div>
+                <div class="tariff-item grey-bg">shared-хостингов</div>
+                <div class="tariff-item">файловое хранилище </div>
+            </div>
         </div>
-        <p class="price" align="center"><span>900 руб.</span> / месяц <br>
-            <button class="btn btn-success btn-large" onclick="document.robo.submit()">{% if request.user.is_staff %}Продлить{% else %}Получить{% endif %} Premium на 1 месяц</button>
-        </p>
-
     </div>
+    <div class="promo_payment_footer_wrapper clearfix">
+        <div class="promo_payment_footer">
+        <div class="promo_payment_footer_left">
+            <div class="promo_payment_plan clearfix">
+                <div class="promo_payment_plan_item">
+                    <label><input type="radio" name="radio">1 месяц<br><span>900 рублей</span></label>
+                </div>
+                <div class="promo_payment_plan_item">
+                    <label><input type="radio" name="radio">3 месяца<br><span>2300 рублей</span></label>
+                </div>
+                <div class="promo_payment_plan_item">
+                    <label><input type="radio" name="radio">1 год<br><span>9000 рублей</span></label>
+                </div>
+            </div>
+            <div class="payment-icons-wrapper">
+                <ul class="payment-icons clearfix">
+                    <li class="mastercard active"><a data-id="7" class="js-select-ps active" href="">mastercard</a></li>
+                    <li class="visa"><a data-id="7" class="js-select-ps" href="">visa</a></li>
+                    <li class="yandex"><a data-id="1" class="js-select-ps" href="">yandex</a></li>
+                    <li class="sms"><a data-id="9" class="js-select-ps" href="">sms</a></li>
+                    <li class="webmoney"><a data-id="10" class="js-select-ps" href="">webmoney</a></li>
+                    <li class="sberbank"><a data-id="11" class="js-select-ps" href="">sberbank</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="promo_payment_footer_right"><input type="button" class="yellow button" value="Оплатить премиум"></div>
+        </div>
+    </div>
+</div>
 {% endblock %}
