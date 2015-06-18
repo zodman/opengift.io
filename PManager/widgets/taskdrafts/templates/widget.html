@@ -1,14 +1,18 @@
 <div>
     {% if not taskdrafts.drafts %}
-            <div class="widget">
+            <div class="widget inner">
                 <div class="widget-title clearfix">
-                    Нет открытых списков задач.
+                    Список задач
                 </div>
+                <div class="widget-body">Нет открытых списков задач.</div>
             </div>
     {% else %}
         {% for draft in taskdrafts.drafts %}
-            <div class="widget">
+            <div class="widget inner">
                 <div class="widget-title clearfix">
+                    Список задач
+                </div>
+                <div class="widget-body clearfix">
                     {{ draft.id }}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
                     {% if draft.author.id == request.user.id %}
                         <div class="right" style="float:right">
