@@ -2312,9 +2312,9 @@ background-image: linear-gradient(to bottom, #57A957 0%, #468847 100%); box-shad
 											.message.info .message-info {border-color:#d9edf7;}											
 											.message.info .message-desc-status {color:#3a87ad;}											
 										/*КРАСНОЕ СООБЩЕНИЕ*/	
-										.message.danger {background:#f2dede; border-color:#eed3d7;}
-											.message.danger .message-info {border-color:#eed3d7;}											
-											.message.danger .message-desc-status {color:#b94a48;}	
+										.message.danger, .message.bug-message {background:#f2dede; border-color:#eed3d7;}
+											.message.danger .message-info, .message.bug-message .message-info {border-color:#eed3d7;}
+											.message.danger .message-desc-status, .message.bug-message .message-desc-status {color:#b94a48;}
 										/*ОРАНЖЕВОЕ СООБЩЕНИЕ*/	
 										.message.apprice {background:#ffece2; border-color:#f5ded1;}
 											.message.apprice .message-info {border-color:#f5ded1;}											

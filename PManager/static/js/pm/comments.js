@@ -40,7 +40,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var t = this;
                 this.save(null, {
                     'success': function (model, data) {
-                        console.log(data);
                         try {
                             data = $.parseJSON(data);
                             if (typeof(data) == typeof({}) && data.id) {
@@ -353,20 +352,24 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
-                var act = 'removeClass';
-                if (this.model.get('todo')) {
+                var actTodo  = 'removeClass', actBug = actTodo;
+                if (this.model.get('todo') || this.model.get('bug')) {
                     var $todoCheckBox = $('<i class="fa js-check-todo"></i>').attr('rel', this.model.id);
-                    act = 'addClass';
+
                     if (this.model.get('checked')) {
                         $todoCheckBox.addClass('fa-check-square-o');
                     } else {
                         $todoCheckBox.addClass('fa-square-o');
                     }
                     $todoCheckBox.appendTo(this.$('.js-taskMessageText'));
+
+                    if (this.model.get('todo')) actTodo = 'addClass';
+                    if (this.model.get('bug')) actBug = 'addClass';
                 } else {
                     this.$('.js-check-todo').remove();
                 }
-                this.$('.message')[act]('todo-message');
+                this.$('.message')[actTodo]('todo-message');
+                this.$('.message')[actBug]('bug-message');
 
                 if (this.model.get('canEdit')) {
                     this.$('.js-editTaskMessage').show();
