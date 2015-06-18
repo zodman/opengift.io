@@ -2957,9 +2957,10 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .promo_payment_footer_wrapper {padding: 35px 0; background: #419741; border-top: 1px solid #3e8f3e; box-shadow: 0px 1px 0px #54b554 inset;}
 .promo_payment_footer {max-width: 1000px; margin: 0 auto;}
+.payment-icons-wrapper {text-align: center;}
 .payment-icons {list-style: none; margin-bottom: 0px;}
-.payment-icons li {float: left; margin-right: 20px;}
-.payment-icons li a {background:url("../../static/images/money-icons.png") 0px 0px no-repeat; height: 43px; text-indent: -9999em; display: block;}
+.payment-icons li {margin: 0 10px; display:inline-block; }
+.payment-icons li span {background:url("../../static/images/money-icons.png") 0px 0px no-repeat; height: 43px; text-indent: -9999em; display:inline-block;}
 .payment-icons li {padding: 5px 10px; margin: 5px 10px; border: 2px solid rgba(1,1,1,0);}
 .payment-icons li.active {
     background:#47a447;
@@ -2971,12 +2972,12 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     -moz-box-shadow: 0 1px 1px rgba(1,1,1,0.2) inset;
     -webkit-box-shadow: 0 1px 1px rgba(1,1,1,0.2) inset;
 }
-.payment-icons li.mastercard a {width: 67px; background-position: 0px 0px; }
-.payment-icons li.visa a {background-position: -67px 0px; width: 63px;}
-.payment-icons li.yandex a {background-position: -130px 0px; width: 35px;}
-.payment-icons li.sms a {background-position: -165px 0px; width: 44px;}
-.payment-icons li.webmoney a {background-position: -210px 0px; width: 40px;}
-.payment-icons li.sberbank a {background-position: -251px 0px; width: 90px;}
+.payment-icons li.mastercard span {width: 67px; background-position: 0px 0px; }
+.payment-icons li.visa span {background-position: -67px 0px; width: 63px;}
+.payment-icons li.yandex span {background-position: -130px 0px; width: 35px;}
+.payment-icons li.sms span {background-position: -165px 0px; width: 44px;}
+.payment-icons li.webmoney span {background-position: -210px 0px; width: 40px;}
+.payment-icons li.sberbank span {background-position: -251px 0px; width: 90px;}
 
 .button.yellow {
     cursor: pointer;
@@ -3022,7 +3023,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     border-top: #b1600f;
 }
 
-.promo_payment_plan_item {float: left; position: relative; width: 230px; margin:0 15px; text-align: center; color: #a9ffa9; font-size: 16px;}
+.promo_payment_plan_item {float: left; position: relative; width: 230px; margin:0 15px; padding-left: 25px; color: #a9ffa9; font-size: 16px;}
 .promo_payment_plan_item span {display: block; font-size: 30px; line-height: 30px; font-weight: bold; color: #fff;}
 .promo_payment_plan_item input {position: absolute; left: 0px; top: 13px;}
 
@@ -3030,7 +3031,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .promo_payment_plan .trans-element-radio {
     display: inline-block;
     position: absolute;
-    top: 10px;
+    top: 21px;
     left: -15px;
     width: 28px;
     height: 28px;
@@ -3051,14 +3052,13 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     .promo_payment_footer_right {float: none; width: 100%;}
     .promo_payment_footer_left {margin-bottom: 20px;}
     .promo_payment_plan_item {width: calc(33.33% - 30px);}
-    .promo_payment_plan_item span {font-size: 24px; line-height: 24px;}
+    .payment-icons-wrapper {margin-top: 20px;}
 }
 
 @media only screen and (max-width: 768px) {
     .tariff-item-wrapper-basic {display: none;}
     .promo_payment_plan_item {width: 100%; margin-bottom: 15px; text-align: left; padding-left: 25px;}
     .promo_payment_plan_item:last-child {margin-bottom: 0px;}
-    .promo_payment_plan_item span {font-size: 24px; line-height: 24px;}
 }
 
 @media only screen and (max-width: 568px) {
