@@ -2,7 +2,7 @@
     {% if not taskdrafts.drafts %}
             <div class="widget inner">
                 <div class="widget-title clearfix">
-                    Список задач
+                    Списки задач
                 </div>
                 <div class="widget-body">Нет открытых списков задач.</div>
             </div>
@@ -10,7 +10,7 @@
         {% for draft in taskdrafts.drafts %}
             <div class="widget inner">
                 <div class="widget-title clearfix">
-                    Список задач
+                    Списки задач
                 </div>
                 <div class="widget-body clearfix">
                     {{ draft.id }}&nbsp;&nbsp;|&nbsp;&nbsp;<a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>

@@ -177,6 +177,7 @@ def widget(request, headerValues, arFilter, q):
             if messages[iMesCount - 1].author and messages[iMesCount - 1].author.id == cur_user.id:
                 lamp = 'asked'
         arTodo = []
+        arBugs = []
         for mes in messages:
             if mes.userTo and mes.userTo.id == request.user.id:
                 mes.read = True
@@ -186,7 +187,14 @@ def widget(request, headerValues, arFilter, q):
                 arTodo.append({
                     'id': mes.id,
                     'text': mes.text,
-                    'checked': mes.todo_checked
+                    'checked': mes.checked
+                })
+
+            if mes.bug:
+                arBugs.append({
+                    'id':mes.id,
+                    'text': mes.text,
+                    'checked': mes.checked
                 })
 
             ob = {
@@ -206,6 +214,7 @@ def widget(request, headerValues, arFilter, q):
             startedTimer = None
 
         setattr(task, 'todo', arTodo)
+        setattr(task, 'bug', arBugs)
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.get_task_template()
 
