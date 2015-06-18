@@ -78,6 +78,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-show-commit-diff": 'showCommit',
                 "click .js-show-file-diff": 'showFileDiff',
                 "click .js-set-todo": 'setTodo',
+                "click .js-set-bug": 'setBug',
+                "click .js-check-bug": 'checkTodo',
                 "click .js-check-todo": 'checkTodo'
 
             },
@@ -86,23 +88,44 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             'setTodo': function (e) {
                 if (e.currentTarget) {
-                    var $btn = $(e.currentTarget), setTodo;
-                    var view = this;
-                    $btn.toggleClass('checked');
-                    setTodo = $btn.is('.checked');
-                    this.model.set('todo', setTodo);
-
-                    this.model.saveToServer(function (data) {
-                        view.render();
-                        $(window).triggerHandler('pmSetTodo', view.model);
-                    });
+                    this.setTaskOptions(e, 'todo')
                 }
                 return false;
             },
+            'setBug': function (e) {
+                if (e.currentTarget) {
+                    this.setTaskOptions(e, 'bug')
+                }
+                return false;
+            },
+            'setTaskOptions': function (e, opt) {
+                var $btn = $(e.currentTarget), setOpt;
+                var view = this,
+                    todo = this.model.get('todo'),
+                    bug = this.model.get('bug'),
+                    reverseOpt = {
+                        bug: 'todo',
+                        todo: 'bug'
+                    };
+
+                if ((todo != bug) && !($btn.is('.checked'))) {
+                    $btn.siblings('.js-set-bug, .js-set-todo').toggleClass('checked');
+                    this.model.set(reverseOpt[opt], false)
+                }
+
+                $btn.toggleClass('checked');
+                setOpt = $btn.is('.checked');
+
+                this.model.set(opt, setOpt);
+                this.model.saveToServer(function (data) {
+                    view.render();
+                    $(window).triggerHandler('pmSetTodo', view.model);
+                });
+            },
             'checkTodo': function () {
-                var checkTodo, view = this;
-                checkTodo = !this.model.get('todo_checked');
-                this.model.set('todo_checked', checkTodo);
+                var check, view = this;
+                check = !this.model.get('checked');
+                this.model.set('checked', check);
                 view.render();
 
                 this.model.saveToServer(function (data) {
@@ -156,7 +179,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     'DATE_CREATE': messageInfo.date,
                     'FILE_LIST': '',
                     'AVATAR_SRC': ''
-                }
+                };
                 arKeys['HIDDEN_LABEL'] = '';
                 if (messageInfo.hidden_from_employee) {
                     arKeys['HIDDEN_LABEL'] += 'Скрыто от персонала <a href="#"><i class="fa fa-ban js-cancel-resp-hide"></i></a>';
@@ -198,7 +221,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
                 arKeys['TODO_BTN'] = '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">To Do</a>';
-                //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.todo_checked?'checked':'')+' class=js-check-todo""/>
+                arKeys['BUG_BTN'] = '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Bug</a>';
+                //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
                 if (messageInfo.task && messageInfo.task.name) {
@@ -332,7 +356,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (this.model.get('todo')) {
                     var $todoCheckBox = $('<i class="fa js-check-todo"></i>').attr('rel', this.model.id);
                     act = 'addClass';
-                    if (this.model.get('todo_checked')) {
+                    if (this.model.get('checked')) {
                         $todoCheckBox.addClass('fa-check-square-o');
                     } else {
                         $todoCheckBox.addClass('fa-square-o');

@@ -114,6 +114,18 @@
                 {% endfor %}
             {% endif %}
             </span>
+            <span class="js-bug-list">
+                {% if task_detail.task.bug %}
+                    {% for bug in task_detail.task.bug %}
+                        <button data-content="{{ bug.text }}" data-placement="top" data-toggle="popover"
+                                data-container="body" class="js-bug-checkbox" rel="{{ bug.id }}" type="button"
+                                data-original-title="" title="">
+                            {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}
+                                <i class="fa fa-square-o"></i>{% endif %}
+                        </button>
+                    {% endfor %}
+                {% endif %}
+            </span>
         </p>
         
 {#        {{ task_detail.params }}#}

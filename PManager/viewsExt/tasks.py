@@ -867,6 +867,22 @@ class taskAjaxManagerCreator(object):
     def process_taskClose(self):
         t = self.taskManager.task
         user = self.currentUser
+        bugs = t.messages.filter(bug__isnull=False)
+        for bug in bugs:
+            if not bug.checked:
+                text = u'Перед тем как закрыть задачу, пометьте все баги в ней как решенные.'
+                message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
+                                          userTo=user, code='WARNING', hidden=True)
+                message.save()
+                responseJson = message.getJson()
+
+                mess = RedisMessage(service_queue,
+                                    objectName='comment',
+                                    type='add',
+                                    fields=responseJson
+                                    )
+                mess.send()
+                return
         if t.started:
             t.Stop()
             t.endTimer(user, u'Закрытие задачи')
