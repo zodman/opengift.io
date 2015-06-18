@@ -548,8 +548,16 @@ border-bottom-right-radius: 0px;}
 .btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
 .btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
-.big-input { float:left; width:calc(100% - 135px); position:relative; }
-.big-input .input-block-level { padding:4px 12px; }
+.big-input { float:left; width:calc(100% - 135px); position:relative;}
+.big-input .fa {
+    color: #aaa;
+    font-size: 22px;
+    left: 13px;
+    position: absolute;
+    top: 7px;
+    cursor: pointer;
+}
+.big-input .input-block-level { padding:4px 12px 4px 37px; }
 .task-create-wrapper > ul,
 .add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
 
@@ -816,10 +824,17 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 							.task-info .task-info-time a.play .fa-play-circle  {color: #47a447;}
 							.task-info .task-info-time a.play .fa-pause {color:#ffa500;}
 						.task-info .task-info-author a, .task-info .task-info-time .link-with-popup {border-bottom:1px dashed #47a447; color: #47a447 !important; text-decoration:none !important;}
-						.task-info .task-info-time div.dropdown-menu {padding:10px; font-size:12px; width:215px;}
+						.task-info .task-info-time div.dropdown-menu {padding:10px; font-size:12px; width:215px; left:-36px;}
 							.task-info .task-info-time div.dropdown-menu a.btn {color: #fff;}
-					
-					.task-info .task-info-control {position:absolute; top:10px; right:10px;}
+
+                            .task-info .task-info-time div.dropdown-menu {position: relative;}
+                            .task-info .task-info-time div.dropdown-menu:after, .task-info .task-info-time div.dropdown-menu:before {left:27px; bottom: 100%; border: solid transparent; content: " "; height: 0; width: 0; position: absolute; pointer-events: none; }
+                            .task-info .task-info-time div.dropdown-menu:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 7px; margin-left: -7px; }
+                            .task-info .task-info-time div.dropdown-menu:before { border-color: rgba(204, 204, 204, 0); border-bottom-color: #cccccc; border-width: 8px; margin-left: -8px; }
+
+
+
+.task-info .task-info-control {position:absolute; top:10px; right:10px;}
 						.task-info .task-info-control > a, 
 						.task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); border-left:1px solid #fff; box-shadow:-1px 0px 0px rgba(1,1,1,0.1); padding:0 10px; text-decoration:none;}
 						

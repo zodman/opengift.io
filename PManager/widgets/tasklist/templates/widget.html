@@ -22,7 +22,8 @@
             <div class="clearfix">
              			<div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text" placeholder="Добавить задачу (Ctrl+K)...">
-                    <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
+                            <a class="fa fa-plus"></i>
+                            <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
                         <li>
                             <a rel="new" href="javascript:void(0)"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">

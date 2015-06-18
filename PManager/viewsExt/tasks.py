@@ -99,7 +99,6 @@ def __change_resp(request):
     else:
         task.setStatus('revision')
     #end outsource
-    # task = modifiedBy(task, request.user)
     task.lastModifiedBy = request.user
 
     task.save()
@@ -112,7 +111,8 @@ def __change_resp(request):
                  'name': resp_name,
                  'avatar': resp.get_profile().avatar_rel
                  }],
-        'status': task.status.code
+        'status': task.status.code,
+        'critically': task.critically
     })
 
     if task.resp.email:
@@ -447,6 +447,7 @@ def taskListAjax(request):
                         request.user,
                         'SET_PLAN_TIME'
                     )
+                    sendData['critically'] = task.critically
                 elif property == "to_plan":
                     task.onPlanning = True
                     sendData['onPlanning'] = True
@@ -491,6 +492,7 @@ def taskListAjax(request):
                         request.user,
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
+                    sendData['critically'] = task.critically
                 elif property == "status":
                     if task.status and task.status.code == 'not_approved' and not request.user.is_staff:
                         #client have not enough money#

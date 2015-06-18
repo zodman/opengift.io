@@ -394,8 +394,6 @@ class PM_Task(models.Model):
     currentTimer = False
     startedTimerExist = False
 
-    backup = None
-
     @property
     def url(self):
         return "/task_detail/?" + (
@@ -1796,56 +1794,41 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    if task.backup:
-        if task.backup['ignoreMilestoneCheck']:
-            task.backup = None
-            return
+    origin = PM_Task.objects.get(id=task.id)
+
+    if not task.resp:
+        return
+
+    if (
+        origin.resp and
+        task.critically == origin.critically and
+        task.planTime == origin.planTime and
+        task.resp.id == origin.resp.id
+    ):
+        return
 
     overdueMilestones = check_milestones(task)
     if not overdueMilestones:
         return
     else:
-        # Save backup
-        backup = {'needRollback': True}
-        fields = ['resp__id', 'milestone__id', 'planTime', 'critically']
-        taskBackup = PM_Task.objects.filter(id=task.id).values(*fields)
-        if taskBackup:
-            taskBackup = taskBackup[0]
-            if not task.resp == taskBackup['resp__id']:
-                backup['resp__id'] = taskBackup['resp__id']
-            if not task.milestone == taskBackup['milestone__id']:
-                backup['milestone__id'] = taskBackup['milestone__id']
-            if not task.planTime == taskBackup['planTime']:
-                backup['planTime'] = taskBackup['planTime']
-            if not task.critically == taskBackup['critically']:
-                backup['critically'] = taskBackup['critically']
-            task.backup = backup
+        task.critically = 0
         # Send message
-        template = u'При изменении задачи ' + task.resp.last_name + u' ' +\
-                   task.resp.first_name + u' не будет укладываться в '
+        template = u'При изменении данной задачи '
+        if task.lastModifiedBy == task.resp:
+            template += u'вы не уложитесь в срок по '
+        else:
+            template += task.resp.last_name + u' ' + task.resp.first_name + u' не будет укладываться в срок по '
 
         if len(overdueMilestones) > 1:
-            template += u'следующие цели:'
+            template += u'следующим целям:'
             for milestone in overdueMilestones:
                 template += "\n" + milestone['project__name'] + u': ' + milestone['name'] + ' '
 
         else:
-            template += u'цель ' + overdueMilestones[0]['project__name'] + u': ' + overdueMilestones[0]['name']
+            template += u'цели ' + overdueMilestones[0]['project__name'] + u': ' + overdueMilestones[0]['name']
 
-        # Managers can edit tasks instead of anything, no backup needed
-        # TODO Not implemented, waiting for reaction
-        # for milestone in overdueMilestones:
-        #     managers = PM_ProjectRoles.objects.filter(project=milestone.project,
-        #                                               role__code='manager').values_list('user', flat=True)
-            # if task.lastModifiedBy.id not in managers:
-            #     TODO Перенести сюда строку про возврат значений
-            #     pass
-            # else:
-            #     backup = {'needRollback': False}
-            #     template += "\n" + u'Если возможно, измените критичность задачи или поменяйте ответственного.'
-
-        template += "\n" + u'Мы вернули предыдущие значения в следующих полях: ' \
-                           u'отвественный, цель, плановое время, критичность.'
+        template += "\n" + u'Мы понизили критичность задачи до нуля.' \
+                           u'Измените критичность или ответственного задачи, или сдвиньте сроки цели.'
 
         secondsAgo = datetime.datetime.now() - datetime.timedelta(seconds=5)
         secondsAgo = timezone.make_aware(secondsAgo, timezone.get_default_timezone())
@@ -1857,7 +1840,7 @@ def check_task_save(sender, instance, **kwargs):
 
         if not lastMessages:
             message = PM_Task_Message(text=template, task=task, project=task.project, author=task.resp,
-                                  userTo=task.lastModifiedBy, code='WARNING', hidden=True)
+                                      userTo=task.lastModifiedBy, code='WARNING', hidden=True)
             message.save()
             responseJson = message.getJson()
 
@@ -1868,24 +1851,6 @@ def check_task_save(sender, instance, **kwargs):
                             )
             mess.send()
 
-def after_check(sender, instance, **kwargs):
-    # Restore from backup
-    task = instance
-    if task.backup:
-        if 'needRollback' in task.backup:
-
-            if 'resp__id' in task.backup and task.backup['resp__id']:
-                task.resp = User.objects.get(pk=task.backup['resp__id'])
-            if 'milestone__id' in task.backup and task.backup['milestone__id']:
-                task.milestone = PM_Milestone.objects.get(pk=task.backup['milestone__id'])
-
-            if 'planTime' in task.backup:
-                task.planTime = task.backup['planTime']
-            if 'critically' in task.backup:
-                task.critically = task.backup['critically']
-
-            task.backup['ignoreMilestoneCheck'] = True
-            task.save()
 
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)
@@ -1895,4 +1860,3 @@ pre_delete.connect(remove_git, sender=PM_Project)
 post_save.connect(setActivityOfMessageAuthor, sender=PM_Task_Message)
 pre_save.connect(setOnlySolution, sender=PM_Task_Message)
 pre_save.connect(check_task_save, sender=PM_Task)
-post_save.connect(after_check, sender=PM_Task)
