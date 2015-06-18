@@ -40,6 +40,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var t = this;
                 this.save(null, {
                     'success': function (model, data) {
+                        console.log(data);
                         try {
                             data = $.parseJSON(data);
                             if (typeof(data) == typeof({}) && data.id) {
