@@ -1449,13 +1449,13 @@ class PM_Task_Message(models.Model):
     def updateFromRequestData(self, data):
         changed = False
         if 'checked' in data and self.checked != bool(data['checked']):
-            self.checked = not not data['checked']
+            self.checked = bool(data['checked'])
             changed = True
         if 'todo' in data and self.todo != bool(data['todo']):
-            self.todo = not not data['todo']
+            self.todo = bool(data['todo'])
             changed = True
-        if 'bug' in data and self.todo != bool(data['bug']):
-            self.todo = not not data['bug']
+        if 'bug' in data and self.bug != bool(data['bug']):
+            self.bug = bool(data['bug'])
             changed = True
         if 'hidden_from_employee' in data:
             r = not not data['hidden_from_employee']
@@ -1463,7 +1463,7 @@ class PM_Task_Message(models.Model):
                 self.hidden_from_employee = r
                 changed = True
         if 'hidden_from_clients' in data:
-            r = not not data['hidden_from_clients']
+            r = bool(data['hidden_from_clients'])
             if self.hidden_from_clients != r:
                 self.hidden_from_clients = r
                 changed = True
