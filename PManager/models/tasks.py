@@ -1417,7 +1417,8 @@ class PM_Task_Message(models.Model):
     code = models.CharField(max_length=255, null=True, blank=True)
     read = models.BooleanField(blank=True)
     todo = models.BooleanField(blank=True)
-    todo_checked = models.BooleanField(blank=True)
+    checked = models.BooleanField(blank=True)
+    bug = models.BooleanField(blank=True)
     solution = models.BooleanField(default=False)
 
     def __unicode__(self):
@@ -1447,11 +1448,14 @@ class PM_Task_Message(models.Model):
 
     def updateFromRequestData(self, data):
         changed = False
-        if 'todo_checked' in data and self.todo_checked != bool(data['todo_checked']):
-            self.todo_checked = not not data['todo_checked']
+        if 'checked' in data and self.checked != bool(data['checked']):
+            self.checked = not not data['checked']
             changed = True
         if 'todo' in data and self.todo != bool(data['todo']):
             self.todo = not not data['todo']
+            changed = True
+        if 'bug' in data and self.todo != bool(data['bug']):
+            self.todo = not not data['bug']
             changed = True
         if 'hidden_from_employee' in data:
             r = not not data['hidden_from_employee']
@@ -1538,7 +1542,8 @@ class PM_Task_Message(models.Model):
             'hidden': self.hidden,
             'system': self.isSystemLog,
             'todo': self.todo,
-            'todo_checked': self.todo_checked,
+            'checked': self.checked,
+            'bug': self.bug,
             'project': {
                 'id': self.project.id,
                 'name': self.project.name,
