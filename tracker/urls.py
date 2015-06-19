@@ -41,19 +41,27 @@ def payment_received(sender, **kwargs):
     # role = PM_ProjectRoles.objects.get(project=project, role__code='client')
     profile = user.get_profile()
     sum = int(float(kwargs['OutSum']))
-    if sum == 900:
-        user.is_staff = True
-        user.save()
-        date = profile.premium_till or datetime.datetime.now()
-        date = date + datetime.timedelta(days=30)
-        profile.premium_till = date
-        profile.save()
+
+    if sum:
+        days = None
+        if sum == 900:
+            days = 30
+        elif sum == 2300:
+            days = 90
+        elif sum == 9000:
+            days = 365
+
+        if days:
+            user.is_staff = True
+            user.save()
+            date = profile.premium_till or datetime.datetime.now()
+            date = date + datetime.timedelta(days=days)
+            profile.premium_till = date
+            profile.save()
 
         PM_Project.objects.filter(author=user, locked=True).update(locked=False)
 
-
 result_received.connect(payment_received)
-
 
 default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 
