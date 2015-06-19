@@ -1,5 +1,5 @@
-<script type="text/javascript" src="/widgets/js/user_list/script.js"></script>
-<script type="text/javascript" src="/static/js/bootstrap/bootstrap-tooltip.js"></script>
+{% load compressed %}
+{% compressed_js 'user_list' %}
 <script>
 $(function() {
 		$('body').tooltip({
@@ -10,7 +10,6 @@ $(function() {
 </script>
 <div class="widget">
     <div class="widget-control">
-{#        <a href="#" class="w-collapse">Свернуть</a>#}
         <a href="#" class="w-close">Закрыть</a>
     </div>
 
@@ -99,46 +98,6 @@ $(function() {
                     </div>
                                         
                 </div>
-                <!--
-                <div class="span4 userInfo js-user well well-small" data-id="{{ user.id }}" >
-                <dl class="dl-horizontal">
-                    <dt>
-                        <a href="/user_detail/?id={{ user.id }}">
-                            <img src="{% if user.profile.avatar %}{{ user.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user.last_name }} {{ user.first_name }}" />
-                        </a>
-                    </dt>
-                    <dd>
-                        <div class="User">
-                            <div class="statusImg"></div>
-                            <a href="/user_detail/?id={{ user.id }}">{{ user.last_name }} {{ user.first_name }}</a>
-                        </div>
-                        <address>
-                            <abbr><i class="icon icon-envelope"></i></abbr>
-                            <a href="mailto:{{ user.email }}">{{ user.email }}</a>
-                            <br />
-                            {% if user.phone %}
-                            <abbr title="Телефон"><i class="icon icon-bar"></i></abbr>
-                            {{ user.phone }}
-                            <br />
-                            {% endif %}
-                            {% if user.icq %}
-                            <abbr title="Icq"><i class="icon icon-bar"></i></abbr>
-                            {{ user.icq }}
-                            <br />
-                            {% endif %}
-                            Закрыто задач: {{ user.tasksQty }}
-                        </address>
-                        <span>({% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %})</span>
-                        {#                    <div class="Options">#}
-                        {#                        <div class="btn-group btn-group-vertical">#}
-                            {#                            <a href="#" class="btn Write">Написать сообщение</a>#}
-                            {#                            <a href="#" class="btn Task">Дать задание</a>#}
-                            {#                            <a href="#" class="btn Edit">Редактировать профиль</a>#}
-                            {#                        </div>#}
-                        {#                    </div>#}
-                    </dd>
-                </dl>
-            </div>-->
             {% endfor %}
         </div>
     </div>

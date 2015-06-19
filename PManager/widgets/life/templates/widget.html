@@ -1,7 +1,5 @@
-{% load jsonify thumbnail %}
-<script type="text/javascript" src="/widgets/js/life/script.js"></script>
-<script type="text/javascript" src="/static/js/libs/charts.js"></script>
-{#<script type="text/javascript" src="/static/js/bootstrap/bootstrap-tooltip.js"></script>#}
+{% load jsonify thumbnail compressed %}
+{% compressed_js 'life' %}
 <style>
     .t {
         color: #0bd145;

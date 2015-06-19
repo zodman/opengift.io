@@ -1,4 +1,5 @@
 {% load jsonify compressed %}
+
 <script language="JavaScript" class="tmp_script">
     var widget_file_list_file_tpl = {{ file_list.fileTemplate|jsonify|safe }};
     var widget_file_list_arFiles = [];
@@ -6,7 +7,7 @@
         widget_file_list_arFiles.push({{ fileJson|jsonify|safe }});
     {% endfor %}
 </script>
-<script type="text/javascript" src="/widgets/js/file_list/script.js"></script>
+{% compressed_js 'file_list' %}
 
     <div class="widget file_list">
         <div class="widget-control">

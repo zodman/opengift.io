@@ -1,9 +1,5 @@
-{% load arraytags jsonify %}
-<script type="text/javascript" src="/widgets/js/gantt/gantt.event.block.js"></script>
-<script type="text/javascript" src="/widgets/js/gantt/gantt.thumbnail.js"></script>
-<script type="text/javascript" src="/widgets/js/gantt/gantt.js"></script>
-<script type="text/javascript" src="/widgets/js/gantt/script.js"></script>
-<script type="text/javascript" src="/widgets/js/gantt/dragndrop.js"></script>
+{% load arraytags jsonify compressed %}
+{% compressed_js 'gantt' %}
 <script>
   $(document).ready(function(){
     $.get('/ajax/milestone_create/', function(response){
@@ -460,4 +456,3 @@ var MILESTONES = [
 {% endfor %}
 ];
 </script>
-<script type="text/javascript" src="/static/js/libs/fullscreen.js"></script>

@@ -1,7 +1,6 @@
 {% load jsonify compressed %}
 {% compressed_js 'fileup' %}
-<script type="text/javascript" src="/widgets/js/tasklist/script.js"></script>
-<script type="text/javascript" src="/static/js/pm/show_tutorial.js"></script>
+{% compressed_js 'tasklist' %}
 <script language="JavaScript">
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
