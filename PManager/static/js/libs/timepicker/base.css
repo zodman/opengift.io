@@ -467,26 +467,6 @@ pre .variable.global, pre .variable.class, pre .variable.instance {
 .datepicker tfoot tr:first-child th:hover {
   background: #eeeeee;
 }
-/*
-.input-append.date .add-on i,
-.input-prepend.date .add-on i {
-  display: block;
-  cursor: pointer;
-  width: 16px;
-  height: 16px;
-}
-
-/*[class^="icon-"], [class*=" icon-"] {
-  display:inline-block;
-  width:14px;
-  height:14px;
-  *margin-right:.3em;
-  line-height:14px;
-  vertical-align:text-top;
-  background-image:url("glyphicons-halflings.png");
-  background-position:14px 14px;
-  background-repeat:no-repeat;
-}
-[class^="icon-"]:last-child, [class*=" icon-"]:last-child { *margin-left:0; }*/
+.icon-arrow-left { background-position:-240px -96px; }
 .icon-arrow-left { background-position:-240px -96px; }
 .icon-arrow-right { background-position:-264px -96px; }

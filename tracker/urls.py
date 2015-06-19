@@ -141,3 +141,8 @@ urlpatterns = patterns('',
                        url(r'^promo_tmp/', MainPage.promoTmp),
 )
 
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+
+# ... the rest of your URLconf here ...
+
+urlpatterns += staticfiles_urlpatterns()

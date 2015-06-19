@@ -1,9 +1,5 @@
-{% load floattags jsonify %}
-<script type="text/javascript" src="/static/js/jquery.bxslider.min.js"></script>
-<script type="text/javascript" src="/static/js/libs/raphael-min.js"></script>
-<script type="text/javascript" src="/static/js/libs/charts.js"></script>
-<script type="text/javascript" src="/widgets/js/user_detail/script.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{% load floattags jsonify compressed %}
+{% compressed_js 'user_detail' %}
 <script>
     var global_user_id = {{ user_detail.user.id }};
     window.taskHtml = {{ user_detail.taskTemplate|jsonify|safe }};

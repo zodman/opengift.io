@@ -103,7 +103,7 @@ class PM_Project(models.Model):
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, verbose_name=u'Описание')
     author = models.ForeignKey(User, related_name='createdProjects')
-    image = models.ImageField(upload_to=path_and_rename("PManager/static/upload/project_thumbnails/"), null=True,
+    image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
@@ -157,7 +157,7 @@ class PM_File_Category(models.Model):
 
 
 class PM_Files(models.Model):
-    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'str(instance.projectId.id)'))
+    file = models.FileField(max_length=400, upload_to=path_and_rename("projects", 'str(instance.projectId.id)'))
     authorId = models.ForeignKey(User, null=True)
     projectId = models.ForeignKey(PM_Project, null=True)
     category = models.ForeignKey(PM_File_Category, related_name="files", null=True, blank=True)

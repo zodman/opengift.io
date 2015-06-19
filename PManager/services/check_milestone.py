@@ -7,7 +7,7 @@ __author__ = 'Alwx'
 Если ответственный не укладывается в цели чужих проектов, делать эти операции не разрешается.
 '''
 from PManager.models.tasks import PM_Task, PM_Milestone
-from PManager.viewsExt.gantt import WorkTime
+from PManager.classes.datetime.work_time import WorkTime
 from django.utils import timezone
 import datetime
 

@@ -16,7 +16,7 @@ def project_access(project_id, user_id):
 
 def assets_access(user, uri):
     try:
-        (project_id, file_path) = uri.replace('/static/upload/projects/', '').split('/', 1)
+        (project_id, file_path) = uri.replace('/media/projects/', '').split('/', 1)
         access = project_access(int(project_id), user.id)
         return access
     except (ValueError, AttributeError):

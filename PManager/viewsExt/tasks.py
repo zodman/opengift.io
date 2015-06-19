@@ -15,7 +15,7 @@ import datetime, json, codecs
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions, emailMessage, templateTools
-from PManager.viewsExt.gantt import WorkTime
+from PManager.classes.datetime.work_time import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind

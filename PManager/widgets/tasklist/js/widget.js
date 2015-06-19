@@ -136,8 +136,15 @@ var widget_tl, currentGroup;
 
                         if (this.tabsParams){
                             for (var k in this.tabsParams){
-                                if (this.tabsParams[k] && this.tabsParams[k]['location'])
-                                    this.tabsParams[k]['params'] = $.parseJSON(decodeURIComponent(this.tabsParams[k]['location']));
+                                if (this.tabsParams[k] && this.tabsParams[k]['location']) {
+                                    var data = decodeURIComponent(this.tabsParams[k]['location']);
+                                    try {
+                                        this.tabsParams[k]['params'] = $.parseJSON(data);
+                                    }
+                                    catch (err) {
+                                        this.tabsParams[k]['location'] = ""
+                                    }
+                                }
                             }
                             return this.tabsParams;
                         }
@@ -173,7 +180,7 @@ var widget_tl, currentGroup;
                 }
 
                 this.TL_Tasks.on('add',function(task){
-                    if ($('.js-new-first-task').get(0)){ 
+                    if ($('.js-new-first-task').get(0)){
                         $('.js-new-first-task').remove();
                         showTutorial();
                     }
@@ -364,7 +371,7 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        
+
                         $block = menuTaskBlock('Отдать на Аутсорс', '#invite-developers', function(){
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-add-developers').click(function(e){
@@ -391,9 +398,6 @@ var widget_tl, currentGroup;
                         bottomPanel.removeBlock('inviteDevelopers');
                     }
                 });
-//                    .on('.iCheck-helper','click',function(){
-//                        $(this).sibling(':checkbox').eq(0).trigger('click');
-//                    });
             },
             'taskMove':function(id, parentId){
                 var parentTask = this.TL_Tasks.get(parentId);
@@ -653,7 +657,7 @@ var widget_tl, currentGroup;
                         $(btn).pullTheButton();
                     });
                 }
-                
+
                 $('.task-file-upload input[type=hidden]').remove();
 
                 return this;
@@ -662,11 +666,6 @@ var widget_tl, currentGroup;
                 return this.TL_Search(params, true);
             },
             'TL_Search': function(params, silent) {
-//                var loader = startLoader(
-//                    'medium',
-//                    this.TL_SearchTask.closest('.js-searchFilterBlock').find('.input-group-btn'),
-//                    {'left':120,'top':-20}
-//                );
                 if (!$('.show-more').pushed()) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
 
@@ -766,7 +765,7 @@ var widget_tl, currentGroup;
                 							'<a href="#" class="fa fa-edit"></a>' +
 											'<a href="#" class="fa fa-check-square-o"></a>' +
 										'</div>' : '') +
-                
+
                                 '</div>' +
                             '</div>';
                 var $row = $(row);
@@ -1024,7 +1023,7 @@ var widget_tl, currentGroup;
                     }
                 }
             });
-        }        
+        }
 
         $('.widget.tasklist')
         .on('click','a.add-subtask',function(){
@@ -1051,7 +1050,7 @@ var widget_tl, currentGroup;
                             };
                             if (!$taskWrapper.hasClass('visible-items')) {
                                 $(document).click(function(e) {
-                                    if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {        
+                                    if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {
                                         $subtaskContainer.hide();
                                         $taskWrapper.removeClass('active').removeClass('visible-items');
                                         $taskWrapper.find('.add-task-input').hide();
@@ -1223,15 +1222,10 @@ var widget_tl, currentGroup;
                 enabled: true,
                 endpoint: '/upload/receiver',
                 forceConfirm: false
-                //params: {foo: "bar"}
             },
             display: {
                 fileSizeOnSubmit: true
             }
-    //        ,
-    //        paste: {
-    //            targetElement: $(document)
-    //        }
         })
         .on('error', errorHandler)
         .on('uploadChunk resume', function(event, id, fileName, chunkData) {
@@ -1258,8 +1252,8 @@ $.fn.singleActivate = function(){
         if(!!('ontouchstart' in window)){
             $('.input-group-btn').addClass('mobile-menu');
             $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
-                event.preventDefault(); 
-                event.stopPropagation(); 
+                event.preventDefault();
+                event.stopPropagation();
                 $(this).parent().siblings().removeClass('open');
                 $(this).parent().toggleClass('open');
             });

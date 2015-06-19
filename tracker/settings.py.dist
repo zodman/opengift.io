@@ -3,16 +3,16 @@
 __author__ = 'Rayleigh'
 
 import os.path
-
+from pipeline_settings import *
 # SITE ID
 # todo: ADD PURPOSE TO THIS
 SITE_ID = 1
 
 # DEBUG MODE
-DEBUG = False
+DEBUG = True
 
 # TEMPLATE DEBUG MODE
-TEMPLATE_DEBUG = False
+TEMPLATE_DEBUG = True
 
 # list of admins
 ADMINS = (
@@ -47,21 +47,21 @@ USE_TZ = True
 
 # ####################### PATHS_SETTINGS ###############################
 # ROOT PATH
-PROJECT_ROOT = '/home/heliard/heliard/'
+PROJECT_ROOT = '/home/rayleigh/projects/heliard/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = PROJECT_ROOT + 'tracker/media/'
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = PROJECT_ROOT + 'tracker/static'
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
@@ -72,6 +72,7 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
+    PROJECT_ROOT + 'PManager/widgets/',
 )
 
 # template locations
@@ -89,7 +90,7 @@ TEMPLATE_DIRS = (
 STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
-    'django.contrib.staticfiles.finders.DefaultStorageFinder',
+    # 'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
 # Make this unique, and don't share it with anybody.
@@ -135,10 +136,11 @@ INSTALLED_APPS = (
     'south',
     'django_notify',
     'mptt',
-    'sekizai',
     'sorl.thumbnail',
     'gunicorn',
     'less',
+    'pipeline',
+    'sekizai'
 )
 
 # todo: ADD DESCRIPTION
@@ -166,42 +168,7 @@ PYMORPHY_DICTS = {
 # the site admins on every HTTP 500 error when DEBUG=False.
 # See http://docs.djangoproject.com/en/dev/topics/logging for
 # more details on how to customize your logging configuration.
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'filters': {
-        'require_debug_false': {
-            '()': 'django.utils.log.RequireDebugFalse'
-        }
-    },
-    'handlers': {
-        'mail_admins': {
-            'level': 'ERROR',
-            'filters': ['require_debug_false'],
-            'class': 'django.utils.log.AdminEmailHandler'
-        }
-    },
-    'loggers': {
-        'django.request': {
-            'handlers': ['mail_admins'],
-            'level': 'ERROR',
-            'propagate': True,
-        },
-    }
-}
 
-# CACHES SETTINGS
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    },
-    'git_diff_cache': {
-        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        'LOCATION': '/home/heliard/heliard/PManager/static/cache',
-    }
-}
-
-# DATABASE SETTINGS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',   # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
@@ -214,19 +181,19 @@ DATABASES = {
 }
 
 # todo: ADD DESCRIPTION
-AUTH_PROFILE_MODULE = 'PManager.models.users.PM_User'
+AUTH_PROFILE_MODULE = 'PManager.PM_User'
 
 # Allowed hosts for this application
 ALLOWED_HOSTS = [
-    'localhost'
+    'heliard.dev', 'localhost'
 ]
 
 # Socket server address
-SOCKET_SERVER_ADDRESS = 'localhost'
+SOCKET_SERVER_ADDRESS = 'heliard.dev'
 
 # Server root url
-SERVER_ROOT_URL = 'localhost'
-HTTP_ROOT_URL = 'http://localhost'
+SERVER_ROOT_URL = 'heliard.dev'
+HTTP_ROOT_URL = 'http://heliard.dev'
 
 # Site default email url
 SITE_EMAIL = 'admin@localhost'
@@ -245,7 +212,7 @@ SESSION_COOKIE_SECURE = False
 SET_COOKIE = {}
 
 # todo: ADD DESCRIPTION
-SESSION_COOKIE_DOMAIN = 'localhost.'
+SESSION_COOKIE_DOMAIN = 'heliard.dev'
 
 # ######################### REDIS SETTINGS ##############################
 # REDIS SERVER HOST

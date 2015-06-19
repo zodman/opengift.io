@@ -1,13 +1,13 @@
 # -*- coding:utf-8 -*-
 from io import FileIO, BufferedWriter
 import os, hashlib
-from django.conf import settings
+from tracker import settings
 
 from ajaxuploader.backends.base import AbstractUploadBackend
 
 
 class LocalUploadBackend(AbstractUploadBackend):
-    UPLOAD_DIR = "PManager/static/upload"
+    UPLOAD_DIR = ""
 
     def setup(self, filename, *args, **kwargs):
         self._path = os.path.join(
@@ -22,7 +22,7 @@ class LocalUploadBackend(AbstractUploadBackend):
         self._dest.write(chunk)
 
     def upload_complete(self, request, filename, *args, **kwargs):
-        path = settings.MEDIA_URL + self.UPLOAD_DIR + "/" + filename
+        path = settings.MEDIA_URL + os.path.join(self.UPLOAD_DIR, filename)
         self._dest.close()
         return {"path": path}
 
