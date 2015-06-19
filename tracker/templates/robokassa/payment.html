@@ -10,6 +10,9 @@
                 $(".promo_payment_plan input:radio").transformRadio({
                     base : "class" // Can be image or class, if class a span will be added
                 });
+                $('.js-radio').click(function(){
+                    $('#id_OutSum').val($(this).data('price'));
+                });
              });
         </script>
 <div class="promo_payment_wrapper">
@@ -47,18 +50,18 @@
         <div class="promo_payment_footer">
         <div class="promo_payment_footer_left">
             <div class="promo_payment_plan clearfix">
-                <div class="promo_payment_plan_item">
-                    <label><input type="radio" name="radio">1 месяц<br><span>900 рублей</span></label>
+                <div class="promo_payment_plan_item js-radio">
+                    <label><input type="radio" name="radio" data-price="900">1 месяц<br><span>900 рублей</span></label>
                 </div>
-                <div class="promo_payment_plan_item">
+                <div class="promo_payment_plan_item js-radio" data-price="2300">
                     <label><input type="radio" name="radio">3 месяца<br><span>2300 рублей</span></label>
                 </div>
-                <div class="promo_payment_plan_item">
+                <div class="promo_payment_plan_item js-radio" data-price="9000">
                     <label><input type="radio" name="radio">1 год<br><span>9000 рублей</span></label>
                 </div>
             </div>
         </div>
-        <div class="promo_payment_footer_right"><input type="button" class="yellow button" value="Оплатить премиум"></div>
+        <div class="promo_payment_footer_right"><input type="button" class="yellow button" onclick="document.robo.submit()" value="Оплатить премиум"></div>
         </div>
         <div class="clearfix"></div>
         <div class="payment-icons-wrapper">
