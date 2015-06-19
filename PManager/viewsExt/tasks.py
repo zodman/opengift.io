@@ -867,42 +867,43 @@ class taskAjaxManagerCreator(object):
     def process_taskClose(self):
         t = self.taskManager.task
         user = self.currentUser
-        bugsExists = t.messages.filter(bug=True, checked=False).exists()
-        if bugsExists:
-            text = u'Перед тем как закрыть задачу, пометьте все баги в ней как решенные.'
-            message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
-                                      userTo=user, code='WARNING', hidden=True)
-            message.save()
-            responseJson = message.getJson()
-
-            mess = RedisMessage(service_queue,
-                                objectName='comment',
-                                type='add',
-                                fields=responseJson
-                                )
-            mess.send()
-            return
 
         if t.started:
             t.Stop()
             t.endTimer(user, u'Закрытие задачи')
 
         if not t.closed:
-            taskTimers = PM_Timer.objects.filter(task=t)
-            if not taskTimers.count():
-                oneSecond = datetime.timedelta(seconds=1)
-                taskOneSecondTimer = PM_Timer(
-                    task=t,
-                    user=user,
-                    dateStart=datetime.datetime.now() - oneSecond,
-                    dateEnd=datetime.datetime.now(),
-                    seconds=1,
-                    comment=u'Закрытие задачи'
-                )
-                taskOneSecondTimer.save()
-
             profile = user.get_profile()
             if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
+                bugsExists = t.messages.filter(bug=True, checked=False).exists()
+                if bugsExists:
+                    text = u'Перед тем как закрыть задачу, пометьте все баги в ней как решенные.'
+                    message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
+                                              userTo=user, code='WARNING', hidden=True)
+                    message.save()
+                    responseJson = message.getJson()
+
+                    mess = RedisMessage(service_queue,
+                                        objectName='comment',
+                                        type='add',
+                                        fields=responseJson
+                                        )
+                    mess.send()
+                    return
+
+                taskTimers = PM_Timer.objects.filter(task=t)
+                if not taskTimers.count():
+                    oneSecond = datetime.timedelta(seconds=1)
+                    taskOneSecondTimer = PM_Timer(
+                        task=t,
+                        user=user,
+                        dateStart=datetime.datetime.now() - oneSecond,
+                        dateEnd=datetime.datetime.now(),
+                        seconds=1,
+                        comment=u'Закрытие задачи'
+                    )
+                    taskOneSecondTimer.save()
+
                 t.Close(user)
                 t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
 
@@ -914,6 +915,7 @@ class taskAjaxManagerCreator(object):
                     if not qtyInMS:
                         t.milestone.closed = True
                         t.milestone.save()
+
                 if t.parentTask and not t.parentTask.closed:
                     c = t.parentTask.subTasks.filter(closed=False, active=True).count()
                     if c == 0:
