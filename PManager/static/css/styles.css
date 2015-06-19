@@ -554,8 +554,7 @@ border-bottom-right-radius: 0px;}
     font-size: 18px;
     left: 13px;
     position: absolute;
-    top: 10px;
-    cursor: pointer;
+    top: 9px;
 }
 .big-input .input-block-level { padding:4px 12px 4px 37px; }
 .task-create-wrapper > ul,
