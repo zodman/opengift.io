@@ -31,4 +31,4 @@ class Command(NoArgsCommand):
         reminders = PM_Reminder.objects.filter(date__range=(start, end))
         for reminder in reminders:
             remind(reminder)
-            reminder.remove()
+            reminder.delete()
