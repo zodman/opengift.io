@@ -1799,7 +1799,7 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    if not task.resp:
+    if not task.resp or task.closed:
         return
 
     try:
