@@ -9,3 +9,4 @@ reports/*
 node_modules/*
 tracker/media/*
 tracker/static/*
+gunicorn.pid
