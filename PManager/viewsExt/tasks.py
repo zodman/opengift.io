@@ -1068,7 +1068,7 @@ class taskAjaxManagerCreator(object):
                                                'closed': False,
                                                'parentTask__isnull': True,
                                                'exclude': {'id': task.id}
-                                           }, [], {'order_by': '-critically'})
+                                           }, [], {})
                 prevCritically = None
                 taskSet = []
                 secondTaskSet = []
@@ -1082,27 +1082,33 @@ class taskAjaxManagerCreator(object):
                                 task.critically = (prevCritically + eTask.critically) / 2
                                 task.save()
                                 return json.dumps({'result': '1 task modified'})
-                        elif prevCritically and (prevCritically <= 1): #previous task exist
-                            secondTaskSet.append(task)
+                        elif prevCritically: #previous task exist
+                            # secondTaskSet.append(task)
                             taskSet.reverse()
                             for uTask in taskSet:
                                 secondTaskSet.append(uTask)
                                 if prevCritically < uTask.critically:
                                     critPoint = (uTask.critically - prevCritically) / len(secondTaskSet)
-                                    i = 0
+                                    # i = 0
                                     for rTask in secondTaskSet:
-                                        rTask.critically = prevCritically + (i * critPoint)
+                                        rTask.critically = prevCritically + critPoint
                                         rTask.save()
-                                        i += 1
+
+                                    task.critically = prevCritically + (critPoint / 2)
+                                    task.save()
+                                        # i += 1
                                     return json.dumps({'result': str(len(secondTaskSet)) + ' tasks modified'})
 
                             #if all tasks before taskAfter have similar critically (but lesser that 1)
                             critPoint = (1 - prevCritically) / (len(secondTaskSet) + 1)
-                            i = 0
+                            # i = 0
                             for rTask in secondTaskSet:
-                                rTask.critically = prevCritically + (i * critPoint)
+                                rTask.critically = prevCritically + critPoint
                                 rTask.save()
-                                i += 1
+                                # i += 1
+
+                            task.critically = prevCritically + (critPoint / 2)
+                            task.save()
 
                             return json.dumps({'result': str(len(secondTaskSet)) + ' tasks modified'})
                         else:

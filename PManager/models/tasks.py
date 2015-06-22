@@ -1054,7 +1054,7 @@ class PM_Task(models.Model):
         filter['active'] = True
 
         #subtasks search
-        if filter and not 'parentTask' in filter and not 'id' in filter:
+        if filter and not 'parentTask' in filter and not 'id' in filter and not 'parentTask__isnull' in filter:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
@@ -1799,7 +1799,7 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    if not task.resp:
+    if not task.resp or task.closed:
         return
 
     try:
