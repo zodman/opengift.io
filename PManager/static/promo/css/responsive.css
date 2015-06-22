@@ -39,8 +39,8 @@ RESPONSIVE FIXES
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
- 
-    
+
+
     html {
         font-size: 90%;
     }
@@ -61,6 +61,7 @@ RESPONSIVE FIXES
     
     .sticky-navigation .navbar-header img {
         max-height: 40px;
+        margin-top: 4px;
     }
     
     .sticky-navigation .main-navigation {
@@ -149,6 +150,29 @@ RESPONSIVE FIXES
 }
 
 @media (max-width: 576px) {
+
+    .navbar-inverse .container .navbar-header .navbar-brand {margin-top: 9px;}
+
+    .popup.popup-alert {
+        bottom: 20px;
+        left: 15px;
+        margin: 0;
+        right: 15px;
+        top: 15px;
+        width: auto;
+        z-index: 10000;
+    }
+    .popup.popup-alert .close {font-size: 30px; right: 20px; top: 9px;}
+
+    .popup.popup-alert .img {display: none;}
+
+    .popup.popup-alert .title {
+        font-size: 20px;
+        line-height: 20px;
+        padding: 15px 20px !important;
+    }
+
+    .popup.popup-alert .content {text-align: center;}
 
     header .intro-section {
         padding-top: 23%;
