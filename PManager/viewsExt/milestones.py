@@ -16,6 +16,8 @@ class ajaxMilestoneManager:
             return self.request.POST[key]
         else:
             return None
+
+
 def milestoneForm(request):
     return render(request, 'helpers/milestone_create.html', dict())
 

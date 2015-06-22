@@ -19,13 +19,6 @@ from PManager.services.mind.task_mind_core import TaskMind
 class Brains:
     @staticmethod
     def trainTasksBrains(request):
-        # atimers = []
-        # for timer in PM_Timer.objects.filter(user=89, price__isnull=True):
-        # userBet = timer.user.get_profile().getBet(timer.task.project)
-        #     if userBet and timer.seconds:
-        #         timer.price = userBet * (float(timer.seconds) / 3600.)
-        #         timer.save()
-        #         atimers.append(timer.price)
         net = TaskMind()
         tasksForBrain = PM_Task.objects.filter(
             closed=False, realDateStart__isnull=False, active=True
@@ -314,17 +307,6 @@ class MainPage:
             'plan_profit': 0.,
             'profit': 0.
         }
-        # curTask = None
-        # for credit in Credit.objects.filter(project=p).order_by('id'):
-        # if credit.payer and credit.payer.id and curTask:
-        #         if not credit.task or not credit.task.id:
-        #             credit.task = curTask
-        #             credit.save()
-        #
-        #     if credit.user and credit.user.id:
-        #         curTask = credit.task
-        #     else:
-        #         curTask = None
 
         tasks = PM_Task.objects.filter(
             active=True,

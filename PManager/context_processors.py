@@ -15,7 +15,6 @@ def get_head_variables(request):
     currentPath = request.get_full_path()
 
     result = {
-        'is_wiki': 'Y' if currentPath.find('wiki/') > -1 else 'N',
         'main': headers.initGlobals(request),
         'user': request.user,
         'is_admin': request.user.is_superuser,

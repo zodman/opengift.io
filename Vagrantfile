@@ -72,7 +72,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # config.vm.provision "cfengine" do |cf|
   #   cf.policy_server_address = "10.0.2.15"
   # end
-  config.vm.provision "shell", path: "provision.sh", privileged: true
+  # config.vm.provision "shell", path: "provision.sh", privileged: true
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
   # You will need to create the manifests directory and a manifest in

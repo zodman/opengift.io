@@ -87,7 +87,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         messages.append(message.getJson(addParams, request.user))
 
     templates = templateTools.getMessageTemplates()
-    with file(settings.project_root + 'tracker/templates/item_templates/messages/log_message.html') as f:
+    with file(settings.PROJECT_ROOT + 'tracker/templates/item_templates/messages/log_message.html') as f:
         templates['template'] = f.read()
 
     return {

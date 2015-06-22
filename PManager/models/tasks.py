@@ -22,17 +22,8 @@ from django.db.models.signals import post_save
 from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
-# from PManager.customs.storages import MyFileStorage
-# mfs = MyFileStorage()
+from PManager.services.service_queue import service_queue
 
-
-# опять удобства
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
 
 
 def redisSendTaskUpdate(fields):
@@ -112,7 +103,7 @@ class PM_Project(models.Model):
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, verbose_name=u'Описание')
     author = models.ForeignKey(User, related_name='createdProjects')
-    image = models.ImageField(upload_to=path_and_rename("PManager/static/upload/project_thumbnails/"), null=True,
+    image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Изображение')
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
@@ -166,7 +157,7 @@ class PM_File_Category(models.Model):
 
 
 class PM_Files(models.Model):
-    file = models.FileField(max_length=400, upload_to=path_and_rename("PManager/static/upload/projects/", 'str(instance.projectId.id)'))
+    file = models.FileField(max_length=400, upload_to=path_and_rename("projects", 'str(instance.projectId.id)'))
     authorId = models.ForeignKey(User, null=True)
     projectId = models.ForeignKey(PM_Project, null=True)
     category = models.ForeignKey(PM_File_Category, related_name="files", null=True, blank=True)
@@ -987,8 +978,10 @@ class PM_Task(models.Model):
             filterForUser.append(Q(project=project))
 
         filterForUser.append(Q(**addFilter))
-
-        return PM_Task.objects.filter(*filterForUser).distinct().count()
+        try:
+            return PM_Task.objects.filter(*filterForUser).distinct().count()
+        except ValueError:
+            return 0
 
     @staticmethod
     def getQArgsFilterForUser(user, project=None):
@@ -1061,12 +1054,15 @@ class PM_Task(models.Model):
         filter['active'] = True
 
         #subtasks search
-        if filter and not 'parentTask' in filter and not 'id' in filter:
+        if filter and not 'parentTask' in filter and not 'id' in filter and not 'parentTask__isnull' in filter:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
-            subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).filter(project__closed=False, project__locked=False).values('parentTask__id').annotate(
-                dcount=Count('parentTask__id'))
+            try:
+                subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
+                    dcount=Count('parentTask__id'))
+            except ValueError:
+                subTasks = []
             aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
         else:
             aTasksIdFromSubTasks = None
@@ -1078,7 +1074,10 @@ class PM_Task(models.Model):
                 id__in=aTasksIdFromSubTasks)] #old conditions array | ID of parent tasks of match subtasks
             filter = {}
 
-        tasks = PM_Task.objects.filter(*filterQArgs, **filter).filter(project__closed=False, project__locked=False).distinct()
+        try:
+            tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
+        except ValueError:
+            tasks = None
 
         if arOrderParams.get('group') == 'milestones':
             order = ['-milestone__closed', '-milestone__date']
@@ -1096,9 +1095,10 @@ class PM_Task(models.Model):
         order.append('-dateStart')
         order.append('-dateClose')
         order.append('-number')
-
-        if excludeFilter:
-            tasks = tasks.exclude(**excludeFilter)
+        if tasks is not None:
+            tasks = tasks.order_by(*order)
+            if excludeFilter:
+                tasks = tasks.exclude(**excludeFilter)
 
         tasks = tasks.order_by(*order)
 
@@ -1799,7 +1799,7 @@ def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
     from PManager.services.check_milestone import check_milestones
     task = instance
-    if not task.resp:
+    if not task.resp or task.closed:
         return
 
     try:

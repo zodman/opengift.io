@@ -1,6 +1,5 @@
-{% load floattags %}
-<script type="text/javascript" src="/static/js/libs/transliterate.js"></script>
-<script type="text/javascript" src="/widgets/js/project_edit/script.js"></script>
+{% load floattags compressed %}
+{% compressed_js 'project_edit' %}
 {% if project_edit.need_payment %}
     <form action="{{ project_edit.form.target }}"
           method="POST" name="robo">

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from tracker.settings import project_root
+from tracker.settings import PROJECT_ROOT, HTTP_ROOT_URL, STATIC_URL
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Files
 import os
@@ -14,24 +14,18 @@ def docxView(request):
         image_path = relationship_dict[image_id]
         # Now do something to the image. Let's move it somewhere.
         _, filename = os.path.split(image_path)
-        destination_path = os.path.join(project_root + 'PManager/static/upload', filename)
+        destination_path = os.path.join(PROJECT_ROOT + 'PManager/static/upload', filename)
         copyfile(image_path, destination_path)
 
         # Return the `src` attribute to be used in the img tag
-        return 'http://heliard.ru/static/upload/%s' % filename
+        return '%s/static/upload/%s' % (HTTP_ROOT_URL, filename)
 
     fp = request.GET.get('f', None)
 
     if fp:
         try:
-            file = PM_Files.objects.get(pk=int(fp))
-            html = convert(project_root + 'PManager' + str(file), image_handler=handle_image)
+            pm_file = PM_Files.objects.get(pk=int(fp))
+            html = convert(PROJECT_ROOT + 'PManager' + str(pm_file), image_handler=handle_image)
         except PM_Files.DoesNotExist:
             pass
-
-        # document = Document(project_root + fp)
-        # str1 = u''
-        # for p in document.paragraphs:
-        #     str1 += p.text + '<br />'
-
     return HttpResponse(html)

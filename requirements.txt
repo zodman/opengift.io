@@ -8,7 +8,7 @@ TornadIO2==0.0.4
 argparse==1.2.1
 async==0.6.1
 certifi==14.05.14
-chardet==2.0.1
+chardet
 django-classy-tags==0.5.1
 django-less==0.7.2
 django-mptt==0.5.3
@@ -32,6 +32,10 @@ supervisor==3.0a8
 tornado==4.0.2
 tornado-redis==2.4.18
 virtualenv==1.11.6
-wiki==0.0.23
 wsgiref==0.1.2
 model_mommy
+robot
+robotframework==2.8.7
+robotframework-selenium2library==1.6.0
+maildump
+django-pipeline==1.3.24

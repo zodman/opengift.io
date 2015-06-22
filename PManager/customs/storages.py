@@ -2,22 +2,19 @@ __author__ = 'Gvammer'
 
 from django.core.files.storage import FileSystemStorage
 import os
+from tracker import settings
 from uuid import uuid4
-
-def path_and_rename(path, pSubdir=False):
+# todo: remove this, what if path will be changed? cdn can be an option
+# will fail if filesystem file descriptors limit, should not use hardcoded path
+# should be FileStorage engine instead of a function
+def path_and_rename(path, pSubdir=''):
 
     def wrapper(instance, filename):
         try:
-            path = path
-        except UnboundLocalError:
-            if pSubdir:
-                path = 'PManager/static/upload/projects/'
-            else:
-                path = 'PManager/static/upload/'
-
-        if pSubdir:
-            path = os.path.join(path, eval(pSubdir))
-
+             pSubdir = eval(pSubdir)
+        except (SyntaxError, TypeError):
+            pass
+        path = os.path.join(settings.MEDIA_ROOT, path, pSubdir)
         ext = filename.split('.')[-1]
         # get filename
         # if not isPasted:

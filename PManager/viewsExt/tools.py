@@ -6,14 +6,7 @@ from django.core.mail import EmailMultiAlternatives
 from django.template import Context, loader
 from django.utils import timezone
 from PManager.classes.server.message import RedisMessage
-
-service_queue = redis.StrictRedis(
-    host=settings.ORDERS_REDIS_HOST,
-    port=settings.ORDERS_REDIS_PORT,
-    db=settings.ORDERS_REDIS_DB,
-    password=settings.ORDERS_REDIS_PASSWORD
-).publish
-
+from PManager.services.service_queue import service_queue
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
@@ -28,7 +21,7 @@ class emailMessage:
     templateName = ''
     context = None
     subject = ''
-    u_from = 'Heliard <no-reply@heliard.ru>'
+    u_from = "Heliard <%s>" % settings.NO_REPLY_EMAIL
 
     def __init__(self, templateName, context, subject, u_from=''):
         setattr(self, 'templateName', templateName)
@@ -119,7 +112,7 @@ class templateTools:
 
     @staticmethod
     def get_task_template(name='task'):
-        file_name = "%stracker/templates/item_templates/task/%s.html" % (settings.project_root, name)
+        file_name = "%stracker/templates/item_templates/task/%s.html" % (settings.PROJECT_ROOT, name)
         with file(file_name) as f:
             template = f.read()
         return template
@@ -144,7 +137,7 @@ class templateTools:
         templates = {}
 
         for (c, f) in templateFiles.iteritems():
-            with file(settings.project_root + 'tracker/templates/item_templates/messages/' + f) as f:
+            with file(settings.PROJECT_ROOT + 'tracker/templates/item_templates/messages/' + f) as f:
                 templates[c] = f.read()
 
         return templates

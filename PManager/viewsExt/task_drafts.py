@@ -3,14 +3,13 @@ __author__ = 'Rayleigh'
 from PManager.viewsExt.tools import templateTools
 import json
 from django.http import HttpResponse, Http404
-from PManager.services import get_draft_by_slug
 from django.template import loader, RequestContext
 from PManager.services.task_list import tasks_to_tuple, task_list_prepare
 from PManager.models.tasks import PM_Task
 from PManager.models.simple_message import SimpleMessage
 from PManager.models.users import PM_User
 from django.shortcuts import redirect
-from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user
+from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user, get_draft_by_slug
 from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
 
