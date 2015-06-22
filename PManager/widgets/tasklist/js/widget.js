@@ -254,32 +254,35 @@ var widget_tl, currentGroup;
                     $tab.remove();
                     return false;
                 });
-                this.TL_Container.on('mousedown.taskdnd','.task .js-drag-task',function(e){
-                    widget_tl.$movedTask = $(this).closest('.task').parent('.task-wrapper');
-                    if (!widget_tl.$movedTask.get(0)) { //is subtask
-                        widget_tl.$movedTask = $(this).closest('.task');
+                this.TL_Container.on('mousedown.taskdnd','.task .js-drag-task',function(e) {
+                    if ($(e.target).is('div')) {
+                        widget_tl.$movedTask = $(this).closest('.task').parent('.task-wrapper');
+                        if (!widget_tl.$movedTask.get(0)) { //is subtask
+                            widget_tl.$movedTask = $(this).closest('.task');
+                        }
+
+                        widget_tl.taskMoving = $(this).closest('.task').data('taskid');
+
+                        widget_tl.$movedTask.css('width', widget_tl.$movedTask.width());
+                        var offsetTask = widget_tl.$movedTask.offset();
+                        var offset = widget_tl.$movedTask.closest('.widget').offset();
+                        if (offset) {
+                            widget_tl.offsetTaskX = e.clientX - offsetTask.left;
+                            widget_tl.offsetTaskY = offset.top + 20;
+                        }
+
+                        widget_tl.$movedTask.css('position', 'absolute');
+                        widget_tl.$movedTask.css('z-index', '9999');
+                        widget_tl.$movedTask.css('top', offsetTask.top - $(window).scrollTop());
+                        widget_tl.$movedTask.css('left', offsetTask.left);
+                        $('<div></div>')
+                            .addClass('temp_task')
+                            .insertBefore(widget_tl.$movedTask);
+    //                    widget_tl.TL_Container.trigger('mousemove.taskdnd');
+
+                        $(document.body).css('cursor', 'move');
+                        e.preventDefault();
                     }
-
-                    widget_tl.taskMoving = $(this).closest('.task').data('taskid');
-
-                    widget_tl.$movedTask.css('width', widget_tl.$movedTask.width());
-                    var offset = widget_tl.$movedTask.closest('.widget').offset();
-                    if (offset){
-                        widget_tl.offsetTaskX = -20 - offset.left;
-                        widget_tl.offsetTaskY = -20 - offset.top;
-                    }
-
-                    widget_tl.$movedTask.css('position', 'absolute');
-                    widget_tl.$movedTask.css('z-index', '9999');
-                    widget_tl.$movedTask.css('top', e.clientY + widget_tl.offsetTaskY + $(window).scrollTop());
-                    widget_tl.$movedTask.css('left', e.clientX + widget_tl.offsetTaskX);
-                    $('<div></div>')
-                        .addClass('temp_task')
-                        .insertBefore(widget_tl.$movedTask);
-//                    widget_tl.TL_Container.trigger('ousemove.taskdnd');
-
-                    $(document.body).css('cursor','move');
-                    e.preventDefault();
                 });
                 widget_tl.cursorOnTask = false;
 
@@ -295,6 +298,7 @@ var widget_tl, currentGroup;
                         widget_tl.$movedTask.css('position','relative');
                         widget_tl.$movedTask.css('top', '0');
                         widget_tl.$movedTask.css('left', '0');
+                        widget_tl.$movedTask.css('z-index', 'auto');
 
                         if (widget_tl.taskOver) {
                             widget_tl.taskMove(widget_tl.taskMoving, widget_tl.taskOver);
@@ -311,8 +315,8 @@ var widget_tl, currentGroup;
                     }
                 }).on('mousemove.taskdnd', this.TL_Container, function (e){
                     if (widget_tl.$movedTask){
-                        widget_tl.$movedTask.css('top', e.clientY + widget_tl.offsetTaskY + $(window).scrollTop());
-                        widget_tl.$movedTask.css('left', e.clientX + widget_tl.offsetTaskX);
+                        widget_tl.$movedTask.css('top', e.clientY - widget_tl.offsetTaskY + $(window).scrollTop());
+                        widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX);
                         widget_tl.taskOver = false;
                         $('.task-wrapper > .task').each(function(){
                             if ($(this).data('taskid') != widget_tl.taskMoving) {
