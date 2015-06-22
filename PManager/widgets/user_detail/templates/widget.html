@@ -1,9 +1,5 @@
-{% load floattags jsonify %}
-<script type="text/javascript" src="/static/js/jquery.bxslider.min.js"></script>
-<script type="text/javascript" src="/static/js/libs/raphael-min.js"></script>
-<script type="text/javascript" src="/static/js/libs/charts.js"></script>
-<script type="text/javascript" src="/widgets/js/user_detail/script.js"></script>
-<script src="http://d3js.org/d3.v3.min.js"></script>
+{% load floattags jsonify compressed %}
+{% compressed_js 'user_detail' %}
 <script>
     var global_user_id = {{ user_detail.user.id }};
     window.taskHtml = {{ user_detail.taskTemplate|jsonify|safe }};
@@ -20,9 +16,6 @@
         {% endif %}
         </div>
         <div class="user-profile-menu pull-right">
-{#            	<i class="icon-comment icon-white"></i>&nbsp;<a href="#">Написать сообщение</a>#}
-{#                &nbsp;&nbsp;<i class="icon-tag icon-white"></i>&nbsp;<a href="#">Дать задание</a>#}
-{#                &nbsp;&nbsp;<i class="icon-wrench icon-white"></i>&nbsp;<a href="#">Редактировать профиль</a>#}
         </div>
         <!-- ТЭГИ пользователя <div class="tags clearfix">
             <ul class="tags-ul">
@@ -52,11 +45,6 @@
 
                 <div class="user-contacts pull-left">
                     <ul>
-    {#                    {% if user_detail.user.email %}#}
-    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>#}
-    {#                    {% else %}#}
-    {#                        <li class="mailto"><a href="mailto:{{ user_detail.user.username }}">{{ user_detail.user.username }}</a></li>#}
-    {#                    {% endif %}#}
                         {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
                         {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
                     </ul>
@@ -89,9 +77,7 @@
                 <ul class="nav nav-pills js-tab-menu">
                     <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Сводка</a></li>
                     <li><a href="#ychastvyet" role="tab" data-toggle="tab">Участвует в проектах</a></li>
-                    <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab" class="js-current-tasks">Текущие задачи</a></li>
-{#                    <li><a href="#observer">Наблюдатель</a></li>#}
-{#                        <li><a href="#podchinennie">Подчиненные</a></li>#}
+                    <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab">Текущие задачи</a></li>
                     <li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>
                     <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
                     {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
@@ -209,23 +195,6 @@
                     {% endfor %}
                     </script>
                 </div>
-{#                <div class="js-tasks-observers tab-pane" id="observer">#}
-{#                    <script language="javascript">#}
-{#                    var aTaskListObservers = [], arTimers = {}, taskRespSummary = {};#}
-{#                    {% for task in user_detail.task.observers.tasks %}#}
-{#                        aTaskListObservers.push({{ task|jsonify|safe }});#}
-{#                        taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}#}
-{#                        {% if task.time %}#}
-{#                            arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});#}
-{#                            {% if task.startedTimerExist %}#}
-{#                                arTimers['{{ task.id }}'].start();#}
-{#                            {% endif %}#}
-{#                        {% endif %}#}
-{#                    {% empty %}#}
-{#                       document.write('<p>Нет ни одной задачи</p>');#}
-{#                    {% endfor %}#}
-{#                    </script>#}
-{#                </div>#}
                 <div class="tab-pane" id="dostizheniya">
                     {% if user_detail.achievements %}
                         {% for c in user_detail.achievements %}
@@ -273,16 +242,6 @@
                       </tbody>
                     </table>
                     <div align="center">
-{#                            <ul class="pagination pagination-centered">#}
-{#                                <li class="disabled"><a href="#">&laquo;</a></li>#}
-{#                                <li class="active"><a href="#">1</a></li>#}
-{#                                <li><a href="#">1</a></li>#}
-{#                                <li><a href="#">2</a></li>#}
-{#                                <li><a href="#">3</a></li>#}
-{#                                <li><a href="#">4</a></li>#}
-{#                                <li><a href="#">5</a></li>#}
-{#                                <li><a href="#">&raquo;</a></li>#}
-{#                            </ul>#}
                 	</div>
                 </div><!--ВКЛАДКА "Активность"-->
                 {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}

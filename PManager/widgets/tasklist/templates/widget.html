@@ -1,6 +1,6 @@
-{% load jsonify %}
-<script type="text/javascript" src="/widgets/js/tasklist/script.js"></script>
-<script type="text/javascript" src="/static/js/pm/show_tutorial.js"></script>
+{% load jsonify compressed %}
+{% compressed_js 'fileup' %}
+{% compressed_js 'tasklist' %}
 <script language="JavaScript">
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
@@ -354,26 +354,3 @@ $(function(){
 });
 </script>
 {% endif %}
-<script src="/static/js/fileup/header.js"></script>
-<script src="/static/js/fileup/util.js"></script>
-<script src="/static/js/fileup/promise.js"></script>
-<script src="/static/js/fileup/button.js"></script>
-<script src="/static/js/fileup/ajax.requester.js"></script>
-<script src="/static/js/fileup/deletefile.ajax.requester.js"></script>
-<script src="/static/js/fileup/handler.base.js"></script>
-<script src="/static/js/fileup/handler.base.js"></script>
-<script src="/static/js/fileup/window.receive.message.js"></script>
-<script src="/static/js/fileup/handler.form.js"></script>
-<script src="/static/js/fileup/handler.xhr.js"></script>
-<script src="/static/js/fileup/paste.js"></script>
-<script src="/static/js/fileup/uploader.basic.js"></script>
-<script src="/static/js/fileup/dnd.js"></script>
-<script src="/static/js/fileup/uploader.js"></script>
-<script src="/static/js/fileup/jquery-plugin.js"></script>
-{#{% if user.is_superuser %}#}
-{#<link rel="stylesheet" href="/static/js/libs/QUnit/qunitjs.css" />#}
-{#<div id="qunit"></div>#}
-{#<div id="qunit-fixture"></div>#}
-{#<script src="/static/js/libs/QUnit/qunitjs.js"></script>#}
-{#<script src="/static/js/pm/tests/taskCreateTest.js"></script>#}
-{#{% endif %}#}

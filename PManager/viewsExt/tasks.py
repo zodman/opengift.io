@@ -15,7 +15,7 @@ import datetime, json, codecs
 from django.utils import simplejson, timezone
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import taskExtensions, emailMessage, templateTools
-from PManager.viewsExt.gantt import WorkTime
+from PManager.classes.datetime.work_time import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
@@ -52,6 +52,7 @@ def microTaskAjax(request, task_id):
         'executor': json.dumps(user.avatar_rel) if user is not None else '',
         'status': task.status.code
     }), content_type="application/json")
+
 
 
 def __change_resp(request):
@@ -331,10 +332,6 @@ def __task_message(request):
 
         if hidden:
             ar_email = [to.email]
-            # for email in arEmail:
-            # if email != to.email:
-            #         arEmail.remove(email)
-
         else:
             if hidden_from_clients:
                 while task.author and \
@@ -423,7 +420,7 @@ def taskListAjax(request):
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
         result = templateTools.dateTime.convertToDateTime(task_timer.endDateTime)
-        response_text = json.dumps({'endDate': 4})# task_timer.endDateTime})
+        response_text = json.dumps({'endDate': 4})
 
     elif request.POST.get('prop', False):
         property = request.POST.get('prop', False)
@@ -431,19 +428,15 @@ def taskListAjax(request):
         value = request.POST.get('val', False)
         if property and task_id:
             task = PM_Task.objects.get(id=task_id)
-            #author = request.user
             sendData = {}
             if task:
                 if property == "planTime" and value:
-                    # task = modifiedBy(task, request.user)
                     task.lastModifiedBy = request.user
                     task.setPlanTime(value, request)
                     from PManager.services.rating import get_user_rating_for_task
-                    # taskPlanPrice = request.user.get_profile().getBet(task.project) * COMISSION * float(value)
                     task.systemMessage(
                         u'оценил(а) задачу в ' + str(value) + u'ч. с опытом '
                         + str(get_user_rating_for_task(task, request.user)),
-                        # + u' (' + intcomma(taskPlanPrice) + u' sp)',
                         request.user,
                         'SET_PLAN_TIME'
                     )
@@ -484,7 +477,6 @@ def taskListAjax(request):
                     bCriticallyIsGreater = task.critically < value
                     sendData['critically'] = value
                     task.critically = value
-                    # task = modifiedBy(task, request.user)
                     task.lastModifiedBy = request.user
                     task.save()
                     task.systemMessage(
@@ -511,6 +503,7 @@ def taskListAjax(request):
                             bet = clientProfile.getBet(task.project)
                             if not bet:
                                 bet = task.resp.get_profile().getBet(task.project) * COMISSION
+                            #todo: remove HTML from controllers
                             if request.user.id == client.id:
                                 error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
                                         '<hr>' + \
@@ -623,10 +616,8 @@ class taskManagerCreator:
 
     def stopTimer(self, comment):
         if self.task:
-            # sid = transaction.savepoint()
             self.task.Stop()
             self.task.endTimer(None, comment) #или останавливаем и сохраняем очередной
-            # transaction.commit(sid)
             return True
         else:
             return False
@@ -1019,6 +1010,7 @@ class taskAjaxManagerCreator(object):
         if taskInputText:
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
+                task.lastModifiedBy = self.currentUser
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:

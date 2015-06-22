@@ -8,7 +8,7 @@ import datetime
 #from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.db import transaction
-from PManager.viewsExt.gantt import WorkTime
+from PManager.classes.datetime.work_time import WorkTime
 from PManager.models.tasks import PM_Project
 from PManager.widgets.tasklist.widget import TaskWidgetManager as widgetManager
 from PManager.viewsExt.tools import templateTools

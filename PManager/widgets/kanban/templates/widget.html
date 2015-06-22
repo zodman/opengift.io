@@ -1,4 +1,4 @@
-{% load jsonify %}
+{% load jsonify compressed %}
 {% if kanban.error %}
     <div class="kanban">
         <div class="widget inner">
@@ -37,9 +37,7 @@
         </style>
     {% endblock %}
     {% block scripts %}
-        <script src="/static/js/libs/jquery-ui.custom.min.js"></script>
-        <script src="/static/js/libs/chosen.jquery.min.js"></script>
-        <script src="/static/js/pm/kanban.js"></script>
+        {% compressed_js 'kanban' %}
     {% endblock %}
     <div class="kanban">
         {% for project in kanban.projects_data %}

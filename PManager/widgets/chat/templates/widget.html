@@ -1,10 +1,9 @@
-{% load jsonify %}
+{% load jsonify compressed %}
+{% compressed_js 'chat' %}
 <script>
     var widget_chat,
         widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
 </script>
-<script type="text/javascript" src="/static/js/pm/comments.js" xmlns="http://www.w3.org/1999/html"></script>
-<script type="text/javascript" src="/widgets/js/chat/script.js"></script>
 <div class="widget" id="chat">
     <h4>Лента событий</h4>
     <div class="TopPanel">

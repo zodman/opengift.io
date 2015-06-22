@@ -1,10 +1,11 @@
 .vagrant/*
 .idea/*
-PManager/static/upload/*
-PManager/static/project_comments/*
-PManager/static/cache/*
 *.pyc
 PManager/services/mind/Hodor.brain
-gunicorn.log
-gunicorn.pid
 PManager/migrations/*
+tracker/settings.py
+*.log
+reports/*
+node_modules/*
+tracker/media/*
+tracker/static/*

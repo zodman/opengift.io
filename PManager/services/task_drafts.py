@@ -104,7 +104,7 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
     __create_message_from_simple_messages(draft, task, cur_user, user)
     return False
 
-
+# todo: {Rayleigh} refactor: remove html from this
 def __create_message_from_simple_messages(draft, task, author, recipient):
     text = ""
     compile_messages = SimpleMessage.objects.filter(task_draft=draft, task=task)

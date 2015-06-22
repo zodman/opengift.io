@@ -13,7 +13,10 @@ class WorkTime(object):
 
         if kargs['taskHours'] and kargs['startDateTime']:
             self.taskHours = kargs['taskHours']
-            self.startDateTime = timezone.make_aware(kargs['startDateTime'], timezone.get_default_timezone())
+            try:
+                self.startDateTime = timezone.make_aware(kargs['startDateTime'], timezone.get_default_timezone())
+            except ValueError:
+                self.startDateTime = kargs['startDateTime']
 
             self.taskRealTime = self.cropHolyDays()
             self.endDateTime = self.startDateTime + datetime.timedelta(hours=self.taskRealTime)

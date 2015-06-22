@@ -65,7 +65,7 @@ class XML_Import:
             '36f00cae-816b-427b-848d-aee8e8a17187': '5' #varnautov
         }
         #todo: add code for create projects and users
-        sUploadPath = os.path.join(settings.project_root, "PManager/static/upload")
+        sUploadPath = os.path.join(settings.PROJECT_ROOT, "PManager/static/upload")
         sImportPath = os.path.join(sUploadPath, 'import')
         if request.POST.get('import_start', None):
             sFilePath = request.POST.get('path_to_file', None)

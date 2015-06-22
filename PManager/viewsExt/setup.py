@@ -4,6 +4,7 @@ from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
 from PManager.viewsExt.tools import emailMessage
+from tracker.settings import ADMIN_EMAIL, INFO_EMAIL
 import datetime
 
 def recall(request):
@@ -16,7 +17,7 @@ def recall(request):
             },
             u'Перезвонить по этому номеру'
         )
-        mess.send(['gvamm3r@gmail.com', 'info@heliard.ru'])
+        mess.send([ADMIN_EMAIL, INFO_EMAIL])
 
     return HttpResponse(u'Спасибо! Мы перезвоним вам в течение нескольких минут.')
 
@@ -57,29 +58,3 @@ def register(request):
             return HttpResponse(u'Такой email уже существует в системе!')
 
     return HttpResponse(u'Ошибка')
-
-# def setupTracker(request):
-#     USER = 'root'
-#     PASS = ''
-#     import subprocess
-#     import MySQLdb
-#     # for task in PM_Task.objects.all():
-#     #     task.delete()
-#     # for user in User.objects.exclude(id=1):
-#     #     user.delete()
-#     # for project in PM_Project.objects.exclude(id=1):
-#     #     project.delete()
-#     # for project in PM_Files.objects.exclude(id=1):
-#     #     project.delete()
-#     # for project in PM_File_Category.objects.exclude(id=1):
-#     #     project.delete()
-#     odb1 = MySQLdb.connect(host="localhost", user="root", passwd="")
-#     cursor = odb1.cursor()
-#     sql = 'CREATE DATABASE tracker_new1'
-#     cursor.execute(sql)
-#     odb1.close()
-#     proc = subprocess.Popen(["mysql", "--user=%s" % USER, "--password=%s" % PASS, "tracker_new1"],
-#                             stdin=subprocess.PIPE,
-#                             stdout=subprocess.PIPE)
-#     out, err = proc.communicate(file("install.sql").read())
-#     return HttpResponse()

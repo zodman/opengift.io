@@ -107,7 +107,6 @@ section.we-are-wrapper {box-shadow:0 0 5px #ddd; -moz-box-shadow:0 0 5px #ddd; -
 .mobile ul li.stopwatch { background:url("../images/mobile/stopwatch6.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
 .mobile ul li.download { background:url("../images/mobile/download8.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
 .mobile ul li.line { background:url("../images/mobile/line23.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
-.mobile ul li.wikipedia { background:url("../images/mobile/wikipedia2.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
 .mobile ul li.responsive { background:url("../images/mobile/responsive16.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
 .mobile ul li.electrocardiogram { background:url("../images/mobile/electrocardiogram1.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);}
 .mobile ul strong {color:#c00f00;}
@@ -437,7 +436,7 @@ div.header h2 span {display:block;}
 }
 
 
-div.popup {background:#f0f0f0; position:fixed; margin: 0 auto; left: 0; right: 0; top: 150px; width:385px; box-shadow:0px 0px 25px #000; -webkit-box-shadow:0px 0px 25px #000; -moz-box-shadow:0px 0px 25px #000; padding:25px 35px; z-index:9999;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; behavior: url(../pie/PIE.htc);}
+div.popup {background:#f0f0f0; position:fixed; margin: 0 auto; left: 0; right: 0; top: 150px; width:385px; box-shadow:0px 0px 25px #000; -webkit-box-shadow:0px 0px 25px #000; -moz-box-shadow:0px 0px 25px #000; padding:25px 35px; z-index:9999;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; }
 div.popup.popup-alert {width: auto; max-width: 500px;}
 div.popup.popup-alert h3.title {font-size: 20px; margin-top: 0; padding-right: 15px; width: 430px;}
 div.popup.popup-alert .close.js-popupClose {position: absolute; top: 23px; right: 14px; outline:none; font-size: 25px;}

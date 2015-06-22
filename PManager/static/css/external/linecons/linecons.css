@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'linecons';
-    src: url('../font/linecons.svg?89854628#linecons') format('svg');
+    src: url('../../../fonts/linecons/linecons.svg?89854628#linecons') format('svg');
   }
 }
 */

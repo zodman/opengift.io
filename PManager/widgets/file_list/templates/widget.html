@@ -1,4 +1,5 @@
-{% load jsonify %}
+{% load jsonify compressed %}
+
 <script language="JavaScript" class="tmp_script">
     var widget_file_list_file_tpl = {{ file_list.fileTemplate|jsonify|safe }};
     var widget_file_list_arFiles = [];
@@ -6,7 +7,7 @@
         widget_file_list_arFiles.push({{ fileJson|jsonify|safe }});
     {% endfor %}
 </script>
-<script type="text/javascript" src="/widgets/js/file_list/script.js"></script>
+{% compressed_js 'file_list' %}
 
     <div class="widget file_list">
         <div class="widget-control">
@@ -100,21 +101,7 @@
         
     </div>
 
-<script src="/static/js/fileup/header.js"></script>
-<script src="/static/js/fileup/util.js"></script>
-<script src="/static/js/fileup/promise.js"></script>
-<script src="/static/js/fileup/button.js"></script>
-<script src="/static/js/fileup/ajax.requester.js"></script>
-<script src="/static/js/fileup/deletefile.ajax.requester.js"></script>
-<script src="/static/js/fileup/handler.base.js"></script>
-<script src="/static/js/fileup/window.receive.message.js"></script>
-<script src="/static/js/fileup/handler.form.js"></script>
-<script src="/static/js/fileup/handler.xhr.js"></script>
-<script src="/static/js/fileup/paste.js"></script>
-<script src="/static/js/fileup/uploader.basic.js"></script>
-<script src="/static/js/fileup/dnd.js"></script>
-<script src="/static/js/fileup/uploader.js"></script>
-<script src="/static/js/fileup/jquery-plugin.js"></script>
+{% compressed_js 'fileup' %}
 <style>
     .delete-dir {
         display: none;

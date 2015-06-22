@@ -151,8 +151,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         cur_user = request.user
 
     cur_prof = cur_user.get_profile()
-
-    aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
+    try:
+        aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
+    except AttributeError:
+        aManagedProjectsId = dict()
 
     if not 'pageCount' in arPageParams:
         arPageParams['pageCount'] = 100
@@ -175,16 +177,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     arTaskOrderParams = {
         'group': arPageParams.get('group', None)
     }
-    tasks = PM_Task.getForUser(
-        cur_user,
-        project,
-        filter,
-        qArgs,
-        arTaskOrderParams
-    )
-    tasks = tasks['tasks']
-    tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
-    qty = tasks.count()
+    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
+    try:
+        tasks = tasks['tasks']
+        tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
+        qty = tasks.count()
+    except AttributeError:
+        qty = 0
+        tasks = []
     if 'page' not in arPageParams:
         arPageParams['page'] = 1
 
@@ -286,16 +286,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         bCanBaneUser = False
         if arBIsManager[task.id] and task.resp:
             bCanBaneUser = True
-            # lastRespMessageDate = last_message_q.filter(author=task.resp)
-            # lastRespMessageDate = lastRespMessageDate[0] if lastRespMessageDate else None
-            # if lastRespMessageDate:
-            #     lastRespMessageDateCreate = lastRespMessageDate.dateCreate
-            # else:
-            #     lastRespMessageDateCreate = task.realDateStart or task.dateCreate
-            #
-            # bCanBaneUser = lastRespMessageDateCreate < timezone.make_aware(
-            #     datetime.datetime.now(), timezone.get_current_timezone()
-            # ) - datetime.timedelta(days=2)
 
         last_mes = last_message_q[0] if last_message_q else None
         addTasks[task.id] = {
