@@ -2837,7 +2837,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 
 .promo_payment_wrapper {background: #47a447; margin: -10px -15px; padding: 0; font-size: 14px;}
-.promo_payment {margin: 0 auto; max-width: 1220px; background: url("../../static/images/hand.jpg") left bottom no-repeat; }
+.promo_payment {margin: 0 auto; max-width: 1220px; background: url("../images/hand.jpg") left bottom no-repeat; }
 .promo_payment_header {float:right; padding-top: 35px; min-height: 460px;}
 
 .tariff-item .fa.fa-remove {font-size: 20px; color:#d81716;}
@@ -2948,7 +2948,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .payment-icons-wrapper {text-align: center;}
 .payment-icons {list-style: none; margin-bottom: 0px;}
 .payment-icons li {margin: 0 10px; display:inline-block; }
-.payment-icons li span {background:url("../../static/images/money-icons.png") 0px 0px no-repeat; height: 43px; text-indent: -9999em; display:inline-block;}
+.payment-icons li span {background:url("../images/money-icons.png") 0px 0px no-repeat; height: 43px; text-indent: -9999em; display:inline-block;}
 .payment-icons li {padding: 5px 10px; margin: 5px 10px; border: 2px solid rgba(1,1,1,0);}
 .payment-icons li.active {
     background:#47a447;
@@ -3023,7 +3023,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     left: -15px;
     width: 28px;
     height: 28px;
-    background:url("../../static/images/radiobutton.png") 0px 0px no-repeat;
+    background:url("../images/radiobutton.png") 0px 0px no-repeat;
 }
 .promo_payment_plan .trans-element-radio.unchecked {background-position: 0px 0px;}
 .promo_payment_plan .trans-element-radio.checked {background-position: 0px -28px;}
