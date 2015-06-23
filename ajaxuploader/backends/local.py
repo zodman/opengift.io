@@ -10,8 +10,7 @@ class LocalUploadBackend(AbstractUploadBackend):
     UPLOAD_DIR = ""
 
     def setup(self, filename, *args, **kwargs):
-        self._path = os.path.join(
-            settings.MEDIA_ROOT, self.UPLOAD_DIR, filename)
+        self._path = os.path.join('tracker/media', self.UPLOAD_DIR, filename)
         try:
             os.makedirs(os.path.realpath(os.path.dirname(self._path)))
         except:

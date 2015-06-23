@@ -89,7 +89,7 @@ class PM_Tracker(models.Model):
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True)
     admin = models.ForeignKey(User, related_name='createdTrackers', null=True)
-    logo = models.ImageField(upload_to="PManager/static/upload/trackers/", null=True)
+    logo = models.ImageField(upload_to="tracker/media/trackers/", null=True)
 
     def __unicode__(self):
         return self.name
@@ -186,7 +186,10 @@ class PM_Files(models.Model):
 
     @property
     def src(self):
-        return '/protected/' + str(self.file)
+        url = str(self.file)
+        if url.startswith('/'):
+            url = url[1:]
+        return '/protected/' + url
 
     @property
     def type(self):

@@ -15,11 +15,9 @@ def thumbnail(file, size='200x200', resample=0):
     basename, format = file.rsplit('.', 1)
 #    print basename
     miniature = basename + '_' + size + '.' +  format
-    miniature = miniature.replace('media/', 'thumbnails/')
-    if miniature.startswith('/'):
-        miniature = miniature[1:]
+    miniature = miniature.replace('media/', 'media/thumbnails/')
     miniature_filename = os.path.join(settings.MEDIA_ROOT, miniature)
-    miniature_url = os.path.join(settings.MEDIA_URL, miniature)
+    miniature_url = str(miniature)
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
     miniature_dir = '/'.join(miniature_dir)
@@ -43,4 +41,6 @@ def thumbnail(file, size='200x200', resample=0):
 
 @register.filter(name='protected')
 def protected(url):
-    return '/protected' + str(url).replace('static', 'media')
+    if url.startswith('/'):
+        url = url[1:]
+    return os.path.join('/protected', str(url))

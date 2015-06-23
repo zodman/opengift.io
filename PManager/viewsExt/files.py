@@ -13,7 +13,7 @@ import time
 from django.http import HttpResponseBadRequest, Http404, HttpResponseNotAllowed
 from ajaxuploader.backends.local import LocalUploadBackend
 from django.core.serializers.json import DjangoJSONEncoder
-
+from tracker import settings
 
 def unicodeToInt(un):
     return int(round(float(un), 0))
@@ -54,7 +54,7 @@ def fileSave(request):
 
             im = im.crop((int(x1 * k_w), int(y1 * k_h), int(x2 * k_w), int(y2 * k_h)))
             # todo: убрать все, что отвечало за обрезку изображения
-            outfile = "media/tmp/cropped.png"
+            outfile = "tracker/media/tmp/cropped.png"
             im.save(outfile, "PNG")
             file.file.delete()
             #сохраняем картинку в базу
@@ -299,7 +299,7 @@ class AjaxFileUploader(object):
 
             project_id = headerValues['CURRENT_PROJECT'].id if headerValues['CURRENT_PROJECT'] and headerValues['CURRENT_PROJECT'].id else None
             if project_id:
-                backend.UPLOAD_DIR = os.path.join(backend.UPLOAD_DIR, str(project_id))
+                backend.UPLOAD_DIR = 'projects/' + str(project_id)
 
             filename = (backend.update_filename(request, filename, *args, **kwargs)
                         or filename)
