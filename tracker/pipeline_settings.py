@@ -85,7 +85,7 @@ PIPELINE_JS = {
             'widgets/gantt/js/gantt.js',
             'widgets/gantt/js/gantt.thumbnail.js',
             'widgets/gantt/js/widget.js',
-            'js/libs/fullscreen.js',
+            # 'js/libs/fullscreen.js',
         ),
         'output_filename': 'js_compressed/gantt.js'
     },
