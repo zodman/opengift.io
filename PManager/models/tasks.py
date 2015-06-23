@@ -186,7 +186,7 @@ class PM_Files(models.Model):
 
     @property
     def src(self):
-        return str(self.file).replace('PManager', '/protected')
+        return 'protected/' + str(self.file)
 
     @property
     def type(self):
