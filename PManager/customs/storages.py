@@ -7,14 +7,14 @@ from uuid import uuid4
 # todo: remove this, what if path will be changed? cdn can be an option
 # will fail if filesystem file descriptors limit, should not use hardcoded path
 # should be FileStorage engine instead of a function
-def path_and_rename(path, pSubdir=''):
+def path_and_rename(path1, pSubdir=''):
     def wrapper(instance, filename):
         try:
-             pSubdir = eval(pSubdir)
+            pdir = eval(pSubdir)
         except (SyntaxError, TypeError):
-            pSubdir = ''
+            pdir = ''
             pass
-        path = os.path.join(settings.MEDIA_ROOT, path, pSubdir)
+        path = os.path.join(settings.MEDIA_ROOT, path1, pdir)
         ext = filename.split('.')[-1]
         # get filename
         # if not isPasted:
