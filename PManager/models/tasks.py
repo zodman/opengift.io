@@ -186,7 +186,7 @@ class PM_Files(models.Model):
 
     @property
     def src(self):
-        return 'protected/' + str(self.file)
+        return '/protected/' + str(self.file)
 
     @property
     def type(self):

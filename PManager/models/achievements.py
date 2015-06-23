@@ -9,7 +9,7 @@ from django.dispatch import receiver
 
 class PM_Achievement(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="PManager/static/upload/achievement/", null=True)
+    image = models.ImageField(upload_to="tracker/media/achievement/", null=True)
     description = models.TextField()
     condition = models.TextField()
     code = models.CharField(max_length=100)
@@ -17,7 +17,7 @@ class PM_Achievement(models.Model):
 
     @property
     def smallImageUrl(self):
-        return str(self.image).replace('PManager', '')
+        return str(self.image)
 
     def addToUser(self, user):
         acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)

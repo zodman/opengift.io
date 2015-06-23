@@ -9,20 +9,18 @@ from pipeline_settings import *
 SITE_ID = 1
 
 # DEBUG MODE
-DEBUG = True
+DEBUG = False
 
 # TEMPLATE DEBUG MODE
-TEMPLATE_DEBUG = True
+TEMPLATE_DEBUG = False
 
 # list of admins
 ADMINS = (
-    ('admin', 'admin@example.com'),
+    ('admin', 'admin@email.com'),
 )
 
 # list of managers
-MANAGERS = (
-    ('manager', 'manager@example.com'),
-)
+MANAGERS = ADMINS
 # ######################## TIME_SETTINGS ###########################
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -47,7 +45,7 @@ USE_TZ = True
 
 # ####################### PATHS_SETTINGS ###############################
 # ROOT PATH
-PROJECT_ROOT = '/home/rayleigh/projects/heliard/'
+PROJECT_ROOT = '/home/heliard/heliard/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = PROJECT_ROOT + 'tracker/media/'
@@ -72,7 +70,6 @@ STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    PROJECT_ROOT + 'PManager/widgets/',
 )
 
 # template locations
@@ -94,7 +91,7 @@ STATICFILES_FINDERS = (
 )
 
 # Make this unique, and don't share it with anybody.
-SECRET_KEY = 'SECRET_KEY'
+SECRET_KEY = 'SECRET KEY'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -185,21 +182,22 @@ AUTH_PROFILE_MODULE = 'PManager.PM_User'
 
 # Allowed hosts for this application
 ALLOWED_HOSTS = [
-    'heliard.dev', 'localhost'
+    'heliard.ru', 'heliard'
 ]
 
 # Socket server address
-SOCKET_SERVER_ADDRESS = 'heliard.dev'
+SOCKET_SERVER_ADDRESS = 'heliard.ru'
 
 # Server root url
-SERVER_ROOT_URL = 'heliard.dev'
-HTTP_ROOT_URL = 'http://heliard.dev'
+SERVER_ROOT_URL = 'heliard.ru'
+HTTP_ROOT_URL = 'http://heliard.ru'
+SERVER_IP = '188.225.74.214'
 
 # Site default email url
-SITE_EMAIL = 'admin@localhost'
-ADMIN_EMAIL = 'admin@localhost'
-INFO_EMAIL = 'info@localhost'
-NO_REPLY_EMAIL = 'no-reply@localhost'
+SITE_EMAIL = 'admin@heliard.ru'
+ADMIN_EMAIL = 'admin@heliard.ru'
+INFO_EMAIL = 'info@heliard.ru'
+NO_REPLY_EMAIL = 'no-reply@heliard.ru'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION
@@ -212,7 +210,7 @@ SESSION_COOKIE_SECURE = False
 SET_COOKIE = {}
 
 # todo: ADD DESCRIPTION
-SESSION_COOKIE_DOMAIN = 'heliard.dev'
+SESSION_COOKIE_DOMAIN = 'heliard.ru'
 
 # ######################### REDIS SETTINGS ##############################
 # REDIS SERVER HOST
@@ -229,7 +227,7 @@ ORDERS_REDIS_DB = None
 
 # #################### ROBOKASSA SETTINGS ##################################
 # ROBOKASSA_LOGIN
-ROBOKASSA_LOGIN = ''
+ROBOKASSA_LOGIN = 'HeliardErp'
 
 # ROBOKASSA PASS
 ROBOKASSA_PASSWORD1 = ''
@@ -248,7 +246,7 @@ COMISSION = 1
 
 # ########################## GIT MODULE SETTINGS ######################################
 # GIT MODULE IS ENABLED
-USE_GIT_MODULE = False
+USE_GIT_MODULE = True
 
 #DOCKER
 DOCKER_USER_NAME = 'dockhost'
@@ -256,19 +254,34 @@ DOCKER_HOST = 'heliard-platform.ru'
 DOCKER_APP_KEY = ''
 
 # Gitolite admin repository path
-GITOLITE_ADMIN_REPOSITORY = ''
+GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 # Gitolite ssh url credentials and domain string
-GITOLITE_ACCESS_URL = ''
+GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
 # Gitolite users repositories path
-GITOLITE_REPOS_PATH = ''
+GITOLITE_REPOS_PATH = '/home/heliard/repositories'
 # Gitolite default user for docker
-GITOLITE_DEFAULT_USER = 'dockhost'
+GITOLITE_DEFAULT_USER = 'id_rsa'
 
-
-# EMAIL TESTING
-if DEBUG:
-    EMAIL_HOST = '127.0.0.1'
-    EMAIL_HOST_USER = ''
-    EMAIL_HOST_PASSWORD = ''
-    EMAIL_PORT = 1025
-    EMAIL_USE_TLS = False
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}

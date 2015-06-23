@@ -54,7 +54,7 @@ def fileSave(request):
 
             im = im.crop((int(x1 * k_w), int(y1 * k_h), int(x2 * k_w), int(y2 * k_h)))
             # todo: убрать все, что отвечало за обрезку изображения
-            outfile = "PManager/static/upload/tmp/cropped.png"
+            outfile = "media/tmp/cropped.png"
             im.save(outfile, "PNG")
             file.file.delete()
             #сохраняем картинку в базу
@@ -64,7 +64,7 @@ def fileSave(request):
             )
 
         file.save()
-        return HttpResponse(json.dumps({'path': str(file.file).replace('PManager', ''), 'fid': file.id}))
+        return HttpResponse(json.dumps({'path': str(file.file), 'fid': file.id}))
     return HttpResponse(json.dumps({'error': 'PNG expected'}))
 
 

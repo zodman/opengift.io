@@ -8,13 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
     {% compressed_js 'base' %}
     {% compressed_css 'base' %}
-
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     {% block stylesheets %}{% endblock %}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
     <script type="text/javascript">
         window.heliardSettings = {
-            "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}'
+            "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
+	    "SERVER_IP": '{% get_settings "SERVER_IP" %}',
+	    "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}'
         };
         var CURRENT_TASK_VIEW;
         var CURRENT_TASK_DATA;
