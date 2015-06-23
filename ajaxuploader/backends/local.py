@@ -21,7 +21,7 @@ class LocalUploadBackend(AbstractUploadBackend):
         self._dest.write(chunk)
 
     def upload_complete(self, request, filename, *args, **kwargs):
-        path = settings.MEDIA_URL + os.path.join(self.UPLOAD_DIR, filename)
+        path = os.path.join(self.UPLOAD_DIR, filename)
         self._dest.close()
         return {"path": path}
 
@@ -31,7 +31,8 @@ class LocalUploadBackend(AbstractUploadBackend):
         Ensure file with name doesn't exist, and if it does,
         create a unique filename to avoid overwriting
         """
-        self._dir = self.UPLOAD_DIR
+        self._dir = os.path.join(
+            settings.MEDIA_ROOT, self.UPLOAD_DIR)
         unique_filename = False
         filename_suffix = 0
         filename = filename.encode('utf-8')
