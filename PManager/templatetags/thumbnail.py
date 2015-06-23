@@ -16,7 +16,7 @@ def thumbnail(file, size='200x200', resample=0):
 #    print basename
     miniature = basename + '_' + size + '.' +  format
     miniature = miniature.replace('media/', 'media/thumbnails/')
-    if not miniature.startwith('media'):
+    if not miniature.startswith('media/'):
         miniature = 'media/' + miniature
 
     miniature_filename = 'tracker' + miniature
