@@ -8,11 +8,11 @@ from uuid import uuid4
 # will fail if filesystem file descriptors limit, should not use hardcoded path
 # should be FileStorage engine instead of a function
 def path_and_rename(path, pSubdir=''):
-
     def wrapper(instance, filename):
         try:
              pSubdir = eval(pSubdir)
         except (SyntaxError, TypeError):
+            pSubdir = ''
             pass
         path = os.path.join(settings.MEDIA_ROOT, path, pSubdir)
         ext = filename.split('.')[-1]
