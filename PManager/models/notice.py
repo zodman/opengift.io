@@ -8,7 +8,7 @@ from django.db.models import Q
 class PM_Notice(models.Model):
     name = models.CharField(max_length=100)
     html = models.CharField(max_length=1000)
-    image = models.ImageField(upload_to="PManager/static/upload/notices/", null=True, blank=True)
+    image = models.ImageField(upload_to="tracker/media/notices/", null=True, blank=True)
     url = models.CharField(max_length=200, blank=True, null=True)
     itemClass = models.CharField(max_length=100)
 
