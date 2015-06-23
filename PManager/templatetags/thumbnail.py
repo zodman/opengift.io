@@ -35,6 +35,7 @@ def thumbnail(file, size='200x200', resample=0):
                 image = Image.open(filename)
                 image.thumbnail([x, y], resample) # generate a 200x200 thumbnail
                 image.save(miniature_filename, image.format)
+                raise
             # except IOError:
             #     return file
 
