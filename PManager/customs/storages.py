@@ -14,7 +14,7 @@ def path_and_rename(path1, pSubdir=''):
         except (SyntaxError, TypeError):
             pdir = ''
             pass
-        path = os.path.join('media', path1, pdir)
+        path = os.path.join(path1, pdir)
         ext = filename.split('.')[-1]
         # get filename
         # if not isPasted:
