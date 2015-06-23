@@ -16,7 +16,7 @@ def thumbnail(file, size='200x200', resample=0):
 #    print basename
     miniature = basename + '_' + size + '.' +  format
     miniature = miniature.replace('media/', 'media/thumbnails/')
-    miniature_filename = '/tracker' + miniature
+    miniature_filename = 'tracker' + miniature
     miniature_url = str(miniature)
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
@@ -25,7 +25,7 @@ def thumbnail(file, size='200x200', resample=0):
 
     if not os.path.exists(miniature_filename):
 #        print '>>> debug: resizing the image to the format %s!' % size
-        filename = '/tracker' + file
+        filename = 'tracker' + file
         if os.path.isfile(filename):
             try:
                 if not os.path.exists(miniature_dir):
