@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Rayleigh'
-import pipeline
+
+
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
-PIPELINE_ENABLED = True
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 PIPELINE_DISABLE_WRAPPER = True
 PIPELINE_JS = {
@@ -92,7 +92,7 @@ PIPELINE_JS = {
     'kanban': {
         'source_filenames': (
             'js/libs/jquery-ui.custom.min.js',
-            'js/libs/chosen.jquery.min.js'
+            'js/libs/chosen.jquery.min.js',
             'widgets/kanban/widget.js',
         ),
         'output_filename': 'js_compressed/kanban.js'
