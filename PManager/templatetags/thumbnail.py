@@ -28,15 +28,15 @@ def thumbnail(file, size='200x200', resample=0):
         filename = file
 
         if os.path.isfile(filename):
-            try:
+            # try:
                 if not os.path.exists(miniature_dir):
                     os.makedirs(miniature_dir)
 
                 image = Image.open(filename)
                 image.thumbnail([x, y], resample) # generate a 200x200 thumbnail
                 image.save(miniature_filename, image.format)
-            except IOError:
-                return file
+            # except IOError:
+            #     return file
 
     return miniature_url
 
