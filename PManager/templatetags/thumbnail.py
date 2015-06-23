@@ -15,8 +15,8 @@ def thumbnail(file, size='200x200', resample=0):
     basename, format = file.rsplit('.', 1)
 #    print basename
     miniature = basename + '_' + size + '.' +  format
-    miniature = 'thumbnails/' + miniature
-    miniature_filename = os.path.join(settings.MEDIA_ROOT, miniature)
+    miniature = miniature.replace('media/', 'media/thumbnails/')
+    miniature_filename = miniature
     miniature_url = str(miniature)
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
@@ -25,7 +25,7 @@ def thumbnail(file, size='200x200', resample=0):
     # if the image wasn't already resized, resize it
     if not os.path.exists(miniature_filename):
 #        print '>>> debug: resizing the image to the format %s!' % size
-        filename = os.path.join(settings.MEDIA_ROOT, file)
+        filename = file
 
         if os.path.isfile(filename):
             try:
@@ -37,6 +37,7 @@ def thumbnail(file, size='200x200', resample=0):
                 image.save(miniature_filename, image.format)
             except IOError:
                 return file
+
     return miniature_url
 
 @register.filter(name='protected')
