@@ -139,7 +139,7 @@ def widget(request, headerValues, arFilter, q):
 
         if task:
             #set task readed
-            if not request.user.id in [u.id for u in list(task.viewedUsers.all())]:
+            if not request.user.id in [u.id for u in task.viewedUsers.all()]:
                 task.viewedUsers.add(request.user)
 
             hiddenSubTasksExist = False
