@@ -1,9 +1,3 @@
-/**
- * Created with PyCharm.
- * User: Gvammer
- * Date: 22.08.14
- * Time: 18:16
- */
 var FULLSCREEN = {
     fullScreenElement: function (element) {
         if (element.requestFullscreen) {
@@ -23,4 +17,4 @@ var FULLSCREEN = {
             document.mozRequestFullScreen();
         }
     }
-}
+};
