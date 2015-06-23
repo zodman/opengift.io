@@ -306,7 +306,9 @@ class PM_Milestone(models.Model):
             if not taskHours:
                 return self.STATUS_NORMAL
 
-            endDate = timezone.make_aware(self.date, timezone.get_default_timezone())
+            endDate = self.date
+            if timezone.is_naive(self.date):
+                endDate = timezone.make_aware(self.date, timezone.get_default_timezone())
             timeNeeded = WorkTime(startDateTime=datetime.datetime.now(), taskHours=taskHours * self.THRESHOLD_DANGER)
             if timeNeeded.endDateTime >= endDate:
                 return self.STATUS_DANGER

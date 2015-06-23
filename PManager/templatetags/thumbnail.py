@@ -18,6 +18,9 @@ def thumbnail(file, size='200x200', resample=0):
     miniature = miniature.replace('media/', 'media/thumbnails/')
     miniature_filename = 'tracker' + miniature
     miniature_url = str(miniature)
+    if not miniature_url.startswith('/'):
+        miniature_url = '/' + miniature_url
+
     miniature_dir = miniature_filename.split('/')
     del(miniature_dir[-1])
     miniature_dir = '/'.join(miniature_dir)
