@@ -167,10 +167,10 @@ class PM_Files(models.Model):
     name = models.CharField(max_length=200, null=True)
 
     def __unicode__(self):
-        return unicode(self.file).replace('PManager', '')
+        return u'/media'+ unicode(self.file)
 
     def __str__(self):
-        return str(self.file).replace('PManager', '')
+        return '/media'+ str(self.file)
 
     def save(self, *args, **kwargs):
         if not self.name:
@@ -189,7 +189,7 @@ class PM_Files(models.Model):
         url = str(self.file)
         if url.startswith('/'):
             url = url[1:]
-        return '/protected/' + url
+        return '/protected/media/' + url
 
     @property
     def type(self):
