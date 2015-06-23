@@ -80,11 +80,11 @@ PIPELINE_JS = {
     },
     'gantt': {
         'source_filenames': (
-            'widgets/gantt/js/dragndrop.js',
-            'widgets/gantt/js/gantt.event.block.js',
-            'widgets/gantt/js/gantt.js',
-            'widgets/gantt/js/gantt.thumbnail.js',
-            'widgets/gantt/js/widget.js',
+            'widgets/gantt/dragndrop.js',
+            'widgets/gantt/gantt.event.block.js',
+            'widgets/gantt/gantt.js',
+            'widgets/gantt/gantt.thumbnail.js',
+            'widgets/gantt/widget.js',
             'js/libs/fullscreen.js',
         ),
         'output_filename': 'js_compressed/gantt.js'
