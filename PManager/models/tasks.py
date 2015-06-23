@@ -167,10 +167,14 @@ class PM_Files(models.Model):
     name = models.CharField(max_length=200, null=True)
 
     def __unicode__(self):
-        return u'/media/' + unicode(self.file)
+        s = unicode(self.file)
+        if not s.startswith(u'media/'): s = u'/media/' + s
+        return s
 
     def __str__(self):
-        return '/media/' + str(self.file)
+        s = str(self.file)
+        if not s.startswith('media/'): s = '/media/' + s
+        return s
 
     def save(self, *args, **kwargs):
         if not self.name:
