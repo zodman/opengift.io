@@ -24,11 +24,7 @@ var cTimeThumb = function (params) {
 
     this.getWinLeft = function () {
         return this.$scrollWin.css('left').replace('px', '') * 1;
-    }
-
-//    this.getContainerLeft = function () {
-//        return this.$container.css('left').replace('px', '') * 1;
-//    }
+    };
 
     this.drawLabels = function () {
         var curDate = new Date(this.big.startDate),
@@ -46,7 +42,7 @@ var cTimeThumb = function (params) {
             );
         }
         return this;
-    }
+    };
 
     this.drawEvents = function () {
         var t = this;
@@ -65,7 +61,7 @@ var cTimeThumb = function (params) {
             }
         }
         return this;
-    }
+    };
 
     this.drawMilestones = function () {
         var t = this;
@@ -267,4 +263,4 @@ var cTimeThumb = function (params) {
 
     this.init();
     return this;
-}
+};

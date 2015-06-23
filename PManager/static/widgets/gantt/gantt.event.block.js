@@ -34,7 +34,7 @@ var EventBlock = function (event) {
     if (event.status == 'ready') {
         this.$elem.addClass('ready');
     }
-}
+};
 EventBlock.prototype = {
 
-}
+};

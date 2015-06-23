@@ -61,7 +61,7 @@ var GANTT = function (options, events, milestones) {
             big: t
         });
     }, 1000);
-}
+};
 
 GANTT.prototype = {
     init: function () {
@@ -133,12 +133,6 @@ GANTT.prototype = {
                 for (var i = 1; i < t.events.length; i++)
                     if (t.events[i].dates[0] < t.startDate)
                         t.startDate = t.events[i].dates[0];
-//            } else if (t.sections.length > 0) {
-//                t.startDate = t.sections[0].dates[0];
-//                for (var i = 0; i < t.sections.length; i++) {
-//                    if (t.sections[i].dates[0] < t.startDate)
-//                        t.startDate = t.sections[i].dates[0];
-//                }
             } else {
                 return;
             }
@@ -157,12 +151,6 @@ GANTT.prototype = {
                 for (var i = 0; i < t.events.length; i++)
                     if (this.getEndDate(t.events[i].dates) > t.endDate)
                         t.endDate = t.getEndDate(t.events[i].dates);
-//            } else if (t.sections.length > 0) {
-//                t.endDate = t.sections[0].dates[1];
-//                for (var i = 0; i < t.sections.length; i++) {
-//                    if (t.sections[i].dates[1] > t.endDate)
-//                        t.endDate = t.sections[i].dates[1];
-//                }
             }
 
             if (t.milestones) {
@@ -964,4 +952,4 @@ GANTT.prototype = {
     'stripTime': function (date) {
         return new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
     }
-}
+};

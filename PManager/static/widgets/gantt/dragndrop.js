@@ -4,13 +4,13 @@
  * Date: 15.07.14
  * Time: 23:32
  */
-//for gantt
 $.fn.setEventPosition = function(x, y) {
     return this.css({
             'left': x-5,
             'top': y-5
         })
-}
+};
+
 function bindDragNDrop(callback) {
     var $movedTask = false;
     var highlightRowClass = 'highlighted';
@@ -29,12 +29,12 @@ function bindDragNDrop(callback) {
     $(document).bind('mouseup.taskdnd',function(){
         if ($movedTask && $movedTask.get(0)) {
             var assigned;
-            //unhighlight responsibles
+
             var $highLightedResp = $('.gantt-event-desk td > div.'+highlightRowClass);
             $movedTask.css({
                     'top': $movedTask.data('top')
             });
-            //assign to row
+
             if ($highLightedResp.get(0)){
                 var respId = $highLightedResp.data('responsible');
                 var $lastEventInRow = $highLightedResp.find('.gantt-event:last');
