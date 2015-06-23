@@ -168,12 +168,14 @@ class PM_Files(models.Model):
 
     def __unicode__(self):
         s = unicode(self.file)
-        if not s.startswith(u'media/'): s = u'/media/' + s
+        if not s.startswith(u'media/'): s = u'media/' + s
+        if not s.startswith(u'/'): s = u'/' + s
         return s
 
     def __str__(self):
         s = str(self.file)
-        if not s.startswith('media/'): s = '/media/' + s
+        if not s.startswith('media/'): s = 'media/' + s
+        if not s.startswith('/'): s = '/' + s
         return s
 
     def save(self, *args, **kwargs):
