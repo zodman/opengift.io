@@ -22,9 +22,10 @@ def thumbnail(file, size='200x200', resample=0):
     del(miniature_dir[-1])
     miniature_dir = '/'.join(miniature_dir)
     # if the image wasn't already resized, resize it
+
     if not os.path.exists(miniature_filename):
 #        print '>>> debug: resizing the image to the format %s!' % size
-        filename = file
+        filename = os.path.join('/tracker', file)
 
         if os.path.isfile(filename):
             # try:
