@@ -190,10 +190,10 @@ class PM_Files(models.Model):
 
     @property
     def src(self):
-        url = str(self.file)
+        url = self.__str__()
         if url.startswith('/'):
             url = url[1:]
-        return '/protected/media/' + url
+        return '/protected/' + url
 
     @property
     def type(self):
