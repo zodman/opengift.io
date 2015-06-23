@@ -167,10 +167,10 @@ class PM_Files(models.Model):
     name = models.CharField(max_length=200, null=True)
 
     def __unicode__(self):
-        return u'/media'+ unicode(self.file)
+        return u'/media/' + unicode(self.file)
 
     def __str__(self):
-        return '/media'+ str(self.file)
+        return '/media/' + str(self.file)
 
     def save(self, *args, **kwargs):
         if not self.name:
