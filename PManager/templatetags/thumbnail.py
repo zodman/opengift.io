@@ -15,7 +15,7 @@ def thumbnail(file, size='200x200', resample=0):
     basename, format = file.rsplit('.', 1)
 #    print basename
     miniature = basename + '_' + size + '.' +  format
-    miniature = miniature.replace('media/', 'media/thumbnails/')
+    miniature = 'thumbnails/' + miniature
     miniature_filename = os.path.join(settings.MEDIA_ROOT, miniature)
     miniature_url = str(miniature)
     miniature_dir = miniature_filename.split('/')
