@@ -234,9 +234,9 @@ def __search_filter(header_values, request):
     if action == 'deadline':
         qArgs.append(
             Q(
-                Q(deadline__gt=datetime.datetime.now()),
+                Q(deadline__lt=datetime.datetime.now()),
                 Q(closed=False)
-            ) | Q(dateClose__gt=datetime.datetime.now())
+            ) | Q(dateClose__lt=datetime.datetime.now())
         )
     page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
     if start_page:
