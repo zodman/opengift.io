@@ -22,6 +22,8 @@ def initGlobals(request):
     else:
         projects = []
 
+    redirect = False
+
     if 'project' in request.REQUEST:
         try:
             CURRENT_PROJECT = PM_Project.objects.get(closed=False, id=int(request.REQUEST.get('project', 0)))
@@ -29,7 +31,7 @@ def initGlobals(request):
                 SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
                 request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id
             else:
-                raise Http404
+                redirect = "/404"
 
         except (PM_Project.DoesNotExist, ValueError):
             CURRENT_PROJECT = 0
@@ -51,8 +53,6 @@ def initGlobals(request):
                 CURRENT_PROJECT = 0
             except ValueError:
                 CURRENT_PROJECT = 0
-
-    redirect = False
 
     if request.method == 'POST':
         form = WhoAreYou(request.POST)
