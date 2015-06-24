@@ -31,7 +31,10 @@ def initGlobals(request):
                 SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
                 request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id
             else:
-                redirect = "/404"
+                if not bIsAuthenticated:
+                    redirect = '/login/'
+                else:
+                    redirect = "/404"
 
         except (PM_Project.DoesNotExist, ValueError):
             CURRENT_PROJECT = 0
