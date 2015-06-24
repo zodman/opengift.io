@@ -166,9 +166,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var trimLinks = function (match) {
                     match = match.trim();
                     if (match.length > 35) {
-                        return "<a href='" + match + "'>" + match.substr(0, 32) + "...</a>";
+                        return "<a target='newtab' href='" + match + "'>" + match.substr(0, 32) + "...</a>";
                     } else {
-                        return "<a href='" + match + "'>" + match + "</a>";
+                        return "<a target='newtab' href='" + match + "'>" + match + "</a>";
                     }
                 };
                 var arKeys = {
