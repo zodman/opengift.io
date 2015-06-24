@@ -37,7 +37,10 @@ def thumbnail(file, size='200x200', resample=0):
         # todo: fix all upload paths to be general
         if not file.startswith('media'):
             file = os.path.join('media', file)
-        filename = os.path.join('tracker', file)
+        if file.startswith('/'):
+            filename = 'tracker' + file
+        else:
+            filename = os.path.join('tracker', file)
         print str(filename)
         if os.path.isfile(filename):
             try:
