@@ -33,7 +33,6 @@ def thumbnail(file, size='200x200', resample=0):
     # if the image wasn't already resized, resize it
 
     if not os.path.exists(miniature_filename):
-        print '>>> debug: resizing the image to the format %s!' % size
         # todo: fix all upload paths to be general
         if not file.startswith('media'):
             file = os.path.join('media', file)
