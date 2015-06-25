@@ -371,7 +371,7 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить исполнителей Heliard', '#invite-developers', function() {
+                        $block = menuTaskBlock('Пригласить внешних исполнителей', '#invite-developers', function() {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-add-developers').click(function (e) {
                                 e.preventDefault();
@@ -787,30 +787,30 @@ var widget_tl, currentGroup;
                             button.data('edit-name', name);
                             button.data('edit-date', date);
                             if(date) {
-                                button.parents('.task').find('.js-milestone-data').text(name + ' РґРѕ ' + date);
+                                button.parents('.task').find('.js-milestone-data').text(name + ' до ' + date);
                             }
                             else {
                                 button.parents('.task').find('.js-milestone-data').text(name);   
                             }
                             $('#edit-milestone').modal('hide');
                         } else {
-                            alert('РќРµ СѓРґР°Р»РѕСЃСЊ СЃРѕС…СЂР°РЅРёС‚СЊ С†РµР»СЊ.');
+                            alert('Ошибка сохранения цели');
                         }
                         return false;
                     });
                     return false;
                   });
-                })
+                });
 
                 if (group.id) {
                     var $row = $(row).on('click', '.js-close-milestone', function(e){
-                        if (confirm('Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ СѓРґР°Р»РёС‚СЊ С†РµР»СЊ?')) {
+                        if (confirm('Вы действительно хотите удалить данную цель?')) {
                             $.post('/milestone_ajax/',{
                                 'action': 'remove',
                                 'id': group.id
                             }, function(response){
                                 if(response != 'removed') {
-                                    alert('Р¦РµР»СЊ СѓРґР°Р»РёС‚СЊ РЅРµ СѓРґР°Р»РѕСЃСЊ');
+                                    alert('Цель успешно удалена');
                                 }else {
                                     window.location.reload();
                                 }
