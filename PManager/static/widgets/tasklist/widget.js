@@ -75,10 +75,10 @@ var widget_tl, currentGroup;
 
             },
             'TL_Tags':{
-                'Responsible':'РґР»СЏ ',
-                'Date':' РґРѕ ',
-                'Author': ' РѕС‚ ',
-                'About':'РїСЂРёРјРµСЂРЅРѕ '
+                'Responsible':'для ',
+                'Date':' до ',
+                'Author': ' от ',
+                'About':'примерно '
             },
             'TL_HintBlocks':{
                 'Responsible':$('#TL_responsible_list'),
@@ -237,7 +237,7 @@ var widget_tl, currentGroup;
                 this.createUserAdditionalTabs();
                 var t = this;
                 this.$saveFilterButton.click(function(){
-                    var newTab = widget_tl.additionalTabs.addCurrentState('РњРѕР№ С„РёР»СЊС‚СЂ');
+                    var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
 
                     if (newTab){
                         var $tabElem = widget_tl.addNewTabToPanel(newTab);
@@ -356,15 +356,15 @@ var widget_tl, currentGroup;
                 $(document).on('click', '.js-task-checkbox', function(){
                     var $chTasks = $('.js-task-checkbox:checked');
                     if ($chTasks.get(0)){
-                        $block = menuTaskBlock('Р”РѕР±Р°РІРёС‚СЊ С†РµР»СЊ', '#add-to-milestone', function(){
+                        $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function(){
                             var $taskInputContainer = $('.js-tasks-for-milestone').empty();
                             $('.js-task-checkbox:checked').each(function(){
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
                         bottomPanel.addBlock('addToMilestone', $block);
-                        //TODO: РІС‹РЅРµСЃС‚Рё РІ РѕС‚РґРµР»СЊРЅС‹Р№ РєР»Р°СЃСЃ
-                        $block = menuTaskBlock('РќР°Р·РЅР°С‡РёС‚СЊ РЅР°Р±Р»СЋРґР°С‚РµР»РµР№', '#add-observers', function(){
+                        //TODO: вынести в отдельный класс
+                        $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function(){
                             var $taskInputContainer = $('.js-tasks-for-observers').empty();
                             $('.js-task-checkbox:checked').each(function(){
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
@@ -387,7 +387,6 @@ var widget_tl, currentGroup;
                             $('.js-task-checkbox:checked').each(function(){
                                 $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });
-                        });
                         bottomPanel.addBlock('inviteDevelopers', $block);
                     }else{
                         bottomPanel.removeBlock('addToMilestone');
@@ -400,13 +399,13 @@ var widget_tl, currentGroup;
                 var parentTask = this.TL_Tasks.get(parentId);
                 var task = this.TL_Tasks.get(id);
                 if(parentId && !parentTask){ //drop task to subtask
-                    alert('Р’С‹ РЅРµ РјРѕР¶РµС‚Рµ РїРµСЂРµРЅРµСЃС‚Рё РІ СЌС‚Сѓ Р·Р°РґР°С‡Сѓ.');
+                    alert('Вы не можете перенести в эту задачу.');
                     return false;
                 }else if(task && !task.get('parent') && !parentTask){ //drop parent task to free space
                     widget_tl.taskInsertBefore(id, $('[data-taskid='+id+']').parent().next().find('.task:first').data('taskid'));
                     return true;
                 }else if (id){
-                    if (confirm('Р’С‹ РґРµР№СЃС‚РІРёС‚РµР»СЊРЅРѕ С…РѕС‚РёС‚Рµ РїРµСЂРµРЅРµСЃС‚Рё СЌС‚Сѓ Р·Р°РґР°С‡Сѓ РІ ' + (parentTask?'Р·Р°РґР°С‡Сѓ #"' + parentTask.id + '"':'РѕР±С‰РёР№ СЃРїРёСЃРѕРє') + '?')) {
+                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask?'задачу #"' + parentTask.id + '"':'общий список') + '?')) {
                         taskManager.taskAjaxRequest({
                             'action':'appendTask',
                             'id':id,
@@ -453,7 +452,7 @@ var widget_tl, currentGroup;
                     })
                         .text(oTab.name)
                         .addClass('userTab'),
-                    $removeLink = $('<div class="widget-control" style="right: -6px; top: -6px;"><a class="w-close js-removeTab">Р—Р°РєСЂС‹С‚СЊ</a></div>');
+                    $removeLink = $('<div class="widget-control" style="right: -6px; top: -6px;"><a class="w-close js-removeTab">Закрыть</a></div>');
 
                 this.$tabContainer.prepend($newTab.append($tabLink).append($removeLink));
                 return $newTab;
@@ -682,7 +681,7 @@ var widget_tl, currentGroup;
                         params.group = $group.val();
                     }
 
-                    //СЃРѕР±РёСЂР°РµРј РІСЃРµ СЌР»РµРјРµРЅС‚С‹ С„РѕСЂРјС‹ РїРѕРёСЃРєР° (СЃРѕР·РґР°РЅРЅС‹Рµ С‡РµСЂРµР· РїРѕРёСЃРєРѕРІРѕРµ РјРµРЅСЋ)
+                    //собираем все элементы формы поиска (созданные через поисковое меню)
                     this.$searchRulesHolder.find('input[type=hidden]').each(function(){
                         if (!params[$(this).attr('name')])
                             params[$(this).attr('name')] = [];
@@ -696,8 +695,8 @@ var widget_tl, currentGroup;
                             widget_tl.nextPage = paramsForHistory.startPage + 1;
                             paramsForHistory.page = paramsForHistory.startPage;
                             delete paramsForHistory.startPage;
-                            //startPage РіРµРЅРµСЂРёСЂСѓРµС‚СЃСЏ РїСЂРё РїРµСЂРІРѕРј РІС‹Р·РѕРІРµ С„РёР»СЊС‚СЂР° РїРѕ С…СЌС€Сѓ Рё РЅРµ РґРѕР»Р¶РЅР° РІ РЅРµРј СЃРѕС…СЂР°РЅСЏС‚СЊСЃСЏ
-                            //С‚Р°Рє РєР°Рє РѕРЅР° РЅСѓР¶РЅР° С‚РѕР»СЊРєРѕ РґР»СЏ РёРЅРёС†РёР°С†РёРё СЃС‚Р°СЂС‚РѕРІРѕРіРѕ РєРѕР»-РІР° Р·Р°РґР°С‡ РїСЂРё Р·Р°РіСЂСѓР·РєРµ СЃС‚СЂР°РЅРёС†С‹
+                            //startPage генерируется при первом вызове фильтра по хэшу и не должна в нем сохраняться
+                            //так как она нужна только для инициации стартового кол-ва задач при загрузке страницы
                         }
 
                         historyManager.addParams({'taskListFilter':paramsForHistory});
@@ -733,7 +732,7 @@ var widget_tl, currentGroup;
                         }
 
                         if ((!tasks || tasks.length <= 0) && !params.parent && !params.page){
-                            obj.TL_Container.html("<div><span class='empty_result'>РќРёС‡РµРіРѕ РЅРµ РЅР°Р№РґРµРЅРѕ</span></div>");
+                            obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
                         }
                         if (!params.parent){
                             if (paginator.lastPage) {
@@ -749,7 +748,7 @@ var widget_tl, currentGroup;
             'addGroupRow': function(group){
                 if (!group.name) {
                     group = {
-                        'name': 'РЎРІРѕР±РѕРґРЅС‹Рµ Р·Р°РґР°С‡Рё'
+                        'name': 'Свободные задачи'
                     }
                 }
                 var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>'
@@ -757,7 +756,7 @@ var widget_tl, currentGroup;
                                 '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
                     (group.url? '<a href="'+group.url+'" class="js-milestone-data">':'<span class="js-milestone-data">') +
-                    group.name + (group.date ? ' РґРѕ ' + group.date : '') + (group.url? '</a>':'</span>') +
+                    group.name + (group.date ? ' до ' + group.date : '') + (group.url? '</a>':'</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
                 							'<a href="#" class="fa fa-edit js-edit-milestone-link" data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id + 
                                             '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
@@ -855,7 +854,7 @@ var widget_tl, currentGroup;
                 if (!parent) {
                     var $task_el = $('<div></div>').addClass('task-wrapper')
                                     .append(view.$el)
-                                    .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Р”РѕР±Р°РІРёС‚СЊ РїРѕРґР·Р°РґР°С‡Сѓ..."></div>')
+                                    .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Добавить подзадачу..."></div>')
                                     .append('<div class="subtask" style="display: none;"></div>');
 
                     if (is_new) {
@@ -906,7 +905,7 @@ var widget_tl, currentGroup;
                     bIsRange = value == 'range',
                     sAddDatePickerClass = bIsDate?'datepick':'',
                     val,
-                    aDatesPrefixes = ['c&nbsp;','РїРѕ&nbsp;'];
+                    aDatesPrefixes = ['c&nbsp;','по&nbsp;'];
                 if (bIsRange && bIsDate) {
                     value = ['01.08.2014', '10.09.2014']
                 }
@@ -1004,10 +1003,10 @@ var widget_tl, currentGroup;
                         $similarResult = $('<div></div>').addClass(cl).insertAfter(widget_tl.TL_CreateTaskInput);
                     }
                     if (data.length){
-                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle','dropdown').text(data.length + ' РїРѕС…РѕР¶РёС…');
+                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle','dropdown').text(data.length + ' похожих');
                         var sAddMessage = '';
                         if (data.length > 20){
-                            sAddMessage = '<span style="color:red">&nbsp;РџРѕСЃС‚Р°СЂР°Р№С‚РµСЃСЊ РєРѕРЅРєСЂРµС‚РёР·РёСЂРѕРІР°С‚СЊ Р·Р°РґР°С‡Сѓ.</span>'
+                            sAddMessage = '<span style="color:red">&nbsp;Постарайтесь конкретизировать задачу.</span>'
                         }
 
                         var $menu = $('<ul></ul>').addClass('dropdown-menu').attr('role','dropdown');
@@ -1054,7 +1053,7 @@ var widget_tl, currentGroup;
             input.val('');
             widget_tl.TL_CreateTask(taskParams);
 
-            $('.qq-upload-list').empty();//TODO:СѓСЃС‚СЂР°РЅРёС‚СЊ РґСѓР±Р»РёСЂРѕРІР°РЅРёРµ РєРѕРґР°
+            $('.qq-upload-list').empty();//TODO:устранить дублирование кода
             return false;
         });
 
@@ -1252,9 +1251,9 @@ var widget_tl, currentGroup;
                 paramsInBody: true
             },
             text: {
-                cancelButton:'РћС‚РјРµРЅР°',
-                retryButton:'РџРѕРІС‚РѕСЂРёС‚СЊ',
-                deleteButton:'РЈРґР°Р»РёС‚СЊ'
+                cancelButton:'Отмена',
+                retryButton:'Повторить',
+                deleteButton:'Удалить'
             },
             chunking: {
                 enabled: true
