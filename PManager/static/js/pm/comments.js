@@ -79,7 +79,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-show-file-diff": 'showFileDiff',
                 "click .js-set-todo": 'setTodo',
                 "click .js-set-bug": 'setBug',
-                "click .js-check-bug": 'checkTodo',
+                "click .js-check-bug": 'checkTodo', //both must do same thing
                 "click .js-check-todo": 'checkTodo'
 
             },
