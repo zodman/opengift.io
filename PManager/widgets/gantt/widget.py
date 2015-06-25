@@ -260,5 +260,5 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         'tasks': aTasks,
         'milestones': aMilestones,
         'users': widgetManager.getResponsibleList(cur_user, filter['project']),
-        'project': filter['project'] if filter['project'] else False
+        'project': filter['project'] if 'project' in filter else False
     }

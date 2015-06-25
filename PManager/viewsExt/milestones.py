@@ -40,9 +40,12 @@ def ajaxMilestonesResponder(request):
             locked=False
         )
     except PM_Project.DoesNotExist:
-        project = None
-
-
+        if id:
+            try:
+                milestone = PM_Milestone.objects.get(pk=id)
+                project = milestone.project
+            except PM_Milestone.DoesNotExist:
+                project = None
     if action == 'remove':
         if id:
             try:
@@ -51,12 +54,12 @@ def ajaxMilestonesResponder(request):
                 responseText = 'removed'
             except PM_Milestone.DoesNotExist:
                 pass
-
     elif name and date and project:
-        if user.get_profile().isManager(project):
+        if not user.get_profile().isManager(project):
             return False
 
-        milestone = None
+        if not milestone:
+            milestone = None
         if id:
             try:
                 milestone = PM_Milestone.objects.get(pk=id)
@@ -76,7 +79,6 @@ def ajaxMilestonesResponder(request):
             else:
                 milestone.responsible.add(user)
             responseText = 'saved'
-
     return HttpResponse(responseText)
 
 def milestonesResponder(request):
