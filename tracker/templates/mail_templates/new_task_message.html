@@ -23,7 +23,7 @@
         {% for file in task.message.file_list %}
             {% if forloop.first %}<p>{% endif %}
             {% if file.is_picture %}
-                <a class="fnc" href="{% get_settings "HTTP_ROOT_URL" %}{{ file.url }}"><img width="100" class="img-polaroid" src="{% get_settings "HTTP_ROOT_URL" %}{{ file.url|thumbnail:"100x100" }}" /></a>
+                <a class="fnc" href="{% get_settings "HTTP_ROOT_URL" %}{{ file }}"><img width="100" class="img-polaroid" src="{% get_settings "HTTP_ROOT_URL" %}{{ file|thumbnail:"100x100" }}" /></a>
             {% endif %}
             {% if forloop.last %}</p>{% endif %}
         {% endfor %}
