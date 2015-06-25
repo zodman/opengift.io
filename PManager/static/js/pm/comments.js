@@ -649,7 +649,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 if (t.taskId) {
                     $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
-                console.log(firstItems);
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
                     if ($(this).find('.js-taskMessage').size() <= 1) return;
