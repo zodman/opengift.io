@@ -263,7 +263,7 @@ class PM_User(models.Model):
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
-                       or self.user.id == self.task.resp
+                       or self.user.id == task.resp
 
     def getBet(self, project, type=''):
         try:
