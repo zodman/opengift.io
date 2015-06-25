@@ -306,6 +306,8 @@ div.dates-bar-item::-moz-selection {
         user-select: none;
     }
     </style>
+
+    {% if gantt.project %}
     <div class="row-fluid">
 
     <div class="tasks-and-deals-control-buttons">
@@ -401,6 +403,9 @@ div.dates-bar-item::-moz-selection {
         </div>
     </div>
 </div>
+    {% else %}
+    <p>Выберите проект</p>
+    {% endif %}
 <script type="text/javascript">
 var GANTT_TASKS = [
     {% for task in gantt.tasks %}
