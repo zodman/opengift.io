@@ -1484,7 +1484,7 @@ class PM_Task_Message(models.Model):
         if 'task' in data:
             try:
                 self.task = PM_Task.objects.get(pk=int(data['task']))
-            except PM_Task.DoesNotExist:
+            except (PM_Task.DoesNotExist, TypeError):
                 pass
 
     def getJson(self, addParams=None, cur_user=None):

@@ -104,7 +104,7 @@
 
         <p class="js-todo-container to-do-list{% if not task_detail.task.todo %} hidden{% endif %}">
         To Do:
-            <span class="js-todo-list">
+            <span class="js-todo-list todo-list">
             {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
                 <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
@@ -113,7 +113,7 @@
                 {% endfor %}
             {% endif %}
             </span>
-            <span class="js-bug-list">
+            <span class="js-bug-list bug-list">
                 {% if task_detail.task.bug %}
                     {% for bug in task_detail.task.bug %}
                         <button data-content="{{ bug.text }}" data-placement="top" data-toggle="popover"
