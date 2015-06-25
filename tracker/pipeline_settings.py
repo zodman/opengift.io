@@ -164,7 +164,7 @@ PIPELINE_JS = {
     },
     'user_detail': {
         'source_filenames': (
-            'user_detail/js/widget.js',
+            'widgets/user_detail/widget.js',
             'js/jquery.bxslider.min.js',
             'js/libs/raphael-min.js',
             'js/libs/charts.js',

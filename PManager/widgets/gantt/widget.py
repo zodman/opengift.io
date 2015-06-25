@@ -259,5 +259,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         'title': u'Диаграмма Ганта',
         'tasks': aTasks,
         'milestones': aMilestones,
-        'users': widgetManager.getResponsibleList(cur_user, filter['project'])
+        'users': widgetManager.getResponsibleList(cur_user, filter['project']),
+        'project': filter['project'] if filter['project'] else False
     }
