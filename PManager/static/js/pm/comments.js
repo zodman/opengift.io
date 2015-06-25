@@ -611,7 +611,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
-                    maxVisibleCommentsOnLoadPage = 7;
+                    maxVisibleCommentsOnLoadPage = 7,
+                    firstItems;
+
+                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
+                    firstItems = 2
+                } else {
+                    firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
+                }
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                     $subContainer.length > maxVisibleCommentsOnLoadPage &&
@@ -625,7 +632,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     );
 
                     if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
+                        $subContainer.find('.task-message').eq(firstItems-1).after(btnMinimizeMsg);
                     }
 
                     btnMinimizeMsg.click(function () {
@@ -638,10 +645,11 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     $lastSubContainer = $subContainer.filter(':last'),
                     $lastSubContainerMessages = $lastSubContainer.find('.task-message');
 
-                //first 2 and last 6 items stay visible
+                //first user message + messages before; last 6 messages stay visible
                 if (t.taskId) {
-                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
+                console.log(firstItems);
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
                     if ($(this).find('.js-taskMessage').size() <= 1) return;
