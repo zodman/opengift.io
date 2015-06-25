@@ -439,6 +439,14 @@ var CRITICALLY_THRESHOLD = 0.7;
 			}
 			this.$el.html(this.template(this.model.toJSON(), templateParams));
 
+			if (this.model.get('loader')) {
+				var $closeBtn = this.$el.find('.js-task_done');
+				startLoader('tiny', $closeBtn);
+				$closeBtn.hide();
+			} else {
+				stopLoader($('.loader.tiny'));
+			}
+
 			if (this.model.get('closed')) {
 				this.$el.addClass('closed');
 				playBtnStatus = 'disabled'
@@ -859,6 +867,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'closeTask': function () {
 			if (this.model.get('closed')) return false;
+			this.model.set('loader', true);
+			this.render();
 			this.taskStop();
 
 			var obj = this;
@@ -866,6 +876,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 				data = $.parseJSON(data);
 				obj.model.set('closed', data.closed);
 				obj.model.set('status', data.status);
+				obj.model.set('loader', false);
 				if (data.closed) {
 					obj.render();
 				} else {
