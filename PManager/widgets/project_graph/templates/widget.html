@@ -9,7 +9,7 @@
             </div>
             <div class="inline-block border-right">
             Ставка бонусов: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
-            <span class="bonus">{% if project_graph.rating < 0 %}-{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
+            <span class="bonus">{% if project_graph.rating < 0 %}{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
             </div>
 
             <div class="inline-block border-right">
