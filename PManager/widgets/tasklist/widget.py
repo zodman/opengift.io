@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 import datetime
 from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
-    PM_Milestone, PM_ProjectRoles
+    PM_Milestone, PM_ProjectRoles, PM_Reminder
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -349,6 +349,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             len(addTasks[task.id]['resp']) <= 0 or
             not addTasks[task.id]['resp'][0]
         )
+
+        reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
+        if reminder.exists():
+            addTasks[task.id]['reminder'] = reminder[0]
 
         if addTasks[task.id]['needRespRecommendation']:
             if currentRecommendedUser:

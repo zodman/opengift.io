@@ -26,6 +26,8 @@ def task_list_prepare(tasks, add_tasks, join_project_name=False):
             task['dateClose'] = templateTools.dateTime.convertToSite(task['dateClose'])
         if task['deadline']:
             task['deadline'] = templateTools.dateTime.convertToSite(task['deadline'])
+        if 'reminder' in task:
+            task['reminder'] = templateTools.dateTime.convertToSite(task['reminder'])
         if 'date' in task['last_message']:
             task['last_message']['date'] = templateTools.dateTime.convertToSite(task['last_message']['date'])
 
