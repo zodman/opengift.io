@@ -1049,8 +1049,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 		'setDeadline': function () {
 			var obj = this;
 			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
-				console.log(obj.model.get('deadline'));
-				console.log(obj.model.get('reminder'));
 				data = $.parseJSON(data);
 				if (data.endDate) { // possible date when task can be done
 					var date = data.endDate.split(' ')[0],
