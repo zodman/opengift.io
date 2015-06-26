@@ -611,18 +611,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
-                    maxVisibleCommentsOnLoadPage = 7,
-                    firstItems;
-
-                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
-                    firstItems = 2
-                } else {
-                    firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
-                }
+                    maxVisibleCommentsOnLoadPage = 7;
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                     $subContainer.length > maxVisibleCommentsOnLoadPage &&
-                    $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
                     !$subContainer.parent().hasClass('minimize-messages') &&
                     t.taskId) {
 
@@ -633,7 +625,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     );
 
                     if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(firstItems-1).after(btnMinimizeMsg);
+                        $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
                     }
 
                     btnMinimizeMsg.click(function () {
@@ -646,9 +638,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     $lastSubContainer = $subContainer.filter(':last'),
                     $lastSubContainerMessages = $lastSubContainer.find('.task-message');
 
-                //first user message + messages before; last 6 messages stay visible
+                //first 2 and last 6 items stay visible
                 if (t.taskId) {
-                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
