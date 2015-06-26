@@ -614,7 +614,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     maxVisibleCommentsOnLoadPage = 7,
                     firstItems;
 
-                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
+                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES') || !$subContainer.hasClass('MESSAGES')) {
                     firstItems = 2
                 } else {
                     firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
