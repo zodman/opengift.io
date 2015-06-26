@@ -172,13 +172,17 @@ $.fn.addFilePaste = function (options) {
 
                                 pasteObj.focus();
 
-                                if (src)
+                                if (src) {
                                     pasteFunc.showPastedImgForm(src);
-                                else
+                                }
+                                else {
                                     var selection = getInputSelection(t.get(0));
-                                var value = replaceAt(t.val(), selection,
-                                    $(frame.contentDocument).find('body').html().replace(/<br>/gi, "\n").replace(/<([^\>]+)>/gi, ''));
-                                t.val(value);
+                                    var value = replaceAt(t.val(),
+                                                          selection,
+                                                          $(frame.contentDocument).find('body').html()
+                                                              .replace(/<br>/gi, "\n").replace(/<([^\>]+)>/gi, ''));
+                                    t.val(value);
+                                }
 
                                 setTimeout(function () {
                                     $(frame.contentDocument).find('body').empty();
