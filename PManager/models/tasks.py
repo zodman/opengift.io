@@ -1740,7 +1740,7 @@ class PM_Reminder(models.Model):
     user = models.ForeignKey(User)
 
     def __unicode__(self):
-        return unicode(self.date.strftime("%Y-%m-%d %H:%M:%S"))
+        return unicode(self.date.strftime('%d.%m.%Y %H:%M:%S'))
 
     class Meta:
         app_label = 'PManager'

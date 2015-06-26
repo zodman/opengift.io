@@ -1047,7 +1047,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 			})
 		},
 		'setDeadline': function () {
-			var obj = this;
+			var obj = this,
+				$deadlinedate = $('.js-deadlinedate');
 			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
 				data = $.parseJSON(data);
 				if (data.endDate) { // possible date when task can be done
@@ -1058,7 +1059,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					today.setHours(23,59,59,999);
 					var tomorrow = new Date(today.getTime() + 1000 * 60 * 60 * 24);
 
-					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
+					$deadlinedate.data('min-date', date).data('min-time', time);
 
 					if (check > today) {
 						$(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
@@ -1075,6 +1076,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 				$(html).on('shown.bs.modal', function () {
 					var curDeadline = obj.model.get('deadline'),
 						curReminder = obj.model.get('reminder');
+					console.log(obj.model);
+					$deadlinedate.data('deadline', curDeadline.replace(/\./g,'/')); // will convert this on datetime
 					if (curDeadline) {
 						$(".js-deadlinedate").val(curDeadline)
 					}
