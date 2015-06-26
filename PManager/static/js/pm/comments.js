@@ -622,6 +622,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                     $subContainer.length > maxVisibleCommentsOnLoadPage &&
+                    $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
                     !$subContainer.parent().hasClass('minimize-messages') &&
                     t.taskId) {
 
