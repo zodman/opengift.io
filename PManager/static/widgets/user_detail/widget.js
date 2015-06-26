@@ -160,6 +160,11 @@ $(function () {
             $('.js-current-tasks').trigger('click');
         }
     );
+    $('.js-add-project').click(
+        function() {
+            $('.js-tab-menu > li').removeClass('active')
+        }
+    )
 });
 
 function dashboard(id, fData) {
