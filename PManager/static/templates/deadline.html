@@ -35,7 +35,7 @@
           $("input[name=deadline_date], input[name=reminder_date]").datetimepicker({
 	        'onShow':function() {
 		        this.setOptions({
-			        minDate: ($min_select).data('min-date')
+			        minDate: $min_select.data('min-date')
 		        });
 	        },
 	        'onClose':function(ct, $i) {
