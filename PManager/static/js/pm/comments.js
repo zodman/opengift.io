@@ -79,7 +79,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-show-file-diff": 'showFileDiff',
                 "click .js-set-todo": 'setTodo',
                 "click .js-set-bug": 'setBug',
-                "click .js-check-bug": 'checkTodo', //both must do same thing
+                "click .js-check-bug": 'checkTodo',
                 "click .js-check-todo": 'checkTodo'
 
             },
@@ -621,7 +621,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
-                    $subContainer.length > maxVisibleCommentsOnLoadPage &&
                     $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
                     !$subContainer.parent().hasClass('minimize-messages') &&
                     t.taskId) {
@@ -642,9 +641,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     });
                 }
 
-                var lastItem = maxVisibleCommentsOnLoadPage - 1,
-                    $lastSubContainer = $subContainer.filter(':last'),
-                    $lastSubContainerMessages = $lastSubContainer.find('.task-message');
 
                 //first user message + messages before; last 6 messages stay visible
                 if (t.taskId) {

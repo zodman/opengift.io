@@ -1076,10 +1076,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 				$(html).on('shown.bs.modal', function () {
 					var curDeadline = obj.model.get('deadline'),
 						curReminder = obj.model.get('reminder');
-					console.log(obj.model);
-					$deadlinedate.data('deadline', curDeadline.replace(/\./g,'/')); // will convert this on datetime
 					if (curDeadline) {
-						$(".js-deadlinedate").val(curDeadline)
+						$(".js-deadlinedate").val(curDeadline);
+						$deadlinedate.data('deadline', curDeadline.replace(/\./g, '/')); // will convert this on datetime
 					}
 					if (curReminder) {
 						$(".js-reminderdate").val(curReminder)

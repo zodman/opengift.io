@@ -196,3 +196,9 @@ class TextFilters:
         text = linebreaksbr(text)
 
         return text
+
+    @staticmethod
+    def convertQuotes(text):
+        import re
+        text = re.sub(r'\[Q\](.*?)\[\/Q\]', r'<blockquote class="well">\1</blockquote>', text)
+        return text

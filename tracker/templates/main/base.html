@@ -284,7 +284,7 @@ $(function(){
                                 </div>
                                 <div class="time-username">{{ mess.dateCreate }} / <a href="/user_detail/>id={{mess.author.id}}">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% endif %}</a></div>
                                 <h5><b><a href="{{mess.task.url}}">{{ mess.task.name }}</a></b></h5>
-                                <p class="text-message">{{ mess.text|safe }}</p>
+                                <div class="text-message">{{ mess.text|safe }}</div>
                             </li>
                             {% endfor %}
                         </ul>
