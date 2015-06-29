@@ -112,6 +112,7 @@ class MainPage:
 
             for mes in messages:
                 setattr(mes, 'text', TextFilters.getFormattedText(escape(mes.text)))
+                setattr(mes, 'text', TextFilters.convertQuotes(mes.text))
                 aMessages.append(mes)
 
             if not widgetList:
