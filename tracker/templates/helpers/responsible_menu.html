@@ -22,7 +22,13 @@
                             </span>
                             <div class="media-body">
 
-                                <span class="user js-user-name" onclick="document.location.href='/user_detail/?id={{ resp_user.id }}';event.stopPropagation();return false;" >{{ resp_user.first_name }} {{ resp_user.last_name }}</span>
+                                <span class="user js-user-name" onclick="document.location.href='/user_detail/?id={{ resp_user.id }}';event.stopPropagation();return false;" >
+                                    {% if resp_user.first_name %}
+                                        {{ resp_user.first_name }} {{ resp_user.last_name }}
+                                    {% else %}
+                                        {{ resp_user.username }}
+                                    {% endif %}
+                                </span>
                                 <span class="occupation">
                                     {% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}
                                     {% if resp_user.openTasksQty %} <b>({{ resp_user.openTasksQty }})</b>{% endif %}
