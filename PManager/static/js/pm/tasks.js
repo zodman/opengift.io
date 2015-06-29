@@ -680,10 +680,11 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'responsibleMenuActive': false,
 		'showResponsibleArrow': function (userList) {
-			var linkRightPos = window.innerWidth - (getObjectCenterPos('.js-select_resp').width + getObjectCenterPos('.js-select_resp').left);
-			var popupRightPos = window.innerWidth - (getObjectCenterPos($(userList)).width + getObjectCenterPos($(userList)).left);
-			var arrowPos = linkRightPos - popupRightPos;
-			userList.find('.add-user-popup-top-arrow').css('right', arrowPos + 21);
+			var linkLeftPos = getObjectCenterPos('.js-select_resp').left;
+			console.log(linkLeftPos);
+			var popupLeftPos = getObjectCenterPos(userList).left;
+			var arrowPos = linkLeftPos - popupLeftPos;
+			userList.find('.add-user-popup-top-arrow').css('left', arrowPos + 20); // approximately third letter of responsible name
 		},
 		'responsibleMenuPosition': function (userList) {
 			var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
