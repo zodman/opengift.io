@@ -589,9 +589,9 @@ class taskManagerCreator:
 
             timers = PM_Timer.objects.filter(user=self.currentUser, dateEnd=None)
             for timer in timers:
-                timer.task.Stop()
                 timer.task.endTimer(self.currentUser,
                                     'Change task to <a href="' + self.task.url + '">#' + str(self.task.id) + '</a>')
+                timer.task.Stop()
 
             if not self.task.deadline and self.task.planTime and self.task.critically > CRITICALLY_THRESHOLD:
                 taskTimer = WorkTime(taskHours=self.task.planTime,

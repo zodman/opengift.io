@@ -79,7 +79,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 "click .js-show-file-diff": 'showFileDiff',
                 "click .js-set-todo": 'setTodo',
                 "click .js-set-bug": 'setBug',
-                "click .js-check-bug": 'checkTodo', //both must do same thing
+                "click .js-check-bug": 'checkTodo',
                 "click .js-check-todo": 'checkTodo'
 
             },
@@ -611,18 +611,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
-<<<<<<< HEAD
-                    maxVisibleCommentsOnLoadPage = 7;
-=======
-                    firstItems,
-                    lastItems = 6;
+                    maxVisibleCommentsOnLoadPage = 7,
+                    firstItems;
 
-                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES') || !$subContainer.hasClass('MESSAGES')) {
+                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
                     firstItems = 2
                 } else {
                     firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
                 }
->>>>>>> 8268117b55c167985fdb44a983fb310912fa57ec
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
                     $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
@@ -636,7 +632,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     );
 
                     if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(1).after(btnMinimizeMsg);
+                        $subContainer.find('.task-message').eq(firstItems-1).after(btnMinimizeMsg);
                     }
 
                     btnMinimizeMsg.click(function () {
@@ -646,13 +642,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
 
-                //first 2 and last 6 items stay visible
+                //first user message + messages before; last 6 messages stay visible
                 if (t.taskId) {
-<<<<<<< HEAD
-                    $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
-=======
-                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItems + ')').addClass('show-msg');
->>>>>>> 8268117b55c167985fdb44a983fb310912fa57ec
+                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
