@@ -15,7 +15,7 @@
 
         <h3>{{ tasklist.title }}</h3>
 
-        {% if tasklist.project and not tasklist.isInvite %}
+        {% if tasklist.project %}
         <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
@@ -272,7 +272,7 @@
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
                 <input type="text" class="form-control" name="title" maxlength="250" placeholder="Название" />
-                </br>
+                <br />
                 Создать список задач на аутсорс для приглашения специалистов?
               </div>
               <div class="modal-footer">
