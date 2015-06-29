@@ -611,10 +611,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
-                    maxVisibleCommentsOnLoadPage = 7, lastItems=4,
-                    firstItems;
+                    firstItems,
+                    lastItems = 6;
 
-                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
+                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES') || !$subContainer.hasClass('MESSAGES')) {
                     firstItems = 2
                 } else {
                     firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
