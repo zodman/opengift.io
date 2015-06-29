@@ -611,7 +611,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
-                    maxVisibleCommentsOnLoadPage = 7,
+                    maxVisibleCommentsOnLoadPage = 7, lastItems=4,
                     firstItems;
 
                 if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES')) {
@@ -644,7 +644,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 //first user message + messages before; last 6 messages stay visible
                 if (t.taskId) {
-                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItems + ')').addClass('show-msg');
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
