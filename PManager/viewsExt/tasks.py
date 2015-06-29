@@ -1068,7 +1068,7 @@ class taskAjaxManagerCreator(object):
                                                'closed': False,
                                                'parentTask__isnull': True,
                                                'exclude': {'id': task.id}
-                                           }, [], {})
+                                           }, [], {'onlyParent': True})
                 prevCritically = None
                 taskSet = []
                 secondTaskSet = []
