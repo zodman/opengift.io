@@ -1065,7 +1065,7 @@ class PM_Task(models.Model):
         filter['active'] = True
 
         #subtasks search
-        if filter and not 'parentTask' in filter and not 'id' in filter and not 'parentTask__isnull' in filter:
+        if filter and not 'parentTask' in filter and not 'id' in filter and 'onlyParent' not in arOrderParams:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
