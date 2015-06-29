@@ -29,13 +29,18 @@
               <a href="#" class="js-changeReminderDate" data-time="week">За неделю</a>
           </div>
         <script type="text/javascript">
-          var $min_select = $('.js-deadlinedate'),
-	        dFinalDate = new Date($min_select.data('deadline'));
+          var $min_select = $('.js-deadlinedate');
+          if($min_select.data('deadline')) {
+            var dFinalDate = new Date($min_select.data('deadline'));
+          }
+          else {
+            var dFinalDate;
+          }
 
           $("input[name=deadline_date], input[name=reminder_date]").datetimepicker({
 	        'onShow':function() {
 		        this.setOptions({
-			        minDate: $min_select.data('min-date')
+			        minDate: ($min_select).data('min-date')
 		        });
 	        },
 	        'onClose':function(ct, $i) {
