@@ -611,10 +611,21 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 /* Minimize messages */
 
                 var $subContainer = $('.SUBCONTAINER'),
+<<<<<<< HEAD
                     maxVisibleCommentsOnLoadPage = 7;
+=======
+                    firstItems,
+                    lastItems = 6;
+
+                if ($('.SUBCONTAINER:lt(2)').hasClass('MESSAGES') || !$subContainer.hasClass('MESSAGES')) {
+                    firstItems = 2
+                } else {
+                    firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
+                }
+>>>>>>> 8268117b55c167985fdb44a983fb310912fa57ec
 
                 if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
-                    $subContainer.length > maxVisibleCommentsOnLoadPage &&
+                    $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
                     !$subContainer.parent().hasClass('minimize-messages') &&
                     t.taskId) {
 
@@ -634,13 +645,14 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     });
                 }
 
-                var lastItem = maxVisibleCommentsOnLoadPage - 1,
-                    $lastSubContainer = $subContainer.filter(':last'),
-                    $lastSubContainerMessages = $lastSubContainer.find('.task-message');
 
                 //first 2 and last 6 items stay visible
                 if (t.taskId) {
+<<<<<<< HEAD
                     $('.SUBCONTAINER:lt(2), .SUBCONTAINER:gt(-' + lastItem + ')').addClass('show-msg');
+=======
+                    $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItems + ')').addClass('show-msg');
+>>>>>>> 8268117b55c167985fdb44a983fb310912fa57ec
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
