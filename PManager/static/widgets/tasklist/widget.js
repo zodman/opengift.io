@@ -271,13 +271,13 @@ var widget_tl, currentGroup;
                         var offset = widget_tl.$movedTask.closest('.widget').offset();
                         if (offset) {
                             widget_tl.offsetTaskX = e.clientX - offsetTask.left;
-                            widget_tl.offsetTaskY = offset.top + 20;
+                            widget_tl.offsetTaskY = offset.top;
                         }
 
                         widget_tl.$movedTask.css('position', 'absolute');
                         widget_tl.$movedTask.css('z-index', '9999');
-                        widget_tl.$movedTask.css('top', offsetTask.top - offset.top + 20);
-                        widget_tl.$movedTask.css('left', offsetTask.left);
+                        widget_tl.$movedTask.css('top', offsetTask.top - offset.top);
+                        widget_tl.$movedTask.css('left', offsetTask.left - offset.left);
                         $('<div></div>')
                             .addClass('temp_task')
                             .insertBefore(widget_tl.$movedTask);
@@ -318,7 +318,7 @@ var widget_tl, currentGroup;
                 }).on('mousemove.taskdnd', this.TL_Container, function (e){
                     if (widget_tl.$movedTask){
                         widget_tl.$movedTask.css('top', e.clientY - widget_tl.offsetTaskY + $(window).scrollTop());
-                        widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX);
+                        widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX - offset.left);
                         widget_tl.taskOver = false;
                         $('.task-wrapper > .task').each(function(){
                             if ($(this).data('taskid') != widget_tl.taskMoving) {
