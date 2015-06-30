@@ -274,10 +274,9 @@ var widget_tl, currentGroup;
                             widget_tl.offsetTaskY = offset.top + 20;
                         }
 
-                        var sTop = $('html, body').scrollTop() || $(window).scrollTop();
                         widget_tl.$movedTask.css('position', 'absolute');
                         widget_tl.$movedTask.css('z-index', '9999');
-                        widget_tl.$movedTask.css('top', offsetTask.top - sTop);
+                        widget_tl.$movedTask.css('top', offsetTask.top);
                         widget_tl.$movedTask.css('left', offsetTask.left);
                         $('<div></div>')
                             .addClass('temp_task')
