@@ -100,8 +100,11 @@ class Warden(object):
                 elif ext == 'js':
                     a = os.popen('jscs tmp.tmp --standard=Jquery --report=full')
 
-                a = a.split('\n')
-                d['path'] += u' Ошибок:'+ str(len(a))
+                errorQty = 0
+                for s in a:
+                    errorQty += 1
+
+                d['path'] += u' Ошибок:'+ str(errorQty)
 
         except IOError:
             return False
