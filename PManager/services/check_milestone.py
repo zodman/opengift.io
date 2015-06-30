@@ -27,7 +27,7 @@ def check_milestones(initTask):
         'resp__id',
         'critically'
     )
-    milestones = PM_Milestone.objects.filter(closed=False).order_by('-date')
+    milestones = PM_Milestone.objects.filter(closed=False, date_gt=datetime.datetime.now()).order_by('-date')
     milestones = milestones.values(
         'id',
         'name',
