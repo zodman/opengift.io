@@ -789,7 +789,7 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_getEndTime(self):
         plan = self.request.POST.get('plan_time', False)
-        task_timer = WorkTime(taskHours=int(plan),
+        task_timer = WorkTime(taskHours=plan,
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
 
