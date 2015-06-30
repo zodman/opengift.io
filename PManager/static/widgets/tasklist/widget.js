@@ -274,6 +274,11 @@ var widget_tl, currentGroup;
                             widget_tl.offsetTaskY = offset.top + 20;
                         }
 
+                        var sTop = $('html, body').scrollTop() || $(window).scrollTop();
+                        widget_tl.$movedTask.css('position', 'absolute');
+                        widget_tl.$movedTask.css('z-index', '9999');
+                        widget_tl.$movedTask.css('top', offsetTask.top - sTop);
+                        widget_tl.$movedTask.css('left', offsetTask.left);
                         $('<div></div>')
                             .addClass('temp_task')
                             .insertBefore(widget_tl.$movedTask);
@@ -313,8 +318,6 @@ var widget_tl, currentGroup;
                     }
                 }).on('mousemove.taskdnd', this.TL_Container, function (e){
                     if (widget_tl.$movedTask){
-                        widget_tl.$movedTask.css('position', 'absolute');
-                        widget_tl.$movedTask.css('z-index', '9999');
                         widget_tl.$movedTask.css('top', e.clientY - widget_tl.offsetTaskY + $(window).scrollTop());
                         widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX);
                         widget_tl.taskOver = false;
