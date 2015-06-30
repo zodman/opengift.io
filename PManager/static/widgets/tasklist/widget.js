@@ -318,7 +318,7 @@ var widget_tl, currentGroup;
                 }).on('mousemove.taskdnd', this.TL_Container, function (e){
                     if (widget_tl.$movedTask){
                         widget_tl.$movedTask.css('top', e.clientY - widget_tl.offsetTaskY + $(window).scrollTop());
-                        widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX - offset.left);
+                        widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX);
                         widget_tl.taskOver = false;
                         $('.task-wrapper > .task').each(function(){
                             if ($(this).data('taskid') != widget_tl.taskMoving) {
