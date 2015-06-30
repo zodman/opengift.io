@@ -86,6 +86,23 @@ class Warden(object):
         try:
             _diff = _repo.git.show(message.commit, U=10)
             df = DiffParser(_diff)
+            for d in df.files:
+                ext = d.path.split('.').pop()
+                if ext == 'php' or ext == 'js':
+                    r = _repo.git.show('master:' + d.path)
+                    f = open('tmp.tmp', 'w')
+                    f.write(r)
+                    f.close()
+
+                a = ''
+                if ext == 'php':
+                    a = os.popen('phpcs tmp.tmp')
+                elif ext == 'js':
+                    a = os.popen('jscs tmp.tmp --standard=Jquery --report=full')
+
+                a = a.split('\n')
+                d.path += u' Ошибок:'+len(a)
+
         except IOError:
             return False
         return df
