@@ -270,8 +270,8 @@ var widget_tl, currentGroup;
                         var offsetTask = widget_tl.$movedTask.offset();
                         var offset = widget_tl.$movedTask.closest('.widget').offset();
                         if (offset) {
-                            widget_tl.offsetTaskX = e.clientX - offsetTask.left;
-                            widget_tl.offsetTaskY = offset.top;
+                            widget_tl.offsetTaskX = e.clientX - offsetTask.left + offset.left;
+                            widget_tl.offsetTaskY = e.clientY - offsetTask.top + offset.top;
                         }
 
                         widget_tl.$movedTask.css('position', 'absolute');
