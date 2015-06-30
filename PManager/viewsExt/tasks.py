@@ -1098,7 +1098,7 @@ class taskAjaxManagerCreator(object):
                                     task.critically = prevCritically + (critPoint / 2)
                                     task.save()
                                         # i += 1
-                                    return json.dumps({'result': str(len(secondTaskSet)) + ' tasks modified'})
+                                    return json.dumps({'result': str(len(secondTaskSet) + 1) + ' tasks modified'})
 
                             #if all tasks before taskAfter have similar critically (but lesser that 1)
                             critPoint = (1 - prevCritically) / (len(secondTaskSet) + 1)
@@ -1111,7 +1111,7 @@ class taskAjaxManagerCreator(object):
                             task.critically = prevCritically + (critPoint / 2)
                             task.save()
 
-                            return json.dumps({'result': str(len(secondTaskSet)) + ' tasks modified'})
+                            return json.dumps({'result': str(len(secondTaskSet) + 1) + ' tasks modified - crit point: ' + str(critPoint)})
                         else:
                             task.critically = taskAfter.critically + 0.01
                             task.save()
