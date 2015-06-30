@@ -233,6 +233,7 @@ $(function(){
         return false;
     }).on('click', '.fnc_ajax', function(){
         $.fancybox({
+            'href': $(this).attr('href'),
             'type': 'ajax'
         });
         return false;
