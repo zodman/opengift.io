@@ -789,7 +789,7 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_getEndTime(self):
         plan = self.request.POST.get('plan_time', False)
-        task_timer = WorkTime(taskHours=plan,
+        task_timer = WorkTime(taskHours=float(plan),
                              startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                timezone.get_default_timezone()))
 
@@ -1067,7 +1067,8 @@ class taskAjaxManagerCreator(object):
                                                'critically__gte': taskAfter.critically,
                                                'closed': False,
                                                'parentTask__isnull': True,
-                                               'exclude': {'id': task.id}
+                                               'exclude': {'id': task.id},
+                                               'project': task.project,  # even if manager, task can be moved within one project
                                            }, [], {'onlyParent': True})
                 prevCritically = None
                 taskSet = []
