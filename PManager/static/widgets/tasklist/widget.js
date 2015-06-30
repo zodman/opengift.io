@@ -947,13 +947,12 @@ var widget_tl, currentGroup;
 
                     if (sAddDatePickerClass)
                         $tmpContainer.find('.'+sAddDatePickerClass).each(function(){
-                            $(this).datepicker({
-                                'weekStart':1,
-                                'format': 'dd.mm.yyyy',
-                                'autoclose':true,
-                                'callback': function($elem){
-                                    var d = $elem.data('date');
-                                    $elem.text(d);
+                            $(this).datetimepicker({
+                                'timepicker': false,
+                                'closeOnDateSelect': true,
+                                'onSelectDate': function(ct, $i){
+                                    var d = formatDate(ct).split(' ')[0]; // datetime without time
+                                    $i.text(d);
                                     $input.val(d);
                                     widget_tl.TL_Search();
                                 }
