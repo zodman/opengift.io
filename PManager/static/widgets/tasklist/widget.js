@@ -276,7 +276,7 @@ var widget_tl, currentGroup;
 
                         widget_tl.$movedTask.css('position', 'absolute');
                         widget_tl.$movedTask.css('z-index', '9999');
-                        widget_tl.$movedTask.css('top', offsetTask.top - widget_tl.offsetTaskY);
+                        widget_tl.$movedTask.css('top', offsetTask.top - offset.top + 20);
                         widget_tl.$movedTask.css('left', offsetTask.left);
                         $('<div></div>')
                             .addClass('temp_task')
