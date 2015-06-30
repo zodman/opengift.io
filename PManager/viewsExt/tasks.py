@@ -1074,7 +1074,7 @@ class taskAjaxManagerCreator(object):
                 taskSet = []
                 secondTaskSet = []
                 for eTask in tasks['tasks']:
-                    taskSet.append(eTask)
+
                     if eTask.id == taskAfter.id:
                         if prevCritically and prevCritically > eTask.critically: #we just put cur task beyond two
                             if eTask.critically < task.critically < prevCritically: #if task was at the same place
@@ -1116,6 +1116,9 @@ class taskAjaxManagerCreator(object):
                             task.critically = taskAfter.critically + 0.01
                             task.save()
                             return json.dumps({'result': '1 first task modified'})
+                    else:
+                        taskSet.append(eTask)
+
                     prevCritically = eTask.critically
 
             return json.dumps({'result': prevCritically})
