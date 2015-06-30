@@ -231,6 +231,11 @@ $(function(){
             'href': $(this).attr('href')
         });
         return false;
+    }).on('click', '.fnc_ajax', function(){
+        $.fancybox({
+            'type': 'ajax'
+        });
+        return false;
     }).on('click', '.w-close', function(){
             $(this).closest('.widget').remove();
         });

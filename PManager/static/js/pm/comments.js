@@ -381,9 +381,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     this.$el.addClass('new-message js-new');
                 }
 //                this.$('.fnc').fancybox();
-                this.$('.fnc_ajax').fancybox({
-                    'type': 'ajax'
-                });
+
                 this.delegateEvents();
 
                 return this;
