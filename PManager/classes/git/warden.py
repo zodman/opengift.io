@@ -102,9 +102,10 @@ class Warden(object):
 
                 errorQty = 0
                 for s in a:
-                    errorQty += 1
+                    if s.find('ERROR') or s.find(':'):
+                        errorQty += 1
 
-                d['path'] += u' Ошибок:'+ str(errorQty)
+                d['path'] += u'| Ошибок:'+ str(errorQty)
 
         except IOError:
             return False
