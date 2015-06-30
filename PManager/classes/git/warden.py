@@ -102,7 +102,7 @@ class Warden(object):
 
                 errorQty = 0
                 for s in a:
-                    if s.find('ERROR') or s.find(':'):
+                    if s.find('ERROR') > 0 or s.find(':') > 0:
                         errorQty += 1
 
                 d['path'] += u'| Ошибок:'+ str(errorQty)
