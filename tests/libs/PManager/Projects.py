@@ -7,6 +7,7 @@ ROBOT_LIBRARY_VERSION = '0.0.1'
 from robot.libraries.BuiltIn import BuiltIn
 from datetime import datetime
 from Tools import Tools
+from tests.libs.General.SeleniumExt import SeleniumExt
 
 
 class Projects:
@@ -26,6 +27,7 @@ class Projects:
 
     def __init__(self):
         self.sel = BuiltIn().get_library_instance('Selenium2Library')
+        self.selenium_ext = SeleniumExt()
 
     def create_project(self, description="This is default project description",
                        picture=None, options=None):
@@ -37,7 +39,7 @@ class Projects:
         self.sel.click_link(self.PROJECT_EDIT_LINK)
         self.sel.wait_until_element_is_visible(self.PROJECT_EDIT_FORM_LOCATOR)
         self.sel.input_text(self.PROJECT_NAME_LOCATOR, project_name)
-        self.input_textarea(self.PROJECT_DESC_LOCATOR, description)
+        self.selenium_ext.input_textarea(self.PROJECT_DESC_LOCATOR, description)
         self.sel.choose_file(self.PROJECT_IMG_LOCATOR, picture)
         for name in options:
             self.sel.select_checkbox(self.PROJECT_OPT_PREFIX + name)
@@ -48,10 +50,7 @@ class Projects:
     def select_project_from_select(self, project_name):
         self.sel.select_from_list_by_label(self.PROJECT_SELECT_LOCATOR, project_name)
 
-    def input_textarea(self, locator, text):
-        el = self.sel._element_find(locator, True, True, tag='textarea')
-        el.clear()
-        el.send_keys(text)
+
 
     def select_project(self, project_name, fr="select"):
         if fr == "select":

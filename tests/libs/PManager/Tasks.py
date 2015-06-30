@@ -23,6 +23,10 @@ class Tasks:
         self.sel.wait_until_page_contains_element("link=" + task_name)
         return task_name
 
+    def get_task_url(self, task_name):
+        el = self.sel._element_find("partial link=" + task_name, True, True, tag='a')
+        return el.get_attribute('href')
+
     def get_task_id(self, task_name):
         el = self.sel._element_find("partial link=" + task_name, True, True, tag='a')
         el = el.find_element_by_xpath('..').find_element_by_xpath('..').find_element_by_xpath('..')
