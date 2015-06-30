@@ -407,7 +407,7 @@ var widget_tl, currentGroup;
                     widget_tl.taskInsertBefore(id, $('[data-taskid='+id+']').parent().next().find('.task:first').data('taskid'));
                     return true;
                 }else if (id){
-                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask?'задачу #"' + parentTask.id + '"':'общий список') + '?')) {
+                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask?'задачу #"' + parentTask.get('number') + '"':'общий список') + '?')) {
                         taskManager.taskAjaxRequest({
                             'action':'appendTask',
                             'id':id,

@@ -15,5 +15,18 @@ class Tools:
     def default_picture(picture=PROJECT_ROOT + "tests/uploads/default.png"):
         return picture
 
-    def get_basename(self, picture):
-        return picture.split('/').pop() or False
+    @staticmethod
+    def default_file(fl=PROJECT_ROOT + "tests/uploads/default"):
+        return fl
+
+    @staticmethod
+    def default_docx(docx=PROJECT_ROOT + "tests/uploads/test.docx"):
+        return docx
+
+    @staticmethod
+    def get_basename(path):
+        return path.split('/').pop() or False
+
+    @staticmethod
+    def default_docx_with_images(docx=PROJECT_ROOT + "tests/uploads/test_imaged.docx"):
+        return docx
