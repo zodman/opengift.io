@@ -13,7 +13,7 @@ if not settings.USE_GIT_MODULE:
     exit("GIT MODULE NOT INSTALLED")
 repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 logger = logging.getLogger(__name__)
-
+import os
 
 class Warden(object):
     user = None
