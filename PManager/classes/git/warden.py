@@ -89,7 +89,7 @@ class Warden(object):
             for d in df.files:
                 ext = d['path'].split('.').pop()
                 if ext == 'php' or ext == 'js':
-                    r = _repo.git.show('master:' + d['path'])
+                    r = _repo.git.show('master:' + d['path'][1:])
                     f = open('tmp.tmp', 'w')
                     f.write(r)
                     f.close()
