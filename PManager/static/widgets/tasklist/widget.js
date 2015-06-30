@@ -268,10 +268,11 @@ var widget_tl, currentGroup;
 
                         widget_tl.$movedTask.css('width', widget_tl.$movedTask.width());
                         var offsetTask = widget_tl.$movedTask.offset();
+                        var sTop = $('html, body').scrollTop() || $(window).scrollTop();
                         var offset = widget_tl.$movedTask.closest('.widget').offset();
                         if (offset) {
                             widget_tl.offsetTaskX = e.clientX - offsetTask.left + offset.left;
-                            widget_tl.offsetTaskY = e.clientY - offsetTask.top + offset.top;
+                            widget_tl.offsetTaskY = e.clientY + sTop - offsetTask.top + offset.top;
                         }
 
                         widget_tl.$movedTask.css('position', 'absolute');
