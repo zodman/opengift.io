@@ -58,19 +58,19 @@ def check_milestones(initTask):
 
         task['endTime'] = endTime
         task['resp__id'] = task['resp__id'] if task['resp__id'] else 0
-
-    # Сама проверка
-    for task in aTasks:
-        if task['id'] == initTask.id:
-            if task['dateCreateGantt'] > milestones[0]['date']:
-                return []  # Если старт изначальная задача будет позже уже просроченных майлстоунов
-        if task['milestone__id']:
-            try:
-                milestone = milestones.get(id=task['milestone__id'])
-                if milestone not in result:
-                    if task['endTime'] > milestone['date']:
-                        result.append(milestone)
-            except PM_Milestone.DoesNotExist:
-                pass
+    if milestones:
+        # Сама проверка
+        for task in aTasks:
+            if task['id'] == initTask.id:
+                if task['dateCreateGantt'] > milestones[0]['date']:
+                    return []  # Если старт изначальная задача будет позже уже просроченных майлстоунов
+            if task['milestone__id']:
+                try:
+                    milestone = milestones.get(id=task['milestone__id'])
+                    if milestone not in result:
+                        if task['endTime'] > milestone['date']:
+                            result.append(milestone)
+                except PM_Milestone.DoesNotExist:
+                    pass
 
     return result
