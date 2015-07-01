@@ -25,6 +25,7 @@ PIPELINE_JS = {
             'js/libs/apng-canvas.js',
             'js/libs/jquery.imgareaselect.min.js',
             'js/libs/jquery.cookie.js',
+            'js/libs/moment/moment.js',
             'js/bootstrap/bootstrap.min.js',
             'js/bootstrap/typehead.js',
             'js/bootstrap/bootstrap-combobox.js',
