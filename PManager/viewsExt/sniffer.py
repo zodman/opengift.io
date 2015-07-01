@@ -19,7 +19,7 @@ def get_errors(request):
 
             if ext == 'php' or ext == 'js':
                 try:
-                    r = _repo.git.show('master:' + path[1:])
+                    r = _repo.git.show('origin/master:' + path[1:])
                 except GitCommandError as e:
                     return HttpResponse(e)
 
