@@ -1302,12 +1302,12 @@ var CRITICALLY_THRESHOLD = 0.7;
 			}
 		},
 		'SetDeadlineReminder': function (task_id, deadline_date, reminder_date, call) {
-			if (task_id && (deadline_date || reminder_date)) {
+			if (task_id) {
 				this.taskAjaxRequest({
 					'id': task_id,
 					'prop': 'deadline',
 					'val': deadline_date,
-					'valrem': reminder_date
+					'reminder': reminder_date
 				}, call);
 			}
 		},
