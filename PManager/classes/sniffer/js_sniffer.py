@@ -8,7 +8,7 @@ class JSSniffer:
         i = 0
         ar = []
         for s in a:
-            i += 1
+            i = i + 1
             if i < 10:
                 continue
             s = s.split('|')
