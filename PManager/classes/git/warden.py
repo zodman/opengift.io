@@ -7,7 +7,10 @@ from PManager.models.tasks import PM_Task_Message
 import logging
 from tracker import settings
 from git import *
+
 from PManager.classes.git.diff_parser import DiffParser
+from PManager.classes.sniffer.js_sniffer import JSSniffer
+from PManager.classes.sniffer.php_sniffer import PHPSniffer
 from django.core.files.storage import FileSystemStorage
 if not settings.USE_GIT_MODULE:
     exit("GIT MODULE NOT INSTALLED")
@@ -86,27 +89,30 @@ class Warden(object):
         try:
             _diff = _repo.git.show(message.commit, U=10)
             df = DiffParser(_diff)
+
             for d in df.files:
                 ext = d['path'].split('.').pop()
                 if ext == 'php' or ext == 'js':
                     r = _repo.git.show('master:' + d['path'][1:])
-                    f = open('tmp.tmp', 'w')
+                    filename = 'tracker/sniffer_files/tmp' + str(message.author.id)
+                    f = open(filename, 'w')
                     f.write(r)
                     f.close()
 
-                a = ''
-                if ext == 'php':
-                    a = os.popen('phpcs tmp.tmp')
-                elif ext == 'js':
-                    a = os.popen('jscs tmp.tmp --standard=Jquery --report=full')
+                    a = ''
+                    if ext == 'php':
+                        a = JSSniffer.sniff(filename)
+                    elif ext == 'js':
+                        a = PHPSniffer.sniff(filename)
 
-                errorQty = 0
-                for s in a:
-                    if s.find('ERROR') > 0 or s.find(':') > 0:
-                        errorQty += 1
+                    errorQty = 0
+                    for s in a:
+                        if s.find('ERROR') > 0 or s.find(':') > 0:
+                            errorQty += 1
 
-                if errorQty:
-                    d['path'] += u' | Ошибок:'+ str(errorQty)
+                    d['error_qty'] = errorQty
+
+                    os.remove(filename)
 
         except IOError:
             return False

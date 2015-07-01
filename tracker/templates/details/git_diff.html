@@ -17,7 +17,15 @@
                     <div class="file-summary panel-heading js-show-file-diff">
                         <span class="commit-file-changes-removed">-{{ file.summary.deleted }}</span>
                         <span class="commit-file-changes-added">+{{ file.summary.created }}</span>
-                        <span class="commit-file-path">{{ file.path }}</span>
+                        <span class="commit-file-path">
+                            {{ file.path }}
+                            {% if file.error_qty %}
+                                 | Ошибок:
+                                <a href="#" onclick="return Sniffer.getErrors('{{ file.path }}');" >
+                                    {{ file.error_qty }}
+                                </a>
+                            {% endif %}
+                        </span>
                     </div>
                     <div class="commit-diff-changes panel-body">
                         <div class="file-diff-scroll-wrapper">

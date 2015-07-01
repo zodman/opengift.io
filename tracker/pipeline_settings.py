@@ -14,6 +14,7 @@ PIPELINE_JS = {
             'js/libs/jquery.form.js',
             'js/libs/html5shiv.js',
             'js/libs/howler.min.js',
+            'js/libs/sniffer.js',
             'js/libs/timepicker/jquery.datetimepicker.js',
             'js/libs/socket.io.js',
             'js/libs/backbone.js',
