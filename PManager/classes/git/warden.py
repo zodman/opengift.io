@@ -99,7 +99,7 @@ class Warden(object):
                     f.write(r)
                     f.close()
 
-                    a = ''
+                    a = []
                     if ext == 'php':
                         a = JSSniffer.sniff(filename)
                     elif ext == 'js':
@@ -111,4 +111,5 @@ class Warden(object):
 
         except IOError:
             return False
+
         return df

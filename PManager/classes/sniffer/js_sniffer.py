@@ -12,11 +12,11 @@ class JSSniffer:
             if i < 10:
                 continue
             s = s.split('|')
-            o = {
+
+            ar.append({
                 'line': s[0],
                 'type': s[2].split(':')[0],
                 'comment': s[2].split(':')[1]
-            }
-            ar.append(o)
+            })
 
         return ar
