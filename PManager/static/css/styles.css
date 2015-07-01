@@ -1228,6 +1228,19 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .progress .btn { padding:0px 15px; position:absolute; cursor:ew-resize; margin-top:-10px; border-radius:25px; }
 .add-tags a { text-decoration: none; }
 
+
+.progress-bar-wrapper .progress-bar-wrapper-title {
+    color: #999;
+    float: left;
+    font-size: 12px;
+    width: 110px;
+}
+.progress-bar-wrapper .progress {
+    float: left;
+    margin: 6px 0 0;
+    width: calc(100% - 165px);
+}
+
 .datepicker-days table {border-collapse:separate; border-spacing:2px;}
 .datepicker-days .datepicker td.old, .datepicker-days .datepicker td.new {background:#DDDDDD;}
 
