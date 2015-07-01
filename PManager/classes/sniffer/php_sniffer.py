@@ -8,7 +8,7 @@ class PHPSniffer:
         i = 0
         ar = []
         for s in a:
-            i += 1
+            i = i + 1
             if i < 5:
                 continue
 
