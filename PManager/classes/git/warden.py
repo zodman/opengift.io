@@ -101,9 +101,9 @@ class Warden(object):
 
                     a = []
                     if ext == 'php':
-                        a = JSSniffer.sniff(filename)
-                    elif ext == 'js':
                         a = PHPSniffer.sniff(filename)
+                    elif ext == 'js':
+                        a = JSSniffer.sniff(filename)
 
                     d['error_qty'] = len(a)
 
