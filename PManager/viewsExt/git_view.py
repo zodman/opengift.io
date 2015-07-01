@@ -29,4 +29,4 @@ class GitView(object):
                 raise Http404
         else:
             diff = None
-        return render(request, 'details/git_diff.html', {"diff": diff, "author": message.author.id})
+        return render(request, 'details/git_diff.html', {"diff": diff, "author": message.author.id, "project": message.project.id})

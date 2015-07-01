@@ -21,7 +21,7 @@
                             {{ file.path }}
                             {% if file.error_qty %}
                                  | Ошибок:
-                                <a href="#" onclick="return Sniffer.getErrors('{{ file.path }}', {{ author }});" >
+                                <a href="#" onclick="return Sniffer.getErrors('{{ file.path }}', {{ author }}, {{ project }});" >
                                     {{ file.error_qty }}
                                 </a>
                             {% endif %}
