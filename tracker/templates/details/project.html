@@ -92,8 +92,8 @@
         </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
     <div class="widget">
-    <h1>{{ project.name }} {% if canEdit %}
-        <a class="fa fa-edit" href="/project/edit/?id={{ project.id }}" style="height: 11px;"></a>{% endif %}</h1>
+    <h1 class="relative">{{ project.name }} {% if canEdit %}
+        <a class="project-edit-link" href="/project/edit/?id={{ project.id }}">Редактировать</a>{% endif %}</h1>
     <hr/>
 
     <div class="media clearfix">
