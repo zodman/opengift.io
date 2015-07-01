@@ -12,6 +12,6 @@ var Sniffer = {
             function(data){
                 alert(data);
             }
-        )
+        );
     }
-}
+};
