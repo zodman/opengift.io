@@ -102,13 +102,7 @@ $(function () {
         eventObject.preventDefault();
     });
 
-    $("input[name=deadline]").datetimepicker({
-        'dayOfWeekStart': 1,
-        'format': 'd.m.Y',
-        'lang':'ru',
-        'todayButton':true,
-        'closeOnDateSelect': true
-    });
+    $("input[name=deadline]").datetimepicker();
 
     $('.js-changeDate').click(function () {
         var dDate;

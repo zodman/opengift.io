@@ -1051,19 +1051,18 @@ var CRITICALLY_THRESHOLD = 0.7;
 			})
 		},
 		'setDeadline': function () {
-			var obj = this,
-				$deadlinedate = $('.js-deadlinedate');
+			var obj = this;
 			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {
 				data = $.parseJSON(data);
-				if (data.endDate) { // possible date when task can be done
+				if (data.endDate) {
 					var date = data.endDate.split(' ')[0],
 						time = data.endDate.split(' ')[1],
 						check = new Date(data.endDateForCheck.replace(' ', 'T')),
 						today = new Date();
-					today.setHours(23,59,59,999);
+					today.setHours(23, 59, 59, 999);
 					var tomorrow = new Date(today.getTime() + 1000 * 60 * 60 * 24);
 
-					$deadlinedate.data('min-date', date).data('min-time', time);
+					$('.js-deadlinedate').data('min-date', date).data('min-time', time);
 
 					if (check > today) {
 						$(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
@@ -1073,35 +1072,121 @@ var CRITICALLY_THRESHOLD = 0.7;
 					}
 				}
 			});
+
 			$.get('/static/templates/deadline.html', function (data) {
 				var html = data;
 				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
 				html = html.replace('#TASK_NAME#', obj.model.get('name'));
-				$(html).on('shown.bs.modal', function () {
-					var curDeadline = obj.model.get('deadline'),
-						curReminder = obj.model.get('reminder');
-					if (curDeadline) {
-						$(".js-deadlinedate").val(curDeadline);
-						$deadlinedate.data('deadline', curDeadline.replace(/\./g, '/')); // will convert this on datetime
-					}
-					if (curReminder) {
-						$(".js-reminderdate").val(curReminder)
-					}
-					$(this).find('.js-date').click(function () {
-						var deadline_date = $(".js-deadlinedate").val(),
-							reminder_date = $(".js-reminderdate").val();
-						taskManager.SetDeadlineReminder(obj.model.id, deadline_date, reminder_date, function () {
-							obj.checkModel(function () {
-								obj.model.set('deadline', deadline_date);
-								obj.render();
-							});
+
+				$(html).on('shown.bs.modal', initPickers)
+					.on('hidden.bs.modal', function () {
+						    $(this).modal('hide').remove();
+						    $('.modal-backdrop').remove();
+					    })
+					.modal('show');
+			});
+
+			var initPickers = function () {
+				var curDeadline = obj.model.get('deadline'),
+					curReminder = obj.model.get('reminder'),
+					$deadline = $('.js-deadlinedate'),
+					$reminder = $('.js-reminderdate'),
+					dFinalDate;
+				if (curDeadline) {
+					$deadline.val(curDeadline);
+					dFinalDate = moment(curDeadline, 'DD.MM.YYYY HH:mm');
+				}
+				if (curReminder) {
+					$reminder.val(curReminder)
+				}
+
+				$('.js-save_date').click(function () {
+					var deadline_date = $deadline.val(),
+						reminder_date = $reminder.val();
+					taskManager.SetDeadlineReminder(obj.model.id, deadline_date, reminder_date, function () {
+						obj.checkModel(function () {
+							obj.model.set('deadline', deadline_date);
+							obj.render();
 						});
 					});
-					//$('.js-date').focus();
-				}).on('hidden.bs.modal', function () {
-					$(this).modal('hide').remove();
-				}).modal('show');
-			});
+				});
+
+				var timeLogic = function(currentDateTime) {
+					var minDate = moment($deadline.data('min-date'), 'DD.MM.YYYY');
+					if (moment(currentDateTime).isSame(minDate, 'day')) {
+						this.setOptions({
+							minTime: $deadline.data('min-time')
+						});
+					} else
+						this.setOptions({
+							minTime: '00:00'
+						});
+				};
+
+				$deadline.add($reminder).datetimepicker({
+					'onShow': function (ct) {
+						timeLogic.call(this, ct);
+						this.setOptions({
+							minDate: $deadline.data('min-date')
+						});
+					},
+					'onChangeDateTime': timeLogic,
+					'onClose': function (ct, $i) {
+						if ($i.attr('name') == 'deadline_date') {
+							dFinalDate = moment(ct)
+						}
+					}
+				});
+
+				var changeDate = function (date, time) {
+					return moment(date).add(time, 'hours')
+				};
+
+				$('.js-changeDeadlineDate').click(function () {
+					var dDate;
+					var dThisDate = moment();
+					switch ($(this).attr('data-time')) {
+						case 'today':
+							var planTime = $(this).attr('default-time');
+							if (planTime) {
+								dFinalDate = changeDate(dThisDate, planTime);
+							} else {
+								dFinalDate = dThisDate;
+							}
+							break;
+						case 'tomorrow':
+							dFinalDate = changeDate(dThisDate, 24);
+							break;
+						case 'week':
+							dFinalDate = changeDate(dThisDate, 168);
+							break;
+					}
+					dDate = dFinalDate.format('DD.MM.YYYY HH:mm');
+					$deadline.val(dDate);
+					return false;
+				});
+
+				$('.js-changeReminderDate').click(function () {
+					var dDate;
+					var dRemindDate;
+					if (dFinalDate) {
+						switch ($(this).attr('data-time')) {
+							case 'hour':
+								dRemindDate = changeDate(dFinalDate, -1);
+								break;
+							case 'day':
+								dRemindDate = changeDate(dFinalDate, -24);
+								break;
+							case 'week':
+								dRemindDate = changeDate(dFinalDate, -168);
+								break;
+						}
+					}
+					dDate = dRemindDate.format('DD.MM.YYYY HH:mm');
+					$reminder.val(dDate);
+					return false;
+				});
+			}
 		},
 		'showMenu': function (e) {
 			var arMenu = this.model.getMenuItems(),

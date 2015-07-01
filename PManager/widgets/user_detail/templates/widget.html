@@ -15,24 +15,6 @@
             <small>/ <a href="/profile/edit/?id={{ user_detail.user.id }}">Редактировать профиль</a></small>
         {% endif %}
         </div>
-        <div class="user-profile-menu pull-right">
-        </div>
-        <!-- ТЭГИ пользователя <div class="tags clearfix">
-            <ul class="tags-ul">
-                <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                <li>
-                    <a href="#" class="btn btn-success btn-xs">Добавить навык</a>
-                    <div class="skills-block"><input type="text" name="additional_tags" class="form-control"></div>
-                </li>
-            </ul>
-        </div>-->
     </div><!--widget-title-->
 
     <div class="widget-body">
@@ -42,19 +24,34 @@
                     <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
                 </div>
 
+                <div class="user-info-right-from-avatar">
+                    <div class="user-contacts pull-left">
+                        <ul>
+                            {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
+                            {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
+                        </ul>
+                    </div>
+                    <div class="user-tasks-info pull-left">
+                      <ul>
+                        <li><b>Открытых задач:</b> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></li>
+                        <li><b>Закрыто за последний месяц:</b> {{ user_detail.taskLastMonth }}</li>
+                      </ul>
+                    </div>
+                    <div class="clearfix"></div>
+                    <!--<hr>
+                    <input type="text" name="additional_tags" placeholder="Укажите свои навыки" class="form-control">
+                    <ul class="posibilities clearfix">
+                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                    </ul>-->
+                </div><!--user-info-right-from-avatar-->
 
-                <div class="user-contacts pull-left">
-                    <ul>
-                        {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
-                        {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
-                    </ul>
-                </div>
-                <div class="user-tasks-info pull-left">
-                  <ul>
-                    <li><b>Открытых задач:</b> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></li>
-                    <li><b>Закрыто за последний месяц:</b> {{ user_detail.taskLastMonth }}</li>
-                  </ul>
-                </div>
             </div>
 
             <div class="user-personal-left">

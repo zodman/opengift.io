@@ -98,7 +98,8 @@
 </div>
 
 
-{#<a href="#" class="feedback-button" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-envelope"></i>&nbsp;&nbsp;Помощь</a>#}
+<a href="#" class="feedback-button" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-question"></i>
+</a>
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
 <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
@@ -203,9 +204,9 @@ $(function(){
             {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
-             	<a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
-                   <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />
-                </a>
+                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}" style="background-image: url({% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %});">
+                       <!--<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />-->
+                    </a>
               	</div>
               	<div class="projects-list-text">
                 <span class="projects-list-control">
