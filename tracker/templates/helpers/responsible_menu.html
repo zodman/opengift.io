@@ -33,8 +33,11 @@
                                     {% for specialty in resp_user.get_profile.specialties.all %}, {{ specialty.name }}{% endfor %}
                                     {% if resp_user.openTasksQty %} <b>({{ resp_user.openTasksQty }})</b>{% endif %}
                                 </span>
-                                <div class="progress">
-                                    <div class="js-progress-success progress-bar progress-bar-success"></div>
+                                <div class="progress-bar-wrapper clearfix">
+                                    <div class="progress-bar-wrapper-title">Компетентность</div>
+                                    <div class="progress">
+                                        <div class="js-progress-success progress-bar progress-bar-success"></div>
+                                    </div>
                                 </div>
                                 <p><i class="fa fa-cogs"></i> Каталог программ; <i class="fa fa-user"></i> Каталог программ; <i class="fa fa-users"></i> Проект</p>
                             </div>

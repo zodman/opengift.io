@@ -640,9 +640,12 @@ var CRITICALLY_THRESHOLD = 0.7;
 										                  '<div class="media-body">' +
 										                  '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
 										                  '<span class="occupation"></span>' +
-										                  '<div class="progress">' +
-										                  '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
-										                  '</div>' +
+                                                              '<div class="progress-bar-wrapper clearfix">' +
+                                                                '<div class="progress-bar-wrapper-title">Компетентность</div>' +
+                                                                '<div class="progress">' +
+                                                                    '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
+                                                                '</div>' +
+                                                              '</div>' +
 										                  '</div>' +
 										                  '</a>');
 										$('.add-user-list-of-users ul')
