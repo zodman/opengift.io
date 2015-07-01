@@ -18,6 +18,8 @@ h6, .h6 {font-size:13px; line-height:16px; margin:0 0 5px;}
 
 h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
+.relative {position: relative;}
+
 .inline-block {display: inline-block;}
 .clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
 
@@ -30,6 +32,19 @@ hr.no-top-magin-hr {margin-top:0px;}
 .balance .btn-large {width:100%; padding:10px;}
 .callback .btn-large {width:100%;}
 .callback input {width:100%; padding:10px;}
+
+div.widget h1 a.project-edit-link {
+    background: #eee none repeat scroll 0 0;
+    font-size: 11px;
+    font-weight: normal;
+    padding: 4px 9px;
+    position: relative;
+    top: 3px;
+    vertical-align: super;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+}
 
 .wrapper {
     margin: 0 auto;
@@ -219,7 +234,21 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 				.projects-item {display: table; float: left; height: 120px; overflow: hidden; padding: 15px; width: 33.33%; border-radius:3px; -moz-border-radius:3px; -webkit-border-radius:3px;}
 					.projects-item:hover, .projects-item.active {background:#fff; -webkit-transition: all 0.1s linear; -o-transition: all 0.1s linear; -moz-transition: all 0.1s linear;  -ms-transition: all 0.1s linear; -kthtml-transition: all 0.1s linear; transition: all 0.1s linear;}
 					.projects-list-img {display: table-cell; height: 90px; overflow: hidden; position: relative; width: 40%; border:1px solid #f9f9f9; box-shadow:0 1px 2px #ddd; -moz-box-shadow:0 1px 2px #ddd; -webkit-box-shadow:0 1px 2px #ddd;}
-						.projects-list-img > a > img {position:absolute; left:0px; top:0px; right:0px; bottom:0px; margin:auto; width:85%;}
+
+                    .projects-list-img > a {
+                        background-position: center center !important;
+                        background-repeat: no-repeat !important;
+                        background-size: 100% !important;
+                        bottom: 0;
+                        display: block;
+                        left: 0;
+                        margin: auto;
+                        position: absolute;
+                        right: 0;
+                        top: 0;
+                    }
+
+                    .projects-list-img > a > img {position:absolute; left:0px; top:0px; right:0px; bottom:0px; margin:auto; width:85%;}
 					.projects-list-text {display: table-cell; height: 90px; padding-left: 15px; position: relative; vertical-align: middle; width: 60%;}
 						.projects-list-control {position:absolute; top:0px; right:0px; visibility:hidden;}
 							.projects-item:hover .projects-list-control {visibility:visible;}
@@ -1540,12 +1569,49 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .user-contacts,
 .user-tasks-info {margin-right:20px;}
 
+.user-contacts ul,
+.user-tasks-info ul {margin-bottom: 0px;}
+
+.user-avatar {width: 100px;}
+.user-info-right-from-avatar {float: left; width: calc(100% - 120px);}
+
+.posibilities {margin-bottom: 0px; margin-top: 10px;}
+.posibilities li {display: block; float: left; margin-right: 10px; margin-bottom: 5px;}
+.posibilities li span {
+    background: #5cb85c;
+    border-radius: 3px;
+    -moz-border-radius: 3px;
+    -webkit-border-radius: 3px;
+    color: #fff;
+    font-size: 12px;
+    padding: 2px 27px 3px 7px;
+    position: relative;
+}
+.posibilities li span i {
+    background: #47a447;
+    border-radius: 0 3px 3px 0;
+    -moz-border-radius: 0 3px 3px 0;
+    -webkit-border-radius: 0 3px 3px 0;
+    bottom: 0;
+    display: block;
+    height: 20px;
+    line-height: 18px;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 18px;
+    cursor: pointer;
+}
+
 .user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:18px; line-height:20px; padding-left:26px; margin-bottom:7px; list-style:none;}
 .user-contacts li.mailto {background-position:0px -440px;}
 .user-contacts li.user-icq {background-position:0px -460px;}
 .user-contacts li.user-skype {background-position:0px -480px;}
 
 .user-tasks-info li {line-height:20px; margin-bottom:5px; list-style:none;}
+.user-tasks-info li:last-child,
+.user-contacts li:last-child {margin-bottom: 0px;}
 
 .bx-wrapper {position: relative; padding: 0; *zoom: 1;}
 .bx-wrapper img {max-width: 100%; display: block; margin: 0 auto;}
@@ -2183,8 +2249,9 @@ border-top-right-radius: 0;}
 											
 											.message-desc-left {position:relative; padding-right:40px;}	
 												.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; margin-top:-14px; position:absolute; right:0px; top:50%; cursor:pointer;}
-												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; margin-top:-14px; position:absolute; right:-3px; top:50%; cursor:pointer;} 
-											
+												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; position:absolute; right:-4px; cursor:pointer;}
+                                                .message.danger .fa.fa-check-square-o,
+                                                .message.bug-message .fa.fa-check-square-o {color: #BB0500;}
 											.toggle-messages {text-align:center; width: 65px; margin: -11px auto 15px; height:22px;}
 											.toggle-messages > span {background:#ddd; -webkit-border-radius: 4px; -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -moz-border-radius: 4px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; border-radius: 4px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding:1px 5px; font-size:10px; line-height:18px; text-transform:uppercase; color:#999;}
 											
@@ -3405,9 +3472,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     border-right:1px solid #468847;
     color:#fff !important;
     bottom: 0;
-    font-size: 14px;
+    font-size: 36px;
     font-weight: bold;
-    padding: 9px 15px;
+    padding: 4px 12px;
     position: fixed;
     right: 35px;
     text-decoration: none !important;

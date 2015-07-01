@@ -102,8 +102,8 @@
             </p>
         {% endif %}
 
-        <p class="js-todo-container to-do-list{% if not task_detail.task.todo %} hidden{% endif %}">
-        To Do:
+        <p class="js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
+        Нужно сделать:
             <span class="js-todo-list todo-list">
             {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
