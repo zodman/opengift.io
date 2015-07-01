@@ -3,11 +3,12 @@
  */
 
 var Sniffer = {
-    'getErrors': function(path) {
+    'getErrors': function(path, author) {
         PM_AjaxPost(
             '/sniffer/get_errors/',
             {
-                'path': path
+                'path': path,
+                'user': author
             },
             function(data){
                 alert(data);

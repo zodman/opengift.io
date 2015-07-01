@@ -5,21 +5,23 @@ from git import *
 from PManager.classes.git.warden import Warden
 from PManager.classes.sniffer.js_sniffer import JSSniffer
 from PManager.classes.sniffer.php_sniffer import PHPSniffer
+from django.contrib.auth.models import User
 
 def get_errors(request):
     project_id = request.POST.get('project', False)
     path = request.POST.get('path', False)
-    user = request.user
-    if user.is_authenticated() and path and project_id:
+    user = request.POST.get('user', False)
+    user = User.objects.get(id=user)
+    if request.user.is_authenticated() and path and project_id:
         project = PM_Project.objects.get(id=int(project_id))
-        if project:
+        if project and request.user.get_profile().hasRole(project):
             warden = Warden(user, project, is_loaded=True)
             _repo = Repo(warden.repo_path)
             ext = path.split('.').pop()
 
             if ext == 'php' or ext == 'js':
                 try:
-                    r = _repo.git.show('origin/master:' + path[1:])
+                    r = _repo.git.show('master:' + path[1:])
                 except GitCommandError as e:
                     return HttpResponse(e)
 
