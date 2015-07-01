@@ -11,12 +11,13 @@ class PHPSniffer:
             i += 1
             if i < 5:
                 continue
+
             s = s.split('|')
-            o = {
+
+            ar.append({
                 'line': s[0],
                 'type': s[1],
                 'comment': s[2]
-            }
-            ar.append(o)
+            })
 
         return ar
