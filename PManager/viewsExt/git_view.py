@@ -6,7 +6,6 @@ from PManager.models import PM_Task_Message
 from django.http import Http404
 from tracker import settings
 
-
 class GitView(object):
     @classmethod
     def show_commit(cls, request):
