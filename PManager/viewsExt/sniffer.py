@@ -18,7 +18,11 @@ def get_errors(request):
             ext = path.split('.').pop()
 
             if ext == 'php' or ext == 'js':
-                r = _repo.git.show('master:' + path[1:])
+                try:
+                    r = _repo.git.show('master:' + path[1:])
+                except GitCommandError as e:
+                    return HttpResponse(e)
+
                 filename = 'tracker/sniffer_files/tmp' + str(user.id)
                 f = open(filename, 'w')
                 f.write(r)
