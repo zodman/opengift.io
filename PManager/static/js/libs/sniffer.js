@@ -17,7 +17,6 @@ var Sniffer = {
 				.append(data).end().modal('show');
             }
         );
-        window.event.stopPropagation();
         return false;
     }
 };
