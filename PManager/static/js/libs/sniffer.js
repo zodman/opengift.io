@@ -15,5 +15,6 @@ var Sniffer = {
                 alert(data);
             }
         );
+        return false;
     }
 };
