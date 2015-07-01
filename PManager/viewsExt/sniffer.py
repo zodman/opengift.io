@@ -6,6 +6,7 @@ from PManager.classes.git.warden import Warden
 from PManager.classes.sniffer.js_sniffer import JSSniffer
 from PManager.classes.sniffer.php_sniffer import PHPSniffer
 from django.contrib.auth.models import User
+import os
 
 def get_errors(request):
     project_id = request.POST.get('project', False)
