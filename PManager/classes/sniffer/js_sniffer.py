@@ -12,7 +12,8 @@ class JSSniffer:
             if i < 10:
                 continue
             s = s.split('|')
-
+            if len(s) < 3:
+                continue
             ar.append({
                 'line': s[0],
                 'type': s[2].split(':')[0],

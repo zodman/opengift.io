@@ -13,6 +13,8 @@ class PHPSniffer:
                 continue
 
             s = s.split('|')
+            if len(s) < 3:
+                continue
 
             ar.append({
                 'line': s[0],
