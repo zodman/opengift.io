@@ -13,7 +13,7 @@ def get_errors(request):
     if user.is_authenticated() and path and project_id:
         project = PM_Project.objects.get(id=int(project_id))
         if project:
-            warden = Warden(user, project)
+            warden = Warden(user, project, is_loaded=True)
             _repo = Repo(warden.repo_path)
             ext = path.split('.').pop()
 
