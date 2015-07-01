@@ -1112,7 +1112,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 				});
 
 				var timeLogic = function(currentDateTime) {
-					console.log(this);
 					var minDate = moment($deadline.data('min-date'), 'DD.MM.YYYY');
 					if (moment(currentDateTime).isSame(minDate, 'day')) {
 						this.setOptions({
@@ -1126,7 +1125,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 
 				$deadline.add($reminder).datetimepicker({
 					'onShow': function (ct) {
-						console.log(this);
 						timeLogic.call(this, ct);
 						this.setOptions({
 							minDate: $deadline.data('min-date')
