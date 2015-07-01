@@ -203,9 +203,9 @@ $(function(){
             {% for project in projects %}
         	<div class="projects-item clearfix">
             	<div class="projects-list-img">
-             	<a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
-                   <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />
-                </a>
+                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}" style="background-image: url({% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %});">
+                       <!--<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />-->
+                    </a>
               	</div>
               	<div class="projects-list-text">
                 <span class="projects-list-control">
