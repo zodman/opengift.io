@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Project
@@ -31,16 +32,16 @@ def get_errors(request):
                 f.write(r)
                 f.close()
 
-                a = ''
+                a = []
                 if ext == 'php':
-                    a = JSSniffer.sniff(filename)
-                elif ext == 'js':
                     a = PHPSniffer.sniff(filename)
+                elif ext == 'js':
+                    a = JSSniffer.sniff(filename)
 
-                sOut = ''
+                sOut = u'<table><tr><th>Номер строки</th><th>Тип ошибки</th><th>Текст</th></tr>'
                 for s in a:
-                    sOut += s
-
+                    sOut += '<tr><td>'+s['line']+'</td><td>'+s['type']+'</td><td>'+s['comment']+'</td></tr>'
+                sOut += '</table>'
                 os.remove(filename)
 
                 return HttpResponse(sOut)

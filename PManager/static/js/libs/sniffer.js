@@ -12,9 +12,12 @@ var Sniffer = {
                 'project': project
             },
             function(data){
-                alert(data);
+                $('<div class="modal fade"><div id="previewModal" class="modal fade wiki-modal in" style="display: block;" aria-hidden="false"><div class="modal-dialog"><div class="modal-content ui-resizable"></div></div></div>')
+				.find('modal-content').append('<h3>'+path+'</h3>')
+				.append(data).end().modal('show');
             }
         );
+        event.stopPropagation();
         return false;
     }
 };
