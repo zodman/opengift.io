@@ -4,7 +4,7 @@ import os
 class PHPSniffer:
     @staticmethod
     def sniff(filename):
-        a = os.popen('phpcs --standard=PEAR ' + filename)
+        a = os.popen('phpcs --standard=Zend ' + filename)
         i = 0
         ar = []
         for s in a:
