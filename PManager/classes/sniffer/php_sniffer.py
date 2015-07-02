@@ -12,6 +12,12 @@ class PHPSniffer:
             if i < 5:
                 continue
 
+            if s.find('short tag') > 0:
+                continue
+
+            if s.find('tabs are not allowed') > 0:
+                continue
+
             s = s.split('|')
             if len(s) < 3:
                 continue
