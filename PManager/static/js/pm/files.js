@@ -153,7 +153,7 @@ $.fn.addFilePaste = function (options) {
 
                     if (key == 17 && bIsIe11) {
                         $frame.show().css({
-                            'position': 'fixed',
+                            'position': 'absolute',
                             'top': '50%',
                             'left': '50%',
                             'margin-top': '-50%',
@@ -247,7 +247,7 @@ $.fn.addFilePaste = function (options) {
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
                 .append('<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>')
-                .append('<h2>Вставка изображения</h2><hr>')
+                .append('<h2>Вставка изображения</h2>')
                 .append('<p>Выберите участок для вставки</p>')
                 .append('<input type="hidden" style="display:none" name="posted_image" value="' + src + '" />')
                 .append('<input type="hidden" name="posted_image_x1" />')
