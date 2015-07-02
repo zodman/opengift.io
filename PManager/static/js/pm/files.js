@@ -153,7 +153,7 @@ $.fn.addFilePaste = function (options) {
 
                     if (key == 17 && bIsIe11) {
                         $frame.show().css({
-                            'position': 'absolute',
+                            'position': 'fixed',
                             'top': '50%',
                             'left': '50%',
                             'margin-top': '-50%',
