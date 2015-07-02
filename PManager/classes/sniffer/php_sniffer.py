@@ -12,7 +12,7 @@ class PHPSniffer:
             if i < 5:
                 continue
 
-            if s.find('short tag') > 0:
+            if s.find('Short PHP opening tag') > 0:
                 continue
 
             if s.find('tabs are not allowed') > 0:
