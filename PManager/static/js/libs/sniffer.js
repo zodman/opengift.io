@@ -22,7 +22,7 @@ var Sniffer = {
                 '</div>' +
               '</div>' +
             '</div>')
-				.find('.modal-body').append('<h3>'+path+'</h3>')
+				.find('.modal-body')
 				.append(data).end().modal('show');
             }
         );
