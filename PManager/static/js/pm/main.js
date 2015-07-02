@@ -184,10 +184,13 @@ function formatDate(date) {
     return formatted;
 }
 function PM_AjaxPost(url, data, func, type) {
-    if (window.currentProject)
-        data.project = parseInt(window.currentProject);
-    else
-        data.project = 0
+    if (!data.project) {
+        if (window.currentProject)
+            data.project = parseInt(window.currentProject);
+        else
+            data.project = 0;
+    }
+
     return $.post(url, data, func, type);
 }
 

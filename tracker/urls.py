@@ -17,6 +17,7 @@ from PManager.viewsExt.projects import projectDetail, addInterface, removeInterf
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
 from PManager.viewsExt.assets import protected_file
+from PManager.viewsExt.sniffer import get_errors
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
@@ -134,6 +135,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/responsible_menu/$', userHandlers.getResponsibleMenu),
                        url(r'^ajax/milestone_create/$', milestoneForm),
                        url(r'^file_access/', protected_file),
+                       url(r'^sniffer/get_errors/', get_errors),
                        # url(r'^tracker/', include('tracker.foo.urls')),
 
                        # Uncomment the admin/doc line below to enable admin documentation:
