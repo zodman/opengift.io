@@ -2248,7 +2248,7 @@ border-top-right-radius: 0;}
 											.message-desc-message .well {padding:5px 10px; background:#fff; margin-bottom:10px;}
 											
 											.message-desc-left {position:relative; padding-right:40px;}	
-												.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; margin-top:-14px; position:absolute; right:0px; top:50%; cursor:pointer;}
+												.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; position:absolute; right:0px; cursor:pointer;}
 												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; position:absolute; right:-4px; cursor:pointer;}
                                                 .message.danger .fa.fa-check-square-o,
                                                 .message.bug-message .fa.fa-check-square-o {color: #BB0500;}

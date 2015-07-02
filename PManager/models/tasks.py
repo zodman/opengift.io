@@ -1617,6 +1617,8 @@ class PM_Task_Message(models.Model):
             return True
 
         if not self.hidden_from_clients and not self.hidden_from_employee:
+            if self.task.resp and self.task.resp_id == user.id:
+                return True
             if user.id in [u.id for u in self.task.observers.all()]:
                 return True
 
