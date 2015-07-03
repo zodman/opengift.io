@@ -17,7 +17,7 @@ class WhoAreYou(forms.Form):
 class Feedback(forms.Form):
 
     subject = forms.CharField(max_length=255, label='subject',
-                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите имя'}))
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите тему'}))
     message = forms.CharField(max_length=1500, label='message',
                               widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': u'Введите сообщение',
@@ -37,7 +37,7 @@ def sendFeedback(request):
             'date': datetime.datetime.now()
         }
         sendMes = emailMessage('feedback', mes, 'New feedback', u_from=request.user.email)
-        sendMes.send([INFO_EMAIL])  # if error, admin will know and will resend
+        sendMes.send([INFO_EMAIL, 'alwxsin@gmail.com'])  # if error, admin will know and will resend
 
     c = RequestContext(request, context)
     t = loader.get_template('helpers/feedback.html')
