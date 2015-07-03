@@ -908,9 +908,13 @@ var widget_tl, currentGroup;
                     bIsRange = value == 'range',
                     sAddDatePickerClass = bIsDate?'datepick':'',
                     val,
-                    aDatesPrefixes = ['c&nbsp;','по&nbsp;'];
+                    aDatesPrefixes = ['c&nbsp;','по&nbsp;'],
+                    today = moment().format('DD.MM.YYYY'),
+                    monthAgo = moment().subtract(1, 'months').format('DD.MM.YYYY');
+
                 if (bIsRange && bIsDate) {
-                    value = ['01.08.2014', '10.09.2014']
+                    //value = ['01.08.2014', '10.09.2014']
+                    value = [monthAgo, today]
                 }
                 for (var i in value){
                     val = value[i];
@@ -935,7 +939,7 @@ var widget_tl, currentGroup;
 
                     if (!($input = $rulesContainer.find('input[name='+field_name+'][value="'+val+'"]').get(0))){
                         $input = $newInputHidden(field_name,val);
-                        $rulesContainer.append($input);
+                        //$rulesContainer.append($input);
                     }
                     if (!$categoryBlock.get(0)){
                         $rulesContainer.append($categoryBlock = $('<span></span>').addClass('search-group')
@@ -943,8 +947,14 @@ var widget_tl, currentGroup;
                             .append('<h6 data-code="responsible" class="clearfix">' + field_title + ':</h6>'));
                     }
 
-                    var $tmpContainer = $categoryBlock.find('span[data-code="'+val+'"]').remove()
-                        .end().append('<span data-code="'+val+'">'+sValueHtml+' <a class="close">&times;</a></span>');
+                    var $tmpContainer = $categoryBlock.find('span[data-code="' + val + '"]').remove().end()
+                        .append('<span data-code="'
+                                + val
+                                + '">'
+                                + sValueHtml
+                                + ' <a class="close">&times;</a>'
+                                + $input.get(0).outerHTML
+                                + '</span>');
 
                     if (sAddDatePickerClass)
                         $tmpContainer.find('.'+sAddDatePickerClass).each(function(){
@@ -954,7 +964,8 @@ var widget_tl, currentGroup;
                                 'onSelectDate': function(ct, $i){
                                     var d = formatDate(ct).split(' ')[0]; // datetime without time
                                     $i.text(d);
-                                    $input.val(d);
+                                    $i.parent().attr('data-code', d);
+                                    $i.siblings('input').val(d);
                                     widget_tl.TL_Search();
                                 }
                             });
