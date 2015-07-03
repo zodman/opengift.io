@@ -17,7 +17,7 @@ class WhoAreYou(forms.Form):
 class Feedback(forms.Form):
 
     subject = forms.CharField(max_length=255, label='subject',
-                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите имя'}))
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите тему'}))
     message = forms.CharField(max_length=1500, label='message',
                               widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': u'Введите сообщение',
