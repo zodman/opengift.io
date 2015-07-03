@@ -4,7 +4,7 @@ from django import forms
 from django.http import HttpResponse
 from django.template import RequestContext, loader
 from PManager.viewsExt.tools import emailMessage
-from tracker.settings import INFO_EMAIL
+from tracker.settings import FEEDBACK_EMAIL
 import datetime
 
 class WhoAreYou(forms.Form):
@@ -32,12 +32,13 @@ def sendFeedback(request):
         context['send'] = True
         mes = {
             'fromUser': request.user.first_name + ' ' + request.user.last_name,
+            'userEmail': request.user.email,
             'subject': form.cleaned_data['subject'],
             'message': form.cleaned_data['message'],
             'date': datetime.datetime.now()
         }
-        sendMes = emailMessage('feedback', mes, 'New feedback', u_from=request.user.email)
-        sendMes.send([INFO_EMAIL, 'alwxsin@gmail.com'])  # if error, admin will know and will resend
+        sendMes = emailMessage('feedback', mes, 'New feedback')
+        sendMes.send([FEEDBACK_EMAIL, 'alwxsin@gmail.com'])  # if error, admin will know and will resend
 
     c = RequestContext(request, context)
     t = loader.get_template('helpers/feedback.html')
