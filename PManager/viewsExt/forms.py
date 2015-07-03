@@ -38,7 +38,7 @@ def sendFeedback(request):
             'date': datetime.datetime.now()
         }
         sendMes = emailMessage('feedback', mes, 'New feedback')
-        sendMes.send([FEEDBACK_EMAIL, 'alwxsin@gmail.com'])  # if error, admin will know and will resend
+        sendMes.send([FEEDBACK_EMAIL])  # if error, admin will know and will resend
 
     c = RequestContext(request, context)
     t = loader.get_template('helpers/feedback.html')
