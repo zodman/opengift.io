@@ -56,18 +56,43 @@ div.preview_img_form {
     width:700px;
     /*margin-left:-385px;*/
     padding:15px;
-    top:100px;
+    top:40px;
 }
-div.preview_img_form h2 {font-size:24px; line-height:24px; margin:0px 0px 10px;}
+div.preview_img_form h2 {
+    background: #47a447 none repeat scroll 0 0;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    font-size: 24px;
+    line-height: 24px;
+    margin: -15px -15px 10px;
+    padding: 18px 0;
+    text-align: center;
+}
 .picture_container {
     /*overflow-y:auto; */
     /*max-height:325px; */
     margin-bottom:25px; text-align:center;}
-.picture_container img {display:inline-block;}
-div.preview_img_form .btn-mini {padding:5px 8px;}
-div.preview_img_form .close {position:absolute; top:-12px; right:-12px; border-radius:500px; -moz-border-radius:500px; -webkit-border-radius:500px; text-shadow:none; -moz-text-shadow:none; -webkit-text-shadow:none; color:#fff;}
-div.preview_img_form .edit {position:absolute; top: -12px; right: 40px;}
-div.preview_img_form .btn-mini [class^="icon-"], div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
+.picture_container img {display:inline-block; max-height: 420px;}
+div.preview_img_form .edit {
+    background: #fff none repeat scroll 0 0;
+    line-height: 22px;
+    padding: 5px 8px;
+    position: absolute;
+    right: 57px;
+    top: 13px;
+    width: 35px;
+}
+div.preview_img_form .edit {
+background: #fff none repeat scroll 0 0;
+    line-height: 22px;
+    padding: 5px 8px;
+    position: absolute;
+    right: 57px;
+    top: 13px;
+    width: 35px;
+}
+div.preview_img_form .btn-mini [class^="icon-"],
+div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
 
 
 
