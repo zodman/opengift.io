@@ -1,0 +1,13 @@
+{% extends 'mail_templates/default_template.html' %}
+{% load get_settings %}
+{% block subject %}Новое сообщение от пользователя!{% endblock %}
+
+{% block top_running_title %}
+    <strong>{{ fromUser }}</strong><br>{{ date }}
+{% endblock %}
+
+{% block title %}{{ subject }}{% endblock %}
+
+{% block content %}
+    <p>{{ message }}</p>
+{% endblock %}
