@@ -21,30 +21,30 @@
                 <div class="modal-body-item-right">
 					{{ form.subject }}
                 </div>
-				{% if form.subject.errors %}
-                    <div class="ugeeen">
-                        <ul class="errorlist">
-							{% for error in form.subject.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-							{% endfor %}
-                        </ul>
-                    </div>
-				{% endif %}
+{#				{% if form.subject.errors %}#}
+{#                    <div class="ugeeen">#}
+{#                        <ul class="errorlist">#}
+{#							{% for error in form.subject.errors %}#}
+{#                                <li><strong>{{ error|escape }}</strong></li>#}
+{#							{% endfor %}#}
+{#                        </ul>#}
+{#                    </div>#}
+{#				{% endif %}#}
             </div>
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Ваше сообщение</div>
                 <div class="modal-body-item-right">
 					{{ form.message }}
                 </div>
-				{% if form.message.errors %}
-                    <div class="ugeeen">
-                        <ul class="errorlist">
-							{% for error in form.message.errors %}
-                                <li><strong>{{ error|escape }}</strong></li>
-							{% endfor %}
-                        </ul>
-                    </div>
-				{% endif %}
+{#				{% if form.message.errors %}#}
+{#                    <div class="ugeeen">#}
+{#                        <ul class="errorlist">#}
+{#							{% for error in form.message.errors %}#}
+{#                                <li><strong>{{ error|escape }}</strong></li>#}
+{#							{% endfor %}#}
+{#                        </ul>#}
+{#                    </div>#}
+{#				{% endif %}#}
             </div>
         </div>
         <div class="modal-footer">
