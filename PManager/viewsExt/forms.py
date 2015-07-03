@@ -16,9 +16,9 @@ class WhoAreYou(forms.Form):
 
 class Feedback(forms.Form):
 
-    subject = forms.CharField(max_length=255, required=True, label='subject',
+    subject = forms.CharField(max_length=255, label='subject',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите имя'}))
-    message = forms.CharField(max_length=1500, required=True, label='message',
+    message = forms.CharField(max_length=1500, label='message',
                               widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': u'Введите сообщение',
                                                            'rows': 2}))
@@ -27,27 +27,18 @@ class Feedback(forms.Form):
 def sendFeedback(request):
     form = Feedback(request.POST or None)
     context = {'form': form}
-    # print request.POST, form
 
-    if 'subject' in request.POST:
-        if form.is_valid():
-            # context['send'] = True
-            mes = {
-                'user': request.user,
-                'subject': form.cleaned_data['subject'],
-                'message': form.cleaned_data['message'],
-                'date': datetime.datetime.now()
-            }
-            # t = loader.get_template('mail_templates/feedback.html')
-            # c = RequestContext(request, mes)
-            # return HttpResponse(t.render(c))
-            sendMes = emailMessage('feedback', mes, 'New feedback', u_from=request.user)
-            try:
-                sendMes.send(INFO_EMAIL)
-            except Exception:
-                print 'Message is not sent'
+    if 'subject' in request.POST and form.is_valid():
+        context['send'] = True
+        mes = {
+            'fromUser': request.user.first_name + ' ' + request.user.last_name,
+            'subject': form.cleaned_data['subject'],
+            'message': form.cleaned_data['message'],
+            'date': datetime.datetime.now()
+        }
+        sendMes = emailMessage('feedback', mes, 'New feedback', u_from=request.user.email)
+        sendMes.send([INFO_EMAIL])  # if error, admin will know and will resend
 
     c = RequestContext(request, context)
-
     t = loader.get_template('helpers/feedback.html')
     return HttpResponse(t.render(c))
