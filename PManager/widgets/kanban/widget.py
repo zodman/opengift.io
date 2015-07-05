@@ -46,8 +46,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     statuses = PM_Task_Status.objects.all().order_by('-id')
     statuses_flat = statuses.values_list('id', flat=True)
     filter = dict(closed=False, onPlanning=False, status__in=statuses_flat)
+    curProjectName = None
     if current_project:
         filter['project'] = current_project
+        try:
+            curProjectName = PM_Project.objects.get(id=current_project)
+        except Exception:
+            pass
 
     tasks = PM_Task.getForUser(user, current_project, filter, [], {
             'order_by': [
@@ -83,4 +88,5 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         'statuses': statuses,
         'status_width': 100 / statuses.count() if statuses.count() != 0 else 100,
         'status_width_remains': 100 % statuses.count() if statuses.count() != 0 else 0,
+        'current_project': curProjectName,
     }
