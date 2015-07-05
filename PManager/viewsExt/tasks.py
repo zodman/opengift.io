@@ -1133,7 +1133,7 @@ class taskAjaxManagerCreator(object):
 
                     prevCritically = eTask.critically
 
-            return json.dumps({'result': prevCritically})
+                return json.dumps({'result': prevCritically})
 
     @task_ajax_action
     def process_appendTask(self):
