@@ -66,40 +66,24 @@
 </head>
 <body>
 
-<div class="modal fade" id="feedback-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade js-feedback_modal" id="feedback-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content green-popup">
             <div class="modal-header">
                 <h2 class="modal-title" id="myModalLabel">Напишите нам</h2>
             </div>
-            <form role="form" method="post" action="">
-                <div class="modal-body">
-                    <div class="modal-body-item">Если у вас есть вопросы, пожелания либо предложения, вы можете смело написать нам и мы в самые кратчайшие сроки постараемся ответить на них.</div>
-                    <div class="modal-body-item clearfix">
-                        <div class="modal-body-item-left">Тема сообщения</div>
-                        <div class="modal-body-item-right">
-                            <input type="text" class="form-control" maxlength="250" placeholder="Ввведите имя" />
-                        </div>
-                    </div>
-                    <div class="modal-body-item clearfix">
-                        <div class="modal-body-item-left">Ваше сообщение</div>
-                        <div class="modal-body-item-right">
-                            <textarea class="form-control" placeholder="Введите сообщение"></textarea>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <input type="submit" class="btn btn-success" value="Отправить" />
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                </div>
-            </form>
+            <div class="js-modal_content">
+                <div class="modal-body clearfix js-feedback_loader" style="height: 85px;width: 100%;"></div>
+            </div>
         </div>
     </div>
 </div>
 
-
-<a href="#" class="feedback-button" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-question"></i>
+<a href="#" class="feedback-button js-feedback" data-target="#feedback-popup" data-toggle="modal">
+    <i class="fa fa-question"></i>
 </a>
+
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
 <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->

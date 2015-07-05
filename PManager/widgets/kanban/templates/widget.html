@@ -11,6 +11,21 @@
             </div>
         </div>
     </div>
+{% elif not kanban.project_data %}
+    <div class="kanban">
+        <div class="widget inner">
+            <div class="project-header js-project-header">
+                <div class="widget-title clearfix">
+					{% if kanban.current_project %}
+						{{ kanban.current_project }}
+					{% else %}
+                        Все проекты
+					{% endif %}
+                </div>
+            </div>
+            <p style="width: 100%; text-align: center;">У вас пока нет ни одной задачи</p>
+        </div>
+    </div>
 {% else %}
     {% block stylesheets %}
         <link rel="stylesheet" href="/static/css/external/chosen.css"/>

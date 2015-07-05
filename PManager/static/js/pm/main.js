@@ -432,4 +432,26 @@ window.onbeforeunload = function (evt) {
             return message;
         }
     }
-}
+};
+
+$(document).on('click', '.js-send_feedback', function() {
+    startLoader('small', '.js-send_feedback');
+    $.post('/ajax/feedback/',
+           $('.js-feedback_form').serialize(),
+           function(html) {
+               $('.js-modal_content').html(html);
+               stopLoaders();
+           }
+    )
+});
+
+$(document).on('click', '.js-feedback', function () {
+    $.get('/ajax/feedback/', function (data) {
+        $('.js-modal_content').html(data);
+        stopLoaders();
+    });
+});
+
+$(document).on('shown.bs.modal', function () {
+    startLoader('medium', '.js-feedback_loader');
+});
