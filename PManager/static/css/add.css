@@ -80,16 +80,28 @@ div.preview_img_form .edit {
     position: absolute;
     right: 57px;
     top: 13px;
+    color:#47a447;
     width: 35px;
+    text-shadow: 0px 0px 0px #fff;
+    -moz-text-shadow: 0px 0px 0px #fff;
+    -webkit-text-shadow: 0px 0px 0px #fff;
 }
-div.preview_img_form .edit {
-background: #fff none repeat scroll 0 0;
+div.preview_img_form .edit:hover,
+div.preview_img_form .edit:focus,
+div.preview_img_form .edit:active {
+    background: #f9f9f9;
+}
+div.preview_img_form .close {
     line-height: 22px;
     padding: 5px 8px;
     position: absolute;
-    right: 57px;
+    right: 15px;
     top: 13px;
+    color:#fff;
     width: 35px;
+    text-shadow: 0px 0px 0px #fff;
+    -moz-text-shadow: 0px 0px 0px #fff;
+    -webkit-text-shadow: 0px 0px 0px #fff;
 }
 div.preview_img_form .btn-mini [class^="icon-"],
 div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
