@@ -22,6 +22,7 @@ def milestoneForm(request):
     return render(request, 'helpers/milestone_create.html', dict())
 
 def ajaxMilestonesResponder(request):
+    milestone = None
     responseText = 'bad query'
     name = request.POST.get('name','')
     user = request.user
