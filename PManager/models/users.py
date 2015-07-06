@@ -26,6 +26,16 @@ def get_random_color():
     return PM_User.color_choices[v][0]
 
 
+class PM_Skills(models.Model):
+    name = models.CharField(max_length=40, unique=True)
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'PManager'
+
+
 class PM_User(models.Model):
     color_choices = (
         ('#DA70D6', '#DA70D6'),
@@ -293,16 +303,6 @@ class PM_User(models.Model):
 
     def __str__(self):
         return "%s's profile" % self.user
-
-    class Meta:
-        app_label = 'PManager'
-
-
-class PM_Skills(models.Model):
-    name = models.CharField(max_length=40, db_index=True)
-
-    def __str__(self):
-        return self.name
 
     class Meta:
         app_label = 'PManager'

@@ -39,17 +39,30 @@
                     </div>
                     <div class="clearfix"></div>
                     <hr>
-                    <input type="text" name="additional_tags" placeholder="Укажите свои навыки" class="form-control">
-                    <ul class="posibilities clearfix">
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                    </ul>
+                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                        <div class="js-similar_skills">
+                            <input type="text" name="additional_tags"
+                                                              placeholder="Укажите свои навыки" class="form-control">
+                            <ul class="dropdown-menu js-skills" role="dropdown">
+                                <li></li>
+                            </ul>
+                        </div>
+                    {% endif %}
+                    {% if user_detail.skills.count %}
+                        <ul class="posibilities clearfix">
+                            {% for skill in user_detail.skills %}
+                                <li><span>{{ skill }}<i class="fa fa-times js-delete_skill"></i></span></li>
+                            {% endfor %}
+                            <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                            <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                            <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                            <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                            <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                            <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                            <li><span>Верстка<i class="fa fa-times"></i></span></li>
+                            <li><span>Photoshop<i class="fa fa-times"></i></span></li>
+                        </ul>
+                    {% endif %}
                 </div><!--user-info-right-from-avatar-->
 
             </div>

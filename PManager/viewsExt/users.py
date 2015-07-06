@@ -6,7 +6,7 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
-from PManager.models.users import PM_User
+from PManager.models.users import PM_User, PM_Skills
 from tracker.settings import USE_GIT_MODULE
 from PManager.viewsExt.tasks import TaskWidgetManager
 from django.db.models import Q
@@ -107,6 +107,22 @@ class userHandlers:
             return HttpResponse('ok')
         elif action == 'getUsers':
             return userHandlers.getMyTeam(request)
+
+        elif action == 'setSkill':
+            userId = request.POST['user']
+            skill = request.POST['skill']
+            user = User.objects.get(pk=userId)
+            if user == curUser or curUser.is_superuser:
+                try:
+                    skill = PM_Skills.objects.filter(name=skill)
+                except PM_Skills.DoesNotExist:
+                    skill = PM_Skills(name=skill)
+                prof = user.get_profile()
+                prof.skills.add(skill)
+                prof.save()
+                return HttpResponse('skill saved')
+
+
 class usersActions:
     def set_user_roles(self):
         pass
