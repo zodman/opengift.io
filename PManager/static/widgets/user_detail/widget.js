@@ -94,8 +94,8 @@ $(function () {
             dashboard('#dashboard', USER_TIME_DATA);
 
             var search_val = null,
-                $specialty_input = $('.js-save_specialty')
-            $specialty_input.keypress(function(e) {
+                $specialtyInput = $('.js-save_specialty');
+            $specialtyInput.keypress(function(e) {
                 var $t = $(this);
                 if (e.which == 13) {
                     PM_AjaxPost(
@@ -135,7 +135,7 @@ $(function () {
                 )
             });
 
-            $specialty_input.keyup(function() {
+            $specialtyInput.keyup(function() {
                 var $t = $(this);
                 if ($t.val != search_val) {
                     search_val = $t.val();
