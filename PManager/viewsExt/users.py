@@ -6,7 +6,7 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
-from PManager.models.users import PM_User, PM_Skills
+from PManager.models.users import PM_User, PM_Skills, Specialty
 from tracker.settings import USE_GIT_MODULE
 from PManager.viewsExt.tasks import TaskWidgetManager
 from django.db.models import Q
@@ -108,19 +108,30 @@ class userHandlers:
         elif action == 'getUsers':
             return userHandlers.getMyTeam(request)
 
-        elif action == 'setSkill':
+        elif action == 'addSpecialty':
             userId = request.POST['user']
-            skill = request.POST['skill']
+            specialty = request.POST['specialty'].upper()
             user = User.objects.get(pk=userId)
+            prof = user.get_profile()
             if user == curUser or curUser.is_superuser:
-                try:
-                    skill = PM_Skills.objects.filter(name=skill)
-                except PM_Skills.DoesNotExist:
-                    skill = PM_Skills(name=skill)
-                prof = user.get_profile()
-                prof.skills.add(skill)
+                specialty, created = prof.specialties.get_or_create(name=specialty)
                 prof.save()
-                return HttpResponse('skill saved')
+                return HttpResponse(json.dumps({'id': specialty.id, 'name': specialty.name}))
+
+        elif action == 'deleteSpecialty':
+            userId = request.POST['user']
+            specialty = request.POST['specialty']
+            try:
+                specialty = int(specialty)
+            except ValueError:
+                return HttpResponse('specialtyId expected')
+            user = User.objects.get(pk=userId)
+            prof = user.get_profile()
+            if user == curUser or curUser.is_superuser:
+                specialty = Specialty.objects.get(id=specialty)
+                prof.specialties.remove(specialty)
+                prof.save()
+                return HttpResponse('specialty deleted')
 
 
 class usersActions:

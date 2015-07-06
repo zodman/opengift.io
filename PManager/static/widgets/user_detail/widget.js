@@ -92,6 +92,58 @@ $(function () {
                 )
             });
             dashboard('#dashboard', USER_TIME_DATA);
+
+            var search_val = null,
+                $specialty_input = $('.js-save_specialty')
+            $specialty_input.keypress(function(e) {
+                var $t = $(this);
+                if (e.which == 13) {
+                    PM_AjaxPost(
+                        '/users_ajax/',
+                        {
+                            'action': 'addSpecialty',
+                            'specialty': $t.val(),
+                            'user': $t.data('user-id')
+                        },
+                        function (response) {
+                            var data = $.parseJSON(response);
+                            var $specialty = ('<li><span>' + data['name'] + '<i class="fa fa-times js-delete_specialty"' +
+                            'data-specialty="' + data['id'] + '"></i></span></li>');
+                            var $specialties = $('.js-specialties');
+                            $specialties.append($specialty);
+                            if ($specialties.hasClass('hidden')) {
+                                $specialties.removeClass('hidden')
+                            }
+                            $t.val('');
+                        }
+                    )
+                }
+            });
+
+            widget_ud.container.on('click', '.js-delete_specialty', function () {
+                var $t = $(this);
+                PM_AjaxPost(
+                    '/users_ajax/',
+                    {
+                        'action': 'deleteSpecialty',
+                        'specialty': $t.data('specialty'),
+                        'user': $('.js-save_specialty').data('user-id')
+                    },
+                    function () {
+                        $t.parent().parent().remove();
+                    }
+                )
+            });
+
+            $specialty_input.keyup(function() {
+                var $t = $(this);
+                if ($t.val != search_val) {
+                    search_val = $t.val();
+                    if (search_val.length > 2) {
+
+                    }
+                }
+            })
         },
         'addTaskLine': function (taskData, $container) {
             var task = widget_ud.taskList.get(taskData.id);

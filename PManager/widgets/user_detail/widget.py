@@ -208,9 +208,9 @@ def widget(request, headerValues, ar, qargs):
                     'tasksClosed': tasksClosed
                 })
 
-            skills = None
+            specialties = None
             try:
-                skills = profile.skills.order_by('name').values_list('name', flat=True)
+                specialties = profile.specialties.order_by('name').values()
             except Exception:
                 pass
 
@@ -220,7 +220,7 @@ def widget(request, headerValues, ar, qargs):
                 'title': u'Профиль пользователя',
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
-                'skills': skills,
+                'specialties': specialties,
                 'timers': [
                     {
                         'id': timer.id,
