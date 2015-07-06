@@ -26,16 +26,6 @@ def get_random_color():
     return PM_User.color_choices[v][0]
 
 
-class PM_Skills(models.Model):
-    name = models.CharField(max_length=40, unique=True)
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        app_label = 'PManager'
-
-
 class PM_User(models.Model):
     color_choices = (
         ('#DA70D6', '#DA70D6'),
@@ -73,7 +63,6 @@ class PM_User(models.Model):
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
                                          verbose_name='Специальности')
-    skills = models.ManyToManyField(PM_Skills, blank=True, null=True, verbose_name='Навыки', related_name='profiles')
     # all_sp = models.IntegerField(null=True,blank=True)
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
                                     max_length=20)
