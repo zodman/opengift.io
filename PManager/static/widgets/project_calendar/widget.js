@@ -36,6 +36,7 @@ var ShowForm = function(el, arParams){
 var ajaxSaveMileStone = function(data){
     PM_AjaxPost('/milestone_ajax/',data,function(data){
         $("#taskform").hide();
+        document.location.reload();
     })
 }
 
@@ -64,4 +65,12 @@ $(function(){
         e.stopPropagation();
     });
 //    $(document).click(function(){$("#taskform").hide()});
+    $("input[name='DEADLINE']").datetimepicker({
+        'format': 'd.m.Y',
+        'timepicker': false,
+        'closeOnDateSelect': true,
+        'onDateSelect': function(ct){
+            $(this).val = moment(ct).format('DD.MM.YYYY')
+        }
+    });
 });
