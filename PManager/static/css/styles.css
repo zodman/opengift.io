@@ -33,18 +33,6 @@ hr.no-top-magin-hr {margin-top:0px;}
 .callback .btn-large {width:100%;}
 .callback input {width:100%; padding:10px;}
 
-div.widget h1 a.project-edit-link {
-    background: #eee none repeat scroll 0 0;
-    font-size: 11px;
-    font-weight: normal;
-    padding: 4px 9px;
-    position: relative;
-    top: 3px;
-    vertical-align: super;
-    border-radius: 3px;
-    -moz-border-radius: 3px;
-    -webkit-border-radius: 3px;
-}
 
 .wrapper {
     margin: 0 auto;
@@ -433,8 +421,6 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00f0f0f0', e
     ###############################################################*/
 
 div.widget {background:#fff; border-radius: 5px;box-shadow:0px 0px 5px #ddd;  padding:20px;  -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; margin-bottom:25px; position:relative; z-index:1;}
-div.widget h1 a {font-size: 18px; left: 3px; position: relative; text-decoration: none; top: 6px; vertical-align: top; color:#333;}
-div.widget h1 a:hover {color:#cd0000;}
 div.widget:hover,
 div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #aaa; -o-box-shadow:0px 0px 5px #aaa; -moz-box-shadow:0px 0px 5px #aaa;}
 
@@ -1745,17 +1731,10 @@ div.params-item h5 span {color:#429C03;}
 
 .hideFilter i {opacity:0.7; filter: alpha(opacity=70); }
 
-.test-server {
-    padding: 10px 20px;
-    background: #edf8ed;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    -webkit-border-radius: 5px;
-    margin-top: 5px;
-}
+
 .project-buttons .test-server a.btn {margin-bottom: 0px;}
-.server-name {float: left; margin-right: 15px; padding-top: 10px; font-size: 16px; padding-top: 7px;}
-.server-status {float: left;}
+.server-name {margin-right: 15px; font-size: 16px; display: inline-block; position: relative; top: 2px;}
+.server-status {display: inline-block; }
 
 .test-server .progress {margin-left: 0px; margin-top: 10px;}
 
@@ -2091,7 +2070,7 @@ border-top-right-radius: 0;}
 
 
 	
- div.widget {padding-left:15px; padding-right:15px; margin:0 -15px;}
+ div.widget {padding-left:15px; padding-right:15px; margin:0 -15px 25px;}
  
 	
 	
@@ -3512,3 +3491,125 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .modal-body-item:last-child {margin-bottom: 0px;}
 .modal-body-item-left {float: left; width: 130px; padding-top: 7px;}
 .modal-body-item-right {float: left; width: calc(100% - 130px);}
+
+.error .modal-body-item-left,
+.error .modal-body-item-right {color:#b94a48;}
+
+.error .form-control {
+    box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);
+    -moz-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);
+    -webkit-box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);
+    border:1px solid #b94a48;
+}
+
+.error-text {color: #b94a48; padding-left: 142px; margin-top: 5px; margin-bottom: 0px;}
+
+.error .form-control:-moz-placeholder{color:#b94a48;}
+.error .form-control::-moz-placeholder{color:#b94a48;}
+.error .form-control:-ms-input-placeholder{color:#b94a48;}
+.error .form-control::-webkit-input-placeholder{color:#b94a48;}
+
+
+.project-info-left {float:left; width: 100px; margin-right: 15px;}
+.project-info-right {float:right; width: calc(100% - 115px);}
+
+.editable-textarea-wrapper {display: block;}
+.editable-textarea-click {display: block;}
+.editable-textarea,
+.project-edit-input {display: none;}
+.editable-textarea-click,
+.project-edit-link-editable {cursor: pointer;}
+
+.project-info-avatar {
+    position: relative;
+    width: 100px;
+    height: 100px;
+    display: block;
+    box-shadow:0 1px 2px rgba(1, 1, 1, 0.3);
+    -moz-box-shadow:0 1px 2px rgba(1, 1, 1, 0.3);
+    -webkit-box-shadow:0 1px 2px rgba(1, 1, 1, 0.3);
+    overflow: hidden;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+}
+
+.project-info-avatar:hover > span {display: block;}
+
+.project-info-avatar-upload {
+    position: absolute;
+    display: block;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom:0px;
+    text-align: center;
+    background: rgba(1,1,1,0.4);
+    cursor: pointer;
+    display: none;
+}
+
+.project-info-avatar-upload input[type="file"] {
+    position: absolute;
+    display: block;
+    left: 0px;
+    top: 0px;
+    right: 0px;
+    bottom:0px;
+    padding: 0px;
+    margin: 0px;
+    opacity: 0;
+    -moz-opacity: 0;
+    -webkit-opacity: 0;
+    cursor: pointer;
+}
+
+.project-info-avatar-upload .btn {margin-top: 33px;}
+
+.user-list-settings, .developer-manager-list {list-style: none; padding: 0px; margin: 0px 0px 5px;}
+.user-list-settings li, .developer-manager-list li {display: inline-block; margin-right: 5px; float: left;}
+.user-list-settings li a {border: 0;}
+
+.developer-manager-list {margin-bottom: 20px;}
+
+.integration-wrapper {margin-right: -20px;}
+.integration-left,
+.integration-right {
+    background: #f2f2f2;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    margin-right: 20px;
+    float: left;
+    padding: 20px;
+    width: calc(50% - 20px);
+}
+
+
+@media only screen and (max-width: 768px) {
+    .integration-wrapper {margin-right: 0px;}
+    .integration-left,
+    .integration-right {float: none; margin-bottom: 20px; margin-right: 0px; width: 100%;}
+
+    .integration-right {margin-bottom: 0;}
+
+    .user-list-settings li {float: none; display: block; margin-bottom: 5px;}
+    .user-list-settings li:last-child {margin-bottom: 0;}
+    .user-list-settings li a {display: block;}
+}
+
+.active > .btn {
+    outline:0;
+    background-image:none;
+    -webkit-box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    box-shadow:inset 0 3px 5px rgba(0, 0, 0, 0.125);
+    color:#ffffff;
+    background-color:#47a447;
+    border-color:#398439;
+}
+
+.colored-bg {padding: 15px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.bg-success {background: #dff0d8;}
+.bg-info {background: #d9edf7;}
+.bg-warning {background: #fcf8e3;}
+.bg-danger {background: #f2dede;}

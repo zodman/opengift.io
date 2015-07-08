@@ -27,8 +27,13 @@
 }
 
 .canvasTools{
-    height: 31px;
-    margin: 0 0 15px 0;
+    margin: -15px -15px 15px;
+    padding: 18px 15px 10px;
+    background: #47a447 none repeat scroll 0 0;
+    border-radius: 5px 5px 0 0;
+    color: #fff;
+    font-size: 24px;
+    line-height: 24px;
 }
 
 .canvasTools .brushColor{
@@ -36,17 +41,35 @@
 }
 
 .canvasTools .brushDepth{
-    float: right;
+    float: left;
+    margin-left: 50px;
 }
 
-.canvasTools .brushColor > div, .canvasTools .brushDepth > div{
+.canvasTools .brushColor > div,
+.canvasTools .brushDepth > div,
+.canvasText {
     display: inline-block;
     position: relative;
     width: 30px;
     height: 30px;
     padding: 0;
-    margin: 5px;
+    margin: -2px 10px 0 0;
     cursor: pointer;
+    text-align: center;
+}
+
+.canvasText {margin-left: 50px;}
+
+.canvasText .fa.fa-pencil-square-o {
+    color: #000;
+    display: inline-block;
+    font-size: 20px;
+    line-height: 24px;
+    margin-top: 3px;
+}
+
+.canvasTools .brushColor > div {
+    border: 2px solid #fff;
 }
 
 .canvasTools .brushColor .color{
@@ -57,19 +80,6 @@
 
 .canvasTools .brushColor .color.active{
     box-shadow: 0 5px 5px rgba(0, 0, 0, 0.4) inset, 0 0 8px rgba(102, 175, 233, 1);
-}
-
-.canvasText{
-    display: inline-block;
-    position: relative;
-    width: 30px;
-    height: 30px;
-    padding: 6px 0 0 0;
-    margin: 5px;
-    cursor: pointer;
-    float: right;
-    font-size: 18px;
-    text-align: center;
 }
 
 .writeTextContainer{
@@ -108,14 +118,15 @@
     padding: 2px 5px !important;
 }
 
-.canvasTools .brushDepth .size.active, .canvasText.active{
-	background:none repeat scroll 0 0 #aaa;
+.canvasTools .brushDepth .size.active,
+.canvasText.active{
+	background:#ffffff;
 	border-radius:25px;
 	-moz-border-radius:25px;
 	-webkit-border-radius:25px;
-	box-shadow:0 2px 2px rgba(1, 1, 1, 0.2) inset, 0 1px 0 #fff;
-	-moz-box-shadow:0 2px 2px rgba(1, 1, 1, 0.2) inset, 0 1px 0 #fff;
-	-webkit-box-shadow:0 2px 2px rgba(1, 1, 1, 0.2) inset, 0 1px 0 #fff;
+	box-shadow:0 2px 1px rgba(1, 1, 1, 0.2) inset;
+	-moz-box-shadow:0 2px 1px rgba(1, 1, 1, 0.2) inset;
+	-webkit-box-shadow:0 2px 1px rgba(1, 1, 1, 0.2) inset;
 }
 
 .canvasTools .brushColor #redPen{ background: rgb(212,21,29); }

@@ -1,9 +1,8 @@
 {% if send %}
     <div class="modal-body">
         <div class="modal-body-item clearfix">
-            <p>Спасибо за обращение.</p>
-
-            <p>Мы ответим на него в ближайшее время.</p>
+            <p align="center">Спасибо за обращение.</p>
+            <p align="center">Мы ответим на него в ближайшее время.</p>
         </div>
     </div>
     <div class="modal-footer">
@@ -16,35 +15,27 @@
                 смело
                 написать нам и мы в самые кратчайшие сроки постараемся ответить на них.
             </div>
-            <div class="modal-body-item clearfix">
+            <div class="modal-body-item{% if form.subject.errors %} error{% endif %} clearfix">
                 <div class="modal-body-item-left">Тема сообщения</div>
                 <div class="modal-body-item-right">
 					{{ form.subject }}
                 </div>
-{#				{% if form.subject.errors %}#}
-{#                    <div class="ugeeen">#}
-{#                        <ul class="errorlist">#}
-{#							{% for error in form.subject.errors %}#}
-{#                                <li><strong>{{ error|escape }}</strong></li>#}
-{#							{% endfor %}#}
-{#                        </ul>#}
-{#                    </div>#}
-{#				{% endif %}#}
+                {% if form.subject.errors %}
+                    {% for error in form.subject.errors %}
+                    <div class="clearfix"></div><p class="error-text">{{ error|escape }}</p>
+                    {% endfor %}
+                {% endif %}
             </div>
-            <div class="modal-body-item clearfix">
+            <div class="modal-body-item{% if form.message.errors %} error{% endif %} clearfix">
                 <div class="modal-body-item-left">Ваше сообщение</div>
                 <div class="modal-body-item-right">
 					{{ form.message }}
                 </div>
-{#				{% if form.message.errors %}#}
-{#                    <div class="ugeeen">#}
-{#                        <ul class="errorlist">#}
-{#							{% for error in form.message.errors %}#}
-{#                                <li><strong>{{ error|escape }}</strong></li>#}
-{#							{% endfor %}#}
-{#                        </ul>#}
-{#                    </div>#}
-{#				{% endif %}#}
+                {% if form.message.errors %}
+                {% for error in form.subject.errors %}
+                <div class="clearfix"></div><p class="error-text">{{ error|escape }}</p>
+                {% endfor %}
+                {% endif %}
             </div>
         </div>
         <div class="modal-footer">

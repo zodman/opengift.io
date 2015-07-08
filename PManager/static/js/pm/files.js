@@ -300,11 +300,11 @@ $.fn.addFilePaste = function (options) {
                 // html canvas
                 var $canvasEl = '<div id="canvasPaint">' +
                     '<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>' +
-                    '<div class="canvasTools">' +
+                    '<div class="canvasTools clearfix">' +
                     '<div class="brushColor"></div>' +
                     '<div class="brushDepth"></div>' +
                     '<div class="canvasText"><i class="fa fa-pencil-square-o"></i></div>' +
-                    '</div><hr>' +
+                    '</div>' +
                     '<div class="CanvasContainer"></div>' +
                     '<hr><div class="canvasBottons">' +
                     '<button class="canvasSave btn btn-success">Отправить</button>' +
