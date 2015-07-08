@@ -231,55 +231,66 @@
             <div class="nachislenie-bonusov">
                 <h2>Начисление бонусов (очков истории)</h2>
                 <hr>
-
                 {% for roleName, o in roles.items %}
-                <div class="roleName"><h4>{{ roleName }}</h4></div>
-                <p>{{ o.text }}:</p>
-                <div class="clearfix user-role-block-wrapper">
-                    {% for user in o.users %}
-                    <div class="user-role-block">
-                        <div class="avatar">
-                            <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="{% get_settings "HTTP_ROOT_URL" %}/static/images/avatar_male.png"></a>
-                        </div>
-                        <div class="desc">
-                            <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
-                            <div class="col-wrapper clearfix">
-                                <div class="col-7">
-                                    <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
-                                    <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
-                                        <option value="real_time" {% if o.role.payment_type == 'real_time' %}
-                                        selected="selected"{% endif %}>
-                                        За реальное время
-                                        </option>
-                                        <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
-                                        selected="selected"{% endif %}>
-                                        За плановое время
-                                        </option>
-                                    </select>
+                <ul class="developer-manager-list clearfix" role="tablist">
+                    <li class="active" role="manager">
+                        <a aria-expanded="true" href="#manager" aria-controls="manager" data-toggle="tab" class="btn btn-default">{{ roleName }}</a>
+                    </li>
+
+                    <li role="developer">
+                        <a aria-expanded="false" href="#developer" aria-controls="developer" data-toggle="tab" class="btn btn-default">Разработчики проекта</a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div role="tabpanel" class="tab-pane active" id="manager">
+                        <p>{{ o.text }}:</p>
+                        <div class="clearfix user-role-block-wrapper">
+                            {% for user in o.users %}
+                            <div class="user-role-block">
+                                <div class="avatar">
+                                    <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="{% get_settings "HTTP_ROOT_URL" %}/static/images/avatar_male.png"></a>
                                 </div>
-                                <div class="col-3">
-                                    <p><b>Ставка:</b></p>
-                                    <div class="input-group">
-                                        <input type="text" class="js-ajax-input form-control" data-action="update_rate"
-                                               data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
-                                        {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
-                                        <div class="input-group-addon">SP</div>
+                                <div class="desc">
+                                    <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
+                                    <div class="col-wrapper clearfix">
+                                        <div class="col-7">
+                                            <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
+                                            <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
+                                                <option value="real_time" {% if o.role.payment_type == 'real_time' %}
+                                                selected="selected"{% endif %}>
+                                                За реальное время
+                                                </option>
+                                                <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
+                                                selected="selected"{% endif %}>
+                                                За плановое время
+                                                </option>
+                                            </select>
+                                        </div>
+                                        <div class="col-3">
+                                            <p><b>Ставка:</b></p>
+                                            <div class="input-group">
+                                                <input type="text" class="js-ajax-input form-control" data-action="update_rate"
+                                                       data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
+                                                {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
+                                                <div class="input-group-addon">SP</div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
+
+                                <div class="clearfix"></div>
+                                <div class="bonuses clearfix">
+                                    <span><b>Накоплено бонусов:</b> {{ user.sum|default_if_none:"0" }}</span>
+                                    <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Списать бонусы</button>
+                                </div>
+
+
                             </div>
+                            {% endfor %}
                         </div>
-
-                        <div class="clearfix"></div>
-                        <div class="bonuses clearfix">
-                            <span><b>Накоплено бонусов:</b> {{ user.sum|default_if_none:"0" }}</span>
-                            <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Списать бонусы</button>
-                        </div>
-
-
                     </div>
-                    {% endfor %}
+                    <div role="tabpanel" class="tab-pane" id="developer">2</div>
                 </div>
-                <hr>
                 {% endfor %}
                 <div class="js-user-pay-win hidden">
                     <div class="user-pay-win">

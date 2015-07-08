@@ -3565,9 +3565,11 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .project-info-avatar-upload .btn {margin-top: 33px;}
 
-.user-list-settings {list-style: none; padding: 0px; margin: 0px 0px 5px;}
-.user-list-settings li {display: inline-block; margin-right: 5px; float: left;}
+.user-list-settings, .developer-manager-list {list-style: none; padding: 0px; margin: 0px 0px 5px;}
+.user-list-settings li, .developer-manager-list li {display: inline-block; margin-right: 5px; float: left;}
 .user-list-settings li a {border: 0;}
+
+.developer-manager-list {margin-bottom: 20px;}
 
 .integration-wrapper {margin-right: -20px;}
 .integration-left,
@@ -3580,6 +3582,19 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     float: left;
     padding: 20px;
     width: calc(50% - 20px);
+}
+
+
+@media only screen and (max-width: 768px) {
+    .integration-wrapper {margin-right: 0px;}
+    .integration-left,
+    .integration-right {float: none; margin-bottom: 20px; margin-right: 0px; width: 100%;}
+
+    .integration-right {margin-bottom: 0;}
+
+    .user-list-settings li {float: none; display: block; margin-bottom: 5px;}
+    .user-list-settings li:last-child {margin-bottom: 0;}
+    .user-list-settings li a {display: block;}
 }
 
 .active > .btn {
