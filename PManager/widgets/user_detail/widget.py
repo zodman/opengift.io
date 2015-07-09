@@ -5,10 +5,13 @@ from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
 from PManager.viewsExt.tools import templateTools
+from PManager.viewsExt.specialty import matchSpecialtyWithTags
 from django.contrib.auth.models import User
 import datetime
 from PManager.classes.git.gitolite_manager import GitoliteManager
 from tracker.settings import USE_GIT_MODULE
+from PManager.services.rating import get_user_quality
+import json
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -209,8 +212,15 @@ def widget(request, headerValues, ar, qargs):
                 })
 
             specialties = None
+            tagWeight = {}
             try:
-                specialties = profile.specialties.order_by('name').values()
+                specialties = profile.specialties.all()
+                tags = matchSpecialtyWithTags(specialties.values_list('name', flat=True))
+                tagsId = list(tags.keys())
+                quality = get_user_quality(tagsId, profile)
+                if quality:
+                    for tag in quality:
+                        tagWeight[tags[tag]] = quality[tag]
             except Exception:
                 pass
 
@@ -221,6 +231,7 @@ def widget(request, headerValues, ar, qargs):
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
                 'specialties': specialties,
+                'tagWeight': tagWeight,
                 'timers': [
                     {
                         'id': timer.id,

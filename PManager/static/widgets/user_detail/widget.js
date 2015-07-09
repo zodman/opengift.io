@@ -93,11 +93,23 @@ $(function () {
             });
             dashboard('#dashboard', USER_TIME_DATA);
 
-            var search_val = null,
-                $specialtyInput = $('.js-save_specialty');
+            var $specialtyInput = $('.js-save_specialty'),
+                $searchDropdown = $('.js-search_specialties'),
+                $specialties = $('.js-specialties');
+
+            var appendSkills = function (id, name) {
+                var $specialty = ('<li><span>' + name + '<i class="fa fa-times js-delete_specialty"' +
+                'data-specialty="' + id + '"></i></span></li>');
+                $specialties.append($specialty);
+                if ($specialties.hasClass('hidden')) {
+                    $specialties.removeClass('hidden')
+                }
+            };
+
             $specialtyInput.keypress(function(e) {
                 var $t = $(this);
-                if (e.which == 13) {
+                var key = e.keyCode;
+                if (key == 13) { // Enter key
                     PM_AjaxPost(
                         '/users_ajax/',
                         {
@@ -106,19 +118,55 @@ $(function () {
                             'user': $t.data('user-id')
                         },
                         function (response) {
-                            var data = $.parseJSON(response);
-                            var $specialty = ('<li><span>' + data['name'] + '<i class="fa fa-times js-delete_specialty"' +
-                            'data-specialty="' + data['id'] + '"></i></span></li>');
-                            var $specialties = $('.js-specialties');
-                            $specialties.append($specialty);
-                            if ($specialties.hasClass('hidden')) {
-                                $specialties.removeClass('hidden')
+                            if (response == 'already has this specialty') {
+                                $t.val('');
+                            } else {
+                                var data = $.parseJSON(response);
+                                appendSkills(data['id'], data['name']);
+                                $t.val('');
                             }
-                            $t.val('');
+                            $searchDropdown.hide();
                         }
-                    )
+                    );
+                }
+                if (key == 40) { // Down key
+                    $searchDropdown.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus()
+                }
+            }).on('click', function(e) {e.stopPropagation();});
+
+            $searchDropdown.keypress(function (e) {
+                var key = e.keyCode;
+
+                if (key == 40) { //down
+                    if ($(this).find('li.active').is(':last-child')) {
+                        return false
+                    } else {
+                        $(this).find('li.active').removeClass('active').next(':visible').addClass('active').find('a').focus();
+                    }
+                    return false;
+                } else if (key == 38) { //up
+                    if ($(this).find('li.active').is(':first-child')) {
+                        $(this).find('li.active').removeClass('active');
+                        $specialtyInput.focus()
+                    } else {
+                        $(this).find('li.active').removeClass('active').prev(':visible').addClass('active').find('a').focus();
+                    }
+                    return false;
+                } else if (key == 13) {
+                    $specialtyInput.val($(this).find('a').text()).focus();
+                    $searchDropdown.hide();
                 }
             });
+
+            $searchDropdown.on('click', '*', function(e) {
+                e.stopPropagation();
+                $specialtyInput.val($(this).text()).focus();
+                $searchDropdown.hide();
+            });
+
+            $searchDropdown.on('mouseover', 'li', (function() {
+                $(this).addClass('active').siblings().removeClass('active').find('a').blur()
+            }));
 
             widget_ud.container.on('click', '.js-delete_specialty', function () {
                 var $t = $(this);
@@ -135,14 +183,37 @@ $(function () {
                 )
             });
 
+            var search_val = null;
             $specialtyInput.keyup(function() {
                 var $t = $(this);
-                if ($t.val != search_val) {
+                if ($t.val() != search_val) {
                     search_val = $t.val();
                     if (search_val.length > 2) {
-
+                        $.post(
+                            '/ajax/specialty/',
+                            {
+                                'action': 'specialty_search',
+                                'search_text': $t.val(),
+                                'user': $t.data('user-id')
+                            },
+                            function (response) {
+                                var data = $.parseJSON(response);
+                                if (data.length > 0) {
+                                    $searchDropdown.empty();
+                                    for (var i = 0; i < data.length; i++) {
+                                        var $skill = $('<li><a href=#>' + data[i] + '</a></li>');
+                                        $searchDropdown.append($skill)
+                                    }
+                                    $searchDropdown.show()
+                                }
+                            }
+                        )
                     }
                 }
+            });
+
+            $(document).on('click', function() {
+                $searchDropdown.hide()
             })
         },
         'addTaskLine': function (taskData, $container) {

@@ -40,11 +40,12 @@
                     <div class="clearfix"></div>
                     <hr>
                     {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
-                        <div class="js-similar_specialties">
+                        <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
-                                   placeholder="Укажите свои навыки" class="form-control js-save_specialty">
-                            <ul class="dropdown-menu js-search_specialties" role="dropdown">
-                                <li></li>
+                                   placeholder="Укажите свои навыки" id="skillsDropdown"
+                                   class="form-control js-save_specialty">
+                            <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                                aria-labelledby="skillsDropdown">
                             </ul>
                         </div>
                     {% endif %}
@@ -52,7 +53,7 @@
                         {% if user_detail.specialties.count %}
                             {% for specialty in user_detail.specialties %}
                                 <li>
-                                    <span>{{ specialty.name }}
+                                    <span>{{ specialty.name }}{% if specialty.name in tagWeight %} ({{ tagWeight.specialty.name }}){% endif %}
                                         <i class="fa fa-times js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
                                     </span>
                                 </li>

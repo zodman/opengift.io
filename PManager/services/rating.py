@@ -1,6 +1,6 @@
 __author__ = 'Tonakai'
 
-from PManager.models import ObjectTags
+from PManager.models import ObjectTags, Specialty
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 
@@ -76,3 +76,15 @@ def get_top_users(task, limit=5, user_filter=None):
             if obj1.content_object:
                 user_tag_sums[str(obj1.content_object.id)] = int(obj1.weight_sum)
     return user_tag_sums
+
+
+def get_user_quality(arTagsId, userId):
+    userTagSums = {}
+    for obj in ObjectTags.objects.raw('SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
+                                       ' from PManager_objecttags WHERE' +
+                                       ' tag_id in (' + ', '.join(arTagsId) + ')' +
+                                       ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
+                                       ' AND object_id=' + str(int(userId)) +
+                                       ' GROUP BY tag_id'):
+
+        userTagSums[obj.tag_id] = int(obj.weight_sum)

@@ -19,6 +19,7 @@ from PManager.viewsExt.keys import KeyHandler
 from PManager.viewsExt.assets import protected_file
 from PManager.viewsExt.sniffer import get_errors
 from PManager.viewsExt.forms import sendFeedback
+from PManager.viewsExt.specialty import specialty_ajax
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
@@ -136,6 +137,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/responsible_menu/$', userHandlers.getResponsibleMenu),
                        url(r'^ajax/milestone_create/$', milestoneForm),
                        url(r'^ajax/feedback/$', sendFeedback),
+                       url(r'^ajax/specialty/$', specialty_ajax),
                        url(r'^file_access/', protected_file),
                        url(r'^sniffer/get_errors/', get_errors),
                        # url(r'^tracker/', include('tracker.foo.urls')),
