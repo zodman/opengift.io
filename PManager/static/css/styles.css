@@ -1572,7 +1572,6 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
     font-size: 12px;
     padding: 2px 27px 3px 7px;
     position: relative;
-	text-transform: capitalize;
 }
 .posibilities li span i {
     background: #47a447;

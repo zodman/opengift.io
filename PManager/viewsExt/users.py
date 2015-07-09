@@ -6,7 +6,7 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
-from PManager.models.users import PM_User, PM_Skills, Specialty
+from PManager.models.users import PM_User, Specialty
 from tracker.settings import USE_GIT_MODULE
 from PManager.viewsExt.tasks import TaskWidgetManager
 from django.db.models import Q
@@ -113,8 +113,11 @@ class userHandlers:
             specialty = request.POST['specialty'].upper()
             user = User.objects.get(pk=userId)
             prof = user.get_profile()
-            if user == curUser or curUser.is_superuser:
-                specialty, created = prof.specialties.get_or_create(name=specialty)
+            if specialty in prof.specialties.values_list('name', flat=True):
+                return HttpResponse('already has this specialty')
+            elif user == curUser or curUser.is_superuser:
+                specialty, created = Specialty.objects.get_or_create(name=specialty)
+                prof.specialties.add(specialty)
                 prof.save()
                 return HttpResponse(json.dumps({'id': specialty.id, 'name': specialty.name}))
 
