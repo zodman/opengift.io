@@ -110,9 +110,11 @@
         <div class="project-info-right">
             <h1>
                 {% if canEdit %}
+                <i class="fa fa-pencil-square-o"></i>
                 <a href="/project/edit/?id={{ project.id }}"></a>
                 <span class="project-edit-link-editable">{{ project.name }}</span>
                 {% else %}
+                <i class="fa fa-pencil-square-o"></i>
                 {{ project.name }}
                 {% endif %}
                 <input type="text" class="project-edit-input form-control" value="{{ project.name }}" class="">
@@ -137,10 +139,12 @@
                     $(document).click(function () {
                         $('.editable-textarea-click, .project-edit-link-editable').show();
                         $('.editable-textarea, .project-edit-input').hide();
+
                     });
                 });
             </script>
             <p class="editable-textarea-wrapper">
+                <i class="fa fa-pencil-square-o"></i>
                 <span class="editable-textarea-click">{{ project.description }}</span>
                 <textarea class="editable-textarea form-control">{{ project.description }}</textarea>
             </p>
@@ -149,26 +153,26 @@
     <hr class="clearfix">
     <ul id="myTab" role="tablist" class="user-list-settings clearfix">
         <li role="accesses" class="active">
-            <a class="btn btn-default" data-toggle="tab" aria-controls="accesses" href="#accesses" aria-expanded="true">Доступы</a>
+            <a data-toggle="tab" aria-controls="accesses" href="#accesses" aria-expanded="true"><i class="fa fa-wrench"></i><span>Доступы</span></a>
         </li>
         {% if bCurUserIsAuthor %}
         <li role="participants_and_rates">
-            <a class="btn btn-default" data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false">Участники и ставки</a>
+            <a data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false"><i class="fa fa-users"></i><span>Участники и ставки</span></a>
         </li>
         {% endif %}
         <li role="integration">
-            <a class="btn btn-default" data-toggle="tab" aria-controls="integration" href="#integration" aria-expanded="false">Непрерывная интеграция</a>
+            <a data-toggle="tab" aria-controls="integration" href="#integration" aria-expanded="false"><i class="fa fa-cloud-upload"></i><span>Непрерывная интеграция</span></a>
         </li>
         <li role="additional_settings">
-            <a class="btn btn-default" data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false">Дополнительные настройки</a>
+            <a data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false"><i class="fa fa-cogs"></i><span>Дополнительные настройки</span></a>
         </li>
         <li>
             {% if canDelete and not project.closed %}
-            <a class="btn btn-danger" href="?archive=Y">Перенести в архив</a>
+            <a class="archive-button" href="?archive=Y"><i class="fa fa-archive"></i><span>Перенести в архив</span></a>
             {% endif %}
         </li>
     </ul>
-    <div class="tab-content">
+    <div class="tab-content settings-tab">
         <div id="accesses" class="tab-pane active" role="tabpanel">
             <div class="add-interface">
                 <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
