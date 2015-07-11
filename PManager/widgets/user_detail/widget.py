@@ -212,18 +212,17 @@ def widget(request, headerValues, ar, qargs):
                     'tasksClosed': tasksClosed
                 })
 
-            specialties = None
+
             tagWeight = {}
-            try:
-                specialties = profile.specialties.all()
+            tagsId = []
+            specialties = profile.specialties.all()
+            if specialties:
                 tags = matchSpecialtyWithTags(specialties.values_list('name', flat=True))
                 tagsId = tags.keys()
                 quality = get_user_quality(tagsId, profile)
                 if quality:
                     for tag in quality:
                         tagWeight[tags[tag]] = quality[tag]
-            except Exception:
-                pass
 
             return {
                 'user': user,
@@ -268,6 +267,7 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
+                'tagsId': tagsId,
                 'payments': Payment.objects.filter(user=user).order_by('-date')
             }
         except User.DoesNotExist:
