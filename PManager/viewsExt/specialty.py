@@ -17,9 +17,11 @@ def search_specialty(request):
     userId = request.POST['user']
     user = User.objects.get(id=userId)
     profile = user.get_profile()
-    profile_specialties = profile.specialties.values_list('name', flat=True)
+    profile_specialties = profile.specialties.all()
+
     specialties = Specialty.objects.filter(name__icontains=search_text)\
-        .exclude(name__in=profile_specialties).values_list('name', flat=True)
+        .exclude(pk__in=profile_specialties).values_list('name', flat=True)
+
     return list(specialties)
 
 def matchSpecialtyWithTags(arSpecialty):

@@ -1,6 +1,7 @@
 {% extends "main/base.html" %}
-{% load thumbnail get_settings %}
+{% load thumbnail get_settings compressed %}
 {% block content %}
+    {% compressed_js 'project_edit' %}
     <script type="text/javascript" src="/static/js/libs/clipboard/zclib.js"></script>
     <script type="text/javascript" src="/static/js/pm/ajax_inputs.js"></script>
     <script type="text/javascript">
@@ -26,7 +27,7 @@
                 var $interface = $(this).closest('.js-interface-block');
                 var id = $interface.data('id');
                 $interface.remove();
-                $.post(
+                PM_AjaxPost(
                         '/remove_interface/',
                         {
                             'id': id
@@ -38,7 +39,7 @@
         });
     </script>
            <script type="text/javascript">
-         $(document).ready(function(){
+         $(function(){
             var requestForServer = function(is_new) {
                 if (is_new !== true) {
                     is_new = false;
@@ -61,7 +62,8 @@
                     alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
                     $('.js-working').hide();
                 });
-            }
+            };
+
             $('.js-server-status').click(function(){
                 $('.js-working').show();
                 var servStatus = $.ajax({
@@ -113,22 +115,21 @@
                 <i class="fa fa-pencil-square-o"></i>
                 <a href="/project/edit/?id={{ project.id }}"></a>
                 <span class="project-edit-link-editable">{{ project.name }}</span>
+                <input type="text" class="project-edit-input form-control js-project-name" value="{{ project.name }}" />
                 {% else %}
-                <i class="fa fa-pencil-square-o"></i>
                 {{ project.name }}
                 {% endif %}
-                <input type="text" class="project-edit-input form-control" value="{{ project.name }}" class="">
             </h1>
             <script>
                 $(function() {
                     $('.editable-textarea-click').click(function(e) {
                         $(this).hide();
-                        $('.editable-textarea').show().focus();
+                        $('.editable-textarea').show().focus().select();
                         e.stopPropagation();
                     });
                     $('.project-edit-link-editable').click(function(e) {
                         $(this).hide();
-                        $('.project-edit-input').show().focus();
+                        $('.project-edit-input').show().focus().select();
                         e.stopPropagation();
                     });
 
@@ -136,17 +137,33 @@
                         e.stopPropagation();
                     });
 
-                    $(document).click(function () {
-                        $('.editable-textarea-click, .project-edit-link-editable').show();
-                        $('.editable-textarea, .project-edit-input').hide();
+                    $('.editable-textarea').keyup(function(){
+                        $('.editable-textarea-click').text($(this).val())
+                    });
 
+                    $('.project-edit-input').keyup(function(){
+                        $('.project-edit-link-editable').text($(this).val())
+                    });
+
+                    $(document).click(function () {
+                        var $projectControls = $('.editable-textarea, .project-edit-input');
+
+                        if ($projectControls.is(':visible')) {
+                            $('.editable-textarea-click, .project-edit-link-editable').show();
+                            $projectControls.hide();
+                            updateName();
+                        }
                     });
                 });
             </script>
             <p class="editable-textarea-wrapper">
+                {% if canEdit %}
                 <i class="fa fa-pencil-square-o"></i>
                 <span class="editable-textarea-click">{{ project.description }}</span>
-                <textarea class="editable-textarea form-control">{{ project.description }}</textarea>
+                <textarea class="editable-textarea form-control js-project-description">{{ project.description }}</textarea>
+                {% else %}
+                    {{ project.description }}
+                {% endif %}
             </p>
         </div>
     </div>
@@ -157,23 +174,20 @@
         </li>
         {% if bCurUserIsAuthor %}
         <li role="participants_and_rates">
-            <a data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false"><i class="fa fa-users"></i><span>Участники и ставки</span></a>
+            <a data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false"><i class="fa fa-users"></i><span>Участники</span></a>
         </li>
         {% endif %}
         <li role="integration">
             <a data-toggle="tab" aria-controls="integration" href="#integration" aria-expanded="false"><i class="fa fa-cloud-upload"></i><span>Непрерывная интеграция</span></a>
         </li>
         <li role="additional_settings">
-            <a data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false"><i class="fa fa-cogs"></i><span>Дополнительные настройки</span></a>
-        </li>
-        <li>
-            {% if canDelete and not project.closed %}
-            <a class="archive-button" href="?archive=Y"><i class="fa fa-archive"></i><span>Перенести в архив</span></a>
-            {% endif %}
+            <a data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false"><i class="fa fa-cogs"></i><span>Дополнительно</span></a>
         </li>
     </ul>
     <div class="tab-content settings-tab">
         <div id="accesses" class="tab-pane active" role="tabpanel">
+            <h2>Информация о доступах к серверам</h2>
+            <hr>
             <div class="add-interface">
                 <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
                     <input type="hidden" name="pid" value="{{ project.id }}"/>
@@ -229,24 +243,26 @@
                     </div>
                 </form>
             </div>
+            <div class="js-interface-container">
+                {{ interfaces|safe }}
+            </div>
         </div>
         {% if bCurUserIsAuthor %}
         <div id="participants_and_rates" class="tab-pane" role="tabpanel">
             <div class="nachislenie-bonusov">
-                <h2>Начисление бонусов (очков истории)</h2>
+                <h2>Участники и ставки по проекту</h2>
                 <hr>
-                {% for roleName, o in roles.items %}
-                <ul class="developer-manager-list clearfix" role="tablist">
-                    <li class="active" role="manager">
-                        <a aria-expanded="true" href="#manager" aria-controls="manager" data-toggle="tab" class="btn btn-default">{{ roleName }}</a>
-                    </li>
 
-                    <li role="developer">
-                        <a aria-expanded="false" href="#developer" aria-controls="developer" data-toggle="tab" class="btn btn-default">Разработчики проекта</a>
+                <ul class="developer-manager-list clearfix" role="tablist">
+                    {% for roleName, o in roles.items %}
+                    <li {% if forloop.first %}class="active"{% endif %} role="{{ o.role.role.code }}">
+                        <a aria-expanded="true" href="#{{ o.role.role.code }}" aria-controls="{{ o.role.role.code }}" data-toggle="tab" class="btn btn-default">{{ roleName }}</a>
                     </li>
+                    {% endfor %}
                 </ul>
                 <div class="tab-content">
-                    <div role="tabpanel" class="tab-pane active" id="manager">
+                    {% for roleName, o in roles.items %}
+                    <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}">
                         <p>{{ o.text }}:</p>
                         <div class="clearfix user-role-block-wrapper">
                             {% for user in o.users %}
@@ -293,9 +309,10 @@
                             {% endfor %}
                         </div>
                     </div>
+                    {% endfor %}
                     <div role="tabpanel" class="tab-pane" id="developer">2</div>
                 </div>
-                {% endfor %}
+
                 <div class="js-user-pay-win hidden">
                     <div class="user-pay-win">
                         <form>
@@ -308,6 +325,20 @@
                     </div>
                 </div>
                 <script type="text/javascript">
+                    function updateName() {
+                        PM_AjaxPost(
+                                document.URL,
+                                {
+                                    'action': 'change_name',
+                                    'name': $('.js-project-name').val(),
+                                    'description': $('.js-project-description').text()
+                                },
+                                function (data) {
+
+                                },
+                                'json'
+                        );
+                    }
                     function sendPayment(el) {
                         var $form = $(el).closest('form'),
                                 data = {'action': 'send_payment'};
@@ -338,7 +369,7 @@
         <div id="integration" class="tab-pane" role="tabpanel">
             <div class="integration-wrapper clearfix">
                 <script>
-                    $(document).ready(function () {
+                    $(function () {
                         var timerCheckFields = false;
                         $('.js-repository').click(function (ev) {
                             if (!$(this).prop('checked')) {
@@ -346,8 +377,7 @@
                                 $('.js-hiddable').hide();
                             } else {
                                 $('.js-hiddable').show();
-                                $('.js-repository-value').val(transliterate($('#id_name').val()));
-                                $('.js-repository-value').focus();
+                                $('.js-repository-value').val(transliterate($('#id_name').val())).focus();
                             }
                             checkFields();
                         });
@@ -360,8 +390,7 @@
                                 setCheckFieldsTimer();
                             }
 
-                        });
-                        $('#id_name').change(function () {
+                        }).change(function () {
                             unmarkRepName();
                         });
                         function unmarkRepName() {
@@ -393,7 +422,7 @@
 
                         function checkFields() {
                             var projectName = $('#id_name').val();
-                            var isRepo = $('.js-repository').prop('checked');
+                            var isRepo = $('.js-repository').prop('checked'), repoName;
                             if (!isRepo) {
                                 $('.js-repository-value').val('');
                                 enableSubmit();
@@ -401,29 +430,35 @@
                                 return;
                             }
                             if (in_sync) {
-                                var repoName = transliterate($('.js-repository-value').val()) || transliterate(projectName);
+                                repoName = transliterate($('.js-repository-value').val()) || transliterate(projectName);
                             }
                             else {
-                                var repoName = transliterate($('.js-repository-value').val());
+                                repoName = transliterate($('.js-repository-value').val());
                             }
-                            $('.js-repository-value').val(repoName);
-                            $('.js-repository-value').next('i').addClass('fa-spinner').addClass('fa-spin');
-                            $.post('/project/edit/check_repository_name', {'repoName': repoName }, function (response) {
-                                if (response == "OK") {
-                                    markSuccessRepName();
-                                    enableSubmit();
-                                }
-                                else if (response == "ERROR") {
-                                    markErrorRepName();
-                                    disableSubmit();
-                                }
-                                else {
-                                    $('.js-repository-value').val(response);
-                                    markSuccessRepName();
-                                    enableSubmit();
-                                }
-                            });
-                        };
+                            $('.js-repository-value').val(repoName)
+                                    .next('i').addClass('fa-spinner').addClass('fa-spin');
+
+                            PM_AjaxPost(
+                                    '/project/edit/check_repository_name',
+                                    {
+                                        'repoName': repoName
+                                    },
+                                    function (response) {
+                                        if (response == "OK") {
+                                            markSuccessRepName();
+                                            enableSubmit();
+                                        }
+                                        else if (response == "ERROR") {
+                                            markErrorRepName();
+                                            disableSubmit();
+                                        }
+                                        else {
+                                            $('.js-repository-value').val(response);
+                                            markSuccessRepName();
+                                            enableSubmit();
+                                        }
+                                    });
+                        }
                         disableSubmit();
                         $('#id_name').blur(checkFields);
                         var in_sync = true;
@@ -433,125 +468,142 @@
                             } else {
                                 in_sync = false;
                             }
-                        });
-                        $('.js-repository-value').keyup(function () {
+                        }).keyup(function () {
                             setCheckFieldsTimer();
                             if ($(this).val() == transliterate($('#id_name').val())) {
                                 in_sync = true;
                             } else {
                                 in_sync = false;
                             }
-                        });
-                        $('.js-repository-value').blur(function (ev) {
+                        }).blur(function (ev) {
                             checkFields();
                         });
                         checkFields();
+
+                        $('a[data-toggle="tab"]').on('click', function(e) {
+                            history.pushState(null, null, $(this).attr('href'));
+                        });
+                        // navigate to a tab when the history changes
+                        window.addEventListener("popstate", function(e) {
+                            var activeTab = $('[href=' + location.hash + ']');
+                            if (activeTab.length) {
+                                activeTab.tab('show');
+                            } else {
+                                $('.nav-tabs a:first').tab('show');
+                            }
+                        });
+                        if (location.hash) {
+                            var activeTab = $('[href=' + location.hash + ']');
+                            if (activeTab.get(0)) {
+                                activeTab.tab('show');
+                            }
+                        }
                     });
                 </script>
                 <div class="integration-left">
-                    <h2>GIT</h2>
+                    <h2>GIT репозиторий</h2>
                     <hr>
-                    <p class="checkbox">
-                        <label>
-                            <input type="checkbox" name="" id="" class="js-repository">&nbsp;Использовать GIT
-                        </label>
-                    </p>
-                    <p class="js-hiddable" style="display: none; position: relative;">
-                        <label>Имя репозитория</label>
-                        <input type="text" name="repository"
-                               value="{% if project_edit.form.repository.value != None %}{{ project_edit.form.repository.value }}{% endif %}" class="form-control js-repository-value" {% if not project_edit.is_new and project_edit.form.repository.value %}readonly{% endif %}/>
-                        <i class="fa fa-icon" style="position: absolute;right: 25px;top: 10px;font-size: 16px;"></i>
-                    </p>
-                    <p class="checkbox">
-                        <label>
-                            <input type="checkbox" name="" id="">&nbsp;Запретить коммиты не в задачу
-                        </label>
-                    </p>
-                    <p class="checkbox">
-                        <label>
-                            <input type="checkbox" name="" id="">&nbsp;Запретить коммиты с ошибками
-                        </label>
-                    </p>
+                    {% if not canEdit %}
+                        <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
+                    {% endif %}
+                    <form method="POST" name="integration">
+                        <p class="checkbox">
+                            <label>
+                                <input type="checkbox" name="use_git" class="js-repository" {% if project.repository %}checked="checked" {% endif %}>&nbsp;
+                                Использовать GIT
+                            </label>
+                        </p>
+                        <p class="js-hiddable" style="{% if not project.repository %}display: none; {% endif %}position: relative;">
+                            <label>Имя репозитория</label>
+                            <input {% if not canEdit %}disabled="disabled" {% endif %} type="text" name="repository"
+                                   value="{% if project.repository %}{{ project.repository }}{% endif %}" class="form-control js-repository-value" {% if project.repository %}readonly{% endif %}/>
+                            <i class="fa fa-icon" style="position: absolute;right: 25px;top: 33px;font-size: 16px;"></i>
+                        </p>
+                        <p class="checkbox">
+                            <label>
+                                <input {% if not canEdit or not project.repository  %}disabled="disabled" {% endif %}
+                                       {% if settings.disable_commits_wo_tasks %}checked="checked" {% endif %}
+                                       type="checkbox" value="1" name="settings_disable_commits_wo_tasks" >&nbsp;
+                                Запретить коммиты не в задачу
+                            </label>
+                        </p>
+                        <p class="checkbox">
+                            <label>
+                                <input {% if not canEdit or not project.repository %}disabled="disabled" {% endif %}
+                                       {% if settings.disable_commits_with_errors %}checked="checked" {% endif %}
+                                       type="checkbox" value="1" name="settings_disable_commits_with_errors" >&nbsp;
+                                Запретить коммиты с ошибками
+                            </label>
+                        </p>
+                        {% if canEdit %}
+                        <p><input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success" /></p>
+                        {% endif %}
+                    </form>
                 </div>
                 <div class="integration-right">
                     <h2>Тестовый сервер</h2>
                     <hr>
-                    {% if project.api_key %}
-                    <div class="clearfix test-server">
+                    {% if project.repository and not project.api_key %}
+                        <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>
+                    {% elif project.api_key %}
+                        <p class="colored-bg bg-success">Сервер создан <b>{{ project.repository }}.heliard-platform.ru</b> <a href="#" class="js-server-status">Проверить статус</a></p>
+                    {% elif not project.repository %}
+                        <p class="colored-bg bg-warning">Вы можете создать тестовый сервер только с использованием GIT</p>
+                    {% endif %}
 
-                        <div class="server-name"><b>{{ project.repository }}.heliard-platform.ru</b></div>
-                        <div class="server-status">
-                            <a href="#" class="btn btn-success js-server-status">Проверить статус сервера</a>
-                        </div>
-                        <div class="clearfix"></div>
+{#                    <p class="colored-bg bg-danger">...</p>#}
+                    {% if project.repository and not project.api_key %}
+                        <a href="#" class="btn btn-info {% if canEdit %}js-server-create{% else %}disabled{% endif %}" style="width:100%;">
+                            Создать тестовый сервер
+                        </a>
                         <div class="server-progress working js-working" style="display: none;">
                             <div class="progress progress-striped active">
-                                <div class="progress-bar"  role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
                                     <span class="sr-only">Запускаем сервер...</span>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    {% endif %}
-                    <p class="colored-bg bg-success">...</p>
-                    <p class="colored-bg bg-info">...</p>
-                    <p class="colored-bg bg-warning">...</p>
-                    <p class="colored-bg bg-danger">...</p>
-                    <div class="js-interface-container">
-                        {{ interfaces|safe }}
-                    </div>
+                        {% endif %}
                 </div>
             </div>
-
-            <div class="row-fluid clearfix project-buttons">
-                <div class="pull-right">
-                    {% if project.repository and not project.api_key %}
-                    <a href="#" class="btn btn-warning js-server-create">
-                        Выгрузить на тестовый сервер
-                    </a>
-                    {% endif %}
-                    <a href="#" class="btn btn-warning js-server-create">
-                        Выгрузить на тестовый сервер
-                    </a>
-                </div>
-                <div class="clearfix"></div>
-            </div>
-
-
-
         </div>
 
         <div id="additional_settings" class="tab-pane" role="tabpanel">
-            <p class="checkbox">
-                <label>
-                    <input type="checkbox" name="" id="">&nbsp;Архив
-                </label>
-            </p>
-            <p class="checkbox">
-                <label>
-                    <input type="checkbox" name="" id="">&nbsp;Разрешать выполнять не подтвержденные задачи
-                </label>
-            </p>
-            <p class="checkbox">
-                <label>
-                    <input type="checkbox" name="" id="">&nbsp;Скрывать сообщения клиента и исполнителя друг от друга
-                </label>
-            </p>
+            <h2>Дополнительные параметры проекта</h2>
+            <hr>
+            <form method="POST" name="additional">
+                {% if not canEdit %}
+                    <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
+                {% endif %}
+                <p class="checkbox">
+                    <label>
+                        <input {% if not canEdit or not canDelete %}disabled="disabled" {% endif %}
+                               {% if project.closed %}checked="checked" {% endif %}
+                               type="checkbox" name="is_closed" value="1" >&nbsp;
+                        Архив
+                    </label>
+                </p>
+                <p class="checkbox">
+                    <label>
+                        <input {% if not canEdit %}disabled="disabled" {% endif %}
+                               {% if settings.start_unapproved %}checked="checked" {% endif %}
+                               type="checkbox" value="1" name="settings_start_unapproved" >&nbsp;
+                        Подтверждать задачи перед началом работ
+                    </label>
+                </p>
+                <p class="checkbox">
+                    <label>
+                        <input {% if not canEdit %}disabled="disabled" {% endif %}
+                               {% if settings.autohide_messages %}checked="checked" {% endif %}
+                               type="checkbox" value="1" name="settings_autohide_messages" >&nbsp;
+                        Скрывать сообщения клиента и исполнителя друг от друга
+                    </label>
+                </p>
+                {% if canEdit %}
+                <p><input type="submit" value="Применить" name="settings_save" class="btn btn-success" /></p>
+                {% endif %}
+            </form>
         </div>
     </div>
-
-    <!--<div class="media clearfix">
-
-        <div class="media-body">
-            {% for roleName, role in roles.items %}
-                <p>{{ roleName }}: {% for user in role.users %}<a href="/user_detail/?id={{ user.id }}">
-                    {{ user.first_name }} {{ user.last_name }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
-                </p>
-            {% endfor %}
-        </div>
-        <hr/>
-    </div><hr/>-->
-
-
     </div><!--widget-->
 {% endblock %}
