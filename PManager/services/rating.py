@@ -80,10 +80,11 @@ def get_top_users(task, limit=5, user_filter=None):
 
 def get_user_quality(arTagsId, userId):
     userTagSums = {}
-    for obj in ObjectTags.objects.raw('SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' +
-                                       ' from PManager_objecttags WHERE' +
-                                       ' tag_id in (' + ', '.join(arTagsId) + ')' +
-                                       ' AND content_type_id=%s' +
-                                       ' AND object_id=%s GROUP BY tag_id'.format(ContentType.objects.get_for_model(User).id, userId)):
+    sql = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' + \
+                                       ' from PManager_objecttags WHERE' + \
+                                       ' tag_id in (' + ', '.join(arTagsId) + ')' + \
+                                       ' AND content_type_id=%s' + \
+                                       ' AND object_id=%s GROUP BY tag_id'
+    for obj in ObjectTags.objects.raw(sql.format(ContentType.objects.get_for_model(User).id, userId)):
 
         userTagSums[obj.tag_id] = int(obj.weight_sum)
