@@ -128,6 +128,7 @@ def ajaxFilesResponder(request):
                 except PM_File_Category.DoesNotExist:
                     pass
 
+
             files = PM_Files.objects.filter(projectId=headerValues['CURRENT_PROJECT']).exclude(is_old_version=True)
             if category:
                 files = files.filter(category=category)
