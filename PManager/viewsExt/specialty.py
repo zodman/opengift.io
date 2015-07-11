@@ -26,7 +26,7 @@ def search_specialty(request):
 
 def matchSpecialtyWithTags(arSpecialty):
     if arSpecialty:
-        tags = Tags.objects.filter(tagText__in=arSpecialty).values('tagText', 'objectLinks')
+        tags = Tags.objects.filter(tagText__in=arSpecialty).values('id', 'tagText', 'objectLinks')
         result = {}
         if tags:
             for tag in tags:
