@@ -80,6 +80,7 @@ def get_top_users(task, limit=5, user_filter=None):
 
 def get_user_quality(arTagsId, userId):
     userTagSums = {}
+    if not arTagsId: return []
     sql = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`' + \
                                        ' from PManager_objecttags WHERE' + \
                                        ' tag_id in (' + ', '.join(str(v) for v in arTagsId) + ')' + \
