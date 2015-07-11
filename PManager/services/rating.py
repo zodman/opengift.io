@@ -84,7 +84,6 @@ def get_user_quality(arTagsId, userId):
                                        ' from PManager_objecttags WHERE' +
                                        ' tag_id in (' + ', '.join(arTagsId) + ')' +
                                        ' AND content_type_id=' + str(ContentType.objects.get_for_model(User).id) +
-                                       ' AND object_id=' + str(userId) +
-                                       ' GROUP BY tag_id'):
+                                       ' AND object_id=%s GROUP BY tag_id' % (userId)):
 
         userTagSums[obj.tag_id] = int(obj.weight_sum)
