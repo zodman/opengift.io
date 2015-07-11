@@ -87,5 +87,8 @@ def get_user_quality(arTagsId, userId):
                                         str(ContentType.objects.get_for_model(User).id) + \
                                         ' AND object_id=' + \
                                         str(userId) + ' GROUP BY tag_id'
+
     for obj in ObjectTags.objects.raw(sql):
         userTagSums[obj.tag_id] = int(obj.weight_sum)
+
+    return userTagSums

@@ -214,15 +214,21 @@ def widget(request, headerValues, ar, qargs):
 
 
             tagWeight = {}
-            tagsId = []
+            s = []
             specialties = profile.specialties.all()
             if specialties:
                 tags = matchSpecialtyWithTags(specialties.values_list('name', flat=True))
                 tagsId = tags.keys()
                 quality = get_user_quality(tagsId, profile.user.id)
+
                 if quality:
                     for tag in quality:
                         tagWeight[tags[tag]] = quality[tag]
+
+                for sp in specialties:
+                    if sp.name in tagWeight:
+                        setattr(sp, 'weight', tagWeight[sp.name])
+                    s.append(sp)
 
             return {
                 'user': user,
@@ -230,7 +236,7 @@ def widget(request, headerValues, ar, qargs):
                 'title': u'Профиль пользователя',
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
-                'specialties': specialties,
+                'specialties': s,
                 'tagWeight': tagWeight,
                 'timers': [
                     {
@@ -267,7 +273,6 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
-                'tagsId': tagsId,
                 'payments': Payment.objects.filter(user=user).order_by('-date')
             }
         except User.DoesNotExist:
