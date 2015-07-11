@@ -219,7 +219,7 @@ def widget(request, headerValues, ar, qargs):
             if specialties:
                 tags = matchSpecialtyWithTags(specialties.values_list('name', flat=True))
                 tagsId = tags.keys()
-                quality = get_user_quality(tagsId, profile)
+                quality = get_user_quality(tagsId, profile.user.id)
                 if quality:
                     for tag in quality:
                         tagWeight[tags[tag]] = quality[tag]
