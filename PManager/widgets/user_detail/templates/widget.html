@@ -39,7 +39,6 @@
                     </div>
                     <div class="clearfix"></div>
                     <hr>
-                    {% if user.is_superuser %}{{ user_detail.tagsId }}{% endif %}
                     {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
@@ -50,11 +49,11 @@
                             </ul>
                         </div>
                     {% endif %}
-                    <ul class="posibilities clearfix js-specialties {% if not user_detail.specialties.count %}hidden{% endif %}">
-                        {% if user_detail.specialties.count %}
+                    <ul class="posibilities clearfix js-specialties {% if not user_detail.specialties %}hidden{% endif %}">
+                        {% if user_detail.specialties %}
                             {% for specialty in user_detail.specialties %}
                                 <li>
-                                    <span>{{ specialty.name }}{% if specialty.name in tagWeight %} ({{ tagWeight.specialty.name }}){% endif %}
+                                    <span>{{ specialty.name }}{% if specialty.weight %} ({{ specialty.weight }}){% endif %}
                                         {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                                         <i class="fa fa-times js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
                                         {% endif %}
