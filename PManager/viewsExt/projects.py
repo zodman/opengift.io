@@ -23,6 +23,7 @@ def projectDetail(request, project_id):
     if not profile.hasRole(project) or project.locked:
         raise Http404('Project not found')
 
+
     aMessages = {
         'client': u'Бонусы за каждый час закрытых задач списываются с клиента, у которого установлена ставка.',
         'manager': u'Менеджеры получают бонусы за каждый час закрытых задач, в которых они являются наблюдателями.',
@@ -58,38 +59,70 @@ def projectDetail(request, project_id):
         action = request.POST.get('action', None)
         if action:
             role_id = request.POST.get('role')
+            role = None
+            responseObj = {}
             try:
                 role = PM_ProjectRoles.objects.get(pk=role_id, project=project)
-                if action == 'update_payment_type':
+            except PM_ProjectRoles.DoesNotExist:
+                responseObj = {'error': 'Something is wrong  :-('}
+
+            if action == 'update_payment_type':
+                if role:
                     type = 'real_time' if request.POST.get('value') == 'real_time' else 'plan_time'
                     role.payment_type = type
                     role.save()
                     responseObj = {'result': 'payment type updated'}
-                elif action == 'update_rate':
+
+            elif action == 'update_rate':
+                if role:
                     rate = int(request.POST.get('value'))
                     role.rate = rate
                     role.save()
                     responseObj = {'result': 'rate updated'}
-                elif action == 'send_payment':
+
+            elif action == 'send_payment':
+                if role:
                     sum = int(request.POST.get('sum'))
                     p = Payment(user=role.user, project=project, value=sum)
                     p.save()
-
                     responseObj = {'result': 'payment added'}
 
-            except PM_ProjectRoles.DoesNotExist:
-                responseObj = {'error': 'Something is wrong  :-('}
+            elif action == 'change_name':
+                if 'name' in request.POST:
+                    project.name = request.POST['name']
+                elif 'description' in request.POST:
+                    project.description = request.POST['description']
+                elif 'file' in request.FILES:
+                    project.image = request.FILES['file']
+
+                project.save()
+
+                responseObj = {'result': 'ok'}
 
             return HttpResponse(json.dumps(responseObj))
 
     canDeleteInterface = profile.isManager(project)
-    canDeleteProject = canDeleteInterface
-    canEditProject = request.user.is_staff
+    canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
+    canEditProject = request.user.is_superuser or request.user.id == project.author.id
 
-    if 'archive' in request.GET and request.GET['archive'] == 'Y' and canDeleteProject:
-        project.closed = True
+    if 'settings_save' in request.POST and request.POST['settings_save'] and canEditProject:
+        if 'is_closed' in request.POST \
+                and (bool(request.POST['is_closed']) != project.closed)\
+                and canDeleteProject:
+            project.closed = bool(request.POST['is_closed'])
+
+        parseSettingsFromPost(project, request)
         project.save()
-        return HttpResponseRedirect('/project/'+str(project.id)+'/')
+        return HttpResponseRedirect('')
+
+
+    if 'integration_settings_save' in request.POST and request.POST['integration_settings_save'] and canEditProject:
+        if 'repository' in request.POST and request.POST['repository'] != project.repository:
+            project.repository = request.POST['repository']
+
+        parseSettingsFromPost(project, request)
+        project.save()
+        return HttpResponseRedirect('')
 
     interfaces = AccessInterface.objects.filter(project=project)
     interfaces_html = ''
@@ -112,10 +145,21 @@ def projectDetail(request, project_id):
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
-        'messages': aMessages
+        'messages': aMessages,
+        'settings': project.getSettings()
     })
     t = loader.get_template('details/project.html')
     return HttpResponse(t.render(c))
+
+
+def parseSettingsFromPost(project, request):
+        settings = project.getSettings()
+        for k, v in request.POST.iteritems():
+            if k.find('settings_') > -1:
+                k = k.replace('settings_', '')
+                settings[k] = v
+
+        project.setSettings(settings)
 
 def addInterface(request):
     post = request.POST

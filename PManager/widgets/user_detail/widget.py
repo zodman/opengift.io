@@ -5,10 +5,13 @@ from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
 from PManager.viewsExt.tools import templateTools
+from PManager.viewsExt.specialty import matchSpecialtyWithTags
 from django.contrib.auth.models import User
 import datetime
 from PManager.classes.git.gitolite_manager import GitoliteManager
 from tracker.settings import USE_GIT_MODULE
+from PManager.services.rating import get_user_quality
+import json
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -40,6 +43,7 @@ def widget(request, headerValues, ar, qargs):
                             raise u'Project does not exist'
                         except PM_Role.DoesNotExist:
                             raise u'Role does not exist'
+
                 elif post['action'] == 'delete_user':
                     if request.user.is_superuser or request.user.is_staff and not user.is_staff:
                         user.is_active = False
@@ -208,12 +212,27 @@ def widget(request, headerValues, ar, qargs):
                     'tasksClosed': tasksClosed
                 })
 
+            specialties = None
+            tagWeight = {}
+            try:
+                specialties = profile.specialties.all()
+                tags = matchSpecialtyWithTags(specialties.values_list('name', flat=True))
+                tagsId = tags.keys()
+                quality = get_user_quality(tagsId, profile)
+                if quality:
+                    for tag in quality:
+                        tagWeight[tags[tag]] = quality[tag]
+            except Exception:
+                pass
+
             return {
                 'user': user,
                 'profile': profile,
                 'title': u'Профиль пользователя',
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': [acc.achievement for acc in PM_User_Achievement.objects.filter(user=user)],
+                'specialties': specialties,
+                'tagWeight': tagWeight,
                 'timers': [
                     {
                         'id': timer.id,

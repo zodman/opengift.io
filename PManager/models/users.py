@@ -9,11 +9,13 @@ from django.db.models.signals import post_save, pre_delete
 from PManager.customs.storages import path_and_rename
 
 class Specialty(models.Model):
-    code = models.CharField(max_length=255, null=True, blank=True)
     name = models.CharField(max_length=500)
 
     def __str__(self):
-        return self.code
+        return self.name or ''
+
+    def __unicode__(self):
+        return self.name or ''
 
     class Meta:
         app_label = 'PManager'
