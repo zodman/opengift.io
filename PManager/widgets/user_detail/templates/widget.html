@@ -52,10 +52,10 @@
                     <ul class="posibilities clearfix js-specialties {% if not user_detail.specialties %}hidden{% endif %}">
                         {% if user_detail.specialties %}
                             {% for specialty in user_detail.specialties %}
-                                <li>
-                                    <span>{{ specialty.name }}{% if specialty.weight %} ({{ specialty.weight }}){% endif %}
+                                <li><span class="tag-name">{{ specialty.name }}</span>
+                                    <span class="tag-num">{% if specialty.weight %}<i class="tag-num-text">{{ specialty.weight }}</i>{% endif %}
                                         {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
-                                        <i class="fa fa-times js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
+                                        <i class="fa fa-times tag-num-icon js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
                                         {% endif %}
                                     </span>
                                 </li>
@@ -182,7 +182,7 @@
                                     <span class="fa fa-user"></span>
                                     Разработчик</label></div></li>
                                 {% endif %}
-                          </ul>
+                            </ul>
                         </div><!--ychastvyet-item-->
                         {% if not forloop.last %}<hr />{% endif %}
                     {% endfor %}

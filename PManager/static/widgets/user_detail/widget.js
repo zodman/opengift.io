@@ -98,8 +98,8 @@ $(function () {
                 $specialties = $('.js-specialties');
 
             var appendSkills = function (id, name) {
-                var $specialty = ('<li><span>' + name + '<i class="fa fa-times js-delete_specialty"' +
-                'data-specialty="' + id + '"></i></span></li>');
+                var $specialty = ('<li><span class="tag-name">' + name + '</span><span class="tag-num"><i class="fa fa-times tag-num-icon js-delete_specialty"' +
+                'data-specialty="' + id + '"></i></span></span></li>');
                 $specialties.append($specialty);
                 if ($specialties.hasClass('hidden')) {
                     $specialties.removeClass('hidden')
