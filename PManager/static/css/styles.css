@@ -1563,31 +1563,71 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 
 .posibilities {margin-bottom: 0px; margin-top: 10px;}
 .posibilities li {display: block; float: left; margin-right: 10px; margin-bottom: 5px;}
-.posibilities li span {
-    background: #5cb85c;
+.posibilities li span.tag-name {
+    background: #5cb85c none repeat scroll 0 0;
     border-radius: 3px;
     -moz-border-radius: 3px;
     -webkit-border-radius: 3px;
     color: #fff;
+    display: inline-block;
+    float: left;
     font-size: 12px;
-    padding: 2px 27px 3px 7px;
+    height: 20px;
+    line-height: 20px;
+    padding: 0 7px;
     position: relative;
 }
-.posibilities li span i {
-    background: #47a447;
+.posibilities li span.tag-num {
+    background: #47a447 none repeat scroll 0 0;
     border-radius: 0 3px 3px 0;
     -moz-border-radius: 0 3px 3px 0;
     -webkit-border-radius: 0 3px 3px 0;
     bottom: 0;
-    display: block;
+    color: #fff;
+    cursor: pointer;
+    display: inline-block;
+    float: left;
+    font-size: 12px;
+    font-style: normal;
     height: 20px;
-    line-height: 18px;
-    position: absolute;
-    right: 0;
+    line-height: 20px;
+    margin-left: -3px;
+    padding: 0 5px;
+    position: relative;
     text-align: center;
     top: 0;
-    width: 18px;
-    cursor: pointer;
+    z-index: 1;
+}
+
+.posibilities li span.tag-num i.tag-num-text {
+    font-style: normal;
+}
+
+i.tag-num-text + i.tag-num-icon {
+    display: none;
+}
+
+i.tag-num-text + i.tag-num-icon {
+    display: none;
+    position: absolute;
+    margin-left: -4px;
+    top: 3px;
+    left: 50%;
+    z-index: 1;
+}
+
+i.tag-num-icon {
+    position: relative;
+    top: 3px;
+    display: block;
+}
+
+.posibilities li span.tag-num:hover i.tag-num-icon {
+    display: block;
+}
+
+.posibilities li span.tag-num:hover i.tag-num-text {
+    color: #47a447;
 }
 
 .user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:18px; line-height:20px; padding-left:26px; margin-bottom:7px; list-style:none;}
