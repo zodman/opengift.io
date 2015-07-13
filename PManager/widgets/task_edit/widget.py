@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.viewsExt.tools import templateTools
+from PManager.viewsExt.tools import templateTools, taskExtensions
 from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User, PM_Task_Status
 import time, datetime
 from django.contrib.auth.models import User
@@ -122,5 +122,6 @@ def widget(request, headerValues, ar, qargs):
         'project': task.project if task and task.project else headerValues['CURRENT_PROJECT'],
         'users': users,
         'recommendedUsers': [i for i, c in userTagSums.iteritems()],
-        'title': u'Изменение задачи'
+        'title': u'Изменение задачи',
+        'files': taskExtensions.getFileList(task.files.all())
     }

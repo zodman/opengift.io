@@ -1251,55 +1251,10 @@ var widget_tl, currentGroup;
             $(this).hide();
             widget_tl.TL_Search();
         });
-        ///FINE UPLOADER
-        var errorHandler = function(event, id, fileName, reason, xhr) {
-            qq.log("id: " + id + ", fileName: " + fileName + ", reason: " + reason);
-        };
 
-        var fileNum = 0;
-        $('.task-file-upload').fineUploader({
-            debug: false,
-            request: {
-                endpoint: "/upload/receiver",
-                paramsInBody: true
-            },
-            text: {
-                cancelButton:'Отмена',
-                retryButton:'Повторить',
-                deleteButton:'Удалить'
-            },
-            chunking: {
-                enabled: true
-            },
-            resume: {
-                enabled: true
-            },
-            retry: {
-                enableAuto: true,
-                showButton: true
-            },
-            deleteFile: {
-                enabled: true,
-                endpoint: '/upload/receiver',
-                forceConfirm: false
-            },
-            display: {
-                fileSizeOnSubmit: true
-            }
-        })
-        .on('error', errorHandler)
-        .on('uploadChunk resume', function(event, id, fileName, chunkData) {
-            qq.log('on' + event.type + ' -  ID: ' + id + ", FILENAME: " + fileName + ", PARTINDEX: " + chunkData.partIndex + ", STARTBYTE: " + chunkData.startByte + ", ENDBYTE: " + chunkData.endByte + ", PARTCOUNT: " + chunkData.totalParts);
-        })
-        .on("upload", function(event, id, filename) {
-            $(this).fineUploader('setParams', {"hey": "ho"}, id);
-        })
-        .on("complete",function(event,id,filename,data){
-            if (data.id){
-                $('<input type="hidden" name="files" />').val(data.id).appendTo($('.task-file-upload'));
-                $(this).fineUploader('setDeleteFileParams', {"file_id": data.id}, id);
-            }
-        });
+        ///FINE UPLOADER
+        taskFileUpload();
+        
     });
 })(jQuery);
 

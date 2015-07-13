@@ -63,6 +63,7 @@ PIPELINE_JS = {
             'js/fileup/dnd.js',
             'js/fileup/uploader.js',
             'js/fileup/jquery-plugin.js',
+            'js/fileup/task-file-upload.js',
         ),
         'output_filename': 'js_compressed/file_up.js'
     },
@@ -155,7 +156,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'widgets/task_edit/widget.js',
         ),
-        'output_filename': 'js_compressed/task_edit.js'
+        'output_filename': 'js_compressed/qq-upload-button_edit.js'
     },
     'tasklist': {
         'source_filenames': (

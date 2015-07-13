@@ -611,7 +611,7 @@ border-bottom-right-radius: 0px;}
 /* добавить файл */
 .file-upload {float:left; position: relative; width: 135px;}
 .task-file-upload {}
-.task-file-upload .qq-upload-drop-area {
+.tasklist .task-file-upload .qq-upload-drop-area {
     border-radius: 5px;
     -moz-border-radius: 5px;
     -webkit-border-radius: 5px;

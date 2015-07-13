@@ -157,6 +157,9 @@ $(function () {
             }
         }
     })
+
+    taskFileUpload();
+
 });
 
 function addObserverTag(name, id) {
