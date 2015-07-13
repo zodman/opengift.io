@@ -3510,25 +3510,35 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .project-info-right {float:right; width: calc(100% - 115px);}
 .project-info-right h1 {position: relative;}
 .project-info-right h1 .fa {
-    font-size: 18px;
-    display: none;
-    left: 0;
-    position: absolute;
-    top: 6px;
+    font-size: 14px;
+    margin-left: 11px;
+    position: relative;
+    top: -10px;
     z-index: 0;
+    color: #47a447;
+    opacity: 0.6;
+    -moz-opacity: 0.6;
+    -webkit-opacity: 0.6;
 }
 
-.project-info-right h1:hover .project-edit-link-editable {padding-left:25px; display: block;}
-.project-info-right h1:hover i {display: block;}
 
-.editable-textarea-wrapper {display: block; font-size: 15px; position: relative;}
+.editable-textarea-wrapper {display: block; font-size: 15px; position: relative; line-height: 24px;}
 .editable-textarea-wrapper .fa {
-    font-size: 18px;
-    display: none;
-    left: 0;
-    position: absolute;
-    top: 1px;
+    font-size: 14px;
+    margin-left: 8px;
+    position: relative;
+    top: -4px;
     z-index: 0;
+    color: #47a447;
+    opacity: 0.6;
+    -moz-opacity: 0.6;
+    -webkit-opacity: 0.6;
+}
+.project-info-right h1:hover .fa,
+.editable-textarea-wrapper:hover .fa {
+    opacity: 1;
+    -moz-opacity: 1;
+    -webkit-opacity: 1;
 }
 
 .project-info-right h1 input,
@@ -3537,10 +3547,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     z-index: 1;
 }
 
-.editable-textarea-wrapper:hover .editable-textarea-click {padding-left:25px; display: block;}
-.editable-textarea-wrapper:hover i {display: block;}
-
-.editable-textarea-click {display: block;}
+.line-34 {line-height: 34px;}
 .editable-textarea,
 .project-edit-input {display: none;}
 .editable-textarea-click,

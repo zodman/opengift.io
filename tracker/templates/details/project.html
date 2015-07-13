@@ -112,9 +112,8 @@
         <div class="project-info-right">
             <h1>
                 {% if canEdit %}
-                <i class="fa fa-pencil-square-o"></i>
                 <a href="/project/edit/?id={{ project.id }}"></a>
-                <span class="project-edit-link-editable">{{ project.name }}</span>
+                <span class="project-edit-link-editable">{{ project.name }}<i class="fa fa-pencil"></i></span>
                 <input type="text" class="project-edit-input form-control js-project-name" value="{{ project.name }}" />
                 {% else %}
                 {{ project.name }}
@@ -154,12 +153,15 @@
                             updateName();
                         }
                     });
+
+                    $(".js-add-interface-button").click(function() {
+                        $(".js-add-interface-wrapper").toggle();
+                    });
                 });
             </script>
             <p class="editable-textarea-wrapper">
                 {% if canEdit %}
-                <i class="fa fa-pencil-square-o"></i>
-                <span class="editable-textarea-click">{{ project.description }}</span>
+                <span class="editable-textarea-click">{{ project.description }}<i class="fa fa-pencil"></i></span>
                 <textarea class="editable-textarea form-control js-project-description">{{ project.description }}</textarea>
                 {% else %}
                     {{ project.description }}
@@ -186,9 +188,9 @@
     </ul>
     <div class="tab-content settings-tab">
         <div id="accesses" class="tab-pane active" role="tabpanel">
-            <h2>Информация о доступах к серверам</h2>
+            <h2 class="clearfix relative line-34">Информация о доступах к серверам<a class="btn btn-success pull-right js-add-interface-button">Добавить</a></h2>
             <hr>
-            <div class="add-interface">
+            <div class="add-interface js-add-interface-wrapper" style="display: none;">
                 <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
                     <input type="hidden" name="pid" value="{{ project.id }}"/>
 
@@ -536,6 +538,7 @@
                             </label>
                         </p>
                         {% if canEdit %}
+                        <hr>
                         <p><input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success" /></p>
                         {% endif %}
                     </form>
@@ -600,6 +603,7 @@
                     </label>
                 </p>
                 {% if canEdit %}
+                <hr>
                 <p><input type="submit" value="Применить" name="settings_save" class="btn btn-success" /></p>
                 {% endif %}
             </form>
