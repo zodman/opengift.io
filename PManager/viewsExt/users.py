@@ -6,7 +6,7 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.headers import initGlobals
-from PManager.models.users import PM_User
+from PManager.models.users import PM_User, Specialty
 from tracker.settings import USE_GIT_MODULE
 from PManager.viewsExt.tasks import TaskWidgetManager
 from django.db.models import Q
@@ -107,6 +107,36 @@ class userHandlers:
             return HttpResponse('ok')
         elif action == 'getUsers':
             return userHandlers.getMyTeam(request)
+
+        elif action == 'addSpecialty':
+            userId = request.POST['user']
+            specialty = request.POST['specialty'].upper()
+            user = User.objects.get(pk=userId)
+            prof = user.get_profile()
+            if specialty in prof.specialties.values_list('name', flat=True):
+                return HttpResponse('already has this specialty')
+            elif user == curUser or curUser.is_superuser:
+                specialty, created = Specialty.objects.get_or_create(name=specialty)
+                prof.specialties.add(specialty)
+                prof.save()
+                return HttpResponse(json.dumps({'id': specialty.id, 'name': specialty.name}))
+
+        elif action == 'deleteSpecialty':
+            userId = request.POST['user']
+            specialty = request.POST['specialty']
+            try:
+                specialty = int(specialty)
+            except ValueError:
+                return HttpResponse('specialtyId expected')
+            user = User.objects.get(pk=userId)
+            prof = user.get_profile()
+            if user == curUser or curUser.is_superuser:
+                specialty = Specialty.objects.get(id=specialty)
+                prof.specialties.remove(specialty)
+                prof.save()
+                return HttpResponse('specialty deleted')
+
+
 class usersActions:
     def set_user_roles(self):
         pass

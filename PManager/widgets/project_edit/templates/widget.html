@@ -57,50 +57,6 @@
                 {% endif %}
             {% endfor %}
             <div class="row show-grid">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-6"><label class="control-label"><input type="checkbox"
-                                                                          name="settings_start_unapproved"
-                                                                          {% if project_edit.settings.start_unapproved %}checked="checked" {% endif %}
-                                                                          value="1"/>&nbsp;<span
-                        style="top:2px;display:inline-block;position:relative;">Разрешать выполнять не подтвержденные задачи</span></label>
-                </div>
-                <div class="col-xs-4"></div>
-            </div>
-            <div class="row show-grid">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-6"><label class="control-label"><input type="checkbox"
-                                                                          name="settings_autohide_messages"
-                                                                          {% if project_edit.settings.autohide_messages %}checked="checked" {% endif %}
-                                                                          value="1"/>&nbsp;<span
-                        style="top:2px;display:inline-block;position:relative;">Скрывать сообщения клиента и исполнителя друг от друга</span></label>
-                </div>
-                <div class="col-xs-4"></div>
-            </div>
-            {% if project_edit.use_git %}
-                <div class="row show-grid">
-                    <div class="col-xs-2"></div>
-                    <div class="col-xs-6"><label class="control-label"><input type="checkbox" class="js-repository"
-                            {% if project_edit.form.repository.value != None and project_edit.form.repository.value %}
-                                                                              checked="checked" {% endif %} value="1"
-                                                                              {% if not project_edit.is_new and project_edit.form.repository.value %}disabled{% endif %}/>&nbsp;<span
-                            style="top:2px;display:inline-block;position:relative;">Использовать локальный репозиторий</span></label>
-                    </div>
-                    <div class="col-xs-4"></div>
-                </div>
-                <div class="row show-grid js-hiddable"
-                     {% if not project_edit.form.repository.value %}style="display:none"{% endif %}>
-                    <div class="col-xs-2"><label class="control-label">Имя репозитория</label></div>
-                    <div class="col-xs-6">
-                        <input type="text" name="repository" 
-                            value="{% if project_edit.form.repository.value != None %}{{ project_edit.form.repository.value }}{% endif %}" class="js-repository-value"
-                               {% if not project_edit.is_new and project_edit.form.repository.value %}readonly{% endif %}/>
-                        <i class="fa fa-icon"
-                           style="position: absolute;right: 25px;top: 10px;font-size: 16px;"></i>
-                    </div>
-                    <div class="col-xs-4"></div>
-                </div>
-            {% endif %}
-            <div class="row show-grid">
             </div>
             <div class="row show-grid">
                 <div class="col-xs-2"></div>
@@ -121,11 +77,11 @@
                             $('.js-hiddable').hide();
                         } else {
                             $('.js-hiddable').show();
-                            $('.js-repository-value').val(transliterate($('#id_name').val()));
-                            $('.js-repository-value').focus();
+                            $('.js-repository-value').val(transliterate($('#id_name').val())).focus();
                         }
                         checkFields();
                     });
+
                     $('#id_name').keyup(function () {
                         var projectName = $(this).val();
                         var repoName = transliterate(projectName);
@@ -136,9 +92,7 @@
                         }
 
                     });
-                    $('#id_name').change(function () {
-                        unmarkRepName();
-                    });
+
                     function unmarkRepName() {
                         $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
                     }
@@ -168,9 +122,10 @@
 
                     function checkFields() {
                         var projectName = $('#id_name').val();
-                        var isRepo = $('.js-repository').prop('checked');
+                        var isRepo = $('.js-repository').prop('checked'),
+                            $repoVal = $('.js-repository-value');
                         if (!isRepo) {
-                            $('.js-repository-value').val('');
+                            $repoVal.val('');
                             enableSubmit();
                             unmarkRepName();
                             return;
@@ -181,8 +136,9 @@
                         else {
                             var repoName = transliterate($('.js-repository-value').val());
                         }
-                        $('.js-repository-value').val(repoName);
-                        $('.js-repository-value').next('i').addClass('fa-spinner').addClass('fa-spin');
+                        $repoVal.val(repoName)
+                                .next('i').addClass('fa-spinner').addClass('fa-spin');
+
                         $.post('/project/edit/check_repository_name', {'repoName': repoName }, function (response) {
                             if (response == "OK") {
                                 markSuccessRepName();
@@ -198,9 +154,14 @@
                                 enableSubmit();
                             }
                         });
-                    };
+                    }
+
                     disableSubmit();
-                    $('#id_name').blur(checkFields);
+
+                    $('#id_name').change(function () {
+                        unmarkRepName();
+                    }).blur(checkFields);
+
                     var in_sync = true;
                     $('.js-repository-value').focus(function () {
                         if ($(this).val() == transliterate($('#id_name').val())) {
@@ -208,16 +169,14 @@
                         } else {
                             in_sync = false;
                         }
-                    });
-                    $('.js-repository-value').keyup(function () {
+                    }).keyup(function () {
                         setCheckFieldsTimer();
                         if ($(this).val() == transliterate($('#id_name').val())) {
                             in_sync = true;
                         } else {
                             in_sync = false;
                         }
-                    });
-                    $('.js-repository-value').blur(function (ev) {
+                    }).blur(function (ev) {
                         checkFields();
                     });
                     checkFields();

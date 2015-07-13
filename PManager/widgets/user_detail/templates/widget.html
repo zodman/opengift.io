@@ -38,18 +38,30 @@
                       </ul>
                     </div>
                     <div class="clearfix"></div>
-                    <!--<hr>
-                    <input type="text" name="additional_tags" placeholder="Укажите свои навыки" class="form-control">
-                    <ul class="posibilities clearfix">
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                        <li><span>Верстка<i class="fa fa-times"></i></span></li>
-                        <li><span>Photoshop<i class="fa fa-times"></i></span></li>
-                    </ul>-->
+                    <hr>
+                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                        <div class="dropdown js-specialties_search_wrapper">
+                            <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                                   placeholder="Укажите свои навыки" id="skillsDropdown"
+                                   class="form-control js-save_specialty">
+                            <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                                aria-labelledby="skillsDropdown">
+                            </ul>
+                        </div>
+                    {% endif %}
+                    <ul class="posibilities clearfix js-specialties {% if not user_detail.specialties %}hidden{% endif %}">
+                        {% if user_detail.specialties %}
+                            {% for specialty in user_detail.specialties %}
+                                <li><span class="tag-name">{{ specialty.name }}</span>
+                                    <span class="tag-num">{% if specialty.weight %}<i class="tag-num-text">{{ specialty.weight }}</i>{% endif %}
+                                        {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                                        <i class="fa fa-times tag-num-icon js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
+                                        {% endif %}
+                                    </span>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
+                    </ul>
                 </div><!--user-info-right-from-avatar-->
 
             </div>
@@ -170,7 +182,7 @@
                                     <span class="fa fa-user"></span>
                                     Разработчик</label></div></li>
                                 {% endif %}
-                          </ul>
+                            </ul>
                         </div><!--ychastvyet-item-->
                         {% if not forloop.last %}<hr />{% endif %}
                     {% endfor %}
