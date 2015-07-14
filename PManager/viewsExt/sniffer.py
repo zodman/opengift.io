@@ -7,6 +7,7 @@ from django.contrib.auth.models import User
 import os
 from tracker import settings
 
+
 def get_errors(request):
     if not settings.USE_GIT_MODULE:
         return HttpResponse('No git module installed')
