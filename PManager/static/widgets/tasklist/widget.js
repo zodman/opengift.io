@@ -761,9 +761,10 @@ var widget_tl, currentGroup;
                     (group.url? '<a href="'+group.url+'" class="js-milestone-data">':'<span class="js-milestone-data">') +
                     group.name + (group.date ? ' до ' + group.date : '') + (group.url? '</a>':'</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
-                							'<a href="#" class="fa fa-edit js-edit-milestone-link" data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id + 
+                                            (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
+                							'<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id + 
                                             '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
-                                            closeButton + 
+                                            (!group.closed ? closeButton : '') +  
 										'</div>' : '') +
                                 '</div>' +
                             '</div>';

@@ -3451,6 +3451,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     right: 10px;
     top: 9px;
 }
+.label-body-item{width: calc(33.33% - 20px);}
 
 .article-breadcrumbs-wiki-search {display: table; width: 100%; margin-bottom: 20px;}
 .article-breadcrumbs {display: table-cell; width: calc(100% - 200px); padding-right: 20px; vertical-align: top;}

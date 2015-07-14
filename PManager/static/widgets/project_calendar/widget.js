@@ -19,7 +19,7 @@ var ShowForm = function(el, arParams){
     );
     var group_nm = $(el).parents('tr').eq(0).find('.grp_name').eq(0).text();
     if (arParams['project_id']){
-        //$('#title_inp').val('');
+        $('#title_inp').val('');
         $('#header_form').text(group_nm);
     }else{
         $('#header_form').text(group_nm);
