@@ -2739,6 +2739,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     width:100%;
     min-height: 400px;
     position: relative;
+    padding: 0 0 15px 0;
 }
 
 .kanban .widget.inner  {
