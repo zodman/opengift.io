@@ -2,129 +2,510 @@
 {% compressed_js 'project_calendar' %}
 
 <div class="widget tasklist">
-    <div class="modal-dialog">
-        <div id="taskform" class="modal modal-content add-task" style="display:none;">
-            <div class="modal-header">
-            	<button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-            	<h3>Создать задачу</h3>
-            </div>
-            <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
-                <input type="hidden" name="GROUP_ID" value="" />
-                <input type="hidden" name="ID" value="" />
-           		<div class="modal-body">
-                    <div class="form-group">
-                        <label class="col-xs-3 control-label">Заголовок:</label>
-                        <div class="col-xs-9 controls">
-                        <input id='title_inp' class="form-control" type="text" name="TITLE" value="" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-3 control-label">Ответственный:</label>
-                        <div class="col-xs-9 controls">
-                        <select name="RESPONSIBLE_ID" class="form-control">
-                                {% for resp_user in project_calendar.users %}
-                                    <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
-                                {% endfor %}
-                        </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-3 control-label">Критичность:</label>
-                        <div class="col-xs-9 controls">
-                            <select name="PRIORITY" class="form-control">
-                                <option value="0">Низкая</option>
-                                <option value="1">Нормальная</option>
-                                <option value="2">Высокая</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="col-xs-3 control-label">Дедлайн:</label>
-                        <div class="col-xs-9 controls">
-                        <input type="text" class="form-control" name="DEADLINE" value="" />
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <div class="controls" style="padding-left: 157px;">
-                        <label>
-                        <input type="checkbox" name="STATUS" value="5" >
-                        <span class="complete">Завершить:</span>
-                        </label>
-                        </div>
-                    </div>
-            	</div>
-                <div class="modal-footer">
-                    <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
-                    <a class="btn btn-primary submit" href="#">Сохранить</a>
-                  </div>
-            </form>
+<div class="modal-dialog green-popup">
+    <div id="taskform" class="modal modal-content add-task" style="display:none;">
+        <div class="modal-header">
+            <button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h3>Создать задачу</h3>
         </div>
+        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
+            <input type="hidden" name="GROUP_ID" value="" />
+            <input type="hidden" name="ID" value="" />
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Заголовок:</label>
+                    <div class="col-xs-9 controls">
+                        <input id='title_inp' class="form-control" type="text" name="TITLE" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Ответственный:</label>
+                    <div class="col-xs-9 controls">
+                        <select name="RESPONSIBLE_ID" class="form-control">
+                            {% for resp_user in project_calendar.users %}
+                            <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }} [{{ resp_user.username }}]</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Критичность:</label>
+                    <div class="col-xs-9 controls">
+                        <select name="PRIORITY" class="form-control">
+                            <option value="0">Низкая</option>
+                            <option value="1">Нормальная</option>
+                            <option value="2">Высокая</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-3 control-label">Дедлайн:</label>
+                    <div class="col-xs-9 controls">
+                        <input type="text" class="form-control" name="DEADLINE" value="" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="controls" style="padding-left: 157px;">
+                        <label>
+                            <input type="checkbox" name="STATUS" value="5" >
+                            <span class="complete">Завершить:</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
+                <a class="btn btn-primary submit" href="#">Сохранить</a>
+            </div>
+        </form>
     </div>
-    <div class="widget-control">
-        <a href="#" class="w-collapse">Свернуть</a>
-        <a href="#" class="w-close">Закрыть</a>
-    </div>
+</div>
+<div class="widget-control">
+    <a href="#" class="w-collapse">Свернуть</a>
+    <a href="#" class="w-close">Закрыть</a>
+</div>
 
-    <h3>Календарь ответственности</h3>
-    <hr>
-    <ul class="nav nav-pills">
-              <li><a href="#"><b>Все проекты</b></a></li>
-              <li class="active"><a href="#"><b>Только мои</b></a></li>
-            </ul>
-            <br />
-            
+<h3>Календарь ответственности</h3>
+<hr>
+<ul class="nav nav-pills">
+    <li><a href="#"><b>Все проекты</b></a></li>
+    <li class="active"><a href="#"><b>Только мои</b></a></li>
+</ul>
+<br />
+
 
 <style>
-.sonet-user-profile-friend-box {table-layout:fixed;}
-.sonet-user-profile-friend-box.table th {text-align:center;}
-.calendar-task {padding:5px 7px;display:block;border-bottom:1px solid #eee; position:relative; margin-bottom:10px;}
-.calendar-task .delete-task {opacity:0.3; -webkit-opacity:0.3; -moz-opacity:0.3; position:absolute; top:5px; right:7px; z-index:1;}
-.critically_1 {background:#e8f3f7; border-bottom:1px solid #cbe7f2}
-.critically_2 {background:#F4F2E4; border-bottom:1px solid #ece8cf;}
-.critically_3 {background:#f8ece9; border-bottom:1px solid #efd2cc;}
-.calendar-add-task {margin-top:10px; display: block; height: 32px; text-align: center; vertical-align: middle;}
-.calendar-add-task span {width:74%;}
-.calendar-task-date {font-size:11px; opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5; position:relative; z-index:0;}
-.calendar-task-date i {margin-top:0px; opacity:0.6; -moz-opacity:0.6; -webkit-opacity:0.6;}
-.bxec-event-actions {margin:5px 0;}
-.calendar-project-title h4 {margin-bottom:5px; font-weight:bold; font-size:18px;}
-.calendar-project-title .calendar-project-img {
-    background: none repeat scroll 0 0 #fff;
-    border-radius: 50%;
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    display: block;
-    height: 150px;
-    margin: 15px auto 0;
-    overflow: hidden;
-    position: relative;
-    width: 150px;
-    border: 1px solid #ddd;
-    box-shadow: 0px 0px 1px #ddd;
-}
-.calendar-project-title .calendar-project-img span {
-    display: table-cell;
-    height: 150px;
-    padding: 0;
-    vertical-align: middle;
-    width: 150px;
-}
-.calendar-project-title img {max-width: 100%; min-width: 150px; min-height: 150px}
+    .sonet-user-profile-friend-box {table-layout:fixed;}
+    .sonet-user-profile-friend-box.table th {text-align:center;}
+    .calendar-task {padding:7px 10px;display:block;border-bottom:1px solid #eee; position:relative; margin-bottom:0px;}
+    .calendar-task .delete-task {opacity:0.3; -webkit-opacity:0.3; -moz-opacity:0.3; position:absolute; top:5px; right:7px; z-index:1;}
+    .critically_1 {background:#e8f3f7; border-bottom:1px solid #cbe7f2}
+    .critically_2 {background:#F4F2E4; border-bottom:1px solid #ece8cf;}
+    .critically_3 {background:#f8ece9; border-bottom:1px solid #efd2cc;}
+    .calendar-add-task {margin-top:10px; display: block; height: 32px; text-align: center; vertical-align: middle;}
+    .calendar-add-task span {width:74%;}
+    .calendar-task-date {font-size:11px; opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5; position:relative; z-index:0;}
+    .calendar-task-date i {margin-top:0px; opacity:0.6; -moz-opacity:0.6; -webkit-opacity:0.6;}
+    .bxec-event-actions {margin:2px 0;}
+    .calendar-project-title h4 {margin-bottom:5px; font-weight:bold; font-size:18px;}
+    .calendar-project-title .calendar-project-img {
+        background: none repeat scroll 0 0 #fff;
+        border-radius: 50%;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        display: block;
+        height: 150px;
+        margin: 15px auto 0;
+        overflow: hidden;
+        position: relative;
+        width: 150px;
+        border: 1px solid #ddd;
+        box-shadow: 0px 0px 1px #ddd;
+    }
+    .calendar-project-title .calendar-project-img span {
+        display: table-cell;
+        height: 150px;
+        padding: 0;
+        vertical-align: middle;
+        width: 150px;
+    }
+    .calendar-project-title img {max-width: 100%; min-width: 150px; min-height: 150px}
 
 
-.holiday {background:#fff7f7 !important; color:#e38787 !important;}
+    .holiday {background:#fff7f7 !important; color:#e38787 !important;}
 </style>
+<script>
+    $(function () {
+        $('.calendar-slider').bxSlider({
+            infiniteLoop: false,
+            slideWidth: 200,
+            minSlides: 2,
+            maxSlides: 7,
+            pager: false,
+            nextText:'<i class="fa fa-angle-right"></i>',
+            prevText:'<i class="fa fa-angle-left"></i>',
+            hideControlOnEnd: true
+        });
+    });
+</script>
+<style>
+    .calendar-wrapper {overflow: hidden;}
+    .calendar-project-list {
+        float: left;
+        width: 200px;
+        box-shadow: 0 0 5px rgba(1,1,1,0.3);
+        -moz-box-shadow: 0 0 5px rgba(1,1,1,0.3);
+        -webkit-box-shadow: 0 0 5px rgba(1,1,1,0.3);
+        position: relative;
+        z-index: 1;
+    }
+    .calendar-project-list-empty {
+        background: #318431 none repeat scroll 0 0;
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+    .calendar-project-list-item {
+        height: 238px;
+        background: #f9f9f9;
+        border-bottom: 1px solid #ddd;
+        padding: 20px;
+    }
+    .calendar-project-list-item h4 {
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        height: 30px;
+        margin-bottom: 0px;
+        text-align: center;
+        font-size: 16px;
+    }
+    .calendar-project-list-item span {
+        display: block;
+        width: 160px;
+        height: 160px;
+        background-repeat: no-repeat !important;
+        background-position: center !important;
+        border-radius: 50%;
+        -moz-border-radius: 50%;
+        -webkit-border-radius: 50%;
+        border: 3px solid #ffffff;
+        background: #ffffff;
+        box-shadow: 0 1px 1px rgba(1, 1, 1, 0.2);
+        -moz-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.2);
+        -webkit-box-shadow: 0 1px 1px rgba(1, 1, 1, 0.2);
+    }
 
-    <table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
-        <tr>
-            <th>Проект</th>
-            {% for day in project_calendar.arDays %}
-            <!--<th width="{{ project_calendar.daysCount }}%">{{ day.weekday }}</th>-->
-            <th {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>{{ day.weekday }}</th>
-            {% endfor %}
-        </tr>
-        {% for project in project_calendar.projects %}
-        <tr>
+    .calendar-dates-list {
+        background: #f1f1f1;
+        width: calc(100% - 200px);
+        float: left;
+        position: relative;
+        z-index: 0;
+    }
+    .calendar-slider-item-wrapper {
+        height: 238px;
+        border-bottom: 1px solid #ddd;
+        border-left: 1px solid #ddd;
+        position: relative;
+        background: #fff;
+        cursor: pointer;
+    }
+    .hidden-button {
+        left: 0px;
+        top: 0px;
+        right: 0px;
+        bottom: 0px;
+        text-decoration: center;
+        position: absolute;
+        cursor: pointer;
+        background: #edffed;
+        display: none;
+        z-index: 4;
+    }
+    .hidden-button .btn {
+         left: 50%;
+         margin-left: -40px;
+         margin-top: -17px;
+         position: absolute;
+         top: 50%;
+     }
+
+    .calendar-slider-item-wrapper:hover .hidden-button {display: block;}
+
+    .no-aims-block {color: #ccc; font-size: 13px; position: absolute; top: 110px; left: 0px; right: 0px; display: block; text-align: center;}
+    .calendar-slider-name {
+        background: #47a447 none repeat scroll 0 0;
+        border-left: 1px solid rgba(1, 1, 1, 0.1);
+        color: #fff;
+        font-size: 12px;
+        font-weight: bold;
+        height: 30px;
+        line-height: 30px;
+        text-align: center;
+        text-transform: uppercase;
+    }
+
+    .holiday .calendar-slider-name {background: #318431;}
+    .holiday .calendar-slider-item-wrapper {background: #f9f9f9;}
+
+    .calendar-slider {background: #fff;}
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a {
+        bottom: 0;
+        font-size: 15px;
+        height: auto;
+        margin: 0;
+        top: 0;
+        width: 30px;
+        color: #555;
+        text-decoration: none;
+    }
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled {display: none;}
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a i,
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled i{
+        font-size: 30px;
+        margin-left: 8px;
+        margin-top: -15px;
+        position: absolute;
+        top: 50%;
+        color: #555;
+    }
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev {
+        left: 0;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0.05+0,0+100 */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjA1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(left,  rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
+    }
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next {
+        right: 0;
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.05+100 */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4wNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#0d000000',GradientType=1 ); /* IE6-8 */
+    }
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover,
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover i {color: #47a447;}
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next:hover {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.1+100 */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+        background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#1a000000',GradientType=1 ); /* IE6-8 */
+    }
+
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev:hover {
+        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0.1+0,0+100 */
+        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
+        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+        background: -moz-linear-gradient(left,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+        background: -webkit-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+        background: -o-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+        background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+        background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* W3C */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
+    }
+
+</style>
+<div class="calendar-wrapper clearfix">
+    <div class="calendar-project-list">
+        <div class="calendar-project-list-empty">Проект</div>
+        <div class="calendar-project-list-item">
+            <h4>Шатура - официальный интернет магазин дилера</h4>
+            <span style="background-image: url(http://heliard.ru/media/thumbnails/156_150x150.jpg);"></span>
+        </div>
+        <div class="calendar-project-list-item">
+            <h4>Кэшелот</h4>
+            <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
+        </div>
+        <div class="calendar-project-list-item">
+            <h4>Кэшелот</h4>
+            <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
+        </div>
+    </div>
+    <div class="calendar-dates-list">
+        <ul class="calendar-slider clearfix">
+            <li>
+                <div class="calendar-slider-name">Понедельник</div>
+
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
+                    <div class="critically_3 calendar-task js-milestone-73">
+                        <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные</a>
+                            </div>
+                        </div>
+                        <div>Егор Маслов</div>
+                    </div>
+                    <div class="critically_1 calendar-task js-milestone-73">
+                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
+                            </div>
+                        </div>
+                        <div>Егор Маслов</div>
+                    </div>
+                    <div class="critically_2 calendar-task js-milestone-73">
+                    <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
+                    <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                    <div class="bxec-event-actions">
+                        <div class="bxec-icon-cont-tl">
+                            <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
+                        </div>
+                    </div>
+                    <div>Егор Маслов</div>
+                    </div>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
+                    <div class="critically_3 calendar-task js-milestone-73">
+                        <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные</a>
+                            </div>
+                        </div>
+                        <div>Егор Маслов</div>
+                    </div>
+                    <div class="critically_1 calendar-task js-milestone-73">
+                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
+                            </div>
+                        </div>
+                        <div>Егор Маслов</div>
+                    </div>
+                    <div class="critically_2 calendar-task js-milestone-73">
+                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
+                            </div>
+                        </div>
+                        <div>Егор Маслов</div>
+                    </div>
+                </div>
+            </li>
+            <li>
+                <div class="calendar-slider-name">Вторник</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li>
+                <div class="calendar-slider-name">Среда</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li>
+                <div class="calendar-slider-name">Четверг</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li>
+                <div class="calendar-slider-name">Пятница</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li class="holiday">
+                <div class="calendar-slider-name">Суббота</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li class="holiday">
+                <div class="calendar-slider-name">Воскресение</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+            <li>
+                <div class="calendar-slider-name">Понедельник</div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                </div>
+            </li>
+        </ul>
+    </div>
+</div>
+<table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
+    <tr>
+        <th>Проект</th>
+        {% for day in project_calendar.arDays %}
+        <!--<th width="{{ project_calendar.daysCount }}%">{{ day.weekday }}</th>-->
+        <th {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>{{ day.weekday }}</th>
+        {% endfor %}
+    </tr>
+    {% for project in project_calendar.projects %}
+    <tr>
         <td style="vertical-align:middle !important; text-align:center !important;" class="calendar-project-title">
             <h4>{{ project.name }}</h4>
             {% if project.imagePath %}
@@ -135,27 +516,27 @@
         </td>
         {% for day in project_calendar.arDays %}
         <td onMouseOver="$(this).find('span').show();" onMouseOut="$(this).find('span').hide();" {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>
-            <div>
+        <div>
             {% for milestone in project.milestoneSet %}
-                {% if milestone.date|date:'d.m.Y' == day.date %}
-                <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
-                	<a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
-                    <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
-                    <div class="bxec-event-actions">
-                        <div class="bxec-icon-cont-tl">
-                            <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
-                        </div>
+            {% if milestone.date|date:'d.m.Y' == day.date %}
+            <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
+                <a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
+                <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
+                <div class="bxec-event-actions">
+                    <div class="bxec-icon-cont-tl">
+                        <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
                     </div>
-                    {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
                 </div>
-                {% endif %}
+                {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
+            </div>
+            {% endif %}
             {% endfor %}
             <a href="#" onClick="return ShowForm(this,{'deadline':'{{day.date}}','project_id':{{ project.id }}});" class="calendar-add-task"><span style="display:none;" class="btn btn-success">Добавить</span></a>
-            </div>
+        </div>
         </td>
         {% endfor %}
-        </tr>
-        {% endfor %}
-        </table>
+    </tr>
+    {% endfor %}
+</table>
 
 </div>

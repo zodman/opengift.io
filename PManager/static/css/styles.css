@@ -1620,6 +1620,7 @@ i.tag-num-icon {
     position: relative;
     top: 3px;
     display: block;
+
 }
 
 .posibilities li span.tag-num:hover i.tag-num-icon {
@@ -3434,6 +3435,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     text-align: center;
 }
 .green-popup .modal-header button.close {font-size: 28px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+
+.green-popup .modal-header h3 {margin: 0px;}
+.green-popup .modal-header .close {margin-top: -6px;}
 
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}

@@ -116,6 +116,7 @@ PIPELINE_JS = {
     'project_calendar': {
         'source_filenames': (
             'widgets/project_calendar/widget.js',
+            'js/jquery.bxslider.min.js',
         ),
         'output_filename': 'js_compressed/project_calendar.js'
     },
