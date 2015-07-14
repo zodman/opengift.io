@@ -27,8 +27,6 @@ from django.shortcuts import HttpResponse
 
 admin.autodiscover()
 
-from django_notify.urls import get_pattern as get_notify_pattern
-
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
 from PManager.models.payments import Payment
@@ -117,7 +115,6 @@ urlpatterns = patterns('',
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
                        url(r'^user_key_handle/add/$', KeyHandler.key_add),
                        url(r'^user_key_handle/remove/(?P<key_id>[0-9_]+)', KeyHandler.key_remove),
-                       url(r'^notify/', get_notify_pattern()),
                        url(r'^import_teamlab/', XML_Import.importView),
                        url(r'^statistic/$', MainPage.indexRender, {'widgetList': ["user_statistic"]}),
                        url(r'^stat/$', MainPage.indexRender, {'widgetList': ["project_statistic"]}),
