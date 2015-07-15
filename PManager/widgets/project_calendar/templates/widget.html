@@ -194,29 +194,13 @@
         border-left: 1px solid #ddd;
         position: relative;
         background: #fff;
-        cursor: pointer;
+        overflow-y: auto;
     }
-    .hidden-button {
-        left: 0px;
-        top: 0px;
-        right: 0px;
-        bottom: 0px;
-        text-decoration: center;
-        position: absolute;
-        cursor: pointer;
-        background: #edffed;
-        display: none;
-        z-index: 4;
-    }
-    .hidden-button .btn {
-         left: 50%;
-         margin-left: -40px;
-         margin-top: -17px;
-         position: absolute;
-         top: 50%;
-     }
+    .calendar-slider-item-button {text-align: center; display: none; position: absolute; top: 50%; left: 50%; margin-left: -42px; margin-top: -15px;}
 
-    .calendar-slider-item-wrapper:hover .hidden-button {display: block;}
+    .calendar-task + .calendar-slider-item-button {position: relative; top: 0px; left: 0px; margin: 10px 0;}
+
+    .calendar-slider-item-wrapper:hover .calendar-slider-item-button {display: block;}
 
     .no-aims-block {color: #ccc; font-size: 13px; position: absolute; top: 110px; left: 0px; right: 0px; display: block; text-align: center;}
     .calendar-slider-name {
@@ -242,78 +226,99 @@
         height: auto;
         margin: 0;
         top: 0;
-        width: 30px;
-        color: #555;
+        width: 40px;
         text-decoration: none;
+        opacity: 0.8;
+        -moz-opacity: 0.8;
+        -webkit-opacity: 0.8;
+    }
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover {
+        opacity: 1;
+        -moz-opacity: 1;
+        -webkit-opacity: 1;
     }
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled {display: none;}
     .calendar-dates-list .bx-wrapper .bx-controls-direction a i,
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled i{
-        font-size: 30px;
-        margin-left: 8px;
-        margin-top: -15px;
+        background: #47a447 none repeat scroll 0 0;
+        border: 3px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 2px rgba(1, 1, 1, 0.2);
+        color: #fff;
+        font-size: 40px;
+        height: 46px;
+        line-height: 37px;
+        margin-left: 0;
+        margin-top: -20px;
         position: absolute;
+        text-align: center;
         top: 50%;
-        color: #555;
+        width: 46px;
+    }
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next i {
+        padding-left: 6px;
+    }
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev i {
+        padding-right: 3px;
     }
 
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev {
-        left: 0;
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0.05+0,0+100 */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjA1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        left: 20px;
+
+        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjA1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
         background: -moz-linear-gradient(left,  rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
-        background: linear-gradient(to right,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
+        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+        /*background: -o-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+        /*background: linear-gradient(to right,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* W3C */
+        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
     }
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next {
-        right: 0;
+        right: 20px;
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.05+100 */
         /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4wNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* IE10+ */
-        background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#0d000000',GradientType=1 ); /* IE6-8 */
+        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4wNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%); /* FF3.6+ */
+        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05))); /* Chrome,Safari4+ */
+        /* background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Chrome10+,Safari5.1+ */
+        /*background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Opera 11.10+ */
+        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* IE10+ */
+        /*background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* W3C */
+        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#0d000000',GradientType=1 ); /* IE6-8 */
     }
 
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover,
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover i {color: #47a447;}
 
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next:hover {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.1+100 */
         /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-        background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* IE10+ */
-        background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#1a000000',GradientType=1 ); /* IE6-8 */
+        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%); /* FF3.6+ */
+        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1))); /* Chrome,Safari4+ */
+        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Chrome10+,Safari5.1+ */
+        /*background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Opera 11.10+ */
+        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* IE10+ */
+        /*background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* W3C */
+        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#1a000000',GradientType=1 ); /* IE6-8 */
     }
 
 
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev:hover {
         /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0.1+0,0+100 */
         /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-        background: -moz-linear-gradient(left,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
-        background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-        background: -webkit-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-        background: -o-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-        background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
-        background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* W3C */
-        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
+        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
+        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
+        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
+        /*background: -o-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
+        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
+        /*background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* W3C */
+        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
     }
 
+    .widget.tasklist .modal-dialog {position: fixed;}
 </style>
 <div class="calendar-wrapper clearfix">
     <div class="calendar-project-list">
@@ -338,20 +343,19 @@
 
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
-                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
+                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
                 </div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
-                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
                     <div class="critically_3 calendar-task js-milestone-73">
                         <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
                         <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
                         <div class="bxec-event-actions">
                             <div class="bxec-icon-cont-tl">
-                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные</a>
+                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные, как всегда, хотя их можно сделать в любой день</a>
                             </div>
                         </div>
-                        <div>Егор Маслов</div>
+                        <div>Егор Масловидзе Первый-неделимый</div>
                     </div>
                     <div class="critically_1 calendar-task js-milestone-73">
                         <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
@@ -363,20 +367,10 @@
                         </div>
                         <div>Егор Маслов</div>
                     </div>
-                    <div class="critically_2 calendar-task js-milestone-73">
-                    <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
-                    <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                    <div class="bxec-event-actions">
-                        <div class="bxec-icon-cont-tl">
-                            <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
-                        </div>
-                    </div>
-                    <div>Егор Маслов</div>
-                    </div>
+                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
                 </div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
-                    <span class="hidden-button" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});"><a href="" class="btn btn-success">Выбрать</a></span>
                     <div class="critically_3 calendar-task js-milestone-73">
                         <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
                         <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
