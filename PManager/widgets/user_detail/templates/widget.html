@@ -21,7 +21,7 @@
         <div class="user-personal row-fluid clearfix">
             <div class="user-personal-left clearfix">
                 <div class="user-avatar pull-left">
-                    <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatar %}{{ user_detail.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                    <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
                 </div>
 
                 <div class="user-info-right-from-avatar">

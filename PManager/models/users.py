@@ -81,7 +81,11 @@ class PM_User(models.Model):
 
     @property
     def avatarSrc(self):
-        return str(self.avatar.url)
+        avatar = str(self.avatar.url) if self.avatar else ''
+        if avatar:
+            if avatar.find('media') < 0:
+                avatar = '/media/' + avatar
+        return avatar
 
     @property
     def avatar_rel(self):
