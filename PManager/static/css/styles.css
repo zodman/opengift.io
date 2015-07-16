@@ -3553,7 +3553,7 @@ top: 0;
 .modal-body ol {margin: 0 0 10px 15px}
 .modal-body ol li {margin: 5px 0;}
 
-hr {margin: 25px -25px;}
+.modal-body hr {margin: 25px -25px;}
 
 .error .form-control {
     box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);

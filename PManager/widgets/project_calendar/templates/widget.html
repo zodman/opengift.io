@@ -74,6 +74,41 @@
 <br />
 
 
+<script>
+    $(document).ready(function(){
+        $('.js-calendar-slider').bxSlider({
+            infiniteLoop: false,
+            slideWidth: 200,
+            minSlides: 2,
+            maxSlides: 7,
+            pager: false,
+            nextText:'<i class="fa fa-angle-right"></i>',
+            prevText:'<i class="fa fa-angle-left"></i>',
+            hideControlOnEnd: true
+        });
+        $('.js-calendar-slider-2').bxSlider({
+            infiniteLoop: false,
+            slideWidth: 200,
+            minSlides: 2,
+            maxSlides: 7,
+            pager: false,
+            controls: false,
+            hideControlOnEnd: true
+        });
+
+            var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
+            $(window).bind('scroll', function() {
+                if ($(window).scrollTop() > navHeight) {
+                    $('.calendar-project-list-title-wrapper').addClass('fixed');
+                    $('.calendar-project-list-dates').addClass('top-30');
+                }
+                else {
+                    $('.calendar-project-list-title-wrapper').removeClass('fixed');
+                    $('.calendar-project-list-dates').removeClass('top-30');
+                }
+            });
+    });
+</script>
 <style>
     .sonet-user-profile-friend-box {table-layout:fixed;}
     .sonet-user-profile-friend-box.table th {text-align:center;}
@@ -113,22 +148,7 @@
 
 
     .holiday {background:#fff7f7 !important; color:#e38787 !important;}
-</style>
-<script>
-    $(function () {
-        $('.calendar-slider').bxSlider({
-            infiniteLoop: false,
-            slideWidth: 200,
-            minSlides: 2,
-            maxSlides: 7,
-            pager: false,
-            nextText:'<i class="fa fa-angle-right"></i>',
-            prevText:'<i class="fa fa-angle-left"></i>',
-            hideControlOnEnd: true
-        });
-    });
-</script>
-<style>
+
     .calendar-wrapper {overflow: hidden;}
     .calendar-project-list {
         float: left;
@@ -222,125 +242,99 @@
 
     .calendar-dates-list .bx-wrapper .bx-controls-direction a {
         bottom: 0;
-        font-size: 15px;
+        font-size: 30px;
         height: auto;
         margin: 0;
         top: 0;
-        width: 40px;
+        width: 30px;
         text-decoration: none;
-        opacity: 0.8;
-        -moz-opacity: 0.8;
-        -webkit-opacity: 0.8;
-    }
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover {
-        opacity: 1;
-        -moz-opacity: 1;
-        -webkit-opacity: 1;
     }
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled {display: none;}
     .calendar-dates-list .bx-wrapper .bx-controls-direction a i,
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.disabled i{
-        background: #47a447 none repeat scroll 0 0;
-        border: 3px solid #fff;
-        border-radius: 50%;
-        box-shadow: 0 1px 2px rgba(1, 1, 1, 0.2);
+        background: rgba(1,1,1,0.15);
         color: #fff;
-        font-size: 40px;
-        height: 46px;
-        line-height: 37px;
+        font-size: 30px;
+        height: 30px;
+        line-height: 30px;
         margin-left: 0;
-        margin-top: -20px;
+        margin-top: -15px;
         position: absolute;
         text-align: center;
         top: 50%;
-        width: 46px;
+        width: 30px;
+    }
+
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a:hover i {
+        background: rgba(1,1,1,0.25);
     }
 
     .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next i {
-        padding-left: 6px;
+        padding-left: 3px;
     }
 
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev i {
-        padding-right: 3px;
-    }
-
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev {
-        left: 20px;
-
-        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjA1Ii8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMCIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        background: -moz-linear-gradient(left,  rgba(0,0,0,0.05) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
-        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.05)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-        /*background: -o-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
-        /*background: linear-gradient(to right,  rgba(0,0,0,0.05) 0%,rgba(0,0,0,0) 100%); /* W3C */
-        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
-    }
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next {
-        right: 20px;
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.05+100 */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4wNSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.05) 100%); /* FF3.6+ */
-        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.05))); /* Chrome,Safari4+ */
-        /* background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Chrome10+,Safari5.1+ */
-        /*background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* Opera 11.10+ */
-        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* IE10+ */
-        /*background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.05) 100%); /* W3C */
-        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#0d000000',GradientType=1 ); /* IE6-8 */
-    }
-
-
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next:hover {
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.1+100 */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMwMDAwMDAiIHN0b3Atb3BhY2l0eT0iMC4xIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.1) 100%); /* FF3.6+ */
-        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0)), color-stop(100%,rgba(0,0,0,0.1))); /* Chrome,Safari4+ */
-        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Chrome10+,Safari5.1+ */
-        /*background: -o-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* Opera 11.10+ */
-        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* IE10+ */
-        /*background: linear-gradient(to right,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.1) 100%); /* W3C */
-        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#1a000000',GradientType=1 ); /* IE6-8 */
-    }
-
-
-    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev:hover {
-        /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0.1+0,0+100 */
-        /* IE9 SVG, needs conditional override of 'filter' to 'none' */
-        /*background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwLjEiLz4KICAgIDxzdG9wIG9mZnNldD0iMTAwJSIgc3RvcC1jb2xvcj0iIzAwMDAwMCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgPC9saW5lYXJHcmFkaWVudD4KICA8cmVjdCB4PSIwIiB5PSIwIiB3aWR0aD0iMSIgaGVpZ2h0PSIxIiBmaWxsPSJ1cmwoI2dyYWQtdWNnZy1nZW5lcmF0ZWQpIiAvPgo8L3N2Zz4=);
-        /*background: -moz-linear-gradient(left,  rgba(0,0,0,0.1) 0%, rgba(0,0,0,0) 100%); /* FF3.6+ */
-        /*background: -webkit-gradient(linear, left top, right top, color-stop(0%,rgba(0,0,0,0.1)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
-        /*background: -webkit-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Chrome10+,Safari5.1+ */
-        /*background: -o-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* Opera 11.10+ */
-        /*background: -ms-linear-gradient(left,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* IE10+ */
-        /*background: linear-gradient(to right,  rgba(0,0,0,0.1) 0%,rgba(0,0,0,0) 100%); /* W3C */
-        /*filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1a000000', endColorstr='#00000000',GradientType=1 ); /* IE6-8 */
-    }
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-prev {left: 0px;}
+    .calendar-dates-list .bx-wrapper .bx-controls-direction a.bx-next {right: 0px;}
 
     .widget.tasklist .modal-dialog {position: fixed;}
+
+    .fixed {position: fixed; z-index: 3; top: 59px;}
+    .calendar-project-list-title-wrapper.fixed .calendar-dates-list {width: calc(100% - 235px);}
+    .top-30 {top: 30px; position: relative;}
 </style>
+
 <div class="calendar-wrapper clearfix">
-    <div class="calendar-project-list">
-        <div class="calendar-project-list-empty">Проект</div>
-        <div class="calendar-project-list-item">
-            <h4>Шатура - официальный интернет магазин дилера</h4>
-            <span style="background-image: url(http://heliard.ru/media/thumbnails/156_150x150.jpg);"></span>
+    <div class="calendar-project-list-title-wrapper clearfix">
+        <div class="calendar-project-list">
+            <div class="calendar-project-list-empty">Проект</div>
         </div>
-        <div class="calendar-project-list-item">
-            <h4>Кэшелот</h4>
-            <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
-        </div>
-        <div class="calendar-project-list-item">
-            <h4>Кэшелот</h4>
-            <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
+        <div class="calendar-dates-list">
+            <ul class="calendar-slider clearfix js-calendar-slider">
+                <li>
+                    <div class="calendar-slider-name">Понедельник</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Вторник</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Среда</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Четверг</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Пятница</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Суббота</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Воскресение</div>
+                </li>
+                <li>
+                    <div class="calendar-slider-name">Понедельник</div>
+                </li>
+            </ul>
         </div>
     </div>
-    <div class="calendar-dates-list">
-        <ul class="calendar-slider clearfix">
+    <div class="calendar-project-list-dates">
+        <div class="calendar-project-list">
+            <div class="calendar-project-list-item">
+                <h4>Шатура - официальный интернет магазин дилера</h4>
+                <span style="background-image: url(http://heliard.ru/media/thumbnails/156_150x150.jpg);"></span>
+            </div>
+            <div class="calendar-project-list-item">
+                <h4>Кэшелот</h4>
+                <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
+            </div>
+            <div class="calendar-project-list-item">
+                <h4>Кэшелот</h4>
+                <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
+            </div>
+        </div>
+        <div class="calendar-dates-list">
+        <ul class="calendar-slider clearfix js-calendar-slider-2">
             <li>
-                <div class="calendar-slider-name">Понедельник</div>
-
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                     <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
@@ -404,7 +398,6 @@
                 </div>
             </li>
             <li>
-                <div class="calendar-slider-name">Вторник</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -416,7 +409,6 @@
                 </div>
             </li>
             <li>
-                <div class="calendar-slider-name">Среда</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -428,7 +420,6 @@
                 </div>
             </li>
             <li>
-                <div class="calendar-slider-name">Четверг</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -440,7 +431,6 @@
                 </div>
             </li>
             <li>
-                <div class="calendar-slider-name">Пятница</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -452,7 +442,6 @@
                 </div>
             </li>
             <li class="holiday">
-                <div class="calendar-slider-name">Суббота</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -464,7 +453,6 @@
                 </div>
             </li>
             <li class="holiday">
-                <div class="calendar-slider-name">Воскресение</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -476,7 +464,6 @@
                 </div>
             </li>
             <li>
-                <div class="calendar-slider-name">Понедельник</div>
                 <div class="calendar-slider-item-wrapper">
                     <span class="no-aims-block">Целей нет</span>
                 </div>
@@ -488,6 +475,7 @@
                 </div>
             </li>
         </ul>
+    </div>
     </div>
 </div>
 <table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
