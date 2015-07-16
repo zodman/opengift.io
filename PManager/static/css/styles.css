@@ -21,6 +21,7 @@ h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 .relative {position: relative;}
 
 .inline-block {display: inline-block;}
+.block {display: block;}
 .clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
 
 hr {padding:0px; margin:10px 0; border:0px; border-bottom:1px solid #fff; border-top:1px solid #ddd; height:0px; }
@@ -3436,7 +3437,8 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 .green-popup .modal-header button.close {font-size: 28px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
-.green-popup .modal-header h3 {margin: 0px;}
+.green-popup .modal-header h3,
+.green-popup .modal-header h2 {margin: 0px;}
 .green-popup .modal-header .close {margin-top: -6px;}
 
 .deadline-wrapper {margin-right: -20px;}
@@ -3448,6 +3450,16 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
         top: 9px;
     }
 
+.with-input-and-plus {position: relative;}
+.with-input-and-plus input {width: calc(100% - 50px);}
+.with-input-and-plus i {
+font-size: 18px;
+height: 34px;
+position: absolute;
+right: 0;
+top: 0;
+    cursor: pointer;
+}
 
 .add-aim-body {margin-right: -20px;}
 .add-aim-body-item {float: left; width: calc(33.33% - 20px); margin-right: 20px; position: relative; }
@@ -3529,6 +3541,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     margin-right: 3px;
 }
 
+.modal-body {padding: 20px 25px; font-size: 14px;}
 .modal-body-item {margin-bottom: 15px; font-size: 14px; color: #444;}
 .modal-body-item:last-child {margin-bottom: 0px;}
 .modal-body-item-left {float: left; width: 130px; padding-top: 7px;}
@@ -3536,6 +3549,11 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .error .modal-body-item-left,
 .error .modal-body-item-right {color:#b94a48;}
+
+.modal-body ol {margin: 0 0 10px 15px}
+.modal-body ol li {margin: 5px 0;}
+
+.modal-body hr {margin: 25px -25px;}
 
 .error .form-control {
     box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);
