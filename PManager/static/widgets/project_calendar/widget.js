@@ -95,7 +95,10 @@ $(function(){
         maxSlides: 7,
         pager: false,
         controls: false,
-        hideControlOnEnd: true
+        hideControlOnEnd: true,
+        onSlideBefore: function($slideElement, oldIndex, newIndex){
+            $sliderTop.goToSlide(newIndex);
+        }
     });
 
     var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
