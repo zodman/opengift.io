@@ -81,7 +81,7 @@ class PM_User(models.Model):
 
     @property
     def avatarSrc(self):
-        return str(self.avatar).replace('PManager', '')
+        return str(self.avatar.url)
 
     @property
     def avatar_rel(self):
