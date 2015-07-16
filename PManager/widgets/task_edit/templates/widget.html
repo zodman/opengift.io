@@ -1,4 +1,5 @@
 {% load floattags arraytags compressed %}
+{% compressed_js 'fileup' %}
 {% compressed_js 'task_edit' %}
 <form name="task_form" method="POST" action="{% if task_edit.id %}/task_edit/?id={{ task_edit.id }}{% endif %}{% if request.is_ajax %}&modal=1{% endif%}" rel="{% if task_edit.id %}{{ task_edit.id }}{% endif %}">
     <table width="100%" cellpadding="0" cellspacing="0">
@@ -63,10 +64,28 @@
                         <h5>Файлы</h5>
 
                         <div class="file-adding-form" style="position:relative;">
-                            <div class="filelist-file-upload" style="position: relative; display:block;">
+                            <div class="task-file-upload" style="position: relative; display:block;">
                             </div>
                             <h3 class="file_upload_button">Перетащите файлы или нажмите сюда</h3>
                         </div>
+
+                        {% if task_edit.files %}
+                            <p>
+                                {% for file in task_edit.files %}
+                                    {% if file.is_picture %}
+                                        <a class="fnc" href="{{ file.url }}"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+
+                            <p>
+                                {% for file in task_edit.files %}
+                                    {% if not file.is_picture %}
+                                        <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}" ></span> {{ file.name }}</a><br />
+                                    {% endif %}
+                                {% endfor %}
+                            </p>
+                        {% endif %}
             {# -------- ОТВЕТСТВЕННЫЕ #}
                     </div>
             {# -------- НАБЛЮДАТЕЛИ #}

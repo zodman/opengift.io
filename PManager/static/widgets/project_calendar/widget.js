@@ -1,5 +1,5 @@
-var ShowForm = function(el, arParams){
-    $("#postform").find("input,select").each(
+var ShowForm = function(el, arParams) {
+    $(".js-milestone-form").find("input,select").each(
         function(){
             obj = $(this);
             if (obj.attr("name") == 'ID'){
@@ -17,28 +17,27 @@ var ShowForm = function(el, arParams){
             }
         }
     );
+
     var group_nm = $(el).parents('tr').eq(0).find('.grp_name').eq(0).text();
     if (arParams['project_id']){
-        //$('#title_inp').val('');
+        $('#title_inp').val('');
         $('#header_form').text(group_nm);
     }else{
         $('#header_form').text(group_nm);
     }
-    var mytop = $(el).offset().top - 300;
-    var myleft = $(el).offset().left - 50;
-    $("#taskform")/*.css({"left":myleft+"px","top":mytop+"px"})*/.show();
-    $('#title_inp').focus();
-    flagcool = true;
+
+    $(".js-form-modal").show();
+    $('.js-title-input').focus();
 
     return false;
-}
+};
 
 var ajaxSaveMileStone = function(data){
     PM_AjaxPost('/milestone_ajax/',data,function(data){
         $("#taskform").hide();
         document.location.reload();
     })
-}
+};
 
 var deleteTask = function(id){
     PM_AjaxPost('/milestone_ajax/',{
@@ -48,9 +47,10 @@ var deleteTask = function(id){
         $(".js-milestone-"+id).remove();
     });
     return false;
-}
+};
+
 $(function(){
-    $("#postform .submit").click(function(){
+    $('.js-milestone-submit').click(function(){
         var $form = $(this).closest('form');
         var data = {
             'name':$form.find('[name=TITLE]').val(),
@@ -58,13 +58,14 @@ $(function(){
             'date':$form.find('[name=DEADLINE]').val(),
             'id':$form.find('[name=ID]').val(),
             'project':$form.find('[name=GROUP_ID]').val()
-        }
+        };
+
         ajaxSaveMileStone(data);
     });
+
     $("#taskform").click(function(e){
         e.stopPropagation();
     });
-//    $(document).click(function(){$("#taskform").hide()});
     $("input[name='DEADLINE']").datetimepicker({
         'format': 'd.m.Y',
         'timepicker': false,
@@ -73,4 +74,40 @@ $(function(){
             $(this).val = moment(ct).format('DD.MM.YYYY')
         }
     });
+
+    var $sliderTop = $('.js-calendar-slider').bxSlider({
+        infiniteLoop: false,
+        slideWidth: 200,
+        minSlides: 2,
+        maxSlides: 7,
+        pager: false,
+        nextText:'<i class="fa fa-angle-right"></i>',
+        prevText:'<i class="fa fa-angle-left"></i>',
+        hideControlOnEnd: true,
+        onSlideBefore: function($slideElement, oldIndex, newIndex){
+            $sliderBot.goToSlide(newIndex);
+        }
+    });
+    var $sliderBot = $('.js-calendar-slider-2').bxSlider({
+        infiniteLoop: false,
+        slideWidth: 200,
+        minSlides: 2,
+        maxSlides: 7,
+        pager: false,
+        controls: false,
+        hideControlOnEnd: true
+    });
+
+    var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
+    $(window).bind('scroll', function() {
+        if ($(window).scrollTop() > navHeight) {
+            $('.calendar-project-list-title-wrapper').addClass('fixed');
+            $('.calendar-project-list-dates').addClass('top-30');
+        }
+        else {
+            $('.calendar-project-list-title-wrapper').removeClass('fixed');
+            $('.calendar-project-list-dates').removeClass('top-30');
+        }
+    });
+
 });

@@ -80,6 +80,99 @@
     </div>
 </div>
 
+
+{% if main.CAN_INVITE %}
+<div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content green-popup">
+            <div class="modal-header">
+                <h2>Приглашение пользователей в проект</h2>
+            </div>
+            <div class="modal-body clearfix">
+
+                <div class="inputs-wrapper">
+                    <div class="with-input-and-plus">
+                        <input type="text" name="email" class="form-control js-email-invite" placeholder="Введите email" />
+                        <i class="fa fa-plus btn btn-success"></i>
+                    </div>
+                    <ul class="list-inline" >
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="client" type="checkbox">
+                                    <span class="fa fa-users"></span> Клиент</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="manager" type="checkbox">
+                                    <span class="fa fa-cogs"></span> Менеджер</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="employee" type="checkbox">
+                                    <span class="fa fa-user"></span> Разработчик</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="inputs-wrapper">
+                    <div class="with-input-and-plus">
+                        <input type="text" name="email" class="form-control js-email-invite" placeholder="Введите email" />
+                        <i class="fa fa-plus btn btn-success"></i>
+                    </div>
+                    <ul class="list-inline" >
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="client" type="checkbox">
+                                    <span class="fa fa-users"></span> Клиент</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="manager" type="checkbox">
+                                    <span class="fa fa-cogs"></span> Менеджер</label>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="checkbox">
+                                <label>
+                                    <input class="js-role-check-invite"
+                                           name="roles" value="employee" type="checkbox">
+                                    <span class="fa fa-user"></span> Разработчик</label>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <a href="#" class="btn btn-success block" onclick="return document.mainController.inviteUser($(this), $('.js-email-invite'), $('.js-role-check-invite'));">Пригласить</a>
+                <hr class="margin-25" />
+                <h2>Пригласите проверенных специалистов!</h2>
+                <p>Для приглашения компетентных исполнителей вам нужно:</p>
+                <ol>
+                    <li>Проставить галочки на против задач, которые вы хотите делегировать</li>
+                    <li>Нажать "Пригласить исполнителей" в панели снизу</li>
+                </ol>
+
+
+            </div><!--modal-body-->
+            <div class="modal-footer">
+                <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+            </div>
+        </div><!--modal-content-->
+    </div><!--modal-dialog-->
+</div><!--invite-popup-->
+{% endif %}
+
 <a href="#" class="feedback-button js-feedback" data-target="#feedback-popup" data-toggle="modal">
     <i class="fa fa-question"></i>
 </a>
@@ -325,9 +418,12 @@ $(function(){
               <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
               {% endif %}
               {% if main.CAN_INVITE %}
-              <a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
-              {% endif %}
-              <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
+              <a href="#" class="btn btn-default js-invite-popup" data-target="#invite-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
+
+            <!--<a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default js-invite-popup" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;-->
+
+            {% endif %}
+            <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
               {% if main.CURRENT_PROJECT.id %}
               <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
               {% endif %}

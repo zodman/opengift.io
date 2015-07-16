@@ -39,7 +39,7 @@
                     </div>
                     <div class="clearfix"></div>
                     <hr>
-                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                    {% if user_detail.userIsEqualCurrentUser or user_detail.user.is_superuser %}
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                                    placeholder="Укажите свои навыки" id="skillsDropdown"
