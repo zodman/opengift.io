@@ -96,7 +96,7 @@ $(function(){
         pager: false,
         controls: false,
         hideControlOnEnd: true,
-        onSlideBefore: function($slideElement, oldIndex, newIndex){
+        onSlideAfter: function($slideElement, oldIndex, newIndex){
             $sliderTop.goToSlide(newIndex);
         }
     });
