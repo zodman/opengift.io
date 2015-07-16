@@ -3,19 +3,19 @@
 
 <div class="widget tasklist">
 <div class="modal-dialog green-popup">
-    <div id="taskform" class="modal modal-content add-task" style="display:none;">
+    <div id="taskform" class="modal modal-content add-task js-form-modal" style="display:none;">
         <div class="modal-header">
-            <button onclick="$('#taskform').hide();flagcool=false;return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <button onclick="$('.js-form-modal').hide();return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
             <h3>Создать задачу</h3>
         </div>
-        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="form-horizontal">
+        <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="js-milestone-form form-horizontal">
             <input type="hidden" name="GROUP_ID" value="" />
             <input type="hidden" name="ID" value="" />
             <div class="modal-body">
                 <div class="form-group">
                     <label class="col-xs-3 control-label">Заголовок:</label>
                     <div class="col-xs-9 controls">
-                        <input id='title_inp' class="form-control" type="text" name="TITLE" value="" />
+                        <input id='title_inp' class="form-control js-title-input" type="text" name="TITLE" value="" />
                     </div>
                 </div>
                 <div class="form-group">
@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn" href="#" onClick="$('#taskform').hide();flagcool=false;return false;">Закрыть</a>
-                <a class="btn btn-primary submit" href="#">Сохранить</a>
+                <a class="btn" href="#" onClick="$('.js-form-modal').hide();return false;">Закрыть</a>
+                <a class="btn btn-primary submit js-milestone-submit" href="#">Сохранить</a>
             </div>
         </form>
     </div>
@@ -67,48 +67,65 @@
 
 <h3>Календарь ответственности</h3>
 <hr>
-<ul class="nav nav-pills">
-    <li><a href="#"><b>Все проекты</b></a></li>
-    <li class="active"><a href="#"><b>Только мои</b></a></li>
-</ul>
-<br />
 
+<div class="calendar-wrapper clearfix">
+    <div class="calendar-project-list-title-wrapper clearfix">
+        <div class="calendar-project-list">
+            <div class="calendar-project-list-empty">Проект</div>
+        </div>
+        <div class="calendar-dates-list">
+            <ul class="calendar-slider clearfix js-calendar-slider">
+                {% for day in project_calendar.arDays %}
+                    <li{% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %} class="holiday"{% endif %}>
+                                <div class="calendar-slider-name">{{ day.weekday }}</div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+    <div class="calendar-project-list-dates">
+        <div class="calendar-project-list">
+            {% for project in project_calendar.projects %}
+            <div class="calendar-project-list-item">
+            <h4>{{ project.name }}</h4>
+            {% if project.imagePath %}
+                <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }});"></span>
+            {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+        <div class="calendar-dates-list">
+        <ul class="calendar-slider clearfix js-calendar-slider-2">
+            {% for day in project_calendar.arDays %}
+            <li>
+                {% for project in project_calendar.projects %}
+                <div class="calendar-slider-item-wrapper">
+                    <span class="no-aims-block">Целей нет</span>
+                    {% for milestone in project.milestoneSet %}
+                    {% if milestone.date|date:'d.m.Y' == day.date %}
+                    <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
+                        <a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
+                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
+                        <div class="bxec-event-actions">
+                            <div class="bxec-icon-cont-tl">
+                                <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
+                            </div>
+                        </div>
+                        {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
+                </div>
+                {% endfor %}
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+    </div>
+</div>
+</div>
 
-<script>
-    $(document).ready(function(){
-        $('.js-calendar-slider').bxSlider({
-            infiniteLoop: false,
-            slideWidth: 200,
-            minSlides: 2,
-            maxSlides: 7,
-            pager: false,
-            nextText:'<i class="fa fa-angle-right"></i>',
-            prevText:'<i class="fa fa-angle-left"></i>',
-            hideControlOnEnd: true
-        });
-        $('.js-calendar-slider-2').bxSlider({
-            infiniteLoop: false,
-            slideWidth: 200,
-            minSlides: 2,
-            maxSlides: 7,
-            pager: false,
-            controls: false,
-            hideControlOnEnd: true
-        });
-
-            var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
-            $(window).bind('scroll', function() {
-                if ($(window).scrollTop() > navHeight) {
-                    $('.calendar-project-list-title-wrapper').addClass('fixed');
-                    $('.calendar-project-list-dates').addClass('top-30');
-                }
-                else {
-                    $('.calendar-project-list-title-wrapper').removeClass('fixed');
-                    $('.calendar-project-list-dates').removeClass('top-30');
-                }
-            });
-    });
-</script>
 <style>
     .sonet-user-profile-friend-box {table-layout:fixed;}
     .sonet-user-profile-friend-box.table th {text-align:center;}
@@ -282,243 +299,3 @@
     .calendar-project-list-title-wrapper.fixed .calendar-dates-list {width: calc(100% - 235px);}
     .top-30 {top: 30px; position: relative;}
 </style>
-
-<div class="calendar-wrapper clearfix">
-    <div class="calendar-project-list-title-wrapper clearfix">
-        <div class="calendar-project-list">
-            <div class="calendar-project-list-empty">Проект</div>
-        </div>
-        <div class="calendar-dates-list">
-            <ul class="calendar-slider clearfix js-calendar-slider">
-                <li>
-                    <div class="calendar-slider-name">Понедельник</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Вторник</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Среда</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Четверг</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Пятница</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Суббота</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Воскресение</div>
-                </li>
-                <li>
-                    <div class="calendar-slider-name">Понедельник</div>
-                </li>
-            </ul>
-        </div>
-    </div>
-    <div class="calendar-project-list-dates">
-        <div class="calendar-project-list">
-            <div class="calendar-project-list-item">
-                <h4>Шатура - официальный интернет магазин дилера</h4>
-                <span style="background-image: url(http://heliard.ru/media/thumbnails/156_150x150.jpg);"></span>
-            </div>
-            <div class="calendar-project-list-item">
-                <h4>Кэшелот</h4>
-                <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
-            </div>
-            <div class="calendar-project-list-item">
-                <h4>Кэшелот</h4>
-                <span style="background-image: url(http://heliard.ru/media/thumbnails/164_150x150.png);"></span>
-            </div>
-        </div>
-        <div class="calendar-dates-list">
-        <ul class="calendar-slider clearfix js-calendar-slider-2">
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                    <div class="critically_3 calendar-task js-milestone-73">
-                        <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные, как всегда, хотя их можно сделать в любой день</a>
-                            </div>
-                        </div>
-                        <div>Егор Масловидзе Первый-неделимый</div>
-                    </div>
-                    <div class="critically_1 calendar-task js-milestone-73">
-                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
-                            </div>
-                        </div>
-                        <div>Егор Маслов</div>
-                    </div>
-                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                    <div class="critically_3 calendar-task js-milestone-73">
-                        <a href="#" onclick="return deleteTask('73');" class="delete-task"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});" href="#">Баги. срочные</a>
-                            </div>
-                        </div>
-                        <div>Егор Маслов</div>
-                    </div>
-                    <div class="critically_1 calendar-task js-milestone-73">
-                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
-                            </div>
-                        </div>
-                        <div>Егор Маслов</div>
-                    </div>
-                    <div class="critically_2 calendar-task js-milestone-73">
-                        <a class="delete-task" onclick="return deleteTask('73');" href="#"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;9 мая 2015 г.</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a href="#" onclick="return ShowForm(this,{'name':'Баги. срочные','deadline':'18.07.2015','project_id':2,'id':73});">Баги. срочные</a>
-                            </div>
-                        </div>
-                        <div>Егор Маслов</div>
-                    </div>
-                </div>
-            </li>
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li class="holiday">
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li class="holiday">
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-            <li>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                </div>
-            </li>
-        </ul>
-    </div>
-    </div>
-</div>
-<table width="100%" border="0" class="sonet-user-profile-friend-box  table table-striped table-bordered" cellspacing="0" cellpadding="0">
-    <tr>
-        <th>Проект</th>
-        {% for day in project_calendar.arDays %}
-        <!--<th width="{{ project_calendar.daysCount }}%">{{ day.weekday }}</th>-->
-        <th {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>{{ day.weekday }}</th>
-        {% endfor %}
-    </tr>
-    {% for project in project_calendar.projects %}
-    <tr>
-        <td style="vertical-align:middle !important; text-align:center !important;" class="calendar-project-title">
-            <h4>{{ project.name }}</h4>
-            {% if project.imagePath %}
-            <span class="calendar-project-img">
-                <span><img src="{{ project.imagePath|thumbnail:"150x150" }}" /></span>
-            </span>
-            {% endif %}
-        </td>
-        {% for day in project_calendar.arDays %}
-        <td onMouseOver="$(this).find('span').show();" onMouseOut="$(this).find('span').hide();" {% if day.weekdayMark == 'Sun' or day.weekdayMark == 'Sat' %}class="holiday"{% endif %}>
-        <div>
-            {% for milestone in project.milestoneSet %}
-            {% if milestone.date|date:'d.m.Y' == day.date %}
-            <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
-                <a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
-                <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
-                <div class="bxec-event-actions">
-                    <div class="bxec-icon-cont-tl">
-                        <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
-                    </div>
-                </div>
-                {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
-            </div>
-            {% endif %}
-            {% endfor %}
-            <a href="#" onClick="return ShowForm(this,{'deadline':'{{day.date}}','project_id':{{ project.id }}});" class="calendar-add-task"><span style="display:none;" class="btn btn-success">Добавить</span></a>
-        </div>
-        </td>
-        {% endfor %}
-    </tr>
-    {% endfor %}
-</table>
-
-</div>
