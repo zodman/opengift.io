@@ -74,7 +74,7 @@ $(function(){
             $(this).val = moment(ct).format('DD.MM.YYYY')
         }
     });
-
+    var slideTopProceed = false;
     var $sliderTop = $('.js-calendar-slider').bxSlider({
         infiniteLoop: false,
         slideWidth: 200,
@@ -85,7 +85,11 @@ $(function(){
         prevText:'<i class="fa fa-angle-left"></i>',
         hideControlOnEnd: true,
         onSlideBefore: function($slideElement, oldIndex, newIndex){
+            slideTopProceed = true;
             $sliderBot.goToSlide(newIndex);
+        },
+        onSlideAfter: function(){
+            slideTopProceed = false;
         }
     });
     var $sliderBot = $('.js-calendar-slider-2').bxSlider({
@@ -96,8 +100,11 @@ $(function(){
         pager: false,
         controls: false,
         hideControlOnEnd: true,
-        onSlideAfter: function($slideElement, oldIndex, newIndex){
-            $sliderTop.goToSlide(newIndex);
+        onSlideBefore: function($slideElement, oldIndex, newIndex){
+            if (!slideTopProceed) {
+                $sliderTop.goToSlide(newIndex);
+                return false;
+            }
         }
     });
 
