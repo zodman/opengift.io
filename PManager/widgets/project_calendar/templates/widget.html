@@ -6,7 +6,7 @@
     <div id="taskform" class="modal modal-content add-task js-form-modal" style="display:none;">
         <div class="modal-header">
             <button onclick="$('.js-form-modal').hide();return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
-            <h3>Создать задачу</h3>
+            <h3>Создать цель</h3>
         </div>
         <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="js-milestone-form form-horizontal">
             <input type="hidden" name="GROUP_ID" value="" />
@@ -115,7 +115,7 @@
                     </div>
                     {% endif %}
                     {% endfor %}
-                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'17.07.2015','project_id':1});">Выбрать</a></p>
+                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'{{ day.date }}','project_id':{{project.id}}});">Выбрать</a></p>
                 </div>
                 {% endfor %}
             </li>
