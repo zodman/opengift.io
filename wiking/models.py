@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from PManager.models import PM_Project
 
 
 class ArticleVersion(models.Model):
@@ -23,6 +24,7 @@ class Article(models.Model):
     owner = models.ForeignKey(User, related_name='created_articles', null=False)
     parent = models.ForeignKey('self', related_name='childs', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
+    project = models.ForeignKey(PM_Project, related_name='wiki_articles', null=False)
 
     def get_title(self):
         return self.head.title
