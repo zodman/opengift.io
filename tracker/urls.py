@@ -23,7 +23,7 @@ from PManager.viewsExt.specialty import specialty_ajax
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
-
+from wiking import urls
 
 admin.autodiscover()
 
@@ -150,6 +150,7 @@ urlpatterns = patterns('',
                        url(r'^payment_info/', paysystems),
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
+                       url(r'^wiki/', include('wiking.urls'))
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
