@@ -8,6 +8,7 @@ class ArticleVersion(models.Model):
     version = models.PositiveIntegerField(blank=False, null=False, default=1)
     author = models.ForeignKey(User, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    comment = models.TextField(max_length=255, blank=True, null=False)
 
     def __unicode__(self):
         return self.title
