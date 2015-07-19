@@ -42,3 +42,13 @@ class Article(models.Model):
     class Meta:
         app_label = 'wiking'
 
+
+class Comment(models.Model):
+    text = models.TextField(max_length=1000, null=False, blank=False)
+    author = models.ForeignKey(User, null=False, blank=False)
+
+    def __unicode__(self):
+        return self.text
+
+    class Meta:
+        app_label = 'wiking'
