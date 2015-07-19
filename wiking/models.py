@@ -46,6 +46,7 @@ class Article(models.Model):
 class Comment(models.Model):
     text = models.TextField(max_length=1000, null=False, blank=False)
     author = models.ForeignKey(User, null=False, blank=False)
+    article_version = models.ForeignKey(ArticleVersion, related_name='comments')
 
     def __unicode__(self):
         return self.text
