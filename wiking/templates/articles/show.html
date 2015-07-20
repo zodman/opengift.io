@@ -19,7 +19,9 @@
             <li><a href="/wiki">Главная</a></li>
         {% endif %}
         {% for bread in breadcrumbs %}
-            <li><a href="{{ bread.path }}">{{ bread.article }}</a></li>
+            {% if not bread.article.deleted %}
+                <li><a href="{{ bread.path }}">{{ bread.article }}</a></li>
+            {% endif %}
         {% endfor %}
         <li class="active">{{ article.get_title }}</li>
     </ol>
@@ -30,7 +32,9 @@
         <div class="childs">
             <div class="btn-group" role="group" aria-label="sub-articles" style="float:right">
                 {% for child in article.children.all %}
+                    {% if not child.deleted %}
                       <a href="{{ child.slug }}" class="btn btn-default btn-xs">{{ child }}</a>
+                    {% endif %}
                 {% endfor %}
             </div>
             <div class="pull-right">Вложенные статьи:&nbsp;&nbsp;</div>
@@ -44,12 +48,16 @@
         {{ article.get_content }}
     </div>
     {% if can_write %}
-        <div class="actions">
-            <a href="edit" class="btn btn-warning"><i class="fa fa-edit"></i>&nbsp;Редактировать статью</a>
-            <a href="delete" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Удалить статью</a>
+        <div class="actions pull-left">
+            <a href="edit" class="btn btn-warning" style="float:left;margin-right:10px;">Редактировать статью</a>
+            <form action="delete" style="float:left" method="POST">
+                <input type="submit" class="btn btn-danger" value="Удалить статью"/>
+            </form>
+        <div class="clearfix"></div>
         </div>
     {% endif %}
     <div class="footer" style="float:right">
+
         <div class="author">Последний автор:
             <a href="{{ article.get_author.get_profile.url }}">
                 {{ article.get_author.first_name }} {{ article.get_author.last_name }}

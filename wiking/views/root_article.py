@@ -66,9 +66,18 @@ class RootArticleView:
     @staticmethod
     @require_POST
     def delete(request, article_slug):
-        return render_to_response('base.html',
-                                  {'title': 'RootArticle delete:' + article_slug},
-                                  content_type='text/html')
+        parent, slug, articles, error = ArticleService.parse_slug(article_slug)
+        if error == ArticleService.PATH_NOT_FIND:
+            raise Http404
+        article = ArticleService.get_article(parent, slug)
+        if not ArticleService.can_write(article, request.user):
+            raise PermissionDenied
+        if not article:
+            raise Http404
+        path = ArticleService.get_parent_path(article, articles)
+        article.deleted = True
+        article.save()
+        return HttpResponseRedirect(path)
 
     @staticmethod
     @require_safe

@@ -15,7 +15,9 @@
     <div class="wiking-container">
         <div class="btn-group-vertical" role="group" aria-label="root">
             {% for article in articles %}
-                <a href="{{ article.slug }}" class="btn btn-default">{{ article.get_title }}</a>
+                {% if not article.deleted %}
+                    <a href="{{ article.slug }}" class="btn btn-default">{{ article.get_title }}</a>
+                {% endif %}
             {% endfor %}
         </div>
     </div>
