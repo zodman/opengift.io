@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load add_class %}
+{% block wiking_title %}
+    <div class="pull-left">{{ article.get_title }}</div>
+    <div class="pull-right">&nbsp;&nbsp;Владелец: <a href="{{ article.owner.get_profile.url }}">{{ article.owner.first_name }} {{ article.owner.last_name }}</a></div>
+    <div class="pull-right">&nbsp;Создано: {{ article.created_at }}</div>
+    <div class="clearfix"></div>
+{% endblock %}
+{% block wiking_breadcrumbs %}
+        <ol class="breadcrumb">
+        {% for bread in breadcrumbs %}
+            <li><a href="{{ bread.path }}">{{ bread.article }}</a></li>
+        {% endfor %}
+            <li class="active">{{ article.get_title }}</li>
+        </ol>
+{% endblock %}
+{% block wiking_content %}
+    <div class="childs">
+        <div class="btn-group" role="group" aria-label="sub-articles" style="float:right">
+            {% for child in article.children.all %}
+                  <a href="{{ child.slug }}" class="btn btn-default btn-xs">{{ child }}</a>
+            {% endfor %}
+        </div>
+        <div class="clearfix"></div>
+    </div>
+    <div class="wiking-content" style="padding:20px 0px">
+        {{ article.get_content }}
+    </div>
+    <div class="footer" style="float:right">
+        <div class="author">Последний автор:
+            <a href="{{ article.get_author.get_profile.url }}">
+                {{ article.get_author.first_name }} {{ article.get_author.last_name }}
+            </a>
+        </div>
+        <div class="replaced">Изменено: {{ article.head.created_at }}</div>
+        <div class="version">Версия: {{ article.get_revision }}</div>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

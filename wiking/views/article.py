@@ -1,9 +1,10 @@
 __author__ = 'rayleigh'
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import json
 from django.views.decorators.http import require_http_methods, require_safe, require_POST
 from django.shortcuts import render_to_response
 from wiking.services.articles import ArticleService
+from wiking.views.forms import ArticleForm
 
 class ArticleView:
     def __init__(self):
@@ -13,10 +14,13 @@ class ArticleView:
     @require_safe
     def new(request, project_slug):
         #view for the new form
+        form = ArticleForm()
         slug = request.GET.get('slug', '')
+        if not project_slug:
+            raise Http404
+        data = dict()
         return render_to_response('base.html',
-                                  {'title': 'This is the new response; The slug is :'
-                                      + slug + '; Project id is: ' + project_slug},
+                                  data,
                                   content_type='text/html')
 
     @staticmethod

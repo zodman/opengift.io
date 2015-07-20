@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load add_class %}
+{% block wiking_title %}Редактирование статьи {{ article.get_title }}{% endblock %}
+{% block wiking_content %}
+    <script>
+        {% for field in form %}
+            {% if field.errors %}
+                {% for error in field.errors %}
+                    toastr.error('{{ field.label }}: {{ error }}');
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </script>
+    <form action="" method="post" class="form-horizontal">
+        {% for field in form.hidden_fields %}
+            {{ field }}
+        {% endfor %}
+        {% for field in form.visible_fields %}
+            <div class="form-group">
+                <div class="col-sm-2">
+                    <label for="test" class="control-label">{{ field.label }}</label>
+                </div>
+                <div class="col-sm-10">
+                    {{ field }}
+                </div>
+            </div>
+        {% endfor %}
+        <div class="col-sm-2"></div>
+        <div class="col-sm-10">
+            <input type="submit" value="Сохранить" class="btn btn-primary" />
+        </div>
+    </form>
+{% endblock %}
