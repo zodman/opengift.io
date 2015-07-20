@@ -20,7 +20,7 @@ class ArticleService:
         path = ArticleService.ROOT_PATH
         if article.project is not None:
             path = os.path.join(path, 'project')
-            path = os.path.join(path, article.project.id)
+            path = os.path.join(path, str(article.project.id))
         for article in articles:
             path = os.path.join(path, article.slug)
         return path
@@ -33,6 +33,7 @@ class ArticleService:
         article.slug = data['slug']
         article.owner = user
         article.head = version
+        article.project = data['project']
         if data['parent']:
             article.level = data['parent'].level + 1
         article.save()
@@ -104,9 +105,9 @@ class ArticleService:
         return output
 
     @staticmethod
-    def get_article(parent, slug):
+    def get_article(parent, slug, project=None):
         try:
-            article = Article.objects.get(slug=slug, parent=parent, deleted=False)
+            article = Article.objects.get(slug=slug, parent=parent, deleted=False, project=project)
             return article
         except Article.DoesNotExist:
             return None
@@ -125,11 +126,11 @@ class ArticleService:
         path = ArticleService.ROOT_PATH
         if project is not None:
             path = os.path.join(path, 'project')
-            path = os.path.join(path, project.id)
+            path = os.path.join(path, str(project.id))
         return os.path.join(path, 'new') + '?slug=' + article_slug
 
     @staticmethod
-    def parse_slug(raw_slug):
+    def parse_slug(raw_slug, project=None):
         slugs = raw_slug.strip('/').split('/')
         slug = slugs.pop()
         parent = None
@@ -138,7 +139,7 @@ class ArticleService:
         if len(slugs) > 0:
             parent_level = len(slugs) - 1
             parent_slug = slugs[len(slugs) - 1]
-            articles = Article.objects.filter(slug__in=slugs).order_by('level')
+            articles = Article.objects.filter(slug__in=slugs, project=project).order_by('level')
             if len(slugs) != len(articles):
                 error = ArticleService.PATH_NOT_FIND
             for article in articles:
