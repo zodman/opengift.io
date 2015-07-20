@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
+{% block wiking_js %}
+    {% include 'partials/create_page.html' %}
+{% endblock %}
 {% block wiking_title %}
     {% if project %}
-        {{ project.title }}
+        Википедия: {{ project.name }}
     {% else %}
         Википедия
     {% endif %}
@@ -20,5 +23,11 @@
                 {% endif %}
             {% endfor %}
         </div>
+        <div class="clearfix" style="padding-bottom:20px;"></div>
+        {% if can_create %}
+            <a href="" class="btn btn-primary" onclick="window.create_new_page();return false;" style="float:left">
+                Добавить страницу
+            </a>
+        {% endif %}
     </div>
 {% endblock %}

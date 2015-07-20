@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-
+{% block wiking_js %}
+    {% include 'partials/create_page.html' %}
+{% endblock %}
 {% block wiking_title %}
     <div class="pull-left">{{ article.get_title }}</div>
     <div class="pull-right">&nbsp;&nbsp;Владелец:
@@ -50,9 +52,10 @@
     {% if can_write %}
         <div class="actions pull-left">
             <a href="edit" class="btn btn-warning" style="float:left;margin-right:10px;">Редактировать статью</a>
-            <form action="delete" style="float:left" method="POST">
+            <form action="delete" style="float:left;margin-right:10px;" method="POST">
                 <input type="submit" class="btn btn-danger" value="Удалить статью"/>
             </form>
+            <a href="" class="btn btn-primary" onclick="window.create_new_page();return false;" style="float:left">Добавить страницу</a>
         <div class="clearfix"></div>
         </div>
     {% endif %}

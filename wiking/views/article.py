@@ -19,7 +19,6 @@ class ArticleView:
     def new(request, project_slug=None):
         project = get_project_by_id(project_slug)
         raw_slug = request.GET.get('slug')
-        #todo: should check slug by regex
         if not ArticleService.can_create(request.user, project):
             raise PermissionDenied
         if not raw_slug or len(raw_slug) < 1:
@@ -54,6 +53,8 @@ class ArticleView:
         article = ArticleService.get_article(parent, slug, project)
         if error == ArticleService.PATH_NOT_FIND:
             raise Http404
+        if not ArticleService.can_write(article, request.user):
+            raise PermissionDenied
         response = ArticleView.__env(request)
         if request.method == 'POST':
             form = ArticleForm(request.POST)
@@ -92,11 +93,15 @@ class ArticleView:
     def index(request, project_slug=None):
         response = ArticleView.__env(request)
         project = get_project_by_id(project_slug)
+        if not request.user.get_profile().hasRole(project):
+            raise PermissionDenied
         if project is None:
             response['articles'] = ArticleService.articles(project__isnull=True, level=0, deleted=False)
         else:
             response['articles'] = ArticleService.articles(project__isnull=False, level=0,
                                                            deleted=False, project=project)
+        response['project'] = project
+        response['can_create'] = ArticleService.can_create(request.user, project)
         return render_to_response('articles/index.html',
                                   response,
                                   content_type='text/html')
