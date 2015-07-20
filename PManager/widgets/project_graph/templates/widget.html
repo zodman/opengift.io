@@ -24,7 +24,14 @@
             </a>
             <a href="/payment_info/">(информация об оплате)</a>
             {% else %}
-            <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }} &nbsp;<a href="/payment/" class="btn">продлить</a>
+            <script>
+                $(function () {
+                    $('[data-toggle="popover"]').popover({
+                        trigger:'hover'
+                    })
+                })
+            </script>
+            <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }} &nbsp;<a href="/payment/" class="btn" data-placement="bottom"  data-toggle="popover" data-content="У вас заканчивается Premium аккаунт, продлить его можно здесь!"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;продлить</a>
             {% endif %}
             {% if project_graph.taskdrafts_cnt %}
                 <a href="/taskdrafts/" class="btn"><i class="fa fa-list"></i>&nbsp;&nbsp;Списки задач &nbsp;({{ project_graph.taskdrafts_cnt }})</a>
