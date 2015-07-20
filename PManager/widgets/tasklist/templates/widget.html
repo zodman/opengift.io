@@ -4,6 +4,14 @@
 <script language="JavaScript">
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
+<script src="/static/js/jquery.fancyform.min.js"></script>
+<script>
+    $(function(){
+        $("input:radio").transformRadio({
+            base : "class" // Can be image or class, if class a span will be added
+        });
+    });
+</script>
 <div class="widget tasklist">
     <!--<div class="row">
         <div class="col-xs-12">-->
@@ -293,22 +301,31 @@
             <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post">
-              <div class="modal-body add-aim-body clearfix">
-                  <div class="add-aim-body-item">
-                      <select class="form-control js-select-milestone" name="milestone">
-                        <option value="">Новая цель</option>
-                        {% for milestone in tasklist.milestones %}
-                        <option value="{{ milestone.id }}">{{ milestone.name }}</option>
-                        {% endfor %}
-                      </select>
+              <div class="modal-body clearfix">
+                  <div class="add-aim-body clearfix">
+                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
+                      <div class="add-aim-body-item">
+                        <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
+                      </div>
+                      <label class="label-body-item" style="position: relative; z-index:99999999">
+                            <input style="position: relative; z-index:100000000" type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
+                            <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;z-index: 999999999" onclick="$(this).prev().focus();"></a>
+                      </label>
                   </div>
-                  <div class="add-aim-body-item">
-                    <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
+                  <div class="add-aim-body-wrapper-wrapper clearfix">
+                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
+                      <div class="add-aim-body-wrapper clearfix">
+                          <div class="add-aim-body-wrapper-name">Название цели</div>
+                          <div class="add-aim-body-wrapper-date">23.09.2015</div>
+                      </div>
                   </div>
-                  <label class="label-body-item" style="position: relative; z-index:99999999">
-                        <input style="position: relative; z-index:100000000" type="text" class="js-date form-control" maxlength="10" name="milestone_date" placeholder="Дата" />
-                        <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;z-index: 999999999" onclick="$(this).prev().focus();"></a>
-                  </label>
+                  <div class="add-aim-body-wrapper-wrapper clearfix">
+                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
+                      <div class="add-aim-body-wrapper clearfix">
+                          <div class="add-aim-body-wrapper-name">Название цели</div>
+                          <div class="add-aim-body-wrapper-date">23.09.2015</div>
+                      </div>
+                  </div>
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-milestone"></div>

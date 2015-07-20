@@ -3461,14 +3461,63 @@ top: 0;
     cursor: pointer;
 }
 
-.add-aim-body {margin-right: -20px;}
-.add-aim-body-item {float: left; width: calc(33.33% - 20px); margin-right: 20px; position: relative; }
+.add-aim-body {margin-bottom: 7px;position: relative; }
+.add-aim-checkbox {
+    left: 0;
+    position: absolute;
+    top: 3px;
+    width: 30px;
+}
+
+
+.add-aim-checkbox .trans-element-radio {
+    background: #f4f4f4 none repeat scroll 0 0;
+    border-radius: 50%;
+    box-shadow: 0 1px 1px rgba(1, 1, 1, 0.1) inset;
+    display: inline-block;
+    height: 20px;
+    position: absolute;
+    top: 4px;
+    width: 20px;
+    cursor: pointer;
+}
+.add-aim-checkbox .trans-element-radio.unchecked {}
+.add-aim-checkbox .trans-element-radio.checked {}
+
+.add-aim-checkbox .trans-element-radio.checked:before {
+    background: #47a447 none repeat scroll 0 0;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    content: "";
+    display: block;
+    height: 10px;
+    left: 5px;
+    position: absolute;
+    top: 5px;
+    width: 10px;
+}
+
+.add-aim-body-item {float: left; width: calc(66.66% - 20px); margin-right: 20px;padding-left: 30px;}
 .add-aim-body-item .fa-calendar {
     position: absolute;
     right: 10px;
     top: 9px;
 }
-.label-body-item{width: calc(33.33% - 20px);}
+.label-body-item {width: 33.33%; margin-bottom: 0px;}
+
+.add-aim-body-wrapper-wrapper {
+    margin-bottom: 10px;
+    position: relative;
+    padding-left: 30px;
+}
+.add-aim-body-wrapper {
+    background: #f4f4f4 none repeat scroll 0 0;
+    border-left: 3px solid #dddddd;
+    padding: 7px 10px;
+}
+.add-aim-body-wrapper-name {float:left; width: calc(66.66% - 20px); margin-right: 20px;}
+.add-aim-body-wrapper-date {float:left; width: calc(33.33% - 14px); margin-left: 14px;}
 
 .article-breadcrumbs-wiki-search {display: table; width: 100%; margin-bottom: 20px;}
 .article-breadcrumbs {display: table-cell; width: calc(100% - 200px); padding-right: 20px; vertical-align: top;}
