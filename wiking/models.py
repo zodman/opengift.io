@@ -26,6 +26,7 @@ class Article(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(PM_Project, related_name='wiki_articles', null=True)
     level = models.IntegerField(default=0)
+    deleted = models.BooleanField(default=False)
 
     def get_title(self):
         return self.head.title

@@ -1,3 +1,5 @@
+from django.core.exceptions import PermissionDenied
+
 __author__ = 'rayleigh'
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 import json
@@ -56,6 +58,7 @@ class RootArticleView:
             form_data = ArticleService.get_form_data(article)
             form = ArticleForm(form_data)
         response['form'] = form
+        response['show_url'] = ArticleService.get_absolute_url(article, articles)
         return render_to_response('articles/edit.html',
                                   response,
                                   content_type='text/html')
@@ -71,9 +74,10 @@ class RootArticleView:
     @require_safe
     def index(request):
         from PManager.viewsExt.headers import initGlobals
-        header_values = initGlobals(request)
-        return render_to_response('base.html',
-                                  {'title': 'Root Wiking index', 'main': header_values, 'user': request.user},
+        response = RootArticleView.__env(request)
+        response['articles'] = ArticleService.articles(project__isnull=True, level=0)
+        return render_to_response('articles/index.html',
+                                  response,
                                   content_type='text/html')
 
     @staticmethod
@@ -86,6 +90,9 @@ class RootArticleView:
         data['parent'] = parent
         data['breadcrumbs'] = ArticleService.get_breadcrumbs(articles)
         article = ArticleService.get_article(parent, slug)
+        if not ArticleService.can_read(article, request.user):
+            raise PermissionDenied
+        data['can_write'] = ArticleService.can_write(article, request.user)
         if not article:
             return HttpResponseRedirect(ArticleService.get_create_path(article_slug))
         data['article'] = article

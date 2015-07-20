@@ -12,12 +12,17 @@
 {% endblock %}
 
 {% block wiking_breadcrumbs %}
-        <ol class="breadcrumb">
+    <ol class="breadcrumb">
+        {% if project %}
+            <li><a href="/wiki/project/{{ project.id }}">Главная</a></li>
+        {% else %}
+            <li><a href="/wiki">Главная</a></li>
+        {% endif %}
         {% for bread in breadcrumbs %}
             <li><a href="{{ bread.path }}">{{ bread.article }}</a></li>
         {% endfor %}
-            <li class="active">{{ article.get_title }}</li>
-        </ol>
+        <li class="active">{{ article.get_title }}</li>
+    </ol>
 {% endblock %}
 
 {% block wiking_childs %}
@@ -38,6 +43,12 @@
     <div class="wiking-content" style="padding:20px 0px">
         {{ article.get_content }}
     </div>
+    {% if can_write %}
+        <div class="actions">
+            <a href="edit" class="btn btn-warning"><i class="fa fa-edit"></i>&nbsp;Редактировать статью</a>
+            <a href="delete" class="btn btn-danger"><i class="fa fa-trash"></i>&nbsp;Удалить статью</a>
+        </div>
+    {% endif %}
     <div class="footer" style="float:right">
         <div class="author">Последний автор:
             <a href="{{ article.get_author.get_profile.url }}">

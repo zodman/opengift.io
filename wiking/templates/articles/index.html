@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block wiking_title %}
+    {% if project %}
+        {{ project.title }}
+    {% else %}
+        Википедия
+    {% endif %}
+{% endblock %}
+
+{% block wiking_breadcrumbs %}{% endblock %}
+
+{% block wiking_childs %}{% endblock %}
+
+{% block wiking_content %}
+    <div class="wiking-container">
+        <div class="btn-group-vertical" role="group" aria-label="root">
+            {% for article in articles %}
+                <a href="{{ article.slug }}" class="btn btn-default">{{ article.get_title }}</a>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

@@ -46,6 +46,14 @@ class ArticleService:
         return article
 
     @staticmethod
+    def articles(*args, **kwargs):
+        try:
+            articles = Article.objects.filter(*args, **kwargs)
+            return articles
+        except Article.DoesNotExist:
+            return []
+
+    @staticmethod
     def create_version(data, user, last_version=0):
         version = ArticleVersion()
         version.title = data['title']
@@ -55,6 +63,34 @@ class ArticleService:
         version.version = last_version + 1
         version.save()
         return version
+
+    @staticmethod
+    def can_write(article, user):
+        if user.is_staff:
+            return True
+        if article.deleted:
+            return False
+        if article.owner.id == user.id:
+            return True
+        return user.get_profile().hasRole(article.project)
+
+    @staticmethod
+    def can_create(user, project=None):
+        if user.is_staff:
+            return True
+        if project is None:
+            return False
+        return user.get_profile().hasRole(project)
+
+    @staticmethod
+    def can_read(article, user):
+        if user.is_staff:
+            return True
+        if article.deleted:
+            return False
+        if article.project is None:
+            return True
+        return user.get_profile().hasRole(article.project)
 
     @staticmethod
     def get_breadcrumbs(articles):
@@ -70,7 +106,7 @@ class ArticleService:
     @staticmethod
     def get_article(parent, slug):
         try:
-            article = Article.objects.get(slug=slug, parent=parent)
+            article = Article.objects.get(slug=slug, parent=parent, deleted=False)
             return article
         except Article.DoesNotExist:
             return None
