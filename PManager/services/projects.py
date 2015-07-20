@@ -8,5 +8,7 @@ def get_project_by_id(project_id):
         return project
     except ValueError:
         return None
+    except TypeError:
+        return None
     except PM_Project.DoesNotExist:
         return None

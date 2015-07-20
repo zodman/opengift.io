@@ -95,7 +95,7 @@ class ArticleView:
     def index(request, project_slug=None):
         response = ArticleView.__env(request)
         project = get_project_by_id(project_slug)
-        if not request.user.get_profile().hasRole(project):
+        if project and not request.user.get_profile().hasRole(project):
             raise PermissionDenied
         if project is None:
             response['articles'] = ArticleService.articles(project__isnull=True, level=0, deleted=False)
