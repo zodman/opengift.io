@@ -4,7 +4,6 @@ __author__ = 'Rayleigh'
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
-PIPELINE_DISABLE_WRAPPER = True
 PIPELINE_JS = {
     'base': {
         'source_filenames': (
@@ -187,7 +186,17 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/user_statistic.js'
     },
+    'markdown': {
+        'source_filenames': (
+            'js/markdown.js',
+            'js/to-markdown.js',
+            'js/bootstrap-markdown.js',
+            'js/locale/bootstrap-markdown.ru.js',
+        ),
+        'output_filename': 'js_compressed/markdown.js'
+    }
 }
+PIPELINE_DISABLE_WRAPPER = True
 
 PIPELINE_CSS = {
     'base': {
@@ -209,4 +218,10 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css_compressed/base.css',
     },
+    'markdown': {
+        'source_filenames': (
+            'css/bootstrap-markdown.css',
+        ),
+        'output_filename': 'css_compressed/markdown.css'
+    }
 }

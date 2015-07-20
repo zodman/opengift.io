@@ -1,15 +1,19 @@
 {% extends 'base.html' %}
-{% load add_class %}
 {% block wiking_title %}Редактирование статьи {{ article.get_title }}{% endblock %}
 {% block wiking_content %}
     <script>
-        {% for field in form %}
-            {% if field.errors %}
-                {% for error in field.errors %}
-                    toastr.error('{{ field.label }}: {{ error }}');
-                {% endfor %}
-            {% endif %}
-        {% endfor %}
+        $(document).ready(function(){
+            $(".article-text").markdown({language:'ru'});
+        });
+        {% if not new_form %}
+            {% for field in form %}
+                {% if field.errors %}
+                    {% for error in field.errors %}
+                        toastr.error('{{ field.label }}: {{ error }}');
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        {% endif %}
     </script>
     <form action="" method="post" class="form-horizontal">
         {% for field in form.hidden_fields %}
@@ -27,8 +31,10 @@
         {% endfor %}
         <div class="col-sm-2"></div>
         <div class="col-sm-10">
-            <input type="submit" value="Сохранить" class="btn btn-primary" />
-            <a href="{{ show_url }}" class="btn btn-danger" >Вернуться</a>
+            {% block wiking_edit_buttons %}
+                <input type="submit" value="Сохранить" class="btn btn-primary" />
+                <a href="{{ show_url }}" class="btn btn-danger" >Вернуться</a>
+            {% endblock %}
         </div>
     </form>
 {% endblock %}

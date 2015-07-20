@@ -1,6 +1,5 @@
-from django.core.exceptions import PermissionDenied
-
 __author__ = 'rayleigh'
+from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.decorators.http import require_http_methods, require_safe, require_POST
 from django.shortcuts import render_to_response
@@ -56,8 +55,10 @@ class ArticleView:
         if not ArticleService.can_write(article, request.user):
             raise PermissionDenied
         response = ArticleView.__env(request)
+        response['new_form'] = True
         if request.method == 'POST':
             form = ArticleForm(request.POST)
+            response['new_form'] = False
             if form.is_valid():
                 data = form.cleaned_data
                 data['parent'] = parent
@@ -75,10 +76,11 @@ class ArticleView:
     @staticmethod
     @require_POST
     def delete(request, article_slug, project_slug=None):
-        parent, slug, articles, error = ArticleService.parse_slug(article_slug)
+        project = get_project_by_id(project_slug)
+        parent, slug, articles, error = ArticleService.parse_slug(article_slug, project)
         if error == ArticleService.PATH_NOT_FIND:
             raise Http404
-        article = ArticleService.get_article(parent, slug)
+        article = ArticleService.get_article(parent, slug, project)
         if not ArticleService.can_write(article, request.user):
             raise PermissionDenied
         if not article:
@@ -127,6 +129,53 @@ class ArticleView:
         return render_to_response('articles/show.html',
                                   data,
                                   content_type='text/html')
+
+    @staticmethod
+    @require_http_methods(['GET', 'HEAD'])
+    def revisions(request, article_slug, project_slug=None):
+        project = get_project_by_id(project_slug)
+        parent, slug, articles, error = ArticleService.parse_slug(article_slug, project)
+        if error == ArticleService.PATH_NOT_FIND:
+            raise Http404
+        data = ArticleView.__env(request)
+        data['parent'] = parent
+        data['breadcrumbs'] = ArticleService.get_breadcrumbs(articles)
+        data['project'] = project
+        page = int(request.GET.get('page', 1))
+        article = ArticleService.get_article(parent, slug, project)
+        if not ArticleService.can_write(article, request.user):
+            raise PermissionDenied
+        data['article'] = article
+        data['article_path'] = ArticleService.get_absolute_url(article, articles)
+        data['revisions'] = ArticleService.get_revisions(article, page=page, limit=10)
+        data['prev_page'] = None
+        if page > 1:
+            data['prev_page'] = page - 1
+        data['next_page'] = None
+        if len(data['revisions']) == 10:
+            data['next_page'] = page + 1
+        return render_to_response('articles/revisions.html',
+                                  data,
+                                  content_type='text/html')
+
+    @staticmethod
+    @require_POST
+    def set_revision(request, article_slug, project_slug=None):
+        project = get_project_by_id(project_slug)
+        parent, slug, articles, error = ArticleService.parse_slug(article_slug, project)
+        if error == ArticleService.PATH_NOT_FIND:
+            raise Http404
+        article = ArticleService.get_article(parent, slug, project)
+        if not article:
+            raise Http404
+        if not ArticleService.can_write(article, request.user):
+            raise PermissionDenied
+        revision_id = int(request.POST.get('revision_id'))
+        success = ArticleService.jump_to_revision(article, revision_id, request.user)
+        if success:
+            return HttpResponseRedirect(ArticleService.get_absolute_url(article, articles))
+        else:
+            raise PermissionDenied
 
     @staticmethod
     def __env(request):

@@ -1,42 +1,30 @@
 {% extends 'base.html' %}
+
 {% block wiking_js %}
     {% include 'partials/create_page.html' %}
+    <script>
+        $(document).ready(function(){
+           var md_content = $('.wiking-content').html();
+           var html_content = markdown.toHTML(md_content);
+           $('.wiking-content').html(html_content);
+        });
+    </script>
 {% endblock %}
+
 {% block wiking_title %}
-    <div class="pull-left">{{ article.get_title }}</div>
-    <div class="pull-right">&nbsp;&nbsp;Владелец:
-        <a href="{{ article.owner.get_profile.url }}">
-            {{ article.owner.first_name }} {{ article.owner.last_name }}
-        </a>
-    </div>
-    <div class="pull-right">&nbsp;Создано: {{ article.created_at }}</div>
-    <div class="clearfix"></div>
+    {% include 'partials/full_title.html' %}
 {% endblock %}
 
 {% block wiking_breadcrumbs %}
-    <ol class="breadcrumb">
-        {% if project %}
-            <li><a href="/wiki/project/{{ project.id }}">Главная</a></li>
-        {% else %}
-            <li><a href="/wiki">Главная</a></li>
-        {% endif %}
-        {% for bread in breadcrumbs %}
-            {% if not bread.article.deleted %}
-                <li><a href="{{ bread.path }}">{{ bread.article }}</a></li>
-            {% endif %}
-        {% endfor %}
-        <li class="active">{{ article.get_title }}</li>
-    </ol>
+    {% include 'partials/breadcrumbs.html' %}
 {% endblock %}
 
 {% block wiking_childs %}
-    {% if article.children.all %}
+    {% if article.active_children %}
         <div class="childs">
             <div class="btn-group" role="group" aria-label="sub-articles" style="float:right">
-                {% for child in article.children.all %}
-                    {% if not child.deleted %}
+                {% for child in article.active_children %}
                       <a href="{{ child.slug }}" class="btn btn-default btn-xs">{{ child }}</a>
-                    {% endif %}
                 {% endfor %}
             </div>
             <div class="pull-right">Вложенные статьи:&nbsp;&nbsp;</div>
@@ -46,9 +34,8 @@
 {% endblock %}
 
 {% block wiking_content %}
-    <div class="wiking-content" style="padding:20px 0px">
-        {{ article.get_content }}
-    </div>
+    <div class="wiking-content" style="padding:20px 0px">{{ article.get_content }}</div>
+
     {% if can_write %}
         <div class="actions pull-left">
             <a href="edit" class="btn btn-warning" style="float:left;margin-right:10px;">Редактировать статью</a>
@@ -67,7 +54,7 @@
             </a>
         </div>
         <div class="replaced">Изменено: {{ article.head.created_at }}</div>
-        <div class="version">Версия: {{ article.get_revision }}</div>
+        <div class="version">Версия: <a href="revisions">{{ article.get_revision }}</a></div>
     </div>
     <div class="clearfix"></div>
 {% endblock %}

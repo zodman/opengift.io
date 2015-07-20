@@ -10,6 +10,7 @@ class ArticleVersion(models.Model):
     author = models.ForeignKey(User, null=False, blank=False)
     created_at = models.DateTimeField(auto_now_add=True)
     comment = models.TextField(max_length=255, blank=True, null=False)
+    article = models.ForeignKey('Article', null=False)
 
     def __unicode__(self):
         return self.title
@@ -20,7 +21,7 @@ class ArticleVersion(models.Model):
 
 class Article(models.Model):
     slug = models.CharField(max_length=255)
-    head = models.ForeignKey(ArticleVersion, related_name='article', null=False)
+    head = models.ForeignKey(ArticleVersion, related_name='head_article', null=True)
     owner = models.ForeignKey(User, related_name='created_articles', null=False)
     parent = models.ForeignKey('self', related_name='children', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -42,6 +43,9 @@ class Article(models.Model):
 
     def __unicode__(self):
         return self.slug
+
+    def active_children(self):
+        return self.children.filter(deleted=False)
 
     class Meta:
         app_label = 'wiking'

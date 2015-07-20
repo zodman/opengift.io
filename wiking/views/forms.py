@@ -19,8 +19,11 @@ class ArticleForm(forms.Form):
                            widget=forms.HiddenInput(), label='Адрес')
     comment = forms.CharField(max_length=255,
                               required=True,
-                              widget=forms.Textarea(attrs={'class': 'form-control'}), label='Коментарий')
-    content = forms.CharField(widget=forms.Textarea(attrs={'class': 'form-control'}), label='Статья')
+                              widget=forms.TextInput(attrs={'class': 'form-control'}), label='Коментарий')
+    content = forms.CharField(widget=forms.Textarea(
+        attrs={'class': 'form-control article-text', 'rows': 20}),
+        label='Статья'
+    )
 
 
 class CommentForm(forms.Form):

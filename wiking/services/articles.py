@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'rayleigh'
 from wiking.models import Article, ArticleVersion
 import os
@@ -26,21 +27,41 @@ class ArticleService:
         return path
 
     @staticmethod
+    def jump_to_revision(article, revision_id, user):
+        try:
+            revision = ArticleVersion.objects.get(pk=revision_id, article=article)
+        except ArticleVersion.DoesNotExist:
+            return False
+        data = dict()
+        data['title'] = revision.title
+        data['content'] = revision.content
+        data['comment'] = 'Востановлено из версии ' + str(revision.version)
+        data['article'] = article
+        new_revision = ArticleService.create_version(data, user, article.head.version)
+        article.head = new_revision
+        article.save()
+        return True
+
+    @staticmethod
     def create_article(data, user):
-        version = ArticleService.create_version(data, user)
         article = Article()
         article.parent = data['parent']
         article.slug = data['slug']
         article.owner = user
-        article.head = version
         article.project = data['project']
         if data['parent']:
             article.level = data['parent'].level + 1
+        article.save()
+        #head pointer
+        data['article'] = article
+        version = ArticleService.create_version(data, user)
+        article.head = version
         article.save()
         return article
 
     @staticmethod
     def update_article(article, data, user):
+        data['article'] = article
         new_version = ArticleService.create_version(data, user, article.head.version)
         article.head = new_version
         article.save()
@@ -60,6 +81,7 @@ class ArticleService:
         version.title = data['title']
         version.content = data['content']
         version.comment = data['comment']
+        version.article = data['article']
         version.author = user
         version.version = last_version + 1
         version.save()
@@ -120,6 +142,16 @@ class ArticleService:
         data['content'] = article.get_content()
         data['title'] = article.get_title()
         return data
+
+    @staticmethod
+    def get_revisions(article, page=0, limit=10):
+        start = (page-1) * limit
+        limit *= page
+        try:
+            revisions = ArticleVersion.objects.filter(article=article).order_by('-version')[start:limit]
+            return revisions
+        except ArticleVersion.DoesNotExist:
+            return []
 
     @staticmethod
     def get_create_path(article_slug, project=None):
