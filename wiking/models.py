@@ -22,7 +22,7 @@ class Article(models.Model):
     slug = models.CharField(max_length=255)
     head = models.ForeignKey(ArticleVersion, related_name='article', null=False)
     owner = models.ForeignKey(User, related_name='created_articles', null=False)
-    parent = models.ForeignKey('self', related_name='childs', null=True)
+    parent = models.ForeignKey('self', related_name='children', null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     project = models.ForeignKey(PM_Project, related_name='wiki_articles', null=True)
 
