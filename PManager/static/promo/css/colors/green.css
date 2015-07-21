@@ -73,7 +73,8 @@ DEEP COLOR CODE: #609846
 }
 
 .services .single-service .service-icon,
-.services .single-service h3 {
+.services .single-service h3,
+.opportunities .single-service h3 {
     color: #7eb864;
 }
 

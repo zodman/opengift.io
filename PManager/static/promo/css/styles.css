@@ -371,7 +371,8 @@ header .only-logo .navbar .navbar-header {
 
 header .intro-section {
     margin: auto;
-    padding-top: 12%;
+    padding-top: 10%;
+    padding-bottom: 5%;
 }
 
 header .intro-section .intro {
@@ -622,15 +623,37 @@ object {
     background: #222222;
 }
 
-.services .single-service {
+.opportunities {
+    padding-top: 80px;
+    padding-bottom: 10px;
+    background: #222222;
+}
+
+.opportunities .service-icon {
+    border: 3px solid #7eb864;
+    border-radius: 50%;
+    color: #7eb864;
+    font-size: 60px !important;
+    height: 120px;
+    line-height: 92px;
+    margin: 0 auto 25px;
+    padding: 15px;
+    width: 120px;
+}
+
+
+.services .single-service,
+.opportunities .single-service {
     padding-bottom: 60px;
 }
 
-.services .single-service .service-icon {
+.services .single-service .service-icon,
+.opportunities .single-service .service-icon{
     font-size: 80px;
 }
 
-.services .single-service h3 {
+.services .single-service h3,
+.opportunities .single-service h3{
     margin-top: 20px;
 }
 
