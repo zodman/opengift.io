@@ -1588,9 +1588,9 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
     line-height: 20px;
     padding: 0 7px;
     position: relative;
-    text-transform: capitalize;
+    text-transform: lowercase;
 }
-.occupation {text-transform: capitalize;}
+.occupation {text-transform: lowercase;}
 .posibilities li span.tag-num {
     background: #47a447 none repeat scroll 0 0;
     border-radius: 0 3px 3px 0;
