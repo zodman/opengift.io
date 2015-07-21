@@ -54,8 +54,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <a class="btn" href="#" onClick="$('.js-form-modal').hide();return false;">Закрыть</a>
-                <a class="btn btn-primary submit js-milestone-submit" href="#">Сохранить</a>
+                <a class="btn btn-danger" href="#" onClick="$('.js-form-modal').hide();return false;">Закрыть</a>
+                <a class="btn btn-success submit js-milestone-submit" href="#">Сохранить</a>
             </div>
         </form>
     </div>
@@ -298,4 +298,12 @@
     .fixed {position: fixed; z-index: 3; top: 59px;}
     .calendar-project-list-title-wrapper.fixed .calendar-dates-list {width: calc(100% - 235px);}
     .top-30 {top: 30px; position: relative;}
+
+    @media (max-width:838px) {
+        .fixed {position: fixed; z-index: 3; top: 99px;}
+
+        .calendar-project-list {width: 150px;}
+        .calendar-dates-list {width: calc(100% - 150px);}
+        .calendar-project-list-item span {width: 120px; height: 120px;}
+    }
 </style>

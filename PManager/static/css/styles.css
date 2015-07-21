@@ -1348,9 +1348,20 @@ a.message_task_name {color:#555555; text-decoration:underline;}
     ###############################################################*/
 
 /* мод. окно добавление задачи */
-.widget.tasklist .modal-dialog { left: 0; right: 0; width: 600px; position: absolute; padding-top: 5px; padding-bottom: 30px; }
+.widget.tasklist .modal-dialog { left: 0; right: 0; max-width: 600px; position: absolute; padding-top: 5px; padding-bottom: 30px; }
 .modal.modal-content.add-task { overflow: hidden; }
 .modal.modal-content.add-task .complete{ padding-top:2px; padding-right: 7px; float: left; }
+
+.modal-body .form-group:last-child {margin-bottom: 0;}
+.modal-footer {margin-top: 0px;}
+
+@media (max-width: 568px) {
+    .modal-body .col-xs-3 {width: 100%; margin-bottom: 5px;}
+    .modal-body .col-xs-9 {width: 100%;}
+    .modal-body .form-group {margin-bottom: 10px;}
+
+    .modal-header .close {padding: 0 !important; margin: -6px 0 0 !important;}
+}
 
 
 

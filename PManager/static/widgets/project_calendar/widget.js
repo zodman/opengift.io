@@ -80,7 +80,7 @@ $(function () {
     var $sliderTop = $('.js-calendar-slider').bxSlider({
         infiniteLoop: false,
         slideWidth: 200,
-        minSlides: 2,
+        minSlides: 1,
         maxSlides: 7,
         pager: false,
         nextText: '<i class="fa fa-angle-right"></i>',
@@ -97,7 +97,7 @@ $(function () {
     var $sliderBot = $('.js-calendar-slider-2').bxSlider({
         infiniteLoop: false,
         slideWidth: 200,
-        minSlides: 2,
+        minSlides: 1,
         maxSlides: 7,
         pager: false,
         controls: false,
@@ -110,7 +110,11 @@ $(function () {
         }
     });
 
-    var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
+    if ($(window).width() < 838) {
+        var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 99;
+    } else {
+        var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
+    }
     $(window).bind('scroll', function () {
         if ($(window).scrollTop() > navHeight) {
             $('.calendar-project-list-title-wrapper').addClass('fixed');
