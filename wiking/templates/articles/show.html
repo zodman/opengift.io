@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+
+{% block wiking_js %}
+    {% include 'partials/create_page.html' %}
+    <script>
+        $(document).ready(function(){
+           var md_content = $('.wiking-content').html();
+           var html_content = markdown.toHTML(md_content);
+           $('.wiking-content').html(html_content);
+        });
+    </script>
+{% endblock %}
+
+{% block wiking_title %}
+    {% include 'partials/full_title.html' %}
+{% endblock %}
+
+{% block wiking_breadcrumbs %}
+    {% include 'partials/breadcrumbs.html' %}
+{% endblock %}
+
+{% block wiking_childs %}
+    {% if article.active_children %}
+        <div class="childs">
+            <div class="btn-group" role="group" aria-label="sub-articles" style="float:right">
+                {% for child in article.active_children %}
+                      <a href="{{ child.slug }}" class="btn btn-default btn-xs">{{ child }}</a>
+                {% endfor %}
+            </div>
+            <div class="pull-right">Вложенные статьи:&nbsp;&nbsp;</div>
+            <div class="clearfix"></div>
+        </div>
+    {% endif %}
+{% endblock %}
+
+{% block wiking_content %}
+    <div class="wiking-content" style="padding:20px 0px">{{ article.get_content }}</div>
+
+    {% if can_write %}
+        <div class="actions pull-left">
+            <a href="edit" class="btn btn-warning" style="float:left;margin-right:10px;">Редактировать статью</a>
+            <form action="delete" style="float:left;margin-right:10px;" method="POST">
+                <input type="submit" class="btn btn-danger" value="Удалить статью"/>
+            </form>
+            <a href="" class="btn btn-primary" onclick="window.create_new_page();return false;" style="float:left">Добавить страницу</a>
+        <div class="clearfix"></div>
+        </div>
+    {% endif %}
+    <div class="footer" style="float:right">
+
+        <div class="author">Последний автор:
+            <a href="{{ article.get_author.get_profile.url }}">
+                {{ article.get_author.first_name }} {{ article.get_author.last_name }}
+            </a>
+        </div>
+        <div class="replaced">Изменено: {{ article.head.created_at }}</div>
+        <div class="version">Версия: <a href="revisions">{{ article.get_revision }}</a></div>
+    </div>
+    <div class="clearfix"></div>
+{% endblock %}

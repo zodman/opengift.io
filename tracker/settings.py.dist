@@ -198,6 +198,7 @@ SITE_EMAIL = 'admin@heliard.ru'
 ADMIN_EMAIL = 'admin@heliard.ru'
 INFO_EMAIL = 'info@heliard.ru'
 NO_REPLY_EMAIL = 'no-reply@heliard.ru'
+FEEDBACK_EMAIL = 'feedback@heliard.ru'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION

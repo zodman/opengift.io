@@ -342,6 +342,12 @@ $(function(){
                         <span>ГРАФИК</span>
                     </a>
                 </li>
+                <li class="{% if activeMenuItem == 'wiki' %} active{% endif %}">
+                    <a href="/wiki/">
+                        <span aria-hidden="true" class="fa fa-file-text"></span>
+                        <span>ВИКИ</span>
+                    </a>
+                </li>
                 <li class="dropdown notifications">
                     <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
                         <span class="js-notificator fa fa-bell"></span><b class="js-mes_qty">{{ messages_qty }}</b>

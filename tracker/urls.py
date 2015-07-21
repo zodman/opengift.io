@@ -23,11 +23,9 @@ from PManager.viewsExt.specialty import specialty_ajax
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
-
+from wiking import urls
 
 admin.autodiscover()
-
-from django_notify.urls import get_pattern as get_notify_pattern
 
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
@@ -117,7 +115,6 @@ urlpatterns = patterns('',
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
                        url(r'^user_key_handle/add/$', KeyHandler.key_add),
                        url(r'^user_key_handle/remove/(?P<key_id>[0-9_]+)', KeyHandler.key_remove),
-                       url(r'^notify/', get_notify_pattern()),
                        url(r'^import_teamlab/', XML_Import.importView),
                        url(r'^statistic/$', MainPage.indexRender, {'widgetList': ["user_statistic"]}),
                        url(r'^stat/$', MainPage.indexRender, {'widgetList': ["project_statistic"]}),
@@ -153,6 +150,7 @@ urlpatterns = patterns('',
                        url(r'^payment_info/', paysystems),
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
+                       url(r'^wiki/', include('wiking.urls'))
 )
 
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
