@@ -2,9 +2,6 @@
 {% block wiking_title %}Редактирование статьи {{ article.get_title }}{% endblock %}
 {% block wiking_content %}
     <script>
-        $(document).ready(function(){
-            $(".article-text").markdown({language:'ru'});
-        });
         {% if not new_form %}
             {% for field in form %}
                 {% if field.errors %}

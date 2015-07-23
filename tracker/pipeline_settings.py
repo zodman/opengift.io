@@ -194,6 +194,7 @@ PIPELINE_JS = {
             'js/to-markdown.js',
             'js/bootstrap-markdown.js',
             'js/locale/bootstrap-markdown.ru.js',
+            'js/markdown-setup.js',
         ),
         'output_filename': 'js_compressed/markdown.js'
     }
