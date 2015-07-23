@@ -5,8 +5,9 @@
     <script>
         $(document).ready(function(){
            var md_content = $('.wiking-content').text();
-           var html_content = markdown.toHTML(md_content);
+           var html_content = markdown.toHTML(md_content, 'Maruku');
            $('.wiking-content').html(html_content);
+           $('.wiking-content code').wrap('<pre>');
         });
     </script>
 {% endblock %}
