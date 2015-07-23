@@ -4,7 +4,7 @@
     {% include 'partials/create_page.html' %}
     <script>
         $(document).ready(function(){
-           var md_content = $('.wiking-content').html();
+           var md_content = $('.wiking-content').text();
            var html_content = markdown.toHTML(md_content);
            $('.wiking-content').html(html_content);
         });
