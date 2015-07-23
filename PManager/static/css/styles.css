@@ -3474,23 +3474,32 @@ top: 0;
     cursor: pointer;
 }
 
-.add-aim-body {margin-bottom: 7px;position: relative; }
+.add-aim-body {
+    background: #f3f3f3;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    margin-bottom: 10px;
+    padding: 10px 10px 6px;
+    position: relative;
+}
 .add-aim-checkbox {
-    left: 0;
+    left: 10px;
     position: absolute;
-    top: 3px;
+    top: 17px;
     width: 30px;
 }
-
+.add-aim-body-wrapper-wrapper .add-aim-checkbox {
+    top: 10px;
+}
 
 .add-aim-checkbox .trans-element-radio {
-    background: #f4f4f4 none repeat scroll 0 0;
+    background: #fff none repeat scroll 0 0;
     border-radius: 50%;
-    box-shadow: 0 1px 1px rgba(1, 1, 1, 0.1) inset;
+    box-shadow: 0 1px 1px rgba(1, 1, 1, 0.2) inset;
     display: inline-block;
     height: 20px;
     position: absolute;
-    top: 4px;
     width: 20px;
     cursor: pointer;
 }
@@ -3511,7 +3520,7 @@ top: 0;
     width: 10px;
 }
 
-.add-aim-body-item {float: left; width: calc(66.66% - 20px); margin-right: 20px;padding-left: 30px;}
+.add-aim-body-item {float: left; width: calc(66.66% - 10px); margin-right: 10px;padding-left: 30px;}
 .add-aim-body-item .fa-calendar {
     position: absolute;
     right: 10px;
@@ -3520,17 +3529,26 @@ top: 0;
 .label-body-item {width: 33.33%; margin-bottom: 0px;}
 
 .add-aim-body-wrapper-wrapper {
+    background: #f3f3f3 none repeat scroll 0 0;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
     margin-bottom: 10px;
+    padding: 10px;
     position: relative;
-    padding-left: 30px;
 }
-.add-aim-body-wrapper {
-    background: #f4f4f4 none repeat scroll 0 0;
-    border-left: 3px solid #dddddd;
-    padding: 7px 10px;
+
+
+.add-aim-body-wrapper-name {
+    float: left;
+    margin-left: 42px;
+    width: calc(66.66% - 42px);
 }
-.add-aim-body-wrapper-name {float:left; width: calc(66.66% - 20px); margin-right: 20px;}
-.add-aim-body-wrapper-date {float:left; width: calc(33.33% - 14px); margin-left: 14px;}
+.add-aim-body-wrapper-date {
+    float: left;
+    margin-left: 12px;
+    width: calc(33.33% - 42px);
+}
 
 .article-breadcrumbs-wiki-search {display: table; width: 100%; margin-bottom: 20px;}
 .article-breadcrumbs {display: table-cell; width: calc(100% - 200px); padding-right: 20px; vertical-align: top;}
@@ -3612,8 +3630,10 @@ top: 0;
 .error .modal-body-item-left,
 .error .modal-body-item-right {color:#b94a48;}
 
-.modal-body ol {margin: 0 0 10px 15px}
+.modal-body ol {margin: 0 0 20px 35px}
 .modal-body ol li {margin: 5px 0;}
+.modal-body ul {margin: 0 0 20px 35px}
+.modal-body ul li {margin: 5px 0;}
 
 .modal-body hr {margin: 25px -25px;}
 
@@ -3869,3 +3889,174 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbf00', end
 
 
 .btn-orange i {font-size: 15px;}
+
+.wiki-add-item-wrapper {margin-bottom: 15px;}
+.wiki-add-item-wrapper:last-child {margin-bottom: 0px;}
+.wiki-add-item-wrapper-left {float: left; width: 100px; text-align: right;}
+.wiki-add-item-wrapper-right {float: left; width: calc(100% - 115px); margin-left: 15px;}
+.wiki-add-item-wrapper-right-without {margin-left: 115px;}
+
+.md-editor {border: 1px solid #cccccc !important; border-radius: 4px !important; -moz-border-radius: 4px !important; -webkit-border-radius: 4px !important;}
+.md-editor.active {border-color: #66afe9 !important;}
+.md-editor .md-footer,
+.md-editor > .md-header {background: none !important; padding: 12px !important;}
+.md-editor > textarea {
+    -webkit-border-bottom-right-radius: 4px !important;
+    -webkit-border-bottom-left-radius: 4px !important;
+    -moz-border-radius-bottomright: 4px !important;
+    -moz-border-radius-bottomleft: 4px !important;
+    border-bottom-right-radius: 4px !important;
+    border-bottom-left-radius: 4px !important;
+    padding: 6px 12px !important;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif !important;}
+.md-editor > .md-header {
+    border-bottom: 1px solid #dddddd;
+}
+.md-editor > textarea {
+    border-style: none !important;
+    border-width: 0 !important;
+}
+
+@media only screen and (max-width: 768px) {
+    .wiki-add-item-wrapper-left {float: none; margin-bottom: 5px; width: 100%; text-align: left;}
+    .wiki-add-item-wrapper-right {float: none; width: 100%; margin-left: 0;}
+    .wiki-add-item-wrapper-right-without {margin-left: 0px;}
+    .wiki-add-item-wrapper-right-without .btn {width: 100%;}
+}
+
+.wiki-actions .btn {float: left; margin-right: 10px;}
+.wiki-actions {width: 50%;}
+.wiki-info {width: 50%; text-align: right; color: #888;}
+.wiki-info > span {margin-left: 20px; display: inline-block; margin-top: 5px; font-size: 12px;}
+
+.wiki-footer {
+    background: #f4f4f4 none repeat scroll 0 0;
+    border-radius: 4px;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    padding: 15px;
+}
+
+.wiking-content h3 {
+    margin: 0 0 15px;
+}
+
+.wiking-content {font-size: 14px; line-height: 20px;}
+.wiking-content p {margin-bottom: 20px;}
+.wiking-content ul,
+.wiking-content ol {
+    margin: 0 0 20px 35px;
+}
+
+.wiking-content ul ul,
+.wiking-content ol ol,
+.wiking-content ul ol,
+.wiking-content ol ul {
+    margin: 5px 0 5px 35px;
+}
+
+.wiking-list-item {margin-bottom: 10px; color:#000; text-decoration: none; display: block; padding: 10px 15px; border-left: 3px solid #999; background: #f4f4f4;}
+.wiking-list-item:hover {border-left: 3px solid #47a447; color:#000; background: #e6f0e6; text-decoration: none;}
+
+.wiking-list-item > span {display: block;}
+
+.wiking-list-item-title {font-weight: bold; font-size: 15px;}
+.wiking-list-item-text {margin: 5px 0 10px;}
+.wiking-list-item-date-author {padding-top: 5px; margin-top: 10px; border-top: 1px solid rgba(1,1,1,0.1); color: #777; font-size: 12px;}
+.wiking-list-item-date-author span {display: inline-block; margin-right: 15px; padding-right: 15px; border-right: 1px solid rgba(1,1,1,0.1);}
+.wiking-list-item-date-author span:last-child {border:0;}
+
+.wiking-content blockquote,
+.wiking-content blockquote p {
+    font-size: 14px;
+    line-height: 20px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: 400;
+}
+.wiking-content blockquote {
+    border-left:5px solid #ddd;
+    background: #f5f5f5 none repeat scroll 0 0;
+}
+
+.wiking-content pre {
+    padding: 0 20px 15px;
+    border: 0px;
+    background: #f9f2f4;
+}
+
+.wiking-content pre code {
+    color:#c7254e;
+    font-size:12px;
+}
+
+.table-bordered {
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
+}
+
+.table-bordered thead:first-child tr:first-child > th:first-child,
+.table-bordered tbody:first-child tr:first-child > td:first-child,
+.table-bordered tbody:first-child tr:first-child > th:first-child {
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered thead:first-child tr:first-child > th:last-child,
+.table-bordered tbody:first-child tr:first-child > td:last-child,
+.table-bordered tbody:first-child tr:first-child > th:last-child {
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:first-child,
+.table-bordered tbody:last-child tr:last-child > td:first-child,
+.table-bordered tbody:last-child tr:last-child > th:first-child,
+.table-bordered tfoot:last-child tr:last-child > td:first-child,
+.table-bordered tfoot:last-child tr:last-child > th:first-child {
+    -webkit-border-bottom-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+    -moz-border-radius-bottomleft: 4px;
+}
+
+.table-bordered thead:last-child tr:last-child > th:last-child,
+.table-bordered tbody:last-child tr:last-child > td:last-child,
+.table-bordered tbody:last-child tr:last-child > th:last-child,
+.table-bordered tfoot:last-child tr:last-child > td:last-child,
+.table-bordered tfoot:last-child tr:last-child > th:last-child {
+    -webkit-border-bottom-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+    -moz-border-radius-bottomright: 4px;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:first-child {
+    -webkit-border-bottom-left-radius: 0;
+    border-bottom-left-radius: 0;
+    -moz-border-radius-bottomleft: 0;
+}
+
+.table-bordered tfoot + tbody:last-child tr:last-child td:last-child {
+    -webkit-border-bottom-right-radius: 0;
+    border-bottom-right-radius: 0;
+    -moz-border-radius-bottomright: 0;
+}
+
+.table-bordered caption + thead tr:first-child th:first-child,
+.table-bordered caption + tbody tr:first-child td:first-child,
+.table-bordered colgroup + thead tr:first-child th:first-child,
+.table-bordered colgroup + tbody tr:first-child td:first-child {
+    -webkit-border-top-left-radius: 4px;
+    border-top-left-radius: 4px;
+    -moz-border-radius-topleft: 4px;
+}
+
+.table-bordered caption + thead tr:first-child th:last-child,
+.table-bordered caption + tbody tr:first-child td:last-child,
+.table-bordered colgroup + thead tr:first-child th:last-child,
+.table-bordered colgroup + tbody tr:first-child td:last-child {
+    -webkit-border-top-right-radius: 4px;
+    border-top-right-radius: 4px;
+    -moz-border-radius-topright: 4px;
+}

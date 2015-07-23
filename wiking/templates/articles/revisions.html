@@ -16,7 +16,7 @@
 
 {% block wiking_content %}
     <form action="{{ article_path }}/set_revision/" method="POST">
-        <table class="table table-bordered table-hover">
+        <table class="table table-bordered table-striped table-hover">
             <tr>
                 <th>Автор</th>
                 <th>Название</th>
@@ -47,8 +47,10 @@
                 </tr>
             {% endfor %}
         </table>
-        <input type="submit" value="Сохранить" class="btn btn-primary" />
-        <a href="{{ article_path }}" class="btn btn-default">Вернуться</a>
+        <p align="center">
+            <input type="submit" value="Сохранить" class="btn btn-success" />
+            <a href="{{ article_path }}" class="btn btn-default">Вернуться</a>
+        </p>
     </form>
     <nav>
       <ul class="pager">

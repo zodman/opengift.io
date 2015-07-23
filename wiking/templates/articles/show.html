@@ -35,27 +35,27 @@
 {% endblock %}
 
 {% block wiking_content %}
-    <div class="wiking-content" style="padding:20px 0px">{{ article.get_content }}</div>
+    <div class="wiking-content clearfix">{{ article.get_content }}</div>
 
-    {% if can_write %}
-        <div class="actions pull-left">
-            <a href="edit" class="btn btn-warning" style="float:left;margin-right:10px;">Редактировать статью</a>
-            <form action="delete" style="float:left;margin-right:10px;" method="POST">
-                <input type="submit" class="btn btn-danger" value="Удалить статью"/>
+    <div class="wiki-footer clearfix">
+        {% if can_write %}
+        <div class="wiki-actions pull-left clearfix">
+            <a href="edit" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Редактировать статью</a>
+            <form action="delete" method="POST">
+                <input type="hidden" value="Удалить статью"/>
+                <a href='#' class="btn btn-danger btn-sm" onlcick="$(this).closest('form').submit();return false;"><i class="fa fa-times"></i>&nbsp;&nbsp;Удалить статью</a>
             </form>
-            <a href="" class="btn btn-primary" onclick="window.create_new_page();return false;" style="float:left">Добавить страницу</a>
-        <div class="clearfix"></div>
+            <a href="" class="btn btn-success btn-sm" onclick="window.create_new_page();return false;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Добавить страницу</a>
         </div>
-    {% endif %}
-    <div class="footer" style="float:right">
-
-        <div class="author">Последний автор:
-            <a href="{{ article.get_author.get_profile.url }}">
-                {{ article.get_author.first_name }} {{ article.get_author.last_name }}
-            </a>
+        {% endif %}
+        <div class="wiki-info pull-right clearfix">
+            <span class="author">Последний автор:
+                <a href="{{ article.get_author.get_profile.url }}">
+                    {{ article.get_author.first_name }} {{ article.get_author.last_name }}
+                </a>
+            </span>
+            <span class="replaced">Изменено: {{ article.head.created_at }}</span>
+            <span class="version">Версия: <a href="revisions">{{ article.get_revision }}</a></span>
         </div>
-        <div class="replaced">Изменено: {{ article.head.created_at }}</div>
-        <div class="version">Версия: <a href="revisions">{{ article.get_revision }}</a></div>
     </div>
-    <div class="clearfix"></div>
 {% endblock %}
