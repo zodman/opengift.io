@@ -8,6 +8,9 @@
            var html_content = markdown.toHTML(md_content, 'Maruku');
            $('.wiking-content').html(html_content);
            $('.wiking-content code').wrap('<pre>');
+           $('.wiking-content img').addClass('wiking-content__image');
+           $('.wiking-content ul').addClass('wiking-content__list');
+           $('.wiking-content ol').addClass('wiking-content__list');
         });
     </script>
 {% endblock %}
