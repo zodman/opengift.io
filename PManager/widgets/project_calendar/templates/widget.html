@@ -104,9 +104,9 @@
                             <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
                             <div class="bxec-event-actions">
                                 <div class="bxec-icon-cont-tl">
-                                    {% if project.isManaged %}<a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{% endif %}
+                                    {% if project.isManaged %}<a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{% else %}<b></b>{% endif %}
                                         {{ milestone.name }}
-                                    {% if project.isManaged %}</a>{% endif %}
+                                    {% if project.isManaged %}</a>{% else %}</b>{% endif %}
                                 </div>
                             </div>
                             {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
@@ -114,7 +114,7 @@
                         {% endif %}
                         {% endfor %}
                         {% if project.isManaged %}
-                        <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'{{ day.date }}','project_id':{{project.id}}});">Добавить</a></p>
+                            <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'{{ day.date }}','project_id':{{project.id}}});">Добавить</a></p>
                         {% endif %}
                     </div>
 
