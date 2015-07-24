@@ -258,6 +258,11 @@ var widget_tl, currentGroup;
                     return false;
                 });
                 this.TL_Container.on('mousedown.taskdnd','.task .js-drag-task',function(e) {
+                    var $taskMenu = $('ul.task-menu');
+                    if (!$taskMenu.is(e.target) && $taskMenu.has(e.target).length === 0){
+                        $(document).trigger('click');
+                    }//Зкрытие меню по клику на задаче
+
                     if ($(e.target).is('div')) {
                         widget_tl.$movedTask = $(this).closest('.task').parent('.task-wrapper');
                         if (!widget_tl.$movedTask.get(0)) { //is subtask
