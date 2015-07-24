@@ -104,7 +104,7 @@
                             <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
                             <div class="bxec-event-actions">
                                 <div class="bxec-icon-cont-tl">
-                                    {% if project.isManaged %}<a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{% else %}<b></b>{% endif %}
+                                    {% if project.isManaged %}<a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{% else %}<b>{% endif %}
                                         {{ milestone.name }}
                                     {% if project.isManaged %}</a>{% else %}</b>{% endif %}
                                 </div>
