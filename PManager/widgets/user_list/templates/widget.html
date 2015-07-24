@@ -66,7 +66,7 @@ $(function() {
                                 <td class="avatar">
                                     <a href="/user_detail/?id={{ user.id }}">
                                         <img src="
-                                                {% if user.profile.avatar %}{{ user.profile.avatar }}{% else %}/static/images/avatar_unknown.png{% endif %}"
+                                                {% if user.profile.avatarSrc %}{{ user.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}"
                                              alt="{{ user.last_name }} {{ user.first_name }}" class="img-thumbnail"/>
                                     </a>
                                 </td>

@@ -88,26 +88,32 @@ $(function () {
         hideControlOnEnd: true,
         onSlideBefore: function ($slideElement, oldIndex, newIndex) {
             slideTopProceed = true;
-            $sliderBot.goToSlide(newIndex);
+            var i;
+            for (i in $sliderBot) {
+                $sliderBot[i].goToSlide(newIndex);
+            }
         },
         onSlideAfter: function () {
             slideTopProceed = false;
         }
     });
-    var $sliderBot = $('.js-calendar-slider-2').bxSlider({
-        infiniteLoop: false,
-        slideWidth: 200,
-        minSlides: 1,
-        maxSlides: 7,
-        pager: false,
-        controls: false,
-        hideControlOnEnd: true,
-        onSlideBefore: function ($slideElement, oldIndex, newIndex) {
-            if (!slideTopProceed) {
-                $sliderTop.goToSlide(newIndex);
-                return false;
+    var $sliderBot = [];
+    $('.js-calendar-slider-2').each(function() {
+        $sliderBot.push($(this).bxSlider({
+            infiniteLoop: false,
+            slideWidth: 200,
+            minSlides: 1,
+            maxSlides: 7,
+            pager: false,
+            controls: false,
+            hideControlOnEnd: true,
+            onSlideBefore: function ($slideElement, oldIndex, newIndex) {
+                if (!slideTopProceed) {
+                    $sliderTop.goToSlide(newIndex);
+                    return false;
+                }
             }
-        }
+        }));
     });
 
     if ($(window).width() < 838) {

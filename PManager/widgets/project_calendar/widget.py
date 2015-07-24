@@ -44,12 +44,15 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}):
 
     for project in projects:
         setattr(project, 'milestoneSet', project.milestones.all())
+        setattr(project, 'isManaged', request.user.get_profile().isManager(project))
+
         for milestone in project.milestoneSet:
             if milestone.date < now and not milestone.closed:
                 milestone.date = datetime.datetime.now()
                 milestone.save()
             setattr(milestone, 'respSet', milestone.responsible.all())
             setattr(milestone, 'critically', random.randrange(1, 4))
+
         arProject.append(project)
 
     return {

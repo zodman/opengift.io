@@ -7,11 +7,12 @@ from PManager.viewsExt.tools import templateTools
 from PManager.viewsExt import headers
 from PManager.widgets.gantt.widget import create_milestone_from_post
 
+
 class ajaxMilestoneManager:
-    def __init__(self,request):
+    def __init__(self, request):
         self.request = request
 
-    def getRequestValue(self,key):
+    def getRequestValue(self, key):
         if key in self.request.POST:
             return self.request.POST[key]
         else:
@@ -21,19 +22,21 @@ class ajaxMilestoneManager:
 def milestoneForm(request):
     return render(request, 'helpers/milestone_create.html', dict())
 
+
 def ajaxMilestonesResponder(request):
     milestone = None
     responseText = 'bad query'
-    name = request.POST.get('name','')
+    name = request.POST.get('name', '')
     user = request.user
-    responsible_id = request.POST.get('responsible',0)
-    date = templateTools.dateTime.convertToDateTime(request.POST.get('date',''))
+    responsible_id = request.POST.get('responsible', 0)
+    date = templateTools.dateTime.convertToDateTime(request.POST.get('date', ''))
     id = request.POST.get('id', None)
-    critically = request.POST.get('critically',2)
-    action = request.POST.get('action',None)
+    critically = request.POST.get('critically', 2)
+    action = request.POST.get('action', None)
     if not user.is_authenticated():
-        return False
+        return HttpResponse('not authorized')
 
+    project = None
     try:
         project = PM_Project.objects.get(
             pk=int(request.POST.get('project', 0)),
@@ -57,7 +60,7 @@ def ajaxMilestonesResponder(request):
                 pass
     elif name and date and project:
         if not user.get_profile().isManager(project):
-            return False
+            return HttpResponse('user is not manager of project')
 
         if not milestone:
             milestone = None
@@ -80,10 +83,13 @@ def ajaxMilestonesResponder(request):
             else:
                 milestone.responsible.add(user)
             responseText = 'saved'
+
     return HttpResponse(responseText)
+
 
 def milestonesResponder(request):
     from PManager.viewsExt import headers
+
     headerValues = headers.initGlobals(request)
     create_milestone_from_post(request, headerValues)
     user = request.user
