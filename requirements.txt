@@ -39,3 +39,4 @@ robotframework==2.8.7
 robotframework-selenium2library==1.6.0
 maildump
 django-pipeline==1.3.24
+docx2html==0.2.3

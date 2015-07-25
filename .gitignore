@@ -10,3 +10,4 @@ node_modules/*
 tracker/media/*
 tracker/static/*
 gunicorn.pid
+npm-debug.log.*
