@@ -90,7 +90,8 @@ class userHandlers:
 
             if arEmail:
                 for email in arEmail:
-                    roles = request.POST.getlist('roles['+email+']', {})
+                    roles = request.POST.getlist('roles['+email+'][]', [])
+
                     if not emailMessage.validateEmail(email):
                         return HttpResponse(u'Email введен неверно')
                     if not roles:

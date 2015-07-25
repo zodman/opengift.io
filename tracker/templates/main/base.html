@@ -122,7 +122,7 @@
                     </ul>
                 </div>
                 <div class="col-wrapper">
-                    <div class="col-5"><a href="#" class="btn btn-default block">Добавить еще</a></div>
+                    <div class="col-5"><a href="#" class="btn btn-default block" onclick="$('.js-invite-cont:eq(0)').clone().find('.js-email-invite').val('').end().find(':checkbox').attr('checked', false).end().insertAfter($('.js-invite-cont:last'));return false;">Добавить еще</a></div>
                     <div class="col-5"><a href="#" class="btn btn-success block" onclick="return document.mainController.inviteUser($(this), $('.js-email-invite'), $('.js-role-check-invite'));">Пригласить</a></div>
                 </div>
 

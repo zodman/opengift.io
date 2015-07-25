@@ -127,6 +127,12 @@
                 $(".js-add-interface-wrapper").toggle();
             });
 
+             $('.js-bonus-complete').click(function () {
+                $.fancybox({'content': $('.js-user-pay-win').html()});
+                $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
+                $('.js-input-role-id').val($(this).attr('rel'));
+                return false;
+             })
          });
         </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
@@ -251,7 +257,6 @@
             <div class="nachislenie-bonusov">
                 <h2>Участники и ставки по проекту</h2>
                 <hr>
-
                 <ul class="developer-manager-list clearfix" role="tablist">
                     {% for roleName, o in roles.items %}
                     <li {% if forloop.first %}class="active"{% endif %} role="{{ o.role.role.code }}">
@@ -270,7 +275,7 @@
                                     <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="{% get_settings "HTTP_ROOT_URL" %}/static/images/avatar_male.png"></a>
                                 </div>
                                 <div class="desc">
-                                    <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
+                                    <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
                                     <div class="col-wrapper clearfix">
                                         <div class="col-7">
                                             <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
@@ -344,22 +349,14 @@
                         data['role'] = parseInt($form.find('.js-input-role-id').val());
                         data['sum'] = parseInt($form.find('.js-input-user-sum').val());
                         PM_AjaxPost(
-                                document.URL,
-                                data,
-                                function (data) {
-                                    if (data['result']) document.location.reload();
-                                },
-                                'json'
+                            document.URL,
+                            data,
+                            function (data) {
+                                if (data['result']) document.location.reload();
+                            },
+                            'json'
                         );
                     }
-                    $(function () {
-                        $('.js-bonus-complete').click(function () {
-                            $.fancybox({'content': $('.js-user-pay-win').html()});
-                            $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
-                            $('.js-input-role-id').val($(this).attr('rel'));
-                            return false;
-                        })
-                    })
                 </script>
             </div>
         </div>
