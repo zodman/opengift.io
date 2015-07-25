@@ -5,7 +5,7 @@ var ShowForm = function (el, arParams) {
             if (obj.attr("name") == 'ID') {
                 obj.val(arParams['id']);
             } else if (obj.attr("name") == 'TITLE') {
-                obj.val($(el).parent().find('a').eq(0).text());
+                obj.val($(el).parent().find('a').eq(0).text().trim());
             } else if (obj.attr("name") == 'DEADLINE') {
                 obj.val(arParams['deadline']);
             } else if (obj.attr("name") == 'RESPONSIBLE_ID' && arParams['resp_id']) {
@@ -18,12 +18,17 @@ var ShowForm = function (el, arParams) {
         }
     );
 
-    var group_nm = $(el).parents('tr').eq(0).find('.grp_name').eq(0).text();
+    var group_nm = $(el).parents('tr').eq(0).find('.grp_name').eq(0).text(),
+        $headerForm = $('#header_form');
+
     if (arParams['project_id']) {
-        $('#title_inp').val('');
-        $('#header_form').text(group_nm);
+        $headerForm.text(group_nm);
     } else {
-        $('#header_form').text(group_nm);
+        $headerForm.text(group_nm);
+    }
+
+    if (!arParams['id']) {
+        $('#title_inp').val('');
     }
 
     $(".js-form-modal").show();
@@ -43,15 +48,17 @@ var ajaxSaveMileStone = function (data) {
 
 var deleteTask = function (id) {
     PM_AjaxPost('/milestone_ajax/', {
-        'action': 'remove',
-        'id': id
-    }, function (data) {
-        $(".js-milestone-" + id).remove();
-    });
+            'action': 'remove',
+            'id': id
+        },
+        function (data) {
+            $(".js-milestone-" + id).remove();
+        }
+    );
     return false;
 };
 
-$(function () {
+$(function() {
     $('.js-milestone-submit').click(function () {
         var $form = $(this).closest('form');
         var data = {
@@ -68,6 +75,7 @@ $(function () {
     $("#taskform").click(function (e) {
         e.stopPropagation();
     });
+
     $("input[name='DEADLINE']").datetimepicker({
         'format': 'd.m.Y',
         'timepicker': false,
@@ -76,6 +84,7 @@ $(function () {
             $(this).val = moment(ct).format('DD.MM.YYYY')
         }
     });
+
     var slideTopProceed = false;
     var $sliderTop = $('.js-calendar-slider').bxSlider({
         infiniteLoop: false,
@@ -97,7 +106,8 @@ $(function () {
             slideTopProceed = false;
         }
     });
-    var $sliderBot = [];
+
+    var $sliderBot = [], navHeight;
     $('.js-calendar-slider-2').each(function() {
         $sliderBot.push($(this).bxSlider({
             infiniteLoop: false,
@@ -117,19 +127,18 @@ $(function () {
     });
 
     if ($(window).width() < 838) {
-        var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 99;
+        navHeight = $('.calendar-project-list-title-wrapper').offset().top - 99;
     } else {
-        var navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
+        navHeight = $('.calendar-project-list-title-wrapper').offset().top - 59;
     }
+
     $(window).bind('scroll', function () {
         if ($(window).scrollTop() > navHeight) {
             $('.calendar-project-list-title-wrapper').addClass('fixed');
             $('.calendar-project-list-dates').addClass('top-30');
-        }
-        else {
+        } else {
             $('.calendar-project-list-title-wrapper').removeClass('fixed');
             $('.calendar-project-list-dates').removeClass('top-30');
         }
     });
-
 });

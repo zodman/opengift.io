@@ -36,9 +36,7 @@
             });
 
             window.ajaxInputs();
-        });
 
-         $(function(){
             var requestForServer = function(is_new) {
                 if (is_new !== true) {
                     is_new = false;
@@ -366,7 +364,9 @@
             <div class="integration-wrapper clearfix">
                 <script>
                     $(function () {
-                        var timerCheckFields = false;
+                        var timerCheckFields = false,
+                            $projectNameInput = $('.js-project-name');
+
                         $('.js-repository').click(function (ev) {
                             if (!$(this).prop('checked')) {
                                 $('.js-repository-value').val('');
@@ -377,7 +377,8 @@
                             }
                             checkFields();
                         });
-                        $('.js-project-name').keyup(function () {
+
+                        $projectNameInput.keyup(function () {
                             var projectName = $(this).val();
                             var repoName = transliterate(projectName);
                             if (in_sync) {
@@ -417,61 +418,58 @@
                         }
 
                         function checkFields() {
-                            var projectName = $('.js-project-name').val();
-                            var isRepo = $('.js-repository').prop('checked'), repoName;
+                            var projectName = $('.js-project-name').val(),
+                                isRepo = $('.js-repository').is(':checked'),
+                                repoName,
+                                $repoNameInput = $('.js-repository-value');
+
                             if (!isRepo) {
-                                $('.js-repository-value').val('');
+                                $repoNameInput.val('');
                                 enableSubmit();
                                 unmarkRepName();
-                                return;
+                                return false;
                             }
+
                             if (in_sync) {
-                                repoName = transliterate($('.js-repository-value').val()) || transliterate(projectName);
+                                repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
                             }
                             else {
-                                repoName = transliterate($('.js-repository-value').val());
+                                repoName = transliterate($repoNameInput.val());
                             }
-                            $('.js-repository-value').val(repoName)
+
+                            $repoNameInput.val(repoName)
                                     .next('i').addClass('fa-spinner').addClass('fa-spin');
 
                             PM_AjaxPost(
-                                    '/project/edit/check_repository_name',
-                                    {
-                                        'repoName': repoName
-                                    },
-                                    function (response) {
-                                        if (response == "OK") {
-                                            markSuccessRepName();
-                                            enableSubmit();
-                                        }
-                                        else if (response == "ERROR") {
-                                            markErrorRepName();
-                                            disableSubmit();
-                                        }
-                                        else {
-                                            $('.js-repository-value').val(response);
-                                            markSuccessRepName();
-                                            enableSubmit();
-                                        }
-                                    });
+                                '/project/edit/check_repository_name',
+                                {
+                                    'repoName': repoName
+                                },
+                                function (response) {
+                                    if (response == "OK") {
+                                        markSuccessRepName();
+                                        enableSubmit();
+                                    } else if (response == "ERROR") {
+                                        markErrorRepName();
+                                        disableSubmit();
+                                    } else {
+                                        $('.js-repository-value').val(response);
+                                        markSuccessRepName();
+                                        enableSubmit();
+                                    }
+                                }
+                            );
                         }
                         disableSubmit();
-                        $('.js-project-name').blur(checkFields);
+
+                        $projectNameInput.blur(checkFields);
                         var in_sync = true;
-                        $('.js-repository-value').focus(function () {
-                            if ($(this).val() == transliterate($('.js-project-name').val())) {
-                                in_sync = true;
-                            } else {
-                                in_sync = false;
-                            }
-                        }).keyup(function () {
+                        $('.js-repository-value').focus(function() {
+                            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+                        }).keyup(function() {
                             setCheckFieldsTimer();
-                            if ($(this).val() == transliterate($('.js-project-name').val())) {
-                                in_sync = true;
-                            } else {
-                                in_sync = false;
-                            }
-                        }).blur(function (ev) {
+                            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+                        }).blur(function(ev) {
                             checkFields();
                         });
                         checkFields();

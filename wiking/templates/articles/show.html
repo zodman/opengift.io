@@ -3,14 +3,16 @@
 {% block wiking_js %}
     {% include 'partials/create_page.html' %}
     <script>
-        $(document).ready(function(){
-           var md_content = $('.wiking-content').text();
-           var html_content = markdown.toHTML(md_content, 'Maruku');
-           $('.wiking-content').html(html_content);
-           $('.wiking-content code').wrap('<pre>');
-           $('.wiking-content img').addClass('wiking-content__image');
-           $('.wiking-content ul').addClass('wiking-content__list');
-           $('.wiking-content ol').addClass('wiking-content__list');
+        $(function(){
+           var $wContent = $('.wiking-content'),
+               md_content = $wContent.text(),
+               html_content = markdown.toHTML(md_content, 'Maruku');
+
+           $wContent.html(html_content).
+               find('code').wrap('<pre>').end().
+               find('img').addClass('wiking-content__image').end().
+               find('ul').addClass('wiking-content__list').end().
+               find('ol').addClass('wiking-content__list');
         });
     </script>
 {% endblock %}

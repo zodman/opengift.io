@@ -15,8 +15,8 @@
     <script type="text/javascript">
         window.heliardSettings = {
             "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
-	    "SERVER_IP": '{% get_settings "SERVER_IP" %}',
-	    "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}'
+            "SERVER_IP": '{% get_settings "SERVER_IP" %}',
+            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}'
         };
         var CURRENT_TASK_VIEW;
         var CURRENT_TASK_DATA;
@@ -128,7 +128,7 @@
 
                 <hr class="margin-25" />
                 <h2>Пригласите проверенных специалистов!</h2>
-                <p>Для приглашения компетентных исполнителей вам нужно:</p>
+                <p>Для приглашения компетентных исполнителей Heliard вам нужно:</p>
                 <ol>
                     <li>Проставить галочки на против задач, которые вы хотите делегировать</li>
                     <li>Нажать "Пригласить исполнителей" в панели снизу</li>
@@ -149,7 +149,7 @@
 </a>
 
 {% if not user.first_name and main.FIRST_STEP_FORM %}
-    <div class="overflow"></div>
+<div class="overflow"></div>
 <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
 <script type="text/javascript">
 /* <![CDATA[ */
@@ -162,55 +162,53 @@ var google_remarketing_only = false;
 /* ]]> */
 $(function(){
     if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('registerEnter');
-})
+});
 </script>
-<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js">
-</script>
+<script type="text/javascript" src="//www.googleadservices.com/pagead/conversion.js"></script>
 <noscript>
 <div style="display:inline;">
 <img height="1" width="1" style="border-style:none;" alt="" src="//www.googleadservices.com/pagead/conversion/1036245549/?label=ayuYCLrew1YQrbSP7gM&amp;guid=ON&amp;script=0"/>
 </div>
 </noscript>
-    <div class="popup">
-        <h3>Здравствуйте! Как вас зовут?</h3>
-        <div class="border-wrapper">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="border">
-                    <div class="row">
-                        <div class="span3"><strong>Имя</strong></div>
-                        <div class="span3"><input required maxlength="200" name="name" type="text" class="input-block-level form-control"></div>
-                    </div>
-                    <div class="row">
-                        <div class="span3"><strong>Фамилия</strong></div>
-                        <div class="span3"><input required maxlength="200" name="last_name" type="text" class="input-block-level form-control"></div>
-                    </div>
-                    <div class="row">
-                        <div class="span1"><strong>Телефон</strong></div>
-                        <div class="span3"><input maxlength="200" type="text" name="skype" class="input-block-level form-control"></div>
-                    </div>
-                    <div class="row">
-                        <div class="span1">&nbsp;</div>
-                        <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success"></div>
-                    </div>
-                    <div class="clearfix"></div>
+<div class="popup">
+    <h3>Здравствуйте! Как вас зовут?</h3>
+    <div class="border-wrapper">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="border">
+                <div class="row">
+                    <div class="span3"><strong>Имя</strong></div>
+                    <div class="span3"><input required maxlength="200" name="name" type="text" class="input-block-level form-control" /></div>
                 </div>
-            </form>
-        </div>
+                <div class="row">
+                    <div class="span3"><strong>Фамилия</strong></div>
+                    <div class="span3"><input required maxlength="200" name="last_name" type="text" class="input-block-level form-control" /></div>
+                </div>
+                <div class="row">
+                    <div class="span1"><strong>Телефон</strong></div>
+                    <div class="span3"><input maxlength="200" type="text" name="skype" class="input-block-level form-control" /></div>
+                </div>
+                <div class="row">
+                    <div class="span1">&nbsp;</div>
+                    <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success" /></div>
+                </div>
+                <div class="clearfix"></div>
+            </div>
+        </form>
     </div>
+</div>
 
-    <div class="popup callback" style="display:none;">
-        <h3>Перед тем, как уйти</h3>
-        <hr>
-        <div class="border-wrapper">
- 		 <p>Скажите пару слов для <span>нашего</span>радио.</p>
-         <form>
-         <p><input type="text" class="form-control" placeholder="Ваш телефон"></p>
-         <p><input type="button" class="btn btn-large btn-success" value="Перезвоните мне"></p>
-         </form>
-        </div>
+<div class="popup callback" style="display:none;">
+    <h3>Перед тем, как уйти</h3>
+    <hr>
+    <div class="border-wrapper">
+     <p>Скажите пару слов для <span>нашего</span>радио.</p>
+     <form>
+     <p><input type="text" class="form-control" placeholder="Ваш телефон"></p>
+     <p><input type="button" class="btn btn-large btn-success" value="Перезвоните мне"></p>
+     </form>
     </div>
-
+</div>
 {% elif userAchievement %}
     <div class="overflow"></div>
     <div class="popup">
@@ -391,23 +389,19 @@ $(function(){
         {% if user.is_authenticated %}
         <div class="sub-menu_line_section-user col-xs-7">
 
-             {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
-              <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
-              {% endif %}
-              {% if main.CAN_INVITE %}
-              <a href="#" class="btn btn-default js-invite-popup" data-target="#invite-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
+            {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
+            <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
+            {% endif %}
+
+            <a href="#" class="btn btn-default js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
 
             <!--<a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default js-invite-popup" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;-->
 
-            {% endif %}
             <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
-              {% if main.CURRENT_PROJECT.id %}
-              <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
-              {% endif %}
-              {% if main.IS_MANAGER %}
-              <a href="/stat/" class="btn btn-default"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
-              {% endif %}
 
+            <a href="/files/" class="btn btn-default {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
+
+            <a href="/stat/" class="btn btn-default {% if not main.IS_MANAGER %}disabled{% endif %}"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
         </div>
 
         <div class="sub-menu_line_section-tracker col-xs-5">
@@ -493,7 +487,7 @@ $(function(){
     </script>
 {% endif %}
 <script type="text/javascript">
-    $(document).ready(function(){
+    $(function(){
         $('.js-taskWizard-opener').click(function(ev){
             ev.preventDefault();
             var url = $(this).attr('href');
@@ -501,47 +495,28 @@ $(function(){
                 $('body').prepend(response);
             });
         });
-    });
-</script>
-<script type="text/javascript">
-    $('.js-openProjectList').click(function(){
-        setTimeout(function () {
-            $('.js-inputProjectList').focus();
-        }, 200);
-    });
-    var projectInput = $('.js-projects').find('.js-inputProjectList');
-    var projectName = $('.js-itemProjectName');
-    projectInput.keyup(function(){
-        var inputVal = $(this).val();
-        projectName.each(function(){
-            $(this).parents('.projects-item').hide();
-            var projectItem = $.trim($(this).text());
-            var projectItemIndexOf = projectItem.toLowerCase().indexOf(inputVal.toLowerCase());
-            var projectItemIndexOfKeybdConv = projectItem.toLowerCase().indexOf(inputVal.KeybdConv().toLowerCase());
-            if (projectItemIndexOf != -1 || projectItemIndexOfKeybdConv !=-1) {
-                $(this).parents('.projects-item').show();
-            };
+
+        var projectInput = $('.js-projects').find('.js-inputProjectList');
+        var projectName = $('.js-itemProjectName');
+
+        projectInput.keyup(function(){
+            var inputVal = $(this).val();
+            projectName.each(function(){
+                $(this).parents('.projects-item').hide();
+                var projectItem = $.trim($(this).text());
+                var projectItemIndexOf = projectItem.toLowerCase().indexOf(inputVal.toLowerCase());
+                var projectItemIndexOfKeybdConv = projectItem.toLowerCase().indexOf(inputVal.KeybdConv().toLowerCase());
+                if (projectItemIndexOf != -1 || projectItemIndexOfKeybdConv !=-1) {
+                    $(this).parents('.projects-item').show();
+                }
+            });
+        });
+        $('.js-openProjectList').click(function(){
+            setTimeout(function () {
+                $('.js-inputProjectList').focus();
+            }, 200);
         });
     });
-    String.prototype.RE = function() {
-        return this.replace(/([\$\^\*\(\)\+\[\]\-\{\}\|\.\/\?\\])/g, '\\$1');
-    };
-    String.prototype.KeybdConv = (function(){
-        var Table = {}, i, L, c,
-            en = 'qwertyuiop[]asdfghjkl;\'zxcvbnm,.QWERTYUIOP{}ASDFGHJKL:"ZXCVBNM<>',
-            ru = 'йцукенгшщзхъфывапролджэячсмитьбюЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ';
-        for (i = 0, L = en.length; i < L; i++) {
-            c = ru.charAt(i);
-            Table[Table[c] = en.charAt(i)] = c;
-        };
-        var F = function(a) {
-            return Table.hasOwnProperty(a) ? Table[a] : a;
-        };
-        var re = new RegExp("[" + en.RE() + ru.RE() + "]", "g");
-        return function() {
-            return this.replace(re, F);
-        };
-    })();
 </script>
 <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium" />
 <img src="/static/images/loaders/loader_4.png" alt="Loader" class="loader small" />
