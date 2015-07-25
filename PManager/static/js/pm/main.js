@@ -126,34 +126,44 @@ mainControllerClass.prototype = {
     init: function () {
 
     },
-    inviteUser: function($btn, $email, $roleChecks) {
-        if (!$email.val()) alert('Введите корректный email');
-        else {
-            var roles = [];
-            $roleChecks.filter(':checked').each(function(){
-                roles.push($(this).val());
-                $(this).attr('checked', false);
-            });
-            if (roles.length <= 0) {
-                alert('Выберите хоть одну роль в проекте.');
-            } else {
-                PM_AjaxPost(
-                    '/users_ajax/',
-                    {
-                        'action': 'inviteUser',
-                        'email': $email.val(),
-                        'roles': roles
-                    },
-                    function(data){
-                        $email.val('');
-                        if (data == 'ok') {
-                            alert('Пользователь успешно приглашен!');
-                        } else {
-                            alert(data);
-                        }
-                    }
-                )
+    inviteUser: function($btn, $email) {
+        var arEmail = [], roles = {};
+        $email.each(function(){
+            if ($(this).val()) {
+                var t = this, $roleChecks = $(this).closest('.js-invite-cont').find(':checkbox');
+                $roleChecks.filter(':checked').each(function(){
+                    if (!roles[$(t).val()]) roles[$(t).val()] = [];
+                    roles[$(t).val()].push($(this).val());
+                    $(this).attr('checked', false);
+                });
+                if (!roles[$(t).val()] || roles[$(t).val()].length <= 0) {
+                    alert('Выберите хоть одну роль в проекте.');
+                    return false;
+                }
+                arEmail.push($(this).val());
             }
+        });
+
+        if (arEmail.length <= 0) {
+                alert('Введите корректный email');
+                return false;
+        } else {
+            PM_AjaxPost(
+                '/users_ajax/',
+                {
+                    'action': 'inviteUser',
+                    'email': arEmail,
+                    'roles': roles
+                },
+                function(data){
+                    $email.val('');
+                    if (data == 'ok') {
+                        alert('Пользователи успешно приглашены!');
+                    } else {
+                        alert(data);
+                    }
+                }
+            )
         }
     }
 }

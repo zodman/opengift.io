@@ -7,6 +7,7 @@
 var widget_tl, currentGroup;
 (function($){
     $(function(){
+
         $("input.js-date").datetimepicker({
             'dayOfWeekStart': 1,
             'format': 'd.m.Y',
@@ -15,23 +16,23 @@ var widget_tl, currentGroup;
             'closeOnDateSelect': true,
             'timepicker': false
         });
-        $('.js-select-milestone').change(function(){
-            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date], .js-calendar-icon');
-            var $parent = $(this).parent();
-            var w100 = '96%';
+
+        $('.js-select-milestone').click(function(){
+            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');
             if ($(this).val()) {
-                $newMilestoneFields.parent().hide();
+                $newMilestoneFields.disable();
             } else {
-                $newMilestoneFields.parent().show();
+                $newMilestoneFields.enable();
             }
         });
-        $(document).keydown(function(e){
+
+        $(document).keydown(function(e) {
             var key;
             key = getKeyPressed(e);
 
-            if (e.ctrlKey && key == 75){ //ctrl+k
-                $('.task_create:first').focus();
-                $('body,html').scrollTop($('.task_create:first').offset().top);
+            if (e.ctrlKey && key == 75) { //ctrl+k
+                var $create_task = $('.task_create:first').focus();
+                $('body, html').scrollTop($create_task.offset().top);
                 e.stopPropagation();
                 return false;
             }
@@ -51,7 +52,8 @@ var widget_tl, currentGroup;
                 'Date':false,
                 'Author':false
             }
-        }
+        };
+
         widget_tl.container = $('.widget.tasklist');
 
         $.extend(widget_tl,{
@@ -101,7 +103,7 @@ var widget_tl, currentGroup;
                     this._save = function(){
                         var strCookie = JSON.stringify(this.tabsParams);
                         $.cookie(cookieName,strCookie);
-                    }
+                    };
 
                     this._getSavedParams = function(){
                         var strCookie = $.cookie(cookieName);
@@ -109,7 +111,7 @@ var widget_tl, currentGroup;
                             this.tabsParams = $.parseJSON(strCookie);
                         else
                             this.tabsParams = []
-                    }
+                    };
 
                     this.addCurrentState = function(name){
                         this._getSavedParams();
@@ -121,12 +123,12 @@ var widget_tl, currentGroup;
                             'id':id,
                             'name':name,
                             'location':encodeURIComponent(hash)
-                        }
+                        };
                         if (!this.tabsParams.push) this.tabsParams = [];
                         this.tabsParams.push(newTab);
                         this._save();
                         return newTab;
-                    }
+                    };
 
                     this.getUserTabs = function(){
                         this._getSavedParams();
@@ -146,26 +148,28 @@ var widget_tl, currentGroup;
                             return this.tabsParams;
                         }
                         return [];
-                    }
+                    };
 
                     this.clearTabs = function(){
                         this.tabsParams = [];
                         this._save();
-                    }
+                    };
+
                     this.renameTab = function(id,name){
                         for (var k in this.tabsParams){
                             if (this.tabsParams[k] && this.tabsParams[k]['id'] == id)
                                 this.tabsParams[k].name=name;
                         }
                         this._save();
-                    }
+                    };
+
                     this.deleteTab = function(id){
                         for (var k in this.tabsParams){
                             if (this.tabsParams[k] && this.tabsParams[k]['id'] == id)
                                 delete this.tabsParams[k];
                         }
                         this._save();
-                    }
+                    };
 
                     return this;
                 })();
@@ -177,8 +181,9 @@ var widget_tl, currentGroup;
                 }
 
                 this.TL_Tasks.on('add',function(task){
-                    if ($('.js-new-first-task').get(0)){
-                        $('.js-new-first-task').remove();
+                    var $firstTask = $('.js-new-first-task');
+                    if ($firstTask.get(0)){
+                        $firstTask.remove();
                         showTutorial();
                     }
                 });
@@ -770,11 +775,11 @@ var widget_tl, currentGroup;
                             '</div>';
                 $('#edit-milestone').on('shown.bs.modal', function (event) {
                   event.stopPropagation();
-                  var button = $(event.relatedTarget) // Button that triggered the modal
+                  var button = $(event.relatedTarget); // Button that triggered the modal
                   var id = button.data('edit-id');
                   var name = button.data('edit-name');
                   var date = button.data('edit-date');
-                  var modal = $(this)
+                  var modal = $(this);
                   modal.find('.modal-body input[name="ms_name"]').val(name);
                   modal.find('.modal-body input[name="ms_date"]').val(date);
                   modal.find('.js-milestone-form').unbind('submit').bind('submit', function(ev){

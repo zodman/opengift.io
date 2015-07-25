@@ -2,7 +2,7 @@
 {% compressed_js 'project_calendar' %}
 
 <div class="widget tasklist">
-<div class="modal-dialog green-popup">
+<div class="modal-dialog green-popup js-form-modal" style="display:none;">
     <div id="taskform" class="modal modal-content add-task js-form-modal" style="display:none;">
         <div class="modal-header">
             <button onclick="$('.js-form-modal').hide();return false;" aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
@@ -44,18 +44,10 @@
                         <input type="text" class="form-control" name="DEADLINE" value="" />
                     </div>
                 </div>
-                <div class="form-group">
-                    <div class="controls" style="padding-left: 157px;">
-                        <label>
-                            <input type="checkbox" name="STATUS" value="5" >
-                            <span class="complete">Завершить:</span>
-                        </label>
-                    </div>
-                </div>
             </div>
             <div class="modal-footer">
-                <a class="btn" href="#" onClick="$('.js-form-modal').hide();return false;">Закрыть</a>
-                <a class="btn btn-primary submit js-milestone-submit" href="#">Сохранить</a>
+                <a class="btn btn-danger" href="#" onClick="$('.js-form-modal').hide();return false;">Закрыть</a>
+                <a class="btn btn-success submit js-milestone-submit" href="#">Сохранить</a>
             </div>
         </form>
     </div>
@@ -65,7 +57,7 @@
     <a href="#" class="w-close">Закрыть</a>
 </div>
 
-<h3>Календарь ответственности</h3>
+<h3>Календарь целей</h3>
 <hr>
 
 <div class="calendar-wrapper clearfix">
@@ -87,41 +79,50 @@
         <div class="calendar-project-list">
             {% for project in project_calendar.projects %}
             <div class="calendar-project-list-item">
-            <h4>{{ project.name }}</h4>
-            {% if project.imagePath %}
-                <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }});"></span>
-            {% endif %}
+                <h4>{{ project.name }}</h4>
+                {% if project.imagePath %}
+                    <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }});"></span>
+                {% endif %}
             </div>
             {% endfor %}
         </div>
         <div class="calendar-dates-list">
-        <ul class="calendar-slider clearfix js-calendar-slider-2">
-            {% for day in project_calendar.arDays %}
-            <li>
-                {% for project in project_calendar.projects %}
-                <div class="calendar-slider-item-wrapper">
-                    <span class="no-aims-block">Целей нет</span>
-                    {% for milestone in project.milestoneSet %}
-                    {% if milestone.date|date:'d.m.Y' == day.date %}
-                    <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
-                        <a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>
-                        <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
-                        <div class="bxec-event-actions">
-                            <div class="bxec-icon-cont-tl">
-                                <a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{{ milestone.name }}</a>
+            {% for project in project_calendar.projects %}
+            <div class="calendar-dates-list-item-title clearfix">
+                <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }}) ;"></span>
+                <h4>{{ project.name }}</h4>
+            </div>
+            <ul class="calendar-slider clearfix js-calendar-slider-2">
+                {% for day in project_calendar.arDays %}
+                <li>
+                    <div class="calendar-slider-item-wrapper">
+                        <span class="no-aims-block">Целей нет</span>
+                        {% for milestone in project.milestoneSet %}
+                        {% if milestone.date|date:'d.m.Y' == day.date %}
+                        <div class="critically_{{ milestone.critically }} calendar-task js-milestone-{{ milestone.id }}">
+                            {% if project.isManaged %}<a href="#" onClick="return deleteTask('{{milestone.id}}');" class="delete-task"><i class="fa fa-trash-o"></i></a>{% endif %}
+                            <div class="calendar-task-date"><i class="fa fa-clock-o"></i>&nbsp;&nbsp;{{ milestone.date_create.date }}</div>
+                            <div class="bxec-event-actions">
+                                <div class="bxec-icon-cont-tl">
+                                    {% if project.isManaged %}<a onClick="return ShowForm(this,{'name':'{{ milestone.name }}','deadline':'{{ milestone.date|date:'d.m.Y' }}','project_id':{{ milestone.project.id }},'id':{{milestone.id}}});" href="#">{% else %}<b>{% endif %}
+                                        {{ milestone.name }}
+                                    {% if project.isManaged %}</a>{% else %}</b>{% endif %}
+                                </div>
                             </div>
+                            {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
                         </div>
-                        {% for resp in milestone.respSet %}<div>{{ resp.first_name }} {{ resp.last_name }}</div>{% endfor %}
+                        {% endif %}
+                        {% endfor %}
+                        {% if project.isManaged %}
+                            <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'{{ day.date }}','project_id':{{project.id}}});">Добавить</a></p>
+                        {% endif %}
                     </div>
-                    {% endif %}
-                    {% endfor %}
-                    <p class="calendar-slider-item-button"><a href="" class="btn btn-success" onclick="return ShowForm(this,{'deadline':'{{ day.date }}','project_id':{{project.id}}});">Выбрать</a></p>
-                </div>
+
+                </li>
                 {% endfor %}
-            </li>
+            </ul>
             {% endfor %}
-        </ul>
-    </div>
+        </div>
     </div>
 </div>
 </div>
@@ -187,7 +188,7 @@
         text-transform: uppercase;
     }
     .calendar-project-list-item {
-        height: 238px;
+        height: 236px;
         background: #f9f9f9;
         border-bottom: 1px solid #ddd;
         padding: 20px;
@@ -226,13 +227,73 @@
         z-index: 0;
     }
     .calendar-slider-item-wrapper {
-        height: 238px;
+        height: 236px;
         border-bottom: 1px solid #ddd;
         border-left: 1px solid #ddd;
         position: relative;
         background: #fff;
         overflow-y: auto;
     }
+
+    .calendar-dates-list-item-title {
+        background: #f4f4f4 none repeat scroll 0 0;
+        padding: 15px 0;
+        text-align: center;
+        position: relative;
+        display: none;
+    }
+
+    .calendar-dates-list-item-title > span {
+        background-color: #fff;
+        background-position: center center;
+        background-repeat: no-repeat;
+        background-size: 100% auto;
+        border: 4px solid #fff;
+        border-radius: 50%;
+        box-shadow: 0 1px 2px #ddd;
+        display: inline-block;
+        height: 50px;
+        margin-right: 10px;
+        vertical-align: middle;
+        width: 50px;
+    }
+
+    .calendar-dates-list-item-title > h4 {
+        display: inline-block;
+        margin: 0;
+        max-width: 200px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        vertical-align: middle;
+        white-space: nowrap;
+    }
+    .calendar-dates-list-item-title:before {
+        box-shadow: 0 2px 2px rgba(1, 1, 1, 0.05) inset;
+        -moz-box-shadow: 0 2px 2px rgba(1, 1, 1, 0.05) inset;
+        -webkit-box-shadow: 0 2px 2px rgba(1, 1, 1, 0.05) inset;
+        content: "";
+        display: block;
+        height: 10px;
+        left: -4px;
+        position: absolute;
+        right: -4px;
+        top: 0;
+    }
+
+    .calendar-dates-list-item-title:after {
+        box-shadow: 0 -2px 2px rgba(1, 1, 1, 0.05) inset;
+        -moz-box-shadow: 0 -2px 2px rgba(1, 1, 1, 0.05) inset;
+        -webkit-box-shadow: 0 -2px 2px rgba(1, 1, 1, 0.05) inset;
+        content: "";
+        display: block;
+        height: 10px;
+        left: -4px;
+        position: absolute;
+        right: -4px;
+        bottom: 0;
+        border-bottom: 1px solid #ddd;
+    }
+
     .calendar-slider-item-button {text-align: center; display: none; position: absolute; top: 50%; left: 50%; margin-left: -42px; margin-top: -15px;}
 
     .calendar-task + .calendar-slider-item-button {position: relative; top: 0px; left: 0px; margin: 10px 0;}
@@ -251,6 +312,7 @@
         text-align: center;
         text-transform: uppercase;
     }
+
 
     .holiday .calendar-slider-name {background: #318431;}
     .holiday .calendar-slider-item-wrapper {background: #f9f9f9;}
@@ -298,4 +360,15 @@
     .fixed {position: fixed; z-index: 3; top: 59px;}
     .calendar-project-list-title-wrapper.fixed .calendar-dates-list {width: calc(100% - 235px);}
     .top-30 {top: 30px; position: relative;}
+
+    @media (max-width:838px) {
+        .fixed {position: fixed; z-index: 3; top: 99px;}
+
+        .calendar-slider > li:first-child > div {border-left: 0;}
+        .calendar-dates-list-item-title {display: block;}
+        .calendar-project-list {display: none;}
+        .calendar-dates-list {width: 100%;}
+        .calendar-project-list-title-wrapper.fixed .calendar-dates-list {width: calc(100% - 35px);}
+    }
+
 </style>

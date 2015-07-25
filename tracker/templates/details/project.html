@@ -36,10 +36,7 @@
             });
 
             window.ajaxInputs();
-        });
-    </script>
-           <script type="text/javascript">
-         $(function(){
+
             var requestForServer = function(is_new) {
                 if (is_new !== true) {
                     is_new = false;
@@ -90,6 +87,50 @@
             $('.js-server-create').click(function(){
                 requestForServer(true);
             });
+
+            $('.editable-textarea-click').click(function(e) {
+                $(this).hide();
+                $('.editable-textarea').show().focus().select();
+                e.stopPropagation();
+            });
+            $('.project-edit-link-editable').click(function(e) {
+                $(this).hide();
+                $('.project-edit-input').show().focus().select();
+                e.stopPropagation();
+            });
+
+            $('.editable-textarea, .project-edit-input').click(function(e) {
+                e.stopPropagation();
+            });
+
+            $('.editable-textarea').keyup(function(){
+                $('.editable-textarea-click').text($(this).val())
+            });
+
+            $('.project-edit-input').keyup(function(){
+                $('.project-edit-link-editable').text($(this).val())
+            });
+
+            $(document).click(function () {
+                var $projectControls = $('.editable-textarea, .project-edit-input');
+
+                if ($projectControls.is(':visible')) {
+                    $('.editable-textarea-click, .project-edit-link-editable').show();
+                    $projectControls.hide();
+                    updateName();
+                }
+            });
+
+            $(".js-add-interface-button").click(function() {
+                $(".js-add-interface-wrapper").toggle();
+            });
+
+             $('.js-bonus-complete').click(function () {
+                $.fancybox({'content': $('.js-user-pay-win').html()});
+                $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
+                $('.js-input-role-id').val($(this).attr('rel'));
+                return false;
+             })
          });
         </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
@@ -119,46 +160,6 @@
                 {{ project.name }}
                 {% endif %}
             </h1>
-            <script>
-                $(function() {
-                    $('.editable-textarea-click').click(function(e) {
-                        $(this).hide();
-                        $('.editable-textarea').show().focus().select();
-                        e.stopPropagation();
-                    });
-                    $('.project-edit-link-editable').click(function(e) {
-                        $(this).hide();
-                        $('.project-edit-input').show().focus().select();
-                        e.stopPropagation();
-                    });
-
-                    $('.editable-textarea, .project-edit-input').click(function(e) {
-                        e.stopPropagation();
-                    });
-
-                    $('.editable-textarea').keyup(function(){
-                        $('.editable-textarea-click').text($(this).val())
-                    });
-
-                    $('.project-edit-input').keyup(function(){
-                        $('.project-edit-link-editable').text($(this).val())
-                    });
-
-                    $(document).click(function () {
-                        var $projectControls = $('.editable-textarea, .project-edit-input');
-
-                        if ($projectControls.is(':visible')) {
-                            $('.editable-textarea-click, .project-edit-link-editable').show();
-                            $projectControls.hide();
-                            updateName();
-                        }
-                    });
-
-                    $(".js-add-interface-button").click(function() {
-                        $(".js-add-interface-wrapper").toggle();
-                    });
-                });
-            </script>
             <p class="editable-textarea-wrapper">
                 {% if canEdit %}
                 <span class="editable-textarea-click">{{ project.description }}<i class="fa fa-pencil"></i></span>
@@ -254,7 +255,6 @@
             <div class="nachislenie-bonusov">
                 <h2>Участники и ставки по проекту</h2>
                 <hr>
-
                 <ul class="developer-manager-list clearfix" role="tablist">
                     {% for roleName, o in roles.items %}
                     <li {% if forloop.first %}class="active"{% endif %} role="{{ o.role.role.code }}">
@@ -273,7 +273,7 @@
                                     <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="{% get_settings "HTTP_ROOT_URL" %}/static/images/avatar_male.png"></a>
                                 </div>
                                 <div class="desc">
-                                    <h4><a href="/user_detail/?id={{ user.id }}">{{ user.first_name }} {{ user.last_name }}</a></h4>
+                                    <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
                                     <div class="col-wrapper clearfix">
                                         <div class="col-7">
                                             <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
@@ -347,22 +347,14 @@
                         data['role'] = parseInt($form.find('.js-input-role-id').val());
                         data['sum'] = parseInt($form.find('.js-input-user-sum').val());
                         PM_AjaxPost(
-                                document.URL,
-                                data,
-                                function (data) {
-                                    if (data['result']) document.location.reload();
-                                },
-                                'json'
+                            document.URL,
+                            data,
+                            function (data) {
+                                if (data['result']) document.location.reload();
+                            },
+                            'json'
                         );
                     }
-                    $(function () {
-                        $('.js-bonus-complete').click(function () {
-                            $.fancybox({'content': $('.js-user-pay-win').html()});
-                            $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
-                            $('.js-input-role-id').val($(this).attr('rel'));
-                            return false;
-                        })
-                    })
                 </script>
             </div>
         </div>
@@ -372,18 +364,21 @@
             <div class="integration-wrapper clearfix">
                 <script>
                     $(function () {
-                        var timerCheckFields = false;
+                        var timerCheckFields = false,
+                            $projectNameInput = $('.js-project-name');
+
                         $('.js-repository').click(function (ev) {
                             if (!$(this).prop('checked')) {
                                 $('.js-repository-value').val('');
                                 $('.js-hiddable').hide();
                             } else {
                                 $('.js-hiddable').show();
-                                $('.js-repository-value').val(transliterate($('#id_name').val())).focus();
+                                $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
                             }
                             checkFields();
                         });
-                        $('#id_name').keyup(function () {
+
+                        $projectNameInput.keyup(function () {
                             var projectName = $(this).val();
                             var repoName = transliterate(projectName);
                             if (in_sync) {
@@ -423,61 +418,58 @@
                         }
 
                         function checkFields() {
-                            var projectName = $('#id_name').val();
-                            var isRepo = $('.js-repository').prop('checked'), repoName;
+                            var projectName = $('.js-project-name').val(),
+                                isRepo = $('.js-repository').is(':checked'),
+                                repoName,
+                                $repoNameInput = $('.js-repository-value');
+
                             if (!isRepo) {
-                                $('.js-repository-value').val('');
+                                $repoNameInput.val('');
                                 enableSubmit();
                                 unmarkRepName();
-                                return;
+                                return false;
                             }
+
                             if (in_sync) {
-                                repoName = transliterate($('.js-repository-value').val()) || transliterate(projectName);
+                                repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
                             }
                             else {
-                                repoName = transliterate($('.js-repository-value').val());
+                                repoName = transliterate($repoNameInput.val());
                             }
-                            $('.js-repository-value').val(repoName)
+
+                            $repoNameInput.val(repoName)
                                     .next('i').addClass('fa-spinner').addClass('fa-spin');
 
                             PM_AjaxPost(
-                                    '/project/edit/check_repository_name',
-                                    {
-                                        'repoName': repoName
-                                    },
-                                    function (response) {
-                                        if (response == "OK") {
-                                            markSuccessRepName();
-                                            enableSubmit();
-                                        }
-                                        else if (response == "ERROR") {
-                                            markErrorRepName();
-                                            disableSubmit();
-                                        }
-                                        else {
-                                            $('.js-repository-value').val(response);
-                                            markSuccessRepName();
-                                            enableSubmit();
-                                        }
-                                    });
+                                '/project/edit/check_repository_name',
+                                {
+                                    'repoName': repoName
+                                },
+                                function (response) {
+                                    if (response == "OK") {
+                                        markSuccessRepName();
+                                        enableSubmit();
+                                    } else if (response == "ERROR") {
+                                        markErrorRepName();
+                                        disableSubmit();
+                                    } else {
+                                        $('.js-repository-value').val(response);
+                                        markSuccessRepName();
+                                        enableSubmit();
+                                    }
+                                }
+                            );
                         }
                         disableSubmit();
-                        $('#id_name').blur(checkFields);
+
+                        $projectNameInput.blur(checkFields);
                         var in_sync = true;
-                        $('.js-repository-value').focus(function () {
-                            if ($(this).val() == transliterate($('#id_name').val())) {
-                                in_sync = true;
-                            } else {
-                                in_sync = false;
-                            }
-                        }).keyup(function () {
+                        $('.js-repository-value').focus(function() {
+                            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+                        }).keyup(function() {
                             setCheckFieldsTimer();
-                            if ($(this).val() == transliterate($('#id_name').val())) {
-                                in_sync = true;
-                            } else {
-                                in_sync = false;
-                            }
-                        }).blur(function (ev) {
+                            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+                        }).blur(function(ev) {
                             checkFields();
                         });
                         checkFields();

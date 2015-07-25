@@ -4,7 +4,6 @@ __author__ = 'Rayleigh'
 
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
-PIPELINE_DISABLE_WRAPPER = True
 PIPELINE_JS = {
     'base': {
         'source_filenames': (
@@ -15,6 +14,7 @@ PIPELINE_JS = {
             'js/libs/html5shiv.js',
             'js/libs/howler.min.js',
             'js/libs/sniffer.js',
+            'js/libs/string_mod.js',
             'js/libs/timepicker/jquery.datetimepicker.js',
             'js/libs/socket.io.js',
             'js/libs/backbone.js',
@@ -189,7 +189,18 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/user_statistic.js'
     },
+    'markdown': {
+        'source_filenames': (
+            'js/markdown.js',
+            'js/to-markdown.js',
+            'js/bootstrap-markdown.js',
+            'js/locale/bootstrap-markdown.ru.js',
+            'js/markdown-setup.js',
+        ),
+        'output_filename': 'js_compressed/markdown.js'
+    }
 }
+PIPELINE_DISABLE_WRAPPER = True
 
 PIPELINE_CSS = {
     'base': {
@@ -211,4 +222,10 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css_compressed/base.css',
     },
+    'markdown': {
+        'source_filenames': (
+            'css/bootstrap-markdown.css',
+        ),
+        'output_filename': 'css_compressed/markdown.css'
+    }
 }

@@ -1,6 +1,5 @@
 from django.conf.urls import patterns, include, url
 
-# Uncomment the next two lines to enable the admin:
 from django.contrib import admin
 from PManager.views import MainPage, Brains, add_timer
 from PManager.viewsExt.git_view import GitView
@@ -13,7 +12,8 @@ from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
     taskdraft_resend_invites, taskdraft_accept_developer
-from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder, project_server_setup, project_server_status
+from PManager.viewsExt.projects import projectDetail, addInterface, removeInterface, checkUniqRepNameResponder, \
+    project_server_setup, project_server_status
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
 from PManager.viewsExt.assets import protected_file
@@ -23,11 +23,9 @@ from PManager.viewsExt.specialty import specialty_ajax
 from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
-
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 admin.autodiscover()
-
-from django_notify.urls import get_pattern as get_notify_pattern
 
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
@@ -37,10 +35,10 @@ from django.contrib.auth.models import User
 import datetime
 
 
+# todo: Needed explanation for this function/ why this is here, where supposed to be only urls?
 def payment_received(sender, **kwargs):
     id = int(kwargs['extra']['user'])
     user = User.objects.get(id=id)
-    # role = PM_ProjectRoles.objects.get(project=project, role__code='client')
     profile = user.get_profile()
     sum = int(float(kwargs['OutSum']))
 
@@ -63,18 +61,18 @@ def payment_received(sender, **kwargs):
 
         PM_Project.objects.filter(author=user, locked=True).update(locked=False)
 
+
 result_received.connect(payment_received)
 
 default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 
-
 urlpatterns = patterns('',
-                       # Examples:
                        url(r'^$', MainPage.indexRender,
                            {'widgetList': ["project_graph", "tasklist", "chat"], 'activeMenuItem': 'main'}),
 
                        url(r'^gantt/$', MainPage.indexRender, {'widgetList': ["gantt"], 'activeMenuItem': 'main'}),
-                       url(r'^widgets/js/(?P<widget_name>[A-z_]+)/(?P<script_name>[A-z_\.]+)\.js', MainPage.jsWidgetProxy),
+                       url(r'^widgets/js/(?P<widget_name>[A-z_]+)/(?P<script_name>[A-z_\.]+)\.js',
+                           MainPage.jsWidgetProxy),
                        url(r'^widget_update/(?P<widget_name>[A-z_]+)', MainPage.widgetUpdate),
                        url(r'^user_list/', MainPage.indexRender, {'widgetList': ["user_list"]}),
                        url(r'^life/', MainPage.indexRender, {'widgetList': ["life"]}),
@@ -117,7 +115,6 @@ urlpatterns = patterns('',
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
                        url(r'^user_key_handle/add/$', KeyHandler.key_add),
                        url(r'^user_key_handle/remove/(?P<key_id>[0-9_]+)', KeyHandler.key_remove),
-                       url(r'^notify/', get_notify_pattern()),
                        url(r'^import_teamlab/', XML_Import.importView),
                        url(r'^statistic/$', MainPage.indexRender, {'widgetList': ["user_statistic"]}),
                        url(r'^stat/$', MainPage.indexRender, {'widgetList': ["project_statistic"]}),
@@ -140,23 +137,14 @@ urlpatterns = patterns('',
                        url(r'^ajax/specialty/$', specialty_ajax),
                        url(r'^file_access/', protected_file),
                        url(r'^sniffer/get_errors/', get_errors),
-                       # url(r'^tracker/', include('tracker.foo.urls')),
-
-                       # Uncomment the admin/doc line below to enable admin documentation:
-                       # url(r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-                       # Uncomment the next line to enable the admin:
                        url(r'^admin/', include(admin.site.urls)),
-                       (r'^robots\.txt$', lambda r: HttpResponse("User-agent: *\r\nDisallow: /static/\r\n", mimetype="text/plain")),
+                       (r'^robots\.txt$',
+                        lambda r: HttpResponse("User-agent: *\r\nDisallow: /static/\r\n", mimetype="text/plain")),
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
                        url(r'^payment_info/', paysystems),
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
-)
-
-from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-
-# ... the rest of your URLconf here ...
-
+                       url(r'^wiki/', include('wiking.urls'))
+                       )
 urlpatterns += staticfiles_urlpatterns()

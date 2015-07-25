@@ -3,13 +3,17 @@ __author__ = 'gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Project
 from git import *
-from PManager.classes.git.warden import Warden
-from PManager.classes.sniffer.js_sniffer import JSSniffer
-from PManager.classes.sniffer.php_sniffer import PHPSniffer
 from django.contrib.auth.models import User
 import os
+from tracker import settings
+
 
 def get_errors(request):
+    if not settings.USE_GIT_MODULE:
+        return HttpResponse('No git module installed')
+    from PManager.classes.sniffer.js_sniffer import JSSniffer
+    from PManager.classes.sniffer.php_sniffer import PHPSniffer
+    from PManager.classes.git.warden import Warden
     project_id = request.POST.get('project', False)
     path = request.POST.get('path', False)
     user = request.POST.get('user', False)
