@@ -37,8 +37,7 @@
 
             window.ajaxInputs();
         });
-    </script>
-           <script type="text/javascript">
+
          $(function(){
             var requestForServer = function(is_new) {
                 if (is_new !== true) {
@@ -90,6 +89,44 @@
             $('.js-server-create').click(function(){
                 requestForServer(true);
             });
+
+            $('.editable-textarea-click').click(function(e) {
+                $(this).hide();
+                $('.editable-textarea').show().focus().select();
+                e.stopPropagation();
+            });
+            $('.project-edit-link-editable').click(function(e) {
+                $(this).hide();
+                $('.project-edit-input').show().focus().select();
+                e.stopPropagation();
+            });
+
+            $('.editable-textarea, .project-edit-input').click(function(e) {
+                e.stopPropagation();
+            });
+
+            $('.editable-textarea').keyup(function(){
+                $('.editable-textarea-click').text($(this).val())
+            });
+
+            $('.project-edit-input').keyup(function(){
+                $('.project-edit-link-editable').text($(this).val())
+            });
+
+            $(document).click(function () {
+                var $projectControls = $('.editable-textarea, .project-edit-input');
+
+                if ($projectControls.is(':visible')) {
+                    $('.editable-textarea-click, .project-edit-link-editable').show();
+                    $projectControls.hide();
+                    updateName();
+                }
+            });
+
+            $(".js-add-interface-button").click(function() {
+                $(".js-add-interface-wrapper").toggle();
+            });
+
          });
         </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
@@ -119,46 +156,6 @@
                 {{ project.name }}
                 {% endif %}
             </h1>
-            <script>
-                $(function() {
-                    $('.editable-textarea-click').click(function(e) {
-                        $(this).hide();
-                        $('.editable-textarea').show().focus().select();
-                        e.stopPropagation();
-                    });
-                    $('.project-edit-link-editable').click(function(e) {
-                        $(this).hide();
-                        $('.project-edit-input').show().focus().select();
-                        e.stopPropagation();
-                    });
-
-                    $('.editable-textarea, .project-edit-input').click(function(e) {
-                        e.stopPropagation();
-                    });
-
-                    $('.editable-textarea').keyup(function(){
-                        $('.editable-textarea-click').text($(this).val())
-                    });
-
-                    $('.project-edit-input').keyup(function(){
-                        $('.project-edit-link-editable').text($(this).val())
-                    });
-
-                    $(document).click(function () {
-                        var $projectControls = $('.editable-textarea, .project-edit-input');
-
-                        if ($projectControls.is(':visible')) {
-                            $('.editable-textarea-click, .project-edit-link-editable').show();
-                            $projectControls.hide();
-                            updateName();
-                        }
-                    });
-
-                    $(".js-add-interface-button").click(function() {
-                        $(".js-add-interface-wrapper").toggle();
-                    });
-                });
-            </script>
             <p class="editable-textarea-wrapper">
                 {% if canEdit %}
                 <span class="editable-textarea-click">{{ project.description }}<i class="fa fa-pencil"></i></span>
@@ -379,11 +376,11 @@
                                 $('.js-hiddable').hide();
                             } else {
                                 $('.js-hiddable').show();
-                                $('.js-repository-value').val(transliterate($('#id_name').val())).focus();
+                                $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
                             }
                             checkFields();
                         });
-                        $('#id_name').keyup(function () {
+                        $('.js-project-name').keyup(function () {
                             var projectName = $(this).val();
                             var repoName = transliterate(projectName);
                             if (in_sync) {
@@ -423,7 +420,7 @@
                         }
 
                         function checkFields() {
-                            var projectName = $('#id_name').val();
+                            var projectName = $('.js-project-name').val();
                             var isRepo = $('.js-repository').prop('checked'), repoName;
                             if (!isRepo) {
                                 $('.js-repository-value').val('');
@@ -462,17 +459,17 @@
                                     });
                         }
                         disableSubmit();
-                        $('#id_name').blur(checkFields);
+                        $('.js-project-name').blur(checkFields);
                         var in_sync = true;
                         $('.js-repository-value').focus(function () {
-                            if ($(this).val() == transliterate($('#id_name').val())) {
+                            if ($(this).val() == transliterate($('.js-project-name').val())) {
                                 in_sync = true;
                             } else {
                                 in_sync = false;
                             }
                         }).keyup(function () {
                             setCheckFieldsTimer();
-                            if ($(this).val() == transliterate($('#id_name').val())) {
+                            if ($(this).val() == transliterate($('.js-project-name').val())) {
                                 in_sync = true;
                             } else {
                                 in_sync = false;
