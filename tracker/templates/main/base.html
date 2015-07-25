@@ -312,7 +312,7 @@ $(function(){
                     </a>
                 </li>
                 <li class="{% if activeMenuItem == 'wiki' %} active{% endif %}">
-                    <a href="/wiki/">
+                    <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}">
                         <span aria-hidden="true" class="fa fa-file-text"></span>
                         <span>ВИКИ</span>
                     </a>

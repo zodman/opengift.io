@@ -18,7 +18,7 @@
     <div class="wiking-container">
         <div class="wiking-list" role="group" aria-label="root">
             {% if articles %}
-            <p>В вики проекта вы можете вести базу знаний для внутреннего использования</p>
+            <p>В вики проекта вы можете вести базу знаний для внутреннего использования. Доступ к вики открыт всем участникам проекта. Все изменения отражаются в версиях статей, вы всегда можете откатить любое изменение.</p>
 
             <ul>
                 {% for article in articles %}
@@ -55,7 +55,7 @@
             {% else %}
             <div class="hello-wiki">
                 <h2 align="center">Добро пожаловать в Wiki{% if project %} проекта <span class="green-color">{{ project.name }}</span>{% endif %}</h2>
-                <p class="indent">В вики проекта вы можете вести базу знаний для внутреннего использования</p>
+                <p class="indent">В вики проекта вы можете вести базу знаний для внутреннего использования. Доступ к вики открыт всем участникам проекта. Все изменения отражаются в версиях статей, вы всегда можете откатить любое изменение.</p>
                 <p align="center">
                     <a href="#" class="btn btn-success btn-lg" onclick="window.create_new_page();return false;">
                         <i class="fa fa-plus"></i>&nbsp;&nbsp;Добавить первую страницу</a>
