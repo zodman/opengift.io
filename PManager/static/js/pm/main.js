@@ -127,16 +127,16 @@ mainControllerClass.prototype = {
 
     },
     inviteUser: function($btn, $email) {
-        var arEmail = [];
+        var arEmail = [], roles = {};
         $email.each(function(){
             if ($(this).val()) {
-                var t = this, roles = {}, $roleChecks = $(this).closest('.js-invite-cont').find(':checkbox');
+                var t = this, $roleChecks = $(this).closest('.js-invite-cont').find(':checkbox');
                 $roleChecks.filter(':checked').each(function(){
-                    if (!roles[t.val()]) roles[t.val()] = [];
-                    roles[t.val()].push($(this).val());
+                    if (!roles[$(t).val()]) roles[$(t).val()] = [];
+                    roles[$(t).val()].push($(this).val());
                     $(this).attr('checked', false);
                 });
-                if (roles[t.val()].length <= 0) {
+                if (!roles[$(t).val()] || roles[$(t).val()].length <= 0) {
                     alert('Выберите хоть одну роль в проекте.');
                     return false;
                 }
@@ -144,7 +144,7 @@ mainControllerClass.prototype = {
             }
         });
 
-        if (arVal.length <= 0) {
+        if (arEmail.length <= 0) {
                 alert('Введите корректный email');
                 return false;
         } else {
