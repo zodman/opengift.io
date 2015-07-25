@@ -303,7 +303,7 @@
           <form role="form" class="js-milestone-form" method="post">
               <div class="modal-body clearfix">
                   <div class="add-aim-body clearfix">
-                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
+                      <div class="add-aim-checkbox"><input type="radio" name="aims" class="js-select-milestone js-new" checked  value="" ></div>
                       <div class="add-aim-body-item">
                         <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
                       </div>
@@ -312,20 +312,15 @@
                             <a class="fa fa-calendar" href="javascript:void(0);" style="position: absolute;right: 10px;top: 10px;z-index: 999999999" onclick="$(this).prev().focus();"></a>
                       </label>
                   </div>
-                  <div class="add-aim-body-wrapper-wrapper clearfix">
-                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
+                  {% for milestone in tasklist.milestones %}
+                      <div class="add-aim-body-wrapper-wrapper clearfix">
+                      <div class="add-aim-checkbox"><input type="radio" name="aims" class="js-select-milestone" value="{{ milestone.id }}"></div>
                       <div class="add-aim-body-wrapper clearfix">
-                          <div class="add-aim-body-wrapper-name">Название цели</div>
-                          <div class="add-aim-body-wrapper-date">23.09.2015</div>
+                          <div class="add-aim-body-wrapper-name">{{ milestone.name }}</div>
+                          <div class="add-aim-body-wrapper-date">{{ milestone.date }}</div>
                       </div>
                   </div>
-                  <div class="add-aim-body-wrapper-wrapper clearfix">
-                      <div class="add-aim-checkbox"><input type="radio" name="aims"></div>
-                      <div class="add-aim-body-wrapper clearfix">
-                          <div class="add-aim-body-wrapper-name">Название цели</div>
-                          <div class="add-aim-body-wrapper-date">23.09.2015</div>
-                      </div>
-                  </div>
+                  {% endfor %}
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-milestone"></div>
