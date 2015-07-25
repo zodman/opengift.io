@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Tonakai'
-from django.test import TestCase
+from django.test import SimpleTestCase
 from PManager.classes.git.diff_parser import DiffParser
 
 
-class TestDiffParser(TestCase):
+class TestDiffParser(SimpleTestCase):
     def setUp(self):
         self.str = """commit 2ecec1bde6e2885073170dffcc27f3c362801019
 Author: Artem Smirnov <tonakai.personal@gmail.com>
@@ -233,5 +233,43 @@ index 0000000..fdf409b
         summary = df.files[1]["summary"]
         self.assertEqual(summary['binary'], False)
         self.assertEqual(summary['deleted'], 0)
-        self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 2)
+
+    def test_empty_file_added(self):
+        self.str = '''commit adc7284f7d8595b194fbeaf1afe5228a74126c48
+Author: Artem Smirnov <tonakai.personal@gmail.com>
+Date:   Sat Jul 25 12:55:10 2015 +0300
+
+test6
+
+diff --git a/test6.html b/test6.html
+new file mode 100644
+index 0000000..e69de29'''
+        df = DiffParser(self.str)
+        summary = df.files[0]["summary"]
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 0)
+        self.assertEqual(1, len(df.files))
+        self.assertEqual("/test6.html", df.files[0]['path'])
+        self.assertEqual(df.files[0]["action"], "C")
+
+    def test_empty_file_deleted(self):
+        self.str = '''commit adc7284f7d8595b194fbeaf1afe5228a74126c48
+Author: Artem Smirnov <tonakai.personal@gmail.com>
+Date:   Sat Jul 25 12:55:10 2015 +0300
+
+test6
+
+diff --git a/test6.html b/test6.html
+deleted file mode 100644
+index 0000000..e69de29'''
+        df = DiffParser(self.str)
+        summary = df.files[0]["summary"]
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(df.files[0]["action"], "D")
+        self.assertEqual(summary['created'], 0)
+        self.assertEqual(1, len(df.files))
+        self.assertEqual("/test6.html", df.files[0]['path'])
+

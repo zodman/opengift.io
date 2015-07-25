@@ -12,11 +12,14 @@ from PManager.classes.git.diff_parser import DiffParser
 from PManager.classes.sniffer.js_sniffer import JSSniffer
 from PManager.classes.sniffer.php_sniffer import PHPSniffer
 from django.core.files.storage import FileSystemStorage
+
+
 if not settings.USE_GIT_MODULE:
     exit("GIT MODULE NOT INSTALLED")
 repo = Repo(settings.GITOLITE_ADMIN_REPOSITORY)
 logger = logging.getLogger(__name__)
 import os
+
 
 class Warden(object):
     user = None
