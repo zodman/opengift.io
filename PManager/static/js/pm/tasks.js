@@ -1214,7 +1214,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 
 			$taskMenu.appendTo(this.$('.js-options_popup'))
 				.show();
-			$(document).one('click', function () {
+			$taskMenu.one('clickoutside', function () {
 				$taskMenu.remove();
 			});
 

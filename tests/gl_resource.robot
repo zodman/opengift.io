@@ -1,24 +1,30 @@
 *** Settings ***
 Documentation    Suites Resources
 Library     Selenium2Library
+Library     libs/PManager/Settings.py
 
 *** Variables ***
-${port}     8080
-${host}     heliard.dev:${port}
-${root url}     http://${host}
 ${browser}      Firefox
 ${user}         gvammer
 ${password}     qweqweqwe
-${root dir}     /home/rayleigh/projects/heliard
-${test project}     Heliard
-${maildump url}     127.0.0.1:1080
+
 
 *** Keywords ***
+
+Setup variables
+    ${root url}=     get root url
+    ${root dir}=     get project root
+    ${maildump url}=     get maildumper url
+    set global variable  ${root url}
+    set global variable  ${root dir}
+    set global variable  ${maildump url}
+
 Start the webserver
-    # run process     database should be clean slate w only user
-#    ${django process}=  start process   python  manage.py     runserver   localhost:${port}
-#    set global variable  ${django process}
+    Setup variables
+    # todo: clean database, start the webserver?
+    #       should this be the case, or leave it external
     create webdriver    ${browser}
+    Register Keyword To Run On Failure      Capture Page Screenshot
 
 Stop the webserver
 #    terminate process   ${django process}

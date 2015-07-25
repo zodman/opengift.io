@@ -85,24 +85,28 @@ class userHandlers:
 
                 return HttpResponse('ok')
         elif action == 'inviteUser':
-            email = request.POST.get('email', None)
-            roles = request.POST.getlist('roles[]', [])
+            arEmail = request.POST.getlist('email[]', {})
+            print arEmail
 
-            if email:
-                if not emailMessage.validateEmail(email):
-                    return HttpResponse(u'Email введен неверно')
-                if not roles:
-                    return HttpResponse(u'Не введено ни одной роли')
+            if arEmail:
+                for val in arEmail:
+                    email = val['email']
+                    roles = val['roles']
 
-                headers = initGlobals(request)
-                p = headers['CURRENT_PROJECT']
-                if request.user.get_profile().isManager(p):
-                    if p:
-                        user = PM_User.getOrCreateByEmail(email, p, roles.pop())
-                        if USE_GIT_MODULE:
-                            GitoliteManager.regenerate_access(p)
-                        for role in roles:
-                            user.get_profile().setRole(p, role)
+                    if not emailMessage.validateEmail(email):
+                        return HttpResponse(u'Email введен неверно')
+                    if not roles:
+                        return HttpResponse(u'Не введено ни одной роли')
+
+                    headers = initGlobals(request)
+                    p = headers['CURRENT_PROJECT']
+                    if request.user.get_profile().isManager(p):
+                        if p:
+                            user = PM_User.getOrCreateByEmail(email, p, roles.pop())
+                            if USE_GIT_MODULE:
+                                GitoliteManager.regenerate_access(p)
+                            for role in roles:
+                                user.get_profile().setRole(p, role)
 
             return HttpResponse('ok')
         elif action == 'getUsers':

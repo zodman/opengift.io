@@ -32,8 +32,8 @@ class KeyHandler:
         if not request.user.is_authenticated:
             return HttpResponse("{'error': 'should be authenticated'}")
         if request.method == 'POST':
-            name = str(request.POST.get('key_name', ''))
-            data = str(request.POST.get('key_data', ''))
+            name = unicode(request.POST.get('key_name', ''))
+            data = unicode(request.POST.get('key_data', ''))
             data = data.replace('\n', '').replace('\r', '')
             if len(name) > 0 and len(data) > 0:
                 response_data = {'result': 'errors', 'fields': {}}

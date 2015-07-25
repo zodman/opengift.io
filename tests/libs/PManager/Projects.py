@@ -35,7 +35,7 @@ class Projects:
             picture = Tools.default_picture()
         if not options:
             options = []
-        project_name = self.PROJECT_NAME_PREFIX + str(datetime.now())
+        project_name = str(self.PROJECT_NAME_PREFIX + str(datetime.now()))[::-1]
         self.sel.click_link(self.PROJECT_EDIT_LINK)
         self.sel.wait_until_element_is_visible(self.PROJECT_EDIT_FORM_LOCATOR)
         self.sel.input_text(self.PROJECT_NAME_LOCATOR, project_name)
@@ -45,12 +45,11 @@ class Projects:
             self.sel.select_checkbox(self.PROJECT_OPT_PREFIX + name)
         self.sel.click_button(self.PROJECT_SAVE_BUTTON)
         self.sel.page_should_contain(project_name)
+        # todo: add log -- project id
         return project_name
 
     def select_project_from_select(self, project_name):
         self.sel.select_from_list_by_label(self.PROJECT_SELECT_LOCATOR, project_name)
-
-
 
     def select_project(self, project_name, fr="select"):
         if fr == "select":
