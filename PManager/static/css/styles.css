@@ -3464,15 +3464,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     }
 
 .with-input-and-plus {position: relative;}
-.with-input-and-plus input {width: calc(100% - 50px);}
-.with-input-and-plus i {
-font-size: 18px;
-height: 34px;
-position: absolute;
-right: 0;
-top: 0;
-    cursor: pointer;
-}
+.with-input-and-plus input {width: 100%;}
 
 .add-aim-body {
     background: #f3f3f3;
@@ -3634,6 +3626,8 @@ top: 0;
 .modal-body ol li {margin: 5px 0;}
 .modal-body ul {margin: 0 0 20px 35px}
 .modal-body ul li {margin: 5px 0;}
+
+.modal-body ul.list-inline {margin: 0 0 15px;}
 
 .modal-body hr {margin: 25px -25px;}
 

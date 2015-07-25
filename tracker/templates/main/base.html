@@ -93,7 +93,6 @@
                 <div class="inputs-wrapper js-invite-cont">
                     <div class="with-input-and-plus">
                         <input type="text" name="email" class="form-control js-email-invite" placeholder="Введите email" />
-                        <i class="fa fa-plus btn btn-success"></i>
                     </div>
                     <ul class="list-inline" >
                         <li>
@@ -122,39 +121,11 @@
                         </li>
                     </ul>
                 </div>
-                <div class="inputs-wrapper js-invite-cont">
-                    <div class="with-input-and-plus">
-                        <input type="text" name="email" class="form-control js-email-invite" placeholder="Введите email" />
-                        <i class="fa fa-plus btn btn-success"></i>
-                    </div>
-                    <ul class="list-inline" >
-                        <li>
-                            <div class="checkbox">
-                                <label>
-                                    <input class="js-role-check-invite"
-                                           name="roles" value="client" type="checkbox">
-                                    <span class="fa fa-users"></span> Клиент</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="checkbox">
-                                <label>
-                                    <input class="js-role-check-invite"
-                                           name="roles" value="manager" type="checkbox">
-                                    <span class="fa fa-cogs"></span> Менеджер</label>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="checkbox">
-                                <label>
-                                    <input class="js-role-check-invite"
-                                           name="roles" value="employee" type="checkbox">
-                                    <span class="fa fa-user"></span> Разработчик</label>
-                            </div>
-                        </li>
-                    </ul>
+                <div class="col-wrapper">
+                    <div class="col-5"><a href="#" class="btn btn-default block">Добавить еще</a></div>
+                    <div class="col-5"><a href="#" class="btn btn-success block" onclick="return document.mainController.inviteUser($(this), $('.js-email-invite'), $('.js-role-check-invite'));">Пригласить</a></div>
                 </div>
-                <a href="#" class="btn btn-success block" onclick="return document.mainController.inviteUser($(this), $('.js-email-invite'), $('.js-role-check-invite'));">Пригласить</a>
+
                 <hr class="margin-25" />
                 <h2>Пригласите проверенных специалистов!</h2>
                 <p>Для приглашения компетентных исполнителей вам нужно:</p>
