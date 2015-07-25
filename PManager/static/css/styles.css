@@ -1384,7 +1384,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list-filer hr {margin:0 0 15px;}
 .user-list-filer .span4 {margin-bottom:15px;}
 .user-list .widget.span4:nth-child(3n+1) {margin-left:0px;} 
-.user-list .widget.span4 small {margin:5px 0 0; line-height:14px; display:block; color:#ccc;}
+.user-list .widget.span4 small {margin:5px 0 0; line-height:14px; display:block; color:#ccc;text-transform: lowercase;}
 .user-list .user td {vertical-align:top;}
 .user-list .user td.avatar {width:100px;}
 .user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden;}
