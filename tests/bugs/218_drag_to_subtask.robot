@@ -23,7 +23,7 @@ drag item to
     reload page
     ${sub task id}=     get task id     ${sub}
     ${task id}=         get task id     ${task}
-    drag and drop       css=#${sub task id}>div>.js-drag-task       css=#${task id}
+    drag and drop       css=#${sub task id}>.js-drag-task       css=#${task id}
     confirm action
 
 
