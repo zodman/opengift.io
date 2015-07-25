@@ -7,6 +7,7 @@ ROBOT_LIBRARY_VERSION = '0.0.1'
 from tracker.settings import PROJECT_ROOT
 from robot.libraries.BuiltIn import BuiltIn
 
+
 class Tools:
     def __init__(self):
         self.sel = BuiltIn().get_library_instance('Selenium2Library')
