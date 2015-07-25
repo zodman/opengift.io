@@ -86,13 +86,13 @@ class userHandlers:
                 return HttpResponse('ok')
         elif action == 'inviteUser':
             arEmail = request.POST.getlist('email[]', {})
-            print arEmail
+
 
             if arEmail:
-                for val in arEmail:
-                    email = val['email']
-                    roles = val['roles']
-
+                for email in arEmail:
+                    roles = request.POST.getlist('roles['+email+']', {})
+                    print email
+                    print roles
                     if not emailMessage.validateEmail(email):
                         return HttpResponse(u'Email введен неверно')
                     if not roles:

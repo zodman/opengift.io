@@ -127,22 +127,20 @@ mainControllerClass.prototype = {
 
     },
     inviteUser: function($btn, $email) {
-        var arVal = [];
+        var arEmail = [];
         $email.each(function(){
             if ($(this).val()) {
-                var roles = [], $roleChecks = $(this).closest('.js-invite-cont').find(':checkbox');
+                var t = this, roles = {}, $roleChecks = $(this).closest('.js-invite-cont').find(':checkbox');
                 $roleChecks.filter(':checked').each(function(){
-                    roles.push($(this).val());
+                    if (!roles[t.val()]) roles[t.val()] = [];
+                    roles[t.val()].push($(this).val());
                     $(this).attr('checked', false);
                 });
-                if (roles.length <= 0) {
+                if (roles[t.val()].length <= 0) {
                     alert('Выберите хоть одну роль в проекте.');
                     return false;
                 }
-                arVal.push({
-                    'email': $(this).val(),
-                    'roles': roles
-                });
+                arEmail.push($(this).val());
             }
         });
 
@@ -154,7 +152,8 @@ mainControllerClass.prototype = {
                 '/users_ajax/',
                 {
                     'action': 'inviteUser',
-                    'email': arVal
+                    'email': arEmail,
+                    'roles': roles
                 },
                 function(data){
                     $email.val('');
