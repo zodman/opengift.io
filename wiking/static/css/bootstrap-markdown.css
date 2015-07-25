@@ -46,6 +46,11 @@
     float:right;
     padding:3px
 }
+
+.md-editor.md-fullscreen-mode .md-controls {
+    display: none;
+}
+
 .md-editor .md-controls .md-control{
     right:5px;
     color:#bebebe;
@@ -61,7 +66,7 @@
     top:0;
     left:0;
     z-index:999999;
-    padding:60px 30px 15px;
+    padding:55px 0px 0px;
     margin-left:10%;
     margin-top:100px;
     background:#fff!important;
@@ -90,20 +95,20 @@
     background:#fff!important
 }
 .md-editor.md-fullscreen-mode .md-header{
-    background:0 0;
-    text-align:center;
-    position:fixed;
-    width:100%;
-    top:120px;
+    background: #f4f4f4 none repeat scroll 0 0 !important;
+    border-radius: 5px 5px 0 0 !important;
+    -moz-border-radius: 5px 5px 0 0 !important;
+    -webkit-border-radius: 5px 5px 0 0 !important;
+    left: 0;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
 }
 .md-editor.md-fullscreen-mode .btn-group{
     float:none
 }
-.md-editor.md-fullscreen-mode .btn{
-    border:0;
-    background:0 0;
-    color:#b3b3b3
-}
+
 .md-editor.md-fullscreen-mode .btn.active,.md-editor.md-fullscreen-mode .btn:active,.md-editor.md-fullscreen-mode .btn:focus,
 .md-editor.md-fullscreen-mode .btn:hover{
     box-shadow:none;

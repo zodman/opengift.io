@@ -17,20 +17,49 @@
 {% block wiking_content %}
     <div class="wiking-container">
         <div class="wiking-list" role="group" aria-label="root">
+
             {% for article in articles %}
-                {% if not article.deleted %}
-                    <a href="{{ article.slug }}" class="wiking-list-item">
-                        <span class="wiking-list-item-title">{{ article.get_title }}</span>
-                        <span class="wiking-list-item-text">Французский актёр испанского происхождения Жан Рено родился в Касабланке 30 июля 1948 года и носил в то время имя </span>
-                        <span class="wiking-list-item-date-author"><span>Последний автор: Test User</span><span>Изменено: 22 июля 2015 г. 14:44:19</span><span>Версия: 7</span></span>
-                    </a>
+                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+
+                    <ul>
+                    {% if not article.deleted %}
+                        <li>
+                            <a href="{{ article.slug }}">
+                                <span class="wiking-list-item-title">{{ article.get_title }}</span>
+                                <span class="wiking-list-item-date-author"><span><i class="fa fa-user"></i> Test User</span><span><i class="fa fa-pencil"></i> 22 июля 2015 г. 14:44:19</span></span>                            </a>
+                            <ul>
+                                <li>
+                                    <a href="{{ article.slug }}">
+                                        <span class="wiking-list-item-title">{{ article.get_title }}</span>
+                                        <span class="wiking-list-item-date-author"><span><i class="fa fa-user"></i> Test User</span><span><i class="fa fa-pencil"></i> 22 июля 2015 г. 14:44:19</span></span>                                    </a>
+                                </li>
+                                <li>
+                                    <a href="{{ article.slug }}">
+                                        <span class="wiking-list-item-title">{{ article.get_title }}</span>
+                                        <span class="wiking-list-item-date-author"><span><i class="fa fa-user"></i> Test User</span><span><i class="fa fa-pencil"></i> 22 июля 2015 г. 14:44:19</span></span>                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="{{ article.slug }}">
+                                <span class="wiking-list-item-title">{{ article.get_title }}</span>
+                                <span class="wiking-list-item-date-author"><span><i class="fa fa-user"></i> Test User</span><span><i class="fa fa-pencil"></i> 22 июля 2015 г. 14:44:19</span></span>                            </a>
+                        </li>
+                    {% endif %}
+                    </ul>
+
+                {% if can_create %}
+                <p align="center"><a href="" class="btn btn-success" onclick="window.create_new_page();return false;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Добавить страницу</a></p>
+
                 {% endif %}
             {% endfor %}
+            <!--<div class="hello-wiki">
+                <h2 align="center">Добро пожаловать в Wiki проекта <span class="green-color">Егор Маслов</span></h2>
+                <p class="indent">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. </p>
+                <p class="indent">It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.</p>
+                <p align="center"><a href="" class="btn btn-success btn-lg" onclick="window.create_new_page();return false;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Добавить первую страницу</a></p>
+            </div>-->
         </div>
 
-        {% if can_create %}
-        <p align="center"><a href="" class="btn btn-success" onclick="window.create_new_page();return false;"><i class="fa fa-plus"></i>&nbsp;&nbsp;Добавить страницу</a></p>
-
-        {% endif %}
     </div>
 {% endblock %}
