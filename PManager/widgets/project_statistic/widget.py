@@ -192,6 +192,7 @@ class sumLoanChart(Chart):
                         }
                     ]
                 })
+
             except User.DoesNotExist:
                 pass
 
@@ -216,6 +217,7 @@ class timeChart(Chart):
                 'name': u'Закрыто по плану'
             }
         ]
+
         self.rows = []
         for x in aTimers:
             try:
