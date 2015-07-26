@@ -224,7 +224,6 @@ $(function(){
     </div>
 {% endif %}
 <header>
-    {% if projects|length > 4 %}
     <div class="overflow" style="display: none;"></div>
     <div class="popup projects-popup js-projects" style="display: none;">
     	<span class="close-icon"><i class="fa fa-times" onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();"></i></span>
@@ -271,7 +270,7 @@ $(function(){
             {% endfor %}
         </div>
     </div>
-    {% endif %}
+
     <div class="header clearfix">
         <div class="logo">
             <a href="/">
@@ -348,35 +347,35 @@ $(function(){
         </nav>
 
         <div class="timer-wrapper clearfix">
-                <div class="timer js-currentTask">
-                    <span>
-                        <span class="Time js-mainTimer" >{% if userTimer %}{{ userTimer }}{% else %}00:00:00{% endif %}</span>
-                        &nbsp;&nbsp;<a class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play-circle{% endif %}" ></a>
+            <div class="timer js-currentTask">
+                <span>
+                    <span class="Time js-mainTimer" >{% if userTimer %}{{ userTimer }}{% else %}00:00:00{% endif %}</span>
+                    &nbsp;&nbsp;<a class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play-circle{% endif %}" ></a>
 
-                        <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">
-                            <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>
-                            <hr>
-                            <h5><a class="js-parentTaskName" href="{% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.url }}{% else %}{{ userTimer.task.url }}{% endif %}">
-                                {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.name }}{% else %}{{ userTimer.task.name }}{% endif %}
-                            </a></h5>
-                            {% if userTimer.task.parentTask %}
-                            <ul><li><h6><a class="js-taskName" href="{{ userTimer.task.url }}">{{ userTimer.task.name }}</a></h6></li></ul>
-                            <hr>
-                            {% else %}
-                            {% endif %}
-                            <p class="js-description">{{ userTimer.task.text }}</p>
-                            <hr>
-                            <p class="js-onlystarted"><textarea placeholder="Оставить комментарий" name="comment" class="form-control" rows="3"></textarea></p>
-                            <label class="js-onlystarted checkbox"><input type="checkbox" name="solution" value="Y" >Задача решена</label>
-                            <a class="js-onlystarted js-stop-timer pause_comment_success btn btn-success">Остановить таймер</a><a class="js-onlystarted js-cancel-timer pause_comment_cancel btn btn-danger">Отменить таймер</a>
-                        </div>
-                    </span>
-                </div>
-                <div class="user-menu">
-                    <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>
-                    <a href="/user_detail/?id={{ user.id }}" class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
-                    <a class="btn btn-danger btn-xs" href="/login/?logout=Y"><span>Выход<i class="fa fa-power-off"></i></span></a>
-                </div>
+                    <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">
+                        <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>
+                        <hr>
+                        <h5><a class="js-parentTaskName" href="{% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.url }}{% else %}{{ userTimer.task.url }}{% endif %}">
+                            {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.name }}{% else %}{{ userTimer.task.name }}{% endif %}
+                        </a></h5>
+                        {% if userTimer.task.parentTask %}
+                        <ul><li><h6><a class="js-taskName" href="{{ userTimer.task.url }}">{{ userTimer.task.name }}</a></h6></li></ul>
+                        <hr>
+                        {% else %}
+                        {% endif %}
+                        <p class="js-description">{{ userTimer.task.text }}</p>
+                        <hr>
+                        <p class="js-onlystarted"><textarea placeholder="Оставить комментарий" name="comment" class="form-control" rows="3"></textarea></p>
+                        <label class="js-onlystarted checkbox"><input type="checkbox" name="solution" value="Y" >Задача решена</label>
+                        <a class="js-onlystarted js-stop-timer pause_comment_success btn btn-success">Остановить таймер</a><a class="js-onlystarted js-cancel-timer pause_comment_cancel btn btn-danger">Отменить таймер</a>
+                    </div>
+                </span>
+            </div>
+            <div class="user-menu">
+                <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>
+                <a href="/user_detail/?id={{ user.id }}" class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
+                <a class="btn btn-danger btn-xs" href="/login/?logout=Y"><span>Выход<i class="fa fa-power-off"></i></span></a>
+            </div>
     	</div><!--timer-->
         {% endif %}
 	</div><!--header-->
@@ -419,21 +418,6 @@ $(function(){
                                 Все проекты
                             {% endif %}
                         </button>
-                        {% if projects|length <= 4 %}
-                        <ul class="dropdown-menu dropdown-right" role="menu" aria-labelledby="dropdownMenu1">
-                            <li id="0" class="{% if not main.CURRENT_PROJECT.id %}active{% endif %}">
-                                <a href="{% if is_detail_page %}/{% endif %}?project=0">Все проекты</a>
-                            </li>
-                            {% for project in projects %}
-                            <li id="{{ project.id }}" class="{% if project.id == main.CURRENT_PROJECT.id %}active{% endif %}">
-                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}">
-                                    {{ project.name }}
-                                {% if project.tasksQty %}&nbsp;<b>{{ project.tasksQty }}</b>{% endif %}
-                                </a>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
