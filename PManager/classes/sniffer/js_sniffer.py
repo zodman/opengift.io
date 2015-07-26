@@ -1,6 +1,5 @@
 __author__ = 'gvammer'
 import os
-from tracker.settings import PROJECT_ROOT
 
 
 class JSSniffer:
@@ -9,15 +8,12 @@ class JSSniffer:
 
     @staticmethod
     def sniff(filename):
-        command = 'jscs ' + filename + ' --standard=Jquery --report-full -c ' + JSSniffer.get_config_path()
-        print "##########################"
-        print command
-        print "##########################"
-
-        sniffer_output = os.popen(command)
-
-        for i in sniffer_output:
-            print i
+        # todo: reportWidth must be longer than longest of error messages
+        # todo: parse with arbitrary width - ignore newlines
+        # highlight==0  to remove console chars colors from output
+        # 2>&1 - to capture stderr, since report is going there
+        sniffer_output = os.popen(
+            'jscs ' + filename + ' --standard=Jquery --highlight=0 --reportWidth=1000 --report-full 2>&1')
         report = []
         i = 0
         for line in sniffer_output:
@@ -33,7 +29,3 @@ class JSSniffer:
                     'comment': comment
                 })
         return report
-
-    @staticmethod
-    def get_config_path():
-        return os.path.join(PROJECT_ROOT, 'tracker/sniffer_files/jscs-config.json')
