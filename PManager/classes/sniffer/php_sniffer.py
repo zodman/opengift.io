@@ -1,31 +1,40 @@
 __author__ = 'gvammer'
 import os
 
+
 class PHPSniffer:
+    def __init__(self):
+        pass
+
     @staticmethod
     def sniff(filename):
-        a = os.popen('phpcs --standard=Zend ' + filename)
+        sniffer_output = os.popen('phpcs --standard=Zend ' + filename)
+        report = []
         i = 0
-        ar = []
-        for s in a:
+        for line in sniffer_output:
             i += 1
             if i < 5:
                 continue
+            if not PHPSniffer.ignore(line):
+                report.append(PHPSniffer.parse_line(line))
+        return report
 
-            if s.find('Short PHP opening tag') > 0:
-                continue
+    @staticmethod
+    def parse_line(line):
+        line = line.split('|')
+        return {
+            'line': line[0],
+            'type': line[1],
+            'comment': line[2]
+        }
 
-            if s.find('tabs are not allowed') > 0:
-                continue
+    @staticmethod
+    def ignore(line):
+        if line.find('Short PHP opening tag') > 0:
+            return True
+        if line.find('tabs are not allowed') > 0:
+            return True
+        if line.count('|') < 2:
+            return True
+        return False
 
-            s = s.split('|')
-            if len(s) < 3:
-                continue
-
-            ar.append({
-                'line': s[0],
-                'type': s[1],
-                'comment': s[2]
-            })
-
-        return ar
