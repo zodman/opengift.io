@@ -160,6 +160,9 @@ class sumLoanChart(Chart):
                 'name': u'Задача'
             },
             {
+                'name': u'Дата'
+            },
+            {
                 'name': u'Сумма'
             }
         ]
@@ -180,6 +183,9 @@ class sumLoanChart(Chart):
                         },
                         {
                             'text': x.task.name
+                        },
+                        {
+                            'text': x.date
                         },
                         {
                             'text': x.value

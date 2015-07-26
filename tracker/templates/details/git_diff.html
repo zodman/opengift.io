@@ -14,7 +14,7 @@
                         <span class="commit-file-path">{{ file.path }}</span>
                     </div>
                 {% else %}
-                    <div class="file-summary panel-heading js-show-file-diff">
+                    <div class="file-summary panel-heading {% if file.lines %}js-show-file-diff{% endif %}">
                         <span class="commit-file-changes-removed">-{{ file.summary.deleted }}</span>
                         <span class="commit-file-changes-added">+{{ file.summary.created }}</span>
                         <span class="commit-file-path">
@@ -40,7 +40,8 @@
                                         </div>
                                         <pre class="source">{{ line.text }}</pre>
                                     </div>
-                                    {% if line.end %}
+                                {% endfor %}
+                                {% if file.lines %}
                                     <div class="diff-line commit-diff-line-separator">
                                         <div class="gutter">
                                             <span class="pointer">&gt;</span>
@@ -50,8 +51,7 @@
                                         </div>
                                         <pre class="source">&nbsp;</pre>
                                     </div>
-                                    {% endif %}
-                                {% endfor %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

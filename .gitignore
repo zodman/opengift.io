@@ -4,10 +4,12 @@
 PManager/services/mind/Hodor.brain
 PManager/migrations/*
 tracker/settings.py
+tracker/settings_test.py
 *.log
 reports/*
 node_modules/*
 tracker/media/*
 tracker/static/*
+tracker/sniffer_files/*
 gunicorn.pid
 npm-debug.log.*
