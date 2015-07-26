@@ -117,8 +117,8 @@ class PaymentChart(Chart):
 
         for day in self.dayGenerator:
             credit = Credit.objects.filter(
-                date__range=(datetime.datetime.combine(day, datetime.time.min),
-                             datetime.datetime.combine(day, datetime.time.max))
+                date__range=(datetime.datetime.combine(self.dateFrom, datetime.time.min),
+                             datetime.datetime.combine(self.dateTo, datetime.time.max))
             )
             if self.projects:
                 credit = credit.filter(project__in=self.projects)
@@ -150,7 +150,11 @@ class sumLoanChart(Chart):
     title = u'Текущие бонусы'
     type = 'table'
     def getData(self):
-        arDebts = Credit.objects.filter(project__in=self.projects).order_by('-id')[:300]
+        arDebts = Credit.objects.filter(
+            date__range=(datetime.datetime.combine(day, datetime.time.min),
+                             datetime.datetime.combine(day, datetime.time.max)),
+            project__in=self.projects
+        ).order_by('-id')[:300]
 
         self.cols = [
             {
