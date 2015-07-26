@@ -92,27 +92,28 @@ class Warden(object):
         try:
             _diff = _repo.git.show(message.commit, U=10)
             df = DiffParser(_diff)
-
-            for d in df.files:
-                ext = d['path'].split('.').pop()
-                if ext == 'php' or ext == 'js':
-                    r = _repo.git.show('master:' + d['path'][1:])
-                    filename = 'tracker/sniffer_files/tmp' + str(message.author.id)
-                    f = open(filename, 'w')
-                    f.write(r)
-                    f.close()
-
-                    a = []
-                    if ext == 'php':
-                        a = PHPSniffer.sniff(filename)
-                    elif ext == 'js':
-                        a = JSSniffer.sniff(filename)
-
-                    d['error_qty'] = len(a)
-
-                    os.remove(filename)
-
+            df = Warden.sniff_files(_repo, df, message)
         except IOError:
             return False
 
+        return df
+
+    @staticmethod
+    def sniff_files(_repo, df, message):
+        for d in df.files:
+            ext = d.path.split('.').pop()
+            if ext == 'php' or ext == 'js':
+                r = _repo.git.show(message.commit + ':' + d.path[1:])
+                filename = 'tracker/sniffer_files/tmp' + str(message.author.id)
+                f = open(filename, 'w')
+                f.write(r)
+                f.close()
+
+                sniffer_report = []
+                if ext == 'php':
+                    sniffer_report = PHPSniffer.sniff(filename)
+                elif ext == 'js':
+                    sniffer_report = JSSniffer.sniff(filename)
+                d.error_qty = len(sniffer_report)
+                os.remove(filename)
         return df

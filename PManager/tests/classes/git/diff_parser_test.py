@@ -137,15 +137,14 @@ index 3c95797..e4f4a6d 100644
 
     def test_can_return_diff_files(self):
         df = DiffParser(self.str)
-        self.assertEqual("/index.html", df.files[0]["path"])
-        self.assertEqual("M", df.files[0]["action"])
+        self.assertEqual("/index.html", df.files[0].path)
+        self.assertEqual("M", df.files[0].action)
         diff = """@@ -54,3 +54,4 @@ test29
  test30
  test31
  test32
-+test33
-"""
-        self.assertEqual(diff, df.files[0]['diff'])
++test33"""
+        self.assertEqual(diff, df.files[0].diff)
 
     def test_can_return_multiline_comment(self):
         df = DiffParser(self.multiline_comment)
@@ -159,39 +158,35 @@ Cause file diffs are dependent on this"""
 
     def test_detect_file_creation(self):
         df = DiffParser(self.creation_str)
-        self.assertEqual("/tests/created_file.txt", df.files[0]['path'])
-        self.assertEqual("C", df.files[0]["action"])
+        self.assertEqual("/tests/created_file.txt", df.files[0].path)
+        self.assertEqual("C", df.files[0].action)
         diff = """@@ -0,0 +1 @@
-+Test file creation
-"""
-        self.assertEqual(diff, df.files[0]["diff"])
++Test file creation"""
+        self.assertEqual(diff, df.files[0].diff)
 
     def test_detect_file_deletion(self):
         df = DiffParser(self.delete_str)
-        self.assertEqual("/tests/deleted_file.txt", df.files[0]['path'])
-        self.assertEqual("D", df.files[0]["action"])
+        self.assertEqual("/tests/deleted_file.txt", df.files[0].path)
+        self.assertEqual("D", df.files[0].action)
         diff = """@@ -1 +0,0 @@
--Delete this file
-"""
-        self.assertEqual(diff, df.files[0]["diff"])
+-Delete this file"""
+        self.assertEqual(diff, df.files[0].diff)
 
     def test_multifile_handling(self):
         df = DiffParser(self.move_str)
         self.assertEqual(2, len(df.files))
-        self.assertEqual("/tests/created_file.txt", df.files[0]['path'])
-        self.assertEqual("D", df.files[0]['action'])
+        self.assertEqual("/tests/created_file.txt", df.files[0].path)
+        self.assertEqual("D", df.files[0].action)
         self.assertEqual("""@@ -1 +0,0 @@
--Test file creation
-""", df.files[0]['diff'])
-        self.assertEqual("/tests/file.txt", df.files[1]['path'])
-        self.assertEqual("C", df.files[1]['action'])
+-Test file creation""", df.files[0].diff)
+        self.assertEqual("/tests/file.txt", df.files[1].path)
+        self.assertEqual("C", df.files[1].action)
         self.assertEqual("""@@ -0,0 +1 @@
-+Test file creation^M
-""", df.files[1]['diff'])
++Test file creation^M""", df.files[1].diff)
 
     def test_summary_for_file(self):
         df = DiffParser(self.str)
-        summary = df.files[0]["summary"]
+        summary = df.files[0].summary
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 1)
         self.assertEqual(summary['binary'], False)
@@ -223,14 +218,14 @@ index 0000000..fdf409b
 +(function($) {
 +    $.kladr = {};"""
         df = DiffParser(self.str)
-        summary = df.files[0]["summary"]
+        summary = df.files[0].summary
         self.assertEqual(summary['binary'], True)
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 1)
         self.assertEqual(2, len(df.files))
-        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png", df.files[0]['path'])
-        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.js", df.files[1]['path'])
-        summary = df.files[1]["summary"]
+        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.images/spinner.png", df.files[0].path)
+        self.assertEqual("/bitrix/templates/main/js/kladr/jquery.kladr.js", df.files[1].path)
+        summary = df.files[1].summary
         self.assertEqual(summary['binary'], False)
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 2)
@@ -246,13 +241,13 @@ diff --git a/test6.html b/test6.html
 new file mode 100644
 index 0000000..e69de29'''
         df = DiffParser(self.str)
-        summary = df.files[0]["summary"]
+        summary = df.files[0].summary
         self.assertEqual(summary['binary'], False)
         self.assertEqual(summary['deleted'], 0)
         self.assertEqual(summary['created'], 0)
         self.assertEqual(1, len(df.files))
-        self.assertEqual("/test6.html", df.files[0]['path'])
-        self.assertEqual(df.files[0]["action"], "C")
+        self.assertEqual("/test6.html", df.files[0].path)
+        self.assertEqual(df.files[0].action, "C")
 
     def test_empty_file_deleted(self):
         self.str = '''commit adc7284f7d8595b194fbeaf1afe5228a74126c48
@@ -265,11 +260,63 @@ diff --git a/test6.html b/test6.html
 deleted file mode 100644
 index 0000000..e69de29'''
         df = DiffParser(self.str)
-        summary = df.files[0]["summary"]
+        summary = df.files[0].summary
         self.assertEqual(summary['binary'], False)
         self.assertEqual(summary['deleted'], 0)
-        self.assertEqual(df.files[0]["action"], "D")
+        self.assertEqual(df.files[0].action, "D")
         self.assertEqual(summary['created'], 0)
         self.assertEqual(1, len(df.files))
-        self.assertEqual("/test6.html", df.files[0]['path'])
+        self.assertEqual("/test6.html", df.files[0].path)
 
+    def test_weird_commits(self):
+        self.str = '''commit 311eefd781ab75f689bf56b27ca6860981ce469f
+Author: Artem Smirnov <tonakai.personal@gmail.com>
+Date:   Sat Jul 25 19:01:29 2015 +0300
+
+    Fucked up commit
+
+diff --git a/.gitkeep b/.gitkeep
+new file mode 100644
+index 0000000..e69de29
+diff --git a/empty file b/empty file
+new file mode 100644
+index 0000000..e69de29
+diff --git a/empty_file b/empty_file
+new file mode 100644
+index 0000000..e69de29
+diff --git a/file.txt b/file.txt
+new file mode 100644
+index 0000000..e69de29
+diff --git a/xfile.txt b/xfile.txt
+new file mode 100644
+index 0000000..5bb7edf
+--- /dev/null
++++ b/xfile.txt
+@@ -0,0 +1 @@
++this is not empty'''
+        df = DiffParser(self.str)
+        summary = df.files[0].summary
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 0)
+        self.assertEqual(df.files[0].action, "C")
+        self.assertEqual(df.files[0].lines, [])
+        self.assertEqual("/.gitkeep", df.files[0].path)
+
+        summary = df.files[1].summary
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 0)
+        self.assertEqual(df.files[1].action, "C")
+        self.assertEqual(df.files[1].lines, [])
+        self.assertEqual("/empty file", df.files[1].path)
+
+        summary = df.files[2].summary
+        self.assertEqual(summary['binary'], False)
+        self.assertEqual(summary['deleted'], 0)
+        self.assertEqual(summary['created'], 0)
+        self.assertEqual(df.files[2].action, "C")
+        self.assertEqual(df.files[2].lines, [])
+        self.assertEqual("/empty_file", df.files[2].path)
+
+        self.assertEqual(5, len(df.files))
