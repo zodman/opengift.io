@@ -3,11 +3,11 @@ __author__ = 'rayleigh'
 from django.core.exceptions import PermissionDenied
 from django.http import HttpResponse, HttpResponseRedirect, Http404
 from django.views.decorators.http import require_http_methods, require_safe, require_POST
-from django.shortcuts import render_to_response
 from wiking.services.articles import ArticleService
 from wiking.views.forms import ArticleForm
 from PManager.viewsExt.headers import initGlobals
 from PManager.services.projects import get_project_by_id
+from django.template import loader, RequestContext
 
 
 class ArticleView:
@@ -43,7 +43,9 @@ class ArticleView:
             form = ArticleForm({'slug': slug})
             response['new_form'] = True
         response['form'] = form
-        return render_to_response('articles/new.html', response, content_type='text/html')
+        t = loader.get_template('articles/new.html')
+        c = RequestContext(request, response)
+        return HttpResponse(t.render(c))
 
     @staticmethod
     @require_http_methods(['GET', 'POST', 'HEAD'])
@@ -70,9 +72,9 @@ class ArticleView:
             form = ArticleForm(form_data)
         response['form'] = form
         response['show_url'] = ArticleService.get_absolute_url(article, articles)
-        return render_to_response('articles/edit.html',
-                                  response,
-                                  content_type='text/html')
+        t = loader.get_template('articles/edit.html')
+        c = RequestContext(request, response)
+        return HttpResponse(t.render(c))
 
     @staticmethod
     @require_POST
@@ -105,9 +107,9 @@ class ArticleView:
                                                            deleted=False, project=project)
         response['project'] = project
         response['can_create'] = ArticleService.can_create(request.user, project)
-        return render_to_response('articles/index.html',
-                                  response,
-                                  content_type='text/html')
+        t = loader.get_template('articles/index.html')
+        c = RequestContext(request, response)
+        return HttpResponse(t.render(c))
 
     @staticmethod
     @require_safe
@@ -127,9 +129,9 @@ class ArticleView:
         if not article:
             return HttpResponseRedirect(ArticleService.get_create_path(article_slug, project))
         data['article'] = article
-        return render_to_response('articles/show.html',
-                                  data,
-                                  content_type='text/html')
+        t = loader.get_template('articles/show.html')
+        c = RequestContext(request, data)
+        return HttpResponse(t.render(c))
 
     @staticmethod
     @require_http_methods(['GET', 'HEAD'])
@@ -155,9 +157,9 @@ class ArticleView:
         data['next_page'] = None
         if len(data['revisions']) == 10:
             data['next_page'] = page + 1
-        return render_to_response('articles/revisions.html',
-                                  data,
-                                  content_type='text/html')
+        t = loader.get_template('articles/revisions.html')
+        c = RequestContext(request, data)
+        return HttpResponse(t.render(c))
 
     @staticmethod
     @require_POST
