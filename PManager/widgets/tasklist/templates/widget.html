@@ -196,6 +196,15 @@
                                                 <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
                                             </ul>
                                         </li>
+                                        <li data-code="date_close" class="dropdown-toggle dropdown-submenu">
+                                            <a data-toggle="dropdown">Дата закрытия</a>
+                                            <ul class="dropdown-menu">
+                                                <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Сегодня</a></li>
+                                                <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                <li class="divider"></li>
+                                                <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
+                                            </ul>
+                                        </li>
                                         <li class="divider"></li>
                                         <li data-code="date_modify" class="dropdown-toggle dropdown-submenu">
                                             <a data-toggle="dropdown">Дата изменения</a>
