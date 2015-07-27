@@ -131,6 +131,40 @@
                 $('.js-input-role-id').val($(this).attr('rel'));
                 return false;
              })
+
+            $('.js-avatar_upload').change(function () {
+                        var file = this.files[0];
+
+                        if (file.type.match('image. *')) {
+                            if (FileReader) {
+                                var reader = new FileReader();
+                                reader.onload = function () {
+                                    $('.js-avatar').attr('src', reader.result);
+                                };
+                                reader.readAsDataURL(file);
+                            }
+
+                            var formData = new FormData();
+                            formData.append('image', file);
+                            formData.append('action', 'upload_project_avatar');
+                            formData.append('project', window.currentProject);
+
+                            $.ajax({
+                                url: document.URL,
+                                type: "POST",
+                                data: formData,
+                                processData: false,
+                                contentType: false,
+                                success: function (data) {
+                                    data = JSON.parse(data);
+                                    $('.js-avatar').attr('src', data.path)
+                                },
+                                error: function () {
+                                    console.log('something failed')
+                                }
+                            });
+                        }
+                    })
          });
         </script>
     <link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
@@ -141,10 +175,10 @@
             {% if project.imagePath %}
                 <span class="project-info-avatar">
                     <span class="project-info-avatar-upload">
-                        <input type="file">
+                        <input type="file" class="js-avatar_upload">
                         <a href="" class="btn btn-success">Выбрать</a>
                     </span>
-                    <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}"/>
+                    <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
                 </span>
             {% else %}
                 <span class="project-info-avatar"><img width="100px" src=/PManager/static/img/no-photo.png"/></span>

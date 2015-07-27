@@ -99,6 +99,12 @@ def projectDetail(request, project_id):
 
                 responseObj = {'result': 'ok'}
 
+            elif action == 'upload_project_avatar':
+                image = request.FILES.get('image')
+                project.image = image
+                project.save()
+                responseObj = {'path': project.image.url }
+
             return HttpResponse(json.dumps(responseObj))
 
     canDeleteInterface = profile.isManager(project)
