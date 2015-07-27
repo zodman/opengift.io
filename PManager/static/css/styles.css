@@ -3464,7 +3464,20 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     }
 
 .with-input-and-plus {position: relative;}
-.with-input-and-plus input {width: 100%;}
+.with-input-and-plus input {width: calc(100% - 20px);}
+.with-input-and-plus i {
+    color: #d43f3a;
+    cursor: pointer;
+    position: absolute;
+    right: 0;
+    top: 10px;
+}
+
+.inputs-wrapper:first-child .with-input-and-plus input {width: 100%;}
+.inputs-wrapper:first-child .with-input-and-plus i {display: none;}
+
+
+.inputs-wrapper .checkbox {margin: 0px;}
 
 .add-aim-body {
     background: #f3f3f3;
