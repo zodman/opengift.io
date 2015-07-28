@@ -16,7 +16,7 @@ from PManager.viewsExt.projects import projectDetail, addInterface, removeInterf
     project_server_setup, project_server_status
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
-from PManager.viewsExt.assets import protected_file
+from PManager.viewsExt.assets import protected_file, stat_excel
 from PManager.viewsExt.sniffer import get_errors
 from PManager.viewsExt.forms import sendFeedback
 from PManager.viewsExt.specialty import specialty_ajax
@@ -135,6 +135,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/milestone_create/$', milestoneForm),
                        url(r'^ajax/feedback/$', sendFeedback),
                        url(r'^ajax/specialty/$', specialty_ajax),
+                       url(r'^ajax/stat_excel/$', stat_excel),
                        url(r'^file_access/', protected_file),
                        url(r'^sniffer/get_errors/', get_errors),
                        url(r'^admin/', include(admin.site.urls)),
