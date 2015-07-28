@@ -216,6 +216,11 @@ def __search_filter(header_values, request):
             'date': request.POST.getlist('date_modify[]'),
             'key': 'dateModify'
         })
+    if 'date_close[]' in request.POST:
+        dates_tmp.append({
+            'date': request.POST.getlist('date_close[]'),
+            'key': 'dateClose'
+        })
     if dates_tmp:
         for dateTmp in dates_tmp:
             if len(dateTmp['date']) == 1:  # only one date
