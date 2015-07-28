@@ -1359,8 +1359,6 @@ a.message_task_name {color:#555555; text-decoration:underline;}
     .modal-body .col-xs-3 {width: 100%; margin-bottom: 5px;}
     .modal-body .col-xs-9 {width: 100%;}
     .modal-body .form-group {margin-bottom: 10px;}
-
-    .modal-header .close {padding: 0 !important; margin: -6px 0 0 !important;}
 }
 
 
@@ -3448,11 +3446,10 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     background: #eee;
     text-align: center;
 }
-.green-popup .modal-header button.close {font-size: 28px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+.green-popup .modal-header button.close {margin: 0; position: absolute; right: 15px; top: 15px; padding: 0; font-size: 28px; line-height: 26px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
 .green-popup .modal-header h3,
-.green-popup .modal-header h2 {margin: 0px;}
-.green-popup .modal-header .close {margin-top: -6px;}
+.green-popup .modal-header h2 {margin: 0px; padding: 0 25px;}
 
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
