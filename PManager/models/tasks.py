@@ -273,7 +273,7 @@ class PM_Milestone(models.Model):
         (3, u'Критичная'),
     )
     name = models.CharField(max_length=255)
-    date = models.DateTimeField(null=True, blank=True)
+    date = models.DateTimeField(null=True, blank=True, default=datetime.datetime.now())
     date_create = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     critically = models.IntegerField(blank=True, null=True, default=2, choices=crit_choices)
     project = models.ForeignKey(PM_Project, related_name='milestones')
