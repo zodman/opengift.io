@@ -52,6 +52,7 @@ def projectDetail(request, project_id):
         setattr(role.user, 'defaultRate', prof.sp_price + (prof.rating or 0))
         setattr(role.user, 'sum', oDebts.get(role.user.id, None))
         setattr(role.user, 'role_id', role.id)
+        setattr(role.user, 'payment_type', role.payment_type)
         aRoles[role.role.name]['users'].append(role.user)
 
     bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
