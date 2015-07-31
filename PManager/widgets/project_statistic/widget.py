@@ -200,6 +200,34 @@ class sumLoanChart(Chart):
             except User.DoesNotExist:
                 pass
 
+    def excel(self, workbook):
+        ws = workbook.add_worksheet('sumLoan')
+
+        bold = workbook.add_format({'bold': 1})
+        date_format = workbook.add_format({'num_format': 'd mmmm yyyy h:mm:ss'})
+        url_format = workbook.add_format({'color': 'green', 'underline': 1})
+
+        row = 0
+        col = 0
+
+        for title in self.cols:
+            ws.write(row, col, title['name'], bold)
+            col += 1
+
+        ws.set_column(0, 2, 20)  # first 3 columns width
+        col = 0
+        row = 1
+
+        for item in self.rows:
+            item = item['cols']
+            ws.write_url(row, col, item[0]['url'], url_format, item[0]['text'])
+            ws.write_string(row, col + 1, item[1]['text'])
+            ws.write_datetime(row, col + 2, timezone.make_naive(item[2]['text'], timezone.get_current_timezone()), date_format)
+            ws.write_number(row, col + 3, item[3]['text'])
+            row += 1
+
+        return workbook
+
 class timeChart(Chart):
     title = u'Потраченное время'
     type = 'table'
