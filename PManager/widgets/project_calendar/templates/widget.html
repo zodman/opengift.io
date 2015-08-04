@@ -80,16 +80,15 @@
             {% for project in project_calendar.projects %}
             <div class="calendar-project-list-item">
                 <h4>{{ project.name }}</h4>
-                {% if project.imagePath %}
-                    <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }});"></span>
-                {% endif %}
+                <span style="background-image: url({% if project.imagePath %}{{ project.imagePath|thumbnail:"150x150" }}{% else %}/static/img/no-photo.png{% endif %});"></span>
             </div>
             {% endfor %}
         </div>
         <div class="calendar-dates-list">
             {% for project in project_calendar.projects %}
             <div class="calendar-dates-list-item-title clearfix">
-                <span style="background-image: url({{ project.imagePath|thumbnail:"150x150" }}) ;"></span>
+
+                <span style="background-image: url({% if project.imagePath %}{{ project.imagePath|thumbnail:"150x150" }}{% else %}/static/img/no-photo.png{% endif %}) ;"></span>
                 <h4>{{ project.name }}</h4>
             </div>
             <ul class="calendar-slider clearfix js-calendar-slider-2">
