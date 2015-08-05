@@ -17,7 +17,7 @@ class PM_Notice(models.Model):
 
     @property
     def src(self):
-        return str(self.image).replace('PManager','')
+        return str(self.image).replace('PManager/static/upload','')
 
     @staticmethod
     def getForUser(user,path):

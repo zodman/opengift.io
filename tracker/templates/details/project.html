@@ -310,7 +310,7 @@
                                     <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
                                     <div class="col-wrapper clearfix">
                                         <div class="col-7">
-                                            <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
+                                            <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру." onclick="return false;">?</a></p>
                                             <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
                                                 <option value="real_time" {% if o.role.payment_type == 'real_time' %}
                                                 selected="selected"{% endif %}>
