@@ -4,12 +4,12 @@ from django.contrib.auth.models import User
 import datetime
 from django.utils import timezone
 from django.db.models import Q
-
+from PManager.customs.storages import path_and_rename
 
 class PM_Notice(models.Model):
     name = models.CharField(max_length=100)
     html = models.CharField(max_length=1000)
-    image = models.ImageField(upload_to="tracker/media/notices/", null=True, blank=True)
+    image = models.ImageField(upload_to=path_and_rename("notices"), null=True, blank=True)
     url = models.CharField(max_length=200, blank=True, null=True)
     itemClass = models.CharField(max_length=100)
 
@@ -18,7 +18,8 @@ class PM_Notice(models.Model):
 
     @property
     def src(self):
-        return str(self.image).replace('PManager/static/upload', '')
+        return str(self.image)\
+            .replace('PManager/static/upload', '') #todo: remove after reupload notice images
 
     @staticmethod
     def getForUser(user, path):
