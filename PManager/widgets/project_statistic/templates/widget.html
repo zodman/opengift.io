@@ -61,7 +61,12 @@
         {% for chart in project_statistic.charts %}
             {% for s in chart.payQuery %}{{ s }}{% endfor %}
             <div class="stat-widget">
-                <h4>{{ chart.title }}</h4>
+                <h4>
+                    {{ chart.title }}
+                    {% if chart.rows and chart.title == 'Текущие бонусы' %}
+                    <a type="button" class="btn btn-xs js-excel" href="/ajax/stat_excel/?excel=loan">Выгрузить в Excel&nbsp;&nbsp;<i class="fa fa-share"></i></a>
+                    {% endif %}
+                </h4>
 
                 <div class="stat-widget-text">
                     {% if chart.type == 'chart' %}
@@ -145,4 +150,14 @@
             });
         {% endif %}
     {% endfor %}
+    $('.js-excel').on('click', function(e) {
+        var url = '/ajax/stat_excel/?excel=',
+                chart = 'loan',
+                date_from,
+                date_to;
+        date_from = $('#StartFromDate1').val();
+        date_to = $('#StartFromDate2').val();
+        var final_url = url + chart + '&date_from=' + date_from + '&date_to=' + date_to;
+        e.href = final_url;
+    })
 </script>
