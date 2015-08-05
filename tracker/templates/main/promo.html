@@ -146,587 +146,22 @@
 <div class="container">
 
     <!-- SECTION HEADER -->
-    <div class="section-header wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
+    <div class="wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
 
         <!-- SECTION TITLE -->
-        <h2 class="white-text">Любой IT-проект <span class="green-text">в вашем</span> телефоне или планшете</h2>
-        <div class="colored-line">
-        </div>
+        <h2 class="white-text">Максимальное удобство работы при доступе с любого устройства</h2>
+        <div class="white-line"></div>
         <div class="section-description">
             Максимальное удобство работы при доступе с любого устройства
         </div>
-        <div class="colored-line">
-        </div>
+        <div class="white-line"></div>
     </div>
     <!-- /END SECTION HEADER -->
-    <style>
-    .slide {
-        height: 420px;
-        position: relative
-    }
-    .demo-avatar {
-        border-radius: 20px;
-        height: 25px;
-        width: 25px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        z-index: 1
-    }
-    .demo-avatar.demo-avatar-1 {
-        background: url(/resources/images/website/browser-app/ali.jpg) no-repeat;
-        background-size: contain
-    }
-    .demo-avatar.demo-avatar-2 {
-        background: url(/resources/images/website/browser-app/sara.jpg) no-repeat;
-        background-size: contain
-    }
-    .demo-avatar.demo-avatar-3 {
-        background: url(/resources/images/website/browser-app/ossama.jpg) no-repeat;
-        background-size: contain
-    }
-    .demo-avatar.demo-avatar-4 {
-        background: url(/resources/images/website/browser-app/sara.jpg) no-repeat;
-        background-size: contain;
-        height: 16px;
-        width: 16px
-    }
-    .demo-avatar.demo-avatar-5 {
-        background: url(/resources/images/website/browser-app/alex.jpg) no-repeat;
-        background-size: contain;
-        height: 16px;
-        width: 16px
-    }
-    .slug {
-        border-radius: 3px;
-        box-shadow: 0 1px 2px rgba(0,0,0,.1);
-        border: 1px solid #dedfe9;
-        background: #fff;
-        margin: 10px 20px 0 20px;
-        padding: 10px;
-        color: #c9ccd0;
-        text-align: left
-    }
-    .slug>.slug-header {
-        position: relative;
-        padding-left: 25px;
-        margin-bottom: 8px;
-        min-height: 20px;
-        line-height: 20px
-    }
-    .slug>.slug-header .slug-title {
-        font-family: proxima-nova, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-weight: 600;
-        font-style: normal;
-        font-size: 12px;
-        line-height: 25px;
-        margin-left: 10px
-    }
-    .slug p {
-        font-size: 9px;
-        line-height: 16px;
-        margin: 0
-    }
-    .slug .fake-picture {
-        background: #f2f3f7;
-        padding: 40px;
-        margin-top: 10px
-    }
-    .demo-browser-shadow {
-        opacity: .7;
-        background: url(/resources/images/website/sprites/website-sprite.png) 0 -1370px no-repeat;
-        width: 550px;
-        height: 20px;
-        position: absolute;
-        bottom: -11px;
-        left: 83px;
-        z-index: 1
-    }
-    .demo-mobile-shadow {
-        opacity: .7;
-        background: url(/resources/images/website/sprites/website-sprite.png) 0 -1350px no-repeat;
-        width: 194px;
-        height: 20px;
-        position: absolute;
-        bottom: -10px;
-        right: 89px;
-        z-index: 1
-    }
-    .demo-browser {
-        border-radius: 3px;
-        box-shadow: 0 -5px 30px rgba(0,0,0,.3);
-        background: #fff;
-        width: 540px;
-        height: 350px;
-        padding-top: 35px;
-        position: absolute;
-        bottom: 0;
-        left: 90px;
-        z-index: 2
-    }
-    .demo-browser .browser-header {
-        background-color: #f2f3f7;
-        border-radius: 3px 3px 0 0
-    }
-    .demo-browser>header {
-        height: 11px;
-        padding: 12px;
-        text-align: left;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 20
-    }
-    .demo-browser>header .demo-browser-buttons {
-        float: left;
-        height: 8px;
-        width: 8px;
-        margin-right: 10px;
-        border-radius: 10px
-    }
-    .demo-browser>header .demo-browser-buttons.demo-browser-close {
-        background-color: #fe464d;
-        border: solid 1px #dd010c
-    }
-    .demo-browser>header .demo-browser-buttons.demo-browser-minimize {
-        background-color: #fec324;
-        border: solid 1px #eeab01
-    }
-    .demo-browser>header .demo-browser-buttons.demo-browser-maximize {
-        background-color: #33cd7b;
-        border: solid 1px #2db96f
-    }
-    .demo-browser>header .demo-browser-addressbar {
-        background: #fff;
-        height: 16px;
-        width: 425px;
-        position: absolute;
-        top: 9px;
-        left: 86px;
-        border-radius: 2px;
-        border: solid 1px #e7e8ef
-    }
-    .demo-browser .demo-browser-body {
-        border-radius: 0 0 3px 3px;
-        top: 35px;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        z-index: 1;
-        overflow: hidden;
-        background: #f2f3f7;
-        position: absolute
-    }
-    .demo-browser .demo-browser-body .demo-social-page {
-        height: 314px;
-        width: 540px;
-        padding-top: 37px;
-        position: relative
-    }
-    .demo-browser .demo-browser-body .demo-social-page>header {
-        box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 2px 3px rgba(0,0,0,.3);
-        background: #292d33;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
-        height: 25px;
-        position: absolute;
-        right: 0;
-        top: 0;
-        left: 0;
-        z-index: 10
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-stream {
-        height: 304px;
-        width: 340px;
-        text-align: left;
-        color: #51585e
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-sidebar {
-        border-radius: 3px 3px 0 0;
-        background: #edeef3;
-        position: absolute;
-        right: 20px;
-        top: 48px;
-        bottom: 0;
-        z-index: 1;
-        width: 160px;
-        padding: 10px
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-sidebar .demo-sidebar-profile {
-        border-radius: 3px;
-        position: relative;
-        background: #e7e8ef;
-        height: 40px;
-        padding: 10px 10px 10px 60px;
-        margin-bottom: 10px
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-sidebar .demo-sidebar-profile figure {
-        border-radius: 3px;
-        width: 40px;
-        height: 40px;
-        position: absolute;
-        top: 10px;
-        left: 10px;
-        background: #dedfe9
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-sidebar .demo-sidebar-profile span {
-        border-bottom: 2px solid #dedfe9;
-        margin-bottom: 10px;
-        display: block
-    }
-    .demo-browser .demo-browser-body .demo-social-page .demo-social-sidebar .demo-sidebar-ad {
-        border-radius: 3px;
-        background: #e7e8ef;
-        height: 60px;
-        margin-bottom: 10px
-    }
-    .demo-social-chat {
-        position: absolute;
-        background: #fff;
-        z-index: 15;
-        text-align: left;
-        overflow: hidden;
-        color: #292d33
-    }
-    .demo-social-chat>.demo-social-header {
-        padding: 10px;
-        cursor: pointer;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 15
-    }
-    .demo-social-chat>.demo-social-header .demo-social-presence {
-        border-radius: 100px;
-        background: #fec324;
-        overflow: hidden;
-        height: 8px;
-        width: 8px;
-        float: left;
-        margin-right: 5px
-    }
-    .demo-social-chat>.demo-social-header .demo-social-presence.active {
-        -webkit-transition-property: all;
-        transition-property: all;
-        -webkit-transition-duration: .3s;
-        transition-duration: .3s;
-        background: #33cd7b
-    }
-    .demo-social-chat>.demo-social-header .demo-social-title {
-        float: left;
-        font-size: 11px;
-        line-height: 10px
-    }
-    .demo-social-chat>.demo-social-header .demo-social-close {
-        display: block;
-        position: absolute;
-        top: 12px;
-        right: 10px;
-        z-index: 1;
-        color: #51585e;
-        line-height: 10px;
-        font-size: 7px
-    }
-    .demo-social-chat ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 10px;
-        color: #292d33;
-        position: absolute;
-        left: 0;
-        right: 0;
-        z-index: 1
-    }
-    .demo-social-chat ul li {
-        margin-bottom: 15px;
-        font-size: 11px;
-        line-height: 16px;
-        position: relative;
-        padding-left: 22px
-    }
-    .demo-social-chat ul li:last-child {
-        margin: 0
-    }
-    .demo-social-chat .demo-social-textbox {
-        font-family: proxima-nova, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-weight: 400;
-        font-style: normal;
-        box-shadow: 0 1px 3px rgba(0,0,0,.2) inset;
-        border-radius: 3px;
-        border: 1px solid #c5cad9;
-        padding: 5px;
-        font-size: 11px;
-        line-height: 18px;
-        color: #292d33;
-        display: block;
-        height: 20px;
-        position: absolute;
-        right: 10px;
-        left: 10px;
-        bottom: 10px;
-        z-index: 1;
-        resize: none;
-        outline: 0
-    }
-    .demo-social-chat .demo-social-textbox.active, .demo-social-chat .demo-social-textbox:active, .demo-social-chat .demo-social-textbox:hover, .demo-social-chat .demo-social-textbox:focus {
-        border: 1px solid #0f97f9;
-        background: #f2f3f7
-    }
-    .demo-social-chat-browser {
-        -webkit-transition-property: all;
-        transition-property: all;
-        -webkit-transition-duration: .3s;
-        transition-duration: .3s;
-        box-shadow: 0 -2px 5px rgba(0,0,0,.3);
-        right: 20px;
-        bottom: -40px;
-        padding-bottom: 40px;
-        width: 180px;
-        height: 200px;
-        overflow: auto
-    }
-    .demo-social-chat-browser.hide {
-        display: block;
-        bottom: -208px
-    }
-    .demo-social-chat-browser>.demo-social-header {
-        box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 1px 3px rgba(0,0,0,.1);
-        background: #292d33;
-        border: 1px solid #000
-    }
-    .demo-social-chat-browser>.demo-social-header .demo-social-title {
-        color: #f2f3f7
-    }
-    .demo-social-chat-browser>.demo-social-header .demo-social-close {
-        display: block;
-        position: absolute;
-        top: 12px;
-        right: 10px;
-        z-index: 1;
-        color: #51585e;
-        line-height: 10px;
-        font-size: 7px
-    }
-    .demo-social-chat-browser ul {
-        bottom: 82px
-    }
-    .demo-social-chat-browser .demo-social-textbox {
-        bottom: 50px;
-        width: 148px
-    }
-    .demo-social-chat-mobile {
-        border-radius: 3px;
-        box-shadow: 0 1px 3px rgba(0,0,0,.1);
-        border: 1px solid #c5cad9;
-        width: 158px;
-        height: 240px;
-        top: 40px;
-        left: 7px;
-        right: 10px;
-        bottom: 10px
-    }
-    .demo-social-chat-mobile>.demo-social-header {
-        background: #fff;
-        border-bottom: 1px solid #dedfe9
-    }
-    .demo-social-chat-mobile>.demo-social-header .demo-social-title {
-        color: #51585e
-    }
-    .demo-social-chat-mobile ul {
-        bottom: 40px
-    }
-    .demo-social-chat-mobile .demo-social-textbox {
-        width: 118px
-    }
-    .demo-mobile {
-        border-radius: 30px;
-        box-shadow: 0 -5px 30px rgba(0,0,0,.3);
-        background: #fff;
-        width: 195px;
-        height: 380px;
-        position: absolute;
-        bottom: 0;
-        right: 90px;
-        z-index: 2;
-        border: 3px solid #e7e8ef
-    }
-    .demo-mobile .demo-mobile-top-button {
-        border-radius: 0 2px 2px 0;
-        position: absolute;
-        top: 74px;
-        right: -5px;
-        z-index: 1;
-        width: 4px;
-        height: 34px;
-        background: #e7e8ef
-    }
-    .demo-mobile .demo-mobile-sound {
-        border-radius: 2px 0 0 2px;
-        position: absolute;
-        left: -5px;
-        z-index: 1;
-        width: 4px;
-        height: 21px;
-        top: 40px;
-        background: #e7e8ef
-    }
-    .demo-mobile .demo-mobile-sound.demo-mobile-sound-up {
-        top: 74px;
-        height: 30px
-    }
-    .demo-mobile .demo-mobile-sound.demo-mobile-sound-down {
-        top: 114px;
-        height: 30px
-    }
-    .demo-mobile .demo-mobile-camera {
-        border-radius: 100px;
-        position: absolute;
-        top: 20px;
-        left: 36%;
-        z-index: 1;
-        margin-left: -3px;
-        width: 4px;
-        height: 4px;
-        background: #e7e8ef
-    }
-    .demo-mobile .demo-mobile-speaker {
-        border-radius: 100px;
-        position: absolute;
-        top: 21px;
-        left: 50%;
-        z-index: 1;
-        margin-left: -16px;
-        width: 32px;
-        height: 3px;
-        background: #e7e8ef
-    }
-    .demo-mobile .demo-mobile-home-button {
-        border-radius: 100px;
-        position: absolute;
-        bottom: 8px;
-        left: 50%;
-        z-index: 1;
-        margin-left: -14px;
-        width: 28px;
-        height: 28px;
-        border: 2px solid #f0f1f5
-    }
-    .demo-mobile .demo-mobile-home-button:hover {
-        -webkit-transition-property: background-color;
-        transition-property: background-color;
-        -webkit-transition-duration: .3s;
-        transition-duration: .3s;
-        background-color: #f8f9fb
-    }
-    .demo-mobile .demo-mobile-home-button:active {
-        -webkit-transition-duration: 0s;
-        transition-duration: 0s;
-        box-shadow: 0 2px 3px rgba(0,0,0,.2) inset
-    }
-    .demo-mobile .demo-mobile-power-off {
-        position: absolute;
-        top: 40px;
-        left: 10px;
-        right: 10px;
-        bottom: 50px;
-        z-index: 2;
-        background: #000;
-        overflow: hidden
-    }
-    .demo-mobile .demo-mobile-power-off i {
-        color: #292d33;
-        font-size: 40px;
-        line-height: 250px;
-        text-align: center
-    }
-    .demo-mobile .demo-mobile-body {
-        position: absolute;
-        top: 40px;
-        left: 10px;
-        right: 10px;
-        bottom: 50px;
-        z-index: 2;
-        background: #f2f3f7;
-        overflow: hidden
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page {
-        box-shadow: 0 1px 3px rgba(0,0,0,.2) inset;
-        height: 258px;
-        padding-top: 30px;
-        background: #f2f3f7;
-        overflow: hidden;
-        border: 1px solid #c5cad9
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header {
-        box-shadow: 0 1px 0 rgba(255,255,255,.2) inset, 0 2px 3px rgba(0,0,0,.3);
-        background: #292d33;
-        border-top: 1px solid #000;
-        border-bottom: 1px solid #000;
-        height: 28px;
-        position: absolute;
-        top: 0;
-        left: 0;
-        right: 0;
-        z-index: 20
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header .demo-chat-button, .demo-mobile .demo-mobile-body .demo-social-page>header .demo-social-alert {
-        position: absolute;
-        top: 6px;
-        right: 10px;
-        z-index: 1
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header .demo-chat-button {
-        -webkit-transition-property: color;
-        transition-property: color;
-        -webkit-transition-duration: .3s;
-        transition-duration: .3s;
-        font-size: 15px;
-        color: #51585e;
-        cursor: pointer
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header .demo-chat-button:hover {
-        color: #9298a0
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header .demo-chat-button:active {
-        box-shadow: 0 -1px 0 #000;
-        -webkit-transition-duration: 0s;
-        transition-duration: 0s;
-        color: #9298a0
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page>header .demo-social-alert {
-        border-radius: 100px;
-        box-shadow: 0 1px 2px rgba(0,0,0,.3);
-        background: #fe555e;
-        height: 18px;
-        width: 18px;
-        line-height: 20px;
-        font-size: 12px;
-        text-align: center;
-        color: #fff;
-        text-decoration: none
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page .demo-social-stream .slug {
-        margin: 10px 10px 0 10px
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page .demo-social-stream .slug .slug-title {
-        font-family: proxima-nova, "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
-        font-weight: 600;
-        font-style: normal;
-        font-size: 8px
-    }
-    .demo-mobile .demo-mobile-body .demo-social-page .demo-social-stream .slug p {
-        font-size: 6px;
-        line-height: 8px;
-        margin: 0
-    }
-    </style>
-    <div class="row">
-        <div id="demo-browser-app" class="slide demo-browser-app">
+
+        <div class="slide demo-browser-app">
 
             <!-- BROWSER -->
-            <div class="demo-browser" id="demo-browser">
+            <div class="demo-browser">
                 <header class="browser-header">
                     <span class="demo-browser-buttons demo-browser-close"></span>
                     <span class="demo-browser-buttons demo-browser-minimize"></span>
@@ -742,68 +177,151 @@
                         <header></header>
 
                         <!-- STREAM -->
-                        <div class="demo-social-stream"><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-3"></div>
-                                <div class="slug-title">Ossama shared an update</div>
-                            </div>
-                            <p>You can save data, update data, and listen for data changes in realtime with only a few lines of code.</p>
-                        </div><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-2"></div>
-                                <div class="slug-title">Sara shared an update</div>
-                            </div>
-                            <p>When data changes, apps built with Firebase update instantly across every device - web or mobile.</p>
-                        </div><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-1"></div>
-                                <div class="slug-title">Ali shared a picture</div>
-                            </div>
-                            <img src="/resources/images/website/pictures/alps.jpg">
-                        </div>
+                        <div class="demo-social-stream">
 
-
-
-                        </div>
-
-                        <!-- SIDEBAR -->
-                        <div class="demo-social-sidebar">
-                            <div class="demo-sidebar-profile">
-                                <figure></figure>
-                                <span></span>
-                                <span></span>
-                                <span></span>
-                                <span></span>
+                        <div class="clearfix task-create-wrapper">
+                            <div class="big-input">
+                                <input type="text" placeholder="Что нужно сделать?" class="input-block-level task-create form-control">
                             </div>
 
-                            <div class="demo-sidebar-ad"></div>
-                            <div class="demo-sidebar-ad"></div>
-                            <div class="demo-sidebar-chat-buddy">
-                                <figure></figure>
-                                <span></span>
+                            <div class="file-upload">
+                                <button type="submit" class="btn btn-default"><span class="fa fa-upload"></span></button>
+                                <button type="submit" class="btn btn-success task-create">Создать</button>
                             </div>
                         </div>
-                        <div class="demo-social-chat demo-social-chat-browser animated bounceInUp"><div class="demo-social-header">
-                            <span class="demo-social-presence active"></span>
-                            <span class="demo-social-title">Sara is online</span>
-                            <span class="demo-social-close"><i class="icon-close"></i></span>
-                            <div class="clear"></div>
+
+                            <div class="task-wrapper clearfix">
+                                <div class="task-number">10343</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Сделать выгрузку текущих бонусов в статистике по проекту в эксель</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Александр Синичкин</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
+                            <div class="task-wrapper clearfix ready">
+                                <div class="task-number">10346</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Отдизайнить красивый список целей для выбора, когда выбираешь галочками задачи и жмешь "добавить цель". Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Евгений Васютин</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
+                            <div class="task-wrapper clearfix critically">
+                                <div class="task-number">10347</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Сделать страницу рассылки "Премиум аккаунт Heliard"</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Егор Маслов</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
+                            <div class="task-wrapper clearfix not-approved">
+                                <div class="task-number">10349</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Оптимизация скорости</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Гоцалюк Александр</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
+
+
+                            <div class="chat">
+    <h4>Лента событий</h4>
+    <hr>
+            <div class="message for_current_user">
+                <div class="avatar"> <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/1_1.jpg" class="media-object img-thumbnail"></a> </div>
+                <div class="message-content">
+                    <div class="message-info"> <a href="#" class="message-info-title">Kvestovik</a> <span class="message-info-time">05.08.2015 14:30</span> <a href="#" class="message-info-name">Маслов Егор</a> для <b>Васютин Евгений</b> </div>
+                    <div class="message-desc clearfix">
+                        <div class="message-desc-left"> <a class="message-desc-text"><strong>На главной странице под сертификатом должна быть полоска со способами оплаты</strong></a>
+                            <div class="message-desc-text-p">пуш в dev_server<br>
+                                проверять тут<br>
+                                <a href="#">http://kvestopoisk.tmweb.ru</a></div>
                         </div>
-
-                            <ul>
-                                <li>
-                                    <div class="demo-avatar demo-avatar-4"></div>
-                                    Hey what's up?
-                                </li><li>
-                            </li><li><div class="demo-avatar demo-avatar-5"></div>Great movie last night!</li><li><div class="demo-avatar demo-avatar-5"></div>How's your day?</li><li><div class="demo-avatar demo-avatar-4"></div>Awesome, how about you?</li></ul>
-
-                            <input type="text" placeholder="type something..." value="Great movie last night!" class="demo-social-textbox animated pulse"></div></div>
-
+                        <div class="message-desc-right"> <a class="to-do-button" href="#">To Do</a> <a class="bug-button" href="#">Bug</a> <a class="link">Ответить</a> </div>
+                    </div>
                 </div>
             </div>
 
+            <div class="message info">
+                <div class="message-content"> <a href="#" class="message-info-title">LV FINANCE</a> <span class="message-info-time">05.08.2015 14:29</span> <a href="#" class="message-info-name">Маслов Егор</a> <b class="message-desc-status">Задача закрыта</b><a href="#" class="message-desc-text"><strong>Создать страницу "информация о клиенте" в стиле лвфинанс </strong></a> </div>
+            </div>
+
+            <div class="message bug-message">
+                <div class="avatar"> <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/1_1.jpg" class="media-object img-thumbnail"></a> </div>
+                <div class="message-content">
+                    <div class="message-info"> <a href="#" class="message-info-title">Heliard</a> <span class="message-info-time">05.08.2015 14:27</span> <a href="#" class="message-info-name">Маслов Егор</a> для <b>Синичкин Александр</b> </div>
+                    <div class="message-desc clearfix">
+                        <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Сделать выгрузку текущих бонусов в статистике по проекту в эксель</strong></a>
+                            <div class="message-desc-text-p">фильтр дат не влияет в данный момент на эксель. даже если выбрать статистику за полгода эксель делается за последний месяц</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message warning">
+                <div class="message-content"> <a href="#" class="message-info-title">Heliard</a> <span class="message-info-time">05.08.2015 14:27</span> <a href="#" class="message-info-name">Маслов Егор</a> <b class="message-desc-status">Статус изменен на "В работе"</b><a href="#" class="message-desc-text"><strong>Сделать выгрузку текущих бонусов в статистике по проекту в эксель</strong></a> </div>
+            </div>
+
+            <div class="message">
+                <div class="avatar"> <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg" class="media-object img-thumbnail"></a> </div>
+                <div class="message-content">
+                    <div class="message-info"> <a href="#" class="message-info-title">LV FINANCE</a> <span class="message-info-time">05.08.2015 12:51</span> <a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов Егор</b> </div>
+                    <div class="message-desc clearfix">
+                        <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Создать страницу "информация о клиенте" в стиле лвфинанс </strong></a>
+                            <div class="message-desc-text-p">ниче не понял, поясни нормально пожалуйста</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="message success">
+                <div class="message-content"> <a href="#" class="message-info-title">Kvestovik</a> <span class="message-info-time">05.08.2015 12:15</span> <a href="#" class="message-info-name">Васютин Евгений</a> <b class="message-desc-status">Статус изменен на "На проверку"</b><a class="message-desc-text"><strong>На главной странице под сертификатом должна быть полоска со способами оплаты</strong></a> </div>
+            </div>
+
+            <div class="message">
+                <div class="avatar"> <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg" class="media-object img-thumbnail"></a> </div>
+                <div class="message-content">
+                    <div class="message-info"> <a href="#85" class="message-info-title">Exconst.ru</a> <span class="message-info-time">04.08.2015 18:33</span> <a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов Егор</b> </div>
+                    <div class="message-desc clearfix">
+                        <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Дизайн и верстка простого лендинга</strong></a>
+                            <div class="message-desc-text-p">в архиве 2 файла - страница с сайта со вставкой + отдельно вставка, которую нужно вставлять внутрь &amp;amp;lt;div id="content"&amp;amp;gt;<br>
+                                + папка с картинками<br>
+                                в самих файлах находятся стили, которые надо перенести, а также шрифт, который нужно подключать в header<br>
+                                <br>
+                                Если дашь доступы, попробую сам все на сайт перенести</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+</div>
+
+
+                        </div><!--demo-social-stream-->
+
+
+                </div>
+            </div>
+            </div>
+
             <!-- MOBILE -->
-            <div class="demo-mobile" id="demo-mobile">
+            <div class="demo-mobile">
                 <a class="demo-mobile-home-button" href="#"></a>
                 <a class="demo-mobile-top-button" href="#"></a>
                 <span class="demo-mobile-camera"></span>
@@ -817,52 +335,163 @@
                     <!-- SOCIAL PAGE -->
                     <div class="demo-social-page">
                         <!-- HEADER -->
-                        <header class="demo-mobile-header"><i class="demo-chat-button icon-bubble-dots"></i></header>
+                        <header class="demo-mobile-header"></header>
 
                         <!-- STREAM -->
-                        <div class="demo-social-stream"><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-3"></div>
-                                <div class="slug-title">Ossama shared an update</div>
+                        <div class="demo-social-stream">
+
+                            <div class="clearfix task-create-wrapper">
+                                <div class="big-input">
+                                    <input type="text" placeholder="Что нужно сделать?" class="input-block-level task-create form-control">
+                                </div>
+
+                                <div class="file-upload">
+                                    <button type="submit" class="btn btn-success task-create"><span class="fa fa-plus"></span></button>
+                                </div>
                             </div>
-                            <p>You can save data, update data, and listen for data changes in realtime with only a few lines of code.</p>
-                        </div><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-2"></div>
-                                <div class="slug-title">Sara shared an update</div>
+
+                            <div class="task-wrapper clearfix">
+                                <div class="task-number">10343</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Сделать выгрузку текущих бонусов в статистике по проекту в эксель</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Александр Синичкин</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
                             </div>
-                            <p>When data changes, apps built with Firebase update instantly across every device - web or mobile.</p>
-                        </div><div class="slug" style="opacity: 1; margin-top: 10px;">
-                            <div class="slug-header">
-                                <div class="demo-avatar demo-avatar-1"></div>
-                                <div class="slug-title">Ali shared a picture</div>
+                            <div class="task-wrapper clearfix ready">
+                                <div class="task-number">10346</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Отдизайнить красивый список целей для выбора, когда выбираешь галочками задачи и жмешь "добавить цель". Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Евгений Васютин</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
                             </div>
-                            <img src="/resources/images/website/pictures/alps.jpg">
-                        </div>
+                            <div class="task-wrapper clearfix critically">
+                                <div class="task-number">10347</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Сделать страницу рассылки "Премиум аккаунт Heliard"</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Егор Маслов</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
+                            <div class="task-wrapper clearfix not-approved">
+                                <div class="task-number">10349</div>
+                                <div class="task-title">
+                                    <input type="checkbox">
+                                    <a href="#">Оптимизация скорости</a>
+                                </div>
+                                <div class="task-info clearfix">
+                                    <div class="task-info-author"> <a href="#">Гоцалюк Александр</a> </div>
+                                    <div class="task-info-timer"><span class="fa fa-play-circle"></span><span class="task-info-timer-timer">00:00:00</span></div>
+                                    <div class="task-info-control"> <span class="fa fa-check"></span> <span class="fa fa-check"></span> <span class="fa fa-gear"></span> </div>
+                                </div>
+                            </div>
 
+                            <div class="chat">
+                                <h4>Лента событий</h4>
+                                <hr>
+                                <div class="message for_current_user">
+                                    <div class="avatar clearfix">
+                                        <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/1_1.jpg" class="media-object img-thumbnail"></a>
+                                        <a href="#" class="message-info-title">Kvestovik</a><br> <span class="message-info-time">05.08.2015 14:30</span>
+                                    </div>
+                                    <div class="message-wrapper clearfix">
+                                        <div class="message-info">  <a href="#" class="message-info-name">Маслов Егор</a> для <b>Васютин Евгений</b> </div>
+                                        <div class="message-desc clearfix">
+                                            <div class="message-desc-left"> <a class="message-desc-text"><strong>На главной странице под сертификатом должна быть полоска со способами оплаты</strong></a>
+                                                <div class="message-desc-text-p">пуш в dev_server<br>
+                                                    проверять тут<br>
+                                                    <a href="#">http://kvestopoisk.tmweb.ru</a></div>
+                                            </div>
+                                            <div class="message-desc-right"> <a class="to-do-button" href="#">To Do</a> <a class="bug-button" href="#">Bug</a> <a class="link">Ответить</a> </div>
+                                        </div>
+                                    </div>
+                                </div>
 
+                                <div class="message info">
+                                    <div class="message-content"> <a href="#" class="message-info-title">LV FINANCE</a> <span class="message-info-time">05.08.2015 14:29</span> <a href="#" class="message-info-name">Маслов Егор</a> <b class="message-desc-status">Задача закрыта</b><a href="#" class="message-desc-text"><strong>Создать страницу "информация о клиенте" в стиле лвфинанс </strong></a> </div>
+                                </div>
 
-                        </div>
-                        <div class="demo-social-chat demo-social-chat-mobile animated bounceInDown hide"><div class="demo-social-header">
-                            <span class="demo-social-presence active"></span>
-                            <span class="demo-social-title">Alex is online</span>
-                            <span class="demo-social-close"><i class="icon-close"></i></span>
-                            <div class="clear"></div>
-                        </div>
+                                <div class="message bug-message">
+                                    <div class="avatar clearfix">
+                                    <a class="pull-left" href="#">
+                                        <img width="90px" src="http://heliard.ru/media/users/1_1.jpg" class="media-object img-thumbnail"></a>
+                                        <a href="#" class="message-info-title">Heliard</a> <br><span class="message-info-time">05.08.2015 14:27</span>
 
-                            <ul>
-                                <li>
-                                    <div class="demo-avatar demo-avatar-4"></div>
-                                    Hey what's up?
-                                </li><li>
-                            </li><li><div class="demo-avatar demo-avatar-5"></div>Great movie last night!</li><li><div class="demo-avatar demo-avatar-5"></div>How's your day?</li><li><div class="demo-avatar demo-avatar-4"></div>Awesome, how about you?</li></ul>
+                                    </div>
+                                    <div class="message-wrapper clearfix">
+                                        <div class="message-info"><a href="#" class="message-info-name">Маслов Егор</a> для <b>Синичкин Александр</b> </div>
+                                        <div class="message-desc clearfix">
+                                            <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Сделать выгрузку текущих бонусов в статистике по проекту в эксель</strong></a>
+                                                <div class="message-desc-text-p">фильтр дат не влияет в данный момент на эксель. даже если выбрать статистику за полгода эксель делается за последний месяц</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                            <input type="text" placeholder="type something..." value="" class="demo-social-textbox animated pulse"></div></div>
+                                <div class="message warning">
+                                    <div class="message-content"> <a href="#" class="message-info-title">Heliard</a> <span class="message-info-time">05.08.2015 14:27</span> <a href="#" class="message-info-name">Маслов Егор</a> <b class="message-desc-status">Статус изменен на "В работе"</b><a href="#" class="message-desc-text"><strong>Сделать выгрузку текущих бонусов в статистике по проекту в эксель</strong></a> </div>
+                                </div>
+
+                                <div class="message">
+                                    <div class="avatar clearfix">
+                                        <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg" class="media-object img-thumbnail"></a>
+                                        <a href="#" class="message-info-title">LV FINANCE</a> <br><span class="message-info-time">05.08.2015 12:51</span>
+                                    </div>
+                                    <div class="message-wrapper clearfix">
+                                        <div class="message-info"><a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов Егор</b> </div>
+
+                                        <div class="message-desc clearfix">
+                                            <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Создать страницу "информация о клиенте" в стиле лвфинанс </strong></a>
+                                                <div class="message-desc-text-p">ниче не понял, поясни нормально пожалуйста</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="message success">
+                                    <div class="message-content"> <a href="#" class="message-info-title">Kvestovik</a> <span class="message-info-time">05.08.2015 12:15</span> <a href="#" class="message-info-name">Васютин Евгений</a> <b class="message-desc-status">Статус изменен на "На проверку"</b><a class="message-desc-text"><strong>На главной странице под сертификатом должна быть полоска со способами оплаты</strong></a> </div>
+                                </div>
+
+                                <div class="message">
+                                    <div class="avatar clearfix">
+                                        <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg" class="media-object img-thumbnail"></a>
+                                        <a href="#85" class="message-info-title">Exconst.ru</a><br> <span class="message-info-time">04.08.2015 18:33</span>
+                                    </div>
+                                    <div class="message-wrapper clearfix">
+                                        <div class="message-info"> <a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов Егор</b> </div>
+                                        <div class="message-desc clearfix">
+                                            <div class="message-desc-left"> <a href="#" class="message-desc-text"><strong>Дизайн и верстка простого лендинга</strong></a>
+                                                <div class="message-desc-text-p">в архиве 2 файла - страница с сайта со вставкой + отдельно вставка, которую нужно вставлять внутрь &amp;amp;lt;div id="content"&amp;amp;gt;<br>
+                                                    + папка с картинками<br>
+                                                    в самих файлах находятся стили, которые надо перенести, а также шрифт, который нужно подключать в header<br>
+                                                    <br>
+                                                    Если дашь доступы, попробую сам все на сайт перенести</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div><!--demo-social-stream-->
 
                 </div>
             </div>
         </div>
-    </div>
+
 
 </div>
 </section>
