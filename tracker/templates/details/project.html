@@ -312,7 +312,7 @@
                         <div class="desc">
                             <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
                             <div class="col-wrapper clearfix">
-                                <div class="col-7">
+                                <div class="col-6">
                                     <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
                                     <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
                                         <option value="real_time" {% if o.role.payment_type == 'real_time' %}
@@ -325,7 +325,7 @@
                                         </option>
                                     </select>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
                                     <p><b>Ставка:</b></p>
                                     <div class="input-group">
                                         <input type="text" class="js-ajax-input form-control" data-action="update_rate"
@@ -670,13 +670,25 @@
     .achievements-item-settings {margin-bottom: 10px;}
     .achievements-item-button {}
 
-    .achievements-item-title-desc-wrapper {margin-bottom: 10px;}
+    .achievements-item-title-desc-wrapper {margin-bottom: 10px; height: 100px; overflow: hidden;}
     @media only screen and (max-width: 1280px) {
         .achievements-item {width: calc(50% - 30px);}
     }
 
     @media only screen and (max-width: 768px) {
         .achievements-item {width: calc(100% - 30px);}
+    }
+
+    @media only screen and (max-width: 568px) {
+        .achievements-item-title-desc-wrapper {height: 75px;}
+        .achievements-item-img {width: 75px;}
+        .achievements-item-text {width: calc(100% - 90px);}
+        .achievements-item-title {font-size: 14px; line-height: 18px;}
+        .achievements-item-desc {font-size: 13px; line-height: 18px;}
+        .achievements-wrapper {margin: -20px -20px 10px;}
+        .achievements-item-settings .col-wrapper > div {width: 100%; padding: 0px; margin-bottom: 10px;}
+        .achievements-item-settings .col-wrapper > div:last-child {margin-bottom: 0;}
+
     }
 
 </style>
@@ -692,8 +704,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -715,8 +727,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -738,8 +750,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -761,8 +773,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -784,8 +796,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -807,8 +819,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -830,8 +842,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -853,8 +865,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
@@ -876,8 +888,8 @@
     </div>
     <div class="achievements-item-settings">
         <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
+            <div class="col-4"><div class="input-group"><input type="text" class="form-control" data-action="" data-role="" value="" placeholder="0"><div class="input-group-addon">SP</div></div></div>
+            <div class="col-6">
                 <select class="form-control">
                     <option>Разовое начисление</option>
                     <option>Прибавка к ставке по проекту</option>
