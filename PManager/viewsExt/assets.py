@@ -12,7 +12,6 @@ import datetime
 import xlsxwriter
 import StringIO
 from django.utils import timezone
-from django.core.servers.basehttp import FileWrapper
 
 
 def protected_file(request):
@@ -24,21 +23,22 @@ def protected_file(request):
     return response
 
 def stat_excel(request):
-    print request.GET
     if 'excel' in request.GET:
         filter = {}
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
         daysBeforeNowForStartFilt = 7
+        date_from = request.GET.get('date_from')
+        date_to = request.GET.get('date_to')
 
         headerValues = headers.initGlobals(request)
 
-        if 'date_from' in request.GET:
-            filter['dateFrom'] = templateTools.dateTime.convertToDateTime(request.GET.get('date_from'))
+        if date_from:
+            filter['dateFrom'] = templateTools.dateTime.convertToDateTime(date_from)
         else:
             filter['dateFrom'] = now - datetime.timedelta(days=daysBeforeNowForStartFilt)
 
-        if 'date_to' in request.GET:
-            filter['dateTo'] = templateTools.dateTime.convertToDateTime(request.GET.get('date_to'))
+        if date_to:
+            filter['dateTo'] = templateTools.dateTime.convertToDateTime(date_to)
         else:
             filter['dateTo'] = now
 
@@ -62,10 +62,6 @@ def stat_excel(request):
 
         response = HttpResponse(xlsx_data, mimetype='application/vnd.ms-excel')
         response['Content-Type'] = 'application/vnd.ms-excel'
-        # response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
         response['Content-Disposition'] = 'attachment; filename=report.xlsx'
-
-        # response.write(xlsx_data)
-        # response.write(output)
 
         return response
