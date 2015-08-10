@@ -3197,6 +3197,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     position: relative;
 }
 .col-5 {width: 50%;}
+.col-6 {width: 60%;}
 .col-7 {width: 70%;}
 .col-3 {width: 30%;}
 .col-2 {width: 20%;}

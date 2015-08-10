@@ -438,42 +438,68 @@ header .intro-section .buttons {
 
 .task-wrapper a {color: #000;}
 
-.task-number {
-    color: rgba(1, 1, 1, 0.5);
-    float: left;
-    font-size: 6px;
-    left: 7px;
-    position: absolute;
-    top: 0;
-}
-.task-title {float: left; width: calc(100% - 220px); position: relative; padding-left: 20px; padding-right: 15px;}
-.task-title input {position: absolute; left: 0px; top: 1px; margin: 0;}
+.task-title {float: left; width: calc(100% - 200px); position: relative; padding-right: 15px;}
 .task-info {
     float: left;
-    width: 220px;
+    width: 200px;
 }
 .task-info-author {
+    color: #47a447;
     float: left;
-    width: calc(100% - 120px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: calc(100% - 100px);
 }
 .task-info-timer {width: 70px; float: left; color: #47a447;}
-.task-info-timer span {margin-left: 10px;}
+.task-info-timer span {margin-left: 5px; position: relative;}
 .task-info-author a {border-bottom: 1px dashed #47a447; color: #47a447;}
 .task-info-control {
     float: left;
     text-align: right;
-    width: 50px;
+    width: 30px;
 }
+
+.task-info-control .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 23px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
+
+.task-info-control .dropdown-menu:after, .task-info-control .dropdown-menu:before {
+    bottom: 100%;
+    left: auto;
+    right: 10px;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+
+.task-info-control .dropdown-menu:after {
+    border-color: rgba(255, 255, 255, 0);
+    border-bottom-color: #fff;
+    border-width: 4px;
+    margin-left: -4px;
+}
+.task-info-control .dropdown-menu:before {
+    border-color: rgba(221, 221, 221, 0);
+    border-bottom-color: #ddd;
+    border-width: 5px;
+    margin-left: -5px;
+    right: 9px;
+}
+.task-info-control .dropdown-menu li a {padding: 3px 10px;}
+
+.task-info-timer a.play {color:#47a447; cursor: pointer;}
+.task-info-timer a.pause {color:#ffa500; cursor: pointer;}
 
 .task-info-timer-timer {border-bottom: 1px dashed #47a447;}
 .task-info-control span {color: rgba(1,1,1,0.3); margin: 0 0 0 3px;}
 .task-info-control span:hover {color: rgba(1,1,1,0.5); cursor: pointer;}
 
 .task-create-wrapper { margin-bottom: 10px;}
-.big-input {width: calc(100% - 100px); float: left;}
-.file-upload {width: 100px; float: left;}
-.file-upload .btn-default {margin-left: 5px; margin-right: 5px; width: 30px;}
-.file-upload .btn-success { width: 60px;}
+.big-input {width: calc(100% - 65px); float: left;}
+.file-upload {width: 60px; float: left;}
+.file-upload .btn-success { width: 60px; margin-left: 5px;}
 
 .task-create-wrapper .btn,
 .task-create-wrapper .form-control {
@@ -488,7 +514,15 @@ header .intro-section .buttons {
     margin-bottom: 10px;
 }
 
-.chat {color: #000; font-size: 10px; font-weight: normal; margin-top: 15px;}
+.chat {
+    border-top: 10px solid #f0f0f0;
+    color: #000;
+    font-size: 10px;
+    font-weight: normal;
+    margin: 0 -10px;
+    padding: 10px;
+}
+
 .chat h4 {font-size: 11px; font-weight: bold; margin: 0; line-height: 14px;}
 .chat hr {margin: 10px 0;}
 
@@ -809,6 +843,7 @@ header .intro-section .buttons {
     text-align: left;
     padding:10px;
     overflow-y: auto;
+    overflow-x: hidden;
     max-height: 253px;
 }
 
@@ -817,16 +852,23 @@ header .intro-section .buttons {
 }
 .demo-mobile .demo-social-stream .task-title {
     width: 100%;
-    padding-right: 0;
+    padding-right: 25px;
     float: none;
 }
+
+.demo-mobile .demo-social-stream .task-info-control {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
 .demo-mobile .demo-social-stream .task-info-author {
     float: none;
     margin-bottom: 8px;
     margin-top: 5px;
     width: 100%;
 }
-.demo-mobile .big-input {width: calc(100% - 35px); margin-right: 5px;}
+.demo-mobile .big-input {width: calc(100% - 35px);}
 
 .demo-mobile .file-upload {
     float: left;
