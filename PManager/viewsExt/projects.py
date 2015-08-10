@@ -3,8 +3,7 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from django.contrib.auth.models import User
-from PManager.models import PM_Project, PM_ProjectRoles, AccessInterface, Credit, Payment
+from PManager.models import PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit, Payment
 from django import forms
 from tracker.settings import USE_GIT_MODULE
 import json
@@ -69,21 +68,21 @@ def projectDetail(request, project_id):
 
             if action == 'update_payment_type':
                 if role:
-                    type = 'real_time' if request.POST.get('value') == 'real_time' else 'plan_time'
+                    type = 'real_time' if request.POST.get('value', '') == 'real_time' else 'plan_time'
                     role.payment_type = type
                     role.save()
                     responseObj = {'result': 'payment type updated'}
 
             elif action == 'update_rate':
                 if role:
-                    rate = int(request.POST.get('value'))
+                    rate = int(request.POST.get('value', 0))
                     role.rate = rate
                     role.save()
                     responseObj = {'result': 'rate updated'}
 
             elif action == 'send_payment':
                 if role:
-                    sum = int(request.POST.get('sum'))
+                    sum = int(request.POST.get('sum', 0))
                     p = Payment(user=role.user, project=project, value=sum)
                     p.save()
                     responseObj = {'result': 'payment added'}
@@ -104,7 +103,46 @@ def projectDetail(request, project_id):
                 image = request.FILES.get('image')
                 project.image = image
                 project.save()
-                responseObj = {'path': project.image.url }
+                responseObj = {'path': project.image.url}
+
+            elif action == 'update_achievement_exist':
+                if 'achievement' in request.POST:
+                    try:
+                        ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
+                        exist = int(request.POST.get('value', False))
+                        if exist:
+                            PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                        else:
+                            pac = PM_Project_Achievement.objects.get(achievement=ac, project=project)
+                            pac.delete()
+
+                        responseObj = {'result': 'ok'}
+                    except PM_Achievement.DoesNotExist, PM_Project_Achievement.DoesNotExist:
+                        responseObj = {'error': 'Achievement does not exist'}
+
+            elif action == 'update_achievement_value':
+                if 'achievement' in request.POST:
+                    try:
+                        ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
+                        pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                        pac.value = int(request.POST.get('value', 0))
+                        pac.save()
+
+                        responseObj = {'result': 'ok'}
+                    except PM_Achievement.DoesNotExist:
+                        responseObj = {'error': 'Achievement does not exist'}
+
+            elif action == 'update_achievement_type':
+                if 'achievement' in request.POST:
+                    try:
+                        ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
+                        pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                        pac.type = request.POST.get('value', 'fix')
+                        pac.save()
+
+                        responseObj = {'result': 'ok'}
+                    except PM_Achievement.DoesNotExist:
+                        responseObj = {'error': 'Achievement does not exist'}
 
             return HttpResponse(json.dumps(responseObj))
 
@@ -143,6 +181,18 @@ def projectDetail(request, project_id):
 
         interfaces_html += t.render(c)
 
+    achievements = PM_Achievement.objects.filter(use_in_projects=True)
+    ar_achievements = []
+    ar_project_achievements = {}
+    for p_ac in PM_Project_Achievement.objects.filter(project=project).select_related('achievement'):
+        ar_project_achievements[p_ac.achievement.id] = p_ac
+
+    for achievement in achievements:
+        if achievement.id in ar_project_achievements:
+            setattr(achievement, 'project_relation', ar_project_achievements[achievement.id])
+
+        ar_achievements.append(achievement)
+
     c = RequestContext(request, {
         'project': project,
         'pageTitle': project.name,
@@ -153,8 +203,10 @@ def projectDetail(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'messages': aMessages,
-        'settings': project.getSettings()
+        'settings': project.getSettings(),
+        'achievements': ar_achievements
     })
+
     t = loader.get_template('details/project.html')
     return HttpResponse(t.render(c))
 

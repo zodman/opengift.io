@@ -48,6 +48,7 @@ def tasks_to_tuple(tasks, add_fields=[]):
         'closed',
         'started',
         'dateClose',
-        'number'
+        'number',
+        'color'
     ]
     return tasks.values(*(add_fields + default_fields))

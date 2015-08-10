@@ -165,7 +165,7 @@ $(function () {
             });
 
             $searchDropdown.on('mouseover', 'li', (function() {
-                $(this).addClass('active').siblings().removeClass('active').find('a').blur()
+                $(this).activateListItem().find('a').blur()
             }));
 
             widget_ud.container.on('click', '.js-delete_specialty', function () {

@@ -446,10 +446,12 @@ def taskListAjax(request):
                         'SET_PLAN_TIME'
                     )
                     sendData['critically'] = task.critically
+
                 elif property == "to_plan":
                     task.onPlanning = True
                     sendData['onPlanning'] = True
                     task.save()
+
                 elif property == "from_plan":
                     task.onPlanning = False
                     sendData['onPlanning'] = False
@@ -459,6 +461,7 @@ def taskListAjax(request):
                             task.planTime = planTime.time
                             break
                     task.save()
+
                 elif property == "deadline":
                     deadline_date = value
                     reminder_date = request.POST.get('reminder', False)
@@ -492,7 +495,6 @@ def taskListAjax(request):
                 elif property == "critically":
                     value = float(value)
                     bCriticallyIsGreater = task.critically < value
-                    sendData['critically'] = value
                     task.critically = value
                     task.lastModifiedBy = request.user
                     task.save()
@@ -502,6 +504,11 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                     sendData['critically'] = task.critically
+                elif property == "color":
+                    sendData['color'] = value
+                    task.color = value
+                    task.save()
+
                 elif property == "status":
                     if task.status and task.status.code == 'not_approved' and not request.user.is_staff:
                         #client have not enough money#

@@ -728,14 +728,9 @@ border-bottom-right-radius: 0px;}
 					.task.ready {background:#e6f0e6;}
 					.task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
 					.task-drag {width:3px; height:0px; position:absolute; left:0px; top:-1px; background:#ffa500; cursor:move}
-						.task-drag.on-planning {background:#ac05a6;}
-						.task-drag.ready {background:#47a447;}
-						.task-drag.not-approved {background:#999;}
-						.task-drag.overdue {background:#c00f00;}
+
 					.closed {opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5;}
-						.closed .task-drag {background:#999;}
-					.warning .task-drag {background:#ffa500;}
-					
+
 						.critically .task-info .task-info-author a,  
 						.critically .task-info .task-info-time .link-with-popup {color:#c00f00 !important; text-decoration:none !important;} 
 							.critically .task-info .task-info-author a, .critically  .task-info .task-info-time .link-with-popup {border-bottom:1px dashed #c00f00; color:#c00f00 !important;}
@@ -3642,7 +3637,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .modal-body ul.list-inline {margin: 0 0 15px;}
 
-.modal-body hr {margin: 25px -25px;}
+.modal-body hr {margin: 25px 0 25px -25px;}
 
 .error .form-control {
     box-shadow:0 1px 1px rgba(0, 0, 0, 0.075) inset, 0 0 8px rgba(185, 74, 72, 0.5);
@@ -4107,3 +4102,28 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbf00', end
     border-top-right-radius: 4px;
     -moz-border-radius-topright: 4px;
 }
+
+/*#COLORS#*/
+
+ul.colors {
+    margin: 0;
+}
+
+.color-block {
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    cursor: pointer;
+}
+
+.color-block.active {
+    border: 3px solid #60f3ff;
+}
+
+.color-block.grey, .task-drag.grey {background-color: grey}
+.color-block.green, .task-drag.green {background-color: green}
+.color-block.blue, .task-drag.blue {background-color: blue}
+.color-block.red, .task-drag.red {background-color: red}
+.color-block.red, .task-drag.yellow {background-color: yellow}
+.color-block.red, .task-drag.purple {background-color: purple}
+.color-block.red, .task-drag.orange {background-color: orange}

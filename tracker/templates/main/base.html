@@ -213,16 +213,15 @@ $(function(){
 </div>
 {% elif userAchievement %}
     <div class="overflow"></div>
-    <div class="popup">
+    <div class="popup js-popup">
         <h3 class="text-center">Новое достижение!</h3>
         <img class="pull-left" style="margin: 0 10px 10px 0;" src="{{ userAchievement.smallImageUrl }}" alt="{{ userAchievement.name }}" /><h4>{{ userAchievement.name }}</h4>
         <p>{{ userAchievement.description|safe }}</p>
         <div class="clearfix"></div>
 
         <p class="text-center">
-            <a href="{{ backurl }}" class="btn  btn-large btn-success">Продолжить</a>
+            <a href="{{ backurl }}" class="btn  btn-large btn-success" onclick="$(this).closest('.js-popup').remove(); $('.overflow').hide(); return false;">Продолжить</a>
         </p>
-
     </div>
 {% endif %}
 <header>
@@ -306,12 +305,7 @@ $(function(){
                         <span>АКТИВНОСТЬ</span>
                     </a>
                 </li>
-                <li class="{% if activeMenuItem == 'gantt' %} active{% endif %}">
-                    <a href="/gantt/">
-                        <span aria-hidden="true" class="fa fa-tasks"></span>
-                        <span>ГРАФИК</span>
-                    </a>
-                </li>
+
                 <li class="{% if activeMenuItem == 'wiki' %} active{% endif %}">
                     <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}">
                         <span aria-hidden="true" class="fa fa-file-text"></span>
@@ -374,7 +368,7 @@ $(function(){
                 </span>
             </div>
             <div class="user-menu">
-                <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>
+{#                <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>#}
                 <a href="/user_detail/?id={{ user.id }}" class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
                 <a class="btn btn-danger btn-xs" href="/login/?logout=Y"><span>Выход<i class="fa fa-power-off"></i></span></a>
             </div>
@@ -396,13 +390,16 @@ $(function(){
 
             <a href="#" class="btn btn-default js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
 
-            <!--<a href="/static/invite_info.html?10" class="js-main-fnc btn btn-default js-invite-popup" data-target="#feedback-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;-->
-
             <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
 
             <a href="/files/" class="btn btn-default {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
 
             <a href="/stat/" class="btn btn-default {% if not main.IS_MANAGER %}disabled{% endif %}"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
+
+            <a href="/gantt/" class="btn btn-default {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
+                <i class="fa fa-tasks"></i>
+                <span>&nbsp;График</span>
+            </a>
         </div>
 
         <div class="sub-menu_line_section-tracker col-xs-5">

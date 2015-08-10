@@ -19,6 +19,9 @@
     }
 
     $(function () {
+        $('.js-select-achievement').click(function() {
+            $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active');
+        });
         $('a.js-copy-password').each(function () {
             clipboardAppend(this);
         });
@@ -357,7 +360,7 @@
                 <form>
                     <input type="hidden" class="js-input-role-id" value=""/>
                     <h3>Количество бонусов: </h3>
-                    <p><input type="text" class="js-input-user-sum form-control" value=""/></p>
+                    <p><input type="text" class="js-input-user-sum form-control" value="" /></p>
                     <input type="button" class="btn btn-success form-control" onclick="sendPayment(this);return false;"
                            value="Погасить бонусы"/>
                 </form>
@@ -399,138 +402,6 @@
 
 <div id="integration" class="tab-pane" role="tabpanel">
 <div class="integration-wrapper clearfix">
-    <script>
-        $(function () {
-            var timerCheckFields = false,
-                    $projectNameInput = $('.js-project-name');
-
-            $('.js-repository').click(function (ev) {
-                if (!$(this).prop('checked')) {
-                    $('.js-repository-value').val('');
-                    $('.js-hiddable').hide();
-                } else {
-                    $('.js-hiddable').show();
-                    $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
-                }
-                checkFields();
-            });
-
-            $projectNameInput.keyup(function () {
-                var projectName = $(this).val();
-                var repoName = transliterate(projectName);
-                if (in_sync) {
-                    $('.js-repository-value').val(repoName);
-                    unmarkRepName();
-                    setCheckFieldsTimer();
-                }
-
-            }).change(function () {
-                unmarkRepName();
-            });
-            function unmarkRepName() {
-                $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
-            }
-
-            function markSuccessRepName() {
-                $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
-            }
-
-            function markErrorRepName() {
-                $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
-            }
-
-            function enableSubmit() {
-                $('.js-submit').removeAttr('disabled');
-            }
-
-            function disableSubmit() {
-                $('.js-submit').attr('disabled', 'disabled');
-            }
-
-            function setCheckFieldsTimer() {
-                if (timerCheckFields) {
-                    clearTimeout(timerCheckFields);
-                }
-                timerCheckFields = setTimeout(checkFields, 700);
-            }
-
-            function checkFields() {
-                var projectName = $('.js-project-name').val(),
-                        isRepo = $('.js-repository').is(':checked'),
-                        repoName,
-                        $repoNameInput = $('.js-repository-value');
-
-                if (!isRepo) {
-                    $repoNameInput.val('');
-                    enableSubmit();
-                    unmarkRepName();
-                    return false;
-                }
-
-                if (in_sync) {
-                    repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
-                }
-                else {
-                    repoName = transliterate($repoNameInput.val());
-                }
-
-                $repoNameInput.val(repoName)
-                        .next('i').addClass('fa-spinner').addClass('fa-spin');
-
-                PM_AjaxPost(
-                        '/project/edit/check_repository_name',
-                        {
-                            'repoName': repoName
-                        },
-                        function (response) {
-                            if (response == "OK") {
-                                markSuccessRepName();
-                                enableSubmit();
-                            } else if (response == "ERROR") {
-                                markErrorRepName();
-                                disableSubmit();
-                            } else {
-                                $('.js-repository-value').val(response);
-                                markSuccessRepName();
-                                enableSubmit();
-                            }
-                        }
-                );
-            }
-            disableSubmit();
-
-            $projectNameInput.blur(checkFields);
-            var in_sync = true;
-            $('.js-repository-value').focus(function() {
-                in_sync = ($(this).val() == transliterate($projectNameInput.val()));
-            }).keyup(function() {
-                setCheckFieldsTimer();
-                in_sync = ($(this).val() == transliterate($projectNameInput.val()));
-            }).blur(function(ev) {
-                checkFields();
-            });
-            checkFields();
-
-            $('a[data-toggle="tab"]').on('click', function(e) {
-                history.pushState(null, null, $(this).attr('href'));
-            });
-            // navigate to a tab when the history changes
-            window.addEventListener("popstate", function(e) {
-                var activeTab = $('[href=' + location.hash + ']');
-                if (activeTab.length) {
-                    activeTab.tab('show');
-                } else {
-                    $('.nav-tabs a:first').tab('show');
-                }
-            });
-            if (location.hash) {
-                var activeTab = $('[href=' + location.hash + ']');
-                if (activeTab.get(0)) {
-                    activeTab.tab('show');
-                }
-            }
-        });
-    </script>
     <div class="integration-left">
         <h2>GIT репозиторий</h2>
         <hr>
@@ -682,217 +553,180 @@
 </style>
 <div class="achievements-wrapper-big">
 <ul class="achievements-wrapper clearfix">
-<li class="achievements-item clearfix active">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/goodStart_2_1.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Хорошее начало</div>
-            <div class="achievements-item-desc">Закройте хотя бы одну задачу.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
+{% for achievement in achievements %}
+    <li class="achievements-item clearfix{% if achievement.project_relation %} active{% endif %} js-achievement">
+        <div class="achievements-item-title-desc-wrapper clearfix">
+            <div class="achievements-item-img"><img src="{{ achievement.smallImageUrl }}" /></div>
+            <div class="achievements-item-text">
+                <div class="achievements-item-title">{{ achievement.name }}</div>
+                <div class="achievements-item-desc">{{ achievement.description }}</div>
             </div>
         </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-default block disabled">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/MostEffective.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Лидер</div>
-            <div class="achievements-item-desc">Закрыть больше всех задач за месяц.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
+        <div class="achievements-item-settings">
+            <div class="col-wrapper">
+                <div class="col-3"><input type="text" placeholder="0"
+                                          data-achievement="{{ achievement.id }}"
+                                          data-action="update_achievement_value"
+                                          name="value"
+                                          value="{{ achievement.project_relation.value|default_if_none:'' }}"
+                                          class="js-ajax-input form-control" /></div>
+                <div class="col-7">
+                    <select class="js-ajax-input form-control"
+                            data-achievement="{{ achievement.id }}"
+                            data-action="update_achievement_type"
+                            name="type" >
+                        <option value="fix" {% if achievement.project_relation.type == 'fix' %}selected="selected"{% endif %}>Разовое начисление</option>
+                        <option value="bet" {% if achievement.project_relation.type == 'bet' %}selected="selected"{% endif %}>Прибавка к ставке по проекту</option>
+                    </select>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/JustInTime_1.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Точно в срок</div>
-            <div class="achievements-item-desc">Необходимо закрыть 10 критичных задач до дедлайна.</div>
+        <div class="achievements-item-button">
+            <label class="checkbox">
+                <input type="checkbox" class="js-ajax-input js-select-achievement"
+                       style="float:left"
+                       data-achievement="{{ achievement.id }}"
+                       data-action="update_achievement_exist"
+                       name="exist" value="1" {% if achievement.project_relation %}checked="checked"{% endif %} /> Использовать в проекте
+            </label>
         </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/7DaysAWeak.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Семь дней в неделю</div>
-            <div class="achievements-item-desc">Необходимо отработать по 6 часов 7 дней в неделю.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/ava.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Загрузить аватарку</div>
-            <div class="achievements-item-desc">Необходимо загрузить аватар с реальным фото.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/AllDayLong.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Полный рабочий день</div>
-            <div class="achievements-item-desc">Необходимо отработать по 8 часов 5 дней подряд.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/fastReply.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">100 быстрых ответов</div>
-            <div class="achievements-item-desc">Необходимо 100 раз ответить менеджеру или клиенту менее чем за 15 минут.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/e9fec9f3af404c9384e36cbb2e61aa36.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Снижение рейтинга</div>
-            <div class="achievements-item-desc">Вы не уложились в установленное плановое время по задаче, ваш рейтинг понижен пропорционально превышению.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/ach.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Повышение рейтинга</div>
-            <div class="achievements-item-desc">Поздравляем! Вы уложились в плановое время!</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-
+    </li>
+{% endfor %}
 </ul>
 </div>
 </div>
 </div>
 </div><!--widget-->
+<script>
+    $(function () {
+        var timerCheckFields = false,
+                $projectNameInput = $('.js-project-name');
+
+        $('.js-repository').click(function (ev) {
+            if (!$(this).prop('checked')) {
+                $('.js-repository-value').val('');
+                $('.js-hiddable').hide();
+            } else {
+                $('.js-hiddable').show();
+                $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
+            }
+            checkFields();
+        });
+
+        $projectNameInput.keyup(function () {
+            var projectName = $(this).val();
+            var repoName = transliterate(projectName);
+            if (in_sync) {
+                $('.js-repository-value').val(repoName);
+                unmarkRepName();
+                setCheckFieldsTimer();
+            }
+
+        }).change(function () {
+            unmarkRepName();
+        });
+        function unmarkRepName() {
+            $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
+        }
+
+        function markSuccessRepName() {
+            $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
+        }
+
+        function markErrorRepName() {
+            $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
+        }
+
+        function enableSubmit() {
+            $('.js-submit').removeAttr('disabled');
+        }
+
+        function disableSubmit() {
+            $('.js-submit').attr('disabled', 'disabled');
+        }
+
+        function setCheckFieldsTimer() {
+            if (timerCheckFields) {
+                clearTimeout(timerCheckFields);
+            }
+            timerCheckFields = setTimeout(checkFields, 700);
+        }
+
+        function checkFields() {
+            var projectName = $('.js-project-name').val(),
+                    isRepo = $('.js-repository').is(':checked'),
+                    repoName,
+                    $repoNameInput = $('.js-repository-value');
+
+            if (!isRepo) {
+                $repoNameInput.val('');
+                enableSubmit();
+                unmarkRepName();
+                return false;
+            }
+
+            if (in_sync) {
+                repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
+            }
+            else {
+                repoName = transliterate($repoNameInput.val());
+            }
+
+            $repoNameInput.val(repoName)
+                    .next('i').addClass('fa-spinner').addClass('fa-spin');
+
+            PM_AjaxPost(
+                    '/project/edit/check_repository_name',
+                    {
+                        'repoName': repoName
+                    },
+                    function (response) {
+                        if (response == "OK") {
+                            markSuccessRepName();
+                            enableSubmit();
+                        } else if (response == "ERROR") {
+                            markErrorRepName();
+                            disableSubmit();
+                        } else {
+                            $('.js-repository-value').val(response);
+                            markSuccessRepName();
+                            enableSubmit();
+                        }
+                    }
+            );
+        }
+        disableSubmit();
+
+        $projectNameInput.blur(checkFields);
+        var in_sync = true;
+        $('.js-repository-value').focus(function() {
+            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+        }).keyup(function() {
+            setCheckFieldsTimer();
+            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+        }).blur(function(ev) {
+            checkFields();
+        });
+        checkFields();
+
+        $('a[data-toggle="tab"]').on('click', function(e) {
+            history.pushState(null, null, $(this).attr('href'));
+        });
+        // navigate to a tab when the history changes
+        window.addEventListener("popstate", function(e) {
+            var activeTab = $('[href=' + location.hash + ']');
+            if (activeTab.length) {
+                activeTab.tab('show');
+            } else {
+                $('.nav-tabs a:first').tab('show');
+            }
+        });
+        if (location.hash) {
+            var activeTab = $('[href=' + location.hash + ']');
+            if (activeTab.get(0)) {
+                activeTab.tab('show');
+            }
+        }
+    });
+</script>
 {% endblock %}

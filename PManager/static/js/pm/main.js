@@ -92,6 +92,7 @@ var widgetObject = function (widgetData) {
     this.state = {
 
     }
+
     this.container = widgetData.container;
     if (widgetData.init && typeof widgetData.init == 'function')
         this.init = widgetData.init;
@@ -417,7 +418,12 @@ $.fn.setEditable = function (callback) {
             callback.call(t);
         });
     }, 100);
-}
+};
+
+$.fn.activateListItem = function(){
+    this.addClass('active').siblings().removeClass('active');
+    return this;
+};
 
 var bLinkEscape;
 $(function () {
