@@ -328,7 +328,6 @@
                                         </option>
                                     </select>
                                 </div>
-<<<<<<< Temporary merge branch 1
                                 <div class="col-3">
                                     <p><b>Ставка:</b></p>
                                     <div class="input-group">
@@ -336,33 +335,6 @@
                                                data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
                                         {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
                                         <div class="input-group-addon">SP</div>
-=======
-                                <div class="desc">
-                                    <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
-                                    <div class="col-wrapper clearfix">
-                                        <div class="col-7">
-                                            <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру." onclick="return false;">?</a></p>
-                                            <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
-                                                <option value="real_time" {% if o.role.payment_type == 'real_time' %}
-                                                selected="selected"{% endif %}>
-                                                За реальное время
-                                                </option>
-                                                <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
-                                                selected="selected"{% endif %}>
-                                                За плановое время
-                                                </option>
-                                            </select>
-                                        </div>
-                                        <div class="col-3">
-                                            <p><b>Ставка:</b></p>
-                                            <div class="input-group">
-                                                <input type="text" class="js-ajax-input form-control" data-action="update_rate"
-                                                       data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
-                                                {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
-                                                <div class="input-group-addon">SP</div>
-                                            </div>
-                                        </div>
->>>>>>> Temporary merge branch 2
                                     </div>
                                 </div>
                             </div>
@@ -593,45 +565,32 @@
 </style>
 <div class="achievements-wrapper-big">
 <ul class="achievements-wrapper clearfix">
-<li class="achievements-item clearfix active">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/goodStart_2_1.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Хорошее начало</div>
-            <div class="achievements-item-desc">Закройте хотя бы одну задачу.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
+{% for achievement in achievements %}
+    <li class="achievements-item clearfix{% if achievement.project_relation %} active{% endif %} js-achievement">
+        <div class="achievements-item-title-desc-wrapper clearfix">
+            <div class="achievements-item-img"><img src="{{ achievement.smallImageUrl }}" /></div>
+            <div class="achievements-item-text">
+                <div class="achievements-item-title">{{ achievement.name }}</div>
+                <div class="achievements-item-desc">{{ achievement.description }}</div>
             </div>
         </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-default block disabled">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/MostEffective.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Лидер</div>
-            <div class="achievements-item-desc">Закрыть больше всех задач за месяц.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
+        <div class="achievements-item-settings">
+            <div class="col-wrapper">
+                <div class="col-3"><input type="text" placeholder="0"
+                                          data-achievement="{{ achievement.id }}"
+                                          data-action="update_achievement_value"
+                                          name="value"
+                                          value="{{ achievement.project_relation.value|default_if_none:'' }}"
+                                          class="js-ajax-input form-control" /></div>
+                <div class="col-7">
+                    <select class="js-ajax-input form-control"
+                            data-achievement="{{ achievement.id }}"
+                            data-action="update_achievement_type"
+                            name="type" >
+                        <option value="fix" {% if achievement.project_relation.type == 'fix' %}selected="selected"{% endif %}>Разовое начисление</option>
+                        <option value="bet" {% if achievement.project_relation.type == 'bet' %}selected="selected"{% endif %}>Прибавка к ставке по проекту</option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="achievements-item-button">
@@ -643,161 +602,8 @@
                        name="exist" value="1" {% if achievement.project_relation %}checked="checked"{% endif %} /> Использовать в проекте
             </label>
         </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/7DaysAWeak.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Семь дней в неделю</div>
-            <div class="achievements-item-desc">Необходимо отработать по 6 часов 7 дней в неделю.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/ava.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Загрузить аватарку</div>
-            <div class="achievements-item-desc">Необходимо загрузить аватар с реальным фото.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/AllDayLong.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Полный рабочий день</div>
-            <div class="achievements-item-desc">Необходимо отработать по 8 часов 5 дней подряд.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/fastReply.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">100 быстрых ответов</div>
-            <div class="achievements-item-desc">Необходимо 100 раз ответить менеджеру или клиенту менее чем за 15 минут.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/e9fec9f3af404c9384e36cbb2e61aa36.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Снижение рейтинга</div>
-            <div class="achievements-item-desc">Вы не уложились в установленное плановое время по задаче, ваш рейтинг понижен пропорционально превышению.</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-<li class="achievements-item clearfix">
-    <div class="achievements-item-title-desc-wrapper clearfix">
-        <div class="achievements-item-img"><img src="http://heliard.ru/media/achievement/ach.png"></div>
-        <div class="achievements-item-text">
-            <div class="achievements-item-title">Повышение рейтинга</div>
-            <div class="achievements-item-desc">Поздравляем! Вы уложились в плановое время!</div>
-        </div>
-    </div>
-    <div class="achievements-item-settings">
-        <div class="col-wrapper">
-            <div class="col-3"><input type="text" placeholder="0"  class="form-control"></div>
-            <div class="col-7">
-                <select class="form-control">
-                    <option>Разовое начисление</option>
-                    <option>Прибавка к ставке по проекту</option>
-                </select>
-            </div>
-        </div>
-    </div>
-    <div class="achievements-item-button">
-        <a href="#" class="btn btn-success block">Выбрать</a>
-    </div>
-</li>
-
+    </li>
+{% endfor %}
 </ul>
 </div>
 </div>
