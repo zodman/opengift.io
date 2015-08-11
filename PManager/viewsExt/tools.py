@@ -162,7 +162,7 @@ class taskExtensions:
         return [{
                     'name': file.name,
                     'url': file.src,
-                    'viewUrl': '/docx/?f=' + str(file.id) if file.type == 'docx' else '',
+                    'viewUrl': '/docx/?f=' + str(file.id) if file.type in ['docx', 'xlsx'] else '',
                     'type': file.type,
                     'thumb100pxUrl': protected(thumbnail(str(file), '100x100')) if file.isPicture else '',
                     'is_picture': file.isPicture,
