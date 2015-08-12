@@ -1467,14 +1467,13 @@ $(function () {
             })
             .on('click', '.js-play', function() {
                 if ($(this).hasClass('fa-play-circle')) {
-
-                    $(this).removeClass('fa-play-circle').addClass('fa-pause')
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-play-circle').addClass('fa-pause')
                             .parent().removeClass('play').addClass('pause').end()
-                            .closest('.js-task-block').data('timer').start();
+                            .each(function(){$(this).closest('.js-task-block').data('timer').start()});
                 } else {
-                    $(this).removeClass('fa-pause').addClass('fa-play-circle')
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-pause').addClass('fa-play-circle')
                             .parent().removeClass('pause').addClass('play').end()
-                            .closest('.js-task-block').data('timer').stop();
+                            .each(function(){$(this).closest('.js-task-block').data('timer').stop()});
                 }
 
                 return false;
