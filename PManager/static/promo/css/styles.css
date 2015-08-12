@@ -62,7 +62,7 @@ a:hover {
 }
 
 textarea:focus, input:focus {
-    color: #ffffff;
+    /*color: #ffffff;*/
 }
 /* Other fixes*/
 

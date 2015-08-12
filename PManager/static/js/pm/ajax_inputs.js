@@ -6,9 +6,11 @@
         if (!params) params = {};
         var selector = '.js-ajax-input';
         var postData = function(elem) {
+            var val = $(elem).val();
+            if ($(elem).is('[type=checkbox]')) val = $(elem).is(':checked') * 1;
             return $.post(
                 document.URL,
-                $.extend($(elem).data(), {'value':$(elem).val()}),
+                $.extend($(elem).data(), {'value': val}),
                 params.callback || false
             );
         };

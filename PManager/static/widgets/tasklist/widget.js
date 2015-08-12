@@ -246,7 +246,7 @@ var widget_tl, currentGroup;
 
                     if (newTab){
                         var $tabElem = widget_tl.addNewTabToPanel(newTab);
-                        $tabElem.singleActivate();
+                        $tabElem.activateListItem();
                         $tabElem.find('a.userTab').setEditable(function(){
                             t.additionalTabs.renameTab(newTab.id, this.text());
                         });
@@ -495,9 +495,9 @@ var widget_tl, currentGroup;
                     if (filter.action){
                         var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#'+encodeURIComponent(JSON.stringify(params))+'"]');
                         if ($userTabEqualsQuery.get(0)){
-                            $userTabEqualsQuery.closest('li').singleActivate();
+                            $userTabEqualsQuery.closest('li').activateListItem();
                         }else{
-                            $(this.tabsSelector).filter('[rel='+filter.action+']').closest('li').singleActivate();
+                            $(this.tabsSelector).filter('[rel='+filter.action+']').closest('li').activateListItem();
                         }
                     }
 
@@ -1200,7 +1200,7 @@ var widget_tl, currentGroup;
             widget_tl.TL_Search();
         });
         $(widget_tl.tabsSelector).click(function(){
-            $(this).parent().singleActivate();
+            $(this).parent().activateListItem();
             if ($(this).hasClass('userTab')){
                 return true; //search will be executed by hash
             }else{
@@ -1264,10 +1264,6 @@ var widget_tl, currentGroup;
         
     });
 })(jQuery);
-
-$.fn.singleActivate = function(){
-    return this.addClass('active').siblings().removeClass('active').end();
-};
 
 (function($){
     $(document).ready(function(){
