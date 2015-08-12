@@ -1,0 +1,9 @@
+<table class="table table-striped table-condensed table-hover">
+	{% for row in excel %}
+		<tr>
+			{% for cell in row %}
+				<td>{{ cell }}</td>
+			{% endfor %}
+		</tr>
+	{% endfor %}
+</table>

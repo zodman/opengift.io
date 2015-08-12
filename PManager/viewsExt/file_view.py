@@ -3,14 +3,14 @@ __author__ = 'Gvammer'
 from tracker.settings import PROJECT_ROOT, HTTP_ROOT_URL, MEDIA_URL, MEDIA_ROOT
 from django.shortcuts import HttpResponse
 from PManager.models import PM_Files
-from PManager.viewsExt.tools import templateTools
+from django.template import loader, Context
 import datetime
 import os
 
 def docxView(request):
     #TODO: все к херам переписать по уму
     from shutil import copyfile
-    # from docx2html import convert
+    from docx2html import convert
 
     def handle_image(image_id, relationship_dict):
         image_path = relationship_dict[image_id]
@@ -28,8 +28,7 @@ def docxView(request):
         try:
             pm_file = PM_Files.objects.get(pk=int(fp))
             if pm_file.type == 'docx':
-                # html = convert(str(pm_file.file.path), image_handler=handle_image)
-                pass
+                html = convert(str(pm_file.file.path), image_handler=handle_image)
             elif pm_file.type == 'xlsx':
                 html = excelToHtml(str(pm_file.file.path))
         except PM_Files.DoesNotExist:
@@ -42,14 +41,20 @@ def excelToHtml(path):
     wb = load_workbook(path, read_only=True, data_only=True)
     ws = wb.get_sheet_by_name(wb.get_sheet_names()[0])
 
-    html = "<table class='excel-view'>"
-    for row in ws.rows:
-        for cell in row:
-            html += '<td>' + cellType(cell.value) + '<td>'
-        html += '<tr>'
-    html += '<table>'
+    excel = {
+        'excel': []
+    }
 
-    return html
+    for row in ws.rows:
+        x = []
+        for cell in row:
+            x.append(cellType(cell.value))
+        excel['excel'].append(x)
+
+    c = Context(excel)
+    t = loader.get_template('helpers/excel_view.html')
+
+    return t.render(c)
 
 def cellType(value):
     if isinstance(value, unicode):
