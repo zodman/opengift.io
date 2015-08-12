@@ -500,8 +500,8 @@ header .intro-section .buttons {
 .task-info-timer a.pause {color:#ffa500; cursor: pointer;}
 
 .task-info-timer-timer {border-bottom: 1px dashed #47a447;}
-.task-info-control span {color: rgba(1,1,1,0.3); margin: 0 0 0 3px;}
-.task-info-control span:hover {color: rgba(1,1,1,0.5); cursor: pointer;}
+.task-info-control span.fa {color: rgba(1,1,1,0.3); margin: 0 0 0 3px;}
+.task-info-control span.fa:hover {color: rgba(1,1,1,0.5); cursor: pointer;}
 
 .task-create-wrapper { margin-bottom: 10px;}
 .big-input {width: calc(100% - 65px); float: left; position: relative;}
