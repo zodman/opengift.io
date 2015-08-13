@@ -557,7 +557,7 @@ header .intro-section .buttons {
     padding: 3px 6px;
     color: #333;
 }
-.choose-user a:hover {background: #dff0d8; color: #468847;}
+.choose-user a:hover, .choose-user a.active {background: #dff0d8; color: #468847;}
 
 .file-upload {width: 60px; float: left;}
 .file-upload .btn-success { width: 60px; margin-left: 5px;}
