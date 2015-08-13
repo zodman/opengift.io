@@ -2259,6 +2259,7 @@ border-top-right-radius: 0;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
+                                        .message-content.with-toggle-messages {padding-right: 80px !important;}
 											
 											.message-info {color:#999; position:relative; padding-right:50px;}
 											.message-control {float:right; position:absolute; top:0px; right:0px;}
@@ -2282,8 +2283,26 @@ border-top-right-radius: 0;}
 												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; position:absolute; right:-4px; cursor:pointer; margin-top: -13px; top: 50%;}
                                                 .message.danger .fa.fa-check-square-o,
                                                 .message.bug-message .fa.fa-check-square-o {color: #BB0500;}
-											.toggle-messages {text-align:center; width: 65px; margin: -11px auto 15px; height:22px;}
-											.toggle-messages > span {background:#ddd; -webkit-border-radius: 4px; -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -moz-border-radius: 4px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; border-radius: 4px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding:1px 5px; font-size:10px; line-height:18px; text-transform:uppercase; color:#999;}
+
+                                            .SUBCONTAINER {position: relative;}
+
+											.toggle-messages {
+                                                height: 22px;
+                                                margin: 0 auto 15px;
+                                                position: absolute;
+                                                right: 8px;
+                                                text-align: center;
+                                                top: 8px;
+                                            }
+											.toggle-messages > span {
+                                                background: rgba(1, 1, 1, 0.07) none repeat scroll 0 0;
+                                                border-radius: 3px;
+                                                color: rgba(1, 1, 1, 0.4);
+                                                font-size: 10px;
+                                                line-height: 18px;
+                                                padding: 1px 5px;
+                                                text-transform: uppercase;
+                                            }
 											
 											.message .message-desc-text {color:#444 !important;}
 											
