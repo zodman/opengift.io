@@ -1449,6 +1449,12 @@
 <script type="text/javascript"  >
 $(function () {
     $('.color-overlay').css('min-height', $(window).height());
+
+    $('.js-demo-browser-block').on('click', '.js-user-name', function () {
+        $(this).find('.js-dropdown-menu').toggle();
+        return false;
+    })
+
     $('.js-demo-browser-block').on('click', '.js-gear', function () {
         $(this).find('.js-menu').toggle();
         return false;
@@ -1551,7 +1557,7 @@ $(function () {
                         '        <a href="#">' + text + '</a>' +
                         '    </div>' +
                         '    <div class="task-info clearfix">' +
-                        '        <div class="task-info-author"> <a href="#" onclick="return false;">' + resp + '</a> </div>' +
+                        '        <div class="task-info-author"><span class="js-user-name"><a href="#" onclick="return false;">' + resp + '</a><ul class="js-dropdown-menu dropdown-menu pull-right"><li><a href="">Егор Маслов</a></li><li><a href="">Егор Маслов</a></li></ul></span></div>' +
                         '        <div class="task-info-timer"><a class="play"><span class="fa fa-play-circle js-play"></span></a><span class="js-timer">00:00:00</span></div>' +
                         '        <div class="task-info-control"> <span class="fa fa-check js-close-task"></span>' +
                         '            <span class="fa fa-gear js-gear">' +

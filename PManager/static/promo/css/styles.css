@@ -460,16 +460,23 @@ header .intro-section .buttons {
 }
 .task-info-timer {width: 70px; float: left; color: #47a447;}
 .task-info-timer span {margin-left: 5px; position: relative;}
-.task-info-author a {border-bottom: 1px dashed #47a447; color: #47a447;}
+.task-info-author > span > a {border-bottom: 1px dashed #47a447; color: #47a447;}
 .task-info-control {
     float: left;
     text-align: right;
     width: 30px;
 }
 
-.task-info-control .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 23px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
+.task-info-control .dropdown-menu,
+.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 23px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
 
-.task-info-control .dropdown-menu:after, .task-info-control .dropdown-menu:before {
+
+.task-info-author .dropdown-menu {right: 125px; left: auto;}
+
+.task-info-control .dropdown-menu:after,
+.task-info-control .dropdown-menu:before,
+.task-info-author .dropdown-menu:after,
+.task-info-author .dropdown-menu:before {
     bottom: 100%;
     left: auto;
     right: 10px;
@@ -481,20 +488,31 @@ header .intro-section .buttons {
     pointer-events: none;
 }
 
-.task-info-control .dropdown-menu:after {
+.task-info-control .dropdown-menu:after,
+.task-info-author .dropdown-menu:after {
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #fff;
     border-width: 4px;
     margin-left: -4px;
 }
-.task-info-control .dropdown-menu:before {
+.task-info-control .dropdown-menu:before,
+.task-info-author .dropdown-menu:before {
     border-color: rgba(221, 221, 221, 0);
     border-bottom-color: #ddd;
     border-width: 5px;
     margin-left: -5px;
     right: 9px;
 }
-.task-info-control .dropdown-menu li a {padding: 3px 10px;}
+
+
+.task-info-author .dropdown-menu:after,
+.task-info-author .dropdown-menu:before {
+    left: 15px;
+    right: auto;
+}
+
+.task-info-control .dropdown-menu li a,
+.task-info-author .dropdown-menu li a {padding: 3px 10px;}
 
 .task-info-timer a.play {color:#47a447; cursor: pointer;}
 .task-info-timer a.pause {color:#ffa500; cursor: pointer;}
