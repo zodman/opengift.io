@@ -411,6 +411,8 @@ header .intro-section .buttons {
     background: #7eb864;
 }
 
+.demo-browser-app a {outline: none;}
+
 .task-wrapper {
     background: #f4f4f4 none repeat scroll 0 0;
     border-left: 2px solid #ffa500;
@@ -460,16 +462,38 @@ header .intro-section .buttons {
 }
 .task-info-timer {width: 70px; float: left; color: #47a447;}
 .task-info-timer span {margin-left: 5px; position: relative;}
-.task-info-author a {border-bottom: 1px dashed #47a447; color: #47a447;}
+.task-info-author > span > a,
+.task-info-author > span > a:active,
+.task-info-author > span > a:focus {border-bottom: 1px dashed #47a447; text-decoration: none; color: #47a447;}
 .task-info-control {
     float: left;
     text-align: right;
     width: 30px;
 }
 
-.task-info-control .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 23px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
+.task-info-control .dropdown-menu,
+.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 10px; right: -11px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
 
-.task-info-control .dropdown-menu:after, .task-info-control .dropdown-menu:before {
+
+.task-info-author .dropdown-menu {right: 86px; left: auto; top: 25px;}
+
+.demo-mobile .task-info-author .dropdown-menu {
+    left: -12px;
+    right: auto;
+    top: 15px;
+}
+.demo-mobile .task-info-author {position: relative; overflow: visible;}
+.demo-mobile .task-info-author .dropdown-menu:after,
+.demo-mobile .task-info-author .dropdown-menu:before {
+    left: 40px;
+    right: auto;
+}
+
+
+.task-info-control .dropdown-menu:after,
+.task-info-control .dropdown-menu:before,
+.task-info-author .dropdown-menu:after,
+.task-info-author .dropdown-menu:before {
     bottom: 100%;
     left: auto;
     right: 10px;
@@ -481,26 +505,36 @@ header .intro-section .buttons {
     pointer-events: none;
 }
 
-.task-info-control .dropdown-menu:after {
+.task-info-control .dropdown-menu:after,
+.task-info-author .dropdown-menu:after {
     border-color: rgba(255, 255, 255, 0);
     border-bottom-color: #fff;
     border-width: 4px;
     margin-left: -4px;
 }
-.task-info-control .dropdown-menu:before {
+.task-info-control .dropdown-menu:before,
+.task-info-author .dropdown-menu:before {
     border-color: rgba(221, 221, 221, 0);
     border-bottom-color: #ddd;
     border-width: 5px;
     margin-left: -5px;
     right: 9px;
 }
-.task-info-control .dropdown-menu li a {padding: 3px 10px;}
+
+
+.task-info-author .dropdown-menu:after,
+.task-info-author .dropdown-menu:before {
+    right: 80px;
+}
+
+.task-info-control .dropdown-menu li a,
+.task-info-author .dropdown-menu li a {padding: 3px 10px;}
 
 .task-info-timer a.play {color:#47a447; cursor: pointer;}
 .task-info-timer a.pause {color:#ffa500; cursor: pointer;}
 
 .task-info-timer-timer {border-bottom: 1px dashed #47a447;}
-.task-info-control span.fa {color: rgba(1,1,1,0.3); margin: 0 0 0 3px;}
+.task-info-control span.fa {color: rgba(1,1,1,0.3); margin: 0 0 0 3px; position: relative;}
 .task-info-control span.fa:hover {color: rgba(1,1,1,0.5); cursor: pointer;}
 
 .task-create-wrapper { margin-bottom: 10px;}
@@ -539,7 +573,7 @@ header .intro-section .buttons {
     padding: 3px 6px;
     color: #333;
 }
-.choose-user a:hover {background: #dff0d8; color: #468847;}
+.choose-user a:hover, .choose-user a.active {background: #dff0d8; color: #468847;}
 
 .file-upload {width: 60px; float: left;}
 .file-upload .btn-success { width: 60px; margin-left: 5px;}

@@ -133,6 +133,7 @@ class PM_Project(models.Model):
 
     def __unicode__(self):
         return self.name
+
     def openMilestones(self):
         return PM_Milestone.objects.filter(
             project=self.id,
@@ -281,6 +282,9 @@ class PM_Milestone(models.Model):
 
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
+
+    def tasksOrderedByClose(self):
+        return self.tasks.order_by('-closed')
 
     @staticmethod
     def check():

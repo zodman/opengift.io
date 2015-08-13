@@ -1180,13 +1180,48 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .show-closed-task a:hover { text-decoration: none; }
 
 
-.project-milestones .progress {margin:6px 0 0 0;}
-.project-milestones table td {padding:15px !important;}
-.project-milestones a {color:#47a447;}
-.project-milestones h4 {margin-bottom:10px;}
-.project-milestones .left {float:left;}
-.project-milestones .right {float:right;}
-.project-milestones .time {font-size:12px; color:#777;}
+.project-milestones {
+    position: relative;
+    margin-bottom: 25px;
+}
+.project-milestones-item {
+    background: #edf8ed none repeat scroll 0 0;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+.project-milestones-title {position: relative; height: 40px; margin-bottom: 15px;}
+.project-milestones-title h3 {line-height: 40px;}
+.project-milestones-title a {position: absolute; top: 0px; right: 0px;}
+.project-milestones h4 {margin-bottom:5px;}
+.project-milestones .time {font-size:12px; color:#777; margin-bottom: 5px;}
+.project-milestones .progress-bar-wrapper .progress-bar-wrapper-title {width: 80px; line-height: 16px;}
+.project-milestones .progress-bar-wrapper .progress {width: calc(100% - 80px); margin-top: 0px; background: #fff none repeat scroll 0 0;
+    height: 16px;}
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item {
+    height: 16px;
+    line-height: 16px;
+    font-size: 10px;
+    border-right: 1px solid #eee;
+    float: left;
+    text-align: center;
+}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item a,
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item a:hover {text-decoration: none; display: inline-block; max-width: 50}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item:first-child {border-radius: 4px 0 0 4px;}
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item:last-child {border-radius: 0 4px 4px 0;}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item.btn-success a {color: #fff;}
+
+
+@media only screen and (max-width: 668px) {
+    .project-milestones .progress-bar-wrapper .progress .progress-bar-item a {text-indent: -9999em;}
+    .project-milestones-title {height: auto;}
+    .project-milestones-title h3 {line-height: 30px;}
+    .project-milestones-title a {position: relative; margin-bottom: 15px;}
+}
 
 .bootstrap-growl .span {
     color: #333;
@@ -2259,6 +2294,7 @@ border-top-right-radius: 0;}
 										.message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
+                                        .message-content.with-toggle-messages {padding-right: 80px !important;}
 											
 											.message-info {color:#999; position:relative; padding-right:50px;}
 											.message-control {float:right; position:absolute; top:0px; right:0px;}
@@ -2282,8 +2318,26 @@ border-top-right-radius: 0;}
 												.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; position:absolute; right:-4px; cursor:pointer; margin-top: -13px; top: 50%;}
                                                 .message.danger .fa.fa-check-square-o,
                                                 .message.bug-message .fa.fa-check-square-o {color: #BB0500;}
-											.toggle-messages {text-align:center; width: 65px; margin: -11px auto 15px; height:22px;}
-											.toggle-messages > span {background:#ddd; -webkit-border-radius: 4px; -webkit-border-top-left-radius: 0px; -webkit-border-top-right-radius: 0px; -moz-border-radius: 4px; -moz-border-radius-topleft: 0px; -moz-border-radius-topright: 0px; border-radius: 4px; border-top-left-radius: 0px; border-top-right-radius: 0px; padding:1px 5px; font-size:10px; line-height:18px; text-transform:uppercase; color:#999;}
+
+                                            .SUBCONTAINER {position: relative;}
+
+											.toggle-messages {
+                                                height: 22px;
+                                                margin: 0 auto 15px;
+                                                position: absolute;
+                                                right: 8px;
+                                                text-align: center;
+                                                top: 8px;
+                                            }
+											.toggle-messages > span {
+                                                background: rgba(1, 1, 1, 0.07) none repeat scroll 0 0;
+                                                border-radius: 3px;
+                                                color: rgba(1, 1, 1, 0.4);
+                                                font-size: 10px;
+                                                line-height: 18px;
+                                                padding: 1px 5px;
+                                                text-transform: uppercase;
+                                            }
 											
 											.message .message-desc-text {color:#444 !important;}
 											
@@ -2721,6 +2775,8 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 	background-image: -webkit-linear-gradient(bottom, #EB8955 0%, #BF5D28 100%);
 	background-image: -ms-linear-gradient(bottom, #EB8955 0%, #BF5D28 100%);
 	background-image: linear-gradient(to bottom, #EB8955 0%, #BF5D28 100%);}
+
+.big-button {padding: 9px 15px; font-size: 15px;}
 											
 @media only screen and (max-width: 668px) {
 	.message {margin-bottom:10px;}
@@ -4112,19 +4168,26 @@ ul.colors {
 
 .color-block {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
+    opacity: 0.7;
+    -moz-opacity: 0.7;
+    -webkit-opacity: 0.7;
+    border: 5px solid #fff;
 }
 
 .color-block.active {
-    border: 3px solid #60f3ff;
+    border: 0;
+    opacity: 1;
+    -moz-opacity:1;
+    -webkit-opacity: 1;
 }
 
-.color-block.grey, .task-drag.grey {background-color: grey}
-.color-block.green, .task-drag.green {background-color: green}
-.color-block.blue, .task-drag.blue {background-color: blue}
-.color-block.red, .task-drag.red {background-color: red}
-.color-block.red, .task-drag.yellow {background-color: yellow}
-.color-block.red, .task-drag.purple {background-color: purple}
-.color-block.red, .task-drag.orange {background-color: orange}
+.color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.color-block.green, .task-drag.green {background-color: #3dc33d;}
+.color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.color-block.red, .task-drag.red {background-color: #f53838;}
+.color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.color-block.orange, .task-drag.orange {background-color: #ef9332;}
