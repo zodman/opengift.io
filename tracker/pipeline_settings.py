@@ -32,6 +32,7 @@ PIPELINE_JS = {
             'js/bootstrap/bootstrap-combobox.js',
             'js/pm/script.js',
             'js/pm/main.js',
+            'js/pm/timer.js',
             'js/pm/panel.js',
             'js/pm/tasks.js',
             'js/pm/files.js',

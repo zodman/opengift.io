@@ -6,7 +6,7 @@ Library     libs/PManager/Settings.py
 *** Variables ***
 ${browser}      Firefox
 ${user}         gvammer
-${password}     qweqweqwe
+${password}     r00tk1t#
 
 
 *** Keywords ***

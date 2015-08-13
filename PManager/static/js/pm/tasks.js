@@ -145,6 +145,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 				arItems.push(criticallyObj);
 			}
 
+            arItems.push({
+                'itemClass': 'Color',
+                'itemText': 'Цвет',
+                'itemMethod': 'setColor',
+                'icon': 'th-large'
+            });
+
 			if (this.get('canRemove')) {
 				arItems.push({
 					'itemClass': 'Remove',
@@ -153,6 +160,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					'icon': 'times-circle'
 				});
 			}
+
 			return arItems;
 		}
 	});
@@ -280,23 +288,24 @@ var CRITICALLY_THRESHOLD = 0.7;
 					.replaceWith($newTimerTag);
 				oTaskContainers.$timer = $newTimerTag;
 			}
+//
+//			if (taskInfo.onPlanning) {
+//				oTaskContainers.$statusContainer.addClass('on-planning');
+//			}
+//			this.$('.task-icon').remove();
+//			oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
+//			this.$el.removeClass('ready');
+//
+//			if (taskInfo.status == 'ready') {
+//				oTaskContainers.$statusContainer.addClass('ready');
+//				this.$el.addClass('ready');
+//			} else if (taskInfo.status == 'not_approved') {
+//				oTaskContainers.$statusContainer.addClass('not-approved');
+//			} else if (taskInfo.overdue) {
+//				oTaskContainers.$statusContainer.addClass('overdue');
+//			}
 
-			if (taskInfo.onPlanning) {
-				oTaskContainers.$statusContainer.addClass('on-planning');
-			}
-			this.$('.task-icon').remove();
-			oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
-			this.$el.removeClass('ready');
-
-			if (taskInfo.status == 'ready') {
-				oTaskContainers.$statusContainer.addClass('ready');
-				this.$el.addClass('ready');
-			} else if (taskInfo.status == 'not_approved') {
-				oTaskContainers.$statusContainer.addClass('not-approved');
-			} else if (taskInfo.overdue) {
-				oTaskContainers.$statusContainer.addClass('overdue');
-			}
-
+            oTaskContainers.$statusContainer.addClass(taskInfo.color);
 
 			if (parent) {
 				oTaskContainers.$addSubtaskColumn.hide();
@@ -424,7 +433,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			this.$('.js-task_play').addClass('disabled transparent');
 		},
 		'render': function () {
-			var templateParams = {}
+			var templateParams = {};
 
 			var playBtnStatus = 'enabled';
 			if (this.model.get('subtasksQty') > 0) {
@@ -1050,6 +1059,41 @@ var CRITICALLY_THRESHOLD = 0.7;
 
 			})
 		},
+        'initModal': function(url, callback) {
+            var obj = this;
+            $.get(url, function (data) {
+				var html = data;
+				html = html.replace('#TASK_NUMBER#', obj.model.get('number'));
+				html = html.replace('#TASK_NAME#', obj.model.get('name'));
+
+				$(html).on('shown.bs.modal', callback)
+					.on('hidden.bs.modal', function() {
+						    $(this).modal('hide').remove();
+						    $('.modal-backdrop').remove();
+					    })
+					.modal('show');
+			});
+        },
+        'setColor': function () {
+            var obj = this;
+            obj.initModal('/static/templates/color.html', function(){
+                $('.js-color-block').click(function(){
+                    $(this).activateListItem();
+                });
+                $('.js-save-color').click(function(){
+                    var color = $('.js-color-block.active').data('color');
+                    taskManager.SetTaskProperty(
+                        obj.model.id,
+                        'color',
+                        color
+                    );
+                    obj.checkModel(function () {
+                        obj.model.set('color', color);
+                        obj.render();
+                    });
+                });
+            });
+        },
 		'setDeadline': function () {
 			var obj = this;
 			taskManager.CheckEndTime(obj.model.get('planTime'), function (data) {

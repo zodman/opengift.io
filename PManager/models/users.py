@@ -3,6 +3,7 @@ __author__ = 'Gvammer'
 from django.db import models
 from django.contrib.auth.models import User
 from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project
+from PManager.models.achievements import PM_User_Achievement, PM_Project_Achievement
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import emailMessage
 from django.db.models.signals import post_save, pre_delete
@@ -282,10 +283,20 @@ class PM_User(models.Model):
             rate = projectRole.rate if projectRole and projectRole.rate else (
                 int(self.sp_price) if self.sp_price else 0)
 
-            if self.rating and not self.isClient(project):
-                rate += self.rating
+            if not self.isClient(project):
+                if self.rating:
+                    rate += self.rating
+
+                for uac in PM_User_Achievement.objects.filter(user=self.user, project=project):
+                    try:
+                        pac = PM_Project_Achievement.objects.get(project=project, achievement=uac.achievement, type='bet', value__isnull=False)
+                        rate += pac.value
+
+                    except PM_Project_Achievement.DoesNotExist:
+                        continue
 
             return rate
+
         except PM_ProjectRoles.DoesNotExist:
             return 0
 

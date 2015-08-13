@@ -1,9 +1,9 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.db import models
 from django.contrib.auth.models import User
-from datetime import datetime
-
-from PManager.models.tasks import PM_Task
+from PManager.models.tasks import PM_Task, PM_Project
+from PManager.models.payments import Credit
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 
@@ -14,28 +14,80 @@ class PM_Achievement(models.Model):
     condition = models.TextField()
     code = models.CharField(max_length=100)
     delete_on_first_view = models.BooleanField(blank=True)
+    use_in_projects = models.BooleanField(blank=True)
 
     @property
     def smallImageUrl(self):
-        return str(self.image)
+        return str(self.image).replace('tracker', '')
 
-    def addToUser(self, user):
-        acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
-        acc.save()
+    def projectSettingsForAchievement(self, project):
+        try:
+            return PM_Project_Achievement.objects.get(project=project, achievement=self)
+        except PM_Project_Achievement.DoesNotExist:
+            return None
+
+    def addToUser(self, user, project=None):
+        """
+        :param user:  instance of User
+        :param project: instance of PM_Project
+        :return: Boolean
+        """
+        can_add_achievement, ps = False, None
+        if project:
+            ps = self.projectSettingsForAchievement(project)
+            if ps:
+                can_add_achievement = True
+        else:
+            can_add_achievement = True
+
+        created = False
+        if can_add_achievement:
+            acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
+            if project:
+                acc.project = project
+                acc.save()
+
+            if created:
+                if ps:
+                    if ps.value:
+                        if ps.type == 'fix':
+                            credit = Credit(user=user, value=ps.value, project=project, type='achievement ' + str(self.id))
+                            credit.save()
+
         return created
 
-    def checkForUser(self, user):
-        challenges = PM_Achievement.objects.exclude(
-            id__in=PM_User_Achievement.objects.filter(user=user).values('achievement__id')
-        )
-        for achievement in challenges:
-            pass
+    def checkForUser(self, user, project=None):
+        """
+        :param user: instance of User
+        :param project: instance of PM_Project
+        :return: Boolean
+        """
+        ua = PM_User_Achievement.objects.filter(achievement=self, user=user)
+        if project:
+            ua = ua.filter(project=project)
+
+        return not ua.exists()
 
     def __str__(self):
         return self.name
 
     def __unicode__(self):
         return self.name
+
+    class Meta:
+        app_label = 'PManager'
+
+class PM_Project_Achievement(models.Model):
+    type_choice = (
+        ('fix', u'Фиксированное начисление'),
+        ('bet', u'Увеличение ставки по проекту'),
+    )
+
+    achievement = models.ForeignKey(PM_Achievement)
+    project = models.ForeignKey(PM_Project)
+    value = models.IntegerField(null=True, blank=True)
+    type = models.CharField(max_length=100, choices=type_choice, default='fix')
+    once_per_project = models.BooleanField()
 
     class Meta:
         app_label = 'PManager'
@@ -51,15 +103,10 @@ def addAchievement(sender, instance, **kwargs):
                     not oldTask.wasClosed:
 
                 acc = PM_Achievement.objects.get(code='first_closed_task')
-                if (acc.addToUser(instance.resp)):
-                    prof = instance.resp.get_profile()
-                    rating = prof.rating or 0
-                    prof.rating = rating + 10
-                    prof.save()
+                acc.addToUser(instance.resp, instance.project)
 
         except PM_Achievement.DoesNotExist:
             pass
-
 
 class PM_User_Achievement(models.Model):
     user = models.ForeignKey(User, related_name='user_achievements')
@@ -67,67 +114,7 @@ class PM_User_Achievement(models.Model):
     date = models.DateTimeField(auto_now_add=True)
     read = models.BooleanField(blank=True, default=False)
     text = models.CharField(max_length=400, blank=True, null=True)
+    project = models.ForeignKey(PM_Project, null=True)
 
     class Meta:
         app_label = 'PManager'
-
-class AchievementEvents(models.Model):
-    name = models.CharField(max_length=255)
-
-class ControllerDataType(models.Model):
-    name = models.CharField(max_length=255)
-
-class DataController(models.Model):
-    dataType = models.ForeignKey(ControllerDataType)
-    value = models.FloatField()
-    user = models.ForeignKey(User)
-    date = models.DateTimeField(default=datetime.now())
-
-class Checker(models.Model):
-    dataType = models.ForeignKey(ControllerDataType)
-
-    conditionType = models.CharField(max_length=255)
-    condition = models.CharField(max_length=2)
-    conditionElem = models.FloatField(blank=True,null=True)
-    otherCondition = models.CharField(max_length=255)
-
-    dateTimeStart = models.DateTimeField(blank=True,null=True)
-    dateTimeEnd = models.DateTimeField(blank=True,null=True)
-
-    def check(self,user):
-        otherData = None
-        if self.otherCondition == 'otherUsers':
-            otherData = DataController.objects.filter(dataType=self.dataType,user=user)
-        else:
-            pass
-
-        data = DataController.objects.filter(dataType=self.dataType,
-                                             user=user,
-                                             date__gt=self.dateTimeStart,
-                                             date__lt=self.dateTimeEnd)
-
-        compareElem = self.conditionElem
-        if self.conditionType == 'sum':
-            sum, compareElem = 0,0
-
-            for elem in data:
-                sum += elem.value
-
-            if otherData:
-                for elem in otherData:
-                    compareElem += elem.value
-
-        return_el = 0
-        str = 'return_el = compareData%s%s' % self.condition, compareElem
-        exec str
-
-        return return_el
-
-class Trigger(models.Model):
-    name = models.CharField(max_length=255)
-    checker = models.ManyToManyField(Checker)
-    arEvents = models.ManyToManyField(AchievementEvents)
-    permanent = models.BooleanField(default=False)
-
-    def check(self,user):
-        return self.checker.check(user)

@@ -41,7 +41,7 @@
                         {% for user in tasklist.users %}
                             <li><a href="javascript:void(0)" rel="{{ user.username }}"
                                    onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">
-                                    [{{ user.username }}] {{ user.last_name }} {{ user.first_name }}
+                                    {{ user.last_name }} {{ user.first_name }}
                             </a></li>
                         {% endfor %}
                     </ul>
@@ -58,7 +58,7 @@
                         <li>
                             <a href="javascript:void(0)" rel="{{ user.username }}"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Author',false,$(this).closest('ul').prev());">
-                                [{{ user.username }}] {{ user.last_name }} {{ user.first_name }}
+                                {{ user.last_name }} {{ user.first_name }}
                             </a>
                         </li>
                     {% endfor %}
@@ -140,7 +140,7 @@
                                     <span class="fa fa-search"></span>
                                 </button>
                                 <button class="btn btn-success border-r4 btn-gray js-filter-btn" type="button" data-toggle="dropdown">
-                                    <span class="fa fa-plus"></span><span class="name">Фильтры</span>
+                                    <span class="fa fa-filter"></span><span class="name">Фильтры</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu pull-right js-search-menu" style="position:absolute; top:33px; right:-2px;">
                                         <li data-code="responsible" class="dropdown-toggle dropdown-submenu">
@@ -304,7 +304,7 @@
     </div>
     <div class="modal fade green-popup" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content green-popup">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
@@ -312,7 +312,7 @@
           <form role="form" class="js-milestone-form" method="post">
               <div class="modal-body clearfix">
                   <div class="add-aim-body clearfix">
-                      <div class="add-aim-checkbox"><input type="radio" name="aims" class="js-select-milestone js-new" checked  value="" ></div>
+                      <div class="add-aim-checkbox"><input type="radio" name="milestone" class="js-select-milestone js-new" checked  value="" ></div>
                       <div class="add-aim-body-item">
                         <input type="text" class="form-control" name="milestone_name" maxlength="255" placeholder="Название" />
                       </div>
@@ -342,20 +342,20 @@
     </div>
     <div class="modal fade" id="edit-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content green-popup">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h2 class="modal-title" id="myModalLabel2">Изменить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post" action="/milestone_ajax/">
               <div class="modal-body">
-                <div class="form-group">
-                  <label>
+                <div class="col-wrapper">
+                  <div class="col-5">
                     <input type="text" class="form-control" name="ms_name" maxlength="255" placeholder="Название" />
-                  </label>
-                  <label style="position: relative; z-index:9999">
+                  </div>
+                  <div class="col-5">
                       <input style="position: relative; z-index:99999" type="text" class="js-date form-control" maxlength="10" name="ms_date" placeholder="Дата" />
-                  </label>
+                  </div>
               </div>
               </div>
               <div class="modal-footer">
@@ -369,7 +369,7 @@
     </div>    
     <div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
-        <div class="modal-content">
+        <div class="modal-content green-popup">
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
             <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>

@@ -346,6 +346,14 @@ class PM_Task(models.Model):
         ('Y', u'Yes'),
     )
 
+    colors = (
+        ('black', u'Черный'),
+        ('red', u'Красный'),
+        ('yellow', u'Желтый'),
+        ('blue', u'Голубой'),
+        ('green', u'Зеленый'),
+    )
+
     name = models.CharField(max_length=1000, verbose_name='Заголовок')
     text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст')
     number = models.IntegerField()
@@ -395,6 +403,8 @@ class PM_Task(models.Model):
 
     currentTimer = False
     startedTimerExist = False
+
+    color = models.CharField(max_length=100, choices=colors, null=True, blank=True, default='blue')
 
     @property
     def url(self):

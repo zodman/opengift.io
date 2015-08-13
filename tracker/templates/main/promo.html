@@ -1,61 +1,63 @@
 <!doctype html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="description" content="Cистема, позволяющая легко организовать работу команды в IT проектах, учет рабочего времени, планирование и отчетность">
-<meta name="keywords" content="гантт, работа, учет">
-<meta name="author" content="Gvammer">
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-<title>Heliard - система ведения командной работы</title>
-<link rel="icon" href="/static/promo/images/favicon.ico">
-<link rel="apple-touch-icon" href="/static/promo/images/apple-touch-icon.png">
-<link rel="apple-touch-icon" sizes="72x72" href="/static/promo/images/apple-touch-icon-72x72.png">
-<link rel="apple-touch-icon" sizes="114x114" href="/static/promo/images/apple-touch-icon-114x114.png">
+    <meta charset="UTF-8">
+    <meta name="description"
+          content="Cистема, позволяющая легко организовать работу команды в IT проектах, учет рабочего времени, планирование и отчетность">
+    <meta name="keywords" content="гантт, работа, учет">
+    <meta name="author" content="Gvammer">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <title>Heliard - система ведения командной работы</title>
+    <link rel="icon" href="/static/promo/images/favicon.ico">
+    <link rel="apple-touch-icon" href="/static/promo/images/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="/static/promo/images/apple-touch-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="/static/promo/images/apple-touch-icon-114x114.png">
 
-<!-- BOOTSTRAP -->
-<link rel="stylesheet" href="/static/promo/css/bootstrap.min.css">
+    <!-- BOOTSTRAP -->
+    <link rel="stylesheet" href="/static/promo/css/bootstrap.min.css">
 
-<!-- FONT ICONS -->
-<link rel="stylesheet" href="/static/promo/css/helifont.css">
-<!--[if lte IE 7]><script src="lte-ie7.js"></script><![endif]-->
+    <!-- FONT ICONS -->
+    <link rel="stylesheet" href="/static/promo/css/helifont.css">
+    <!--[if lte IE 7]><script src="lte-ie7.js"></script><![endif]-->
 
-<!-- WEB FONTS -->
-<link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700,300,600' rel='stylesheet' type='text/css'>
+    <!-- WEB FONTS -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,800,700,300,600' rel='stylesheet' type='text/css'>
 
-<!-- CAROUSEL AND LIGHTBOX -->
-<link rel="stylesheet" href="/static/promo/css/owl.theme.css">
-<link rel="stylesheet" href="/static/promo/css/owl.carousel.css">
-<link rel="stylesheet" href="/static/promo/css/nivo-lightbox.css">
-<link rel="stylesheet" href="/static/promo/css/nivo_themes/default/default.css">
+    <!-- CAROUSEL AND LIGHTBOX -->
+    <link rel="stylesheet" href="/static/promo/css/owl.theme.css">
+    <link rel="stylesheet" href="/static/promo/css/owl.carousel.css">
+    <link rel="stylesheet" href="/static/promo/css/nivo-lightbox.css">
+    <link rel="stylesheet" href="/static/promo/css/nivo_themes/default/default.css">
 
-<!-- ANIMATIONS -->
-<link rel="stylesheet" href="/static/promo/css/animate.min.css">
+    <!-- ANIMATIONS -->
+    <link rel="stylesheet" href="/static/promo/css/animate.min.css">
 
-<!-- CUSTOM STYLESHEETS -->
-<link rel="stylesheet" href="/static/promo/css/styles.css">
+    <!-- CUSTOM STYLESHEETS -->
+    <link rel="stylesheet" href="/static/promo/css/styles.css">
 
-<!-- COLORS -->
-<link rel="stylesheet" href="/static/promo/css/colors/green.css"> <!-- DEFAULT COLOR/ CURRENTLY USING -->
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/red.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/blue.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/purple.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/orange.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/blue-munsell.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/slate.css"> --> #}
-{#<!-- <link rel="stylesheet" href="/static/promo/css/colors/yellow.css"> -->#}
+    <!-- COLORS -->
+    <link rel="stylesheet" href="/static/promo/css/colors/green.css">
+    <!-- DEFAULT COLOR/ CURRENTLY USING -->
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/red.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/blue.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/purple.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/orange.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/blue-munsell.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/slate.css"> --> #}
+    {#<!-- <link rel="stylesheet" href="/static/promo/css/colors/yellow.css"> -->#}
 
-<!-- RESPONSIVE FIXES -->
-<link rel="stylesheet" href="/static/promo/css/responsive.css">
+    <!-- RESPONSIVE FIXES -->
+    <link rel="stylesheet" href="/static/promo/css/responsive.css">
 
 
-<!--[if lt IE 9]>
-			<script src="/static/promo/js/html5shiv.js"></script>
-			<script src="/static/promo/js/respond.min.js"></script>
-<![endif]-->
+    <!--[if lt IE 9]>
+    <script src="/static/promo/js/html5shiv.js"></script>
+    <script src="/static/promo/js/respond.min.js"></script>
+    <![endif]-->
 
-<!-- JQUERY -->
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <!-- JQUERY -->
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
 </head>
 
@@ -64,7 +66,7 @@
      PRE LOADER       
 ============================== -->
 <div class="preloader">
-  <div class="status">&nbsp;</div>
+    <div class="status">&nbsp;</div>
 </div>
 
 <!-- =========================
@@ -72,74 +74,451 @@
 ============================== -->
 <header class="header" data-stellar-background-ratio="0" id="home">
 
-<!-- COLOR OVER IMAGE -->
-<div class="color-overlay"> <!-- To make header full screen. Use .full-screen class with color overlay. Example: <div class="color-overlay full-screen">  -->
-	
-	<!-- STICKY NAVIGATION -->
-	<div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation">
-    <!--<div class="navbar-fixed-top navbar-inverse">-->
-		<div class="container">
-			<div class="navbar-header">
-				
-				<!-- LOGO ON STICKY NAV BAR -->
-				<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#kane-navigation">
-				<span class="sr-only">Навигация</span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				<span class="icon-bar"></span>
-				</button>
+    <!-- COLOR OVER IMAGE -->
+    <div class="color-overlay">
+        <!-- To make header full screen. Use .full-screen class with color overlay. Example: <div class="color-overlay full-screen">  -->
 
-				<a class="navbar-brand" href="#"><img src="/static/promo/images/logo.png" alt=""></a>
-				
-			</div>
-			
-			<!-- NAVIGATION LINKS -->
-			<div class="navbar-collapse collapse" id="kane-navigation">
-				<ul class="nav navbar-nav navbar-right main-navigation">
-					<li><a href="#quickstart">Быстрый старт</a></li>
-					<li><a href="#features">Преимущества</a></li>
-					<li><a href="#download">Контакты</a></li>
-					<!--<li><a href="#screenshot-section">5</a></li>
-					<li><a href="#download">6</a></li>-->
-                    <li><a href="/login/" class="btn btn-default">Вход</a></li>
-				</ul>
-			</div>
-		</div> <!-- /END CONTAINER -->
-	</div> <!-- /END STICKY NAVIGATION -->
-	
-	
-	<!-- CONTAINER -->
-	<div class="container">
-		
-				
-				<!-- HEADING AND BUTTONS -->
-				<div class="intro-section">
-					
-					<!-- WELCOM MESSAGE -->
-					<h1 class="intro">Простой и мощный инструмент для работы команды над сайтом</h1>
-					<h3 class="intro">Выведите разработку своего сайта на профессиональный уровень!</h3>
-                    <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Ставьте цели</span> и контролируйте их выполнение</h5>
-                    <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Находите специалистов</span> для совместной работы над проектом</h5>
-                    <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Контролируйте время</span> выполнения этапов проектов на календарном графике</h5>
-                    <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Следите за качеством</span> кода своего проекта с любого устройства</h5>
-                    <h5><span class="green-text"><i class="fa fa-check"></i>&nbsp;&nbsp;Разверните тестовый сервер</span> для своего сайта в два клика</h5>
+        <!-- STICKY NAVIGATION -->
+        <div class="navbar navbar-inverse bs-docs-nav navbar-fixed-top sticky-navigation">
+            <!--<div class="navbar-fixed-top navbar-inverse">-->
+            <div class="container">
+                <div class="navbar-header">
 
-					<!-- BUTTON -->
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">30 дней бесплатно</button>
-					<!-- /END BUTTONS -->
-					
-				</div>
-				<!-- /END HEADNING AND BUTTONS -->
-				
-		
-	</div>
-	<!-- /END CONTAINER -->
-</div>
-<!-- /END COLOR OVERLAY -->
+                    <!-- LOGO ON STICKY NAV BAR -->
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#kane-navigation">
+                        <span class="sr-only">Навигация</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+
+                    <a class="navbar-brand" href="#"><img src="/static/promo/images/logo.png" alt=""></a>
+
+                </div>
+
+                <!-- NAVIGATION LINKS -->
+                <div class="navbar-collapse collapse" id="kane-navigation">
+                    <ul class="nav navbar-nav navbar-right main-navigation">
+                        <li><a href="#features">Преимущества</a></li>
+                        <li><a href="#opportunities">Веб-студиям</a></li>
+                        <li><a href="#download">Контакты</a></li>
+                        <!--<li><a href="#screenshot-section">5</a></li>
+                        <li><a href="#download">6</a></li>-->
+                        <li><a href="/login/" class="btn btn-default">Вход</a></li>
+                    </ul>
+                </div>
+            </div>
+            <!-- /END CONTAINER -->
+        </div>
+        <!-- /END STICKY NAVIGATION -->
+
+
+        <!-- CONTAINER -->
+        <div class="container">
+
+
+            <!-- HEADING AND BUTTONS -->
+            <div class="intro-section">
+
+                <!-- WELCOM MESSAGE -->
+                <h1 class="intro">Heliard упрощает разработку сайтов</h1>
+
+                <h3 class="intro">Набор онлайн инструментов для организации командной работы</h3>
+                <h5 class="js-first-step js-step"><span class="green-text"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Держите
+                    все <span class="green-text">задачи</span> и <span class="green-text">файлы</span> в одном месте
+                </h5>
+                <h5 class="js-step"><span class="green-text"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Контролируйте
+                    <span class="green-text">рабочее время</span> и <span class="green-text">затраты</span> своих
+                    проектов</h5>
+                <h5 class="js-step"><span class="green-text"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Получайте
+                    уведомления, помогающие <span class="green-text">уложиться в срок</span></h5>
+                <h5 class="js-step"><span class="green-text"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Соберите
+                    <span class="green-text">команду мечты</span> для своего проекта</h5>
+                <br/>
+                <!-- BUTTON -->
+                <input type="email" name="email" id="subscriber-email" placeholder="Введите e-mail"
+                       class="form-control input-box js-email"/>
+                <button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Начать
+                    работать
+                </button>
+                <!-- /END BUTTONS -->
+
+            </div>
+            <!-- /END HEADNING AND BUTTONS -->
+
+
+        </div>
+        <!-- /END CONTAINER -->
+    </div>
+    <!-- /END COLOR OVERLAY -->
 </header>
 <!-- /END HEADER -->
 
+
+<section class="mobile">
+
+<div class="container">
+
+<!-- SECTION HEADER -->
+<div class="wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
+
+    <!-- SECTION TITLE -->
+    <h2 class="white-text">Все задачи и файлы в одном месте</h2>
+
+    <div class="white-line"></div>
+    <div class="section-description">
+        Управляйте задачами и целями не отвлекаясь от других дел
+    </div>
+    <div class="white-line"></div>
+</div>
+<!-- /END SECTION HEADER -->
+
+<div class="slide demo-browser-app">
+
+<!-- BROWSER -->
+<div class="demo-browser js-demo-browser-block">
+    <header class="browser-header">
+        <span class="demo-browser-buttons demo-browser-close"></span>
+        <span class="demo-browser-buttons demo-browser-minimize"></span>
+        <span class="demo-browser-buttons demo-browser-maximize"></span>
+        <span class="demo-browser-addressbar"></span>
+
+        <div class="clear"></div>
+    </header>
+
+    <div class="demo-browser-body">
+
+        <!-- SOCIAL PAGE -->
+        <div class="demo-social-page">
+            <header></header>
+
+            <!-- STREAM -->
+            <div class="demo-social-stream">
+
+                <div class="clearfix task-create-wrapper js-taskinput-block">
+                    <div class="big-input">
+                        <input type="text" placeholder="Что нужно сделать?"
+                               class="js-task-input input-block-level task-create form-control">
+
+                        <ul class="choose-user js-user-list" style="display: none" id="TL_responsible_list">
+                            <li><a rel="Синичкин Александр" href="#" > Синичкин Александр </a></li>
+                            <li><a rel="Кироненко Алексей" href="#"> Кироненко Алексей </a></li>
+                            <li><a rel="Смирнов Артем" href="#"> Смирнов Артем </a></li>
+                            <li><a rel="Рустамов Ахрик" href="#"> Рустамов Ахрик </a></li>
+                            <li><a rel="Кудрявцева Виктория" href="#"> Кудрявцева Виктория </a></li>
+                        </ul>
+                    </div>
+
+                    <div class="file-upload">
+                        <button type="submit" class="btn btn-success task-create js-task-create">Создать</button>
+                    </div>
+                </div>
+
+                <div class="chat">
+                    <h4>Лента событий</h4>
+                    <hr>
+                    <div class="message for_current_user">
+                        <div class="avatar"><a class="pull-left" href="#"><img width="90px"
+                                                                               src="http://heliard.ru/media/users/1_1.jpg"
+                                                                               class="media-object img-thumbnail"></a>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-info"><a href="#" class="message-info-title">Kvestovik</a> <span
+                                    class="message-info-time">05.08.2015 14:30</span> <a href="#"
+                                                                                         class="message-info-name">Маслов
+                                Егор</a> для <b>Васютин Евгений</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a class="message-desc-text"><strong>На главной странице
+                                    под сертификатом должна быть полоска со способами оплаты</strong></a>
+
+                                    <div class="message-desc-text-p">пуш в dev_server<br>
+                                        проверять тут<br>
+                                        <a href="#">http://dev-kvesty.ru</a></div>
+                                </div>
+                                <div class="message-desc-right"><a class="to-do-button" href="#">To Do</a> <a
+                                        class="bug-button" href="#">Bug</a> <a class="link">Ответить</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message info">
+                        <div class="message-content"><a href="#" class="message-info-title">LV FINANCE</a> <span
+                                class="message-info-time">05.08.2015 14:29</span> <a href="#" class="message-info-name">Маслов
+                            Егор</a> <b class="message-desc-status">Задача закрыта</b><a href="#"
+                                                                                         class="message-desc-text"><strong>Создать
+                            страницу "информация о клиенте" в стиле лвфинанс </strong></a></div>
+                    </div>
+
+                    <div class="message bug-message">
+                        <div class="avatar"><a class="pull-left" href="#"><img width="90px"
+                                                                               src="http://heliard.ru/media/users/1_1.jpg"
+                                                                               class="media-object img-thumbnail"></a>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-info"><a href="#" class="message-info-title">Heliard</a> <span
+                                    class="message-info-time">05.08.2015 14:27</span> <a href="#"
+                                                                                         class="message-info-name">Маслов
+                                Егор</a> для <b>Синичкин Александр</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Сделать
+                                    выгрузку текущих бонусов в статистике по проекту в эксель</strong></a>
+
+                                    <div class="message-desc-text-p">фильтр дат не влияет в данный момент на эксель.
+                                        даже если выбрать статистику за полгода эксель делается за последний месяц
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message warning">
+                        <div class="message-content"><a href="#" class="message-info-title">Heliard</a> <span
+                                class="message-info-time">05.08.2015 14:27</span> <a href="#" class="message-info-name">Маслов
+                            Егор</a> <b class="message-desc-status">Статус изменен на "В работе"</b><a href="#"
+                                                                                                       class="message-desc-text"><strong>Сделать
+                            выгрузку текущих бонусов в статистике по проекту в эксель</strong></a></div>
+                    </div>
+
+                    <div class="message">
+                        <div class="avatar"><a class="pull-left" href="#"><img width="90px"
+                                                                               src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg"
+                                                                               class="media-object img-thumbnail"></a>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-info"><a href="#" class="message-info-title">LV FINANCE</a> <span
+                                    class="message-info-time">05.08.2015 12:51</span> <a href="#"
+                                                                                         class="message-info-name">Васютин
+                                Евгений</a> для <b>Маслов Егор</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Создать
+                                    страницу "информация о клиенте" в стиле лвфинанс </strong></a>
+
+                                    <div class="message-desc-text-p">ниче не понял, поясни нормально пожалуйста</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message success">
+                        <div class="message-content"><a href="#" class="message-info-title">Kvestovik</a> <span
+                                class="message-info-time">05.08.2015 12:15</span> <a href="#" class="message-info-name">Васютин
+                            Евгений</a> <b class="message-desc-status">Статус изменен на "На проверку"</b><a
+                                class="message-desc-text"><strong>На главной странице под сертификатом должна быть
+                            полоска со способами оплаты</strong></a></div>
+                    </div>
+
+                    <div class="message">
+                        <div class="avatar"><a class="pull-left" href="#"><img width="90px"
+                                                                               src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg"
+                                                                               class="media-object img-thumbnail"></a>
+                        </div>
+                        <div class="message-content">
+                            <div class="message-info"><a href="#85" class="message-info-title">Exconst.ru</a> <span
+                                    class="message-info-time">04.08.2015 18:33</span> <a href="#"
+                                                                                         class="message-info-name">Васютин
+                                Евгений</a> для <b>Маслов Егор</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Дизайн и
+                                    верстка простого лендинга</strong></a>
+
+                                    <div class="message-desc-text-p">в архиве 2 файла - страница с сайта со вставкой +
+                                        отдельно вставка, которую нужно вставлять внутрь &amp;amp;lt;div id="content"&amp;amp;gt;<br>
+                                        + папка с картинками<br>
+                                        в самих файлах находятся стили, которые надо перенести, а также шрифт, который
+                                        нужно подключать в header<br>
+                                        <br>
+                                        Если дашь доступы, попробую сам все на сайт перенести
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <!--demo-social-stream-->
+
+
+        </div>
+    </div>
+</div>
+
+<!-- MOBILE -->
+<div class="demo-mobile">
+    <a class="demo-mobile-home-button" href="#"></a>
+    <a class="demo-mobile-top-button" href="#"></a>
+    <span class="demo-mobile-camera"></span>
+    <span class="demo-mobile-speaker"></span>
+    <span class="demo-mobile-sound"></span>
+    <span class="demo-mobile-sound demo-mobile-sound-up"></span>
+    <span class="demo-mobile-sound demo-mobile-sound-down"></span>
+
+    <div class="demo-mobile-body">
+
+        <!-- SOCIAL PAGE -->
+        <div class="demo-social-page">
+            <!-- HEADER -->
+            <header class="demo-mobile-header"></header>
+
+            <!-- STREAM -->
+            <div class="demo-social-stream">
+
+                <div class="clearfix task-create-wrapper js-taskinput-block">
+                    <div class="big-input">
+                        <input type="text" placeholder="Что нужно сделать?"
+                               class="input-block-level task-create form-control js-task-input">
+
+                        <ul class="choose-user js-user-list" style="display: none">
+                            <li><a rel="Синичкин Александр" href="#"> Синичкин Александр </a></li>
+                            <li><a rel="Кироненко Алексей" href="#"> Кироненко Алексей </a></li>
+                            <li><a rel="Смирнов Артем" href="#"> Смирнов Артем </a></li>
+                            <li><a rel="Рустамов Ахрик" href="#"> Рустамов Ахрик </a></li>
+                            <li><a rel="Кудрявцева Виктория" href="#"> Кудрявцева Виктория </a></li>
+                        </ul>
+                    </div>
+
+                    <div class="file-upload">
+                        <button type="submit" class="btn btn-success task-create js-task-create"><span
+                                class="fa fa-plus"></span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="chat">
+                    <h4>Лента событий</h4>
+                    <hr>
+                    <div class="message for_current_user">
+                        <div class="avatar clearfix">
+                            <a class="pull-left" href="#"><img width="90px" src="http://heliard.ru/media/users/1_1.jpg"
+                                                               class="media-object img-thumbnail"></a>
+                            <a href="#" class="message-info-title">Kvestovik</a><br> <span class="message-info-time">05.08.2015 14:30</span>
+                        </div>
+                        <div class="message-wrapper clearfix">
+                            <div class="message-info"><a href="#" class="message-info-name">Маслов Егор</a> для <b>Васютин
+                                Евгений</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a class="message-desc-text"><strong>На главной странице
+                                    под сертификатом должна быть полоска со способами оплаты</strong></a>
+
+                                    <div class="message-desc-text-p">пуш в dev_server<br>
+                                        проверять тут<br>
+                                        <a href="#">http://dev-kvesty.ru</a></div>
+                                </div>
+                                <div class="message-desc-right"><a class="to-do-button" href="#">To Do</a> <a
+                                        class="bug-button" href="#">Bug</a> <a class="link">Ответить</a></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message info">
+                        <div class="message-content"><a href="#" class="message-info-title">LV FINANCE</a> <span
+                                class="message-info-time">05.08.2015 14:29</span> <a href="#" class="message-info-name">Маслов
+                            Егор</a> <b class="message-desc-status">Задача закрыта</b><a href="#"
+                                                                                         class="message-desc-text"><strong>Создать
+                            страницу "информация о клиенте" в стиле лвфинанс </strong></a></div>
+                    </div>
+
+                    <div class="message bug-message">
+                        <div class="avatar clearfix">
+                            <a class="pull-left" href="#">
+                                <img width="90px" src="http://heliard.ru/media/users/1_1.jpg"
+                                     class="media-object img-thumbnail"></a>
+                            <a href="#" class="message-info-title">Heliard</a> <br><span class="message-info-time">05.08.2015 14:27</span>
+
+                        </div>
+                        <div class="message-wrapper clearfix">
+                            <div class="message-info"><a href="#" class="message-info-name">Маслов Егор</a> для <b>Синичкин
+                                Александр</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Сделать
+                                    выгрузку текущих бонусов в статистике по проекту в эксель</strong></a>
+
+                                    <div class="message-desc-text-p">фильтр дат не влияет в данный момент на эксель.
+                                        даже если выбрать статистику за полгода эксель делается за последний месяц
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message warning">
+                        <div class="message-content"><a href="#" class="message-info-title">Heliard</a> <span
+                                class="message-info-time">05.08.2015 14:27</span> <a href="#" class="message-info-name">Маслов
+                            Егор</a> <b class="message-desc-status">Статус изменен на "В работе"</b><a href="#"
+                                                                                                       class="message-desc-text"><strong>Сделать
+                            выгрузку текущих бонусов в статистике по проекту в эксель</strong></a></div>
+                    </div>
+
+                    <div class="message">
+                        <div class="avatar clearfix">
+                            <a class="pull-left" href="#"><img width="90px"
+                                                               src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg"
+                                                               class="media-object img-thumbnail"></a>
+                            <a href="#" class="message-info-title">LV FINANCE</a> <br><span class="message-info-time">05.08.2015 12:51</span>
+                        </div>
+                        <div class="message-wrapper clearfix">
+                            <div class="message-info"><a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов
+                                Егор</b></div>
+
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Создать
+                                    страницу "информация о клиенте" в стиле лвфинанс </strong></a>
+
+                                    <div class="message-desc-text-p">ниче не понял, поясни нормально пожалуйста</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="message success">
+                        <div class="message-content"><a href="#" class="message-info-title">Kvestovik</a> <span
+                                class="message-info-time">05.08.2015 12:15</span> <a href="#" class="message-info-name">Васютин
+                            Евгений</a> <b class="message-desc-status">Статус изменен на "На проверку"</b><a
+                                class="message-desc-text"><strong>На главной странице под сертификатом должна быть
+                            полоска со способами оплаты</strong></a></div>
+                    </div>
+
+                    <div class="message">
+                        <div class="avatar clearfix">
+                            <a class="pull-left" href="#"><img width="90px"
+                                                               src="http://heliard.ru/media/users/OZ7P8tMHa7A.jpg"
+                                                               class="media-object img-thumbnail"></a>
+                            <a href="#85" class="message-info-title">Exconst.ru</a><br> <span class="message-info-time">04.08.2015 18:33</span>
+                        </div>
+                        <div class="message-wrapper clearfix">
+                            <div class="message-info"><a href="#" class="message-info-name">Васютин Евгений</a> для <b>Маслов
+                                Егор</b></div>
+                            <div class="message-desc clearfix">
+                                <div class="message-desc-left"><a href="#" class="message-desc-text"><strong>Дизайн и
+                                    верстка простого лендинга</strong></a>
+
+                                    <div class="message-desc-text-p">в архиве 2 файла - страница с сайта со вставкой +
+                                        отдельно вставка, которую нужно вставлять внутрь &amp;amp;lt;div id="content"&amp;amp;gt;<br>
+                                        + папка с картинками<br>
+                                        в самих файлах находятся стили, которые надо перенести, а также шрифт, который
+                                        нужно подключать в header<br>
+                                        <br>
+                                        Если дашь доступы, попробую сам все на сайт перенести
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+            <!--demo-social-stream-->
+
+        </div>
+    </div>
+</div>
+
+
+</div>
+</section>
 
 
 <!-- =========================
@@ -147,165 +526,176 @@
 ============================== -->
 <section class="features" id="features">
 
-<div class="container">
-	
-	<!-- SECTION HEADER -->
-	<div class="section-header wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
-		
-		<!-- SECTION TITLE -->
-		<h2 class="white-text">Любой IT-проект <span class="green-text">в вашем</span> телефоне</h2>
-		<div class="colored-line">
-		</div>
-		<div class="section-description">
-			Максимальное удобство работы при доступе с любого устройства
-		</div>
-		<div class="colored-line">
-		</div>
-	</div>
-	<!-- /END SECTION HEADER -->
-	
-	
-	<div class="row">
-		
-		<!-- FEATURES LEFT -->
-		<div class="col-md-4 col-sm-4 features-left wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-cloud"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Анализ сложности задач</h4>
-					<p>Программа автоматически прогнозирует время по задаче.</p>
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEATURE -->
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-analyze"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Учет рабочего времени</h4>
-					<p>Учет можно вести как онлайн так и оффлайн</p>
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEATURE -->
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-graphic"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Графики активности </h4>
-					<p>по проектам и сотрудникам </p>
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEATURE -->
-			
-		</div>
-		<!-- /END FEATURES LEFT -->
-		
-		<!-- PHONE IMAGE -->
-		<div class="col-md-4 col-sm-4">
-			<div class="phone-image wow bounceIn animated" data-wow-offset="120" data-wow-duration="1.5s">
-				<img src="/static/promo/images/single-iphone.png" alt="">
-			</div>
-		</div>
-		
-		<!-- FEATURES RIGHT -->
-		<div class="col-md-4 col-sm-4 features-right wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-wiki"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Cоздайте свою Wiki</h4>
-					<p>Возможность создания своей вики по проектам</p>
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEATURE -->
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-responsive"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Адаптивная верстка</h4>
-					<p>Следите за своими проектами с любого устройства </p>
-				</div>
-				
-			</div>
-			
-			<!-- /END SINGLE FEATURE -->
-			
-			<!-- FEATURE -->
-			<div class="feature">
-				
-				<!-- ICON -->
-				<div class="icon-container">
-					<div class="icon">
-						<i class="icon-live"></i>
-					</div>
-				</div>
-				
-				<!-- FEATURE HEADING AND DESCRIPTION -->
-				<div class="fetaure-details">
-					<h4 class="main-color">Живой сайт</h4>
-					<p>Работает без перезагрузки страницы</p>
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEATURE -->
-			
-		</div>
-		<!-- /END FEATURES RIGHT -->
-		
-	</div>
-	<!-- /END ROW -->
-	
-</div>
-<!-- /END CONTAINER -->
+    <div class="container">
+
+        <!-- SECTION HEADER -->
+        <div class="section-header wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
+
+            <!-- SECTION TITLE -->
+            <h2 class="white-text">Будьте всегда в курсе <span class="green-text">рабочего процесса</span></h2>
+
+            <div class="colored-line">
+            </div>
+            <div class="section-description">
+                Максимальное удобство работы при доступе с любого устройства
+            </div>
+            <div class="colored-line">
+            </div>
+        </div>
+        <!-- /END SECTION HEADER -->
+
+
+        <div class="row">
+
+            <!-- FEATURES LEFT -->
+            <div class="col-md-4 col-sm-4 features-left wow fadeInLeft animated" data-wow-offset="10"
+                 data-wow-duration="1.5s">
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-cloud"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Анализ сложности задач</h4>
+
+                        <p>Автоматический прогноз сроков выполнения и выбор оптимального ответственного поможет ускорить
+                            работу</p>
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEATURE -->
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-analyze"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Учет рабочего времени</h4>
+
+                        <p>Учет времени по таймеру, настройка стоимости часа каждого сотрудника</p>
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEATURE -->
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-graphic"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Комплексная отчетность</h4>
+
+                        <p>По рабочему времени и стоимости проектов</p>
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEATURE -->
+
+            </div>
+            <!-- /END FEATURES LEFT -->
+
+            <!-- PHONE IMAGE -->
+            <div class="col-md-4 col-sm-4">
+                <div class="phone-image wow bounceIn animated" data-wow-offset="120" data-wow-duration="1.5s">
+                    <img src="/static/promo/images/single-iphone.png" alt="">
+                </div>
+            </div>
+
+            <!-- FEATURES RIGHT -->
+            <div class="col-md-4 col-sm-4 features-right wow fadeInRight animated" data-wow-offset="10"
+                 data-wow-duration="1.5s">
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-wiki"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Wiki проектов</h4>
+
+                        <p>Быстро формируйте базу знаний проекта на основе переписки. Это поможет новым сотрудникам
+                            быстрее и втянуться в проект</p>
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEATURE -->
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-responsive"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Максимальная мобильность</h4>
+
+                        <p>Максимальное удобство при просмотре с мобильных</p>
+                    </div>
+
+                </div>
+
+                <!-- /END SINGLE FEATURE -->
+
+                <!-- FEATURE -->
+                <div class="feature">
+
+                    <!-- ICON -->
+                    <div class="icon-container">
+                        <div class="icon">
+                            <i class="icon-live"></i>
+                        </div>
+                    </div>
+
+                    <!-- FEATURE HEADING AND DESCRIPTION -->
+                    <div class="fetaure-details">
+                        <h4 class="main-color">Моментальные уведомления</h4>
+
+                        <p>Мгновенно получайте уведомления о новых событиях в проектах</p>
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEATURE -->
+
+            </div>
+            <!-- /END FEATURES RIGHT -->
+
+        </div>
+        <!-- /END ROW -->
+
+    </div>
+    <!-- /END CONTAINER -->
 
 </section>
 <!-- /END FEATURES SECTION -->
@@ -314,111 +704,153 @@
 <!-- =========================
      БЫСТРЫЙ СТАРТ
 ============================== -->
-<section id="quickstart" data-stellar-background-ratio="0" >
-<div class="app-brief color-overlay">
-<div class="container">	
-	<div class="row">		
-		<div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<div class="phone-image">
-				<img src="/static/promo/images/ipad.png" alt="">
-			</div>
-		</div>
-		
-		<div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<h2 class="white-text"><span class="green-text">Быстрый</span> старт</h2>
-			<div class="colored-line-left"></div>
-			<ul class="feature-list">
-				<li><i class="icon-lock"></i> Надежный и защищенный доступ из любого места</li>
-				<li><i class="icon-fast"></i> Основные действия с задачами и делами в 1 клик</li>
-				<li><i class="icon-clip"></i> Легкая загрузка и хранение больших файлов</li>
-				<li><i class="icon-adjust"></i> Персональные настройки каждого проекта</li>
-			</ul>
-			
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Зарегистрироваться</button>
-						
-		</div>
-		
-	</div><!--row-->
-</div><!--container-->
-</div><!--color-overlay-->
-</section><!-- section -->
+<section id="quickstart" data-stellar-background-ratio="0">
+    <div class="app-brief color-overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <div class="phone-image">
+                        <img src="/static/promo/images/ipad2.png" alt="">
+                    </div>
+                </div>
+
+                <div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <h2 class="white-text" style="margin-top: -20px"><span class="green-text">Точно</span> в срок</h2>
+
+                    <div class="colored-line-left"></div>
+                    <ul class="feature-list">
+                        <li>Удобные инструменты управления позволят равномерно распреденить задачи между сотрудниками
+                        </li>
+                        <li><i class="fa fa-th-large"></i> <span class="green-text">Канбан</span> - метод управления
+                            разработкой, реализующий принцип «точно в срок»
+                        </li>
+                        <li><i class="fa fa-tasks"></i> <span class="green-text">Диаграмма Гантта</span> - позволяет
+                            контролировать процесс и точно ориентироваться в сроках
+                        </li>
+                        <li><i class="fa fa-calendar"></i> <span class="green-text">Календарь целей</span> - дает
+                            возможность всегда держать на виду основные вехи по всем проектам сразу
+                        </li>
+                    </ul>
+
+                    <input type="email" name="email" id="subscriber-email" placeholder="Введите e-mail"
+                           class="form-control input-box js-email"/>
+                    <button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">
+                        Зарегистрироваться
+                    </button>
+
+                </div>
+
+            </div>
+            <!--row-->
+        </div>
+        <!--container-->
+    </div>
+    <!--color-overlay-->
+</section>
+<!-- section -->
 
 
 <!-- =========================
      ДОСТИГАЙТЕ СВОИХ ЦЕЛЕЙ
 ============================== -->
-<section id="aims" data-stellar-background-ratio="0" >
-<div class="app-brief color-overlay">
-<div class="container">	
-	<div class="row">
-    
-		<div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<h2 class="white-text"><span class="red-text">Достигайте</span> целей</h2>
-			<div class="colored-line-left red"></div>
-			<p>
-				С Heliard задачи никогда не превратятся в головную боль, потому что каждая из них ведет к какой-то цели. Вы можете оставить специалистам работу над задачами, при этом управляя проектами на более высоком уровне - уровне целей.<br/><br/>
-				Heliard заранее напомнит вам о целях и поможет оптимизировать работу команды таким образом, чтобы достигнуть их в срок.
-			</p>			
-            <p>
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button red-button js-register">Поставить цель</button>
-                        </p>	
-		</div>
-		
-		<div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<div class="phone-image">
-				<img src="/static/promo/images/ipad2.png" alt="">
-			</div>
-		</div>
-		
-	</div><!--row-->
-	</div><!--conteiner-->
-</div><!--color-overlay-->
-</section><!-- section -->
+<section id="aims" data-stellar-background-ratio="0" style="display: none;">
+    <div class="app-brief color-overlay">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <h2 class="white-text"><span class="red-text">Достигайте</span> целей</h2>
+
+                    <div class="colored-line-left red"></div>
+                    <p>
+                        С Heliard задачи никогда не превратятся в головную боль, потому что каждая из них ведет к
+                        какой-то цели. Вы можете оставить специалистам работу над задачами, при этом управляя проектами
+                        на более высоком уровне - уровне целей.<br/><br/>
+                        Heliard заранее напомнит вам о целях и поможет оптимизировать работу команды таким образом,
+                        чтобы достигнуть их в срок.
+                    </p>
+
+                    <p>
+                        <input type="email" name="email" id="subscriber-email" placeholder="Введите e-mail"
+                               class="form-control input-box js-email"/>
+                        <button type="submit" id="subscribe-button"
+                                class="btn btn-default standard-button red-button js-register">Поставить цель
+                        </button>
+                    </p>
+                </div>
+
+                <div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <div class="phone-image">
+                        <img src="/static/promo/images/ipad.png" alt="">
+                    </div>
+                </div>
+
+            </div>
+            <!--row-->
+        </div>
+        <!--conteiner-->
+    </div>
+    <!--color-overlay-->
+</section>
+<!-- section -->
 
 
 <!-- =========================
      ОБУЧАЕМОЕ ЯДРО
 ============================== -->
-<section id="core" data-stellar-background-ratio="0" >
-<div class="app-brief color-overlay">
-<div class="container">
-	<div class="row">
-		<div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<div class="phone-image">
-				<img src="/static/promo/images/imac.png" alt="">
-			</div>
-		</div>
-		
-		<div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
-			<h2 class="white-text">Система <span class="green-text">рейтингов</span></h2>
-			<div class="colored-line-left"></div>
-			<p>Heliard предлагает уникальную систему бонусов, основанную на выполнении сотрудниками плана и прочей активности. Вы можете настроить систему таким образом, чтобы в нескольких коротких отчетах видеть эффективность своей команды по своим проектам.
+<section id="core" data-stellar-background-ratio="0" style="display: none;">
+    <div class="app-brief color-overlay">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <div class="phone-image">
+                        <img src="/static/promo/images/imac.png" alt="">
+                    </div>
+                </div>
 
-                <br/><br/>Кроме того, система сама подскажет, как уложиться в сроки, определит приоритетные для каждого специлиста задачи. </p>
-            <p>
-						<input type="email" name="email" id="subscriber-email"  placeholder="Введите e-mail" class="form-control input-box js-email" />
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Начать планировать</button>	</p>
-		</div>
-	</div><!--row-->
-</div><!--container-->
+                <div class="col-md-6 left-align wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
+                    <h2 class="white-text">Система <span class="green-text">рейтингов</span></h2>
 
-</div><!--color-overlay-->
-</section><!--section-->
+                    <div class="colored-line-left"></div>
+                    <p>Heliard предлагает уникальную систему бонусов, основанную на выполнении сотрудниками плана и
+                        прочей активности. Вы можете настроить систему таким образом, чтобы в нескольких коротких
+                        отчетах видеть эффективность своей команды по своим проектам.
 
-<section class="opportunities">
+                        <br/><br/>Кроме того, система сама подскажет, как уложиться в сроки, определит приоритетные для
+                        каждого специлиста задачи. </p>
+
+                    <p>
+                        <input type="email" name="email" id="subscriber-email" placeholder="Введите e-mail"
+                               class="form-control input-box js-email"/>
+                        <button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">
+                            Начать планировать
+                        </button>
+                    </p>
+                </div>
+            </div>
+            <!--row-->
+        </div>
+        <!--container-->
+
+    </div>
+    <!--color-overlay-->
+</section>
+<!--section-->
+
+<section class="opportunities" id="opportunities">
 
     <div class="container">
         <!-- SECTION HEADER -->
         <div class="section-header wow fadeIn animated" data-wow-offset="120" data-wow-duration="1.5s">
 
             <!-- SECTION TITLE -->
-            <h2 class="white-text">Обзор <span class="green-text">возможностей</span> Heliard</h2>
+            <h2 class="white-text">Веб-студия <span class="green-text">в облаке</span></h2>
+
             <div class="colored-line">
             </div>
             <div class="section-description">
-                <p>Непрерывная интеграция, GIT и тестовый web-сервер</p>
+                <p>Теперь вы можете за считанные минуты развернуть инфраструктуру командной разработки крупного
+                    сайта</p>
             </div>
             <div class="colored-line">
             </div>
@@ -439,7 +871,8 @@
                 <h3>Онлайн Git-репозиторий</h3>
 
                 <!-- SERVICE DESCRIPTION -->
-                <p>Heliard предоставляет у себя в облаке место под ваш репозиторий. Работать с ним могут все участники вашего проекта.</p>
+                <p>Heliard предоставляет у себя в облаке место под ваш репозиторий. Работать с ним могут все участники
+                    вашего проекта.</p>
 
             </div>
             <!-- /END SINGLE SERVICE -->
@@ -456,7 +889,8 @@
                 <h3>Автозагрузка изменений кода</h3>
 
                 <!-- SERVICE DESCRIPTION -->
-                <p>Все изменения файлов проекта хранятся на серверах Heliard. Менеджеры и администраторы проверяют код на наличие ошибок и только после этого выгружают его на свои сервера. </p>
+                <p>Все изменения файлов проекта хранятся на серверах Heliard. Менеджеры и администраторы проверяют код
+                    на наличие ошибок и только после этого выгружают его на свои сервера. </p>
 
             </div>
             <!-- /END SINGLE SERVICE -->
@@ -473,7 +907,8 @@
                 <h3>Тестовый сервер</h3>
 
                 <!-- SERVICE DESCRIPTION -->
-                <p>Heliard предоставляет возможность в один клик развернуть девелопмент-сервер для вашего сайта. Пока предусмотрены схемы LAMP, и Python-Dev сервер.</p>
+                <p>Heliard предоставляет возможность в один клик развернуть девелопмент-сервер для вашего сайта. Пока
+                    предусмотрены схемы LAMP, и Python-Dev сервер.</p>
 
             </div>
             <!-- /END SINGLE SERVICE -->
@@ -489,104 +924,110 @@
 <!-- =========================
      TESTIMONIALS 
 ============================== -->
-<section class="testimonials">
+<section class="testimonials" style="display: none;">
 
-<div class="color-overlay">
-	
-	<div class="container wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-		
-		<!-- FEEDBACKS -->
-		<div id="feedbacks" class="owl-carousel owl-theme">
-			
-			<!-- SINGLE FEEDBACK -->
-			<div class="feedback">
-				
-				<!-- IMAGE -->
-				<div class="image">
-					<!-- i class=" icon_quotations"></i -->
-					<img src="/static/promo/images/clients-pic/hozov.png" alt="">
-				</div>
-				
-				<div class="message">
-					Мы используем Heliard на всех своих проектах. Больше всего нам нравится простота внедрения - сотрудникам ничего не нужно объяснять, система интуитивно понятна любому пользователю.
-				</div>
-				
-				<div class="white-line">
-				</div>
-				
-				<!-- INFORMATION -->
-				<div class="name">
-					Хозов Никита
-				</div>
-				<div class="company-info">
-					Международный Финансовый Клуб
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEEDBACK -->
-			
-			<!-- SINGLE FEEDBACK -->
-			<div class="feedback">
-				
-				<!-- IMAGE -->
-				<div class="image">
-					<!-- i class=" icon_quotations"></i -->
-					<img src="/static/promo/images/clients-pic/dmitriev.png" alt="">
-				</div>
-				
-				<div class="message">
-					 Heliard хорошо показал себя, когда мы разрабытывали новый 1C проект для нашей сети магазинов. Мы использовали только базовый функционал, который нашли простым и удобным. В данный момент думаем над переносом нашей системы ServiceDesk в Heliard.
-				</div>
-				
-				<div class="white-line">
-				</div>
-				
-				<!-- INFORMATION -->
-				<div class="name">
-					Дмитриев Ярослав
-				</div>
-				<div class="company-info">
-					Ген. директор отделения обувной сети "КАРИ"
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEEDBACK -->
-			
-			<!-- SINGLE FEEDBACK -->
-			<div class="feedback">
-				
-				<!-- IMAGE -->
-				<div class="image">
-					<!-- i class=" icon_quotations"></i -->
-					<img src="/static/promo/images/clients-pic/maslov.png" alt="">
-				</div>
-				
-				<div class="message">
-					 Мы используем все возможности Heliard в своей веб-студии. Он позволяет нескольким менеджерам вести до 6-7 проектов одновременно, снимая с них необходимость следить за мотивацией и эффективностью персонала. При помощи Heliard нам удалось значительно снизить затраты на менеджмент и контроль качества.
-				</div>
-				
-				<div class="white-line">
-				</div>
-				
-				<!-- INFORMATION -->
-				<div class="name">
-					Маслов Егор
-				</div>
-				<div class="company-info">
-					Тех. директор, Веб-студия Heliant
-				</div>
-				
-			</div>
-			<!-- /END SINGLE FEEDBACK -->
-			
-		</div>
-		<!-- /END FEEDBACKS -->
-		
-	</div>
-	<!-- /END CONTAINER -->
-	
-</div>
-<!-- /END COLOR OVERLAY -->
+    <div class="color-overlay">
+
+        <div class="container wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+            <!-- FEEDBACKS -->
+            <div id="feedbacks" class="owl-carousel owl-theme">
+
+                <!-- SINGLE FEEDBACK -->
+                <div class="feedback">
+
+                    <!-- IMAGE -->
+                    <div class="image">
+                        <!-- i class=" icon_quotations"></i -->
+                        <img src="/static/promo/images/clients-pic/hozov.png" alt="">
+                    </div>
+
+                    <div class="message">
+                        Мы используем Heliard на всех своих проектах. Больше всего нам нравится простота внедрения -
+                        сотрудникам ничего не нужно объяснять, система интуитивно понятна любому пользователю.
+                    </div>
+
+                    <div class="white-line">
+                    </div>
+
+                    <!-- INFORMATION -->
+                    <div class="name">
+                        Хозов Никита
+                    </div>
+                    <div class="company-info">
+                        Международный Финансовый Клуб
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEEDBACK -->
+
+                <!-- SINGLE FEEDBACK -->
+                <div class="feedback">
+
+                    <!-- IMAGE -->
+                    <div class="image">
+                        <!-- i class=" icon_quotations"></i -->
+                        <img src="/static/promo/images/clients-pic/dmitriev.png" alt="">
+                    </div>
+
+                    <div class="message">
+                        Heliard хорошо показал себя, когда мы разрабытывали новый 1C проект для нашей сети магазинов. Мы
+                        использовали только базовый функционал, который нашли простым и удобным. В данный момент думаем
+                        над переносом нашей системы ServiceDesk в Heliard.
+                    </div>
+
+                    <div class="white-line">
+                    </div>
+
+                    <!-- INFORMATION -->
+                    <div class="name">
+                        Дмитриев Ярослав
+                    </div>
+                    <div class="company-info">
+                        Ген. директор отделения обувной сети "КАРИ"
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEEDBACK -->
+
+                <!-- SINGLE FEEDBACK -->
+                <div class="feedback">
+
+                    <!-- IMAGE -->
+                    <div class="image">
+                        <!-- i class=" icon_quotations"></i -->
+                        <img src="/static/promo/images/clients-pic/maslov.png" alt="">
+                    </div>
+
+                    <div class="message">
+                        Мы используем все возможности Heliard в своей веб-студии. Он позволяет нескольким менеджерам
+                        вести до 6-7 проектов одновременно, снимая с них необходимость следить за мотивацией и
+                        эффективностью персонала. При помощи Heliard нам удалось значительно снизить затраты на
+                        менеджмент и контроль качества.
+                    </div>
+
+                    <div class="white-line">
+                    </div>
+
+                    <!-- INFORMATION -->
+                    <div class="name">
+                        Маслов Егор
+                    </div>
+                    <div class="company-info">
+                        Тех. директор, Веб-студия Heliant
+                    </div>
+
+                </div>
+                <!-- /END SINGLE FEEDBACK -->
+
+            </div>
+            <!-- /END FEEDBACKS -->
+
+        </div>
+        <!-- /END CONTAINER -->
+
+    </div>
+    <!-- /END COLOR OVERLAY -->
 
 </section>
 <!-- /END TESTIMONIALS SECTION -->
@@ -595,95 +1036,101 @@
 <!-- =========================
      SERVICES
 ============================== -->
-<section class="services" id="services">
+<section class="services" id="services" style="display: none;">
 
-<div class="container">
-	
-	<!-- SECTION HEADER -->
-	<div class="section-header wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-		
-		<!-- SECTION TITLE -->
-		<h2 class="white-text">Специально разработан для IT проектов</h2>
-		
-		<div class="colored-line">
-		</div>
-		<div class="section-description">
-			Heliard отлично подходит для веб-студий и других больших и малых IT-компаний.
-		</div>
-		<div class="colored-line">
-		</div>
-		
-	</div>
-	<!-- /END SECTION HEADER -->
-	
-	<div class="row">
-		
-		<!-- SINGLE SERVICE -->
-		<div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-			
-			<!-- SERVICE ICON -->
-			<div class="service-icon">
-				<i class="icon-cloud2"></i>
-			</div>
-			
-			<!-- SERVICE HEADING -->
-			<h3>Доступ к данным из любой точки</h3>
-			
-			<!-- SERVICE DESCRIPTION -->
-			<p>
-				 Все ваши файлы и документы хранятся в облачных хранилищах и вы можете получить к ним доступ с любого устройства когда вам удобно. Ваши данные надежно защищены, к ним будете иметь доступ только вы и ваша команда.
-			</p>
-			
-		</div>
-		<!-- /END SINGLE SERVICE -->
-		
-		<!-- SINGLE SERVICE -->
-		<div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-			
-			<!-- SERVICE ICON -->
-			<div class="service-icon">
-				<i class="icon-draw"></i>
-			</div>
-			
-			<!-- SERVICE HEADING -->
-			<h3>Удобная работа с буфером обмена</h3>
-			
-			<!-- SERVICE DESCRIPTION -->
-			<p>
-				 Быстрая вставка скриншотов и изображений, возможность моментально делать на них пометки и записи поможет тестировщикам быстрее регистрировать ошибки и планировать доработки для различных интерфейсов.
-			</p>
-			
-		</div>
-		<!-- /END SINGLE SERVICE -->
-		
-		<!-- SINGLE SERVICE -->
-		<div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-			
-			<!-- SERVICE ICON -->
-			<div class="service-icon">
-				<i class="icon-git"></i>
-			</div>
-			
-			<!-- SERVICE HEADING -->
-			<h3>Поддержка GIT</h3>
-			
-			<!-- SERVICE DESCRIPTION -->
-			<p>
-				 Все члены команды автоматически получают доступ к репозиторию проекта в облаке, все изменения исходного кода автоматически регистрируются в соответствующих задачах. Вы можете подключить дополнительный модуль автоматического контроля качества исходного кода для PHP, Python и других языков.
-			</p>
-			
-		</div>
-		<!-- /END SINGLE SERVICE -->
-		
-	</div>
-	<!-- /END ROW -->
-	
-</div>
-<!-- /END CONTAINER -->
+    <div class="container">
+
+        <!-- SECTION HEADER -->
+        <div class="section-header wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+            <!-- SECTION TITLE -->
+            <h2 class="white-text">Специально разработан для IT проектов</h2>
+
+            <div class="colored-line">
+            </div>
+            <div class="section-description">
+                Heliard отлично подходит для веб-студий и других больших и малых IT-компаний.
+            </div>
+            <div class="colored-line">
+            </div>
+
+        </div>
+        <!-- /END SECTION HEADER -->
+
+        <div class="row">
+
+            <!-- SINGLE SERVICE -->
+            <div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+                <!-- SERVICE ICON -->
+                <div class="service-icon">
+                    <i class="icon-cloud2"></i>
+                </div>
+
+                <!-- SERVICE HEADING -->
+                <h3>Доступ к данным из любой точки</h3>
+
+                <!-- SERVICE DESCRIPTION -->
+                <p>
+                    Все ваши файлы и документы хранятся в облачных хранилищах и вы можете получить к ним доступ с любого
+                    устройства когда вам удобно. Ваши данные надежно защищены, к ним будете иметь доступ только вы и
+                    ваша команда.
+                </p>
+
+            </div>
+            <!-- /END SINGLE SERVICE -->
+
+            <!-- SINGLE SERVICE -->
+            <div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+                <!-- SERVICE ICON -->
+                <div class="service-icon">
+                    <i class="icon-draw"></i>
+                </div>
+
+                <!-- SERVICE HEADING -->
+                <h3>Удобная работа с буфером обмена</h3>
+
+                <!-- SERVICE DESCRIPTION -->
+                <p>
+                    Быстрая вставка скриншотов и изображений, возможность моментально делать на них пометки и записи
+                    поможет тестировщикам быстрее регистрировать ошибки и планировать доработки для различных
+                    интерфейсов.
+                </p>
+
+            </div>
+            <!-- /END SINGLE SERVICE -->
+
+            <!-- SINGLE SERVICE -->
+            <div class="col-md-4 single-service wow fadeIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+                <!-- SERVICE ICON -->
+                <div class="service-icon">
+                    <i class="icon-git"></i>
+                </div>
+
+                <!-- SERVICE HEADING -->
+                <h3>Поддержка GIT</h3>
+
+                <!-- SERVICE DESCRIPTION -->
+                <p>
+                    Все члены команды автоматически получают доступ к репозиторию проекта в облаке, все изменения
+                    исходного кода автоматически регистрируются в соответствующих задачах. Вы можете подключить
+                    дополнительный модуль автоматического контроля качества исходного кода для PHP, Python и других
+                    языков.
+                </p>
+
+            </div>
+            <!-- /END SINGLE SERVICE -->
+
+        </div>
+        <!-- /END ROW -->
+
+    </div>
+    <!-- /END CONTAINER -->
 
 </section>
 <!-- /END FEATURES SECTION -->
-
 
 
 <!-- =========================
@@ -759,100 +1206,111 @@
 <!-- /END SCREENSHOTS SECTION -->
 
 
-
 <!-- =========================
      DOWNLOAD NOW 
 ============================== -->
 <section class="download" id="download">
-<div class="overlay"></div>
-<video poster="/static/promo/images/video_bg.jpg" autoplay muted loop class="video">
+    <div class="overlay"></div>
+    <video poster="/static/promo/images/video_bg.jpg" autoplay muted loop class="video">
 
-               <!-- <source type="video/mp4" src="http://www.skypeassets.com/content/dam/scom/images/newhome/homepage-v3.mp4"></source>-->
-                <source type="video/mp4" src="/static/promo/images/video.mp4"></source>
-                <source type="video/ogg" src="/static/promo/images/video.webm"></source>
-                <source type="video/webm" src="/static/promo/images/video.ogv"></source>
-                <em>Sorry, your browser doesn't support HTML5 video.</em>
-            </video>
-            
+        <!-- <source type="video/mp4" src="http://www.skypeassets.com/content/dam/scom/images/newhome/homepage-v3.mp4"></source>-->
+        <source type="video/mp4" src="/static/promo/images/video.mp4"></source>
+        <source type="video/ogg" src="/static/promo/images/video.webm"></source>
+        <source type="video/webm" src="/static/promo/images/video.ogv"></source>
+        <em>Sorry, your browser doesn't support HTML5 video.</em>
+    </video>
 
-	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
-				
-				<!-- DOWNLOAD BUTTONS AREA -->
-{#				<div class="download-container">#}
-{#					<h2 class=" wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">Моментальная регистрация</h2>#}
-{#					#}
-{#					<!-- BUTTONS -->#}
-{#					<div class="buttons wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">#}
-{#						#}
-{#						<a href="" class="btn btn-default btn-lg standard-button"><i class="icon-app-store"></i>App Store</a>#}
-{#						<a href="" class="btn btn-default btn-lg standard-button"><i class="icon-google-play"></i>Play Store</a>#}
-{#						#}
-{#					</div>#}
-{#					<!-- /END BUTTONS -->#}
-{#					#}
-{#				</div>#}
-				<!-- END OF DOWNLOAD BUTTONS AREA -->
-				
-				
-				<!-- SUBSCRIPTION FORM WITH TITLE -->
-				<div class="subscription-form-container">
-					
-					<h2 class="wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">Создать проект и выслать доступ на почту</h2>
-					
-					
-					<!-- =====================
-					     MAILCHIMP FORM STARTS 
-					     ===================== -->
-					
-					<form class="subscription-form mailchimp form-inline wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s" role="form">
-						
-						<!-- SUBSCRIPTION SUCCESSFUL OR ERROR MESSAGES -->
-						<h4 class="subscription-success"></h4>
-						<h4 class="subscription-error"></h4>
-						
-						<!-- EMAIL INPUT BOX -->
-						<input type="email" name="email" id="subscriber-email" placeholder="Ваш Email" class="form-control input-box js-email" />
-						
-						<!-- SUBSCRIBE BUTTON -->
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">Создать проект</button>
-						
-					</form>
-					<!-- /END MAILCHIMP FORM STARTS -->
-					
-					<!-- =====================
-					     LOCAL TXT FORM STARTS 
-					     ===================== -->
-					     
-					<!-- THIS FORM IS COMMENTED TO HIDE 
-					
-					<form class="subscription-form form-inline wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s" id="subscribe" role="form">
-						
-						<h4 class="subscription-success"><i class="icon_check"></i> Thank you! We will notify you soon.</h4>
-						<h4 class="subscription-error">Something Wrong!</h4>
-						
-						<input type="email" name="email" id="subscriber-email" placeholder="Your Email" class="form-control input-box">
-						
-						<button type="submit" id="subscribe-button" class="btn btn-default standard-button">Subscribe</button>
-						
-					</form>
-					
-					-->
-					
-					<!-- / LOCAL TXT SAVING FORM END -->
-					
-				</div>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+
+                <!-- DOWNLOAD BUTTONS AREA -->
+                {#				<div class="download-container">#}
+                {#					<h2 class=" wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">Моментальная регистрация</h2>#}
+                {#					#}
+                {#					<!-- BUTTONS -->#}
+                {#					<div class="buttons wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s">#}
+                {#						#}
+                {#						<a href="" class="btn btn-default btn-lg standard-button"><i class="icon-app-store"></i>App Store</a>#}
+                {#						<a href="" class="btn btn-default btn-lg standard-button"><i class="icon-google-play"></i>Play Store</a>#}
+                {#						#}
+                {#					</div>#}
+                {#					<!-- /END BUTTONS -->#}
+                {#					#}
+                {#				</div>#}
+                <!-- END OF DOWNLOAD BUTTONS AREA -->
+
+
+                <!-- SUBSCRIPTION FORM WITH TITLE -->
+                <div class="subscription-form-container">
+
+                    <h2 class="wow fadeInLeft animated" data-wow-offset="10" data-wow-duration="1.5s">
+                        В Heliard работают сотни проверенных исполнителей
+                    </h2>
+
+                    <p>
+                        Все ваши проекты надежно защищены, но вы можете в любой момент пригласить в них дизайнеров,
+                        верстальщиков и программистов Heliard, тем самым ускорив работу.
+                        При этом система сама подберет самых подходящих исполнителей для выбранных вами задач на основе
+                        данных об уже проделанной ими работе.
+                    </p>
+                    <br/>
+                    <!-- =====================
+                         MAILCHIMP FORM STARTS
+                         ===================== -->
+
+                    <form class="subscription-form mailchimp form-inline wow fadeInRight animated" data-wow-offset="10"
+                          data-wow-duration="1.5s" role="form">
+
+                        <!-- SUBSCRIPTION SUCCESSFUL OR ERROR MESSAGES -->
+                        <h4 class="subscription-success"></h4>
+                        <h4 class="subscription-error"></h4>
+
+                        <!-- EMAIL INPUT BOX -->
+                        <input type="email" name="email" id="subscriber-email" placeholder="Ваш Email"
+                               class="form-control input-box js-email"/>
+
+                        <!-- SUBSCRIBE BUTTON -->
+                        <button type="submit" id="subscribe-button" class="btn btn-default standard-button js-register">
+                            Создать проект
+                        </button>
+
+                    </form>
+                    <!-- /END MAILCHIMP FORM STARTS -->
+
+                    <!-- =====================
+                         LOCAL TXT FORM STARTS
+                         ===================== -->
+
+                    <!-- THIS FORM IS COMMENTED TO HIDE
+
+                    <form class="subscription-form form-inline wow fadeInRight animated" data-wow-offset="10" data-wow-duration="1.5s" id="subscribe" role="form">
+
+                        <h4 class="subscription-success"><i class="icon_check"></i> Thank you! We will notify you soon.</h4>
+                        <h4 class="subscription-error">Something Wrong!</h4>
+
+                        <input type="email" name="email" id="subscriber-email" placeholder="Your Email" class="form-control input-box">
+
+                        <button type="submit" id="subscribe-button" class="btn btn-default standard-button">Subscribe</button>
+
+                    </form>
+
+                    -->
+
+                    <!-- / LOCAL TXT SAVING FORM END -->
+
+                </div>
                 <!-- END OF SUBSCRIPTION FORM WITH TITLE -->
-				
-			</div> 
-			<!-- END COLUMN -->
-			
-		</div> 
-		<!-- END ROW -->
-		
-	</div>
-	<!-- /END CONTAINER -->
+
+            </div>
+            <!-- END COLUMN -->
+
+        </div>
+        <!-- END ROW -->
+
+    </div>
+    <!-- /END CONTAINER -->
 
 
 </section>
@@ -863,103 +1321,107 @@
      FOOTER 
 ============================== -->
 <footer>
-<div class="color-overlay">
-<div class="container">
-	
-	<div class="contact-box wow rotateIn animated" data-wow-offset="10" data-wow-duration="1.5s">
-		
-		<!-- CONTACT BUTTON TO EXPAND OR COLLAPSE FORM -->
-		
-		<a class="btn contact-button expand-form expanded"><i class="icon-send"></i></a>
-		
-		<!-- EXPANDED CONTACT FORM -->
-		<div class="row expanded-contact-form">
-	<h2>Написать сообществу Heliard!</h2>
-    <br> <br>
-			
-			<div class="col-md-8 col-md-offset-2">
-				
-				<!-- FORM -->
-				<form class="contact-form" id="contact" role="form">
-					
-					<!-- IF MAIL SENT SUCCESSFULLY -->
-					<h4 class="success">
-						<i class="icon_check"></i> Ваше сообщение успешно отправлено!
-					</h4>
-					
-					<!-- IF MAIL SENDING UNSUCCESSFULL -->
-					<h4 class="error">
-						<i class="icon_error-circle_alt"></i> E-mail адрес должен быть настоящим.
-					</h4>
-					
-					<div class="col-md-6">
-						<input class="form-control" id="name" type="text" name="name" placeholder="Ваше имя">
-					</div>
-					
-					<div class="col-md-6">
-						<input class="form-control" id="email" type="email" name="email" placeholder="Ваш Email">
-					</div>
-					
-					<div class="col-md-12">
-						<input class="form-control" id="subject" type="text" name="subject" placeholder="Тема">
-						<textarea class="form-control textarea-box" id="message" rows="8" placeholder="Сообщение"></textarea>
-					</div>
-					
-					<button class="btn btn-primary standard-button2 ladda-button" type="submit" id="submit" name="submit" data-style="expand-left">Отправить сообщение</button>
-					
-				</form>
-				<!-- /END FORM -->
-				
-			</div>
-			
-		</div>
-	</div>
-	<hr>
-    <div class="clearfix">
-        <ul class="social-icons">
-{#            <li><a href=""><i class="icon-facebook"></i></a></li>#}
-            <li><a href="http://vk.com/heliard/"><i class="icon-vkontakte"></i></a></li>
-        </ul>
-        
-        <!-- COPYRIGHT TEXT -->
-        <p class="copyright">
-            ©2014-2015 Heliard, все права защищены
-        </p>
-    </div>
+    <div class="color-overlay">
+        <div class="container">
 
-</div>
-<!-- /END CONTAINER -->
-</div>
+            <div class="contact-box wow rotateIn animated" data-wow-offset="10" data-wow-duration="1.5s">
+
+                <!-- CONTACT BUTTON TO EXPAND OR COLLAPSE FORM -->
+
+                <a class="btn contact-button expand-form expanded"><i class="icon-send"></i></a>
+
+                <!-- EXPANDED CONTACT FORM -->
+                <div class="row expanded-contact-form">
+                    <h2>Написать сообществу Heliard!</h2>
+                    <br> <br>
+
+                    <div class="col-md-8 col-md-offset-2">
+
+                        <!-- FORM -->
+                        <form class="contact-form" id="contact" role="form">
+
+                            <!-- IF MAIL SENT SUCCESSFULLY -->
+                            <h4 class="success">
+                                <i class="icon_check"></i> Ваше сообщение успешно отправлено!
+                            </h4>
+
+                            <!-- IF MAIL SENDING UNSUCCESSFULL -->
+                            <h4 class="error">
+                                <i class="icon_error-circle_alt"></i> E-mail адрес должен быть настоящим.
+                            </h4>
+
+                            <div class="col-md-6">
+                                <input class="form-control" id="name" type="text" name="name" placeholder="Ваше имя">
+                            </div>
+
+                            <div class="col-md-6">
+                                <input class="form-control" id="email" type="email" name="email"
+                                       placeholder="Ваш Email">
+                            </div>
+
+                            <div class="col-md-12">
+                                <input class="form-control" id="subject" type="text" name="subject" placeholder="Тема">
+                                <textarea class="form-control textarea-box" id="message" rows="8"
+                                          placeholder="Сообщение"></textarea>
+                            </div>
+
+                            <button class="btn btn-primary standard-button2 ladda-button" type="submit" id="submit"
+                                    name="submit" data-style="expand-left">Отправить сообщение
+                            </button>
+
+                        </form>
+                        <!-- /END FORM -->
+
+                    </div>
+
+                </div>
+            </div>
+            <hr>
+            <div class="clearfix">
+                <ul class="social-icons">
+                    {#            <li><a href=""><i class="icon-facebook"></i></a></li>#}
+                    <li><a href="http://vk.com/heliard/"><i class="icon-vkontakte"></i></a></li>
+                </ul>
+
+                <!-- COPYRIGHT TEXT -->
+                <p class="copyright">
+                    ©2014-2015 Heliard, все права защищены
+                </p>
+            </div>
+
+        </div>
+        <!-- /END CONTAINER -->
+    </div>
 </footer>
 <!-- /END FOOTER -->
 <!-- =========================
      SCRIPTS 
 ============================== -->
 <script>
-    $(function(){
-        $('.js-register').click(function(){
+    $(function () {
+        $('.js-register').click(function () {
             var $email = $(this).closest('section, header').find('.js-email');
             if (!$email.val()) {
                 $email.addClass('error');
-                $email.one('keyup', function(){
+                $email.one('keyup', function () {
                     $(this).removeClass('error');
                 });
             } else {
                 if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('register');
                 $.post(
-                    '/register/',
-                    {
-                        'email': $email.val()
-                    },
-                    function(data) {
-                        $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
-                        $('.js-popupClose').click(function(){
-                            $(this).parent().fadeOut(200, function(){
-                                $(this).remove();
-                            })
-                        });
-                        $email.val('');
-                    }
+                        '/register/',
+                        {
+                            'email': $email.val()
+                        },
+                        function (data) {
+                            $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
+                            $('.js-popupClose').click(function () {
+                                $(this).parent().fadeOut(200, function () {
+                                    $(this).remove();
+                                })
+                            });
+                            $email.val('');
+                        }
                 );
             }
 
@@ -967,25 +1429,362 @@
         });
     });
 </script>
-<script src="/static/promo/js/bootstrap.min.js"></script>
-<script src="/static/promo/js/smoothscroll.js"></script>
-<script src="/static/promo/js/jquery.scrollTo.min.js"></script>
-<script src="/static/promo/js/jquery.localScroll.min.js"></script>
-<script src="/static/promo/js/owl.carousel.min.js"></script>
-<script src="/static/promo/js/nivo-lightbox.min.js"></script>
-<script src="/static/promo/js/simple-expand.min.js"></script>
-<script src="/static/promo/js/wow.min.js"></script>
-<script src="/static/promo/js/jquery.stellar.min.js"></script>
-<script src="/static/promo/js/retina.min.js"></script>
-<script src="/static/promo/js/jquery.nav.js"></script>
-<script src="/static/promo/js/matchMedia.js"></script>
-<script src="/static/promo/js/jquery.ajaxchimp.min.js"></script>
-<script src="/static/promo/js/jquery.fitvids.js"></script>
-<script src="/static/promo/js/custom.js"></script>
-<script>
-    $(function(){
-        $('.color-overlay').css('min-height', $(window).height());
+<script type="text/javascript" src="/static/js/pm/timer.js"></script>
+<script type="text/javascript" src="/static/promo/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/smoothscroll.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.scrollTo.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.localScroll.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/owl.carousel.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/nivo-lightbox.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/simple-expand.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/wow.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.stellar.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/retina.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.nav.js"></script>
+<script type="text/javascript" src="/static/promo/js/matchMedia.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.ajaxchimp.min.js"></script>
+<script type="text/javascript" src="/static/promo/js/jquery.fitvids.js"></script>
+<script type="text/javascript" src="/static/promo/js/custom.js"></script>
+
+<script type="text/javascript"  >
+$(function () {
+    $('.color-overlay').css('min-height', $(window).height());
+    $('.js-demo-browser-block').on('click', '.js-gear', function () {
+        $(this).find('.js-menu').toggle();
+        return false;
     })
+            .on('click', '.js-close-task', function () {
+                $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').toggleClass('closed');
+                return false;
+            })
+            .on('click', '.js-set-task-ready', function () {
+                var $task = $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').toggleClass('ready');
+                if ($task.hasClass('ready')) {
+                    $task.find('.js-set-ready').text('На доработку');
+                } else {
+                    $task.find('.js-set-ready').text('На доработку');
+                }
+            })
+            .on('click', '.js-play', function() {
+                if ($(this).hasClass('fa-play-circle')) {
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-play-circle').addClass('fa-pause')
+                            .parent().removeClass('play').addClass('pause').end()
+                            .each(function(){$(this).closest('.js-task-block').data('timer').start()});
+                } else {
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-pause').addClass('fa-play-circle')
+                            .parent().removeClass('pause').addClass('play').end()
+                            .each(function(){$(this).closest('.js-task-block').data('timer').stop()});
+                }
+
+                return false;
+            });
+
+    $(window).scroll(function () {
+        var scrollTop = $('html, body').scrollTop();
+        if (scrollTop < 560 && scrollTop > 140) {
+
+        } else {
+
+        }
+        if (scrollTop > 560 && !$('.js-task-input').data('inputed')) {
+            var type_this = "Нарисовать логотип проекта для Алекс";
+            var index = 0;
+            $('.js-task-input').data('inputed', true);
+            $('.js-task-input').val('');
+            window.next_letter = function () {
+                if (index <= type_this.length) {
+                    $('.js-task-input:eq(0)').val(type_this.substr(0, index++)).trigger('keyup');
+                    setTimeout("next_letter()", 70);
+                } else {
+                    var userVisible = $('.js-user-list:eq(0)').find('a:visible').eq(0).addClass('active');
+                    setTimeout(function(){
+                        userVisible.trigger('click');
+                        setTimeout(function(){
+                            $('.js-task-create:eq(0)').trigger('click');
+                            setTimeout(function(){
+                                $('.js-play:eq(0)').trigger('click');
+                                setTimeout(function(){
+                                    $('.js-play.fa-pause:eq(0)').trigger('click');
+                                    setTimeout(function(){
+                                        $('.js-gear:eq(0)').trigger('click');
+                                        setTimeout(function(){
+                                            $('.js-set-ready:eq(0)').trigger('click');
+                                        }, 500)
+                                    }, 1000);
+                                }, 5000)
+                            }, 1000)
+                        }, 1000);
+                    }, 1000);
+                }
+            };
+
+            next_letter();
+        }
+    });
+    $('.js-task-create').click(function () {
+        var $inp = $(this).closest('.js-taskinput-block').find('.js-task-input');
+        var a = $inp.val().split(' для '), text = $inp.val(), resp = 'Александр Синичкин';
+        if (a.length > 1) {
+            text = a[0];
+            resp = a[1].replace((new RegExp('#', 'mig')), '');
+        }
+        addTask(text, resp, '', Math.random());
+        $inp.val('');
+        return false;
+    });
+
+    $('.js-task-input').keydown(function (e) {
+        var key;
+        if (window.event) {
+            key = window.event.keyCode;
+        } else {
+            key = e.keyCode;
+        }
+        if (key == 13) {
+            $(this).closest('.js-taskinput-block').find('.js-task-create').trigger('click');
+        }
+    });
+
+    function addTask(text, resp, status, id) {
+        var $task = $('<div class="task-wrapper clearfix js-task-block ' + status + '" data-id="' + id + '">' +
+                        '    <div class="task-title">' +
+                        '        <a href="#">' + text + '</a>' +
+                        '    </div>' +
+                        '    <div class="task-info clearfix">' +
+                        '        <div class="task-info-author"> <a href="#" onclick="return false;">' + resp + '</a> </div>' +
+                        '        <div class="task-info-timer"><a class="play"><span class="fa fa-play-circle js-play"></span></a><span class="js-timer">00:00:00</span></div>' +
+                        '        <div class="task-info-control"> <span class="fa fa-check js-close-task"></span>' +
+                        '            <span class="fa fa-gear js-gear">' +
+                        '                <ul class="dropdown-menu pull-right js-menu" style="display: none;">' +
+                        '                    <li><a href="#"><i class="fa fa-eye"></i>&nbsp;&nbsp;Наблюдаю</a></li>' +
+                        '                    <li><a href="#" class="js-set-task-ready"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;<span class="js-set-ready">На проверку</span></a></li>' +
+                        '                </ul>' +
+                        '            </span>' +
+                        '        </div>' +
+                        '    </div>' +
+                        '</div>'
+        )
+        .insertAfter($('.js-taskinput-block:eq(0)'));
+
+        $task.data('timer', (new PM_Timer({'container': $task.find('.js-timer')})));
+        $task = $task.clone()
+                .insertAfter($('.js-taskinput-block:eq(1)'));
+        $task.data('timer', (new PM_Timer({'container': $task.find('.js-timer')})));
+    }
+
+    var tasks = [
+        {
+            'text': 'Сделать выгрузку текущих бонусов в статистике по проекту в эксель',
+            'resp': 'Александр Синичкин',
+            'status': 'critically'
+        },
+        {
+            'text': 'Редизайн списка рубрик подписки. Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее',
+            'resp': 'Евгений Васютин',
+            'status': ''
+        },
+        {
+            'text': 'Сделать страницу опций рассылки новостей клиентам',
+            'resp': 'Егор Маслов',
+            'status': 'ready'
+        },
+        {
+            'text': 'Оптимизация скорости',
+            'resp': 'Гоцалюк Александр',
+            'status': 'not_approved'
+        }
+    ];
+
+    var k, task;
+    for (k in tasks) {
+        task = tasks[k];
+        (function (text, resp, status, id) {
+            addTask(text, resp, status, id);
+        })(task['text'], task['resp'], task['status'], k);
+    }
+
+    var TL_CreateTaskInput = $('.js-task-input:eq(0)'),
+        TL_Tags = {
+            'Responsible': 'для '
+        },
+        TL_HintBlocks = {
+            'Responsible': $('#TL_responsible_list')
+        },
+        TL_HintOpened = {},
+        TL_TagLen = 4,
+        tag,
+        TL_create_command,
+        inputedText;
+
+    TL_CreateTaskInput.keyup(function (e) {
+        var key = getKeyPressed(e), t = this;
+        TL_create_command = '';
+        for (var keytag in TL_Tags) {
+            tag = TL_Tags[keytag];
+
+            if ($(this).val().lastIndexOf(tag) != -1 && $(this).val().lastIndexOf(tag) == ($(this).val().length - tag.length)) {
+                TL_create_command = tag;
+            }
+        }
+
+        if (e.ctrlKey && key == 32) { //ctrl+space
+            if (TL_create_command)
+                TL_ShowTaskCreateHint(this);
+        } else if (e.ctrlKey && key == 78) { //ctrl+N
+            $('body,html').scrollTop(t.focus().offset().top);
+            return false;
+        } else if (key == 40 && TL_HintOpened.name) { //arrow down
+            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
+        } else if (!e.ctrlKey && key != 13) {
+            TL_ShowTaskCreateHint(this);
+        }
+    });
+
+    function TL_ShowTaskCreateHint(field) {
+        if (!TL_create_command) return false;
+        var currentTag = false;
+        for (i in TL_Tags) {
+            if (TL_Tags[i] == TL_create_command) {
+                currentTag = i;
+                break;
+            }
+        }
+        if (currentTag) {
+            TL_ShowHint(currentTag, field);
+        }
+
+        return false;
+    }
+
+    function TL_ShowHint(hintName, field) {
+        if (!hintName) return false;
+        var hint_block = TL_HintBlocks[hintName];
+
+        TL_PosDivToField(hint_block, field);
+
+        inputedText = '';
+
+        $(field).unbind('keyup.' + hintName).bind('keyup.' + hintName, function (e) {
+            var key = getKeyPressed(e);
+            var lastFor = 0;
+            if (lastFor = $(this).val().lastIndexOf(TL_Tags[hintName])) {
+                inputedText = $(this).val().substring((lastFor + TL_Tags[hintName].length), $(this).val().length);
+
+                var userLinks = TL_HintBlocks[hintName].find('li').show();
+
+                if (inputedText)
+                    userLinks.not(":Contains('" + inputedText + "')").hide();
+
+                if (!userLinks.filter(":visible").get(0)) {
+                    TL_HideHint()
+                }
+            }
+        });
+
+        TL_HintOpened = {
+            'name': hintName,
+            'container': hint_block
+        };
+
+        return hint_block;
+    }
+
+    function TL_HideHint() {
+        if (TL_HintOpened.name) {
+            TL_HintOpened.container.find('*').show().end().hide();
+            TL_CreateTaskInput.unbind('keyup.' + TL_HintOpened.name);
+            TL_HintOpened = {}
+        }
+    }
+
+    function TL_PosDivToField(block, field_selector) {
+        if (!block) return false;
+        var field = $(field_selector), left = field.offset().left + (field.val().length * 5);
+        block.insertAfter(field_selector);
+        if (typeof(block) == 'object') {
+            block.show();
+        }
+        return false;
+    }
+
+    function getKeyPressed(e) {
+        var key;
+        if (window.event) {
+            key = window.event.keyCode;
+        } else {
+            key = e.keyCode;
+        }
+        return key;
+    }
+
+    function TL_CreateSelectTag(name, tag, new_val, input) {
+        TL_HideHint();
+
+        var inpval = input.val();
+        var pos = inpval.lastIndexOf(TL_Tags[tag]);
+
+        pos += TL_Tags[tag].length;
+        inpval = inpval.substring(0, pos);
+
+        input.val(
+                inpval + "#" + (name == 'new' ? '' : name) + "#"
+        ).focus();
+
+        if (name == 'new') {
+            var len = input.val().length - 1;
+            input.get(0).setSelectionRange(len, len);
+        }
+
+        return false;
+    }
+
+    $('.js-user-list a').click(function(){
+        return TL_CreateSelectTag($(this).attr('rel'),'Responsible', false, $(this).closest('ul').prev());
+    })
+});
+
+
+function startTimer($block) {
+    stopAllTimers()
+}
+function stopTimer($block) {
+
+}
+function stopAllTimers() {
+    $('.js-timer-block').each(function () {
+        stopTimer($(this));
+    });
+}
 </script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter26252781 = new Ya.Metrika({
+                    id:26252781,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>

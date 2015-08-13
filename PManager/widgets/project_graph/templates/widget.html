@@ -5,10 +5,10 @@
     <div>
         <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}" method="POST" name="robo">
             <div class="inline-block border-right">
-                <span>Всего бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
+                <span>Накоплено бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
             </div>
             <div class="inline-block border-right">
-            Ставка бонусов: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
+            Цена часа: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
             </div>
 

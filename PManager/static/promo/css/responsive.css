@@ -353,11 +353,11 @@ RESPONSIVE FIXES
 }
 
 @media (min-width: 1024px) {
-	.download .container {top:45%;}
+	.download .container {top:35%;}
 	.video {height:800px;}
 }
 @media (min-width: 1280px) {
-	.download .container {top:45%;}
+	.download .container {top:35%;}
 	.video {height:auto;max-width:inherit; width:100%;}
 }
 

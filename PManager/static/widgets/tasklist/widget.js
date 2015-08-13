@@ -5,19 +5,19 @@
  * Time: 14:44
  */
 var widget_tl, currentGroup;
-(function($){
-    $(function(){
+(function ($) {
+    $(function () {
 
         $("input.js-date").datetimepicker({
             'dayOfWeekStart': 1,
             'format': 'd.m.Y',
-            'lang':'ru',
-            'todayButton':true,
+            'lang': 'ru',
+            'todayButton': true,
             'closeOnDateSelect': true,
             'timepicker': false
         });
 
-        $('.js-select-milestone').click(function(){
+        $('.js-select-milestone').click(function () {
             var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');
             if ($(this).val()) {
                 $newMilestoneFields.disable();
@@ -26,7 +26,7 @@ var widget_tl, currentGroup;
             }
         });
 
-        $(document).keydown(function(e) {
+        $(document).keydown(function (e) {
             var key;
             key = getKeyPressed(e);
 
@@ -38,25 +38,25 @@ var widget_tl, currentGroup;
             }
         });
 
-        var menuTaskBlock = function(name, target, onclick) {
-            var $block = $('<a data-toggle="modal" data-target="'+target+'" href="#">'+name+'</a>');
+        var menuTaskBlock = function (name, target, onclick) {
+            var $block = $('<a data-toggle="modal" data-target="' + target + '" href="#">' + name + '</a>');
             $block.click(onclick);
             return $block;
         };
 
-        widget_tl = new widgetObject({id:'tasklist'});
+        widget_tl = new widgetObject({id: 'tasklist'});
         widget_tl.state = {
-            taskCreate:false,
-            hintOpened:{
-                'Responsible':false,
-                'Date':false,
-                'Author':false
+            taskCreate: false,
+            hintOpened: {
+                'Responsible': false,
+                'Date': false,
+                'Author': false
             }
         };
 
         widget_tl.container = $('.widget.tasklist');
 
-        $.extend(widget_tl,{
+        $.extend(widget_tl, {
             'templateUrl': "/static/item_templates/tasklist/task.html",
             'TL_create_command': '',
             'TL_User_List': {},
@@ -73,39 +73,39 @@ var widget_tl, currentGroup;
             'taskMoving': false,
             'taskOver': false,
             '$movedTask': false,
-            'TL_TaskTemplates':{
+            'TL_TaskTemplates': {
 
             },
-            'TL_Tags':{
-                'Responsible':'для ',
-                'Date':' до ',
+            'TL_Tags': {
+                'Responsible': 'для ',
+                'Date': ' до ',
                 'Author': ' от ',
-                'About':'примерно '
+                'About': 'примерно '
             },
-            'TL_HintBlocks':{
-                'Responsible':$('#TL_responsible_list'),
-                'Date':$('#TL_date_select_list'),
-                'About':$('#TL_deadline_select_list'),
-                'Author':$('#TL_author_list')
+            'TL_HintBlocks': {
+                'Responsible': $('#TL_responsible_list'),
+                'Date': $('#TL_date_select_list'),
+                'About': $('#TL_deadline_select_list'),
+                'Author': $('#TL_author_list')
             },
-            'TL_HintOpened':{},
-            'TL_TagLen':4,
-            'TL_TaskTimers':arTimers,
-            'nextPage':2,
-            'init': function(){
+            'TL_HintOpened': {},
+            'TL_TagLen': 4,
+            'TL_TaskTimers': arTimers,
+            'nextPage': 2,
+            'init': function () {
                 this.TL_Container = this.container.find('.js-tasks');
                 this.TL_CreateTaskInput = this.container.find('.input-block-level');
 
-                this.additionalTabs = (function(){
+                this.additionalTabs = (function () {
                     var cookieName = 'taskListTabs';
                     this.tabsParams = [];
 
-                    this._save = function(){
+                    this._save = function () {
                         var strCookie = JSON.stringify(this.tabsParams);
-                        $.cookie(cookieName,strCookie);
+                        $.cookie(cookieName, strCookie);
                     };
 
-                    this._getSavedParams = function(){
+                    this._getSavedParams = function () {
                         var strCookie = $.cookie(cookieName);
                         if (strCookie)
                             this.tabsParams = $.parseJSON(strCookie);
@@ -113,16 +113,16 @@ var widget_tl, currentGroup;
                             this.tabsParams = []
                     };
 
-                    this.addCurrentState = function(name){
+                    this.addCurrentState = function (name) {
                         this._getSavedParams();
                         var hash = document.location.hash;
-                        hash = hash.replace('#','');
+                        hash = hash.replace('#', '');
                         var id = randomString(10);
 
                         var newTab = {
-                            'id':id,
-                            'name':name,
-                            'location':encodeURIComponent(hash)
+                            'id': id,
+                            'name': name,
+                            'location': encodeURIComponent(hash)
                         };
                         if (!this.tabsParams.push) this.tabsParams = [];
                         this.tabsParams.push(newTab);
@@ -130,11 +130,11 @@ var widget_tl, currentGroup;
                         return newTab;
                     };
 
-                    this.getUserTabs = function(){
+                    this.getUserTabs = function () {
                         this._getSavedParams();
 
-                        if (this.tabsParams){
-                            for (var k in this.tabsParams){
+                        if (this.tabsParams) {
+                            for (var k in this.tabsParams) {
                                 if (this.tabsParams[k] && this.tabsParams[k]['location']) {
                                     var data = decodeURIComponent(this.tabsParams[k]['location']);
                                     try {
@@ -150,21 +150,21 @@ var widget_tl, currentGroup;
                         return [];
                     };
 
-                    this.clearTabs = function(){
+                    this.clearTabs = function () {
                         this.tabsParams = [];
                         this._save();
                     };
 
-                    this.renameTab = function(id,name){
-                        for (var k in this.tabsParams){
+                    this.renameTab = function (id, name) {
+                        for (var k in this.tabsParams) {
                             if (this.tabsParams[k] && this.tabsParams[k]['id'] == id)
-                                this.tabsParams[k].name=name;
+                                this.tabsParams[k].name = name;
                         }
                         this._save();
                     };
 
-                    this.deleteTab = function(id){
-                        for (var k in this.tabsParams){
+                    this.deleteTab = function (id) {
+                        for (var k in this.tabsParams) {
                             if (this.tabsParams[k] && this.tabsParams[k]['id'] == id)
                                 delete this.tabsParams[k];
                         }
@@ -175,32 +175,32 @@ var widget_tl, currentGroup;
                 })();
 
                 var oTask;
-                for (var i in aTaskList){
-                    oTask =  new window.taskClass(aTaskList[i]);
+                for (var i in aTaskList) {
+                    oTask = new window.taskClass(aTaskList[i]);
                     widget_tl.TL_Tasks.add(oTask);
                 }
 
-                this.TL_Tasks.on('add',function(task){
+                this.TL_Tasks.on('add', function (task) {
                     var $firstTask = $('.js-new-first-task');
-                    if ($firstTask.get(0)){
+                    if ($firstTask.get(0)) {
                         $firstTask.remove();
                         showTutorial();
                     }
                 });
 
                 var obj = this;
-                baseConnector.addListener('fs.task.update',function(data){
-                    if (data && data.id){
-                        if (obj.TL_TaskTemplates[data.id]){
+                baseConnector.addListener('fs.task.update', function (data) {
+                    if (data && data.id) {
+                        if (obj.TL_TaskTemplates[data.id]) {
                             var view = obj.TL_TaskTemplates[data.id];
-                            view.checkModel(function(){
-                                for (var i in data){
+                            view.checkModel(function () {
+                                for (var i in data) {
                                     if (i == 'viewedOnly') {
                                         if (data[i] != document.mainController.userId) {
                                             view.model.set('viewed', false);
                                         }
                                     }
-                                    if (i != 'id'){
+                                    if (i != 'id') {
                                         view.model.set(i, data[i]);
                                     }
                                 }
@@ -210,12 +210,12 @@ var widget_tl, currentGroup;
                     }
                 });
 
-                baseConnector.addListener('fs.comment.add', function(data){
-                    if (data && data.task){
+                baseConnector.addListener('fs.comment.add', function (data) {
+                    if (data && data.task) {
                         var view = obj.TL_TaskTemplates[data.task.id];
                         if (view) {
-                            view.checkModel(function(){
-                                if (data.author.id != document.mainController.userId && view.model.get('viewed')){
+                            view.checkModel(function () {
+                                if (data.author.id != document.mainController.userId && view.model.get('viewed')) {
                                     view.model.set('viewed', false);
                                 }
                                 view.render();
@@ -224,12 +224,12 @@ var widget_tl, currentGroup;
                     }
                 });
 
-                historyManager.addCallback('taskListSearch',function(data){
+                historyManager.addCallback('taskListSearch', function (data) {
                     widget_tl.applyWorkFlowState(data);
                 });
 
-                widget_tl.ready(function(){
-                    widget_tl.TL_Tasks.each(function(task){
+                widget_tl.ready(function () {
+                    widget_tl.TL_Tasks.each(function (task) {
                         widget_tl.TL_CreateTaskRow(task.toJSON());
                     });
 
@@ -241,13 +241,13 @@ var widget_tl, currentGroup;
 
                 this.createUserAdditionalTabs();
                 var t = this;
-                this.$saveFilterButton.click(function(){
+                this.$saveFilterButton.click(function () {
                     var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
 
-                    if (newTab){
+                    if (newTab) {
                         var $tabElem = widget_tl.addNewTabToPanel(newTab);
-                        $tabElem.singleActivate();
-                        $tabElem.find('a.userTab').setEditable(function(){
+                        $tabElem.activateListItem();
+                        $tabElem.find('a.userTab').setEditable(function () {
                             t.additionalTabs.renameTab(newTab.id, this.text());
                         });
                     }
@@ -255,14 +255,14 @@ var widget_tl, currentGroup;
                     return false;
                 });
 
-                this.$tabContainer.on('click', 'a.js-removeTab', function(){
+                this.$tabContainer.on('click', 'a.js-removeTab', function () {
                     var $tab = $(this).closest('li');
                     var tab_id = $tab.data('id');
                     widget_tl.additionalTabs.deleteTab(tab_id);
                     $tab.remove();
                     return false;
                 });
-                this.TL_Container.on('mousedown.taskdnd','.task .js-drag-task',function(e) {
+                this.TL_Container.on('mousedown.taskdnd', '.task .js-drag-task', function (e) {
                     if ($(e.target).is('div')) {
                         widget_tl.$movedTask = $(this).closest('.task').parent('.task-wrapper');
                         if (!widget_tl.$movedTask.get(0)) { //is subtask
@@ -287,23 +287,23 @@ var widget_tl, currentGroup;
                         $('<div></div>')
                             .addClass('temp_task')
                             .insertBefore(widget_tl.$movedTask);
-    //                    widget_tl.TL_Container.trigger('mousemove.taskdnd');
+                        //                    widget_tl.TL_Container.trigger('mousemove.taskdnd');
                         $(document.body).css('cursor', 'move');
                         e.preventDefault();
                     }
                 });
                 widget_tl.cursorOnTask = false;
 
-                $(document).bind('mouseup.taskdnd',function(){
+                $(document).bind('mouseup.taskdnd', function () {
                     var $temTask = $('.temp_task');
-                    $(document.body).css('cursor','default');
+                    $(document.body).css('cursor', 'default');
 
-                    if (widget_tl.taskMoving){
-                        if($temTask.get(0)){
+                    if (widget_tl.taskMoving) {
+                        if ($temTask.get(0)) {
                             $temTask.replaceWith(widget_tl.$movedTask);
                         }
-                        widget_tl.$movedTask.css('width','100%');
-                        widget_tl.$movedTask.css('position','relative');
+                        widget_tl.$movedTask.css('width', '100%');
+                        widget_tl.$movedTask.css('position', 'relative');
                         widget_tl.$movedTask.css('top', '0');
                         widget_tl.$movedTask.css('left', '0');
                         widget_tl.$movedTask.css('z-index', 'auto');
@@ -321,12 +321,12 @@ var widget_tl, currentGroup;
                         widget_tl.taskMoving = false;
                         widget_tl.$movedTask = false;
                     }
-                }).on('mousemove.taskdnd', this.TL_Container, function (e){
-                    if (widget_tl.$movedTask){
+                }).on('mousemove.taskdnd', this.TL_Container, function (e) {
+                    if (widget_tl.$movedTask) {
                         widget_tl.$movedTask.css('top', e.clientY - widget_tl.offsetTaskY + $(window).scrollTop());
                         widget_tl.$movedTask.css('left', e.clientX - widget_tl.offsetTaskX);
                         widget_tl.taskOver = false;
-                        $('.task-wrapper > .task').each(function(){
+                        $('.task-wrapper > .task').each(function () {
                             if ($(this).data('taskid') != widget_tl.taskMoving) {
                                 var pos = getObjectCenterPos(this);
 
@@ -343,7 +343,7 @@ var widget_tl, currentGroup;
                             }
                         });
                         if (!widget_tl.taskOver) {
-                            $('.task-wrapper').each(function(){
+                            $('.task-wrapper').each(function () {
                                 var pos = getObjectCenterPos(this);
                                 var top = e.clientY + $(window).scrollTop();
                                 var left = e.clientX + $(window).scrollLeft();
@@ -359,25 +359,25 @@ var widget_tl, currentGroup;
                     }
                 });
 
-                $(document).on('click', '.js-task-checkbox', function(){
+                $(document).on('click', '.js-task-checkbox', function () {
                     var $chTasks = $('.js-task-checkbox:checked');
-                    if ($chTasks.get(0)){
-                        $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function(){
+                    if ($chTasks.get(0)) {
+                        $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function () {
                             var $taskInputContainer = $('.js-tasks-for-milestone').empty();
-                            $('.js-task-checkbox:checked').each(function(){
+                            $('.js-task-checkbox:checked').each(function () {
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
                         bottomPanel.addBlock('addToMilestone', $block);
                         //TODO: вынести в отдельный класс
-                        $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function(){
+                        $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function () {
                             var $taskInputContainer = $('.js-tasks-for-observers').empty();
-                            $('.js-task-checkbox:checked').each(function(){
+                            $('.js-task-checkbox:checked').each(function () {
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить внешних исполнителей', '#invite-developers', function() {
+                        $block = menuTaskBlock('Пригласить внешних исполнителей', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-add-developers').click(function (e) {
                                 e.preventDefault();
@@ -396,37 +396,37 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('inviteDevelopers', $block);
-                    }else{
+                    } else {
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');
                         bottomPanel.removeBlock('inviteDevelopers');
                     }
                 });
             },
-            'taskMove':function(id, parentId){
+            'taskMove': function (id, parentId) {
                 var parentTask = this.TL_Tasks.get(parentId);
                 var task = this.TL_Tasks.get(id);
-                if(parentId && !parentTask){ //drop task to subtask
+                if (parentId && !parentTask) { //drop task to subtask
                     alert('Вы не можете перенести в эту задачу.');
                     return false;
-                }else if(task && !task.get('parent') && !parentTask){ //drop parent task to free space
-                    widget_tl.taskInsertBefore(id, $('[data-taskid='+id+']').parent().next().find('.task:first').data('taskid'));
+                } else if (task && !task.get('parent') && !parentTask) { //drop parent task to free space
+                    widget_tl.taskInsertBefore(id, $('[data-taskid=' + id + ']').parent().next().find('.task:first').data('taskid'));
                     return true;
-                }else if (id){
-                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask?'задачу #"' + parentTask.get('number') + '"':'общий список') + '?')) {
+                } else if (id) {
+                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask ? 'задачу #"' + parentTask.get('number') + '"' : 'общий список') + '?')) {
                         taskManager.taskAjaxRequest({
-                            'action':'appendTask',
-                            'id':id,
-                            'parent_id':parentTask?parentTask.id:0
-                        },function(){
+                            'action': 'appendTask',
+                            'id': id,
+                            'parent_id': parentTask ? parentTask.id : 0
+                        }, function () {
                             if (parentTask) {
                                 widget_tl.TL_TaskTemplates[id].$el.parent('.task-wrapper').remove();
                                 widget_tl.TL_TaskTemplates[id].remove();
                                 widget_tl.TL_Tasks.remove(id);
                             }
-                        },'json');
-                        if (!parentTask){
-                            var $tsk = $('[data-taskid='+id+']');
+                        }, 'json');
+                        if (!parentTask) {
+                            var $tsk = $('[data-taskid=' + id + ']');
                             $('<div></div>').addClass('task-wrapper').insertAfter($tsk).append($tsk);
                             widget_tl.taskInsertBefore(id, $tsk.parent().next().find('.task:first').data('taskid'));
                         }
@@ -436,27 +436,27 @@ var widget_tl, currentGroup;
                     }
                 }
             },
-            'taskInsertBefore': function(id, before_id) {
+            'taskInsertBefore': function (id, before_id) {
                 taskManager.taskAjaxRequest({
-                        'action':'insertBefore',
-                        'id':id,
-                        'before_id':before_id
-                    },function(){
+                    'action': 'insertBefore',
+                    'id': id,
+                    'before_id': before_id
+                }, function () {
 
-                    },'json');
+                }, 'json');
             },
-            'createUserAdditionalTabs': function(){
+            'createUserAdditionalTabs': function () {
                 var aUserTabs = this.additionalTabs.getUserTabs();
-                for (var k in aUserTabs){
+                for (var k in aUserTabs) {
                     if (aUserTabs[k])
                         this.addNewTabToPanel(aUserTabs[k]);
                 }
             },
-            'addNewTabToPanel': function(oTab){
+            'addNewTabToPanel': function (oTab) {
                 var t = this;
-                var $newTab = $('<li style="position:relative;"></li>').attr('data-id',oTab.id),
+                var $newTab = $('<li style="position:relative;"></li>').attr('data-id', oTab.id),
                     $tabLink = $('<a></a>').attr({
-                        'href':'#'+oTab.location
+                        'href': '#' + oTab.location
                     })
                         .text(oTab.name)
                         .addClass('userTab'),
@@ -465,15 +465,15 @@ var widget_tl, currentGroup;
                 this.$tabContainer.prepend($newTab.append($tabLink).append($removeLink));
                 return $newTab;
             },
-            'applyWorkFlowState': function(params){
-                if (params.taskListFilter){
+            'applyWorkFlowState': function (params) {
+                if (params.taskListFilter) {
                     this.$searchRulesHolder.empty();
                     this.TL_SearchTask.val('');
                     var filter = params.taskListFilter;
-                    if (filter.task_search){
+                    if (filter.task_search) {
                         this.TL_SearchTask.val(filter.task_search);
                     }
-                    var aFilterFields  = [
+                    var aFilterFields = [
                         'responsible',
                         'author',
                         'closed',
@@ -483,25 +483,25 @@ var widget_tl, currentGroup;
                         'date_close'
                     ];
                     var field;
-                    for (var i in aFilterFields){
+                    for (var i in aFilterFields) {
                         field = aFilterFields[i];
-                        if (field.indexOf('date_') === 0 && filter[field]){
-                            this.addVisualSearchElement(field,filter[field].join(','));
-                        }else
+                        if (field.indexOf('date_') === 0 && filter[field]) {
+                            this.addVisualSearchElement(field, filter[field].join(','));
+                        } else
                             for (var k in filter[field])
-                                this.addVisualSearchElement(field,filter[field][k]);
+                                this.addVisualSearchElement(field, filter[field][k]);
                     }
 
-                    if (filter.action){
-                        var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#'+encodeURIComponent(JSON.stringify(params))+'"]');
-                        if ($userTabEqualsQuery.get(0)){
-                            $userTabEqualsQuery.closest('li').singleActivate();
-                        }else{
-                            $(this.tabsSelector).filter('[rel='+filter.action+']').closest('li').singleActivate();
+                    if (filter.action) {
+                        var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(JSON.stringify(params)) + '"]');
+                        if ($userTabEqualsQuery.get(0)) {
+                            $userTabEqualsQuery.closest('li').activateListItem();
+                        } else {
+                            $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
                         }
                     }
 
-                    if (filter.page){
+                    if (filter.page) {
                         filter.startPage = filter.page;
                         delete filter.page;
                     }
@@ -509,119 +509,119 @@ var widget_tl, currentGroup;
                     this.TL_SilentSearch(filter);
                 }
             },
-            'checkSearchInput': function(){
+            'checkSearchInput': function () {
                 var h = 'hidden';
                 var br = 'border-r4';
-                var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#'+encodeURIComponent(document.location.hash.replace('#',''))+'"]');
-                with (this.TL_SearchTask){
-                    if (val() || this.$searchRulesHolder.children().size()){
-                        if (val()){
+                var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
+                with (this.TL_SearchTask) {
+                    if (val() || this.$searchRulesHolder.children().size()) {
+                        if (val()) {
                             siblings('.icon-remove').show();
                         }
                         //try to find existing user tabs
                         if (!$userTabEqualsQuery.get(0))
                             this.$saveFilterButton.removeClass(h);
-                            this.$btnFilter.removeClass(br);
-                    }else{
+                        this.$btnFilter.removeClass(br);
+                    } else {
                         this.$btnFilter.addClass(br);
                         this.$saveFilterButton.addClass(h);
                         siblings('.icon-remove').hide();
                     }
                 }
             },
-            'TL_ShowHint': function(hintName,field){
+            'TL_ShowHint': function (hintName, field) {
                 if (!hintName) return false;
                 var hint_block = this.TL_HintBlocks[hintName];
 
-                this.TL_PosDivToField(hint_block,field);
+                this.TL_PosDivToField(hint_block, field);
 
-                this.inputedText='';
+                this.inputedText = '';
 
-                $(field).unbind('keyup.'+hintName).bind('keyup.'+hintName,function(e){
+                $(field).unbind('keyup.' + hintName).bind('keyup.' + hintName, function (e) {
                     var key = getKeyPressed(e);
                     var lastFor = 0;
-                    if (lastFor = $(this).val().lastIndexOf(widget_tl.TL_Tags[hintName])){
-                        widget_tl.inputedText = $(this).val().substring((lastFor + widget_tl.TL_Tags[hintName].length),$(this).val().length);
+                    if (lastFor = $(this).val().lastIndexOf(widget_tl.TL_Tags[hintName])) {
+                        widget_tl.inputedText = $(this).val().substring((lastFor + widget_tl.TL_Tags[hintName].length), $(this).val().length);
 
                         var userLinks = widget_tl.TL_HintBlocks[hintName].find('li').show();
 
                         if (widget_tl.inputedText)
-                            userLinks.not(":Contains('"+widget_tl.inputedText+"')").hide();
+                            userLinks.not(":Contains('" + widget_tl.inputedText + "')").hide();
 
-                        if (!userLinks.filter(":visible").get(0)){
+                        if (!userLinks.filter(":visible").get(0)) {
                             widget_tl.TL_HideHint()
                         }
                     }
                 });
 
                 this.TL_HintOpened = {
-                    'name':hintName,
-                    'container':hint_block
+                    'name': hintName,
+                    'container': hint_block
                 }
                 return hint_block;
             },
-            'TL_HideHint': function(){
+            'TL_HideHint': function () {
                 if (this.TL_HintOpened.name) {
                     this.TL_HintOpened.container.find('*').show().end().hide();
-                    this.TL_CreateTaskInput.unbind('keyup.'+this.TL_HintOpened.name);
+                    this.TL_CreateTaskInput.unbind('keyup.' + this.TL_HintOpened.name);
                     this.TL_HintOpened = {}
                 }
             },
-            'TL_ShowTaskCreateHint': function(field) {
+            'TL_ShowTaskCreateHint': function (field) {
                 if (!widget_tl.TL_create_command) return false;
                 var currentTag = false;
-                for (i in this.TL_Tags){
+                for (i in this.TL_Tags) {
                     if (this.TL_Tags[i] == this.TL_create_command) {
                         currentTag = i;
                         break;
                     }
                 }
-                if (currentTag){
-                    this.TL_ShowHint(currentTag,field);
+                if (currentTag) {
+                    this.TL_ShowHint(currentTag, field);
                 }
 
                 return false;
             },
-            'TL_PosDivToField': function (block,field_selector) {
+            'TL_PosDivToField': function (block, field_selector) {
                 if (!block) return false;
-                var field = $(field_selector), left = field.offset().left + (field.val().length*5);
+                var field = $(field_selector), left = field.offset().left + (field.val().length * 5);
                 block.insertAfter(field_selector);
-                if (typeof(block)=='object'){
+                if (typeof(block) == 'object') {
                     block.show();
                 }
                 return false;
             },
-            'TL_CreateSelectTag': function(name,tag,new_val,input){
+            'TL_CreateSelectTag': function (name, tag, new_val, input) {
                 this.TL_HideHint();
 
                 var inpval = input.val();
                 var pos = inpval.lastIndexOf(this.TL_Tags[tag]);
 
                 pos += this.TL_Tags[tag].length;
-                inpval = inpval.substring(0,pos);
+                inpval = inpval.substring(0, pos);
 
                 input.val(
-                    inpval + "#" + (name=='new'?'':name) + "#"
+                        inpval + "#" + (name == 'new' ? '' : name) + "#"
                 ).focus();
 
                 if (name == 'new') {
-                    var len = input.val().length-1;
+                    var len = input.val().length - 1;
                     input.get(0).setSelectionRange(len, len);
                 }
 
                 return false;
             },
-            'TL_CreateTask': function(taskParams, parentTask){
+            'TL_CreateTask': function (taskParams, parentTask) {
                 if (!taskParams.taskname) taskParams.taskname = widget_tl.TL_CreateTaskInput.val();
                 if (!taskParams.taskname) return false;
 
                 var t = this;
                 var btn = t.$taskCreateBtn;
-                if (!$(btn).pushed()){
+                if (!$(btn).pushed()) {
                     $(btn).pushTheButton();
-                    taskManager.CreateTask(taskParams, parentTask, function(data){
+                    taskManager.CreateTask(taskParams, parentTask, function (data) {
                         data = $.parseJSON(data);
-                        if (data.name){
+                        if (data.name) {
                             widget_tl.TL_CreateTaskInput.filter('[value="' + taskParams.taskname + '"]').val('');
                             var taskRow = widget_tl.TL_CreateTaskRow(data, parentTask, true);
                         }
@@ -638,7 +638,7 @@ var widget_tl, currentGroup;
 
                             delete t.TL_TaskTemplates[parentTask];
                             var forced = true;
-                            newParentView.checkModel(function(){
+                            newParentView.checkModel(function () {
                                 newParent.undelegateEvents();
                                 newParentView.render();
                             }, forced);
@@ -646,15 +646,15 @@ var widget_tl, currentGroup;
 
                             var oldParent = new window.taskClass({id: parentTask});
                             var oldParentView = new window.taskViewClass({'model': oldParent});
-                            oldParentView.createEl().checkModel(function(){
+                            oldParentView.createEl().checkModel(function () {
                                 oldParentView.render();
                             }, forced);
 
                             newParentView.$el.attr({
-                                'id': 'taskLine_'+data.parent,
+                                'id': 'taskLine_' + data.parent,
                                 'data-taskid': data.parent
                             }).find('.js-time').empty().end()
-                            .closest('.task-wrapper')
+                                .closest('.task-wrapper')
                                 .find('.input-block-level').data('parent', data.parent)
                                 .attr('data-parent', data.parent);
                             t.SubtaskBlock(newParent.id).append(oldParentView.$el);
@@ -667,40 +667,40 @@ var widget_tl, currentGroup;
 
                 return this;
             },
-            'TL_SilentSearch': function(params){
+            'TL_SilentSearch': function (params) {
                 return this.TL_Search(params, true);
             },
-            'TL_Search': function(params, silent) {
+            'TL_Search': function (params, silent) {
                 if (!$('.show-more').pushed()) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
 
                 if (!params) params = {};
-                if (!params.parent){
-                    if (!params.task_search && this.TL_GetSearchText()){
+                if (!params.parent) {
+                    if (!params.task_search && this.TL_GetSearchText()) {
                         params.task_search = this.TL_GetSearchText();
                     }
-                    if (!params.action){
+                    if (!params.action) {
                         var $activeTab = this.$tabContainer.find('li.active > a');
                         if ($activeTab.attr('rel'))
                             params.action = $activeTab.attr('rel');
                         else params.action = 'all';
                     }
-                    if (!params.group){
+                    if (!params.group) {
                         var $group = this.container.find('input[name=group]:checked');
                         params.group = $group.val();
                     }
 
                     //собираем все элементы формы поиска (созданные через поисковое меню)
-                    this.$searchRulesHolder.find('input[type=hidden]').each(function(){
+                    this.$searchRulesHolder.find('input[type=hidden]').each(function () {
                         if (!params[$(this).attr('name')])
                             params[$(this).attr('name')] = [];
 
                         params[$(this).attr('name')].push($(this).val());
                     });
 
-                    if (!silent){
+                    if (!silent) {
                         var paramsForHistory = params;
-                        if (paramsForHistory.startPage){
+                        if (paramsForHistory.startPage) {
                             widget_tl.nextPage = paramsForHistory.startPage + 1;
                             paramsForHistory.page = paramsForHistory.startPage;
                             delete paramsForHistory.startPage;
@@ -708,7 +708,7 @@ var widget_tl, currentGroup;
                             //так как она нужна только для инициации стартового кол-ва задач при загрузке страницы
                         }
 
-                        historyManager.addParams({'taskListFilter':paramsForHistory});
+                        historyManager.addParams({'taskListFilter': paramsForHistory});
                     }
                 }
 
@@ -718,32 +718,32 @@ var widget_tl, currentGroup;
                 var obj = this;
                 PM_AjaxPost("/task_handler",
                     params,
-                    function(data){
+                    function (data) {
                         var data = $.parseJSON(data),
                             paginator = data.paginator,
                             tasks = data.tasks;
                         $('.js-search-btn').pullTheButton();
 
-                        if (!params.parent && !params.page){
+                        if (!params.parent && !params.page) {
                             arTimers = {};
                             obj.TL_Container.empty();
                         }
 
-                        for (i in tasks){
+                        for (i in tasks) {
                             var taskInfo = tasks[i];
-                            if (obj.TL_SearchTask.val()){
+                            if (obj.TL_SearchTask.val()) {
                                 var val = taskInfo.name;
-                                    val = val.replace(new RegExp(obj.TL_SearchTask.val(),'mig'),"<mark>"+obj.TL_SearchTask.val()+"</mark>");
-                                    taskInfo.name = val;
+                                val = val.replace(new RegExp(obj.TL_SearchTask.val(), 'mig'), "<mark>" + obj.TL_SearchTask.val() + "</mark>");
+                                taskInfo.name = val;
                             }
 
                             obj.TL_CreateTaskRow(taskInfo, params.parent);
                         }
 
-                        if ((!tasks || tasks.length <= 0) && !params.parent && !params.page){
+                        if ((!tasks || tasks.length <= 0) && !params.parent && !params.page) {
                             obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
                         }
-                        if (!params.parent){
+                        if (!params.parent) {
                             if (paginator.lastPage) {
                                 obj.container.find('.show-more').hide().pullTheButton();
                             } else {
@@ -751,10 +751,10 @@ var widget_tl, currentGroup;
                             }
                         }
                         setTaskCellsHeight()
-                });
+                    });
                 return this;
             },
-            'addGroupRow': function(group){
+            'addGroupRow': function (group) {
                 if (!group.name) {
                     group = {
                         'name': 'Свободные задачи'
@@ -762,89 +762,89 @@ var widget_tl, currentGroup;
                 }
                 var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>'
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
-                                '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
+                    '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
-                    (group.url? '<a href="'+group.url+'" class="js-milestone-data">':'<span class="js-milestone-data">') +
-                    group.name + (group.date ? ' до ' + group.date : '') + (group.url? '</a>':'</span>') +
+                    (group.url ? '<a href="' + group.url + '" class="js-milestone-data">' : '<span class="js-milestone-data">') +
+                    group.name + (group.date ? ' до ' + group.date : '') + (group.url ? '</a>' : '</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
-                                            (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
-                							'<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id + 
-                                            '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
-                                            (!group.closed ? closeButton : '') +  
-										'</div>' : '') +
-                                '</div>' +
-                            '</div>';
+                        (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
+                        '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
+                        '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
+                        (!group.closed ? closeButton : '') +
+                        '</div>' : '') +
+                    '</div>' +
+                    '</div>';
                 $('#edit-milestone').on('shown.bs.modal', function (event) {
-                  event.stopPropagation();
-                  var button = $(event.relatedTarget); // Button that triggered the modal
-                  var id = button.data('edit-id');
-                  var name = button.data('edit-name');
-                  var date = button.data('edit-date');
-                  var modal = $(this);
-                  modal.find('.modal-body input[name="ms_name"]').val(name);
-                  modal.find('.modal-body input[name="ms_date"]').val(date);
-                  modal.find('.js-milestone-form').unbind('submit').bind('submit', function(ev){
-                    name = modal.find('.modal-body input[name="ms_name"]').val();
-                    date = modal.find('.modal-body input[name="ms_date"]').val();
-                    $.post('/milestone_ajax/', {    
-                        'id': id,
-                        'name': name,
-                        'date': date
-                    }, function(response){
-                        if(response === 'saved') {
-                            button.data('edit-name', name);
-                            button.data('edit-date', date);
-                            if(date) {
-                                button.parents('.task').find('.js-milestone-data').text(name + ' до ' + date);
+                    event.stopPropagation();
+                    var button = $(event.relatedTarget); // Button that triggered the modal
+                    var id = button.data('edit-id');
+                    var name = button.data('edit-name');
+                    var date = button.data('edit-date');
+                    var modal = $(this);
+                    modal.find('.modal-body input[name="ms_name"]').val(name);
+                    modal.find('.modal-body input[name="ms_date"]').val(date);
+                    modal.find('.js-milestone-form').unbind('submit').bind('submit', function (ev) {
+                        name = modal.find('.modal-body input[name="ms_name"]').val();
+                        date = modal.find('.modal-body input[name="ms_date"]').val();
+                        $.post('/milestone_ajax/', {
+                            'id': id,
+                            'name': name,
+                            'date': date
+                        }, function (response) {
+                            if (response === 'saved') {
+                                button.data('edit-name', name);
+                                button.data('edit-date', date);
+                                if (date) {
+                                    button.parents('.task').find('.js-milestone-data').text(name + ' до ' + date);
+                                }
+                                else {
+                                    button.parents('.task').find('.js-milestone-data').text(name);
+                                }
+                                $('#edit-milestone').modal('hide');
+                            } else {
+                                alert('Ошибка сохранения цели');
                             }
-                            else {
-                                button.parents('.task').find('.js-milestone-data').text(name);   
-                            }
-                            $('#edit-milestone').modal('hide');
-                        } else {
-                            alert('Ошибка сохранения цели');
-                        }
+                            return false;
+                        });
                         return false;
                     });
-                    return false;
-                  });
                 });
 
                 if (group.id) {
-                    var $row = $(row).on('click', '.js-close-milestone', function(e){
+                    var $row = $(row).on('click', '.js-close-milestone', function (e) {
                         if (confirm('Вы действительно хотите удалить данную цель?')) {
-                            $.post('/milestone_ajax/',{
+                            $.post('/milestone_ajax/', {
                                 'action': 'remove',
                                 'id': group.id
-                            }, function(response){
-                                if(response != 'removed') {
+                            }, function (response) {
+                                if (response != 'removed') {
                                     alert('Цель успешно удалена');
-                                }else {
+                                } else {
                                     window.location.reload();
                                 }
                             })
-                        } 
+                        }
                     });
                 } else {
                     var $row = $(row);
                 }
                 $row.appendTo(this.TL_Container);
             },
-            'TL_GetSearchText':function(){
+            'TL_GetSearchText': function () {
                 var text = this.TL_SearchTask.val();
                 if (text == this.TL_SearchTask.attr('data-blur')) text = '';
                 return text;
             },
-            'SubtaskBlock':function(taskId){
-                return $('#taskLine_'+taskId).parent().find('.subtask');
+            'SubtaskBlock': function (taskId) {
+                return $('#taskLine_' + taskId).parent().find('.subtask');
             },
-            'TL_CreateTaskRow':function(taskInfo, parent, is_new){
+            'TL_CreateTaskRow': function (taskInfo, parent, is_new) {
                 if (!taskInfo || !taskInfo.name) return false;
                 if (!taskInfo.id) return false;
 
                 var task = widget_tl.TL_Tasks.get(taskInfo.id);
                 if (task) {
-                    for (var i in taskInfo){
+                    for (var i in taskInfo) {
                         task.set(i, taskInfo[i]);
                     }
                 } else {
@@ -863,9 +863,9 @@ var widget_tl, currentGroup;
                 view.createEl().render();
                 if (!parent) {
                     var $task_el = $('<div></div>').addClass('task-wrapper')
-                                    .append(view.$el)
-                                    .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Добавить подзадачу..."></div>')
-                                    .append('<div class="subtask" style="display: none;"></div>');
+                        .append(view.$el)
+                        .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Добавить подзадачу..."></div>')
+                        .append('<div class="subtask" style="display: none;"></div>');
 
                     if (is_new) {
                         var taskExist = this.TL_Container.find('.task-wrapper:first').get(0);
@@ -877,11 +877,11 @@ var widget_tl, currentGroup;
                         $task_el.appendTo(this.TL_Container);
                     }
 
-                    if (view.model.get('critically') > CRITICALLY_THRESHOLD){
+                    if (view.model.get('critically') > CRITICALLY_THRESHOLD) {
                         $task_el.addClass('critically')
                     }
                 } else {
-                    if (is_new){
+                    if (is_new) {
                         this.SubtaskBlock(parent).prepend(view.$el);
                         $('.task-wrapper.visible').addClass('visible-items').removeClass('visible');
                         $('.task-wrapper.visible-items .add-task-input').find('input').unbind('blur.subtask');
@@ -898,24 +898,24 @@ var widget_tl, currentGroup;
                 setTaskCellsHeight(view.$el);
                 return view.$el;
             },
-            'TL_GetTaskUrl':function(id){
-                return "task_edit/?id="+id+"";
+            'TL_GetTaskUrl': function (id) {
+                return "task_edit/?id=" + id + "";
             },
-            'addEventsToSubtaskInput':function(input){
+            'addEventsToSubtaskInput': function (input) {
 
             },
-            'addVisualSearchElement': function(field_name, value){
+            'addVisualSearchElement': function (field_name, value) {
                 value = value.split(',');
-                var $category = $('.js-search-menu > li[data-code='+field_name+']'),
+                var $category = $('.js-search-menu > li[data-code=' + field_name + ']'),
                     $rulesContainer = this.$searchRulesHolder,
-                    $categoryBlock = $rulesContainer.find('span[data-code='+field_name+']'),
+                    $categoryBlock = $rulesContainer.find('span[data-code=' + field_name + ']'),
                     field_title = $category.children('a').text(),
                     sValueHtml = '',
                     bIsDate = field_name.indexOf('date_') === 0,
                     bIsRange = value == 'range',
-                    sAddDatePickerClass = bIsDate?'datepick':'',
+                    sAddDatePickerClass = bIsDate ? 'datepick' : '',
                     val,
-                    aDatesPrefixes = ['c&nbsp;','по&nbsp;'],
+                    aDatesPrefixes = ['c&nbsp;', 'по&nbsp;'],
                     today = moment().format('DD.MM.YYYY'),
                     monthAgo = moment().subtract(1, 'months').format('DD.MM.YYYY');
 
@@ -923,52 +923,52 @@ var widget_tl, currentGroup;
                     //value = ['01.08.2014', '10.09.2014']
                     value = [monthAgo, today]
                 }
-                for (var i in value){
+                for (var i in value) {
                     val = value[i];
-                    var $valueItem = $category.find('a[rel="'+val+'"]').eq(0),
+                    var $valueItem = $category.find('a[rel="' + val + '"]').eq(0),
                         value_title = $valueItem.text(),
-                        $newInputHidden = function(name, value){
-                            return $('<input type="hidden" />').attr({'name':name,'value':value});
+                        $newInputHidden = function (name, value) {
+                            return $('<input type="hidden" />').attr({'name': name, 'value': value});
                         };
 
-                    if (bIsDate){
+                    if (bIsDate) {
                         value_title = val;
-                        if (bIsRange){
+                        if (bIsRange) {
                             var sPrefix = aDatesPrefixes[i];
-                            sValueHtml = sPrefix+'<a data-field="'+field_name+'" class="'+sAddDatePickerClass+' added-user">'+val+'</a>';
+                            sValueHtml = sPrefix + '<a data-field="' + field_name + '" class="' + sAddDatePickerClass + ' added-user">' + val + '</a>';
                         }
                     }
-                    if (!sValueHtml){
+                    if (!sValueHtml) {
                         sValueHtml = '<a data-field="' + field_name + '" class="' + sAddDatePickerClass + ' added-user">' + value_title + '</a>';
                     }
 
                     var $input;
 
-                    if (!($input = $rulesContainer.find('input[name='+field_name+'][value="'+val+'"]').get(0))){
-                        $input = $newInputHidden(field_name,val);
+                    if (!($input = $rulesContainer.find('input[name=' + field_name + '][value="' + val + '"]').get(0))) {
+                        $input = $newInputHidden(field_name, val);
                         //$rulesContainer.append($input);
                     }
-                    if (!$categoryBlock.get(0)){
+                    if (!$categoryBlock.get(0)) {
                         $rulesContainer.append($categoryBlock = $('<span></span>').addClass('search-group')
-                            .attr('data-code',field_name)
+                            .attr('data-code', field_name)
                             .append('<h6 data-code="responsible" class="clearfix">' + field_title + ':</h6>'));
                     }
 
                     var $tmpContainer = $categoryBlock.find('span[data-code="' + val + '"]').remove().end()
                         .append('<span data-code="'
-                                + val
-                                + '">'
-                                + sValueHtml
-                                + ' <a class="close">&times;</a>'
-                                + $input.get(0).outerHTML
-                                + '</span>');
+                            + val
+                            + '">'
+                            + sValueHtml
+                            + ' <a class="close">&times;</a>'
+                            + $input.get(0).outerHTML
+                            + '</span>');
 
                     if (sAddDatePickerClass)
-                        $tmpContainer.find('.'+sAddDatePickerClass).each(function(){
+                        $tmpContainer.find('.' + sAddDatePickerClass).each(function () {
                             $(this).datetimepicker({
                                 'timepicker': false,
                                 'closeOnDateSelect': true,
-                                'onSelectDate': function(ct, $i){
+                                'onSelectDate': function (ct, $i) {
                                     var d = formatDate(ct).split(' ')[0]; // datetime without time
                                     $i.text(d);
                                     $i.parent().attr('data-code', d);
@@ -980,79 +980,79 @@ var widget_tl, currentGroup;
                 }
             },
 
-            'getSimilar':function(text,callback){
+            'getSimilar': function (text, callback) {
                 if (this.ajaxSimilarHandler) this.ajaxSimilarHandler.abort();
-                this.ajaxSimilarHandler = PM_AjaxPost("/task_handler",{
-                    'text':text,
-                    'action':'getSimilar'
-                },callback,'json')
+                this.ajaxSimilarHandler = PM_AjaxPost("/task_handler", {
+                    'text': text,
+                    'action': 'getSimilar'
+                }, callback, 'json')
             }
         });
 
         widget_tl.init();
         widget_tl.similarSearchTimeout = false;
-        widget_tl.TL_CreateTaskInput.keyup(function(e){
-            var key = getKeyPressed(e),t=this;
+        widget_tl.TL_CreateTaskInput.keyup(function (e) {
+            var key = getKeyPressed(e), t = this;
             widget_tl.TL_create_command = '';
-            for (var keytag in widget_tl.TL_Tags){
+            for (var keytag in widget_tl.TL_Tags) {
                 tag = widget_tl.TL_Tags[keytag];
 
-                if ($(this).val().lastIndexOf(tag)!=-1 && $(this).val().lastIndexOf(tag) == ($(this).val().length-tag.length)){
+                if ($(this).val().lastIndexOf(tag) != -1 && $(this).val().lastIndexOf(tag) == ($(this).val().length - tag.length)) {
                     widget_tl.TL_create_command = tag;
                 }
             }
 
-            if (e.ctrlKey && key == 32){ //ctrl+space
+            if (e.ctrlKey && key == 32) { //ctrl+space
                 if (widget_tl.TL_create_command)
                     widget_tl.TL_ShowTaskCreateHint(this);
-            }else if (e.ctrlKey && key == 78){ //ctrl+N
+            } else if (e.ctrlKey && key == 78) { //ctrl+N
                 $('body,html').scrollTop(t.focus().offset().top);
                 return false;
-            }else if(key == 40 && widget_tl.TL_HintOpened.name){ //arrow down
+            } else if (key == 40 && widget_tl.TL_HintOpened.name) { //arrow down
                 widget_tl.TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
-            }else if(!e.ctrlKey && key!=13){
+            } else if (!e.ctrlKey && key != 13) {
                 widget_tl.TL_ShowTaskCreateHint(this);
             }
 
             if (widget_tl.similarSearchTimeout) clearTimeout(widget_tl.similarSearchTimeout);
-            widget_tl.similarSearchTimeout = setTimeout(function(){
-                widget_tl.getSimilar(widget_tl.TL_CreateTaskInput.val(), function(data){
+            widget_tl.similarSearchTimeout = setTimeout(function () {
+                widget_tl.getSimilar(widget_tl.TL_CreateTaskInput.val(), function (data) {
                     var cl = 'js-similar_result';
-                    var $similarResult = widget_tl.TL_CreateTaskInput.parent().find('.'+cl);
-                    if (!$similarResult.get(0)){
+                    var $similarResult = widget_tl.TL_CreateTaskInput.parent().find('.' + cl);
+                    if (!$similarResult.get(0)) {
                         $similarResult = $('<div></div>').addClass(cl).insertAfter(widget_tl.TL_CreateTaskInput);
                     }
-                    if (data.length){
-                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle','dropdown').text(data.length + ' похожих');
+                    if (data.length) {
+                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle', 'dropdown').text(data.length + ' похожих');
                         var sAddMessage = '';
-                        if (data.length > 20){
+                        if (data.length > 20) {
                             sAddMessage = '<span style="color:red">&nbsp;Постарайтесь конкретизировать задачу.</span>'
                         }
 
-                        var $menu = $('<ul></ul>').addClass('dropdown-menu').attr('role','dropdown');
-                        for (var i in data){
+                        var $menu = $('<ul></ul>').addClass('dropdown-menu').attr('role', 'dropdown');
+                        for (var i in data) {
                             var task = data[i];
                             $menu.append(
                                 $('<li></li>').append(
-                                    $('<a></a>').attr('href',task.url).text(task.name)
+                                    $('<a></a>').attr('href', task.url).text(task.name)
                                 )
                             )
                         }
                         $similarResult.empty().append($link).append(sAddMessage).append($menu);
-                    }else{
+                    } else {
                         $similarResult.remove();
                     }
                 });
-            },400);
+            }, 400);
         });
 
-        widget_tl.TL_CreateTaskInput.keydown(function(e){
+        widget_tl.TL_CreateTaskInput.keydown(function (e) {
             var key = getKeyPressed(e);
             if (e.ctrlKey && key == 32) return false; //ctrl+space
-            else if (key==13 && !widget_tl.TL_HintOpened.name){
+            else if (key == 13 && !widget_tl.TL_HintOpened.name) {
                 var parent = $(this).data('parent'),
-                    taskParams = {'taskname':$(this).val()};
-                $('.task-file-upload input[type=hidden]').each(function(){
+                    taskParams = {'taskname': $(this).val()};
+                $('.task-file-upload input[type=hidden]').each(function () {
                     if (!taskParams[this.name]) taskParams[this.name] = [];
                     taskParams[this.name].push($(this).val());
                 });
@@ -1063,10 +1063,10 @@ var widget_tl, currentGroup;
             }
         });
 
-        widget_tl.$taskCreateBtn.click(function(){
+        widget_tl.$taskCreateBtn.click(function () {
             var input = $('input.task-create'),
-                taskParams = {'taskname':input.val()};
-            $('.task-file-upload input[type=hidden]').each(function(){
+                taskParams = {'taskname': input.val()};
+            $('.task-file-upload input[type=hidden]').each(function () {
                 if (!taskParams[this.name]) taskParams[this.name] = [];
                 taskParams[this.name].push($(this).val());
             });
@@ -1077,14 +1077,14 @@ var widget_tl, currentGroup;
             return false;
         });
 
-        for (var i in widget_tl.TL_HintBlocks){
-            widget_tl.TL_HintBlocks[i].keydown(function(e){
+        for (var i in widget_tl.TL_HintBlocks) {
+            widget_tl.TL_HintBlocks[i].keydown(function (e) {
                 var key = getKeyPressed(e);
-                if (widget_tl.TL_HintOpened){
-                    if(key == 40){ //down
+                if (widget_tl.TL_HintOpened) {
+                    if (key == 40) { //down
                         $(this).find('li.active').removeClass('active').next(':visible').addClass('active').find('a').focus();
                         return false;
-                    }else if(key == 38){ //up
+                    } else if (key == 38) { //up
                         $(this).find('li.active').removeClass('active').prev(':visible').addClass('active').find('a').focus();
                         return false;
                     }
@@ -1093,117 +1093,123 @@ var widget_tl, currentGroup;
         }
 
         $('.widget.tasklist')
-        .on('click','a.add-subtask',function(){
-            //show subtasks
-            var $task = $(this).closest('.task');
-            var $taskWrapper = $task.closest('.task-wrapper');
-            var taskId = $task.attr('data-taskid');
+            .on('click', 'a.add-subtask', function () {
+                //show subtasks
+                var $task = $(this).closest('.task');
+                var $taskWrapper = $task.closest('.task-wrapper');
+                var taskId = $task.attr('data-taskid');
 
-            var $subtaskContainer = $task.parent().find('.subtask');
-            var is_open = $subtaskContainer.is(':visible');
+                var $subtaskContainer = $task.parent().find('.subtask');
+                var is_open = $subtaskContainer.is(':visible');
 
-            if (!$('.show-subtasks.add-subtask').hasClass('openSubtask')) {
-                if (!is_open){
-                    $taskWrapper.addClass('active');
-                    $task.parent().find('.add-task-input').show();
-                    if (!$subtaskContainer.html()){
-                        widget_tl.TL_SilentSearch({'parent':taskId});
-                        if ($(this).text().replace(/(^\s+|\s+$)/g,'') == '') {
-                            $taskWrapper.find('.show-subtasks.add-subtask').addClass('openSubtask');
-                        };
-                        $taskWrapper.find('.add-task-input').find('input').bind('blur.subtask', function(){
-                            if ($taskWrapper.find('.subtask').html()) {
-                                $taskWrapper.addClass('visible-items').removeClass('active');
-                            };
-                            if (!$taskWrapper.hasClass('visible-items')) {
-                                $(document).click(function(e) {
-                                    if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {
-                                        $subtaskContainer.hide();
-                                        $taskWrapper.removeClass('active').removeClass('visible-items');
-                                        $taskWrapper.find('.add-task-input').hide();
-                                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
-                                    };
-                                });
-                                $('.show-subtasks').click(function() {
-                                    if (!$(this).hasClass('openSubtask') && !$taskWrapper.hasClass('visible-items')) {
-                                        $subtaskContainer.hide();
-                                        $taskWrapper.removeClass('active').removeClass('visible-items');
-                                        $taskWrapper.find('.add-task-input').hide();
-                                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
-                                    } else {
-                                        if (!$taskWrapper.hasClass('visible-items')) {
+                if (!$('.show-subtasks.add-subtask').hasClass('openSubtask')) {
+                    if (!is_open) {
+                        $taskWrapper.addClass('active');
+                        $task.parent().find('.add-task-input').show();
+                        if (!$subtaskContainer.html()) {
+                            widget_tl.TL_SilentSearch({'parent': taskId});
+                            if ($(this).text().replace(/(^\s+|\s+$)/g, '') == '') {
+                                $taskWrapper.find('.show-subtasks.add-subtask').addClass('openSubtask');
+                            }
+                            ;
+                            $taskWrapper.find('.add-task-input').find('input').bind('blur.subtask', function () {
+                                if ($taskWrapper.find('.subtask').html()) {
+                                    $taskWrapper.addClass('visible-items').removeClass('active');
+                                }
+                                ;
+                                if (!$taskWrapper.hasClass('visible-items')) {
+                                    $(document).click(function (e) {
+                                        if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {
                                             $subtaskContainer.hide();
                                             $taskWrapper.removeClass('active').removeClass('visible-items');
                                             $taskWrapper.find('.add-task-input').hide();
-                                        };
-                                    }
-                                });
-                            };
-                        });
-                    }else{
-                        if (!$taskWrapper.hasClass('visible-items')) {
-                            $taskWrapper.addClass('visible-items').removeClass('active');
+                                            $('.show-subtasks.add-subtask').removeClass('openSubtask');
+                                        }
+                                        ;
+                                    });
+                                    $('.show-subtasks').click(function () {
+                                        if (!$(this).hasClass('openSubtask') && !$taskWrapper.hasClass('visible-items')) {
+                                            $subtaskContainer.hide();
+                                            $taskWrapper.removeClass('active').removeClass('visible-items');
+                                            $taskWrapper.find('.add-task-input').hide();
+                                            $('.show-subtasks.add-subtask').removeClass('openSubtask');
+                                        } else {
+                                            if (!$taskWrapper.hasClass('visible-items')) {
+                                                $subtaskContainer.hide();
+                                                $taskWrapper.removeClass('active').removeClass('visible-items');
+                                                $taskWrapper.find('.add-task-input').hide();
+                                            }
+                                            ;
+                                        }
+                                    });
+                                }
+                                ;
+                            });
                         } else {
-                            $taskWrapper.removeClass('visible-items');
+                            if (!$taskWrapper.hasClass('visible-items')) {
+                                $taskWrapper.addClass('visible-items').removeClass('active');
+                            } else {
+                                $taskWrapper.removeClass('visible-items');
+                            }
                         }
+
+                        $subtaskContainer.show().prev().find('input').focus().enterPressed(function (obj) {
+                            if ($(obj).val())
+                                widget_tl.TL_CreateTask({
+                                    'taskname': $(obj).val()
+                                }, $(obj).data('parent'));
+
+                            $(obj).val('');
+
+                            $taskWrapper.addClass('visible-items').removeClass('active');
+                            $('.show-subtasks.add-subtask').removeClass('openSubtask');
+
+                            var numSubStr = $taskWrapper.find('.js-subNum').text();
+                            var numSub = parseFloat(numSubStr);
+                            if (isNaN(numSub)) {
+                                numSub = 0;
+                            }
+                            ;
+                            var newNumSub = numSub + 1;
+                            $taskWrapper.find('.js-subNum').text(newNumSub + ' ');
+                        });//.addTaskFilePasteSimple();
+                    } else {
+                        $taskWrapper.removeClass('active').removeClass('visible-items');
+                        $task.parent().find('.add-task-input').hide();
+                        $subtaskContainer.hide();
                     }
 
-                    $subtaskContainer.show().prev().find('input').focus().enterPressed(function(obj){
-                        if ($(obj).val())
-                            widget_tl.TL_CreateTask({
-                                'taskname':$(obj).val()
-                            },$(obj).data('parent'));
-
-                        $(obj).val('');
-
-                        $taskWrapper.addClass('visible-items').removeClass('active');
-                        $('.show-subtasks.add-subtask').removeClass('openSubtask');
-
-                        var numSubStr = $taskWrapper.find('.js-subNum').text();
-                        var numSub = parseFloat(numSubStr);
-                        if (isNaN(numSub)) {
-                            numSub = 0;
-                        };
-                        var newNumSub = numSub + 1;
-                        $taskWrapper.find('.js-subNum').text(newNumSub + ' ');
-                    });//.addTaskFilePasteSimple();
-                }else{
-                    $taskWrapper.removeClass('active').removeClass('visible-items');
-                    $task.parent().find('.add-task-input').hide();
-                    $subtaskContainer.hide();
+                } else {
+                    $('.show-subtasks.add-subtask').removeClass('openSubtask');
                 }
 
-            } else {
-                $('.show-subtasks.add-subtask').removeClass('openSubtask');
-            }
+                return false;
 
-            return false;
-
-        });
+            });
 
         var search_timeout = false;
 
-        $('.search-input').keyup(function(){
+        $('.search-input').keyup(function () {
             if (search_timeout) clearTimeout(search_timeout);
-            search_timeout = setTimeout(function(){
+            search_timeout = setTimeout(function () {
                 widget_tl.TL_Search();
-            },500);
+            }, 500);
         });
 
-        $('.show-more').click(function(){
+        $('.show-more').click(function () {
             $(this).pushTheButton();
-            widget_tl.TL_Search({'page':widget_tl.nextPage});
+            widget_tl.TL_Search({'page': widget_tl.nextPage});
             widget_tl.nextPage++;
             return false;
         });
-        $('input[name=group]').click(function(){
+        $('input[name=group]').click(function () {
             widget_tl.TL_Search();
         });
-        $(widget_tl.tabsSelector).click(function(){
-            $(this).parent().singleActivate();
-            if ($(this).hasClass('userTab')){
+        $(widget_tl.tabsSelector).click(function () {
+            $(this).parent().activateListItem();
+            if ($(this).hasClass('userTab')) {
                 return true; //search will be executed by hash
-            }else{
+            } else {
                 widget_tl.TL_Search();
             }
 
@@ -1213,35 +1219,35 @@ var widget_tl, currentGroup;
         document.mainController.widgetsData["taskList"] = widget_tl;
 
         if (arTimers)
-            for (var i in arTimers){
-                arTimers[i].container = $('#taskLine_'+i+' .js-time').get(0);
+            for (var i in arTimers) {
+                arTimers[i].container = $('#taskLine_' + i + ' .js-time').get(0);
                 $(arTimers[i].container).html(arTimers[i].toString());
             }
 
         $('.input-block-level').addTaskFilePasteSimple();
 
-        $('.js-search-menu > li > ul > li > a').click(function(){
+        $('.js-search-menu > li > ul > li > a').click(function () {
             var category = $(this).closest('.js-search-menu > li'),
                 field_name = category.attr('data-code'),
                 value = $(this).attr('rel');
 
-            widget_tl.addVisualSearchElement(field_name,value);
+            widget_tl.addVisualSearchElement(field_name, value);
 
             widget_tl.TL_Search();
             return false;
         });
 
-        widget_tl.$searchRulesHolder.on('click','.close',function(){
+        widget_tl.$searchRulesHolder.on('click', '.close', function () {
             var sFieldName = $(this).closest('span.search-group').attr('data-code'),
                 value = $(this).parent().attr('data-code'),
                 bLeastBlock = $(this).closest('span.search-group').children('span').length == 1,
                 $search_form = widget_tl.$searchRulesHolder;
 
-            $search_form.find('input[name='+sFieldName+'][value="'+value+'"]').remove();
+            $search_form.find('input[name=' + sFieldName + '][value="' + value + '"]').remove();
 
-            if (bLeastBlock){
+            if (bLeastBlock) {
                 $(this).closest('span.search-group').remove();
-            }else{
+            } else {
                 $(this).closest('span').remove();
             }
 
@@ -1249,11 +1255,11 @@ var widget_tl, currentGroup;
             return false;
         });
 
-        $('.AddTaskBlock > div').bind('clickoutside', function(){
+        $('.AddTaskBlock > div').bind('clickoutside', function () {
             $(this).hide();
         });
 
-        $('.js-searchFilterBlock .icon-remove').click(function(){
+        $('.js-searchFilterBlock .icon-remove').click(function () {
             $(".search-input").val('');
             $(this).hide();
             widget_tl.TL_Search();
@@ -1261,26 +1267,22 @@ var widget_tl, currentGroup;
 
         ///FINE UPLOADER
         taskFileUpload();
-        
+
     });
 })(jQuery);
 
-$.fn.singleActivate = function(){
-    return this.addClass('active').siblings().removeClass('active').end();
-};
-
-(function($){
-    $(document).ready(function(){
-        if(!!('ontouchstart' in window)){
+(function ($) {
+    $(document).ready(function () {
+        if (!!('ontouchstart' in window)) {
             $('.input-group-btn').addClass('mobile-menu');
-            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function(event) {
+            $('ul.dropdown-menu [data-toggle=dropdown]').on('click', function (event) {
                 event.preventDefault();
                 event.stopPropagation();
                 $(this).parent().siblings().removeClass('open');
                 $(this).parent().toggleClass('open');
             });
         }
-        $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function(event) {
+        $('ul.dropdown-menu [data-toggle=dropdown-item]').on('click', function (event) {
             $(this).parents('.input-group-btn').removeClass('open');
         });
     });
