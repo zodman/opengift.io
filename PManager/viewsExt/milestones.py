@@ -102,4 +102,5 @@ def milestonesResponder(request):
         mprojects = (selected_project,)
     else:
         mprojects = context.get("projects")
+
     return render(request, 'milestones/index.html', {'m_projects': mprojects, 'pageTitle': u'Цели'})

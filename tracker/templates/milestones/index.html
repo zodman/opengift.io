@@ -46,16 +46,9 @@
                                 <div class="progress-bar-wrapper clearfix">
                                     <div class="progress-bar-wrapper-title">Прогресс</div>
                                     <div class="progress clearfix">
-                                        <div class="progress-bar-item btn-success" style="width: 10%"></div>
-                                        <div class="progress-bar-item btn-success" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
-                                        <div class="progress-bar-item" style="width: 10%"></div>
+                                        {% for task in milestone.tasksOrderedByClose %}
+                                        <div class="progress-bar-item{% if task.closed %} btn-success{% endif %}" style="width: {% widthratio 100 milestone.tasks.count 1 %}%"></div>
+                                        {% endfor %}
                                     </div>
                                 </div>
                         </div>
