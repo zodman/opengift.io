@@ -472,10 +472,10 @@ header .intro-section .buttons {
 }
 
 .task-info-control .dropdown-menu,
-.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 25px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
+.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 10px; right: -11px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
 
 
-.task-info-author .dropdown-menu {right: 86px; left: auto;}
+.task-info-author .dropdown-menu {right: 86px; left: auto; top: 25px;}
 
 .demo-mobile .task-info-author .dropdown-menu {
     left: -12px;
@@ -534,7 +534,7 @@ header .intro-section .buttons {
 .task-info-timer a.pause {color:#ffa500; cursor: pointer;}
 
 .task-info-timer-timer {border-bottom: 1px dashed #47a447;}
-.task-info-control span.fa {color: rgba(1,1,1,0.3); margin: 0 0 0 3px;}
+.task-info-control span.fa {color: rgba(1,1,1,0.3); margin: 0 0 0 3px; position: relative;}
 .task-info-control span.fa:hover {color: rgba(1,1,1,0.5); cursor: pointer;}
 
 .task-create-wrapper { margin-bottom: 10px;}
