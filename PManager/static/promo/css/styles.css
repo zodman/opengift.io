@@ -411,6 +411,8 @@ header .intro-section .buttons {
     background: #7eb864;
 }
 
+.demo-browser-app a {outline: none;}
+
 .task-wrapper {
     background: #f4f4f4 none repeat scroll 0 0;
     border-left: 2px solid #ffa500;
@@ -460,7 +462,9 @@ header .intro-section .buttons {
 }
 .task-info-timer {width: 70px; float: left; color: #47a447;}
 .task-info-timer span {margin-left: 5px; position: relative;}
-.task-info-author > span > a {border-bottom: 1px dashed #47a447; color: #47a447;}
+.task-info-author > span > a,
+.task-info-author > span > a:active,
+.task-info-author > span > a:focus {border-bottom: 1px dashed #47a447; text-decoration: none; color: #47a447;}
 .task-info-control {
     float: left;
     text-align: right;
@@ -468,10 +472,23 @@ header .intro-section .buttons {
 }
 
 .task-info-control .dropdown-menu,
-.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 23px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
+.task-info-author .dropdown-menu {padding: 5px 0; font-size: 11px; text-align: left; top: 25px; font-family: "Open Sans",sans-serif; min-width: auto; border: 1px solid #ddd;}
 
 
-.task-info-author .dropdown-menu {right: 125px; left: auto;}
+.task-info-author .dropdown-menu {right: 86px; left: auto;}
+
+.demo-mobile .task-info-author .dropdown-menu {
+    left: -12px;
+    right: auto;
+    top: 15px;
+}
+.demo-mobile .task-info-author {position: relative; overflow: visible;}
+.demo-mobile .task-info-author .dropdown-menu:after,
+.demo-mobile .task-info-author .dropdown-menu:before {
+    left: 40px;
+    right: auto;
+}
+
 
 .task-info-control .dropdown-menu:after,
 .task-info-control .dropdown-menu:before,
@@ -507,7 +524,7 @@ header .intro-section .buttons {
 
 .task-info-author .dropdown-menu:after,
 .task-info-author .dropdown-menu:before {
-    right: 50px;
+    right: 80px;
 }
 
 .task-info-control .dropdown-menu li a,
