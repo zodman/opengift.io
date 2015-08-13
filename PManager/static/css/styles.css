@@ -4112,19 +4112,26 @@ ul.colors {
 
 .color-block {
     display: inline-block;
-    width: 25px;
-    height: 25px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
+    opacity: 0.7;
+    -moz-opacity: 0.7;
+    -webkit-opacity: 0.7;
+    border: 5px solid #fff;
 }
 
 .color-block.active {
-    border: 3px solid #60f3ff;
+    border: 0;
+    opacity: 1;
+    -moz-opacity:1;
+    -webkit-opacity: 1;
 }
 
-.color-block.grey, .task-drag.grey {background-color: grey}
-.color-block.green, .task-drag.green {background-color: green}
-.color-block.blue, .task-drag.blue {background-color: blue}
-.color-block.red, .task-drag.red {background-color: red}
-.color-block.red, .task-drag.yellow {background-color: yellow}
-.color-block.red, .task-drag.purple {background-color: purple}
-.color-block.red, .task-drag.orange {background-color: orange}
+.color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.color-block.green, .task-drag.green {background-color: #3dc33d;}
+.color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.color-block.red, .task-drag.red {background-color: #f53838;}
+.color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.color-block.orange, .task-drag.orange {background-color: #ef9332;}
