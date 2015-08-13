@@ -1180,13 +1180,48 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .show-closed-task a:hover { text-decoration: none; }
 
 
-.project-milestones .progress {margin:6px 0 0 0;}
-.project-milestones table td {padding:15px !important;}
-.project-milestones a {color:#47a447;}
-.project-milestones h4 {margin-bottom:10px;}
-.project-milestones .left {float:left;}
-.project-milestones .right {float:right;}
-.project-milestones .time {font-size:12px; color:#777;}
+.project-milestones {
+    position: relative;
+    margin-bottom: 25px;
+}
+.project-milestones-item {
+    background: #edf8ed none repeat scroll 0 0;
+    border-radius: 3px;
+    margin-bottom: 10px;
+    padding: 15px;
+}
+.project-milestones-title {position: relative; height: 40px; margin-bottom: 15px;}
+.project-milestones-title h3 {line-height: 40px;}
+.project-milestones-title a {position: absolute; top: 0px; right: 0px;}
+.project-milestones h4 {margin-bottom:5px;}
+.project-milestones .time {font-size:12px; color:#777; margin-bottom: 5px;}
+.project-milestones .progress-bar-wrapper .progress-bar-wrapper-title {width: 80px; line-height: 16px;}
+.project-milestones .progress-bar-wrapper .progress {width: calc(100% - 80px); margin-top: 0px; background: #fff none repeat scroll 0 0;
+    height: 16px;}
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item {
+    height: 16px;
+    line-height: 16px;
+    font-size: 10px;
+    border-right: 1px solid #eee;
+    float: left;
+    text-align: center;
+}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item a,
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item a:hover {text-decoration: none; display: inline-block; max-width: 50}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item:first-child {border-radius: 4px 0 0 4px;}
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item:last-child {border-radius: 0 4px 4px 0;}
+
+.project-milestones .progress-bar-wrapper .progress .progress-bar-item.btn-success a {color: #fff;}
+
+
+@media only screen and (max-width: 668px) {
+    .project-milestones .progress-bar-wrapper .progress .progress-bar-item a {text-indent: -9999em;}
+    .project-milestones-title {height: auto;}
+    .project-milestones-title h3 {line-height: 30px;}
+    .project-milestones-title a {position: relative; margin-bottom: 15px;}
+}
 
 .bootstrap-growl .span {
     color: #333;
@@ -2740,6 +2775,8 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 	background-image: -webkit-linear-gradient(bottom, #EB8955 0%, #BF5D28 100%);
 	background-image: -ms-linear-gradient(bottom, #EB8955 0%, #BF5D28 100%);
 	background-image: linear-gradient(to bottom, #EB8955 0%, #BF5D28 100%);}
+
+.big-button {padding: 9px 15px; font-size: 15px;}
 											
 @media only screen and (max-width: 668px) {
 	.message {margin-bottom:10px;}

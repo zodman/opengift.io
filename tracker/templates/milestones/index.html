@@ -12,9 +12,6 @@
       right: 0px;
       top: -7px;
     }
-    .project-milestones {
-        position: relative;
-    }
 </style>
 {% endblock %}
 {% block content %}
@@ -32,32 +29,41 @@
         {% for project in m_projects %}
         	{% if project.openMilestones %}
         		<div class="project-milestones">
-        				<p align="center"><h3 align="center">{{project.name}}</h3>
-                        <a href="#" class="new-milestone" data-toggle="modal" data-target="#new-milestone" data-project-id="{{ project.id }}">Создать майлстоун</a></p>
-                        <table class="table table-striped ">
+        				<div class="project-milestones-title">
+                            <h3 align="center">{{project.name}}</h3>
+                            <a href="#" class="button green-button big-button" data-toggle="modal" data-target="#new-milestone" data-project-id="{{ project.id }}"><i class="fa fa-star"></i>&nbsp;&nbsp;Добавить цель</a>
+                        </div>
+
+
 		        		{% for milestone in project.openMilestones %}
-                        <tr>
-                        <td>
+                        <div class="project-milestones-item">
                                 <h4 class="clearfix">
                                     <a href="/?project={{project.id}}#%7B%22taskListFilter%22%3A%7B%22action%22%3A%22all%22%2C%22group%22%3A%22milestones%22%7D%7D" class="left">
                                         {{ milestone.name }}
                                     </a>
-                                    <span class="right time">{{ milestone.date }}</span>
                                 </h4>
-                            
-                                
-                      			<div class="progress">
-                                    <div class="progress-bar progress-bar-{{ milestone.status }} progress-bar-striped active" role="progressbar" aria-valuenow="{{ milestone.percent }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ milestone.percent }}%;">
-                                    <div class="sr-only">{{ milestone.percent}} % Выполнено</div>
+                                <div class="time">{{ milestone.date }}</div>
+                                <div class="progress-bar-wrapper clearfix">
+                                    <div class="progress-bar-wrapper-title">Прогресс</div>
+                                    <div class="progress clearfix">
+                                        <div class="progress-bar-item btn-success" style="width: 10%"><a href="#">#132</a></div>
+                                        <div class="progress-bar-item btn-success" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
+                                        <div class="progress-bar-item" style="width: 10%"><a href="#">#323</a></div>
                                     </div>
-                           		</div>
+                                </div>
+                        </div>
                             {% empty %}
                             <p>Цели помогают привязать ваши задачи к реальной дате и времени, чтобы быстрее достигать конкретных результатов.</p>
                             <p><a href="#">Создать цель</a></p>
-                        </td>
-                        </tr>
+
 		        		{% endfor %}
-                        </table>
         		</div>
     		{% endif %}
         {% endfor %}
