@@ -335,29 +335,29 @@ RESPONSIVE FIXES
 
 @media (min-width: 0px) {
 	.download .container {top:8%;}
-	.video {height:300px;}
+	.video {height:650px;}
 }
 
 @media (min-width: 480px) {
 	.download .container {top:12%;}
-	.video {height:400px;}
+    .video {height:600px;}
 }
 @media (min-width: 568px) {
 	.download .container {top:20%;}
-	.video {height:500px;}
+	.video {height:650px;}
 }
 
 @media (min-width: 768px) {
-	.download .container {top:35%;}
+	.download .container {top:23%;}
 	.video {height:600px;}
 }
 
 @media (min-width: 1024px) {
-	.download .container {top:35%;}
+	.download .container {top:25%;}
 	.video {height:800px;}
 }
 @media (min-width: 1280px) {
-	.download .container {top:35%;}
+	.download .container {top:30%;}
 	.video {height:auto;max-width:inherit; width:100%;}
 }
 
