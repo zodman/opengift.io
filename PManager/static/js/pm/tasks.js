@@ -294,12 +294,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 //			}
 //			this.$('.task-icon').remove();
 //			oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
-//			this.$el.removeClass('ready');
+			this.$el.removeClass('ready');
 //
-//			if (taskInfo.status == 'ready') {
+			if (taskInfo.status == 'ready') {
 //				oTaskContainers.$statusContainer.addClass('ready');
-//				this.$el.addClass('ready');
-//			} else if (taskInfo.status == 'not_approved') {
+				this.$el.addClass('ready');
+			}
+//            else if (taskInfo.status == 'not_approved') {
 //				oTaskContainers.$statusContainer.addClass('not-approved');
 //			} else if (taskInfo.overdue) {
 //				oTaskContainers.$statusContainer.addClass('overdue');
