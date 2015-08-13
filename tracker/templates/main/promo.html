@@ -123,7 +123,7 @@
                 <!-- WELCOM MESSAGE -->
                 <h1 class="intro">Heliard упрощает разработку сайтов</h1>
 
-                <h3 class="intro">Заказчикам дешевле, исполнителям удобнее.</h3>
+                <h3 class="intro">Набор онлайн инструментов для организации командной работы</h3>
                 <h5 class="js-first-step js-step"><span class="green-text"><i class="fa fa-check"></i></span>&nbsp;&nbsp;Держите
                     все <span class="green-text">задачи</span> и <span class="green-text">файлы</span> в одном месте
                 </h5>
@@ -1494,15 +1494,27 @@ $(function () {
             window.next_letter = function () {
                 if (index <= type_this.length) {
                     $('.js-task-input:eq(0)').val(type_this.substr(0, index++)).trigger('keyup');
-                    setTimeout("next_letter()", 100);
+                    setTimeout("next_letter()", 70);
                 } else {
                     var userVisible = $('.js-user-list:eq(0)').find('a:visible').eq(0).addClass('active');
                     setTimeout(function(){
                         userVisible.trigger('click');
                         setTimeout(function(){
                             $('.js-task-create:eq(0)').trigger('click');
-                        }, 500);
-                    }, 500);
+                            setTimeout(function(){
+                                $('.js-play:eq(0)').trigger('click');
+                                setTimeout(function(){
+                                    $('.js-play.fa-pause:eq(0)').trigger('click');
+                                    setTimeout(function(){
+                                        $('.js-gear:eq(0)').trigger('click');
+                                        setTimeout(function(){
+                                            $('.js-set-ready:eq(0)').trigger('click');
+                                        }, 500)
+                                    }, 1000);
+                                }, 5000)
+                            }, 1000)
+                        }, 1000);
+                    }, 1000);
                 }
             };
 
@@ -1567,12 +1579,12 @@ $(function () {
             'status': 'critically'
         },
         {
-            'text': 'Отдизайнить красивый список целей для выбора, когда выбираешь галочками задачи и жмешь "добавить цель". Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее',
+            'text': 'Редизайн списка рубрик подписки. Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее',
             'resp': 'Евгений Васютин',
             'status': ''
         },
         {
-            'text': 'Сделать страницу рассылки "Премиум аккаунт Heliard"',
+            'text': 'Сделать страницу опций рассылки новостей клиентам',
             'resp': 'Егор Маслов',
             'status': 'ready'
         },
@@ -1744,5 +1756,35 @@ function stopAllTimers() {
     });
 }
 </script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+    (function (d, w, c) {
+        (w[c] = w[c] || []).push(function() {
+            try {
+                w.yaCounter26252781 = new Ya.Metrika({
+                    id:26252781,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true,
+                    webvisor:true,
+                    trackHash:true
+                });
+            } catch(e) { }
+        });
+
+        var n = d.getElementsByTagName("script")[0],
+            s = d.createElement("script"),
+            f = function () { n.parentNode.insertBefore(s, n); };
+        s.type = "text/javascript";
+        s.async = true;
+        s.src = "https://mc.yandex.ru/metrika/watch.js";
+
+        if (w.opera == "[object Opera]") {
+            d.addEventListener("DOMContentLoaded", f, false);
+        } else { f(); }
+    })(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
 </body>
 </html>
