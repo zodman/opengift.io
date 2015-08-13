@@ -1449,11 +1449,12 @@
 <script type="text/javascript"  >
 $(function () {
     $('.color-overlay').css('min-height', $(window).height());
+    $(document).click(function(e){
+        $('.js-select-responsible').hide();
+    });
 
-    $('.js-demo-browser-block').on('click', '.js-user-name', function () {
-        $(this).find('.js-dropdown-menu').toggle();
-        return false;
-    })
+
+
 
     $('.js-demo-browser-block').on('click', '.js-gear', function () {
         $(this).find('.js-menu').toggle();
@@ -1483,6 +1484,11 @@ $(function () {
                 }
 
                 return false;
+            })
+            .on('click', '.js-select-responsible a', function() {
+                $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').find('.js-resp-name').text($(this).text());
+                $(this).closest('.js-select-responsible').hide();
+                return false;
             });
 
     $(window).scroll(function () {
@@ -1493,7 +1499,7 @@ $(function () {
 
         }
         if (scrollTop > 560 && !$('.js-task-input').data('inputed')) {
-            var type_this = "Нарисовать логотип проекта для Алекс";
+            var type_this = "Нарисовать логотип проекта для Синичкин";
             var index = 0;
             $('.js-task-input').data('inputed', true);
             $('.js-task-input').val('');
@@ -1529,7 +1535,7 @@ $(function () {
     });
     $('.js-task-create').click(function () {
         var $inp = $(this).closest('.js-taskinput-block').find('.js-task-input');
-        var a = $inp.val().split(' для '), text = $inp.val(), resp = 'Александр Синичкин';
+        var a = $inp.val().split(' для '), text = $inp.val(), resp = 'Нет ответственного';
         if (a.length > 1) {
             text = a[0];
             resp = a[1].replace((new RegExp('#', 'mig')), '');
@@ -1557,7 +1563,8 @@ $(function () {
                         '        <a href="#">' + text + '</a>' +
                         '    </div>' +
                         '    <div class="task-info clearfix">' +
-                        '        <div class="task-info-author"><span class="js-user-name"><a href="#" onclick="return false;">' + resp + '</a><ul class="js-dropdown-menu dropdown-menu pull-right"><li><a href="">Егор Маслов</a></li><li><a href="">Егор Маслов</a></li></ul></span></div>' +
+                        '        <div class="task-info-author"><span class="js-user-name"><a href="#" class="js-resp-name" onclick="$(this).closest(\'.js-task-block\').find(\'.js-select-responsible\').toggle();event.stopPropagation();return false;">' + resp + '</a>' +
+                        '<ul class="dropdown-menu pull-right js-select-responsible"><li><a href="#">Егор Маслов</a></li><li><a href="#">Александр Синичкин</a></li><li><a href="#">Артем Смирнов</a></li></ul></span></div>' +
                         '        <div class="task-info-timer"><a class="play"><span class="fa fa-play-circle js-play"></span></a><span class="js-timer">00:00:00</span></div>' +
                         '        <div class="task-info-control"> <span class="fa fa-check js-close-task"></span>' +
                         '            <span class="fa fa-gear js-gear">' +
