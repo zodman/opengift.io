@@ -507,8 +507,7 @@ header .intro-section .buttons {
 
 .task-info-author .dropdown-menu:after,
 .task-info-author .dropdown-menu:before {
-    left: 15px;
-    right: auto;
+    right: 50px;
 }
 
 .task-info-control .dropdown-menu li a,
