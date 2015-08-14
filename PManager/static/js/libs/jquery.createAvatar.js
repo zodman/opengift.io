@@ -23,7 +23,7 @@
                     + '<svg viewBox="0 0 90 90">'
                     + '<title>' + params.initials + '</title>'
                     + '<rect rx="4" ry="4" x="0" y="0" width="90" height="90" style="fill: ' + params.color + '"/>'
-                    + '<g style="font-weight: bold; font-size: 65px;">'
+                    + '<g style="font-weight: bold; font-size: 67px;">'
                     + '<defs><mask id="textMask' + params.id + uniqID + '">'
                     + '<text style="fill:white;" x="6" y="72">' + params.initials + '</text>'
                     + '</mask>'
