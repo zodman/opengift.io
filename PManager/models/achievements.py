@@ -19,7 +19,7 @@ class PM_Achievement(models.Model):
 
     @property
     def smallImageUrl(self):
-        return str(self.image)
+        return '/media/' + str(self.image)
 
     def projectSettingsForAchievement(self, project):
         try:
