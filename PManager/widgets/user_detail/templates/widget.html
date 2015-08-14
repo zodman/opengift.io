@@ -112,7 +112,7 @@
                     <div class="statistic-wrapper clearfix">
                           <div class="statistic-list">
 
-                                <p>Последняя активность: <strong>{% if user_detail.user.last_activity %}{{ user_detail.user.last_activity }}{% else %}Нет{% endif %}</strong></p>
+                                <p>Последняя активность: <strong>{% if user_detail.user.last_activity_date %}{{ user_detail.user.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
                                 <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
                                 <hr />
                                 <h4>Финансы</h4>
@@ -126,7 +126,8 @@
 
                                 <div class="sp" style="margin-top: 10px;">На счету:
                                     <span class="dropdown dropup">
-                                        <b data-toggle="dropdown"><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0' }}</a></b>
+                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0' }}</a></b>
+                                        {% if user_detail.bets %}
                                         <ul class="dropdown-menu">
                                             {% for arBet in user_detail.bets %}
                                                 {% if arBet.price %}
@@ -134,6 +135,7 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
+                                        {% endif %}
                                         <b>баллов</b>
                                     </span>
                                 </div>
