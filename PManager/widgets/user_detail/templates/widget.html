@@ -112,7 +112,7 @@
                     <div class="statistic-wrapper clearfix">
                           <div class="statistic-list">
 
-                                <p>Последняя активность: <strong>{% if user_detail.user.last_activity_date %}{{ user_detail.user.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
+                                <p>Последняя активность: <strong>{% if user_detail.profile.last_activity_date %}{{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
                                 <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
                                 <hr />
                                 <h4>Финансы</h4>
