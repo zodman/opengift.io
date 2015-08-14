@@ -3,10 +3,11 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit, Payment
+from PManager.models import PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit
 from django import forms
 from tracker.settings import USE_GIT_MODULE
 import json
+from django.db import transaction
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -35,7 +36,7 @@ def projectDetail(request, project_id):
     aDebts = Credit.getUsersDebt([project])
     oDebts = dict()
     for x in aDebts:
-        oDebts[x['user_id']] = x['sum']
+        oDebts[x['user_id']] = int(x['sum'])
 
     aRoles = dict()
 
@@ -83,7 +84,8 @@ def projectDetail(request, project_id):
             elif action == 'send_payment':
                 if role:
                     sum = int(request.POST.get('sum', 0))
-                    p = Payment(user=role.user, project=project, value=sum)
+                    comment = request.POST.get('comment', '')
+                    p = Credit(user=role.user, project=project, value=sum, type='payment', comment=comment)
                     p.save()
                     responseObj = {'result': 'payment added'}
 
@@ -111,7 +113,8 @@ def projectDetail(request, project_id):
                         ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
                         exist = int(request.POST.get('value', False))
                         if exist:
-                            PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                            with transaction.commit_on_success():
+                                PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
                         else:
                             pac = PM_Project_Achievement.objects.get(achievement=ac, project=project)
                             pac.delete()
@@ -124,7 +127,8 @@ def projectDetail(request, project_id):
                 if 'achievement' in request.POST:
                     try:
                         ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
-                        pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                        with transaction.commit_on_success():
+                            pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
                         pac.value = int(request.POST.get('value', 0))
                         pac.save()
 
@@ -136,7 +140,8 @@ def projectDetail(request, project_id):
                 if 'achievement' in request.POST:
                     try:
                         ac = PM_Achievement.objects.get(pk=int(request.POST['achievement']))
-                        pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
+                        with transaction.commit_on_success():
+                            pac, created = PM_Project_Achievement.objects.get_or_create(achievement=ac, project=project)
                         pac.type = request.POST.get('value', 'fix')
                         pac.save()
 

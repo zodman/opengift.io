@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 from django.contrib import admin
-from PManager.models import Credit, Payment, Specialty, \
+from PManager.models import Credit, Specialty, \
     LogData, Agent, PM_File_Category, PM_Milestone, \
     PM_NoticedUsers, PM_Notice, PM_Task_Status, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
@@ -65,6 +65,5 @@ admin.site.register(PM_Reminder, Reminder)
 admin.site.register(Agent)
 admin.site.register(LogData, LogDatas)
 admin.site.register(Specialty)
-admin.site.register(Payment, PaymentsInline)
 admin.site.register(Credit, CreditInline)
 admin.site.register(AccessInterface)

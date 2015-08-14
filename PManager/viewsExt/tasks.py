@@ -409,6 +409,7 @@ def taskListAjax(request):
     elif ajax_task_manager.tryToSetActionFromRequest():
         ajax_task_manager.process()
         response_text = ajax_task_manager.getResponse()
+
     elif 'resp' in request.POST:  # смена ответственного
         response_text = __change_resp(request)
 
@@ -492,6 +493,7 @@ def taskListAjax(request):
                         if reminder_date:
                             task_reminder = PM_Reminder(task=task, date=reminder_date, user=request.user)
                             task_reminder.save()
+
                 elif property == "critically":
                     value = float(value)
                     bCriticallyIsGreater = task.critically < value
@@ -504,51 +506,59 @@ def taskListAjax(request):
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
                     sendData['critically'] = task.critically
+
                 elif property == "color":
                     sendData['color'] = value
                     task.color = value
                     task.save()
 
                 elif property == "status":
-                    if task.status and task.status.code == 'not_approved' and not request.user.is_staff:
+                    if task.status and task.status.code == 'not_approved':
                         #client have not enough money#
                         try:
-                            if not task.planTime:
+                            if not task.project.getSettings().get('unplan_approve', False) and not task.planTime:
                                 return HttpResponse(json.dumps({
                                     'error': u'Задача должна быть оценена'
                                 }))
-                            clientRole = PM_ProjectRoles.objects.get(
-                                role__code='client',
-                                project=task.project,
-                                user__is_staff=True
-                            )
-                            client = clientRole.user
-                            clientProfile = client.get_profile()
-                            bet = clientProfile.getBet(task.project)
-                            if not bet:
-                                bet = task.resp.get_profile().getBet(task.project) * COMISSION
-                            #todo: remove HTML from controllers
-                            if request.user.id == client.id:
-                                error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
-                                        '<hr>' + \
-                                        'Необходимо ' + str(bet) + 'sp' + \
-                                        '<div class="border-wrapper">'+ \
-                                        '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
-                                        '<hr>' + \
-                                        '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
-                                        '<hr>' + \
-                                        '<p align="center"><a href="#" class="btn btn-large btn-success" onclick="$(\'.js-start-pay\').trigger(\'click\');$.fancybox(\'close\');" >Пополнить баланс</a>' + \
-                                        '</div>'
-                            else:
-                                error = u'У клиента недостаточно средств для подтверждения задачи'
 
-                            if clientProfile.account_total < task.planTime * bet:
+                            if not request.user.get_profile().isManager(task.project):
                                 return HttpResponse(json.dumps({
-                                    'error': error
+                                    'error': u'Задачу может подтвердить только менеджер'
                                 }))
+
+                            # clientRole = PM_ProjectRoles.objects.get(
+                            #     role__code='client',
+                            #     project=task.project,
+                            #     user__is_staff=True
+                            # )
+                            # client = clientRole.user
+                            # clientProfile = client.get_profile()
+                            # bet = clientProfile.getBet(task.project)
+                            # if not bet:
+                            #     bet = task.resp.get_profile().getBet(task.project) * COMISSION
+                            # #todo: remove HTML from controllers
+                            # if request.user.id == client.id:
+                            #     error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
+                            #             '<hr>' + \
+                            #             'Необходимо ' + str(bet) + 'sp' + \
+                            #             '<div class="border-wrapper">'+ \
+                            #             '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
+                            #             '<hr>' + \
+                            #             '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
+                            #             '<hr>' + \
+                            #             '<p align="center"><a href="#" class="btn btn-large btn-success" onclick="$(\'.js-start-pay\').trigger(\'click\');$.fancybox(\'close\');" >Пополнить баланс</a>' + \
+                            #             '</div>'
+                            # else:
+                            #     error = u'У клиента недостаточно средств для подтверждения задачи'
+                            #
+                            # if clientProfile.account_total < task.planTime * bet:
+                            #     return HttpResponse(json.dumps({
+                            #         'error': error
+                            #     }))
                         except PM_ProjectRoles.DoesNotExist:
                             pass
-                        #\client have not enough money#
+                    #\client have not enough money#
+
                     try:
                         task.setStatus(str(value))
                         task.systemMessage(
@@ -559,6 +569,7 @@ def taskListAjax(request):
                         sendData['status'] = task.status.code
                         logger = Logger()
                         logger.log(request.user, 'STATUS_' + task.status.code.upper(), 1, task.project.id)
+
                     except PM_Task_Status.DoesNotExist:
                         pass
 

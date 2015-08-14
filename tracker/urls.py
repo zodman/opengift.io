@@ -29,7 +29,6 @@ admin.autodiscover()
 
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
-from PManager.models.payments import Payment
 from PManager.models.tasks import PM_Project
 from django.contrib.auth.models import User
 import datetime

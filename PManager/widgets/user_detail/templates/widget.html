@@ -93,7 +93,7 @@
                         <li><a href="#keys" role="tab" data-toggle="tab">Ключи</a></li>
                     {% endif %}
                     {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
-                    <li><a href="#payments" role="tab" data-toggle="tab">Оплаты</a></li>
+                    <li><a href="#payments" role="tab" data-toggle="tab">Бонусы</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -227,6 +227,8 @@
                             </div>
                             {% if not forloop.last %}<hr />{% endif %}
                         {% endfor %}
+                    {% else %}
+                        <p>У пользователя нет ни одного достижения</p>
                     {% endif %}
 
 {#                        <hr />#}
@@ -261,7 +263,7 @@
                 </div><!--ВКЛАДКА "Активность"-->
                 {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                     <div class="tab-pane" id="keys">
-                        <button class="btn btn-success js-openKeyForm"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</button>
+                        <div><button class="btn btn-success js-openKeyForm"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</button></div>
                         <div>&nbsp;</div>
                         {% if user_detail.keys %}
                         <table class="table table-bordered table-striped">
@@ -298,6 +300,7 @@
 	                              <th>Дата</th>
 		                          <th>Сумма</th>
 	                              <th>Проект</th>
+	                              <th>Задача</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>
@@ -307,6 +310,7 @@
 	                                  <td>{{ payment.date }}</td>
 	                                  <td>{{ payment.value }}</td>
 		                              <td>{{ payment.project.name }}</td>
+		                              <td>{{ payment.task.name }}</td>
 	                              </tr>
 	                          {% endfor %}
 	                          </tbody>
@@ -347,7 +351,7 @@
                 </div> <!--ВКЛАДКА "ДОБАВИТЬ ПРОЕКТ"-->
             </div>
 
-            <script>
+            <script type="text/javascript">
                {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                    $('.js-openKeyForm').click(function(){
                         $.get('/user_key_handle/add', function(response){
@@ -374,7 +378,7 @@
                         }
                         return false;
                    });
-              {% endif %}
+               {% endif %}
             </script>
     </div><!--widget-body-->
 </div><!--widget-->

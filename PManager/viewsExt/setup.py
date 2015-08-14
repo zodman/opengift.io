@@ -41,6 +41,7 @@ def register(request):
 
             user.save()
             project.author = user
+            project.setSettings({'start_unapproved': True})
             project.save()
             request.COOKIES["CURRENT_PROJECT"] = project.id
 
@@ -48,7 +49,7 @@ def register(request):
             prof.setRole('manager', project)
             # prof.setRole('client', project, 'plan_time')
             # prof.sp_price = 1500
-            prof.account_total = 0
+            # prof.account_total = 0
             prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=30)
             prof.save()
 

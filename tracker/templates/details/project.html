@@ -20,8 +20,14 @@
 
     $(function () {
         $('.js-select-achievement').click(function() {
-            $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active');
+            var $inputs = $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active')
+                    .find('select, input:not(:checkbox)').attr('disabled', ($(this).is(':checked') ? false: 'disabled'));
+
+            if ($(this).is(':checked')) {
+                $inputs.trigger('change');
+            }
         });
+
         $('a.js-copy-password').each(function () {
             clipboardAppend(this);
         });
@@ -130,10 +136,10 @@
 
         $('.js-bonus-complete').click(function () {
             $.fancybox({'content': $('.js-user-pay-win').html()});
-            $('.js-input-user-sum').val($(this).data('sum') > 0 ? $(this).data('sum') : 0);
+            $('.js-input-user-sum').val($(this).data('sum') * -1);
             $('.js-input-role-id').val($(this).attr('rel'));
             return false;
-        })
+        });
 
         $('.js-avatar_upload').change(function () {
             var file = this.files[0];
@@ -357,7 +363,7 @@
                         <div class="clearfix"></div>
                         <div class="bonuses clearfix">
                             <span><b>Накоплено бонусов:</b> {{ user.sum|default_if_none:"0" }}</span>
-                            <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Списать бонусы</button>
+                            <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Начислить/Списать</button>
                         </div>
 
 
@@ -375,6 +381,8 @@
                     <input type="hidden" class="js-input-role-id" value=""/>
                     <h3>Количество бонусов: </h3>
                     <p><input type="text" class="js-input-user-sum form-control" value="" /></p>
+                    <h3>Комментарий: </h3>
+                    <p><input type="text" class="js-input-comment form-control" value="" /></p>
                     <input type="button" class="btn btn-success form-control" onclick="sendPayment(this);return false;"
                            value="Погасить бонусы"/>
                 </form>
@@ -400,6 +408,7 @@
                         data = {'action': 'send_payment'};
                 data['role'] = parseInt($form.find('.js-input-role-id').val());
                 data['sum'] = parseInt($form.find('.js-input-user-sum').val());
+                data['comment'] = parseInt($form.find('.js-input-comment').val());
                 PM_AjaxPost(
                         document.URL,
                         data,
@@ -511,6 +520,14 @@
         <p class="checkbox">
             <label>
                 <input {% if not canEdit %}disabled="disabled" {% endif %}
+                {% if settings.unplan_approve %}checked="checked" {% endif %}
+                type="checkbox" value="1" name="settings_unplan_approve" >&nbsp;
+                Разрешить подтверждать задачи без оценки
+            </label>
+        </p>
+        <p class="checkbox">
+            <label>
+                <input {% if not canEdit %}disabled="disabled" {% endif %}
                 {% if settings.autohide_messages %}checked="checked" {% endif %}
                 type="checkbox" value="1" name="settings_autohide_messages" >&nbsp;
                 Скрывать сообщения клиента и исполнителя друг от друга
@@ -591,6 +608,7 @@
         <div class="achievements-item-settings">
             <div class="col-wrapper">
                 <div class="col-3"><input type="text" placeholder="0"
+                                          {% if not achievement.project_relation %}disabled{% endif %}
                                           data-achievement="{{ achievement.id }}"
                                           data-action="update_achievement_value"
                                           name="value"
@@ -598,6 +616,7 @@
                                           class="js-ajax-input form-control" /></div>
                 <div class="col-7">
                     <select class="js-ajax-input form-control"
+                            {% if not achievement.project_relation %}disabled{% endif %}
                             data-achievement="{{ achievement.id }}"
                             data-action="update_achievement_type"
                             name="type" >

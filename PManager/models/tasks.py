@@ -1669,7 +1669,7 @@ class PM_ProjectRoles(models.Model):
     user = models.ForeignKey(User, related_name='userRoles')
     project = models.ForeignKey(PM_Project, related_name='projectRoles')
     role = models.ForeignKey(PM_Role)
-    rate = models.FloatField(null=True, blank=True)
+    rate = models.IntegerField(null=True, blank=True)
     payment_type = models.CharField(max_length=100, default='real_time', choices=type_choices)
 
     def __unicode__(self):
