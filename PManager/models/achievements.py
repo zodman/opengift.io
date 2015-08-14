@@ -6,10 +6,11 @@ from PManager.models.tasks import PM_Task, PM_Project
 from PManager.models.payments import Credit
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
+from PManager.customs.storages import path_and_rename
 
 class PM_Achievement(models.Model):
     name = models.CharField(max_length=255)
-    image = models.ImageField(upload_to="tracker/media/achievement/", null=True)
+    image = models.ImageField(upload_to=path_and_rename("achievement"), null=True)
     description = models.TextField()
     condition = models.TextField()
     code = models.CharField(max_length=100)
@@ -18,7 +19,7 @@ class PM_Achievement(models.Model):
 
     @property
     def smallImageUrl(self):
-        return str(self.image).replace('tracker', '')
+        return str(self.image)
 
     def projectSettingsForAchievement(self, project):
         try:
