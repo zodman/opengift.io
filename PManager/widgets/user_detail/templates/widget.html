@@ -111,23 +111,22 @@
                 <div class="tab-pane active" id="svodka">
                     <div class="statistic-wrapper clearfix">
                           <div class="statistic-list">
-                                {% if user_detail.user.last_activity %}
-                                <p>Последняя активность: <strong>{{ user_detail.user.last_activity }}</strong></p>
-                                {% endif %}
-                                {% if user_detail.allTaskClosed %}
-                                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed }}</strong></p>
-                                <hr />
-                                {% endif %}
-                                <hr />
-                                {% if user_detail.profile.sp_price and user_detail.current_user_is_admin or user_detail.profile.sp_price and user_detail.userIsEqualCurrentUser %}
-                                <h4>Финансы</h4>
-                                <p>Ставка: <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
-                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span>SP</p>
 
-                                <div class="sp">
-                                    Всего SP:
+                                <p>Последняя активность: <strong>{% if user_detail.user.last_activity %}{{ user_detail.user.last_activity }}{% else %}Нет{% endif %}</strong></p>
+                                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
+                                <hr />
+                                <h4>Финансы</h4>
+                                <p>Цена часа:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span> баллов</p>
+                                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
+
+                                <div class="sp" style="margin-top: 10px;">
+                                    Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b>
+                                </div>
+
+                                <div class="sp" style="margin-top: 10px;">На счету:
                                     <span class="dropdown dropup">
-                                        <a data-toggle="dropdown" href="javascript:void(0);">{{ user_detail.profile.sp.summ }}</a>
+                                        <b data-toggle="dropdown"><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0' }}</a></b>
                                         <ul class="dropdown-menu">
                                             {% for arBet in user_detail.bets %}
                                                 {% if arBet.price %}
@@ -135,9 +134,11 @@
                                                 {% endif %}
                                             {% endfor %}
                                         </ul>
+                                        <b>баллов</b>
                                     </span>
                                 </div>
-                                <p>Не погашено: {{ user_detail.profile.sp.rest|default_if_none:'0' }}</p>
+                                {% if not user_detail.userIsEqualCurrentUser %}
+                                <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
                                 {% endif %}
                            </div>
 

@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from PManager.models.tasks import PM_Project
 from PManager.models.tasks import PM_Timer
 from PManager.models.tasks import PM_Task_Message
+from PManager.classes.server.message import RedisMessage
+from PManager.viewsExt.tools import service_queue
 import logging
 from tracker import settings
 from git import *
@@ -60,7 +62,13 @@ class Warden(object):
             commit_diff = _repo.git.show(_hash)
             try:
                 df = DiffParser(commit_diff)
-                PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
+                comment = PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
+                mess = RedisMessage(service_queue,
+                            objectName='comment',
+                            type='add',
+                            fields=comment.getJson()
+                       )
+                mess.send()
             except IOError:
                 return 'ERROR: Commit #' + commit_diff + ' could not be parsed'
 

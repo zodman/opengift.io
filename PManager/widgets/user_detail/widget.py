@@ -96,7 +96,12 @@ def widget(request, headerValues, ar, qargs):
             rest, sum = 0, 0
             # sp_price = int(profile.sp_price) if profile.sp_price else 0
             arUserBets = []
-            for project in currentUserAccessProjects.filter(pk__in=currentUserAccessProjects):
+            if user.id == request.user.id:
+                projectsForPayment = currentUserAccessProjects
+            else:
+                projectsForPayment = currentUserManagedProjects
+
+            for project in projectsForPayment:
                 timers = PM_Timer.objects.raw(
                     'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
                     ' WHERE `user_id`=' + str(int(user.id)) +
@@ -127,7 +132,7 @@ def widget(request, headerValues, ar, qargs):
                     p = p[0].summ if p and p[0] and p[0].summ else 0
                     projPrice += o.summ - p if o.summ else 0
 
-                # rest += projPrice
+                rest += projPrice
 
                 arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
 
@@ -147,7 +152,7 @@ def widget(request, headerValues, ar, qargs):
 
             setattr(profile, 'sp', {
                 'summ': sum,
-                'rest': profile.account_total
+                'rest': rest
             })
 
             userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')[:20]
