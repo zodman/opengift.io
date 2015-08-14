@@ -18,7 +18,7 @@ class PM_Notice(models.Model):
 
     @property
     def src(self):
-        return str(self.image)\
+        return '/media/' + str(self.image)\
             .replace('PManager/static/upload', '') #todo: remove after reupload notice images
 
     @staticmethod
