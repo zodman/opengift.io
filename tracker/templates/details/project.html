@@ -20,11 +20,13 @@
 
     $(function () {
         $('.js-select-achievement').click(function() {
-            var $inputs = $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active')
+            var $inp, $inputs = $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active')
                     .find('select, input:not(:checkbox)').attr('disabled', ($(this).is(':checked') ? false: 'disabled'));
 
             if ($(this).is(':checked')) {
-                $inputs.trigger('change');
+                $(this).attr('checked', 'checked');
+                $inp = $inputs.filter('input:text');
+                if ($inp.val()) $inp.trigger('change');
             }
         });
 
