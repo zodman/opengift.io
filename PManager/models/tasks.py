@@ -1464,7 +1464,7 @@ class PM_Task_Message(models.Model):
     @classmethod
     def create_commit_message(cls, df, author, task):
 
-        cls.objects.create(text=df.message,
+        return cls.objects.create(text=df.message,
                            author=author,
                            task=task,
                            commit=df.hash,
