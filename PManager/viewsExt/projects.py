@@ -114,7 +114,7 @@ def projectDetail(request, project_id):
                         if exist:
                             PM_Project_Achievement.get_or_create(achievement=ac, project=project)
                         else:
-                            pac = PM_Project_Achievement.objects.get(achievement=ac, project=project)
+                            pac = PM_Project_Achievement.objects.filter(achievement=ac, project=project)
                             pac.delete()
 
                         responseObj = {'result': 'ok'}
