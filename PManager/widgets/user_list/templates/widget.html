@@ -71,7 +71,7 @@ $(function() {
                                         {% else %}
                                         <script>document.write($.createAvatar({
                                             'id': {{ user.id }},
-                                            'initials': {% if user.last_name %}'{{ user.last_name }}'[0] + ' ' + '{{ user.first_name }}'[0]{% else %}''{% endif %},
+                                            'initials': {% if user.last_name %}'{{ user.last_name }}'[0] + '{{ user.first_name }}'[0]{% else %}''{% endif %},
                                             'color': '{{ user.profile.avatar_color }}'
                                         }));</script>
                                         {% endif %}
