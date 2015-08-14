@@ -175,17 +175,19 @@
 
 <div class="project-info-area clearfix">
     <div class="project-info-left">
-        {% if project.imagePath %}
-                <span class="project-info-avatar">
-                    <span class="project-info-avatar-upload">
-                        <input type="file" class="js-avatar_upload">
-                        <a href="" class="btn btn-success">Выбрать</a>
-                    </span>
-                    <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
-                </span>
-        {% else %}
-        <span class="project-info-avatar"><img width="100px" src="/static/img/no-photo.png" /></span>
-        {% endif %}
+
+        <span class="project-info-avatar">
+            <span class="project-info-avatar-upload">
+                <input type="file" class="js-avatar_upload">
+                <a href="" class="btn btn-success">Выбрать</a>
+            </span>
+            {% if project.imagePath %}
+                <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
+            {% else %}
+                <img width="100px" src="/static/img/no-photo.png"  class="js-avatar" />
+            {% endif %}
+        </span>
+
     </div>
     <div class="project-info-right">
         <h1>
