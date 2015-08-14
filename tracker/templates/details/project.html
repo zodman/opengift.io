@@ -282,7 +282,7 @@
                 </div>
                 <div class="my-row-3">
                     <input type="submit" class="btn btn-success"
-                           onclick="$('.js-add-interface').ajaxSubmit(function(data){var $ic = $('.js-interface-container'); $ic.append(data);clipboardAppend($ic.find('.js-copy-password').last());});return false;"
+                           onclick="$('.js-add-interface').ajaxSubmit(function(data){var $ic = $('.js-interface-container'); $ic.append(data);clipboardAppend($ic.find('.js-copy-password').last()); $('.js-add-interface-wrapper').toggle().find('input:text, input:password').val('');});return false;"
                            value="Добавить интерфейс"/>
                 </div>
             </div>
