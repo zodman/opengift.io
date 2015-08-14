@@ -312,7 +312,18 @@
                     {% for user in o.users %}
                     <div class="user-role-block">
                         <div class="avatar">
-                            <a href="/user_detail/?id=1" class="pull-left"><img width="90px" class="media-object img-thumbnail" src="{% get_settings "HTTP_ROOT_URL" %}/static/images/avatar_male.png"></a>
+                            <a href="/user_detail/?id=1" class="pull-left">
+                                {% if user.profile.avatarSrc %}
+                                        <img src="{{ user.profile.avatarSrc }}"
+                                             alt="{{ user.last_name }} {{ user.first_name }}" width="90px" class="media-object img-thumbnail"/>
+                                        {% else %}
+                                        <script>document.write($.createAvatar({
+                                            'id': {{ user.id }},
+                                            'initials': {% if user.last_name %}'{{ user.last_name }}'[0] + ' ' + '{{ user.first_name }}'[0]{% else %}''{% endif %},
+                                            'color': '{{ user.profile.avatar_color }}'
+                                        }));</script>
+                                {% endif %}
+                            </a>
                         </div>
                         <div class="desc">
                             <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>

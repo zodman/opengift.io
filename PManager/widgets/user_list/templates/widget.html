@@ -16,7 +16,7 @@ $(function() {
     <h3>Все пользователи</h3>
     <hr>
     
-    <div class="row-fluid user-list-filer">
+    <div class="row-fluid user-list-filer" style="display: none;">
     	<div class="span4">
         <select class="form-control">
           <option>Выберите проект</option>
@@ -65,9 +65,16 @@ $(function() {
                             <tr>
                                 <td class="avatar">
                                     <a href="/user_detail/?id={{ user.id }}">
-                                        <img src="
-                                                {% if user.profile.avatarSrc %}{{ user.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}"
+                                        {% if user.profile.avatarSrc %}
+                                        <img src="{{ user.profile.avatarSrc }}"
                                              alt="{{ user.last_name }} {{ user.first_name }}" class="img-thumbnail"/>
+                                        {% else %}
+                                        <script>document.write($.createAvatar({
+                                            'id': {{ user.id }},
+                                            'initials': {% if user.last_name %}'{{ user.last_name }}'[0] + ' ' + '{{ user.first_name }}'[0]{% else %}''{% endif %},
+                                            'color': '{{ user.profile.avatar_color }}'
+                                        }));</script>
+                                        {% endif %}
                                     </a>
                                 </td>
                                 <td class="about-user">
