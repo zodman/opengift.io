@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Payment, Credit, PM_Project, PM_Timer
+from PManager.models import Credit, PM_Project, PM_Timer
 from django.db import connection
 from django.contrib.auth.models import User
 
@@ -107,7 +107,7 @@ class PaymentChart(Chart):
         dateMax = dateToDb(self.dateTo, 'max')
         cursor = connection.cursor()
 
-        q = """SELECT id, sum(`value`) as sum, date(`date`) as day FROM pmanager_payment WHERE
+        q = """SELECT id, sum(`value`) as sum, date(`date`) as day FROM pmanager_credit WHERE
             `payer_id` IS NOT NULL AND `date` BETWEEN %s AND %s GROUP BY %s"""
 
         cursor.execute(q, [dateMin, dateMax, 'day'])
@@ -130,7 +130,7 @@ class PaymentChart(Chart):
             sIn += sum(c.value for c in creditIn)
 
 
-            payments = Payment.objects.filter(date__range=(datetime.datetime.combine(day, datetime.time.min),
+            payments = Credit.objects.filter(value__lt=0, date__range=(datetime.datetime.combine(day, datetime.time.min),
                                                            datetime.datetime.combine(day, datetime.time.max)))
             if self.projects:
                 payments = payments.filter(project__in=self.projects)

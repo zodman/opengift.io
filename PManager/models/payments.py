@@ -25,6 +25,7 @@ class Credit(models.Model):
     task = models.ForeignKey(PM_Task, related_name='costs', null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
     type = models.CharField(max_length=100, blank=True, null=True)
+    comment = models.CharField(max_length=255, blank=True, null=True)
 
     @staticmethod
     def getUsersDebt(projects=None):
@@ -35,12 +36,7 @@ class Credit(models.Model):
 
         qText = """
                   SELECT
-                      sum(value) as summ, user_id FROM (
-                              SELECT -SUM(p.value) as value, user_id FROM pmanager_payment as p""" + projects + """ GROUP BY user_id
-                          UNION
-                              SELECT SUM(c.value) as value, user_id FROM pmanager_credit as c""" + projects + """ GROUP BY user_id
-                      ) as t
-                  GROUP BY t.user_id;
+                      sum(value) as summ, user_id FROM pmanager_credit """ + projects + """ GROUP BY user_id
               """
         cursor = connection.cursor()
 

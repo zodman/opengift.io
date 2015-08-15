@@ -41,7 +41,7 @@
                         {% for user in tasklist.users %}
                             <li><a href="javascript:void(0)" rel="{{ user.username }}"
                                    onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">
-                                    {{ user.last_name }} {{ user.first_name }}
+                                    {% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}
                             </a></li>
                         {% endfor %}
                     </ul>
@@ -58,7 +58,7 @@
                         <li>
                             <a href="javascript:void(0)" rel="{{ user.username }}"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Author',false,$(this).closest('ul').prev());">
-                                {{ user.last_name }} {{ user.first_name }}
+                                {% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}
                             </a>
                         </li>
                     {% endfor %}

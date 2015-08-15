@@ -7,6 +7,8 @@ from PManager.models.payments import Credit
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
 from PManager.customs.storages import path_and_rename
+from django.db import transaction
+from django.db import IntegrityError
 
 class PM_Achievement(models.Model):
     name = models.CharField(max_length=255)
@@ -89,6 +91,22 @@ class PM_Project_Achievement(models.Model):
     value = models.IntegerField(null=True, blank=True)
     type = models.CharField(max_length=100, choices=type_choice, default='fix')
     once_per_project = models.BooleanField()
+
+    @staticmethod
+    def get_or_create(**params):
+        instance = None
+        created = False
+        try:
+            instance = PM_Project_Achievement.objects.get(**params)
+        except PM_Project_Achievement.DoesNotExist:
+                try:
+                    with transaction.commit_on_success():
+                        instance = PM_Project_Achievement.objects.create(**params)
+                    created = True
+                except IntegrityError:
+                    instance = PM_Project_Achievement.objects.get(**params)
+
+        return instance, created
 
     class Meta:
         app_label = 'PManager'

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import Credit, Payment, PM_Task, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
+from PManager.models import Credit, PM_Task, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
@@ -100,43 +100,41 @@ def widget(request, headerValues, ar, qargs):
                 projectsForPayment = currentUserAccessProjects
             else:
                 projectsForPayment = currentUserManagedProjects
+            if projectsForPayment.exists():
+                projectsForPaymentsId = []
+                for project in projectsForPayment:
+                    projectsForPaymentsId.append(project.id)
 
-            for project in projectsForPayment:
-                timers = PM_Timer.objects.raw(
-                    'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
-                    ' WHERE `user_id`=' + str(int(user.id)) +
-                    ' AND task_id in ' +
-                          '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ')'
-                )
-
-                projectBet = profile.getBet(project)
-                projectHours = 0
-                for timer in timers:
-                    if timer.summ:
-                        sumHours = float("%.2f" % (float(timer.summ)/3600))
-                        sum += sumHours
-                        projectHours += sumHours
-                        # rest += sumHours * (projectBet if projectBet else sp_price)
-
-                projPrice = 0
-                for o in Credit.objects.raw(
-                        'SELECT SUM(`value`) as summ, id, user_id, project_id from PManager_credit' +
+                    timers = PM_Timer.objects.raw(
+                        'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
                         ' WHERE `user_id`=' + str(int(user.id)) +
-                        ' AND `project_id`=' + str(int(project.id))
-                    ):
-                    p = Payment.objects.raw(
-                        'SELECT SUM(`value`) as summ, id from PManager_payment' +
-                        ' WHERE `user_id`=' + str(int(user.id)) +
-                        ' AND `project_id`=' + str(int(project.id))
+                        ' AND task_id in ' +
+                              '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ')'
                     )
-                    p = p[0].summ if p and p[0] and p[0].summ else 0
-                    projPrice += o.summ - p if o.summ else 0
 
-                rest += projPrice
+                    projectBet = profile.getBet(project)
+                    projectHours = 0
+                    for timer in timers:
+                        if timer.summ:
+                            sumHours = float("%.2f" % (float(timer.summ)/3600))
+                            sum += sumHours
+                            projectHours += sumHours
+                            # rest += sumHours * (projectBet if projectBet else sp_price)
 
-                arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
+                    projPrice = 0
+                    for o in Credit.objects.raw(
+                            'SELECT SUM(`value`) as summ, id, user_id, project_id from PManager_credit' +
+                            ' WHERE `user_id`=' + str(int(user.id)) +
+                            ' AND `project_id`=' + str(int(project.id))
+                        ):
 
+                        projPrice += o.summ if o.summ else 0
 
+                    rest += projPrice
+
+                    arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
+
+                paymentsAndCredits = Credit.objects.filter(user=user, project__in=projectsForPaymentsId).order_by('-date')
             # paid = profile.paid if profile.paid else 0
             # for o in Payment.objects.raw(
             #         'SELECT SUM(`value`) as summ, id, user_id from PManager_credit' +
@@ -279,7 +277,7 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
-                'payments': Payment.objects.filter(user=user).order_by('-date')
+                'payments': paymentsAndCredits
             }
         except User.DoesNotExist:
             pass

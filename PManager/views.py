@@ -245,13 +245,13 @@ class MainPage:
             aFilter['user'] = filterUser
         if filterPayer:
             aFilter['payer'] = filterPayer
-        from PManager.models import Credit, Payment
+        from PManager.models import Credit
 
         if request.user.is_superuser:
             headerValues = headers.initGlobals(request)
             p = headerValues['CURRENT_PROJECT']
 
-            credits = Credit.objects.filter(task__project=p)
+            credits = Credit.objects.filter(task__project=p, value__gt=0)
             if aFilter:
                 credits = Credit.objects.filter(**aFilter)
 
@@ -266,7 +266,7 @@ class MainPage:
                     sumCreditUserFrom += credit.value
 
                 aCredits.append(credit)
-            payments = Payment.objects.order_by('-pk')
+            payments = Credit.objects.filter(value__lt=0).order_by('-pk')
             c = RequestContext(request, {})
             c.update({
                 'credits': aCredits,
@@ -281,7 +281,7 @@ class MainPage:
 
     @staticmethod
     def paymentReport(request):
-        from PManager.models import PM_Task, Credit, Payment, PM_ProjectRoles
+        from PManager.models import PM_Task, Credit, PM_ProjectRoles
 
         resp_id = request.GET.get('resp', None)
         headerValues = headers.initGlobals(request)
@@ -364,8 +364,8 @@ class MainPage:
 
         c = RequestContext(request, {})
 
-        payed = sum(p.value for p in Payment.objects.filter(project=p, payer__isnull=False))
-        total = sum(d.value for d in Credit.objects.filter(project=p, payer__isnull=False))
+        payed = sum(p.value for p in Credit.objects.filter(value__lt = 0, project=p, payer__isnull=False))
+        total = sum(d.value for d in Credit.objects.filter(value__gt = 0, project=p, payer__isnull=False))
 
         c.update({
             'is_manager': request.user.get_profile().isManager(p),
@@ -382,7 +382,7 @@ class MainPage:
     @staticmethod
     def creditChart(request):
         import datetime
-        from PManager.models.payments import Credit, Payment
+        from PManager.models.payments import Credit
 
         project = request.GET.get('project', None)
         if project:
@@ -412,9 +412,9 @@ class MainPage:
             sOut += sum(c.value for c in creditOut)
             sIn += sum(c.value for c in creditIn)
 
-            payments = Payment.objects.filter(date__range=(datetime.datetime.combine(date, datetime.time.min),
+            payments = Credit.objects.filter(date__range=(datetime.datetime.combine(date, datetime.time.min),
                                                            datetime.datetime.combine(date, datetime.time.max)),
-                                              project__in=projects)
+                                              project__in=projects, value__lt=0)
 
             paymentsOut = payments.filter(user__isnull=False)
             paymentsIn = payments.filter(payer__isnull=False)

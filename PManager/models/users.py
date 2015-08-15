@@ -4,10 +4,12 @@ from django.db import models
 from django.contrib.auth.models import User
 from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project
 from PManager.models.achievements import PM_User_Achievement, PM_Project_Achievement
+from PManager.models.payments import Credit
 from PManager.viewsExt import headers
 from PManager.viewsExt.tools import emailMessage
 from django.db.models.signals import post_save, pre_delete
 from PManager.customs.storages import path_and_rename
+from django.db import connection
 
 class Specialty(models.Model):
     name = models.CharField(max_length=500)
@@ -70,11 +72,28 @@ class PM_User(models.Model):
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
                                     max_length=20)
 
-    account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
+    # account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
     rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
     is_outsource = models.BooleanField(blank=True, verbose_name='Аутсорс', default=False)
+
+    @property
+    def account_total(self):
+        qText = """
+                  SELECT
+                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.id) + """
+              """
+        cursor = connection.cursor()
+
+        cursor.execute(qText)
+
+        for x in cursor.fetchall():
+            if not x[0]:
+                continue
+
+            return x[0]
+        return 0
 
     @property
     def url(self):
