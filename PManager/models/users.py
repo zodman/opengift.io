@@ -82,7 +82,7 @@ class PM_User(models.Model):
     def account_total(self):
         qText = """
                   SELECT
-                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.id) + """
+                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
               """
         cursor = connection.cursor()
 
