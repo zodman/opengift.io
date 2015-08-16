@@ -33,12 +33,7 @@ class Test(models.Model):
     project = models.ForeignKey(PM_Project, related_name='tests', verbose_name=u'Проект')
     condition = models.ForeignKey(Conditions, verbose_name=u'Условие')
     passed = models.BooleanField(blank=True, verbose_name=u'Пройден')
-
-    def url(self):
-        if self.project and self.project.url:
-            return self.project.url
-        else:
-            return False
+    url = models.CharField(max_length=255, blank=True, null=True)
 
     class Meta:
         app_label = 'PManager'
