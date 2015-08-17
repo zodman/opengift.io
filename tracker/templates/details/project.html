@@ -508,7 +508,7 @@
                 <input {% if not canEdit or not canDelete %}disabled="disabled" {% endif %}
                 {% if project.closed %}checked="checked" {% endif %}
                 type="checkbox" name="is_closed" value="1" >&nbsp;
-                Архив
+                Проект в архиве
             </label>
         </p>
         <p class="checkbox">
@@ -516,7 +516,7 @@
                 <input {% if not canEdit %}disabled="disabled" {% endif %}
                 {% if settings.start_unapproved %}checked="checked" {% endif %}
                 type="checkbox" value="1" name="settings_start_unapproved" >&nbsp;
-                Подтверждать задачи перед началом работ
+                Разрешить начинать задачи без подтверждения
             </label>
         </p>
         <p class="checkbox">
