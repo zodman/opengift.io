@@ -378,12 +378,14 @@ header .intro-section {
 header .intro-section .intro {
     color: #ffffff;
     margin-bottom: 36px;
+    font-weight: bold;
 }
 
 header .intro-section h5 {
     color: #ffffff;
 	margin-bottom:25px;
 	font-size:20px;
+    font-weight: bold;
 }
 
 header .intro-section .buttons {
