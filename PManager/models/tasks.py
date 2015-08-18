@@ -494,7 +494,7 @@ class PM_Task(models.Model):
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
-                            ob['rating'] = 1
+                            ob['rating'] = 2
 
                         if accCode:
                             try:
