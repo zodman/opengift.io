@@ -12,3 +12,4 @@ from PManager.models.interfaces import *
 from PManager.models.keys import *
 from PManager.models.taskdraft import *
 from PManager.models.simple_message import *
+from PManager.models.tests import *

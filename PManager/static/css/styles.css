@@ -400,8 +400,13 @@ background: linear-gradient(to right,  rgba(240,240,240,0) 0%,rgba(240,240,240,1
 filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00f0f0f0', endColorstr='#f0f0f0',GradientType=1 ); /* IE6-8 */}
 .section-tracker_menu_name {font-size:13px; font-weight:bold; margin:0;}
 
-.sub-menu_line_section-tracker .fa.fa-cog,
-.sub-menu_line_section-tracker .fa.fa-plus {font-size:22px; margin-right:10px; position:relative; text-decoration:none; top:5px; color:#409003;}
+.sub-menu_line_section-tracker .fa.fa-cog {
+    color: #2a6496;
+}
+.sub-menu_line_section-tracker .fa.fa-plus {
+    color:rgba(1, 1, 1, 0.3);
+}
+.sub-menu_line_section-tracker .fa.fa-cog, .sub-menu_line_section-tracker .fa.fa-plus {font-size:22px; margin-right:10px; position:relative; text-decoration:none; top:5px; }
 .sub-menu_line_section-tracker .fa.fa-plus {top:7px; font-size:24px;} 
 
 .list-inline > li.projects-list-select {display:none;}
