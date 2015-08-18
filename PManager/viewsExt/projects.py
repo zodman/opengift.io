@@ -3,7 +3,7 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit
+from PManager.models import PM_Task, PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit
 from django import forms
 from tracker.settings import USE_GIT_MODULE
 import json
@@ -195,7 +195,7 @@ def projectDetail(request, project_id):
             setattr(achievement, 'project_relation', ar_project_achievements[achievement.id])
 
         ar_achievements.append(achievement)
-
+    projectSettings = project.getSettings()
     c = RequestContext(request, {
         'project': project,
         'pageTitle': project.name,
@@ -206,8 +206,9 @@ def projectDetail(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'messages': aMessages,
-        'settings': project.getSettings(),
-        'achievements': ar_achievements
+        'settings': projectSettings,
+        'achievements': ar_achievements,
+        'colors': [(code, projectSettings.get('color_name_'+code, '')) for code, color in PM_Task.colors]
     })
 
     t = loader.get_template('details/project.html')

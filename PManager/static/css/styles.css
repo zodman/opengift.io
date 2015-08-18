@@ -1194,7 +1194,7 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 }
 .project-milestones-title {position: relative; height: 30px; margin-bottom: 15px;}
 .project-milestones-title h3 {line-height: 30px;}
-.project-milestones-title a {position: absolute; top: 0px; right: 0px;}
+.project-milestones-title a {position: absolute; top: 3px; right: 0px;}
 .project-milestones h4 {margin-bottom:5px;}
 .project-milestones .time {font-size:12px; color:#777; margin-bottom: 5px;}
 .project-milestones .progress-bar-wrapper .progress-bar-wrapper-title {width: 80px; line-height: 16px;}
@@ -1221,7 +1221,7 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 @media only screen and (max-width: 668px) {
     .project-milestones .progress-bar-wrapper .progress .progress-bar-item a {text-indent: -9999em;}
     .project-milestones-title {height: auto;}
-    .project-milestones-title h3 {line-height: 30px;}
+    .project-milestones-title h3 {line-height: 30px; margin-bottom: 0px;}
     .project-milestones-title a {position: relative; margin-bottom: 15px;}
 }
 
@@ -2297,6 +2297,8 @@ border-top-right-radius: 0;}
 										.message .avatar svg {width:90px;height: 90px;}
 										.message-content {display:table-cell; padding:8px 15px 8px 15px; vertical-align:top;}
                                         .message-content.with-toggle-messages {padding-right: 80px !important;}
+
+                                        .toggle-messages.minimize + .task-message .message .message-content {padding-right: 80px !important;}
 											
 											.message-info {color:#999; position:relative; padding-right:50px;}
 											.message-control {float:right; position:absolute; top:0px; right:0px;}
@@ -2697,7 +2699,9 @@ background-image: -moz-linear-gradient(bottom, #51BBE8 0%, #158EC2 100%);
 background-image: -webkit-linear-gradient(bottom, #51BBE8 0%, #158EC2 100%);
 background-image: -ms-linear-gradient(bottom, #51BBE8 0%, #158EC2 100%);
 background-image: linear-gradient(to bottom, #51BBE8 0%, #158EC2 100%);}
-										
+
+.green-button-color {box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+
 										.red-button {background:#D46765; border:1px solid #a13a38; text-shadow:0px 1px 0px #a13a38; -moz-text-shadow:0px 1px 0px #a13a38; -webkit-text-shadow:0px 1px 0px #a13a38; color:#f2dede !important; background-image: -webkit-gradient(
 	linear,
 	left top,
@@ -2828,13 +2832,13 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     margin-bottom:0px;
 }
 
-
 .kanban .project-row-headers {
     overflow: auto;
 }
 .kanban .project-row .tasks-column {
     position: absolute;
     overflow:visible;
+    padding: 10px 0;
 }
 .kanban .task-wrapper-kanban {
     display:none;
@@ -2942,12 +2946,15 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .task-status.overdue {background:#c00f00;}
 
 .kanban .ui-resizable-handle {
-    width: 100%;
     height: 5px;
     position: absolute;
     bottom: -2px;
     background: none;
     cursor: ns-resize;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0 10px;
+    width: calc(100% - 20px);
 }
 .kanban .task-droppable.highlighted {
     background: #f4f4f4;
@@ -4186,10 +4193,10 @@ ul.colors {
     -webkit-opacity: 1;
 }
 
-.color-block.grey, .task-drag.grey {background-color: #8d9091;}
-.color-block.green, .task-drag.green {background-color: #3dc33d;}
-.color-block.blue, .task-drag.blue {background-color: #1dabe6;}
-.color-block.red, .task-drag.red {background-color: #f53838;}
-.color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
-.color-block.purple, .task-drag.purple {background-color: #c666d3;}
-.color-block.orange, .task-drag.orange {background-color: #ef9332;}
+.task-status[rel=grey], .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.task-status[rel=green], .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
+.task-status[rel=blue], .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.task-status[rel=red], .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
+.task-status[rel=yellow], .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.task-status[rel=purple], .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.task-status[rel=orange], .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}

@@ -301,17 +301,20 @@
         return window.localStorage.setItem(this._storeResizeKey(), height);
       },
       _restoreHeight: function() {
-        var e, val;
+        var e, val, minHeight;
         val = window.localStorage.getItem(this._storeResizeKey());
-        if (val == null) {
-          return this.options.resizable.minHeight;
+        minHeight = this.options.resizable.minHeight;
+
+        if (val == null || parseInt(val) < parseInt(minHeight)) {
+          return minHeight;
         }
+
         try {
           val = JSON.parse(val);
           return val;
         } catch (_error) {
           e = _error;
-          return this.options.resizable.minHeight;
+          return minHeight;
         }
       },
       getTask: function(element) {
