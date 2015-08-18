@@ -551,18 +551,23 @@ class PM_Task(models.Model):
             managers = PM_ProjectRoles.objects.filter(
                     project=self.project,
                     role__code='manager',
-                    user__in=self.observers.all()
+                    user__in=self.observers.all(),
+                    rate__gt = 0
                 ).exclude(user__in=PM_ProjectRoles.objects.filter(
-                    project=self.project,
-                    role__code='client'
-                ).values_list('user__id', flat=True))
+                                    project=self.project,
+                                    role__code='client'
+                                ).values_list('user__id', flat=True)
+                         )
 
+            cManagers = managers.count()
             for manager in managers:
                 curTime = None
+
                 if manager.payment_type == 'real_time':
-                    curTime = allRealTime
+                    curTime = allRealTime * 1.0 / cManagers
+
                 elif manager.payment_type == 'plan_time':
-                    curTime = self.planTime
+                    curTime = self.planTime * 1.0 / cManagers
 
                 if curTime:
                     bet = manager.user.get_profile().getBet(self.project, manager.role.code)
@@ -582,20 +587,22 @@ class PM_Task(models.Model):
             #clients
             clients = PM_ProjectRoles.objects.filter(
                 project=self.project,
-                role__code='client'
+                role__code='client',
+                rate__gt=0
             )
             #client with bet
-            clientPaid = 0
-            lastClient = False
+            # clientPaid = 0
+            # lastClient = False
+            cClients = clients.count()
             for client in clients:
                 clientProf = client.user.get_profile()
                 bet = clientProf.getBet(self.project)
                 if bet:
                     curTime = None
                     if client.payment_type == 'plan_time':
-                        curTime = self.planTime
+                        curTime = self.planTime * 1.0 / cClients
                     elif client.payment_type == 'real_time':
-                        curTime = allRealTime
+                        curTime = allRealTime * 1.0 / cClients
 
                     if curTime:
                         price = curTime * bet
@@ -608,24 +615,24 @@ class PM_Task(models.Model):
                         )
                         credit.save()
                         clientProf.save()
-                        clientPaid = price
+                        # clientPaid = price
                         break
-                else:
-                    lastClient = client
+                # else:
+                #     lastClient = client
 
             #or client without bet
-            if not clientPaid:
-                if lastClient:
-                    credit = Credit(
-                        payer=lastClient.user,
-                        value=allSum,
-                        project=self.project,
-                        task=self,
-                        type='Client without bet'
-                    )
-                    credit.save()
-                    lastClient.user.get_profile().save()
-                    clientPaid = allSum
+            # if not clientPaid:
+            #     if lastClient:
+            #         credit = Credit(
+            #             payer=lastClient.user,
+            #             value=allSum,
+            #             project=self.project,
+            #             task=self,
+            #             type='Client without bet'
+            #         )
+            #         credit.save()
+            #         lastClient.user.get_profile().save()
+            #         clientPaid = allSum
 
             # diff = clientPaid - allSum
             # if diff:
