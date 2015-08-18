@@ -7,6 +7,10 @@
     "coffee-script": "^1.9.3",
     "uglifyjs": "^2.4.10",
     "yuglify": "^0.1.4",
+<<<<<<< HEAD
+=======
+    "jscodesniffer": "^2.2.2"
+>>>>>>> 7ccf40b1deae08a05e015989eccbbde8acc01ca1
   },
   "devDependencies": {
     "gulp": "^3.8.11",
