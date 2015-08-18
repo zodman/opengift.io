@@ -3,14 +3,14 @@
   "version": "1.0.0",
   "description": "Node modules for heliard",
   "main": "gulpfile.js",
+  "directories": {
+    "test": "tests"
+  },
   "dependencies": {
     "coffee-script": "^1.9.3",
+    "gulp": "^3.8.11",
     "uglifyjs": "^2.4.10",
-    "yuglify": "^0.1.4",
-<<<<<<< HEAD
-=======
-    "jscodesniffer": "^2.2.2"
->>>>>>> 7ccf40b1deae08a05e015989eccbbde8acc01ca1
+    "yuglify": "^0.1.4"
   },
   "devDependencies": {
     "gulp": "^3.8.11",
