@@ -535,6 +535,20 @@
                 Скрывать сообщения клиента и исполнителя друг от друга
             </label>
         </p>
+        <h2>Категории задач</h2>
+        <hr>
+        <p class="checkbox">
+            <label>
+                <input {% if not canEdit %}disabled="disabled" {% endif %}
+                {% if settings.use_colors_in_kanban %}checked="checked" {% endif %}
+                type="checkbox" value="1" name="settings_use_colors_in_kanban" >&nbsp;
+                Использовать категории в канбане вместо статусов
+            </label>
+        </p>
+        {% for color_code, color in colors %}
+            <p><span class="color-block {{ color_code }}" style="float: left; margin-right: 10px;"></span> <input {% if not canEdit %}disabled="disabled" {% endif %}type="text" name="settings_color_name_{{ color_code }}" value="{{ color }}" class="form-control" style="width: 96%;" placeholder="Введите название категории" /> </p>
+        {% endfor %}
+
         {% if canEdit %}
         <hr>
         <p><input type="submit" value="Применить" name="settings_save" class="btn btn-success" /></p>

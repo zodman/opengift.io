@@ -29,38 +29,38 @@
 {% else %}
     {% block stylesheets %}
         <link rel="stylesheet" href="/static/css/external/chosen.css"/>
-        <style>
-            {% for status in kanban.statuses %}
-            .kanban .project-row .tasks-{{ status.code }},
-            .kanban .project-row-headers .tasks-{{ status.code }}{
-                display: inline-block;
-                float: left;
-                width: 31%;
-                height: 100%;
-                margin: 0 1%;
-                left: {% multiply forloop.counter0 kanban.status_width %}%;
-            }
-            {% endfor %}
-            .kanban .project-row .tasks-revision,
-             .kanban .project-row-headers .tasks-revision {
-                width: 32%;
-             }
-             .kanban .project-row .tasks-column.tasks-ready{
-                margin-left: 2%;
-                margin-right: 0;
-             }
-        </style>
     {% endblock %}
     {% block scripts %}
         {% compressed_js 'kanban' %}
     {% endblock %}
     <div class="kanban">
         {% for project in kanban.projects_data %}
+        <style>
+            {% for status in project.statuses %}
+            #project_{{ project.project.id }} .tasks-{{ status.code }},
+            #project_{{ project.project.id }} .project-row-headers .tasks-{{ status.code }}{
+                display: inline-block;
+                float: left;
+                width: {{ project.status_width }}%;
+                height: 100%;
+                margin: 0 1%;
+                left: calc({{ forloop.counter0 }}*({{ project.status_width  }}% + 30px));
+            }
+            {% endfor %}
+            .kanban .project-row .tasks-revision,
+             .kanban .project-row-headers .tasks-revision {
+                width: {{ project.status_width }}%;
+             }
+             .kanban .project-row .tasks-column.tasks-ready{
+                margin-left: 2%;
+                margin-right: 0;
+             }
+        </style>
         <div class="widget inner">
-             <div class="project-row js-project-row" id="project_{{ project.project.id }}">
+             <div class="project-row js-project-row" id="project_{{ project.project.id }}" >
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
-                        {{ project.project.name }}
+                        {{ project.project.name }} <div style="float: right;"><a href="/project/{{ project.project.id }}/#additional_settings">Настроить столбцы</a></div>
                     </div>
                     <div>
                         <select class="js-user_source" multiple
@@ -73,22 +73,22 @@
                     </div>
         
                     <div class="project-row-headers">
-                        {% for status in kanban.statuses %}
+                        {% for status in project.statuses %}
                             <div class="tasks-header tasks-{{ status.code }}">{{ status.name }}</div>
                         {% endfor %}
                         <div class="clearfix"></div>
                     </div>
                 </div>
-            <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
-                    {% for status in kanban.statuses %}
-                        <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
-                    {% endfor %}
-                    {% for task_data in project.tasks %}
-                        {% show_micro_task task_data.task %}
-                    {% endfor %}
+                <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.project.id }}">
+                        {% for status in project.statuses %}
+                            <div class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}" rel="{{ status.code }}"></div>
+                        {% endfor %}
+                        {% for task_data in project.tasks %}
+                            {% show_micro_task task_data.task %}
+                        {% endfor %}
+                    </div>
+                    <div class="clearfix"></div>
                 </div>
-                <div class="clearfix"></div>
-            </div>
         </div>
         {% endfor %}
     </div>
@@ -164,7 +164,7 @@
                 render: function() {
                     this.$el.find('.js-task-name').html(this.model.get('name'));
                     // todo remove hardcode and replace with statuses from db
-                    this.$el.find('.js-task-status').attr('rel',this.model.get('status')).removeClass('not_approved revision ready').addClass(this.model.get('status'));
+                    this.$el.find('.js-task-status').attr('rel',this.model.get('status'));
                     this.$el.find('.js-task-executor').attr('rel',this.model.get('responsible'));
                     var avatar = this.$el.find('.js-avatar-container');
                     avatar.attr('rel',this.model.get('avatar'));
@@ -174,8 +174,9 @@
             var kanbans = $('.js-tasks-wrapper').on('kanban:taskadd', function(widget, task){
                 var executor = task.el.find('.executor').attr('rel');
                 var status = task.el.find('.js-task-status').attr('rel');
+                var status_is_color = task.el.find('.js-task-status').data('status_is_color');
                 if(!status) {
-                    task.el.find('.js-task-status').addClass('not_approved').attr('rel', 'not_approved');
+                    task.el.find('.js-task-status').attr('rel', 'not_approved');
                     status = 'not_approved';
                 }
                 var id = task.el.attr('rel');
@@ -198,6 +199,7 @@
                     model: model,
                     responsible: model.get('responsible'),
                     storage: $.JSONstorage,
+                    status_is_color: status_is_color,
                     view: view,
                     update: function(){
                         this.status = this.model.get('status');
@@ -234,10 +236,12 @@
 
             }).on('kanban:onstatuschange', function(event, task){
                 task.model.set('status', task.status);
-                taskManager.SetTaskProperty(task.id, 'status', task.status, function(){
+
+                taskManager.SetTaskProperty(task.id, (parseInt(task.status_is_color) ? 'color' : 'status'), task.status, function(){
                     task.render();
                 })
             }).kanban();
+
             $('.js-user_source').on("chosen:ready", function(){
                 var id = $(this).parents('.js-project-row').attr('id');
                 $(this).css('z-index', 999);
@@ -262,6 +266,7 @@
                 });
                 $row.find('.js-tasks-wrapper').kanban('update');
             }).trigger("change");
+
              $(".js-task_menu").click(function(){
                 var taskEL = $(this).parents('.js-task-wrapper');
                 var task = $(this).parents('.js-tasks-wrapper').kanban('getTask', taskEL);

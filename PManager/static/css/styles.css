@@ -2828,13 +2828,13 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     margin-bottom:0px;
 }
 
-
 .kanban .project-row-headers {
     overflow: auto;
 }
 .kanban .project-row .tasks-column {
     position: absolute;
     overflow:visible;
+    padding: 10px 0;
 }
 .kanban .task-wrapper-kanban {
     display:none;
@@ -2942,12 +2942,15 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .task-status.overdue {background:#c00f00;}
 
 .kanban .ui-resizable-handle {
-    width: 100%;
     height: 5px;
     position: absolute;
     bottom: -2px;
     background: none;
     cursor: ns-resize;
+    border-top: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
+    margin: 0 10px;
+    width: calc(100% - 20px);
 }
 .kanban .task-droppable.highlighted {
     background: #f4f4f4;
@@ -4186,10 +4189,10 @@ ul.colors {
     -webkit-opacity: 1;
 }
 
-.color-block.grey, .task-drag.grey {background-color: #8d9091;}
-.color-block.green, .task-drag.green {background-color: #3dc33d;}
-.color-block.blue, .task-drag.blue {background-color: #1dabe6;}
-.color-block.red, .task-drag.red {background-color: #f53838;}
-.color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
-.color-block.purple, .task-drag.purple {background-color: #c666d3;}
-.color-block.orange, .task-drag.orange {background-color: #ef9332;}
+.task-status[rel=grey], .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.task-status[rel=green], .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
+.task-status[rel=blue], .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.task-status[rel=red], .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
+.task-status[rel=yellow], .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.task-status[rel=purple], .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.task-status[rel=orange], .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}

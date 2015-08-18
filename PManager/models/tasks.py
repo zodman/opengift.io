@@ -351,11 +351,13 @@ class PM_Task(models.Model):
     )
 
     colors = (
-        ('black', u'Черный'),
+        ('grey', u'Серый'),
+        ('green', u'Зеленый'),
+        ('blue', u'Голубой'),
         ('red', u'Красный'),
         ('yellow', u'Желтый'),
-        ('blue', u'Голубой'),
-        ('green', u'Зеленый'),
+        ('purple', u'Пурпурный'),
+        ('orange', u'Оранжевый')
     )
 
     name = models.CharField(max_length=1000, verbose_name='Заголовок')
