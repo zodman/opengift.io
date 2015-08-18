@@ -153,11 +153,9 @@
     $('.js-excel').on('click', function(e) {
         var url = '/ajax/stat_excel/?excel=',
                 chart = 'loan',
-                date_from,
-                date_to;
-        date_from = $('#StartFromDate1').val();
-        date_to = $('#StartFromDate2').val();
-        var final_url = url + chart + '&date_from=' + date_from + '&date_to=' + date_to;
-        e.href = final_url;
+                date_from = $('#StartFromDate1').val(),
+                date_to = $('#StartFromDate2').val();
+
+        this.href = url + chart + '&date_from=' + date_from + '&date_to=' + date_to;
     })
 </script>
