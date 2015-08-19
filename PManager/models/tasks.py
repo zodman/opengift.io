@@ -532,7 +532,7 @@ class PM_Task(models.Model):
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
-                                    comment=(('+' if curUserRating > 0 else '-') + str(curUserRating) + u' к рейтингу')
+                                    comment=(('+' if curUserRating >= 0 else '-') + str(curUserRating) + u' к рейтингу')
                                 )
                                 credit.save()
                                 allSum = allSum + curPrice
