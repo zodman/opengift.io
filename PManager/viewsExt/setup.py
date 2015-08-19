@@ -50,7 +50,7 @@ def register(request):
             # prof.setRole('client', project, 'plan_time')
             # prof.sp_price = 1500
             # prof.account_total = 0
-            prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=30)
+            prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=365)
             prof.save()
 
             return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')

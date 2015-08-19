@@ -95,11 +95,12 @@ def __change_resp(request):
     if not r_prof.hasRole(task.project):
         r_prof.setRole('employee', task.project)
     # outsource
-    if r_prof.getBet(task.project) >= 0:  # if finance relationship
+    if r_prof.getBet(task.project) >= 0 and \
+            not task.project.getSettings().get('unplan_approve', False):  # if finance relationship
         task.setStatus('not_approved')
     else:
         task.setStatus('revision')
-    #end outsource
+    #end outsources
     task.lastModifiedBy = request.user
 
     task.save()
@@ -810,8 +811,10 @@ class taskAjaxManagerCreator(object):
                 continue
             task.onPlanning = True
             task.resp = None
-            task.setStatus('not_approved')
-            task.save()
+            if not task.project.getSettings().get('unplan_approve', False):
+                task.setStatus('not_approved')
+                task.save()
+
             redisSendTaskUpdate({
                 'id': task.id,
                 'onPlanning': True

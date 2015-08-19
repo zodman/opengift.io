@@ -1299,7 +1299,7 @@ object {
 
 }
 .single-package .color-bg {
-    background-color: !important;
+    /*background-color: !important;*/
 }
 .single-package .price h2 {
     color: #FFFFFF;
