@@ -302,7 +302,7 @@ class PM_User(models.Model):
             rate = projectRole.rate if projectRole and projectRole.rate else (
                 int(self.sp_price) if self.sp_price else 0)
 
-            if not self.isClient(project):
+            if rate and not self.isClient(project):
                 if self.rating:
                     rate += self.rating
 
