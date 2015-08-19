@@ -410,7 +410,7 @@
                         data = {'action': 'send_payment'};
                 data['role'] = parseInt($form.find('.js-input-role-id').val());
                 data['sum'] = parseInt($form.find('.js-input-user-sum').val());
-                data['comment'] = parseInt($form.find('.js-input-comment').val());
+                data['comment'] = $form.find('.js-input-comment').val();
                 PM_AjaxPost(
                         document.URL,
                         data,
