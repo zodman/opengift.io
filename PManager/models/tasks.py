@@ -482,6 +482,7 @@ class PM_Task(models.Model):
             ' GROUP BY user_id'
         )
 
+        bugsQty = self.messages.filter(bug=True).count()
         for obj in timers:
             ob = {}
             if obj.summ:
@@ -496,7 +497,9 @@ class PM_Task(models.Model):
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
-                            ob['rating'] = 2
+                            ob['rating'] = 1
+                            if not bugsQty:
+                                ob['rating'] += 1
 
                         if accCode:
                             try:
@@ -510,7 +513,8 @@ class PM_Task(models.Model):
                     profResp = cUser.get_profile()
                     paymentType = profResp.getPaymentType(self.project, 'employee')
                     #set user rating
-                    profResp.rating = (profResp.rating or 0) + ob.get('rating', 0)
+                    curUserRating = ob.get('rating', 0)
+                    profResp.rating = (profResp.rating or 0) + curUserRating
                     profResp.save()
 
                     if paymentType == 'real_time':
@@ -527,7 +531,8 @@ class PM_Task(models.Model):
                                     value=curPrice,
                                     project=self.project,
                                     task=self,
-                                    type='Resp real time'
+                                    type='Resp real time',
+                                    comment=(('+' if curUserRating > 0 else '-') + curUserRating + u' к рейтингу')
                                 )
                                 credit.save()
                                 allSum = allSum + curPrice
