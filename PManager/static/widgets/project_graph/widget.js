@@ -8,5 +8,8 @@
             $.fancybox.close();
             return false;
         });
+        $('[data-toggle="popover"]').popover({
+            trigger:'hover'
+        });
     });
 })(jQuery);
