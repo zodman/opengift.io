@@ -4205,3 +4205,7 @@ ul.colors {
 .task-status[rel=yellow], .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
 .task-status[rel=purple], .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
 .task-status[rel=orange], .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
+
+.wiking-content__image {
+    width: 300px;
+}

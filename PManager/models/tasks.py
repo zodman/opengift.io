@@ -492,7 +492,7 @@ class PM_Task(models.Model):
                     userTaskHours = round(float(obj.summ) / 3600., 2)
                     if self.planTime:
                         if userTaskHours > self.planTime:
-                            ob['rating'] = -round((30 * (userTaskHours - self.planTime) / self.planTime))
+                            ob['rating'] = -round(5 * (userTaskHours - self.planTime))
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
