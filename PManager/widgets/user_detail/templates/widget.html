@@ -302,6 +302,7 @@
 		                          <th>Сумма</th>
 	                              <th>Проект</th>
 	                              <th>Задача</th>
+	                              <th>Комментарий</th>
 	                            </tr>
 	                          </thead>
 	                          <tbody>
@@ -312,6 +313,7 @@
 	                                  <td>{{ payment.value }}</td>
 		                              <td>{{ payment.project.name }}</td>
 		                              <td>{{ payment.task.name }}</td>
+		                              <td>{{ payment.comment }}</td>
 	                              </tr>
 	                          {% endfor %}
 	                          </tbody>
