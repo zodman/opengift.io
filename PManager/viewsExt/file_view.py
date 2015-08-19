@@ -10,7 +10,7 @@ import os
 def docxView(request):
     #TODO: все к херам переписать по уму
     from shutil import copyfile
-    # from docx2html import convert
+    from docx2html import convert
 
     def handle_image(image_id, relationship_dict):
         image_path = relationship_dict[image_id]
@@ -28,8 +28,7 @@ def docxView(request):
         try:
             pm_file = PM_Files.objects.get(pk=int(fp))
             if pm_file.type == 'docx':
-                # html = convert(str(pm_file.file.path), image_handler=handle_image)
-                pass
+                html = convert(str(pm_file.file.path), image_handler=handle_image)
             elif pm_file.type == 'xlsx':
                 html = excelToHtml(str(pm_file.file.path))
         except PM_Files.DoesNotExist:
