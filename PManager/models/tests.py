@@ -4,6 +4,7 @@ __author__ = 'Alwx'
 from django.db import models
 from PManager.models.tasks import PM_Project
 
+
 class Conditions(models.Model):
     field_choices = (
         ('ResponseHeader', u'Заголовок ответа'),
@@ -19,7 +20,8 @@ class Conditions(models.Model):
     )
 
     field = models.CharField(max_length=15, choices=field_choices, verbose_name=u'Поле', blank=True, null=True)
-    condition = models.CharField(max_length=6, choices=condition_choices, verbose_name=u'Условие', blank=True, null=True)
+    condition = models.CharField(max_length=6, choices=condition_choices, verbose_name=u'Условие', blank=True,
+                                 null=True)
     value = models.CharField(max_length=255, verbose_name=u'Значение', blank=True, null=True)
 
     def __unicode__(self):
@@ -34,6 +36,12 @@ class Test(models.Model):
     condition = models.ForeignKey(Conditions, verbose_name=u'Условие')
     passed = models.BooleanField(blank=True, verbose_name=u'Пройден')
     url = models.CharField(max_length=255, blank=True, null=True)
+
+    def test(self):
+        if self.condition:
+            return True
+        else:
+            return False
 
     class Meta:
         app_label = 'PManager'
