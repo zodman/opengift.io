@@ -3271,6 +3271,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     -moz-box-sizing: border-box !important;
     -webkit-box-sizing: border-box !important;
     position: relative;
+    margin-bottom: 0px;
 }
 .col-5 {width: 50%;}
 .col-6 {width: 60%;}
@@ -3529,11 +3530,14 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
 .deadline-input {position: relative; margin-bottom: 5px;}
-    .deadline-input .fa-calendar {
-        position: absolute;
-        right: 10px;
-        top: 9px;
-    }
+.deadline-input .fa-calendar {
+    color: #47a447;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    cursor: pointer;
+}
 
 .with-input-and-plus {position: relative;}
 .with-input-and-plus input {width: calc(100% - 20px);}
