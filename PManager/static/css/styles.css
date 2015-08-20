@@ -179,6 +179,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 	header .header > nav > ul > li > a > .fa { font-size: 22px;}
 	header .header .timer-wrapper {width:35%;}
 	header .header .timer-wrapper .user-menu a span {font-size:0px;}
+    .sub-menu_line_section-user a span {display: none;}
 	header .header .timer-wrapper .user-menu a i {display:inline-block; font-size:13px;}
 }
 
@@ -299,9 +300,11 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 /*  ###############################################################
                           ПОДМЕНЮ ПОД ШАПКОЙ
     ###############################################################*/
+.sub-menu_line {padding: 0 20px;}
+.sub-menu_line_section-tracker {float: right; width: 320px;}
 
 .sub-menu ul.list-inline {margin-bottom:0px !important;}
-.sub-menu_line_section-user {font-size: 0px;}
+.sub-menu_line_section-user {font-size: 0px; float: left; width: calc(100% - 320px);}
 .sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
 .sub-menu_line_section-user li > a.bold {font-weight: bold;}
 .sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
@@ -2144,13 +2147,6 @@ border-top-right-radius: 0;}
 .tasks-toolbar > div.col-xs-8 {margin-top:10px;}
 .tasks-toolbar > div.col-xs-8 ul.pull-right {float:none !important;}
 }
-
-
-@media only screen and (max-width: 768px) {	
-	.sub-menu_line_section-user a span {display:none;}
-}
-
-
 
 
 @media only screen and (max-width: 568px) {
