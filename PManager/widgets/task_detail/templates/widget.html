@@ -142,8 +142,8 @@
         {% if task_detail.solutions %}
             <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Есть опубликованные решения подобных задач</a>
         {% endif %}
-        {% if task_detail.task.observersList %}
         <hr />
+        {% if task_detail.task.observersList %}
         <p class="text-success">
             Наблюдатели: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
         </p>
