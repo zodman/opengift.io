@@ -295,7 +295,7 @@ $(function(){
                 </li>
                 <li class="{% if activeMenuItem == 'statistic' %} active{% endif %}">
                     <a href="/milestones/">
-                        <span aria-hidden="true" class="fa fa-line-chart"></span>
+                        <span aria-hidden="true" class="fa fa-star"></span>
                         <span>ЦЕЛИ</span>
                     </a>
                 </li>
@@ -380,9 +380,9 @@ $(function(){
 
 {# -=========== ПОДМЕНЮ: пользователи, файлы ===========- #}
 <div class="container sub-menu">
-    <div class="row sub-menu_line">
+    <div class="row sub-menu_line clearfix">
         {% if user.is_authenticated %}
-        <div class="sub-menu_line_section-user col-xs-7">
+        <div class="sub-menu_line_section-user">
 
             {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
             <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
@@ -400,9 +400,14 @@ $(function(){
                 <i class="fa fa-tasks"></i>
                 <span>&nbsp;График</span>
             </a>
+
+            {% if taskdrafts_cnt %}
+                <a href="/taskdrafts/" class="btn btn-default"><i class="fa fa-list"></i><span>Рассылки</span> &nbsp;({{ taskdrafts_cnt }})</a>
+            {% endif %}
         </div>
 
-        <div class="sub-menu_line_section-tracker col-xs-5">
+
+        <div class="sub-menu_line_section-tracker">
             <ul class="list-inline navbar-right">
                 <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
                 <li class="projects-list-menu">

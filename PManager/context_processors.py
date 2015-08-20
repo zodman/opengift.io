@@ -1,5 +1,6 @@
 __author__ = 'Gvammer'
 from PManager.viewsExt import headers
+from PManager.services.task_drafts import draft_cnt
 import urllib
 
 
@@ -20,7 +21,8 @@ def get_head_variables(request):
         'is_admin': request.user.is_superuser,
         'is_staff': request.user.is_staff,
         'is_detail_page': 'detail' in currentPath or 'wiki' in currentPath or 'project' in currentPath,
-        'referrer': request.GET.get('r', None)
+        'referrer': request.GET.get('r', None),
+        'taskdrafts_cnt': draft_cnt(request.user)
     }
 
     if request.user.is_authenticated():

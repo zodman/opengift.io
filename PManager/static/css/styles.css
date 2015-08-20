@@ -179,6 +179,7 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 	header .header > nav > ul > li > a > .fa { font-size: 22px;}
 	header .header .timer-wrapper {width:35%;}
 	header .header .timer-wrapper .user-menu a span {font-size:0px;}
+    .sub-menu_line_section-user a span {display: none;}
 	header .header .timer-wrapper .user-menu a i {display:inline-block; font-size:13px;}
 }
 
@@ -299,9 +300,11 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 /*  ###############################################################
                           ПОДМЕНЮ ПОД ШАПКОЙ
     ###############################################################*/
+.sub-menu_line {padding: 0 20px;}
+.sub-menu_line_section-tracker {float: right; width: 320px;}
 
 .sub-menu ul.list-inline {margin-bottom:0px !important;}
-.sub-menu_line_section-user {font-size: 0px;}
+.sub-menu_line_section-user {font-size: 0px; float: left; width: calc(100% - 320px);}
 .sub-menu_line_section-user li > a { display: inline-block; background:url(../images/sprite.png) no-repeat; padding-left:43px; color:#cd0000; font-size:12px; line-height:33px; text-decoration:underline; }
 .sub-menu_line_section-user li > a.bold {font-weight: bold;}
 .sub-menu_line_section-user li > a:hover { color:#222; text-decoration:none; }
@@ -442,7 +445,6 @@ div.widget-control .w-close {background-position:-15px -396px; padding: 0px;}
 /***/
 
 .choose-date {position:relative;}
-.choose-date .fa-calendar {position:absolute; right:10px; top:7px; color:#47A447; font-size:20px;}
 
 .input-group .fa-plus {padding-right:5px;}
 
@@ -723,9 +725,15 @@ border-bottom-right-radius: 0px;}
 .task-wrapper:hover {transition: box-shadow 0.2s linear 0s;}
 
 
-.task-wrapper.active, .task-wrapper.visible, .task-wrapper.visible-items {background:#f9f9f9;}
-.task-wrapper.critically {background:#FFECEC;}
-.task-wrapper.task_over, .task-wrapper.critically.task_over {box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6;	-o-box-shadow:0px 1px 2px #FFE0A6;	-webkit-box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6; background:#FFFDF1 !important;}
+.task-wrapper.active,
+.task-wrapper.visible,
+.task-wrapper.visible-items {background:#f9f9f9;}
+
+.task-wrapper.critically,
+.task.critically {background:#FFECEC;}
+
+.task-wrapper.task_over,
+.task-wrapper.critically.task_over {box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6;	-o-box-shadow:0px 1px 2px #FFE0A6;	-webkit-box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6; background:#FFFDF1 !important;}
 
 .task-wrapper {border-top: 1px solid #eee;border-right: 1px solid #eee;margin-bottom:10px; box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -moz-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -webkit-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; line-height:24px; background:#f4f4f4;}
 
@@ -2141,13 +2149,6 @@ border-top-right-radius: 0;}
 }
 
 
-@media only screen and (max-width: 768px) {	
-	.sub-menu_line_section-user a span {display:none;}
-}
-
-
-
-
 @media only screen and (max-width: 568px) {
 	.tasks-toolbar .search-filter .btn-success {width:40px;}
 	.input-group .fa-plus {padding-right:0px;}
@@ -3265,6 +3266,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     -moz-box-sizing: border-box !important;
     -webkit-box-sizing: border-box !important;
     position: relative;
+    margin-bottom: 0px;
 }
 .col-5 {width: 50%;}
 .col-6 {width: 60%;}
@@ -3277,7 +3279,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     padding-right: 0px;
 }
 
-.user-role-block .avatar {float: left; margin-right: 15px; width: 90px;}
+.user-role-block .avatar {float: left; margin-right: 15px; width: 90px; height:90px; overflow: hidden;}
 .user-role-block .desc {float: left; width: calc(100% - 105px);}
 
 .nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
@@ -3523,11 +3525,16 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
 .deadline-input {position: relative; margin-bottom: 5px;}
-    .deadline-input .fa-calendar {
-        position: absolute;
-        right: 10px;
-        top: 9px;
-    }
+.deadline-input .fa-calendar,
+.choose-date .fa-calendar {
+    color: #47a447;
+    font-size: 14px;
+    position: absolute;
+    right: 10px;
+    top: 9px;
+    cursor: pointer;
+    z-index:10001;
+}
 
 .with-input-and-plus {position: relative;}
 .with-input-and-plus input {width: calc(100% - 20px);}
