@@ -353,9 +353,9 @@
                   <div class="col-5">
                     <input type="text" class="form-control" name="ms_name" maxlength="255" placeholder="Название" />
                   </div>
-                  <div class="col-5 deadline-input">
-                      <i class="fa fa-calendar js-date"></i>
-                      <input type="text" class="js-date form-control" maxlength="10" name="ms_date" placeholder="Дата" />
+                  <div class="col-5 deadline-input js-calendar-wrapper">
+                      <a href="#" class="fa fa-calendar js-date" style="z-index:10001;" onclick="$(this).closest('.js-calendar-wrapper').find('.js-date').focus()"></a>
+                      <input type="text" class="js-date form-control" maxlength="10" name="ms_date" placeholder="Дата" style="position: relative; z-index: 10000;" />
                   </div>
               </div>
               </div>

@@ -442,7 +442,6 @@ div.widget-control .w-close {background-position:-15px -396px; padding: 0px;}
 /***/
 
 .choose-date {position:relative;}
-.choose-date .fa-calendar {position:absolute; right:10px; top:7px; color:#47A447; font-size:20px;}
 
 .input-group .fa-plus {padding-right:5px;}
 
@@ -3530,13 +3529,15 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}
 .deadline-input {position: relative; margin-bottom: 5px;}
-.deadline-input .fa-calendar {
+.deadline-input .fa-calendar,
+.choose-date .fa-calendar {
     color: #47a447;
     font-size: 14px;
     position: absolute;
     right: 10px;
     top: 9px;
     cursor: pointer;
+    z-index:10001;
 }
 
 .with-input-and-plus {position: relative;}
