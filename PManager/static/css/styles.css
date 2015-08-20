@@ -3277,7 +3277,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     padding-right: 0px;
 }
 
-.user-role-block .avatar {float: left; margin-right: 15px; width: 90px;}
+.user-role-block .avatar {float: left; margin-right: 15px; width: 90px; height:90px; overflow: hidden;}
 .user-role-block .desc {float: left; width: calc(100% - 105px);}
 
 .nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
