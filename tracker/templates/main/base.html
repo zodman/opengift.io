@@ -1,6 +1,6 @@
 {% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="ru" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="utf-8">
     <meta name="description" content="">
@@ -312,37 +312,38 @@ $(function(){
                         <span>ВИКИ</span>
                     </a>
                 </li>
-                <li class="dropdown notifications">
-                    <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
-                        <span class="js-notificator fa fa-bell"></span><b class="js-mes_qty">{{ messages_qty }}</b>
-                    </a>
-                    <div class="dropdown-menu">
-                        <div class="container js-pmessages-list_empty {% if messages_qty > 0 %}hidden{% endif %}">Список сообщений пуст</div>
-                        {% if messages|length > 0 %}
-                           <div class="clearfix notifications-title">
-                                    <div class="pull-left title">Обновления</div>
-                                    <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
-                           </div>
-                        <ul class="js-pmessages-dropdown notifications-ul">
-                            {% for mess in messages %}
-                        	<li class="js-message">
-                            	<div class="clearfix">
-                                	<div class="pull-left"><span class="label label-warning">Личное сообщение</span></div>
-                                	<div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
-                                </div>
-                                <div class="time-username">{{ mess.dateCreate }} / <a href="/user_detail/>id={{mess.author.id}}">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% endif %}</a></div>
-                                <h5><b><a href="{{mess.task.url}}">{{ mess.task.name }}</a></b></h5>
-                                <div class="text-message">{{ mess.text|safe }}</div>
-                            </li>
-                            {% endfor %}
-                        </ul>
-                        {% endif %}
-                    </div>
-                </li>
             </ul>
         </nav>
 
         <div class="timer-wrapper clearfix">
+
+            <span class="dropdown notifications">
+                <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
+                    <span class="js-notificator fa fa-bell"></span><b class="js-mes_qty">{{ messages_qty }}</b>
+                </a>
+                <div class="dropdown-menu">
+                    <div class="container js-pmessages-list_empty {% if messages_qty > 0 %}hidden{% endif %}">Список сообщений пуст</div>
+                    {% if messages|length > 0 %}
+                    <div class="clearfix notifications-title">
+                        <div class="pull-left title">Обновления</div>
+                        <div class="pull-right"><a href="#" class="fa fa-times js-read-message" title="Отметить все как прочитанные"></a></div>
+                    </div>
+                    <ul class="js-pmessages-dropdown notifications-ul">
+                        {% for mess in messages %}
+                        <li class="js-message">
+                            <div class="clearfix">
+                                <div class="pull-left"><span class="label label-warning">Личное сообщение</span></div>
+                                <div class="pull-right"><a href="#" class="fa fa-times js-read-message" rel="{{ mess.id }}" title="Отметить как прочитанное"></a></div>
+                            </div>
+                            <div class="time-username">{{ mess.dateCreate }} / <a href="/user_detail/>id={{mess.author.id}}">{% if mess.author.last_name %}{{mess.author.last_name}} {{mess.author.first_name}}{% endif %}</a></div>
+                            <h5><b><a href="{{mess.task.url}}">{{ mess.task.name }}</a></b></h5>
+                            <div class="text-message">{{ mess.text|safe }}</div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    {% endif %}
+                </div>
+            </span>
             <div class="timer js-currentTask">
                 <span>
                     <span class="Time js-mainTimer" >{% if userTimer %}{{ userTimer }}{% else %}00:00:00{% endif %}</span>
