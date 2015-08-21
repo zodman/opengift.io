@@ -312,6 +312,12 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 .sub-menu_line_section-user .files { background-position: 0px -343px; }
 .sub-menu_line_section-user .new_task { background-position: 0px -498px; }
 
+
+@media only screen and (max-width: 768px) {
+    .sub-menu_line_section-tracker {float: none; width: 100%;}
+    .sub-menu_line_section-user {float: none; width: 100%; margin-bottom: 10px;}
+}
+
 .sub-menu_line_section-user a {
     display: inline-block;
     margin-right: 10px;
