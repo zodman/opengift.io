@@ -4210,6 +4210,20 @@ ul.colors {
     border: 5px solid #fff;
 }
 
+.project-colors .color-block {
+    border: 0 none;
+    border-radius: 4px 0 0 4px;
+    box-shadow: -1px 0 0 rgba(1, 1, 1, 0.1) inset;
+    -moz-box-shadow: -1px 0 0 rgba(1, 1, 1, 0.1) inset;
+    -webkit-box-shadow: -1px 0 0 rgba(1, 1, 1, 0.1) inset;
+    height: 34px;
+    margin-right: -3px !important;
+    opacity: 1;
+    -moz-opacity: 1;
+    -webkit-opacity: 1;
+    width: 34px;
+}
+
 .color-block.active {
     border: 0;
     opacity: 1;

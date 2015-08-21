@@ -545,9 +545,11 @@
                 Использовать категории в канбане вместо статусов
             </label>
         </p>
+        <div class="project-colors">
         {% for color_code, color in colors %}
             <p><span class="color-block {{ color_code }}" style="float: left; margin-right: 10px;"></span> <input {% if not canEdit %}disabled="disabled" {% endif %}type="text" name="settings_color_name_{{ color_code }}" value="{{ color }}" class="form-control" style="width: 96%;" placeholder="Введите название категории" /> </p>
         {% endfor %}
+        </div>
 
         {% if canEdit %}
         <hr>
