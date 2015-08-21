@@ -113,6 +113,7 @@ header .header >nav {float:left; width:60%; text-align:center; height:29px; line
 	header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus {background-color: #fff; color:#cd0000; text-decoration:none; }
 	header .header > nav > ul > li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:3px;}
 
+    header .header .notifications {margin-right: -15px;}
     header .header .notifications > a {
         color: #494949;
         display: inline-block;
@@ -209,14 +210,14 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 
 @media (max-width:838px) {
 	body {padding-top:110px;}
-	header .header .logo {width:50%;}
-	header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:50%; line-height:22px; height:22px;}
+	header .header .logo {width:40%;}
+	header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:60%; line-height:22px; height:22px;}
 	header .header .logo img {max-width:100%; display:block;}
 	header .header > nav {width:100%; float:none; margin-top:40px; clear:both;}
 	header .header > nav:before {content:""; display:block; clear:both;}
 
 		header .header > nav > ul {display:table; width:100%; margin:0px; padding:0px;}
-		header .header > nav > ul > li {display:table-cell; width:14.28%; text-align:center; margin:0px; padding:0px;}
+		header .header > nav > ul > li {display:table-cell; width:20%; text-align:center; margin:0px; padding:0px;}
 		header .header > nav > ul > li > a {display:inline-block; float: none; margin:0px; padding:0px;}
 }
 
@@ -790,11 +791,22 @@ border-bottom-right-radius: 0px;}
 					
 				
 					.task .task-border {padding:10px 0;}
-				.task-title {float:left; width:40%; position:relative; padding-left:20px; padding-right:35px;}
-				.task-title {font-size:14px;}
+				.task-title {float:left; font-size:14px; width:40%; position:relative; padding-left:20px; padding-right:35px;}
 					.task-title a {color:#000;}
-					.task.newEvent .task-title a {font-weight:bold;}
-					.task-title a:hover {color:#333;}
+					.task.newEvent .task-title > a {font-weight:bold; margin-right: 5px;}
+                    .to-do-buttons {
+                        display: inline-block;
+                        font-size: 14px;
+                    }
+                    .to-do-buttons .fa {
+                         color: #47a447;
+                         margin: 0 5px;
+                    }
+                    .to-do-buttons .fa.bug {
+                        color: #bb0500;
+                    }
+
+                    .task-title a:hover {color:#333;}
 						.task_add-subtask {position: absolute; top:1px; right:0px;}
 							.show-subtasks {color:#47a447 !important; text-decoration:none !important; display:inline-block; line-height:22px; cursor:pointer; font-weight:bold; height:20px; position:relative;}
 				.task-title input {position:absolute; left:0px; top:2px;}
@@ -3362,7 +3374,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 }
 
 @media only screen and (max-width: 576px) {
-    header .header > nav > ul > li {width: 16.66%;}
+    header .header > nav > ul > li {width: 20%;}
     .hide-on-mobile {display: none !important;}
 }
 
