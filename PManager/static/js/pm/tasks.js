@@ -994,7 +994,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 					if (isNaN(numSub)) {
 						numSub = 0;
 					}
-					;
 					var newNumSub = numSub - 1;
 					if (newNumSub == 0) {
 						this.$el.parents('.visible-items').find('.js-subNum').text(' ');
