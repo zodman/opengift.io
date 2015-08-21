@@ -59,13 +59,17 @@ class RunTest:
     def body(self):
         from selenium import webdriver
         from bs4 import BeautifulSoup
+        import re
 
         driver = webdriver.Firefox()
         driver.get(self.url)
         soup = BeautifulSoup(driver.page_source)
         driver.quit()
 
-        result = soup.select(self.value)
+        if re.search('^/*/', self.value):
+            result = soup(text=re.compile(self.value))  # TODO Разобраться в каком виде будет строка с регуляркой
+        else:
+            result = soup.select(self.value)
 
         if not self.condition:
             result = not result
