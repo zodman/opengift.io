@@ -1,0 +1,67 @@
+<div class="integration-wrapper clearfix">
+    <div class="integration-left">
+        <h2>GIT репозиторий</h2>
+        <hr>
+        {% if not canEdit %}
+        <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
+        {% endif %}
+        <form method="POST" name="integration">
+            <p class="checkbox">
+                <label>
+                    <input type="checkbox" name="use_git" class="js-repository" {% if project.repository %}checked="checked" readonly disabled="disabled"{% endif %}>&nbsp;
+                    Использовать GIT
+                </label>
+            </p>
+            <p class="js-hiddable" style="{% if not project.repository %}display: none; {% endif %}position: relative;">
+                <label>Имя репозитория</label>
+                <input {% if not canEdit or project.repository %}disabled="disabled" {% endif %} type="text" name="repository"
+                value="{% if project.repository %}{{ project.repository }}{% endif %}" class="form-control js-repository-value" {% if project.repository %}readonly{% endif %}/>
+                <i class="fa fa-icon" style="position: absolute;right: 25px;top: 33px;font-size: 16px;"></i>
+            </p>
+            <p class="checkbox">
+                <label>
+                    <input {% if not canEdit or not project.repository  %}disabled="disabled" {% endif %}
+                    {% if settings.disable_commits_wo_tasks %}checked="checked" {% endif %}
+                    type="checkbox" value="1" name="settings_disable_commits_wo_tasks" >&nbsp;
+                    Запретить коммиты не в задачу
+                </label>
+            </p>
+            <p class="checkbox">
+                <label>
+                    <input {% if not canEdit or not project.repository %}disabled="disabled" {% endif %}
+                    {% if settings.disable_commits_with_errors %}checked="checked" {% endif %}
+                    type="checkbox" value="1" name="settings_disable_commits_with_errors" >&nbsp;
+                    Запретить коммиты с ошибками
+                </label>
+            </p>
+            {% if canEdit %}
+            <hr>
+            <p><input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success js-integration-save" /></p>
+            {% endif %}
+        </form>
+    </div>
+    <div class="integration-right">
+        <h2>Тестовый сервер</h2>
+        <hr>
+        {% if project.repository and not project.api_key %}
+        <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>
+        {% elif project.api_key %}
+        <p class="colored-bg bg-success">Сервер создан <b>{{ project.repository }}.heliard-platform.ru</b> <a href="#" class="js-server-status">Проверить статус</a></p>
+        {% elif not project.repository %}
+        <p class="colored-bg bg-warning">Вы можете создать тестовый сервер только с использованием GIT</p>
+        {% endif %}
+
+        {% if project.repository and not project.api_key %}
+        <a href="#" class="btn btn-info {% if canEdit %}js-server-create{% else %}disabled{% endif %}" style="width:100%;">
+            Создать тестовый сервер
+        </a>
+        <div class="server-progress working js-working" style="display: none;">
+            <div class="progress progress-striped active">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
+                    <span class="sr-only">Запускаем сервер...</span>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -36,7 +36,12 @@
         }
         this.parseUrl = function (url) {
             if (url) {
-                this.params = $.parseJSON(decodeURIComponent(url));
+                try {
+                    this.params = $.parseJSON(decodeURIComponent(url));
+                }
+                catch(e){
+                    this.params = {};
+                }
             }
         }
 

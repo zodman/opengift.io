@@ -1,28 +1,35 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from django.shortcuts import HttpResponse, HttpResponseRedirect, get_object_or_404, render
+from django.shortcuts import HttpResponse, HttpResponseRedirect
+from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Task, PM_Project, PM_Achievement, PM_Project_Achievement, PM_ProjectRoles, AccessInterface, Credit
+from PManager.models import PM_Task, PM_Project, PM_Achievement
+from PManager.models import PM_Project_Achievement, PM_ProjectRoles
+from PManager.models import AccessInterface, Credit
 from django import forms
+from PManager.classes.language.translit import transliterate
 from tracker.settings import USE_GIT_MODULE
+from PManager.viewsExt.headers import set_project_in_session
+from PManager.classes.git.gitolite_manager import GitoliteManager
 import json
+
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
         model = AccessInterface
-        fields = ["name", "address", "port", "protocol", "username", "password", "access_roles", "project"]
+        fields = ["name", "address", "port", "protocol",
+                  "username", "password", "access_roles", "project"]
+
 
 def projectDetail(request, project_id):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
-
     project = get_object_or_404(PM_Project, id=project_id)
     profile = request.user.get_profile()
     if not profile.hasRole(project) or project.locked:
         raise Http404('Project not found')
-
-
+    set_project_in_session(project.id, [project.id], request)
     aMessages = {
         'client': u'Бонусы за каждый час закрытых задач списываются с клиента, у которого установлена ставка.',
         'manager': u'Менеджеры получают бонусы за каждый час закрытых задач, в которых они являются наблюдателями.',
@@ -249,24 +256,22 @@ def removeInterface(request):
 
     return HttpResponse('ok')
 
+
 def checkUniqRepNameResponder(request):
     if not USE_GIT_MODULE:
-        return HttpResponse("OK")
-    if not request.POST['repoName']:
         return HttpResponse("ERROR")
-    if request.POST['repoName'] == "gitolite-admin":
+
+    name = request.POST.get('repoName', '')
+    if not name or name == 'gitolite-admin':
         return HttpResponse("ERROR")
-    proj = PM_Project.objects.filter(repository=request.POST['repoName'])
+    name = transliterate(name)
+    proj = PM_Project.objects.filter(repository=name)
     if(proj):
-        if not USE_GIT_MODULE:
-            return HttpResponse("OK")
-        from PManager.classes.git.gitolite_manager import GitoliteManager
-        reponame = GitoliteManager.get_suggested_name(request.POST['repoName'])
+        reponame = GitoliteManager.get_suggested_name(name)
         if not reponame:
-                return HttpResponse("ERROR")
-        else:
-            return HttpResponse(reponame)
-    return HttpResponse("OK")
+            return HttpResponse("ERROR")
+        return HttpResponse(reponame)
+    return HttpResponse(name)
 
 def project_server_setup(request, project_id):
     if not project_id:
