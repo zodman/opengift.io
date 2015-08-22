@@ -7,6 +7,9 @@
           {% for vals in user_detail.timeGraph %}{State:'{{ vals.date }}',freq:{time:{{ vals.time }}, tasks:{{ vals.tasksClosed }}}}{% if not forloop.last %},{% endif %}{% endfor %}
     ];
 </script>
+<div id="key-add" class="modal fade" role="dialog" aria-labelledby="keyAdd" aria-hidden="true">
+    {% include 'keys/form.html' %}
+</div>
 <div class="widget inner" id="user_detail">
     <div class="widget-title clearfix userInfo">
         <div class="pull-left">
@@ -264,7 +267,8 @@
                 </div><!--ВКЛАДКА "Активность"-->
                 {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                     <div class="tab-pane" id="keys">
-                        <div><button class="btn btn-success js-openKeyForm"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</button></div>
+                        <div>
+                        <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a></div>
                         <div>&nbsp;</div>
                         {% if user_detail.keys %}
                         <table class="table table-bordered table-striped">
@@ -353,15 +357,8 @@
                     {% endif %}
                 </div> <!--ВКЛАДКА "ДОБАВИТЬ ПРОЕКТ"-->
             </div>
-
             <script type="text/javascript">
                {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
-                   $('.js-openKeyForm').click(function(){
-                        $.get('/user_key_handle/add', function(response){
-                            $('body').prepend(response);
-                            $('.js-keyForm').fadeIn(200);
-                        })
-                   });
                    $('.js-deleteKey').click(function(){
                         var row = $(this).parents('tr');
                         var key_name = row.find('td:eq(2)').html();
