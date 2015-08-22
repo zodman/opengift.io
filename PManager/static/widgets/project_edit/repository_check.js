@@ -59,7 +59,6 @@
             }
         };
 
-
         if($projectRepository.is(':disabled')){
             return false;
         }
@@ -69,16 +68,13 @@
                 $popInElement.show();
                 checkFields();
                 submit.disable();
-                console.log('field set to ' + $projectNameInput.val());
             }else{
                 $repositoryField.val('');
-                console.log('field unset');
                 $popInElement.hide();
                 submit.enable();
             }
         });
 
-        $repositoryField.blur(checkFields);
         $repositoryField.focus(function() {
             checkFields();
         }).keyup(function() {
