@@ -5,8 +5,11 @@ from PManager.models.tasks import PM_Project
 from PManager.models.tasks import PM_Timer
 from PManager.models.tasks import PM_Task_Message
 from PManager.classes.server.message import RedisMessage
+from PManager.viewsExt.tools import emailMessage
 from PManager.viewsExt.tools import service_queue
 import logging
+import datetime
+from django.utils import timezone
 from tracker import settings
 from git import *
 
@@ -63,12 +66,37 @@ class Warden(object):
             try:
                 df = DiffParser(commit_diff)
                 comment = PM_Task_Message.create_commit_message(df, self.user, self.timer.task)
-                mess = RedisMessage(service_queue,
-                            objectName='comment',
-                            type='add',
-                            fields=comment.getJson()
-                       )
+                mess = RedisMessage(
+                    service_queue,
+                    objectName='comment',
+                    type='add',
+                    fields=comment.getJson({'noveltyMark': True})
+                )
                 mess.send()
+
+                ar_email = comment.task.getUsersEmail([self.user.id])
+                task_data = {
+                    'task_url': comment.task.url,
+                    'name': comment.task.name,
+                    'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()),
+                    'comment': {
+                        'text': comment.text,
+                        'author': ' '.join([comment.author.first_name, comment.author.last_name])
+                    }
+                }
+                mail_sender = emailMessage(
+                    'new_task_commit',
+                    {
+                        'task': task_data
+                    },
+                    'Новый коммит в вашей задаче!'
+                )
+
+                try:
+                    mail_sender.send(ar_email)
+                except Exception:
+                    print 'Email has not sent'
+
             except IOError:
                 return 'ERROR: Commit #' + commit_diff + ' could not be parsed'
 

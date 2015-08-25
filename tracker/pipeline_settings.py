@@ -147,6 +147,14 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/project_summary.js'
     },
+    'diagram_editor': {
+        'source_filenames': (
+            'js/libs/fancybox.js',
+            'js/libs/joint.js',
+            'widgets/diagram_editor/widget.js',
+        ),
+        'output_filename': 'js_compressed/diagram_editor.js'
+    },
     'task_detail': {
         'source_filenames': (
             'js/pm/comments.js',
@@ -170,10 +178,11 @@ PIPELINE_JS = {
     'user_detail': {
         'source_filenames': (
             'widgets/user_detail/widget.js',
+            'widgets/user_detail/key_form.js',
             'js/jquery.bxslider.min.js',
             'js/libs/raphael-min.js',
             'js/libs/charts.js',
-            'js/libs/d3.js'
+            'js/libs/d3.js',
         ),
         'output_filename': 'js_compressed/user_detail.js'
     },

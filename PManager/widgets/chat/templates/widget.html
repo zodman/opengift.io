@@ -58,12 +58,12 @@
                             <div class="scrollbar"><div class="track"><div class="thumb"><div class="end"></div></div></div></div>
                             <div class="viewport">
                                 <div class="overview" id="chatWindow">
-                                    <script>
-                                        widget_chat_arLogMessages = [];
-                                        {% for message in chat.messages %}
-                                            widget_chat_arLogMessages.push({{ message|jsonify|safe }});
-                                        {% endfor %}
-                                    </script>
+{#                                    <script>#}
+{#                                        widget_chat_arLogMessages = [];#}
+{#                                        {% for message in chat.messages %}#}
+{#                                            widget_chat_arLogMessages.push({{ message|jsonify|safe }});#}
+{#                                        {% endfor %}#}
+{#                                    </script>#}
                                 </div>
                             </div>
                         </div>

@@ -44,6 +44,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     ).select_related('author', 'project', 'task', 'task__parentTask')
     # result = result.filter(task__active=True)
     result = result.exclude(code="WARNING")
+
     options = {
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
@@ -73,7 +74,8 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
 
-    result = result.order_by('-id')[:20]
+    if last_id != 0:
+        result = result.order_by('-id')[:20]
 
     messages = []
 
