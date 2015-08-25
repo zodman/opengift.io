@@ -281,7 +281,7 @@ $(function(){
 		{% if user.is_authenticated %}
         <nav class="menu">
             <ul>
-                <li class="hide-on-mobile {% if activeMenuItem == 'main' %} active{% endif %}">
+                <li class="{% if activeMenuItem == 'main' %} active{% endif %}">
                     <a href="/kanban">
                         <span aria-hidden="true" class="fa fa-desktop"></span>
                         <span>Канбан</span>
