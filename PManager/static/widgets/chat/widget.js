@@ -7,7 +7,7 @@
 
 var userOnline,usersOnline,userView;
 var RANGE_BEFORE_END_OF_PAGE = 300;
-
+var widget_chat_arLogMessages;
 $(function(){
     userOnline = Backbone.Model.extend({
         avatar:'',
@@ -137,7 +137,8 @@ $(function(){
             });
             setGroupFlag();
 
-            widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
+//            widget_chat.messageListHelper.addMessages(widget_chat.arStartMessages);
+
             widget_chat.messageListHelper.reversed = true;
             widget_chat.bGettingFromServer = false;
             widget_chat.lastMessageId = -1;
@@ -190,6 +191,8 @@ $(function(){
 
             $(window).scroll(onScroll);
             $('body').scroll(onScroll);
+
+            widget_chat.getMessagesFromServer();
         },
         'reset': function() {
             widget_chat.lastMessageId = -1;

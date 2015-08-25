@@ -382,7 +382,7 @@ class PM_Task(models.Model):
 
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
-    planTime = models.FloatField(blank=True, null=True)
+    planTime = models.FloatField(blank=True, null=True, default=0)
     realTime = models.BigIntegerField(blank=True, null=True)
     realDateStart = models.DateTimeField(blank=True, null=True)
 
@@ -510,13 +510,14 @@ class PM_Task(models.Model):
 
                     ob['time'] = userTaskHours
 
-                    profResp = cUser.get_profile()
-                    paymentType = profResp.getPaymentType(self.project, 'employee')
-                    #set user rating
                     curUserRating = ob.get('rating', 0)
-                    profResp.rating = (profResp.rating or 0) + curUserRating
-                    profResp.save()
+                    #set user rating
+                    if curUserRating != 0:
+                        profResp = cUser.get_profile()
+                        profResp.rating = (profResp.rating or 0) + curUserRating
+                        profResp.save()
 
+                    paymentType = profResp.getPaymentType(self.project, 'employee')
                     if paymentType == 'real_time':
                         curtime = ob.get('time', 0)
                         if curtime:
@@ -570,10 +571,10 @@ class PM_Task(models.Model):
             for manager in managers:
                 curTime = None
 
-                if manager.payment_type == 'real_time':
+                if manager.payment_type == 'real_time' and allRealTime:
                     curTime = allRealTime * 1.0 / cManagers
 
-                elif manager.payment_type == 'plan_time':
+                elif manager.payment_type == 'plan_time' and self.planTime:
                     curTime = self.planTime * 1.0 / cManagers
 
                 if curTime:
@@ -1479,11 +1480,12 @@ class PM_Task_Message(models.Model):
     def create_commit_message(cls, df, author, task):
 
         return cls.objects.create(text=df.message,
-                           author=author,
-                           task=task,
-                           commit=df.hash,
-                           project=task.project,
-                           code="GIT_COMMIT")
+                                  author=author,
+                                  task=task,
+                                  commit=df.hash,
+                                  project=task.project,
+                                  code="GIT_COMMIT"
+                                  )
 
     def updateFromRequestData(self, data):
         changed = False

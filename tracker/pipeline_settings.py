@@ -147,6 +147,14 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/project_summary.js'
     },
+    'diagram_editor': {
+        'source_filenames': (
+            'js/libs/fancybox.js',
+            'js/libs/joint.js',
+            'widgets/diagram_editor/widget.js',
+        ),
+        'output_filename': 'js_compressed/diagram_editor.js'
+    },
     'task_detail': {
         'source_filenames': (
             'js/pm/comments.js',
