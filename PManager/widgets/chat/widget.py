@@ -74,19 +74,19 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
 
-    if last_id != 0:
-        result = result.order_by('-id')[:20]
+
 
     messages = []
-
-    for message in result:
-        addParams = {}
-        if message.task and request.user.get_profile().isManager(message.task.project):
-            addParams = {
-                'hidden_from_employee': message.hidden_from_employee,
-                'hidden_from_clients': message.hidden_from_clients
-            }
-        messages.append(message.getJson(addParams, request.user))
+    if last_id != 0:
+        result = result.order_by('-id')[:20]
+        for message in result:
+            addParams = {}
+            if message.task and request.user.get_profile().isManager(message.task.project):
+                addParams = {
+                    'hidden_from_employee': message.hidden_from_employee,
+                    'hidden_from_clients': message.hidden_from_clients
+                }
+            messages.append(message.getJson(addParams, request.user))
 
     templates = templateTools.getMessageTemplates()
     with file(settings.PROJECT_ROOT + 'tracker/templates/item_templates/messages/log_message.html') as f:
