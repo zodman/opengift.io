@@ -331,6 +331,7 @@
                     <h2>Добавить пользователя в проект</h2>
                     {% if user_detail.projectsForAddUser %}
                         <form name="add_to_project" method="POST" action="" role="form">
+                            {% csrf_token %}
                             <input type="hidden" name="action" value="add_to_project" />
                             <div class="form-group">
                                 <label for="exampleInputEmail1">Проект</label>

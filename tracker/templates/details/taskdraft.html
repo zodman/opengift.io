@@ -149,6 +149,7 @@
                                 </a>
                             </form>
                             <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right; margin-right: 10px;">
+                                {% csrf_token %}
                                 <input type="hidden" name="_method" value="PUT"/>
                                 <input type="hidden" name="set_status" value="close"/>
                                 <a class="btn btn-warning" href="" title="Закрыть список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">

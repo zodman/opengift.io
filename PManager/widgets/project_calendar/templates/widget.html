@@ -9,6 +9,7 @@
             <h3>Создать цель</h3>
         </div>
         <form name="taskform" method="POST" action="/milestone_ajax/" id="postform" class="js-milestone-form form-horizontal">
+            {% csrf_token %}
             <input type="hidden" name="GROUP_ID" value="" />
             <input type="hidden" name="ID" value="" />
             <div class="modal-body">

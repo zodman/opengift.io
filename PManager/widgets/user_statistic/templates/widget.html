@@ -9,16 +9,17 @@
     <h1>Статистика пользователей</h1>
     <hr>
     <form role="form" class="statistic-filter form-horizontal" action="" name="filter_form">
-        	<table width="300" cellpadding="0" cellspacing="0" class="choose-date">
-            	<tr>
-                	<td valign="middle"><label for="date_from" class="col-sm-2 control-label" >С</label></td>
-                	<td valign="middle"><input type="text" name="fromDate" value="{% if user_statistic.filterForm.fromDate.value %}{{ user_statistic.filterForm.fromDate.value }}{% else %}{{ user_statistic.week_ago }}{% endif %}" class="form-control datepicker" id="date_from" placeholder="C" /></td>
-                </tr>
-            	<tr>
-                	<td valign="middle"><label for="date_from" class="col-sm-2 control-label" >По</label></td>
-                	<td valign="middle"><input type="text" name="toDate" value="{% if user_statistic.filterForm.toDate.value %}{{ user_statistic.filterForm.toDate.value }}{% else %}{{ user_statistic.now }}{% endif %}" class="form-control datepicker" id="date_to" placeholder="По" /></td>
-                </tr>
-            </table>
+        {% csrf_token %}
+        <table width="300" cellpadding="0" cellspacing="0" class="choose-date">
+            <tr>
+                <td valign="middle"><label for="date_from" class="col-sm-2 control-label" >С</label></td>
+                <td valign="middle"><input type="text" name="fromDate" value="{% if user_statistic.filterForm.fromDate.value %}{{ user_statistic.filterForm.fromDate.value }}{% else %}{{ user_statistic.week_ago }}{% endif %}" class="form-control datepicker" id="date_from" placeholder="C" /></td>
+            </tr>
+            <tr>
+                <td valign="middle"><label for="date_from" class="col-sm-2 control-label" >По</label></td>
+                <td valign="middle"><input type="text" name="toDate" value="{% if user_statistic.filterForm.toDate.value %}{{ user_statistic.filterForm.toDate.value }}{% else %}{{ user_statistic.now }}{% endif %}" class="form-control datepicker" id="date_to" placeholder="По" /></td>
+            </tr>
+        </table>
         
         <div class="statistic-filter_user-list">
             {{ user_statistic.filterForm.aUserId }}

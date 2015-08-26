@@ -50,6 +50,7 @@
             <hr>
             <div class="task_add-message form-horizontal">
             <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}" method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     <div class="col-xs-12">
                         <textarea name="task_message" rows="5" class="form-control" placeholder="Напишите сообщение"></textarea>

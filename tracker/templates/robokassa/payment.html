@@ -2,6 +2,7 @@
 {% block content %}
    <form action="{{ form.target }}"
           method="POST" name="robo">
+        {% csrf_token %}
         {{ form.as_p }}
     </form>
 <script src="/static/js/jquery.fancyform.min.js"></script>

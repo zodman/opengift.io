@@ -6,6 +6,7 @@
         </div>
         <div class="modal-body">
             <form action="/user_key_handle/add/" class="form-horizontal js-form-key" method="post">
+                {% csrf_token %}
                 <div class="form-group">
                     <label class="col-xs-3 control-label">Название:</label>
                     <div class="col-xs-8 controls">
