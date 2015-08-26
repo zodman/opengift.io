@@ -13,12 +13,14 @@ h1, .h1 {font-size:26px; line-height:28px;}
 h2, .h2 {font-size:23px; line-height:26px;}
 h3, .h3 {font-size:20px; line-height:22px;}
 h4, .h4 {font-size:18px; line-height:20px;}
-h5, .h5 {font-size:16px; line-height:18px;}
+h5, .h5 {font-size:16px; line-height:20px;}
 h6, .h6 {font-size:13px; line-height:16px; margin:0 0 15px;}
 
 h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
 .relative {position: relative;}
+
+.width-100 {width: 100%;}
 
 .inline-block {display: inline-block;}
 .block {display: block;}
@@ -903,9 +905,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
                             .task-info .task-info-time div.dropdown-menu:after { border-color: rgba(255, 255, 255, 0); border-bottom-color: #ffffff; border-width: 7px; margin-left: -7px; }
                             .task-info .task-info-time div.dropdown-menu:before { border-color: rgba(204, 204, 204, 0); border-bottom-color: #cccccc; border-width: 8px; margin-left: -8px; }
 
+                        .how-much-time.dropdown-menu {width: 260px !important; padding: 15px 20px !important;}
+                        .how-much-time.dropdown-menu p {margin-bottom: 5px;}
+                        .how-much-time .on-mobile {display: none;}
 
+                        @media only screen and (max-width : 1024px) {
+                            .how-much-time .on-mobile {display: block;}
+                            .how-much-time .on-desktop {display: none;}
+                        }
 
-.task-info .task-info-control {position:absolute; top:10px; right:10px;}
+                        .task-info .task-info-control {position:absolute; top:10px; right:10px;}
 						.task-info .task-info-control > a, 
 						.task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); border-left:1px solid #fff; box-shadow:-1px 0px 0px rgba(1,1,1,0.1); padding:0 10px; text-decoration:none;}
 						
