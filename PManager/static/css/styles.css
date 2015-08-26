@@ -798,11 +798,11 @@ border-bottom-right-radius: 0px;}
 					.task.newEvent .task-title > a {font-weight:bold; margin-right: 5px;}
                     .to-do-buttons {
                         display: inline-block;
-                        font-size: 14px;
+                        font-size: 10px;
                     }
                     .to-do-buttons .fa {
                          color: #47a447;
-                         margin: 0 5px;
+                         margin: 0 3px;
                     }
                     .to-do-buttons .fa.bug {
                         color: #bb0500;
