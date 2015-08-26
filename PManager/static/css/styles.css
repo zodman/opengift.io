@@ -14,7 +14,7 @@ h2, .h2 {font-size:23px; line-height:26px;}
 h3, .h3 {font-size:20px; line-height:22px;}
 h4, .h4 {font-size:18px; line-height:20px;}
 h5, .h5 {font-size:16px; line-height:18px;}
-h6, .h6 {font-size:13px; line-height:16px; margin:0 0 5px;}
+h6, .h6 {font-size:13px; line-height:16px; margin:0 0 15px;}
 
 h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
@@ -24,7 +24,7 @@ h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 .block {display: block;}
 .clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
 
-hr {padding:0px; margin:10px 0; border:0px; border-bottom:1px solid #fff; border-top:1px solid #ddd; height:0px; }
+hr {padding:0px; margin:15px 0; border:0px; border-bottom:1px solid #fff; border-top:1px solid #ddd; height:0px; }
 hr.no-top-magin-hr {margin-top:0px;}
 
 .balance {width:530px !important; padding:25px !important; /*margin-left:-265px !important;*/ border:3px solid #5cb85c;}
@@ -1480,7 +1480,9 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list .widget.span4 small {margin:5px 0 0; line-height:14px; display:block; color:#ccc;text-transform: lowercase;}
 .user-list .user td {vertical-align:top;}
 .user-list .user td.avatar {width:100px;}
-.user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden;}
+.user-list .user td.avatar a {display:block; line-height:0px;width:100px; overflow:hidden; border: 1px solid #ddd; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; padding: 5px;}
+.user-list .user td.avatar a span {max-height: 88px; display: block; overflow: hidden;}
+.user-list .user td.avatar a img {max-width: 100%;}
 .user-list .user td.avatar a svg {width:90px;height: 90px;}
 .user-list .user td.about-user {padding-left:15px;}
 .user-list .user td.about-user a:not(.startedTask) {vertical-align:middle; display:block; text-decoration:none; color:#57A957;}
@@ -3303,7 +3305,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .col-wrapper {
     font-size: 0px;
     vertical-align: top;
+    margin-bottom: 15px;
 }
+.col-wrapper:last-child {margin-bottom: 0px;}
 .col-wrapper > div {
     padding-right: 10px;
     vertical-align: top;
@@ -3319,14 +3323,21 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .col-6 {width: 60%;}
 .col-7 {width: 70%;}
 .col-3 {width: 30%;}
+.col-33 {width: 33.33%;}
 .col-2 {width: 20%;}
 .col-4 {width: 40%;}
+.col-10 {width: 100%;}
 
 .col-wrapper > div:last-child {
     padding-right: 0px;
 }
 
 .user-role-block .avatar {float: left; margin-right: 15px; width: 90px; height:90px; overflow: hidden;}
+.user-role-block .avatar a {display:block; line-height:0px;width:90px; overflow:hidden; border: 1px solid #ddd; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; padding: 5px;}
+.user-role-block .avatar a span {max-height: 78px; display: block; overflow: hidden;}
+.user-role-block .avatar a img {max-width: 100%;}
+
+
 .user-role-block .desc {float: left; width: calc(100% - 105px);}
 
 .nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}

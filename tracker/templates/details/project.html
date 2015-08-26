@@ -322,9 +322,10 @@
                     <div class="user-role-block">
                         <div class="avatar">
                             <a href="/user_detail/?id=1" class="pull-left">
+                                <span>
                                 {% if user.profile.avatarSrc %}
                                         <img src="{{ user.profile.avatarSrc }}"
-                                             alt="{{ user.last_name }} {{ user.first_name }}" width="90px" class="media-object img-thumbnail"/>
+                                             alt="{{ user.last_name }} {{ user.first_name }}"/>
                                         {% else %}
                                         <script>document.write($.createAvatar({
                                             'id': {{ user.id }},
@@ -332,6 +333,7 @@
                                             'color': '{{ user.profile.avatar_color }}'
                                         }));</script>
                                 {% endif %}
+                                </span>
                             </a>
                         </div>
                         <div class="desc">

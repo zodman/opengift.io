@@ -65,9 +65,10 @@ $(function() {
                             <tr>
                                 <td class="avatar">
                                     <a href="/user_detail/?id={{ user.id }}">
+                                        <span>
                                         {% if user.profile.avatarSrc %}
                                         <img src="{{ user.profile.avatarSrc }}"
-                                             alt="{{ user.last_name }} {{ user.first_name }}" class="img-thumbnail"/>
+                                             alt="{{ user.last_name }} {{ user.first_name }}"/>
                                         {% else %}
                                         <script>document.write($.createAvatar({
                                             'id': {{ user.id }},
@@ -75,6 +76,7 @@ $(function() {
                                             'color': '{{ user.profile.avatar_color }}'
                                         }));</script>
                                         {% endif %}
+                                        </span>
                                     </a>
                                 </td>
                                 <td class="about-user">

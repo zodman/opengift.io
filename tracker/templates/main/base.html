@@ -81,6 +81,38 @@
 </div>
 
 
+<div style="display: none;" class="modal fade in js-feedback_modal" id="how-much-time" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content green-popup">
+            <div class="modal-header">
+                <h2 class="modal-title">Оцените задачу</h2>
+                <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            </div>
+            <div class="modal-body clearfix">
+                <h4>Сколько времени по вашему займет задача?</h4>
+                <p>Выберите из списка:</p>
+                <div class="col-wrapper">
+                    <div class="col-10">
+                        <select class="form-control"><option>12 часов</option></select>
+                    </div>
+                </div>
+                <p>либо предложите свой вариант:</p>
+                <div class="col-wrapper">
+                    <div class="col-10">
+                        <input type="text" placeholder="Название" maxlength="255" name="ms_name" class="form-control">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer clearfix">
+                <input type="submit" value="Добавить" class="btn btn-success js-create-milestone" name="add-to-milestone">
+                <button data-dismiss="modal" class="btn btn-danger" type="button">Отправить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 {% if main.CAN_INVITE %}
 <div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
