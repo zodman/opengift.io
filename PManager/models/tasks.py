@@ -512,8 +512,8 @@ class PM_Task(models.Model):
 
                     curUserRating = ob.get('rating', 0)
                     #set user rating
+                    profResp = cUser.get_profile()
                     if curUserRating != 0:
-                        profResp = cUser.get_profile()
                         profResp.rating = (profResp.rating or 0) + curUserRating
                         profResp.save()
 
