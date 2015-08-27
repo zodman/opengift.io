@@ -14,7 +14,6 @@
 	$.ajaxSetup({
 		beforeSend: function(xhr, settings) {
 			if(!csrfSafeMethod(settings.type) && sameOrigin(settings.url)){
-				console.log('header is set');
 				xhr.setRequestHeader('X-CSRFToken', heliardSettings.CSRF_TOKEN);
 			}
 		}
