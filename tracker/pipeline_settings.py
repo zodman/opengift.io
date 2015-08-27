@@ -44,6 +44,7 @@ PIPELINE_JS = {
             'js/pm/current_timer.js',
             'js/pm/drowCanvas.js',
             'js/libs/toastr.js',
+            'js/pm/csrf_protector.js'
         ),
         'output_filename': 'js_compressed/base.js',
     },

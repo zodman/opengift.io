@@ -20,6 +20,7 @@ from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
 from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
+from django.core.context_processors import csrf
 
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
@@ -107,7 +108,7 @@ def __change_resp(request):
     resp = task.resp
 
     resp_name = ' '.join([resp.first_name, resp.last_name])
-    response_text = json.dumps({
+    response_text = {
         'resp': [{
                  'id': resp.id,
                  'name': resp_name,
@@ -115,7 +116,9 @@ def __change_resp(request):
                  }],
         'status': task.status.code,
         'critically': task.critically
-    })
+    }
+    response_text.update(csrf(request))
+    response_text = json.dumps(response_text)
 
     if task.resp.email:
         ar_email = [task.resp.email if task.resp.id != request.user.id else None]
