@@ -100,6 +100,8 @@ def widget(request, headerValues, ar, qargs):
                 projectsForPayment = currentUserAccessProjects
             else:
                 projectsForPayment = currentUserManagedProjects
+
+            paymentsAndCredits = []
             if projectsForPayment.exists():
                 projectsForPaymentsId = []
                 for project in projectsForPayment:
