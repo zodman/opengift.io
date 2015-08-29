@@ -172,8 +172,6 @@ class sumLoanChart(Chart):
         ]
         self.rows = []
         for x in arDebts:
-            if not x.task:
-                continue
             try:
                 user = x.user or x.payer
                 if x.payer:
@@ -186,8 +184,9 @@ class sumLoanChart(Chart):
                             'text': user.last_name + ' ' + user.first_name
                         },
                         {
-                            'text': x.task.name
-                        },
+                            'url': x.task.url,
+                            'text': x.task.project.name + ': ' + x.task.name
+                        } if x.task else {},
                         {
                             'text': x.date
                         },
@@ -299,7 +298,7 @@ def widget(request, headerValues, a, b):
         if headerValues['CURRENT_PROJECT']:
             filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
-    projects = PM_Project.objects.filter(closed=False, locked=False)
+    projects = request.user.get_profile().managedProjects
     if filt['projects']:
         projects = projects.filter(id__in=filt['projects'])
 
@@ -308,7 +307,6 @@ def widget(request, headerValues, a, b):
     tChart = timeChart(filt['dateFrom'], filt['dateTo'], projects)
     sChart = simpleChart(filt['dateFrom'], filt['dateTo'], projects)
     charts = [payChart, loanChart, tChart, sChart]
-
 
     return {
         'charts': charts,

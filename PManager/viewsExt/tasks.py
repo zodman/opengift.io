@@ -370,7 +370,7 @@ def __task_message(request):
             {
                 'task': task_data
             },
-            'Новое сообщение в вашей задаче!'
+            'Сообщение: ' + task_data['name']
         )
 
         try:
