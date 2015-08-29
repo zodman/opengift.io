@@ -89,7 +89,7 @@ class Warden(object):
                     {
                         'task': task_data
                     },
-                    'Новый коммит в вашей задаче!'
+                    'Коммит: ' + task_data['name']
                 )
 
                 try:

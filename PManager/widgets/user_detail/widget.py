@@ -239,7 +239,7 @@ def widget(request, headerValues, ar, qargs):
             return {
                 'user': user,
                 'profile': profile,
-                'title': u'Профиль пользователя',
+                'title': user.first_name + ' ' + user.last_name,
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,

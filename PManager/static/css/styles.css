@@ -1006,7 +1006,7 @@ border-top-right-radius: 4px;}
 .stat-widget h4 .btn {float: right; background: #fff;}
 .stat-widget-text {max-height:228px; overflow-y:auto; margin-top:15px;}
 
-.stat-widget-text a {color:#000;display:inline-block;}
+.stat-widget-text a {display:inline-block;}
 .stat-widget-text a:hover {color:#47a447;}
 .stat-widget-text table {margin-bottom:0px;}
  
