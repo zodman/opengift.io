@@ -102,7 +102,9 @@
             </div>
             <div class="pull-right">
                 {% if user_detail.current_user_is_admin %}
-                <form method="POST" action="" class="inline-block"><input name="action" type="hidden" value="delete_user" />
+                <form method="POST" action="" class="inline-block">
+                    {% csrf_token %}
+                    <input name="action" type="hidden" value="delete_user" />
                     <input type="submit" class="js-delete-user btn btn-danger" value="Удалить пользователя" /></form>&nbsp;&nbsp;
                 {% endif %}
                 <a href="#add-project" class="btn btn-success js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>

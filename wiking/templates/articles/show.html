@@ -47,6 +47,7 @@
         <div class="wiki-actions pull-left clearfix">
             <a href="edit" class="btn btn-warning btn-sm"><i class="fa fa-pencil"></i>&nbsp;&nbsp;Редактировать статью</a>
             <form action="delete" method="POST">
+                {% csrf_token %}
                 <input type="hidden" value="Удалить статью"/>
                 <a href='#' class="btn btn-danger btn-sm" onlcick="$(this).closest('form').submit();return false;"><i class="fa fa-times"></i>&nbsp;&nbsp;Удалить статью</a>
             </form>

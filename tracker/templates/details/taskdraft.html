@@ -143,6 +143,7 @@
                         <div class="task" style="padding:10px; line-height: 31px;">
                             Нет задач без исполнителей в списке.
                             <form action="/taskdraft/{{ draft.slug }}" method="POST" style="display: inline-block; float: right;">
+                                {% csrf_token %}
                                 <input type="hidden" name="_method" value="DELETE"/>
                                 <a class="btn btn-danger"  href="" title="Удалить список" onclick="javascript:$(this).parents('form').trigger('submit');return false;">
                                     <i class="fa-trash-o fa"></i>&nbsp;Удалить список
