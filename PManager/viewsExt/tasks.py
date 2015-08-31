@@ -117,7 +117,6 @@ def __change_resp(request):
         'status': task.status.code,
         'critically': task.critically
     }
-    response_text.update(csrf(request))
     response_text = json.dumps(response_text)
 
     if task.resp.email:

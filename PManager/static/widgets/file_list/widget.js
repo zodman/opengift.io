@@ -323,15 +323,15 @@ fileList.initFileUpload = function(){
         button: $('.file_upload_button').get(0),
         request: {
             endpoint: "/upload/receiver",
-            paramsInBody: true
+            paramsInBody: true,
+            customHeaders: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            }
         },
         text: {
             cancelButton:'Отмена',
             retryButton:'Повторить',
             deleteButton:'Удалить',
-            customHeaders: {
-                "X-CSRFToken": $.cookie('csrftoken')
-            }
         },
         chunking: {
             enabled: true
@@ -379,6 +379,8 @@ fileList.initFileUpload = function(){
 
 $(function(){
     fileList.init();
+
+    console.log('csrf token is set here');
 });
 
 var fileObject = function(data){
