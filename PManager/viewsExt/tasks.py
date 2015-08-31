@@ -370,7 +370,7 @@ def __task_message(request):
             {
                 'task': task_data
             },
-            'Сообщение: ' + task_data['name']
+            u'Сообщение: ' + task_data['name']
         )
 
         try:
