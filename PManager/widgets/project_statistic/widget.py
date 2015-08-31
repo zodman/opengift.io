@@ -219,10 +219,11 @@ class sumLoanChart(Chart):
 
         for item in self.rows:
             item = item['cols']
-            ws.write_url(row, col, item[0]['url'], url_format, item[0]['text'])
-            ws.write_string(row, col + 1, item[1]['text'])
-            ws.write_datetime(row, col + 2, timezone.make_naive(item[2]['text'], timezone.get_current_timezone()), date_format)
-            ws.write_number(row, col + 3, item[3]['text'])
+
+            ws.write_url(row, col, item[0].get('text', ''), url_format, item[0].get('text', ''))
+            ws.write_string(row, col + 1, item[1].get('text', ''))
+            ws.write_datetime(row, col + 2, timezone.make_naive(item[2].get('text', ''), timezone.get_current_timezone()), date_format)
+            ws.write_number(row, col + 3, item[3].get('text', ''))
             row += 1
 
         return workbook
