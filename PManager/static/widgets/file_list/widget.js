@@ -328,7 +328,10 @@ fileList.initFileUpload = function(){
         text: {
             cancelButton:'Отмена',
             retryButton:'Повторить',
-            deleteButton:'Удалить'
+            deleteButton:'Удалить',
+            customHeaders: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            }
         },
         chunking: {
             enabled: true
@@ -343,7 +346,10 @@ fileList.initFileUpload = function(){
         deleteFile: {
             enabled: true,
             endpoint: '/upload/receiver',
-            forceConfirm: false
+            forceConfirm: false,
+            customHeaders: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            }
             //params: {foo: "bar"}
         },
         display: {
