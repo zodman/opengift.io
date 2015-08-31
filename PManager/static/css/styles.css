@@ -37,6 +37,8 @@ hr.no-top-magin-hr {margin-top:0px;}
 .callback input {width:100%; padding:10px;}
 
 
+.red-text {color:#cd0000;}
+
 .wrapper {
     margin: 0 auto;
     min-width: 974px;
