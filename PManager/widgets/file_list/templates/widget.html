@@ -6,6 +6,35 @@
     {% for fileJson in file_list.files %}
         widget_file_list_arFiles.push({{ fileJson|jsonify|safe }});
     {% endfor %}
+    $(function() {
+       $('.js-file-search').keyup(function(){
+           var text = $(this).val(),
+               $jsSearchClear = $('.js-search-clear');
+           if (text) {
+               $jsSearchClear.show();
+           } else {
+               $jsSearchClear.hide();
+           }
+           $('.js-file').each(function(){
+               var $currentBlock = $(this).parent(),
+                   $nameBlock = $currentBlock.find('.file-name');
+
+               if (!text) {
+                   $currentBlock.show();
+                   $nameBlock.html($nameBlock.text());
+               } else if ($currentBlock.data('name').toUpperCase().indexOf(text.toUpperCase()) != -1) {
+                   $currentBlock.show();
+                   $nameBlock.html($nameBlock.text().replace(text, '<b style="background: black;">'+text+'</b>'));
+               } else {
+                   $currentBlock.hide();
+               }
+           });
+       });
+       $('.js-search-clear').click(function(){
+           $('.js-file-search').val('').trigger('keyup');
+           return false;
+       });
+    });
 </script>
 {% compressed_js 'file_list' %}
 
@@ -66,6 +95,10 @@
                 <div class="files-wrapper-list-navi-wrapper">
                     <div class="files-wrapper-list-navi js-breadcrumb">
                         <a href="#">{{ file_list.project.name }}</a>
+                        <div class="find-container" style="position: absolute; right: 3px; top: 3px;">
+                            <input type="text" class="js-file-search file-search form-control" placeholder="Поиск" name="search" />
+                            <a class="icon-remove fa fa-times js-search-clear" style="position: absolute; top: 10px; right: 10px;display: none;text-decoration: none;"></a>
+                        </div>
                     </div>
                 </div>
                 <div class="files-wrapper-list box">

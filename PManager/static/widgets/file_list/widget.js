@@ -230,8 +230,10 @@ fileList.init = function(){
     });
 
     this.$fileListContainer.on('click', 'input[name=files]', function(e){
+        $('input[name=files]').not(this).attr('checked', false).closest('.js-file').removeClass('active');
         var $label = $(this).closest('.js-file'),
             $selectedFiles = $('input[name=files]:checked');
+
         if ($(this).is(':checked')) {
             $label.addClass('active');
         }else{
@@ -316,7 +318,7 @@ fileList.init = function(){
 fileList.initFileUpload = function(){
     var errorHandler = function(){
         alert('Не удалось загрузить файл');
-    }
+    };
 
     $('.filelist-file-upload').fineUploader({
         debug: false,

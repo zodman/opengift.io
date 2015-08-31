@@ -7,7 +7,7 @@
 var sitePanel = function(params){
     this.pos = params.pos;
     this.blocks = {};
-    this.$element = $('<div class="navbar-collapse"></div>').append('<ul class="nav navbar-nav js-p_container"></ul>');
+    this.$element = $('<div class="navbar-collapse"><i class="fa fa-times"></i></div>').append('<ul class="nav navbar-nav js-p_container"></ul>');
     this.$element = $('<div class="navbar-inverse"></div>').addClass(this.pos).addClass('bt-panel').append(this.$element);
 
     this.$container = this.$element.find('.js-p_container');

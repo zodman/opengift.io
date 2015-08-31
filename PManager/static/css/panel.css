@@ -27,3 +27,32 @@
 .bt-panel.bottom ul li a:hover {background:#4cae4c;}
 
 
+.bt-panel.bottom ul li:last-child {border: 0;}
+.bt-panel.bottom .fa.fa-times {
+    color: #fff;
+    cursor: pointer;
+    font-size: 20px;
+    position: absolute;
+    right: 55px;
+    top: 50%;
+    margin-top: -12px;
+    z-index: 1;
+}
+
+.navbar-inverse.bt-panel.bottom .navbar-collapse {border: 0px !important;}
+
+.navbar-inverse.bt-panel.bottom .navbar-nav {margin: 0 !important;}
+
+@media (max-width: 768px) {
+    .bt-panel.bottom ul li {display: block !important; border: 0 !important;}
+    .bt-panel.bottom ul li a {
+        border-bottom: 1px solid #4cae4c;
+        color: #fff;
+        font-weight: bold;
+        margin: 0 -15px;
+        padding: 10px 35px;
+    }
+    .bt-panel.bottom .fa.fa-times {
+        right: 35px;
+    }
+}

@@ -89,7 +89,7 @@ class Warden(object):
                     {
                         'task': task_data
                     },
-                    'Коммит: ' + task_data['name']
+                    u'Коммит: ' + task_data['name']
                 )
 
                 try:
