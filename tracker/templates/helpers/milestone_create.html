@@ -6,6 +6,7 @@
         <h2 class="modal-title" id="myModalLabel">Создание майлстоуна</h2>
       </div>
       <form role="form" class="js-milestone-form" method="post">
+      {% csrf_token %}
       <div class="modal-body">
           <input type="hidden" name="milestone-project" value="" />
           <div class="form-group">

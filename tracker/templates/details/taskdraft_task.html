@@ -24,6 +24,7 @@
                                     <b class="message-desc-status last js-taskMessageText">оценил задачу в {{ evaluation.time|safe }}ч.</b>
                                         {% if draft.author.id == request.user.id %}
                                         <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}/accept-developer" method="POST" class="inline">
+                                            {% csrf_token %}
                                             <input type="hidden" value="{{ evaluation.user.id }}" name="user_id"/>
                                             <button class="btn btn-xs btn-success js-accept-developer">Выбрать исполнителем</button>
                                         </form>
@@ -50,6 +51,7 @@
             <hr>
             <div class="task_add-message form-horizontal">
             <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}" method="POST">
+                {% csrf_token %}
                 <div class="form-group">
                     <div class="col-xs-12">
                         <textarea name="task_message" rows="5" class="form-control" placeholder="Напишите сообщение"></textarea>

@@ -16,6 +16,7 @@
 
 {% block wiking_content %}
     <form action="{{ article_path }}/set_revision/" method="POST">
+        {% csrf_token %}
         <table class="table table-bordered table-striped table-hover">
             <tr>
                 <th>Автор</th>

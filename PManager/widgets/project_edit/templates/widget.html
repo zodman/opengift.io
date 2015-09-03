@@ -3,6 +3,7 @@
 {% if project_edit.need_payment %}
     <form action="{{ project_edit.form.target }}"
           method="POST" name="robo">
+        {% csrf_token %}
         {{ project_edit.form.as_p }}
     </form>
     <div class="promo_payment">
@@ -35,6 +36,7 @@
     <div class="widget inner clearfix">
         <div class="widget-title">Добавление проекта</div><br />
         <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
+            {% csrf_token %}
             {% for field in project_edit.form %}
                 {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
                 {% else %}
@@ -66,122 +68,4 @@
             </div>
         </form>
     </div>
-    {% if project_edit.use_git %}
-        {% if project_edit.is_new or not project_edit.form.repository.value %}
-            <script>
-                $(document).ready(function () {
-                    var timerCheckFields = false;
-                    $('.js-repository').click(function (ev) {
-                        if (!$(this).prop('checked')) {
-                            $('.js-repository-value').val('');
-                            $('.js-hiddable').hide();
-                        } else {
-                            $('.js-hiddable').show();
-                            $('.js-repository-value').val(transliterate($('#id_name').val())).focus();
-                        }
-                        checkFields();
-                    });
-
-                    $('#id_name').keyup(function () {
-                        var projectName = $(this).val();
-                        var repoName = transliterate(projectName);
-                        if (in_sync) {
-                            $('.js-repository-value').val(repoName);
-                            unmarkRepName();
-                            setCheckFieldsTimer();
-                        }
-
-                    });
-
-                    function unmarkRepName() {
-                        $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
-                    }
-
-                    function markSuccessRepName() {
-                        $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
-                    }
-
-                    function markErrorRepName() {
-                        $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
-                    }
-
-                    function enableSubmit() {
-                        $('.js-submit').removeAttr('disabled');
-                    }
-
-                    function disableSubmit() {
-                        $('.js-submit').attr('disabled', 'disabled');
-                    }
-
-                    function setCheckFieldsTimer() {
-                        if (timerCheckFields) {
-                            clearTimeout(timerCheckFields);
-                        }
-                        timerCheckFields = setTimeout(checkFields, 700);
-                    }
-
-                    function checkFields() {
-                        var projectName = $('#id_name').val();
-                        var isRepo = $('.js-repository').prop('checked'),
-                            $repoVal = $('.js-repository-value');
-                        if (!isRepo) {
-                            $repoVal.val('');
-                            enableSubmit();
-                            unmarkRepName();
-                            return;
-                        }
-                        if (in_sync) {
-                            var repoName = transliterate($('.js-repository-value').val()) || transliterate(projectName);
-                        }
-                        else {
-                            var repoName = transliterate($('.js-repository-value').val());
-                        }
-                        $repoVal.val(repoName)
-                                .next('i').addClass('fa-spinner').addClass('fa-spin');
-
-                        $.post('/project/edit/check_repository_name', {'repoName': repoName }, function (response) {
-                            if (response == "OK") {
-                                markSuccessRepName();
-                                enableSubmit();
-                            }
-                            else if (response == "ERROR") {
-                                markErrorRepName();
-                                disableSubmit();
-                            }
-                            else {
-                                $('.js-repository-value').val(response);
-                                markSuccessRepName();
-                                enableSubmit();
-                            }
-                        });
-                    }
-
-                    disableSubmit();
-
-                    $('#id_name').change(function () {
-                        unmarkRepName();
-                    }).blur(checkFields);
-
-                    var in_sync = true;
-                    $('.js-repository-value').focus(function () {
-                        if ($(this).val() == transliterate($('#id_name').val())) {
-                            in_sync = true;
-                        } else {
-                            in_sync = false;
-                        }
-                    }).keyup(function () {
-                        setCheckFieldsTimer();
-                        if ($(this).val() == transliterate($('#id_name').val())) {
-                            in_sync = true;
-                        } else {
-                            in_sync = false;
-                        }
-                    }).blur(function (ev) {
-                        checkFields();
-                    });
-                    checkFields();
-                });
-            </script>
-        {% endif %}
-    {% endif %}
 {% endif %}

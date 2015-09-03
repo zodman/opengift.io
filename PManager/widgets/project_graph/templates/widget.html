@@ -4,6 +4,7 @@
 <div class="well hide-on-mobile">
     <div>
         <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}" method="POST" name="robo">
+            {% csrf_token %}
             <div class="inline-block border-right">
                 <span>Накоплено бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
             </div>

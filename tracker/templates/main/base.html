@@ -16,7 +16,8 @@
         window.heliardSettings = {
             "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
             "SERVER_IP": '{% get_settings "SERVER_IP" %}',
-            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}'
+            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}',
+            'CSRF_TOKEN': $.cookie('csrftoken')
         };
         var CURRENT_TASK_VIEW;
         var CURRENT_TASK_DATA;

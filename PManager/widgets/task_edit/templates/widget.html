@@ -2,6 +2,7 @@
 {% compressed_js 'fileup' %}
 {% compressed_js 'task_edit' %}
 <form name="task_form" method="POST" action="{% if task_edit.id %}/task_edit/?id={{ task_edit.id }}{% endif %}{% if request.is_ajax %}&modal=1{% endif%}" rel="{% if task_edit.id %}{{ task_edit.id }}{% endif %}">
+    {% csrf_token %}
     <table width="100%" cellpadding="0" cellspacing="0">
     	<tr>
         	<td valign="top">
@@ -132,37 +133,7 @@
                                     <div class="pull-left muted">Низкий</div>
                                     <div class="pull-right muted">Высокий</div>
                                 </div>      
-                           </div><!--params-item-->
-{#                           <div class="params-item">             #}
-{#                                <h5>Сложность: <span data-name="hardness">{{ task_edit.post.hardness }}</span></h5>#}
-{#                                <div class="progress">#}
-{#                                    <a style="left:{% widthratio task_edit.post.hardness|dotted_float 1 100 %}%;" class="btn btn-success"><i class="fa fa-arrows-h"></i></a>#}
-{#                                </div>      #}
-{#                                <div class="row-fluid">#}
-{#                                    <div class="pull-left muted">Мин.</div>#}
-{#                                    <div class="pull-right muted">Макс.</div>#}
-{#                                </div>         #}
-{#                           </div><!--params-item-->#}
-{#                           <div class="params-item">          #}
-{#                                <h5>Требует обсуждения: <span data-name="reconcilement">{{ task_edit.post.reconcilement }}</span></h5>#}
-{#                                <div class="progress">#}
-{#                                    <a style="left:{% widthratio task_edit.post.reconcilement|dotted_float 1 100 %}%;" class="btn btn-success"><i class="fa fa-arrows-h"></i></a>#}
-{#                                </div>    #}
-{#                                <div class="row-fluid">#}
-{#                                    <div class="pull-left muted">Мин.</div>#}
-{#                                    <div class="pull-right muted">Макс.</div>#}
-{#                                </div>                #}
-{#                           </div><!--params-item-->#}
-{#                           <div class="params-item">             #}
-{#                                <h5>Требует знания проекта: <span data-name="project_knowledge">{{ task_edit.post.project_knowledge }}</span></h5>#}
-{#                                <div class="progress">#}
-{#                                    <a style="left:{% widthratio task_edit.post.project_knowledge|dotted_float 1 100 %}%;" class="btn btn-success"><i class="fa fa-arrows-h"></i></a>#}
-{#                                </div>   #}
-{#                                <div class="row-fluid">#}
-{#                                    <div class="pull-left muted">Мин.</div>#}
-{#                                    <div class="pull-right muted">Макс.</div>#}
-{#                                </div>                 #}
-{#                           </div><!--params-item-->#}
+                           </div>
                        </div><!--params-->
                        
                        <hr>
@@ -170,7 +141,6 @@
 
                 <div class="row">
                     <div class="col-xs-12">
-{#                        <div class="pull-left"><a class="hideFilter btn btn-info" href="#">Свернуть</a></div>#}
                         <div class="pull-right">
                             <button value="Сохранить" onclick="document.task_form.submit();" class="btn btn-large btn-success" id="save_button">
                                 Сохранить
@@ -194,9 +164,6 @@
 
                    <p><label>Плановое время, ч.: </label><input class="form-control js-planTime" name="planTime" value="{{ task_edit.post.planTime|default_if_none:'0' }}" type="text" placeholder="Плановое время"></p>
                    <p><label>Повторять каждые, ч.: </label><input class="form-control" name="repeatEvery" value="{{ task_edit.post.repeatEvery|default_if_none:'0' }}" type="text" placeholder="Повторять каждые"></p>
-{#                   <p><input class="form-control" type="text" value="" placeholder="Кол-во рабочих часов" ></p>#}
-{#                   <p><input class="form-control" type="text" placeholder="Дата окончанияв" ></p>#}
-{#                   <p><textarea class="form-control" placeholder="Задачи рядом" ></textarea></p>#}
                 {# -------- КРАЙНИЙ СРОК #}
                        <h5>Крайний срок:</h5>
                        <div class="task-edit_choose-time">

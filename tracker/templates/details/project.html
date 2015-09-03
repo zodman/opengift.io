@@ -243,6 +243,7 @@
     <hr>
     <div class="add-interface js-add-interface-wrapper" style="display: none;">
         <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
+            {% csrf_token %}
             <input type="hidden" name="pid" value="{{ project.id }}"/>
 
             <div class="my-row clearfix">
@@ -436,6 +437,7 @@
         <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
         {% endif %}
         <form method="POST" name="integration">
+            {% csrf_token %}
             <p class="checkbox">
                 <label>
                     <input type="checkbox" name="use_git" class="js-repository" {% if project.repository %}checked="checked" {% endif %}>&nbsp;
@@ -502,6 +504,7 @@
     <h2>Дополнительные параметры проекта</h2>
     <hr>
     <form method="POST" name="additional">
+        {% csrf_token %}
         {% if not canEdit %}
         <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
         {% endif %}
