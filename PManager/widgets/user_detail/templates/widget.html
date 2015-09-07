@@ -73,10 +73,10 @@
                 <div class="user-prizes">
                     {% if user_detail.achievements %}
                     <ul class="user-prizes-slider clearfix">
-                                {% for c in user_detail.achievements %}
-                                    <li><img src="{{ c.achievement.smallImageUrl }}" alt="" width="64px">{{ c.achievement.name }}</li>
-                                {% endfor %}
-                      </ul>
+                        {% for c in user_detail.achievements %}
+                            <li><img src="{{ c.achievement.smallImageUrl }}" alt="" width="64px">{{ c.achievement.name }}</li>
+                        {% endfor %}
+                    </ul>
                     {% endif %}
                 </div>
             </div>
