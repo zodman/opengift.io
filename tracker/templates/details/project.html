@@ -1,194 +1,29 @@
 {% extends "main/base.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
+{% compressed_css 'project_detail' %}
 {% compressed_js 'project_edit' %}
-<script type="text/javascript" src="/static/js/libs/clipboard/zclib.js"></script>
-<script type="text/javascript" src="/static/js/pm/ajax_inputs.js"></script>
+{% compressed_js 'project_detail' %}
 <script type="text/javascript">
-    function clipboardAppend(t) {
-        $(t).clipboard({
-            path: '/static/js/libs/clipboard/jquery.clipboard.swf',
-            copy: function () {
-                $(t).data('text', $(t).text()).text('пароль скопирован');
-                setTimeout(function () {
-                    $(t).text($(t).data('text'));
-                }, 2000);
-                return $(t).data('password');
-            }
-        });
-    }
-
-    $(function () {
-        $('.js-select-achievement').click(function() {
-            var $inp, $inputs = $(this).closest('.js-achievement')[($(this).is(':checked') ? 'addClass': 'removeClass')]('active')
-                    .find('select, input:not(:checkbox)').attr('disabled', ($(this).is(':checked') ? false: 'disabled'));
-
-            if ($(this).is(':checked')) {
-                $(this).attr('checked', 'checked');
-                $inp = $inputs.filter('input:text');
-                if ($inp.val()) $inp.trigger('change');
-            }
-        });
-
-        $('a.js-copy-password').each(function () {
-            clipboardAppend(this);
-        });
-
-        $('.js-interface-container').on('click', '.js-interface-remove', function () {
-            var $interface = $(this).closest('.js-interface-block');
-            var id = $interface.data('id');
-            $interface.remove();
-            PM_AjaxPost(
-                    '/remove_interface/',
-                    {
-                        'id': id
-                    }
-            );
-        });
-
-        window.ajaxInputs();
-
-        var requestForServer = function(is_new) {
-            if (is_new !== true) {
-                is_new = false;
-            }
-            $('.js-working').show();
-            var servUp = $.ajax({
-                type: "GET",
-                url: "/project/{{ project.id }}/server-setup",
-                data: { "new" : is_new }
-            });
-            servUp.done(function(msg){
-                if(confirm('Сервер запустится в течении 10 минут')){
-                    window.location.reload();
-                } else {
-                    window.location.reload();
-                }
-
-            });
-            servUp.fail(function(jqXHR, textStatus){
-                alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
-                $('.js-working').hide();
-            });
-        };
-
-        $('.js-server-status').click(function(){
-            $('.js-working').show();
-            var servStatus = $.ajax({
-                type: "GET",
-                url: "/project/{{ project.id }}/server-status"
-            });
-            servStatus.done(function(msg){
-                $('.js-working').hide();
-                console.log(msg);
-                if (msg === 'OK') {
-                    alert('Сервер работает');
-                }
-                else {
-                    alert('Сервер не работает');
-                }
-
-                //window.location.reload
-            });
-            servStatus.fail(function(jqXHR, textStatus){
-                alert('Произошла ошибка, пожалуйста свяжитесь с администратором.');
-                $('.js-working').hide();
-            });
-        });
-        $('.js-server-create').click(function(){
-            requestForServer(true);
-        });
-
-        $('.editable-textarea-click').click(function(e) {
-            $(this).hide();
-            $('.editable-textarea').show().focus().select();
-            e.stopPropagation();
-        });
-        $('.project-edit-link-editable').click(function(e) {
-            $(this).hide();
-            $('.project-edit-input').show().focus().select();
-            e.stopPropagation();
-        });
-
-        $('.editable-textarea, .project-edit-input').click(function(e) {
-            e.stopPropagation();
-        });
-
-        $('.editable-textarea').keyup(function(){
-            $('.editable-textarea-click').text($(this).val())
-        });
-
-        $('.project-edit-input').keyup(function(){
-            $('.project-edit-link-editable').text($(this).val())
-        });
-
-        $(document).click(function () {
-            var $projectControls = $('.editable-textarea, .project-edit-input');
-
-            if ($projectControls.is(':visible')) {
-                $('.editable-textarea-click, .project-edit-link-editable').show();
-                $projectControls.hide();
-                updateName();
-            }
-        });
-
-        $(".js-add-interface-button").click(function() {
-            $(".js-add-interface-wrapper").toggle();
-        });
-
-        $('.js-bonus-complete').click(function () {
-            $.fancybox({'content': $('.js-user-pay-win').html()});
-            $('.js-input-user-sum').val($(this).data('sum') * -1);
-            $('.js-input-role-id').val($(this).attr('rel'));
-            return false;
-        });
-
-        $('.js-avatar_upload').change(function () {
-            var file = this.files[0];
-
-            if (file.type.match('image. *')) {
-                if (FileReader) {
-                    var reader = new FileReader();
-                    reader.onload = function () {
-                        $('.js-avatar').attr('src', reader.result);
-                    };
-                    reader.readAsDataURL(file);
-                }
-
-                var formData = new FormData();
-                formData.append('image', file);
-                formData.append('action', 'upload_project_avatar');
-                formData.append('project', window.currentProject);
-
-                $.ajax({
-                    url: document.URL,
-                    type: "POST",
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function (data) {
-                        data = JSON.parse(data);
-                        $('.js-avatar').attr('src', data.path)
-                    },
-                    error: function () {
-                        console.log('something failed')
-                    }
-                });
-            }
-        })
-    });
+    window.heliardData = { 
+        project: {{ project.id }} 
+    };
 </script>
-<link type="text/css" rel="stylesheet" href="/static/css/project.edit.css"/>
 <div class="widget">
-
-<div class="project-info-area clearfix">
-    <div class="project-info-left">
-
-        <span class="project-info-avatar">
-            <span class="project-info-avatar-upload">
-                <input type="file" class="js-avatar_upload">
-                <a href="" class="btn btn-success">Выбрать</a>
+    <div class="project-info-area clearfix">
+        <div class="project-info-left">
+            <span class="project-info-avatar">
+                <span class="project-info-avatar-upload">
+                    <input type="file" class="js-avatar_upload">
+                    <a href="" class="btn btn-success">Выбрать</a>
+                </span>
+                {% if project.imagePath %}
+                    <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
+                {% else %}
+                    <img width="100px" src="/static/img/no-photo.png"  class="js-avatar" />
+                {% endif %}
             </span>
+<<<<<<< .merge_file_kaf5tM
             {% if project.imagePath %}
                 <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
             {% else %}
@@ -379,20 +214,11 @@
             {% endfor %}
             <div role="tabpanel" class="tab-pane" id="developer">2</div>
         </div>
+=======
+>>>>>>> .merge_file_6LiuA0
 
-        <div class="js-user-pay-win hidden">
-            <div class="user-pay-win">
-                <form>
-                    <input type="hidden" class="js-input-role-id" value=""/>
-                    <h3>Количество бонусов: </h3>
-                    <p><input type="text" class="js-input-user-sum form-control" value="" /></p>
-                    <h3>Комментарий: </h3>
-                    <p><input type="text" class="js-input-comment form-control" value="" /></p>
-                    <input type="button" class="btn btn-success form-control" onclick="sendPayment(this);return false;"
-                           value="Погасить бонусы"/>
-                </form>
-            </div>
         </div>
+<<<<<<< .merge_file_kaf5tM
         <script type="text/javascript">
             function updateName() {
                 PM_AjaxPost(
@@ -465,38 +291,29 @@
                     type="checkbox" value="1" name="settings_disable_commits_with_errors" >&nbsp;
                     Запретить коммиты с ошибками
                 </label>
+=======
+        <div class="project-info-right">
+            <h1>
+                {% if canEdit %}
+                    <a href="/project/edit/?id={{ project.id }}"></a>
+                    <span class="project-edit-link-editable">{{ project.name }}<i class="fa fa-pencil"></i></span>
+                    <input type="text" class="project-edit-input form-control js-project-name" value="{{ project.name }}" />
+                {% else %}
+                    {{ project.name }}
+                {% endif %}
+            </h1>
+            <p class="editable-textarea-wrapper">
+                {% if canEdit %}
+                    <span class="editable-textarea-click">{{ project.description }}<i class="fa fa-pencil"></i></span>
+                    <textarea class="editable-textarea form-control js-project-description">{{ project.description }}</textarea>
+                {% else %}
+                    {{ project.description }}
+                {% endif %}
+>>>>>>> .merge_file_6LiuA0
             </p>
-            {% if canEdit %}
-            <hr>
-            <p><input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success" /></p>
-            {% endif %}
-        </form>
-    </div>
-    <div class="integration-right">
-        <h2>Тестовый сервер</h2>
-        <hr>
-        {% if project.repository and not project.api_key %}
-        <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>
-        {% elif project.api_key %}
-        <p class="colored-bg bg-success">Сервер создан <b>{{ project.repository }}.heliard-platform.ru</b> <a href="#" class="js-server-status">Проверить статус</a></p>
-        {% elif not project.repository %}
-        <p class="colored-bg bg-warning">Вы можете создать тестовый сервер только с использованием GIT</p>
-        {% endif %}
-
-        {#                    <p class="colored-bg bg-danger">...</p>#}
-        {% if project.repository and not project.api_key %}
-        <a href="#" class="btn btn-info {% if canEdit %}js-server-create{% else %}disabled{% endif %}" style="width:100%;">
-            Создать тестовый сервер
-        </a>
-        <div class="server-progress working js-working" style="display: none;">
-            <div class="progress progress-striped active">
-                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;">
-                    <span class="sr-only">Запускаем сервер...</span>
-                </div>
-            </div>
         </div>
-        {% endif %}
     </div>
+<<<<<<< .merge_file_kaf5tM
 </div>
 </div>
 
@@ -507,294 +324,46 @@
         {% csrf_token %}
         {% if not canEdit %}
         <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
+=======
+    <hr class="clearfix">
+    <ul id="myTab" role="tablist" class="user-list-settings clearfix">
+        <li role="accesses" class="active">
+            <a data-toggle="tab" aria-controls="accesses" href="#accesses" aria-expanded="true"><i class="fa fa-wrench"></i><span>Доступы</span></a>
+        </li>
+        {% if bCurUserIsAuthor %}
+        <li role="participants_and_rates">
+            <a data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false"><i class="fa fa-users"></i><span>Участники</span></a>
+        </li>
+>>>>>>> .merge_file_6LiuA0
         {% endif %}
-        <p class="checkbox">
-            <label>
-                <input {% if not canEdit or not canDelete %}disabled="disabled" {% endif %}
-                {% if project.closed %}checked="checked" {% endif %}
-                type="checkbox" name="is_closed" value="1" >&nbsp;
-                Проект в архиве
-            </label>
-        </p>
-        <p class="checkbox">
-            <label>
-                <input {% if not canEdit %}disabled="disabled" {% endif %}
-                {% if settings.start_unapproved %}checked="checked" {% endif %}
-                type="checkbox" value="1" name="settings_start_unapproved" >&nbsp;
-                Разрешить начинать задачи без подтверждения
-            </label>
-        </p>
-        <p class="checkbox">
-            <label>
-                <input {% if not canEdit %}disabled="disabled" {% endif %}
-                {% if settings.unplan_approve %}checked="checked" {% endif %}
-                type="checkbox" value="1" name="settings_unplan_approve" >&nbsp;
-                Разрешить подтверждать задачи без оценки
-            </label>
-        </p>
-        <p class="checkbox">
-            <label>
-                <input {% if not canEdit %}disabled="disabled" {% endif %}
-                {% if settings.autohide_messages %}checked="checked" {% endif %}
-                type="checkbox" value="1" name="settings_autohide_messages" >&nbsp;
-                Скрывать сообщения клиента и исполнителя друг от друга
-            </label>
-        </p>
-        <h2>Категории задач</h2>
-        <hr>
-        <p class="checkbox">
-            <label>
-                <input {% if not canEdit %}disabled="disabled" {% endif %}
-                {% if settings.use_colors_in_kanban %}checked="checked" {% endif %}
-                type="checkbox" value="1" name="settings_use_colors_in_kanban" >&nbsp;
-                Использовать категории в канбане вместо статусов
-            </label>
-        </p>
-        <div class="project-colors">
-        {% for color_code, color in colors %}
-            <p><span class="color-block {{ color_code }}" style="float: left; margin-right: 10px;"></span> <input {% if not canEdit %}disabled="disabled" {% endif %}type="text" name="settings_color_name_{{ color_code }}" value="{{ color }}" class="form-control" style="width: 96%;" placeholder="Введите название категории" /> </p>
-        {% endfor %}
+        <li role="integration">
+            <a data-toggle="tab" aria-controls="integration" href="#integration" aria-expanded="false"><i class="fa fa-cloud-upload"></i><span>Непрерывная интеграция</span></a>
+        </li>
+        <li role="additional_settings">
+            <a data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false"><i class="fa fa-cogs"></i><span>Дополнительно</span></a>
+        </li>
+        <li role="achievements">
+            <a data-toggle="tab" aria-controls="achievements" href="#achievements" aria-expanded="false"><i class="fa fa-thumbs-up"></i><span>Достижения</span></a>
+        </li>
+    </ul>
+    <div class="tab-content settings-tab">
+        <div id="accesses" class="tab-pane active" role="tabpanel">
+            {% include 'partials/project_detail/accesses.html' %}
         </div>
-
-        {% if canEdit %}
-        <hr>
-        <p><input type="submit" value="Применить" name="settings_save" class="btn btn-success" /></p>
+        {% if bCurUserIsAuthor %}
+            <div id="participants_and_rates" class="tab-pane" role="tabpanel">
+                {% include 'partials/project_detail/participants_rates.html' %}
+            </div>
         {% endif %}
-    </form>
-</div>
-
-
-<div id="achievements" class="tab-pane" role="tabpanel">
-<style>
-    .achievements-wrapper {list-style: none; padding: 0px; margin: -10px -5px 15px;}
-    .achievements-item {
-        background: #fff;
-        box-shadow: 0 1px 2px #ddd;
-        -moz-box-shadow: 0 1px 2px #ddd;
-        -webkit-box-shadow: 0 1px 2px #ddd;
-        float: left;
-        margin: 25px 15px 0;
-        padding: 20px 20px 20px 15px;
-        width: calc(33.33% - 30px);
-        border-radius: 4px;
-        -moz-border-radius: 4px;
-        -webkit-border-radius: 4px;
-    }
-    .achievements-item.active {
-        background: #edf8ed none repeat scroll 0 0;
-    }
-    .achievements-item-img {float: left; width: 100px; margin-right:15px;}
-    .achievements-item-img img {width: 100%;}
-    .achievements-item-text {
-        font-size: 14px;
-        float: left;
-        width: calc(100% - 115px);
-    }
-    .achievements-item-title {font-size: 16px; font-weight: bold; margin-bottom: 5px; margin-top: 10px;}
-    .achievements-item-desc {margin-bottom: 10px;}
-    .achievements-item-settings {margin-bottom: 10px;}
-    .achievements-item-button {}
-
-    .achievements-item-title-desc-wrapper {margin-bottom: 10px; height: 100px; overflow: hidden;}
-    @media only screen and (max-width: 1280px) {
-        .achievements-item {width: calc(50% - 30px);}
-    }
-
-    @media only screen and (max-width: 768px) {
-        .achievements-item {width: calc(100% - 30px);}
-    }
-
-    @media only screen and (max-width: 568px) {
-        .achievements-item-title-desc-wrapper {height: 75px;}
-        .achievements-item-img {width: 75px;}
-        .achievements-item-text {width: calc(100% - 90px);}
-        .achievements-item-title {font-size: 14px; line-height: 18px;}
-        .achievements-item-desc {font-size: 13px; line-height: 18px;}
-        .achievements-wrapper {margin: -20px -20px 10px;}
-        .achievements-item-settings .col-wrapper > div {width: 100%; padding: 0px; margin-bottom: 10px;}
-        .achievements-item-settings .col-wrapper > div:last-child {margin-bottom: 0;}
-
-    }
-
-</style>
-<div class="achievements-wrapper-big">
-<ul class="achievements-wrapper clearfix">
-{% for achievement in achievements %}
-    <li class="achievements-item clearfix{% if achievement.project_relation %} active{% endif %} js-achievement">
-        <div class="achievements-item-title-desc-wrapper clearfix">
-            <div class="achievements-item-img"><img src="{{ achievement.smallImageUrl }}" /></div>
-            <div class="achievements-item-text">
-                <div class="achievements-item-title">{{ achievement.name }}</div>
-                <div class="achievements-item-desc">{{ achievement.description }}</div>
-            </div>
+        <div id="integration" class="tab-pane" role="tabpanel">
+            {% include 'partials/project_detail/integration.html' %}
         </div>
-        <div class="achievements-item-settings">
-            <div class="col-wrapper">
-                <div class="col-3"><input type="text" placeholder="0"
-                                          {% if not achievement.project_relation %}disabled{% endif %}
-                                          data-achievement="{{ achievement.id }}"
-                                          data-action="update_achievement_value"
-                                          name="value"
-                                          value="{{ achievement.project_relation.value|default_if_none:'' }}"
-                                          class="js-ajax-input form-control" /></div>
-                <div class="col-7">
-                    <select class="js-ajax-input form-control"
-                            {% if not achievement.project_relation %}disabled{% endif %}
-                            data-achievement="{{ achievement.id }}"
-                            data-action="update_achievement_type"
-                            name="type" >
-                        <option value="fix" {% if achievement.project_relation.type == 'fix' %}selected="selected"{% endif %}>Разовое начисление</option>
-                        <option value="bet" {% if achievement.project_relation.type == 'bet' %}selected="selected"{% endif %}>Прибавка к ставке по проекту</option>
-                    </select>
-                </div>
-            </div>
+        <div id="additional_settings" class="tab-pane" role="tabpanel">
+            {% include 'partials/project_detail/additional_params.html' %}
         </div>
-        <div class="achievements-item-button">
-            <label class="checkbox">
-                <input type="checkbox" class="js-ajax-input js-select-achievement"
-                       style="float:left"
-                       data-achievement="{{ achievement.id }}"
-                       data-action="update_achievement_exist"
-                       name="exist" value="1" {% if achievement.project_relation %}checked="checked"{% endif %} /> Использовать в проекте
-            </label>
+        <div id="achievements" class="tab-pane" role="tabpanel">
+            {% include 'partials/project_detail/achievements.html' %}
         </div>
-    </li>
-{% endfor %}
-</ul>
-</div>
-</div>
-</div>
+    </div>
 </div><!--widget-->
-<script>
-    $(function () {
-        var timerCheckFields = false,
-                $projectNameInput = $('.js-project-name');
-
-        $('.js-repository').click(function (ev) {
-            if (!$(this).prop('checked')) {
-                $('.js-repository-value').val('');
-                $('.js-hiddable').hide();
-            } else {
-                $('.js-hiddable').show();
-                $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
-            }
-            checkFields();
-        });
-
-        $projectNameInput.keyup(function () {
-            var projectName = $(this).val();
-            var repoName = transliterate(projectName);
-            if (in_sync) {
-                $('.js-repository-value').val(repoName);
-                unmarkRepName();
-                setCheckFieldsTimer();
-            }
-
-        }).change(function () {
-            unmarkRepName();
-        });
-        function unmarkRepName() {
-            $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
-        }
-
-        function markSuccessRepName() {
-            $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
-        }
-
-        function markErrorRepName() {
-            $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
-        }
-
-        function enableSubmit() {
-            $('.js-submit').removeAttr('disabled');
-        }
-
-        function disableSubmit() {
-            $('.js-submit').attr('disabled', 'disabled');
-        }
-
-        function setCheckFieldsTimer() {
-            if (timerCheckFields) {
-                clearTimeout(timerCheckFields);
-            }
-            timerCheckFields = setTimeout(checkFields, 700);
-        }
-
-        function checkFields() {
-            var projectName = $('.js-project-name').val(),
-                    isRepo = $('.js-repository').is(':checked'),
-                    repoName,
-                    $repoNameInput = $('.js-repository-value');
-
-            if (!isRepo) {
-                $repoNameInput.val('');
-                enableSubmit();
-                unmarkRepName();
-                return false;
-            }
-
-            if (in_sync) {
-                repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
-            }
-            else {
-                repoName = transliterate($repoNameInput.val());
-            }
-
-            $repoNameInput.val(repoName)
-                    .next('i').addClass('fa-spinner').addClass('fa-spin');
-
-            PM_AjaxPost(
-                    '/project/edit/check_repository_name',
-                    {
-                        'repoName': repoName
-                    },
-                    function (response) {
-                        if (response == "OK") {
-                            markSuccessRepName();
-                            enableSubmit();
-                        } else if (response == "ERROR") {
-                            markErrorRepName();
-                            disableSubmit();
-                        } else {
-                            $('.js-repository-value').val(response);
-                            markSuccessRepName();
-                            enableSubmit();
-                        }
-                    }
-            );
-        }
-        disableSubmit();
-
-        $projectNameInput.blur(checkFields);
-        var in_sync = true;
-        $('.js-repository-value').focus(function() {
-            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
-        }).keyup(function() {
-            setCheckFieldsTimer();
-            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
-        }).blur(function(ev) {
-            checkFields();
-        });
-        checkFields();
-
-        $('a[data-toggle="tab"]').on('click', function(e) {
-            history.pushState(null, null, $(this).attr('href'));
-        });
-        // navigate to a tab when the history changes
-        window.addEventListener("popstate", function(e) {
-            var activeTab = $('[href=' + location.hash + ']');
-            if (activeTab.length) {
-                activeTab.tab('show');
-            } else {
-                $('.nav-tabs a:first').tab('show');
-            }
-        });
-        if (location.hash) {
-            var activeTab = $('[href=' + location.hash + ']');
-            if (activeTab.get(0)) {
-                activeTab.tab('show');
-            }
-        }
-    });
-</script>
 {% endblock %}
