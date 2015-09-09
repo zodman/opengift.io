@@ -9,6 +9,44 @@ from django.http import Http404
 TRACKER = get_tracker(1)
 
 
+def set_project_in_session(project_id, projects, request):
+    '''
+    This function sets a project from id, and stores it in a session
+    so that next requests will have access to it
+    '''
+    project = None
+    if project_id == 0 or project_id not in projects:
+        request.COOKIES["CURRENT_PROJECT"] = 0
+        return project
+    try:
+        print('try block started')
+        project = PM_Project.objects.get(closed=False, id=int(project_id))
+        request.COOKIES["CURRENT_PROJECT"] = project.id
+    except (PM_Project.DoesNotExist, ValueError):
+        request.COOKIES["CURRENT_PROJECT"] = 0
+    return project
+
+
+def get_project_in_session(projects, request):
+    '''
+    This function gets a stored project from session data
+    '''
+    project = None
+    project_id = request.COOKIES.get("CURRENT_PROJECT", 0)
+    try:
+        project_id = int(project_id)
+        if project_id in projects:
+            project = PM_Project.objects.get(pk=project_id)
+            return project
+        else:
+            request.COOKIES["CURRENT_PROJECT"] = 0
+    except PM_Project.DoesNotExist:
+        request.COOKIES["CURRENT_PROJECT"] = 0
+    except ValueError:
+        request.COOKIES["CURRENT_PROJECT"] = 0
+    return project
+
+
 # SET_COOKIE - куки, которые необходимо поставить
 # CURRENT_PROJECT - текущий выбранный проект в трекере
 def initGlobals(request):
@@ -25,37 +63,20 @@ def initGlobals(request):
     redirect = False
 
     if 'project' in request.REQUEST:
-        try:
-            CURRENT_PROJECT = PM_Project.objects.get(closed=False, id=int(request.REQUEST.get('project', 0)))
-            if CURRENT_PROJECT.id in projects:
-                SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id
-                request.COOKIES["CURRENT_PROJECT"] = CURRENT_PROJECT.id
+        project_id = int(request.REQUEST.get('project', 0))
+        CURRENT_PROJECT = set_project_in_session(
+            project_id,
+            projects,
+            request)
+        SET_COOKIE["CURRENT_PROJECT"] = request.COOKIES["CURRENT_PROJECT"]
+        if CURRENT_PROJECT is None and project_id != 0:
+            if not bIsAuthenticated:
+                redirect = '/login/'
             else:
-                if not bIsAuthenticated:
-                    redirect = '/login/'
-                else:
-                    redirect = "/404"
-
-        except (PM_Project.DoesNotExist, ValueError):
-            CURRENT_PROJECT = 0
-
-        SET_COOKIE["CURRENT_PROJECT"] = CURRENT_PROJECT.id if CURRENT_PROJECT else 0
-        request.COOKIES["CURRENT_PROJECT"] = SET_COOKIE["CURRENT_PROJECT"]
-
+                redirect = '/404'
     else:
-        CURRENT_PROJECT = request.COOKIES.get("CURRENT_PROJECT", 0)
-        if CURRENT_PROJECT:
-            try:
-                CURRENT_PROJECT = int(CURRENT_PROJECT)
-                if CURRENT_PROJECT in projects:
-                    CURRENT_PROJECT = PM_Project.objects.get(pk=int(CURRENT_PROJECT))
-                else:
-                    SET_COOKIE["CURRENT_PROJECT"] = 0
-                    CURRENT_PROJECT = 0
-            except PM_Project.DoesNotExist:
-                CURRENT_PROJECT = 0
-            except ValueError:
-                CURRENT_PROJECT = 0
+        CURRENT_PROJECT = get_project_in_session(projects, request)
+        SET_COOKIE["CURRENT_PROJECT"] = request.COOKIES["CURRENT_PROJECT"]
 
     if request.method == 'POST':
         form = WhoAreYou(request.POST)
@@ -87,14 +108,17 @@ def initGlobals(request):
         if request.GET['logout'] == 'Y':
             logout(request)
             redirect = "/"
-
+    can_invite = False
+    is_manager = False
+    if CURRENT_PROJECT and bIsAuthenticated:
+        can_invite = (request.user.id == CURRENT_PROJECT.author.id or
+                      request.user.get_profile().isManager(CURRENT_PROJECT))
+        is_manager = request.user.get_profile().isManager(CURRENT_PROJECT)
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
-        'CAN_INVITE': request.user.id == CURRENT_PROJECT.author.id or request.user.get_profile().isManager(
-            CURRENT_PROJECT) if CURRENT_PROJECT and bIsAuthenticated else False,
-        'IS_MANAGER': request.user.get_profile().isManager(
-            CURRENT_PROJECT) if CURRENT_PROJECT and bIsAuthenticated else False,
+        'CAN_INVITE': can_invite,
+        'IS_MANAGER':  is_manager,
         'FIRST_STEP_FORM': WhoAreYouForm,
         'REDIRECT': redirect,
         'COOKIES': request.COOKIES

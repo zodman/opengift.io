@@ -13,6 +13,7 @@
         {% endif %}
     </script>
     <form action="" method="post" class="form-horizontal">
+        {% csrf_token %}    
         {% for field in form.hidden_fields %}
             {{ field }}
         {% endfor %}

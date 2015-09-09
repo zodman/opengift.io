@@ -4,6 +4,7 @@
     <h1>Отправка временных затрат</h1>
         {% if request.text %}<div class="alert alert-success">{{ request.text }}</div>{% endif %}
         <form role="form" method="POST" >
+            {% csrf_token %}
             <div class="form-group">
                 <label>Задача</label>
                 <select name="task_id" required="required" class="form-control">

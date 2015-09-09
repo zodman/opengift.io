@@ -1,6 +1,7 @@
 {% extends "main/base.html" %}
 {% block content %}
     <form action="" method="POST" xmlns="http://www.w3.org/1999/html">
+        {% csrf_token %}
         Путь к файлу: <input type="text" name="path_to_file" />
         Путь к директории: <input type="text" name="path_to_dir" />
         <input type="submit" name="import_start" value="Начать импорт" />

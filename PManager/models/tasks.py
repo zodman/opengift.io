@@ -361,7 +361,7 @@ class PM_Task(models.Model):
     )
 
     name = models.CharField(max_length=1000, verbose_name='Заголовок')
-    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст')
+    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст', blank=True, null=True)
     number = models.IntegerField()
     project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True, related_name='projectTasks')
     resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')

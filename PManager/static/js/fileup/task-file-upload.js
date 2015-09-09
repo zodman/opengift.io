@@ -8,7 +8,10 @@ function taskFileUpload() {
         button: $('.file_upload_button').get(0),
         request: {
             endpoint: "/upload/receiver",
-            paramsInBody: true
+            paramsInBody: true,
+            customHeaders: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            }
         },
         text: {
             cancelButton:'Отмена',
@@ -28,7 +31,10 @@ function taskFileUpload() {
         deleteFile: {
             enabled: true,
             endpoint: '/upload/receiver',
-            forceConfirm: false
+            forceConfirm: false,
+            customHeaders: {
+                "X-CSRFToken": $.cookie('csrftoken')
+            }
         },
         display: {
             completeFileDelete: false,

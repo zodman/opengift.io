@@ -225,8 +225,7 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                            <!-- <div class="checkbox" style="position:relative;"><label style="white-space: nowrap"><input type="checkbox" name="group" value="milestones"  style="margin:0px;"/>&nbsp;<i class="fa fa-star green" onclick="$(this).toggleClass('highlighted');" title="Этапы проекта" style="top:8px;left:3px;"></i>&nbsp;</label></div>-->
-                             
+                           
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <label class="btn milestones-btn" >
@@ -288,6 +287,7 @@
             </div>
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
+                {% csrf_token %}
                 <input type="text" class="form-control" name="title" maxlength="250" placeholder="Название" />
                 <br />
                 Создать список задач на аутсорс для приглашения специалистов?
@@ -310,6 +310,7 @@
             <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post">
+                {% csrf_token %}
               <div class="modal-body clearfix">
                   <div class="add-aim-body clearfix">
                       <div class="add-aim-checkbox"><input type="radio" name="milestone" class="js-select-milestone js-new" checked  value="" ></div>
@@ -348,6 +349,7 @@
             <h2 class="modal-title" id="myModalLabel2">Изменить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post" action="/milestone_ajax/">
+                {% csrf_token %}
               <div class="modal-body">
                 <div class="col-wrapper">
                   <div class="col-5">
@@ -376,15 +378,16 @@
             <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>
           </div>
           <form role="form" class="js-observers-form" method="post">
+              {% csrf_token %}
               <div class="modal-body">
-                  <div class="form-group">
+                <div class="form-group">
                     <select class="form-control" name="observer">
                         <option value="">Выбрать</option>
                         {% for resp_user in tasklist.users %}
                             <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>
                         {% endfor %}
                     </select>
-                  </div>
+                </div>
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-observers"></div>
