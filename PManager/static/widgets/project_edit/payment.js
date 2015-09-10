@@ -34,7 +34,7 @@
         return false;
     });
 
-    $(JS_SEND_PAYMENT_BUTTON).click(function(){
+    $(document).on('click', JS_SEND_PAYMENT_BUTTON, function(){
         sendPayment(this);
         return false;
     })
