@@ -5,25 +5,18 @@
 {% compressed_js 'project_edit' %}
 {% compressed_js 'project_detail' %}
 <script type="text/javascript">
-    window.heliardData = { 
-        project: {{ project.id }} 
+    window.heliardData = {
+        project: {{ project.id }}
     };
 </script>
 <div class="widget">
-    <div class="project-info-area clearfix">
-        <div class="project-info-left">
-            <span class="project-info-avatar">
-                <span class="project-info-avatar-upload">
-                    <input type="file" class="js-avatar_upload">
-                    <a href="" class="btn btn-success">Выбрать</a>
-                </span>
-                {% if project.imagePath %}
-                    <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
-                {% else %}
-                    <img width="100px" src="/static/img/no-photo.png"  class="js-avatar" />
-                {% endif %}
+<div class="project-info-area clearfix">
+    <div class="project-info-left">
+        <span class="project-info-avatar">
+            <span class="project-info-avatar-upload">
+                <input type="file" class="js-avatar_upload">
+                <a href="" class="btn btn-success">Выбрать</a>
             </span>
-<<<<<<< .merge_file_kaf5tM
             {% if project.imagePath %}
                 <img width="100px" src="{{ project.imagePath|thumbnail:'100x100' }}" class="js-avatar"/>
             {% else %}
@@ -73,280 +66,6 @@
     </li>
 </ul>
 <div class="tab-content settings-tab">
-<div id="accesses" class="tab-pane active" role="tabpanel">
-    <h2 class="clearfix relative line-34">Информация о доступах к серверам<a class="btn btn-success pull-right js-add-interface-button">Добавить</a></h2>
-    <hr>
-    <div class="add-interface js-add-interface-wrapper" style="display: none;">
-        <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
-            {% csrf_token %}
-            <input type="hidden" name="pid" value="{{ project.id }}"/>
-
-            <div class="my-row clearfix">
-                <div class="my-row-3">
-                    <div class="my-row-4">
-                        <h6>Протокол</h6>
-                        <select class="form-control" name="protocol">
-                            <option value="http">http://</option>
-                            <option value="ssh">ssh://</option>
-                            <option value="ftp">ftp://</option>
-                            <option value="rdp">rdp://</option>
-                        </select>
-                    </div>
-                    <div class="my-row-6">
-                        <h6>Адрес</h6>
-                        <input type="text" value="" name="address" placeholder="Введите адрес..."
-                               class="form-control"/>
-                    </div>
-                </div>
-                <div class="my-row-3">
-                    <h6>Название</h6>
-                    <input type="text" value="" name="name" placeholder="Введите название..." class="form-control">
-                </div>
-                <div class="my-row-3">
-                    <h6>Доступен</h6>
-                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="1">
-                        Клиенты</label>
-                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="2">
-                        Разработчики</label>
-                    <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="3">
-                        Менеджеры</label>
-                </div>
-            </div>
-
-            <div class="my-row clearfix">
-                <div class="my-row-3">
-                    <h6>Имя пользователя</h6>
-                    <input type="text" value="" name="username" placeholder="Введите имя пользователя..."
-                           class="form-control">
-                </div>
-                <div class="my-row-3">
-                    <h6>Пароль</h6>
-                    <input type="password" value="" name="password" placeholder="Введите пароль..."
-                           class="form-control">
-                </div>
-                <div class="my-row-3">
-                    <input type="submit" class="btn btn-success"
-                           onclick="$('.js-add-interface').ajaxSubmit(function(data){var $ic = $('.js-interface-container'); $ic.append(data);clipboardAppend($ic.find('.js-copy-password').last()); $('.js-add-interface-wrapper').toggle().find('input:text, input:password').val('');});return false;"
-                           value="Добавить интерфейс"/>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="js-interface-container">
-        {{ interfaces|safe }}
-    </div>
-    <p>Разместите здесь доступ в административную панель или к FTP серверу сайта.</p>
-</div>
-{% if bCurUserIsAuthor %}
-<div id="participants_and_rates" class="tab-pane" role="tabpanel">
-    <div class="nachislenie-bonusov">
-        <h2>Участники и ставки по проекту</h2>
-        <hr>
-        <ul class="developer-manager-list clearfix" role="tablist">
-            {% for roleName, o in roles.items %}
-            <li {% if forloop.first %}class="active"{% endif %} role="{{ o.role.role.code }}">
-            <a aria-expanded="true" href="#{{ o.role.role.code }}" aria-controls="{{ o.role.role.code }}" data-toggle="tab" class="btn btn-default">{{ roleName }}</a>
-            </li>
-            {% endfor %}
-        </ul>
-        <div class="tab-content">
-            {% for roleName, o in roles.items %}
-            <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}">
-                <p>{{ o.text }}:</p>
-                <div class="clearfix user-role-block-wrapper">
-                    {% for user in o.users %}
-                    <div class="user-role-block">
-                        <div class="avatar">
-                            <a href="/user_detail/?id=1" class="pull-left">
-                                <span>
-                                {% if user.profile.avatarSrc %}
-                                        <img src="{{ user.profile.avatarSrc }}"
-                                             alt="{{ user.last_name }} {{ user.first_name }}"/>
-                                        {% else %}
-                                        <script>document.write($.createAvatar({
-                                            'id': {{ user.id }},
-                                            'initials': {% if user.last_name %}'{{ user.last_name }}'[0] + '{{ user.first_name }}'[0]{% else %}''{% endif %},
-                                            'color': '{{ user.profile.avatar_color }}'
-                                        }));</script>
-                                {% endif %}
-                                </span>
-                            </a>
-                        </div>
-                        <div class="desc">
-                            <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a></h4>
-                            <div class="col-wrapper clearfix">
-                                <div class="col-6">
-                                    <p><b>Форма начисления бонусов:</b> <a href="#" title="Бонусы начисляются при закрытии задачи. Плановое время распределяется среди исполнителей поровну. За реальное время бонусы начисляются согласно таймеру.">?</a></p>
-                                    <select class="js-ajax-input form-control" data-action="update_payment_type" data-role="{{ user.role_id }}">
-                                        <option value="real_time" {% if o.role.payment_type == 'real_time' %}
-                                        selected="selected"{% endif %}>
-                                        За реальное время
-                                        </option>
-                                        <option value="plan_time" {% if o.role.payment_type == 'plan_time' %}
-                                        selected="selected"{% endif %}>
-                                        За плановое время
-                                        </option>
-                                    </select>
-                                </div>
-                                <div class="col-3">
-                                    <p><b>Цена часа:</b></p>
-                                    <div class="input-group">
-                                        <input type="text" class="js-ajax-input form-control" data-action="update_rate"
-                                               data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
-                                        {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
-                                        <div class="input-group-addon">SP</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="clearfix"></div>
-                        <div class="bonuses clearfix">
-                            <span><b>Накоплено бонусов:</b> {{ user.sum|default_if_none:"0" }}</span>
-                            <button class="btn btn-success js-bonus-complete" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Начислить/Списать</button>
-                        </div>
-
-
-                    </div>
-                    {% endfor %}
-                </div>
-            </div>
-            {% endfor %}
-            <div role="tabpanel" class="tab-pane" id="developer">2</div>
-        </div>
-=======
->>>>>>> .merge_file_6LiuA0
-
-        </div>
-<<<<<<< .merge_file_kaf5tM
-        <script type="text/javascript">
-            function updateName() {
-                PM_AjaxPost(
-                        document.URL,
-                        {
-                            'action': 'change_name',
-                            'name': $('.js-project-name').val(),
-                            'description': $('.js-project-description').text()
-                        },
-                        function (data) {
-
-                        },
-                        'json'
-                );
-            }
-            function sendPayment(el) {
-                var $form = $(el).closest('form'),
-                        data = {'action': 'send_payment'};
-                data['role'] = parseInt($form.find('.js-input-role-id').val());
-                data['sum'] = parseInt($form.find('.js-input-user-sum').val());
-                data['comment'] = $form.find('.js-input-comment').val();
-                PM_AjaxPost(
-                        document.URL,
-                        data,
-                        function (data) {
-                            if (data['result']) document.location.reload();
-                        },
-                        'json'
-                );
-            }
-        </script>
-    </div>
-</div>
-{% endif %}
-
-<div id="integration" class="tab-pane" role="tabpanel">
-<div class="integration-wrapper clearfix">
-    <div class="integration-left">
-        <h2>GIT репозиторий</h2>
-        <hr>
-        {% if not canEdit %}
-        <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
-        {% endif %}
-        <form method="POST" name="integration">
-            {% csrf_token %}
-            <p class="checkbox">
-                <label>
-                    <input type="checkbox" name="use_git" class="js-repository" {% if project.repository %}checked="checked" {% endif %}>&nbsp;
-                    Использовать GIT
-                </label>
-            </p>
-            <p class="js-hiddable" style="{% if not project.repository %}display: none; {% endif %}position: relative;">
-                <label>Имя репозитория</label>
-                <input {% if not canEdit %}disabled="disabled" {% endif %} type="text" name="repository"
-                value="{% if project.repository %}{{ project.repository }}{% endif %}" class="form-control js-repository-value" {% if project.repository %}readonly{% endif %}/>
-                <i class="fa fa-icon" style="position: absolute;right: 25px;top: 33px;font-size: 16px;"></i>
-            </p>
-            <p class="checkbox">
-                <label>
-                    <input {% if not canEdit or not project.repository  %}disabled="disabled" {% endif %}
-                    {% if settings.disable_commits_wo_tasks %}checked="checked" {% endif %}
-                    type="checkbox" value="1" name="settings_disable_commits_wo_tasks" >&nbsp;
-                    Запретить коммиты не в задачу
-                </label>
-            </p>
-            <p class="checkbox">
-                <label>
-                    <input {% if not canEdit or not project.repository %}disabled="disabled" {% endif %}
-                    {% if settings.disable_commits_with_errors %}checked="checked" {% endif %}
-                    type="checkbox" value="1" name="settings_disable_commits_with_errors" >&nbsp;
-                    Запретить коммиты с ошибками
-                </label>
-=======
-        <div class="project-info-right">
-            <h1>
-                {% if canEdit %}
-                    <a href="/project/edit/?id={{ project.id }}"></a>
-                    <span class="project-edit-link-editable">{{ project.name }}<i class="fa fa-pencil"></i></span>
-                    <input type="text" class="project-edit-input form-control js-project-name" value="{{ project.name }}" />
-                {% else %}
-                    {{ project.name }}
-                {% endif %}
-            </h1>
-            <p class="editable-textarea-wrapper">
-                {% if canEdit %}
-                    <span class="editable-textarea-click">{{ project.description }}<i class="fa fa-pencil"></i></span>
-                    <textarea class="editable-textarea form-control js-project-description">{{ project.description }}</textarea>
-                {% else %}
-                    {{ project.description }}
-                {% endif %}
->>>>>>> .merge_file_6LiuA0
-            </p>
-        </div>
-    </div>
-<<<<<<< .merge_file_kaf5tM
-</div>
-</div>
-
-<div id="additional_settings" class="tab-pane" role="tabpanel">
-    <h2>Дополнительные параметры проекта</h2>
-    <hr>
-    <form method="POST" name="additional">
-        {% csrf_token %}
-        {% if not canEdit %}
-        <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
-=======
-    <hr class="clearfix">
-    <ul id="myTab" role="tablist" class="user-list-settings clearfix">
-        <li role="accesses" class="active">
-            <a data-toggle="tab" aria-controls="accesses" href="#accesses" aria-expanded="true"><i class="fa fa-wrench"></i><span>Доступы</span></a>
-        </li>
-        {% if bCurUserIsAuthor %}
-        <li role="participants_and_rates">
-            <a data-toggle="tab" aria-controls="participants_and_rates" href="#participants_and_rates" aria-expanded="false"><i class="fa fa-users"></i><span>Участники</span></a>
-        </li>
->>>>>>> .merge_file_6LiuA0
-        {% endif %}
-        <li role="integration">
-            <a data-toggle="tab" aria-controls="integration" href="#integration" aria-expanded="false"><i class="fa fa-cloud-upload"></i><span>Непрерывная интеграция</span></a>
-        </li>
-        <li role="additional_settings">
-            <a data-toggle="tab" aria-controls="additional_settings" href="#additional_settings" aria-expanded="false"><i class="fa fa-cogs"></i><span>Дополнительно</span></a>
-        </li>
-        <li role="achievements">
-            <a data-toggle="tab" aria-controls="achievements" href="#achievements" aria-expanded="false"><i class="fa fa-thumbs-up"></i><span>Достижения</span></a>
-        </li>
-    </ul>
-    <div class="tab-content settings-tab">
         <div id="accesses" class="tab-pane active" role="tabpanel">
             {% include 'partials/project_detail/accesses.html' %}
         </div>
@@ -366,4 +85,136 @@
         </div>
     </div>
 </div><!--widget-->
+<script>
+    $(function () {
+        var timerCheckFields = false,
+                $projectNameInput = $('.js-project-name');
+
+        $('.js-repository').click(function (ev) {
+            if (!$(this).prop('checked')) {
+                $('.js-repository-value').val('');
+                $('.js-hiddable').hide();
+            } else {
+                $('.js-hiddable').show();
+                $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
+            }
+            checkFields();
+        });
+
+        $projectNameInput.keyup(function () {
+            var projectName = $(this).val();
+            var repoName = transliterate(projectName);
+            if (in_sync) {
+                $('.js-repository-value').val(repoName);
+                unmarkRepName();
+                setCheckFieldsTimer();
+            }
+
+        }).change(function () {
+            unmarkRepName();
+        });
+        function unmarkRepName() {
+            $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
+        }
+
+        function markSuccessRepName() {
+            $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
+        }
+
+        function markErrorRepName() {
+            $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
+        }
+
+        function enableSubmit() {
+            $('.js-submit').removeAttr('disabled');
+        }
+
+        function disableSubmit() {
+            $('.js-submit').attr('disabled', 'disabled');
+        }
+
+        function setCheckFieldsTimer() {
+            if (timerCheckFields) {
+                clearTimeout(timerCheckFields);
+            }
+            timerCheckFields = setTimeout(checkFields, 700);
+        }
+
+        function checkFields() {
+            var projectName = $('.js-project-name').val(),
+                    isRepo = $('.js-repository').is(':checked'),
+                    repoName,
+                    $repoNameInput = $('.js-repository-value');
+
+            if (!isRepo) {
+                $repoNameInput.val('');
+                enableSubmit();
+                unmarkRepName();
+                return false;
+            }
+
+            if (in_sync) {
+                repoName = transliterate($repoNameInput.val()) || transliterate(projectName);
+            }
+            else {
+                repoName = transliterate($repoNameInput.val());
+            }
+
+            $repoNameInput.val(repoName)
+                    .next('i').addClass('fa-spinner').addClass('fa-spin');
+
+            PM_AjaxPost(
+                    '/project/edit/check_repository_name',
+                    {
+                        'repoName': repoName
+                    },
+                    function (response) {
+                        if (response == "OK") {
+                            markSuccessRepName();
+                            enableSubmit();
+                        } else if (response == "ERROR") {
+                            markErrorRepName();
+                            disableSubmit();
+                        } else {
+                            $('.js-repository-value').val(response);
+                            markSuccessRepName();
+                            enableSubmit();
+                        }
+                    }
+            );
+        }
+        disableSubmit();
+
+        $projectNameInput.blur(checkFields);
+        var in_sync = true;
+        $('.js-repository-value').focus(function() {
+            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+        }).keyup(function() {
+            setCheckFieldsTimer();
+            in_sync = ($(this).val() == transliterate($projectNameInput.val()));
+        }).blur(function(ev) {
+            checkFields();
+        });
+        checkFields();
+
+        $('a[data-toggle="tab"]').on('click', function(e) {
+            history.pushState(null, null, $(this).attr('href'));
+        });
+        // navigate to a tab when the history changes
+        window.addEventListener("popstate", function(e) {
+            var activeTab = $('[href=' + location.hash + ']');
+            if (activeTab.length) {
+                activeTab.tab('show');
+            } else {
+                $('.nav-tabs a:first').tab('show');
+            }
+        });
+        if (location.hash) {
+            var activeTab = $('[href=' + location.hash + ']');
+            if (activeTab.get(0)) {
+                activeTab.tab('show');
+            }
+        }
+    });
+</script>
 {% endblock %}
