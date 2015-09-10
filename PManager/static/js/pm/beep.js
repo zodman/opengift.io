@@ -9,10 +9,11 @@ var sound = new Howl({
   autoplay: false,
   loop: false,
   volume: 1,
+  iOSAutoEnable: false,
   onend: function() {
     console.log('Finished!');
   }
 });
 var knock = function(){
     return sound.play();
-}
+};
