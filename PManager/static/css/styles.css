@@ -818,12 +818,12 @@ border-bottom-right-radius: 0px;}
 					.task-info > div {display:inline-block; line-height:24px;}
 					.task-info .task-info-time {padding:0 85px 0 25px; position:relative; top:-6px; width:340px; text-align:left;}
 						.task-info .task-info-time span {vertical-align:inherit;}
-                            .task-info .task-info-time span.js-time {border-bottom: 1px dashed #47a447; color: #47a447 !important; cursor: pointer;}
+                            .task-info .task-info-time span.js-time, .tasklist-plan-time {border-bottom: 1px dashed #47a447; color: #47a447 !important; cursor: pointer;}
 						.task-info .task-info-time .dropdown .caret {margin-top:13px; vertical-align:top; margin-left:5px; display:inline-block;}
 					.task-info .task-info-author {position:relative; top:1px; width:250px; text-align:left; white-space:nowrap; overflow: hidden;}
 					.task-info .task-info-author .js-select_resp {max-width:148px; white-space:nowrap; overflow:hidden; line-height:22px; height:20px; position:relative;}
 					.title-to-hide {width:100px;}
-					
+					.tasklist-plan-time:hover {text-decoration: none;}
 					.task-info .task-info-author:after {display:block; width:20px; height:100%; content:""; position:absolute; right:0px; top:0px; z-index:1;
 background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIxMDAlIiB5Mj0iMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y0ZjRmNCIgc3RvcC1vcGFjaXR5PSIwIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmNGY0ZjQiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
 background: -moz-linear-gradient(left,  rgba(244,244,244,0) 0%, rgba(244,244,244,1) 100%); /* FF3.6+ */
@@ -2918,7 +2918,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     display: block;
     width: 100%;
     height: 100px;
-    overflow: hidden;
     position:relative;
     padding: 0;
     margin:0;

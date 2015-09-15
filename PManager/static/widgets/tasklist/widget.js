@@ -362,6 +362,9 @@ var widget_tl, currentGroup;
                 $(document).on('click', '.js-task-checkbox', function () {
                     var $chTasks = $('.js-task-checkbox:checked');
                     if ($chTasks.get(0)) {
+                        bottomPanel.addCloseHandler('uncheck', function(){
+                            $('.js-task-checkbox:checked').attr('checked', false);
+                        });
                         $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function () {
                             var $taskInputContainer = $('.js-tasks-for-milestone').empty();
                             $('.js-task-checkbox:checked').each(function () {

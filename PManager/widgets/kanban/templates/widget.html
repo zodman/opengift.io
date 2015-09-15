@@ -267,32 +267,6 @@
                 $row.find('.js-tasks-wrapper').kanban('update');
             }).trigger("change");
 
-             $(".js-task_menu").click(function(){
-                var taskEL = $(this).parents('.js-task-wrapper');
-                var task = $(this).parents('.js-tasks-wrapper').kanban('getTask', taskEL);
-                if(!task) { return false; }
-                if ($('#myModalLabel').length > 0) {
-                    return false;
-                }
-                $.get('/task_edit/?modal=1&id=' + task.id, function(response){
-                    if(response !== 'error') {
-                        $('body').prepend(response);
-                        $('#myModalLabel').html('Изменение задачи');
-                        $('#save_button').removeAttr('onclick').click(function(e){
-                            e.stopPropagation();
-                            var form = $(this).parents('form[name="task_form"]');
-                            var data = form.serializeArray();
-                            var url = form.attr('action');
-                            var id = form.attr('rel');
-                            $.post(url, data, function(){
-                                $('#modal').modal('hide');
-                            });
-                            return false;
-                        });
-                    }
-                });
-            });
-
             baseConnector.addListener('fs.task.update',function(data){
                 if (data && data.id){
                     taskEl = $('.js-task-wrapper[rel="' + data.id + '"]');

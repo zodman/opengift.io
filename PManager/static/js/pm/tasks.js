@@ -264,7 +264,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			var sFileList = '';
 			for (var file_path in taskInfo.files) {
 				var file = taskInfo.files[file_path];
-				sFileList += '<span>&nbsp;</span><a target="_blank" class="icon-download-alt icon-'
+				sFileList += '<span>&nbsp;</span><a style="float:right;" target="_blank" class="icon-download-alt icon-'
 					+ file.type + (file.is_picture ? ' fnc' : '')
 					+ '" href="' + file.url + '"></a>';
 			}
@@ -310,9 +310,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (taskInfo.planTime || taskInfo.onPlanning || taskInfo.canSetPlanTime) {
 				sPlanTime += '<span class="dropdown">[ ~ </span>' +
 					'<span class="dropdown">' +
-					(taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="jsPlanTimeHolder">')
-					+ (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'Оценить'))
-					+ (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '</a>')
+					(taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="tasklist-plan-time jsPlanTimeHolder">')
+					+ (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'План'))
+					+ (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '</a> ')
 					+ (taskInfo.onPlanning ? ' <b style="color:red">?</b> ' : '');
 				sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
 
@@ -320,6 +320,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					var planTime = this.arPlanTimes[i];
 					sPlanTime += '<li><a rel="' + planTime[0] + '">' + planTime[1] + '</a></li>';
 				}
+                sPlanTime += '<li><a rel="" >Другое</a></li>';
 				sPlanTime += '</ul>';
 				sPlanTime += '</span>';
 				sPlanTime += '<span class="dropdown">]</span>';
@@ -507,15 +508,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 				this.hideTimerButton();
 			}
 
-//                this.$('.fnc').fancybox();
 			this.delegateEvents();
 
 			if (this.$el.parent().get(0))
 				setTaskCellsHeight(this.$el);
-
-//                this.$(':checkbox').iCheck({
-//                    checkboxClass: 'icheckbox_flat-grey'
-//                });
 			return this;
 		},
 		'showPauseCommentForm': function () {
@@ -562,6 +558,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 		'changePlanTime': function (e) {
 			var time = $(e.currentTarget).attr('rel'),
 				obj = this;
+            if (!time) {
+                return this.editTask();
+            }
 
 			taskManager.SetTaskProperty(this.model.id, 'planTime', time, function (data) {
 				obj.checkModel(function () {
