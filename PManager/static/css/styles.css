@@ -2251,13 +2251,13 @@ border-top-right-radius: 0;}
 
 
 @media only screen and (max-width: 320px) {
-	
+
 .profile-edit .col-xs-2, .profile-edit .col-xs-6 {padding-right:15px;}
 	.profile-edit .col-xs-2 {width:35%;-moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
 .profile-edit .col-xs-6 {width:65%; -moz-box-sizing: border-box; -webkit-box-sizing: border-box; box-sizing: border-box;}
 .profile-edit .col-xs-4 {width:100%; float:none; clear:both; padding:5px 15px 0;}
 .profile-edit .errorlist {background:#FFF2F2; padding:5px 0; text-align:center; margin-top:5px;}
- 
+
 .sub-menu_line_section-user .list-inline {}
 .sub-menu_line_section-user .list-inline > li {padding:0px; float:left; margin-right:5px;}
 .sub-menu_line_section-user .list-inline.navbar-right > li {float:right; margin-right:0px;}
@@ -2272,7 +2272,6 @@ border-top-right-radius: 0;}
 .widget.inner .widget-body {padding:15px 15px 15px;}
 .newMessage .btn {margin-bottom:3px;}
 }
-
 /**** ЗАГРУЗКА ФАЙЛОВ ****/
 
 /* В файлах */

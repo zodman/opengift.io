@@ -288,23 +288,12 @@ var CRITICALLY_THRESHOLD = 0.7;
 					.replaceWith($newTimerTag);
 				oTaskContainers.$timer = $newTimerTag;
 			}
-//
-//			if (taskInfo.onPlanning) {
-//				oTaskContainers.$statusContainer.addClass('on-planning');
-//			}
-//			this.$('.task-icon').remove();
-//			oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
+
 			this.$el.removeClass('ready');
-//
+
 			if (taskInfo.status == 'ready') {
-//				oTaskContainers.$statusContainer.addClass('ready');
 				this.$el.addClass('ready');
 			}
-//            else if (taskInfo.status == 'not_approved') {
-//				oTaskContainers.$statusContainer.addClass('not-approved');
-//			} else if (taskInfo.overdue) {
-//				oTaskContainers.$statusContainer.addClass('overdue');
-//			}
 
             oTaskContainers.$statusContainer.addClass(taskInfo.color);
 
@@ -421,6 +410,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 			} else {
 				$respLink.text('Нет ответственного');
 			}
+            var v, todo;
+            for (v in taskInfo.todo) {
+                todo = taskInfo.todo[v];
+                $row.find('.js-todo').append(
+                    '<i class="fa fa' + (todo.checked ? '-check' : '') + '-square-o ' + (todo.bug ? 'bug' : '') + '"></i>'
+                )
+            }
 
 			return $row.html();
 		},

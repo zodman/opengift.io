@@ -11,6 +11,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from tracker.settings import COMISSION
 from django.db.models import Sum
 from PManager.services.task_list import task_list_prepare, tasks_to_tuple
+from django.db.models import Q
 # This function are used in many controllers.
 # It must return only json serializeble values in 'tasks' array
 
@@ -306,6 +307,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'status': task.status.code if task.status else '',
+            'todo': [
+                {
+                    'todo': t['todo'],
+                    'bug': t['bug'],
+                    'checked': t['checked']
+                } for t in task.messages.filter(Q(Q(todo=True) | Q(bug=True))).order_by('id').values('checked', 'bug', 'todo')
+            ],
             'resp': responsibleSequence if responsibleSequence else [
                 {'id': task.resp.id,
                  'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
