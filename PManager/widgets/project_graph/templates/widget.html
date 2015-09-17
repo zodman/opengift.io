@@ -31,12 +31,7 @@
                         <span>Всего: <b>{{ project_graph.allPrice|intcomma }}</b></span><br>
                         <span>По проекту: <b>{{ project_graph.allProjectPrice|intcomma }}</b></span>
                     </div>
-                    <div class="col-xs-3">
-                        <h5>Инфо</h5>
-                        Место: <b>{{ project_graph.taskTagPosition }}</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
-                        Закрыто задач: <b>{{ project_graph.allTaskQty }}</b><br>
-                        Компетентность: <b>{{ project_graph.taskTagCoefficient }}</b>
-                    </div>
+
                     <div class="col-xs-7">
                         <h5>Прогресс</h5>
                         Закрыто задач: <b>{{ project_graph.closedTasksQty }} из {{ project_graph.tasksQty }}</b>
@@ -47,6 +42,12 @@
                                 <span class="sr-only">{{ project_graph.taskClosedPercent }}% Complete</span>
                             </div>
                         </div>
+                    </div>
+                    <div class="col-xs-3" style="border-left: #fefefe;">
+                        <h5>Инфо</h5>
+                        Место: <b>{{ project_graph.taskTagPosition }}</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        Закрыто задач: <b>{{ project_graph.allTaskQty }}</b><br>
+                        Компетентность: <b>{{ project_graph.taskTagCoefficient }}</b>
                     </div>
                     <div class="clr"></div>
             </div>
