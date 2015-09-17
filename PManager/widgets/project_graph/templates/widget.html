@@ -1,18 +1,23 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
-<div class="row">
+<div class="row project_graph">
     {% if project_graph.roles %}
     <div class="col-sm-3">
         <div class="well hide-on-mobile">
             {% for role in project_graph.roles %}
                 <div class="role-{{ role.role.code }}" {% if not forloop.first %}style="display: none;" {% endif %}>
-                    <h5>{{ role.role.name }}</h5>
-                    Цена часа: &nbsp;<span
-                        class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
-                <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
-                    +{% endif %}{{ project_graph.rating }}</span></span>
-                    <br/>
-                    <span style="text-transform: lowercase">{{ role.bet_type_name }}</span>
+                    <div class="role-titles">
+                        <h5 class="active">{{ role.role.name }}</h5>
+                        <h5>Клиент</h5>
+                    </div>
+                    <div class="role-content">
+                        <div class="role-content-tab">
+                            <b>Цена часа:</b> &nbsp;<span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
+                            +{% endif %}{{ project_graph.rating }}</span></span>
+                            <span style="text-transform: lowercase">{{ role.bet_type_name }}</span>
+                        </div>
+                    </div>
                 </div>
             {% endfor %}
         </div>
@@ -23,18 +28,19 @@
             <div class="row">
                     <div class="col-xs-2" >
                         <h5>Бонусы</h5>
-                        <span>Всего: <strong>{{ project_graph.allPrice|intcomma }}</strong></span><br />
-                        <span>По проекту: <strong>{{ project_graph.allProjectPrice|intcomma }}</strong></span>
+                        <span>Всего: <b>{{ project_graph.allPrice|intcomma }}</b></span><br>
+                        <span>По проекту: <b>{{ project_graph.allProjectPrice|intcomma }}</b></span>
                     </div>
                     <div class="col-xs-3">
-                        Всего закрыто задач: <b>{{ project_graph.allTaskQty }}</b><br/>
-                        Компетентность: <b>{{ project_graph.taskTagCoefficient }}</b><br/>
-                        Место: <b>{{ project_graph.taskTagPosition }}</b>
+                        <h5>Инфо</h5>
+                        Место: <b>{{ project_graph.taskTagPosition }}</b></span>&nbsp;&nbsp;&nbsp;&nbsp;
+                        Закрыто задач: <b>{{ project_graph.allTaskQty }}</b><br>
+                        Компетентность: <b>{{ project_graph.taskTagCoefficient }}</b>
                     </div>
                     <div class="col-xs-7">
                         <h5>Прогресс</h5>
-                        Закрыто задач <b>{{ project_graph.closedTasksQty }} из {{ project_graph.tasksQty }}</b>
-                        <div class="progress" style="margin: 0;">
+                        Закрыто задач: <b>{{ project_graph.closedTasksQty }} из {{ project_graph.tasksQty }}</b>
+                        <div class="progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
                                  aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
                                  aria-valuemax="100" style="width: {{ project_graph.taskClosedPercent }}%">
