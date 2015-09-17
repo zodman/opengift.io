@@ -6,7 +6,6 @@
  */
 var CRITICALLY_THRESHOLD = 0.7;
 (function ($) {
-
 	window.taskClass = Backbone.Model.extend({
 		'url': function () {
 			return '/task/' + this.id + '/';
@@ -776,8 +775,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 			this.render();
 		},
 		'taskStop': function (e, onlyView) {
-//                if (!this.model.get('started')) return false;
-
 			var comment = this.$('textarea[name=comment]').val();
 
 			if (e && $(e.currentTarget).hasClass('pause_comment_cancel')) {
@@ -948,19 +945,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 				alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
 				return false;
 			}
-//            if (!t.model.get('planTime')) {
-//                alert('Подтвердить выполнение можно только для оцененной задачи.');
-//                return false;
-//            }
-//            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
-//                alert(
-//                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
-//                        Math.round(t.model.get('planPrice')) +
-//                        ' sp).'
-//                );
-//                return false;
-//            }
-
 			this.setRevision();
 			return true;
 		},

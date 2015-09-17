@@ -2909,9 +2909,8 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     display:none;
     width: 230px;
     height: 100px;
-    position: absolute;
     padding: 0px;
-    margin: 0px;
+    margin: 5px;
     background:none;
 }
 .kanban .task-card {

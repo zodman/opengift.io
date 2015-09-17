@@ -561,17 +561,11 @@ class PM_Task(models.Model):
                     credit.save()
                     allSum = allSum + curPrice
 
-            #managers that not clients
             managers = PM_ProjectRoles.objects.filter(
                     project=self.project,
                     role__code='manager',
-                    user__in=self.observers.all(),
-                    rate__gt = 0
-                ).exclude(user__in=PM_ProjectRoles.objects.filter(
-                                    project=self.project,
-                                    role__code='client'
-                                ).values_list('user__id', flat=True)
-                         )
+                    user__in=self.observers.all()
+                )
 
             cManagers = managers.count()
             for manager in managers:
@@ -601,8 +595,7 @@ class PM_Task(models.Model):
             #clients
             clients = PM_ProjectRoles.objects.filter(
                 project=self.project,
-                role__code='client',
-                rate__gt=0
+                role__code='client'
             )
             #client with bet
             # clientPaid = 0
