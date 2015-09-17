@@ -4306,8 +4306,7 @@ ul.colors {
 .project_graph {color:#666;}
 .project_graph h5, .project_graph b {color:#000;}
 .project_graph h5 {border-bottom:1px dashed transparent; margin-bottom: 5px;}
-.project_graph .col-sm-3 .well,
-.project_graph .col-sm-9 .well{
+.project_graph .well{
     background: #fff;
     box-shadow: 0 0 5px #ddd;
     -moz-box-shadow: 0 0 5px #ddd;
