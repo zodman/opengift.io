@@ -4301,6 +4301,7 @@ ul.colors {
 
 .project_graph {color:#666;}
 .project_graph h5, .project_graph b {color:#000;}
+.project_graph h5 {border-bottom:1px dashed transparent; margin-bottom: 5px;}
 .project_graph .col-sm-3 .well,
 .project_graph .col-sm-9 .well{
     background: #fff;
@@ -4315,10 +4316,10 @@ ul.colors {
 }
 .project_graph .col-sm-3 .well h5 {margin-bottom: 10px;}
 .project_graph .col-sm-3 .well .role-titles {color:#47a447;}
-.project_graph .col-sm-3 .well .role-titles h5 {border-bottom:2px dashed #47a447; display: inline-block; margin-right: 10px;}
-.project_graph .col-sm-3 .well .role-titles h5.active {color:#444; border-color:transparent;}
+.project_graph .col-sm-3 .well .role-titles h5 {border-bottom:1px dashed #47a447; color:#47a447; display: inline-block; margin-right: 10px;}
+.project_graph .col-sm-3 .well .role-titles h5.active {color:#000; border-color:transparent;}
 
 .project_graph .col-sm-3 .well .role-titles {}
 
 .project_graph .col-sm-9 .progress {margin: 10px 0 0;}
-.project_graph .col-sm-9 b {color:#47a447;}
+.project_graph .col-sm-9 b {color:#47a447; font-size: 16px;}
