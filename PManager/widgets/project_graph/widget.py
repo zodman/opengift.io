@@ -52,6 +52,9 @@ def widget(request, headerValues, ar, qargs):
                                 'SELECT COUNT(v.weight) as position, id FROM (SELECT SUM(`weight`) as weight, `id`, `object_id` from PManager_objecttags WHERE content_type_id=' + str(
             ContentType.objects.get_for_model(User).id) + ' AND weight > ' + str(obj1.weight_sum or 0) + ' GROUP BY object_id) as v'):
             taskTagPosition = obj2.position + 1
+            break
+        break
+
         taskTagCoefficient += obj1.weight_sum
 
     closedTaskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'closed': True, 'active': True}))
