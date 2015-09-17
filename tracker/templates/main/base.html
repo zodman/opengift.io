@@ -417,11 +417,13 @@ $(function(){
                             <a href="{% if is_detail_page %}/{% endif %}?project=0"><i class="fa fa-remove cancel-project-select"></i></a>
                         {% endif %}
                         <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose js-openProjectList" data-toggle="dropdown">
-                            {% if main.CURRENT_PROJECT %}
-                                {{ main.CURRENT_PROJECT.name }}
-                            {% else %}
-                                Все проекты
-                            {% endif %}
+                            <span>
+                                {% if main.CURRENT_PROJECT %}
+                                    {{ main.CURRENT_PROJECT.name }}
+                                {% else %}
+                                    Все проекты
+                                {% endif %}
+                            </span>
                         </button>
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>

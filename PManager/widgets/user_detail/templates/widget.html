@@ -1,4 +1,4 @@
-{% load floattags jsonify compressed %}
+{% load floattags jsonify compressed humanize %}
 {% compressed_js 'user_detail' %}
 <script>
     var global_user_id = {{ user_detail.user.id }};
@@ -131,7 +131,7 @@
 
                                 <div class="sp" style="margin-top: 10px;">На счету:
                                     <span class="dropdown dropup">
-                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0' }}</a></b>
+                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
                                         {% if user_detail.bets %}
                                         <ul class="dropdown-menu">
                                             {% for arBet in user_detail.bets %}

@@ -427,6 +427,21 @@ class PM_Task(models.Model):
 
         logger = Logger()
 
+        def increaseTagsForUser(userForTags, tagRelArray):
+            for tagRel in tagRelArray:
+                tagRelUser = ObjectTags.objects.filter(
+                    tag=tagRel.tag,
+                    object_id=userForTags.id,
+                    content_type=ContentType.objects.get_for_model(user)
+                )
+                if tagRelUser:
+                    tagRelUser = tagRelUser[0]
+                else:
+                    tagRelUser = ObjectTags(tag=tagRel.tag, content_object=userForTags)
+
+                tagRelUser.weight = int(tagRelUser.weight) + 1
+                tagRelUser.save()
+
         self.closed = True
         self.critically = 0.5
         self.status = None
@@ -436,29 +451,20 @@ class PM_Task(models.Model):
         if not self.resp and user:
             self.resp = user
 
+        tagRelArray = ObjectTags.objects.filter(
+            object_id=self.id,
+            content_type=ContentType.objects.get_for_model(PM_Task)
+        ).all()
         if self.resp:
             #save user experiance
             if self.resp.id != self.author.id:
-                tagRelArray = ObjectTags.objects.filter(
-                    object_id=self.id,
-                    content_type=ContentType.objects.get_for_model(PM_Task)
-                ).all()
-                for tagRel in tagRelArray:
-                    tagRelUser = ObjectTags.objects.filter(
-                        tag=tagRel.tag,
-                        object_id=self.resp.id,
-                        content_type=ContentType.objects.get_for_model(user)
-                    )
-                    if tagRelUser:
-                        tagRelUser = tagRelUser[0]
-                    else:
-                        tagRelUser = ObjectTags(tag=tagRel.tag, content_object=self.resp)
-
-                    tagRelUser.weight = int(tagRelUser.weight) + 1
-
-                    tagRelUser.save()
+                increaseTagsForUser(self.resp, tagRelArray)
 
             logger.log(self.resp, 'DAILY_TASKS_CLOSED', 1)
+
+        for ob in self.observers.all():
+            if ob.id != self.author.id:
+                increaseTagsForUser(ob, tagRelArray)
 
         if not self.wasClosed and not self.subTasks.count():
             self.setCreditForTime()
@@ -555,17 +561,11 @@ class PM_Task(models.Model):
                     credit.save()
                     allSum = allSum + curPrice
 
-            #managers that not clients
             managers = PM_ProjectRoles.objects.filter(
                     project=self.project,
                     role__code='manager',
-                    user__in=self.observers.all(),
-                    rate__gt = 0
-                ).exclude(user__in=PM_ProjectRoles.objects.filter(
-                                    project=self.project,
-                                    role__code='client'
-                                ).values_list('user__id', flat=True)
-                         )
+                    user__in=self.observers.all()
+                )
 
             cManagers = managers.count()
             for manager in managers:
@@ -595,8 +595,7 @@ class PM_Task(models.Model):
             #clients
             clients = PM_ProjectRoles.objects.filter(
                 project=self.project,
-                role__code='client',
-                rate__gt=0
+                role__code='client'
             )
             #client with bet
             # clientPaid = 0
@@ -1014,7 +1013,7 @@ class PM_Task(models.Model):
     @staticmethod
     def getQtyForUser(user, project=None, addFilter={}):
         filterForUser = PM_Task.getQArgsFilterForUser(user, project)
-        if (project):
+        if project:
             filterForUser.append(Q(project=project))
 
         filterForUser.append(Q(**addFilter))
@@ -1456,9 +1455,9 @@ class PM_Task_Message(models.Model):
     isSystemLog = models.BooleanField(blank=True)
     code = models.CharField(max_length=255, null=True, blank=True)
     read = models.BooleanField(blank=True)
-    todo = models.BooleanField(blank=True)
-    checked = models.BooleanField(blank=True)
-    bug = models.BooleanField(blank=True)
+    todo = models.BooleanField(blank=True, db_index=True)
+    checked = models.BooleanField(blank=True, db_index=True)
+    bug = models.BooleanField(blank=True, db_index=True)
     solution = models.BooleanField(default=False)
 
     def __unicode__(self):

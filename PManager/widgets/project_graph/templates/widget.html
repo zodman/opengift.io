@@ -1,33 +1,73 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
-
-<div class="well hide-on-mobile">
-    <div>
-        <form action="{% if project_graph.bPay %}{{ project_graph.payForm.target }}{% else %}/{% endif %}" method="POST" name="robo">
-            {% csrf_token %}
-            <div class="inline-block border-right">
-                <span>Накоплено бонусов: <strong>{{ project_graph.allProjectPrice|intcomma }} SP</strong></span>
+<style>
+    .role-titles h5:not(.active) {
+        cursor: pointer;
+    }
+</style>
+<script>
+    $(function() {
+        $('.js-select-role').click(function(){
+            if (!$(this).is('.active')) {
+                $(this).addClass('active').siblings('.js-select-role').removeClass('active');
+                $('.js-role').filter('[data-role='+$(this).data('role')+']').show().siblings('.js-role').hide();
+            }
+        })
+    })
+</script>
+<div class="row project_graph">
+    {% if project_graph.roles %}
+    <div class="col-sm-3">
+        <div class="well hide-on-mobile">
+            <div class="role-titles">
+                {% for role in project_graph.roles %}
+                        <h5 class="{% if forloop.first %}active{% endif %} js-select-role" data-role="{{ role.role.code }}">Роль: {{ role.role.name }}</h5>
+                {% endfor %}
             </div>
-            <div class="inline-block border-right">
-            Цена часа: <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ project_graph.rate }}
-            <span class="bonus">{% if project_graph.rating < 0 %}{% else %}+{% endif %}{{ project_graph.rating }}</span></span>SP
+            {% for role in project_graph.roles %}
+                <div class="role-{{ role.role.code }} js-role" data-role="{{ role.role.code }}" {% if not forloop.first %}style="display: none;" {% endif %}>
+
+                    <div class="role-content">
+                        <div class="role-content-tab">
+                            <b>Цена часа:</b> &nbsp;<span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
+                            +{% endif %}{{ project_graph.rating }}</span></span>
+                            <span style="text-transform: lowercase">{{ role.bet_type_name }}</span> <a href="/wiki/bonuses">?</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+    <div class="col-sm-{% if project_graph.roles %}9{% else %}12{% endif %}">
+        <div class="well hide-on-mobile" style="border-left-color: #fe781e;">
+            <div class="row">
+                    <div class="col-xs-2" >
+                        <h5>Счет <a href="/wiki/bonuses">?</a></h5>
+                        <span style="white-space: nowrap;"><strong>Всего:</strong> <b style="color:#fe781e;">{{ project_graph.allPrice|intcomma }}</b></span><br>
+                        <span style="white-space: nowrap;"><strong>По проекту:</strong> <b style="color:#fe781e;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
+                    </div>
+
+                    <div class="col-xs-7" style="border-left: 1px solid #efefef;">
+                        <h5>Прогресс</h5>
+                        Закрыто задач: <b style="color:#fe781e;">{{ project_graph.closedTasksQty }}</b> из <b style="color:#fe781e;">{{ project_graph.tasksQty }}</b>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                 aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: {{ project_graph.taskClosedPercent }}%;background-color: #fe781e;">
+                                <span class="sr-only">{{ project_graph.taskClosedPercent }}% Complete</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xs-3" style="border-left: 1px solid #efefef;">
+                        <h5>Место: <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b></h5>
+                        Закрыто задач: <b style="color:#fe781e;">{{ project_graph.allTaskQty }}</b><br>
+                        Компетентность: <b style="color:#fe781e;">{{ project_graph.taskTagCoefficient }}</b>
+
+                    </div>
+                    <div class="clr"></div>
             </div>
-
-            <div class="inline-block border-right">
-                <span>Закрыто задач: <strong>{{ project_graph.closedTasksQty }}</strong></span>&nbsp;&nbsp;&nbsp;
-                <span>Осталось задач: <strong>{{ project_graph.tasksQty }}</strong></span>
-            </div>
-
-            {% if not is_staff %}
-            <a href="/project/edit/" class="js-start-pay button btn-success"
-               onclick="if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('paymentClick'); ">
-                <i class="fa fa-diamond"></i>&nbsp;&nbsp;получить Premium
-            </a>
-            <a href="/payment_info/">(информация об оплате)</a>
-            {% else %}
-            <i class="fa fa-diamond"></i>&nbsp;&nbsp;Premium аккаунт до {{ project_graph.premiumTill }} &nbsp;<a href="/payment/" class="btn" data-placement="bottom"  data-toggle="popover" data-content="Премиум аккаунт позволяет вам создавать собственные проекты!"><i class="fa fa-credit-card"></i>&nbsp;&nbsp;продлить</a>
-            {% endif %}
-
-        </form>
+        </div>
     </div>
 </div>

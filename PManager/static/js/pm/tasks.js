@@ -6,7 +6,6 @@
  */
 var CRITICALLY_THRESHOLD = 0.7;
 (function ($) {
-
 	window.taskClass = Backbone.Model.extend({
 		'url': function () {
 			return '/task/' + this.id + '/';
@@ -264,7 +263,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			var sFileList = '';
 			for (var file_path in taskInfo.files) {
 				var file = taskInfo.files[file_path];
-				sFileList += '<span>&nbsp;</span><a target="_blank" class="icon-download-alt icon-'
+				sFileList += '<span>&nbsp;</span><a style="float:right;" target="_blank" class="icon-download-alt icon-'
 					+ file.type + (file.is_picture ? ' fnc' : '')
 					+ '" href="' + file.url + '"></a>';
 			}
@@ -288,23 +287,12 @@ var CRITICALLY_THRESHOLD = 0.7;
 					.replaceWith($newTimerTag);
 				oTaskContainers.$timer = $newTimerTag;
 			}
-//
-//			if (taskInfo.onPlanning) {
-//				oTaskContainers.$statusContainer.addClass('on-planning');
-//			}
-//			this.$('.task-icon').remove();
-//			oTaskContainers.$statusContainer.removeClass('ready not-approved overdue');
+
 			this.$el.removeClass('ready');
-//
+
 			if (taskInfo.status == 'ready') {
-//				oTaskContainers.$statusContainer.addClass('ready');
 				this.$el.addClass('ready');
 			}
-//            else if (taskInfo.status == 'not_approved') {
-//				oTaskContainers.$statusContainer.addClass('not-approved');
-//			} else if (taskInfo.overdue) {
-//				oTaskContainers.$statusContainer.addClass('overdue');
-//			}
 
             oTaskContainers.$statusContainer.addClass(taskInfo.color);
 
@@ -321,9 +309,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (taskInfo.planTime || taskInfo.onPlanning || taskInfo.canSetPlanTime) {
 				sPlanTime += '<span class="dropdown">[ ~ </span>' +
 					'<span class="dropdown">' +
-					(taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="jsPlanTimeHolder">')
-					+ (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'Оценить'))
-					+ (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '</a>')
+					(taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="tasklist-plan-time jsPlanTimeHolder">')
+					+ (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'План'))
+					+ (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '</a> ')
 					+ (taskInfo.onPlanning ? ' <b style="color:red">?</b> ' : '');
 				sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
 
@@ -331,6 +319,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					var planTime = this.arPlanTimes[i];
 					sPlanTime += '<li><a rel="' + planTime[0] + '">' + planTime[1] + '</a></li>';
 				}
+                sPlanTime += '<li><a rel="" >Другое</a></li>';
 				sPlanTime += '</ul>';
 				sPlanTime += '</span>';
 				sPlanTime += '<span class="dropdown">]</span>';
@@ -421,6 +410,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 			} else {
 				$respLink.text('Нет ответственного');
 			}
+            var v, todo;
+            for (v in taskInfo.todo) {
+                todo = taskInfo.todo[v];
+                $row.find('.js-todo').append(
+                    '<i class="fa fa' + (todo.checked ? '-check' : '') + '-square-o ' + (todo.bug ? 'bug' : '') + '"></i>'
+                )
+            }
 
 			return $row.html();
 		},
@@ -511,15 +507,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 				this.hideTimerButton();
 			}
 
-//                this.$('.fnc').fancybox();
 			this.delegateEvents();
 
 			if (this.$el.parent().get(0))
 				setTaskCellsHeight(this.$el);
-
-//                this.$(':checkbox').iCheck({
-//                    checkboxClass: 'icheckbox_flat-grey'
-//                });
 			return this;
 		},
 		'showPauseCommentForm': function () {
@@ -566,6 +557,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 		'changePlanTime': function (e) {
 			var time = $(e.currentTarget).attr('rel'),
 				obj = this;
+            if (!time) {
+                return this.editTask();
+            }
 
 			taskManager.SetTaskProperty(this.model.id, 'planTime', time, function (data) {
 				obj.checkModel(function () {
@@ -781,8 +775,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 			this.render();
 		},
 		'taskStop': function (e, onlyView) {
-//                if (!this.model.get('started')) return false;
-
 			var comment = this.$('textarea[name=comment]').val();
 
 			if (e && $(e.currentTarget).hasClass('pause_comment_cancel')) {
@@ -953,19 +945,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 				alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
 				return false;
 			}
-//            if (!t.model.get('planTime')) {
-//                alert('Подтвердить выполнение можно только для оцененной задачи.');
-//                return false;
-//            }
-//            if (ACCOUNT_TOTAL < t.model.get('planPrice')) {
-//                alert(
-//                    'У вас недостаточно средств для выполнения данной задачи (необходимо ' +
-//                        Math.round(t.model.get('planPrice')) +
-//                        ' sp).'
-//                );
-//                return false;
-//            }
-
 			this.setRevision();
 			return true;
 		},

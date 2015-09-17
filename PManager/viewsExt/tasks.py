@@ -358,7 +358,7 @@ def __task_message(request):
 
         task_data = {
             'task_url': message.task.url,
-            'name': message.task.name,
+            'name': message.project.name + '. ' + message.task.name,
             'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()),
             'message': {
                 'text': message.text,

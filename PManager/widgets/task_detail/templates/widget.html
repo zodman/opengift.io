@@ -115,7 +115,7 @@
         </p>
         {% endif %}
         {% if task_detail.solutions %}
-            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Есть опубликованные решения подобных задач</a>
+            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Подобные задачи уже решались</a>
         {% endif %}
         <hr />
         {% if task_detail.task.observersList %}
@@ -241,7 +241,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Похожие задачи</h2>
+        <h2 class="modal-title" id="myModalLabel">Решения похожих задач</h2>
     </div>
     <div class="modal-body">
         <div class="js-solutions">
@@ -250,7 +250,7 @@
                 <div class="similar-solution message">
                     <div class="message-content">
                         <div class="text">{{ solution.text }}</div>
-                        <div class="author">{{ solution.author }}</div>
+                        <div class="author">{{ solution.author.last_name }} {{ solution.author.name }}</div>
                         <div class="date">{{ solution.dateCreate }}</div>
                     </div>
                 </div>

@@ -5,7 +5,7 @@ from PManager.models import PM_Role, PM_Project
 from tracker.settings import GITOLITE_ACCESS_URL
 
 class AccessInterface(models.Model):
-    color_choices = (
+    protocol_choices = (
         ('http', 'HTTP'),
         ('ssh', 'SSH'),
         ('ftp', 'FTP'),
@@ -15,9 +15,9 @@ class AccessInterface(models.Model):
     name = models.CharField(max_length=200, verbose_name=u'Название')
     address = models.CharField(max_length=200, verbose_name=u'Адрес')
     port = models.IntegerField(blank=True, null=True, verbose_name=u'Порт')
-    protocol = models.CharField(max_length=10, verbose_name=u'Протокол', choices=color_choices)
-    username = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Имя пользователя')
-    password = models.CharField(max_length=30, null=True, blank=True, verbose_name=u'Пароль')
+    protocol = models.CharField(max_length=10, verbose_name=u'Протокол', choices=protocol_choices)
+    username = models.CharField(max_length=40, null=True, blank=True, verbose_name=u'Имя пользователя')
+    password = models.CharField(max_length=40, null=True, blank=True, verbose_name=u'Пароль')
     access_roles = models.ManyToManyField('PM_Role', null=True, blank=True,
                                           related_name='file_categories', verbose_name=u'Разрешен доступ')
     project = models.ForeignKey('PM_Project', verbose_name=u'Проект')

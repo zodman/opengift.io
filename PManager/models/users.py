@@ -95,6 +95,26 @@ class PM_User(models.Model):
             return x[0]
         return 0
 
+    def account_total_project(self, project):
+        if not project:
+            return 0
+
+        qText = """
+                  SELECT
+                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
+                      AND project_id=""" + str(project.id) + """
+              """
+        cursor = connection.cursor()
+
+        cursor.execute(qText)
+
+        for x in cursor.fetchall():
+            if not x[0]:
+                continue
+
+            return x[0]
+        return 0
+
     @property
     def url(self):
         return "/user_detail/?id=" + str(self.user.id)

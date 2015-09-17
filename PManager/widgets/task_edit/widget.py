@@ -116,6 +116,7 @@ def widget(request, headerValues, ar, qargs):
     for field, val in arSaveFields.iteritems():
         if isinstance(val, datetime.datetime):
             arSaveFields[field] = val.strftime('%d.%m.%Y %H:%M')
+
     return {
         'id': request.GET.get('id', False),
         'post': arSaveFields,
