@@ -55,7 +55,7 @@ def widget(request, headerValues, ar, qargs):
             break
 
 
-        taskTagCoefficient += obj1.weight_sum
+        taskTagCoefficient += int(obj1.weight_sum)
         break
 
     closedTaskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'closed': True, 'active': True}))
