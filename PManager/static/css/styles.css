@@ -4093,7 +4093,7 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffbf00', end
     margin: 0 0 15px;
 }
 
-.wiking-content {font-size: 14px; line-height: 20px;}
+.wiking-content {font-size: 14px; line-height: 20px; padding: 10px;}
 .wiking-content p {margin-bottom: 20px;}
 .wiking-content ul,
 .wiking-content ol {
