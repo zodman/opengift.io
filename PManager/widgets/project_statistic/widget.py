@@ -44,38 +44,22 @@ class Chart:
         self.getData()
 
 class simpleChart(Chart):
-    title = u'Маржинальность'
+    title = u'Затраты'
     type = 'simple'
     def getData(self):
-        cursor = connection.cursor()
-        projects = '(' + ','.join([str(s.id) for s in self.projects]) + ')'
-        qText = """
-                  SELECT
-                      sum(IF (`payer_id` IS NOT NULL, value, value * -1)) as summ
-                      FROM pmanager_credit
-                      WHERE project_id IN """ + projects + """
-              """
+        credit = Credit.objects.filter(
+                project__in=self.projects,
+                value__gt=0,
+                date__range=(self.dateFrom, self.dateTo)
+            ).aggregate(Sum('value'))
 
-        cursor.execute(qText)
-        self.value_desc = 0
-        for x in cursor.fetchall():
-            if x[0]:
-                self.value_desc += x[0]
-        dateMin = dateToDb(self.dateFrom, 'min')
-        dateMax = dateToDb(self.dateTo, 'max')
-        qText = """
-                  SELECT
-                      sum(IF (`payer_id` IS NOT NULL, value, value * -1)) as summ
-                      FROM pmanager_credit
-                      WHERE project_id IN """ + projects + """
-                      AND `date` BETWEEN %s AND %s
-              """
+        credit_all = Credit.objects.filter(
+                project__in=self.projects,
+                value__gt=0
+            ).aggregate(Sum('value'))
 
-        cursor.execute(qText, [dateMin, dateMax])
-        self.value = 0
-        for x in cursor.fetchall():
-            if x[0]:
-                self.value += x[0]
+        self.value_desc = credit_all['value__sum'] or 0
+        self.value = credit['value__sum'] or 0
 
 class PaymentChart(Chart):
     title = u'Расчетная статистика'
