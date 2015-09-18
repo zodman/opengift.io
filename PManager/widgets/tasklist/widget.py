@@ -210,28 +210,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if not task.id in arBIsManager:
             arBIsManager[task.id] = task.project.id in aManagedProjectsId
 
-        if task.resp and \
-                task.planTime and \
-                task.status and \
-                        task.status.code == 'not_approved':
-            #if client have fix price
-            try:
-                if task.project.id in arClientBets:
-                    rate = arClientBets[task.project.id]
-                else:
-                    clientBet = PM_ProjectRoles.objects.get(
-                        rate__isnull=False,
-                        role__code='client',
-                        project=task.project,
-                        payment_type='plan_time'
-                    )
-                    rate = clientBet.rate
-                    arClientBets[task.project.id] = rate
-            except PM_ProjectRoles.DoesNotExist:
-                rate = task.resp.get_profile().getBet(task.project) * COMISSION
-
-            arBets[task.id] = task.planTime * rate
-
         currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
                                                                 aUsersHaveAccess)
 
@@ -303,7 +281,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
             'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
             'canBaneUser': bCanBaneUser,
-            'planPrice': arBets.get(task.id, 0),
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'status': task.status.code if task.status else '',
@@ -448,7 +425,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'not_approved': PM_Task.getQtyForUser(cur_user, project,
                                                   {'status__code': 'not_approved', 'closed': False, 'active': True}),
             'deadline': PM_Task.getQtyForUser(cur_user, project,
-                                              {'deadline__lt': datetime.datetime.now(), 'deadline__isnull': False,
+                                              {'deadline__lt': now, 'deadline__isnull': False,
                                                'closed': False, 'active': True})
         }
     }
