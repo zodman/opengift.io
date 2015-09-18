@@ -523,13 +523,12 @@ class PM_Task(models.Model):
                         profResp.rating = (profResp.rating or 0) + curUserRating
                         profResp.save()
 
-                    paymentType = profResp.getPaymentType(self.project, 'employee')
-                    if paymentType == 'real_time':
-                        curtime = ob.get('time', 0)
-                        if curtime:
-                            allRealTime += curtime
+                    curtime = ob.get('time', 0)
+                    if curtime:
+                        allRealTime += curtime
 
-                            userBet = profResp.getBet(self.project)
+                        userBet = profResp.getBet(self.project, 'real_time', 'employee')
+                        if userBet:
                             curPrice = userBet * float(curtime)
 
                             if curPrice:
@@ -547,19 +546,20 @@ class PM_Task(models.Model):
         if allRealTime or self.planTime:
             #responsibles plan time
             profResp = self.resp.get_profile()
-            if profResp.getPaymentType(self.project, 'employee') == 'plan_time':
+            if self.planTime:
                 if self.resp.id != self.author.id:
-                    profRespBet = profResp.getBet(self.project)
-                    curPrice = profRespBet * float(self.planTime)
-                    credit = Credit(
-                        user=self.resp,
-                        value=curPrice,
-                        project=self.project,
-                        task=self,
-                        type='Resp plan time'
-                    )
-                    credit.save()
-                    allSum = allSum + curPrice
+                    profRespBet = profResp.getBet(self.project, 'plan_time', 'employee')
+                    if profRespBet:
+                        curPrice = profRespBet * float(self.planTime)
+                        credit = Credit(
+                            user=self.resp,
+                            value=curPrice,
+                            project=self.project,
+                            task=self,
+                            type='Resp plan time'
+                        )
+                        credit.save()
+                        allSum = allSum + curPrice
 
             managers = PM_ProjectRoles.objects.filter(
                     project=self.project,
@@ -570,7 +570,7 @@ class PM_Task(models.Model):
             cManagers = 0
             aManagers = []
             for manager in managers:
-                bet = manager.user.get_profile().getBet(self.project, manager.role.code)
+                bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                 if bet:
                    cManagers += 1
                    setattr(manager, 'bet', bet)
@@ -606,12 +606,11 @@ class PM_Task(models.Model):
                 role__code='client'
             )
 
-
             cClients = 0
             aClients = []
             for client in clients:
                 clientProf = client.user.get_profile()
-                bet = clientProf.getBet(self.project)
+                bet = clientProf.getBet(self.project, None, client.role.code)
                 if bet:
                     setattr(client, 'bet', bet)
                     aClients.append(client)
@@ -1505,20 +1504,20 @@ class PM_Task_Message(models.Model):
         if not addParams:
             addParams = {}
 
-        profile = self.author.get_profile() if self.author else None
+        profileAuthor = self.author.get_profile() if self.author else None
         cur_profile = cur_user.get_profile() if cur_user else None
         if self.code == 'SET_PLAN_TIME' and cur_profile:
-            if self.task.onPlanning and cur_profile.id != profile.id:
+            if self.task.onPlanning and cur_profile.id != profileAuthor.id:
                 p = self.task.project
 
                 if cur_profile and (
-                                cur_profile.isClient(p) and not profile.isClient(p)
+                                cur_profile.isClient(p) and not profileAuthor.isClient(p)
                         or
-                                cur_profile.isEmployee(p) and self.author.id == self.task.author
+                                cur_profile.isEmployee(p) and self.author.id == self.task.author.id
                         or
-                                cur_profile.isEmployee(p) and profile.isManager(p)
+                                cur_profile.isEmployee(p) and profileAuthor.isManager(p)
                         or
-                                cur_profile.isManager(p) and profile.isEmployee(p)
+                                cur_profile.isManager(p) and profileAuthor.isEmployee(p)
                 ):
                     try:
                         planTime = PM_User_PlanTime.objects.get(
@@ -1526,15 +1525,26 @@ class PM_Task_Message(models.Model):
                             task=self.task
                         )
 
-                        bet = cur_profile.getBet(self.project) \
-                            or self.author.get_profile().getBet(self.project)
+                        if profileAuthor.isEmployee(p):
+                            bet = cur_profile.getBet(self.project, None, 'client') \
+                                    or self.author.get_profile().getBet(self.project, None, 'employee')
+
+                        elif profileAuthor.isClient(p):
+                            bet = cur_profile.getBet(self.project, None, 'employee') \
+                                    or self.author.get_profile().getBet(self.project, None, 'client')
+
+                        else:
+                            bet = cur_profile.getBet(self.project) \
+                                    or self.author.get_profile().getBet(self.project)
+
 
                         addParams.update({
                             'confirmation': (
                                 '<div class="message-desc-right"><a class="button orange-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                                '" class="js-confirm-estimate agree-with-button">Согласиться с оценкой в ' + str(planTime.time * bet) + ' sp</a></div>'
+                                '" class="js-confirm-estimate agree-with-button">Согласиться с оценкой: ' + str(planTime.time * bet) + '</a></div>'
                             )
                         })
+
                     except PM_User_PlanTime.DoesNotExist:
                         pass
 
@@ -1575,14 +1585,14 @@ class PM_Task_Message(models.Model):
                 'name': self.author.first_name,
                 'last_name': self.author.last_name,
                 'username': self.author.username,
-                'avatar': profile.avatarSrc,
-                'avatar_color': profile.avatar_color
+                'avatar': profileAuthor.avatarSrc,
+                'avatar_color': profileAuthor.avatar_color
             } if self.author else {}
         })
 
-        if self.author and profile.avatarSrc:
+        if self.author and profileAuthor.avatarSrc:
             addParams.update({
-                'avatar': thumbnail(profile.avatarSrc, '75x75', 3)
+                'avatar': thumbnail(profileAuthor.avatarSrc, '75x75', 3)
             })
         if self.code == 'GIT_COMMIT':
             addParams.update({

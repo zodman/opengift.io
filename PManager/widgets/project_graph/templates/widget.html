@@ -44,9 +44,13 @@
 
                     <div class="role-content">
                         <div class="role-content-tab">
-                            <b>Цена часа:</b> &nbsp;<span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
-                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
-                            +{% endif %}{{ project_graph.rating }}</span></span>
+                            <strong>Цена часа:</strong> &nbsp;<span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                             {% if role.rate %}
+                                <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
+                                +{% endif %}{{ project_graph.rating }}
+                                </span>
+                            {% endif %}
+                            </span>
                             <br /><span style="text-transform: lowercase">{{ role.bet_type_name }}</span> <a href="/wiki/bonuses">?</a>
                         </div>
                     </div>

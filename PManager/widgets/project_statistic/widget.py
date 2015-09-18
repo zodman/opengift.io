@@ -96,7 +96,7 @@ class PaymentChart(Chart):
             self.yAxes['out'].values.append(sOut)
 
 class sumLoanChart(Chart):
-    title = u'Текущие бонусы'
+    title = u'Начисленные бонусы'
     type = 'table'
     def getData(self):
         arDebts = Credit.objects.filter(

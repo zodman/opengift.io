@@ -121,7 +121,6 @@ def widget(request, headerValues, ar, qargs):
                             sumHours = float("%.2f" % (float(timer.summ)/3600))
                             sum += sumHours
                             projectHours += sumHours
-                            # rest += sumHours * (projectBet if projectBet else sp_price)
 
                     projPrice = 0
                     for o in Credit.objects.raw(
@@ -137,18 +136,6 @@ def widget(request, headerValues, ar, qargs):
                     arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
 
                 paymentsAndCredits = Credit.objects.filter(user=user, project__in=projectsForPaymentsId).order_by('-date')
-            # paid = profile.paid if profile.paid else 0
-            # for o in Payment.objects.raw(
-            #         'SELECT SUM(`value`) as summ, id, user_id from PManager_credit' +
-            #         ' WHERE `user_id`=' + str(int(user.id))
-            #     ):
-            #     rest += o.summ if o.summ else 0
-            #
-            # for o in Payment.objects.raw(
-            #         'SELECT SUM(`value`) as summ, id, user_id from PManager_payment' +
-            #         ' WHERE `user_id`=' + str(int(user.id))
-            #     ):
-            #     paid += o.summ if o.summ else 0
 
             setattr(profile, 'sp', {
                 'summ': sum,

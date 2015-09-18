@@ -45,76 +45,43 @@ def widget(request, headerValues, arFilter, q):
                 message = PM_Task_Message.objects.get(pk=cid, task=task)
                 planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
 
-                #client have not enough money#
-                clientProfile = None
-                pref = None
-                if prof.isClient(task.project):
-                    clientProfile = prof
-                    pref = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
-                            '<hr>' + \
-                            '<div class="border-wrapper">' + \
-                            '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу, или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
-                            '<hr>' + \
-                            '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
-                            '<hr>' + \
-                            '<p align="center"><a href="" class="btn  btn-large btn-success">Пополнить баланс</a>' + \
-                            '</div>'
-                    # pref = u'У вас недостаточно средств. Пожалуйста, пополните ваш счет.'
+                authorProf = message.author.get_profile()
+
+                if not authorProf.hasRole(task.project):
+                    authorProf.setRole('employee', task.project)
+
+                if not authorProf.isEmployee(task.project):
+                    task.resp = prof.user
                 else:
-                    try:
-                        clientRole = PM_ProjectRoles.objects.get(
-                            role__code='client',
-                            project=task.project,
-                            user__is_staff=True
-                        )
-                        client = clientRole.user
-                        clientProfile = client.get_profile()
-                        pref = u'У клиента едостаточно средств.'
-                    except PM_ProjectRoles.DoesNotExist:
-                        pass
+                    task.resp = planTime.user
 
-                if clientProfile:
-                    if not prof.account_total or prof.account_total < prof.getBet(task.project) * planTime.time:
-                        error = pref
-
-                if not error:
-                    authorProf = message.author.get_profile()
-
-                    if not authorProf.hasRole(task.project):
-                        authorProf.setRole('employee', task.project)
-
-                    if not authorProf.isEmployee(task.project):
-                        task.resp = prof.user
-                    else:
-                        task.resp = planTime.user
-
-                    task.planTime = planTime.time
-                    task.onPlanning = False
-                    task.setStatus('revision')
-                    task.save()
-                    redisSendTaskUpdate({
-                        'status': task.status.code,
-                        'onPlanning': task.onPlanning,
-                        'planTime': task.planTime,
-                        'resp': [{
-                            'id': task.resp.id,
-                            'name': task.resp.first_name + ' ' + task.resp.last_name
-                        }],
-                        'viewedOnly': request.user.id,
-                    })
+                task.planTime = planTime.time
+                task.onPlanning = False
+                task.setStatus('revision')
+                task.save()
+                redisSendTaskUpdate({
+                    'status': task.status.code,
+                    'onPlanning': task.onPlanning,
+                    'planTime': task.planTime,
+                    'resp': [{
+                        'id': task.resp.id,
+                        'name': task.resp.first_name + ' ' + task.resp.last_name
+                    }],
+                    'viewedOnly': request.user.id,
+                })
 
 
-                    task.systemMessage(
-                        u'подтвердил(а) оценку в ' + str(task.planTime) +
-                        u'ч. пользователя ' + planTime.user.first_name +
-                        u' ' + planTime.user.last_name,
-                        cur_user,
-                        'CONFIRM_ESTIMATION'
-                    )
+                task.systemMessage(
+                    u'подтвердил(а) оценку в ' + str(task.planTime) +
+                    u'ч. пользователя ' + planTime.user.first_name +
+                    u' ' + planTime.user.last_name,
+                    cur_user,
+                    'CONFIRM_ESTIMATION'
+                )
 
-                    task.sendTaskEmail('new_task', [planTime.user.email])
+                task.sendTaskEmail('new_task', [planTime.user.email])
 
-                    return {'redirect': task.url}
+                return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:
                 pass
             except PM_User_PlanTime.DoesNotExist:
