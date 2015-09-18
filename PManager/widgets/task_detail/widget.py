@@ -120,7 +120,7 @@ def widget(request, headerValues, arFilter, q):
             except PM_User_PlanTime.DoesNotExist:
                 pass
 
-        setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text))
+        setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text) if task.text else '')
         # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
         setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
