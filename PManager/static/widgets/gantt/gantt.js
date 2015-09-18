@@ -53,7 +53,7 @@ var GANTT = function (options, events, milestones) {
 
     this.nowTime = this.stripTime(new Date());
     this.init();
-    this.scrollMax();
+    this.scrollToStart();
     setTimeout(function () {
         t.thumbnail = new cTimeThumb({
             container: $('div.diagramma').get(0),
@@ -313,9 +313,9 @@ GANTT.prototype = {
         t.$desk.css({
             'width': t.totalWidth
         });
-        t.$desk.parent().css({
-            'height': t.minHeight
-        });
+//        t.$desk.parent().css({
+//            'height': t.minHeight
+//        });
         t.$datesTop.css('width', t.totalWidth);
 
         // drawing events
@@ -595,10 +595,11 @@ GANTT.prototype = {
 
         row.events.push(event);
     },
-    'scrollMax': function () {
+    'scrollToStart': function () {
         var maxScrollLeft = this.container.get(0).scrollWidth - this.container.get(0).clientWidth;
+        var nowScrollLeft = this.msToPx(this.nowTime) - (this.container.get(0).clientWidth / 2);
         this.container.scrollLeft(
-            maxScrollLeft
+            maxScrollLeft < nowScrollLeft ? maxScrollLeft : nowScrollLeft
         );
     },
     'isHoliday': function(date){

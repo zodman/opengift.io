@@ -120,8 +120,10 @@ var cTimeThumb = function (params) {
         t.drawEvents().drawLabels().drawMilestones();
         t.resizeOnePxZoom = t.big.visibleSpan / t.scrollWinWidth;
         t.maxProjectLeft = t.allProjectWidth - t.containerWidth;
+
         this.$progressContainer.find(".bar").width(t.big.msToPx(t.big.nowTime.getTime()) * t.thumbScale);
-        this.$scrollWin.unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+        this.$scrollWin.unbind('.mousedown.timethumb .touchstart.timethumb')
+        .bind('mousedown.timethumb touchstart.timethumb', function (e) {
             if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
             }
@@ -132,13 +134,15 @@ var cTimeThumb = function (params) {
             t.dragWinLeft = t.getWinLeft();
 
         });
+
         $('.js-goToNow').click(function () {
             var nowTime = t.big.stripTime(new Date());
             t.big.goToDate(nowTime);
             return false;
         });
 
-        $(document).find(".scroll-bar-left").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+        $(document).find(".scroll-bar-left").unbind('.mousedown.timethumb .touchstart.timethumb')
+        .bind('mousedown.timethumb touchstart.timethumb', function (e) {
             var eOrig = e;
             if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -153,7 +157,8 @@ var cTimeThumb = function (params) {
             return false;
         });
 
-        $(document).find(".scroll-bar-right").unbind('.mousedown.timethumb .touchstart.timethumb').bind('mousedown.timethumb touchstart.timethumb', function (e) {
+        $(document).find(".scroll-bar-right").unbind('.mousedown.timethumb .touchstart.timethumb')
+        .bind('mousedown.timethumb touchstart.timethumb', function (e) {
             var eOrig = e;
             if (e.type === 'touchstart') {
                 e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
@@ -193,73 +198,72 @@ var cTimeThumb = function (params) {
             t.dragLeftFlag = false;
 
         }).bind('mousemove.timethumb touchmove.timethumb', function (e) {
-                if (e.type === 'touchmove') {
-                    e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
-                }
-                if (t.dragLeftFlag) {
-                    e = fixEvent(e);
-                    t.resizeShift = e.pageX - t.ScrollBarLeftmouseX;
-                    var tempSdvig = t.resizeShift;
-                    if (tempSdvig < 0) {
-                        tempSdvig = -tempSdvig;
-                    }
-
-                    if (t.resizeShift) {
-                        if (t.resizeShift < 0 && t.getWinLeft() > t.padding) {
-                            t.$scrollWin.css({'left': t.resizeLeft - tempSdvig + 'px'});
-                            t.$scrollWin.css({'width': t.resizeWidth + tempSdvig + 'px'});
-                            t.scrollWinLeft = t.resizeLeft - tempSdvig;
-                            t.dragWinLeft = t.getWinLeft();
-                            t.resizeZoom = true;
-                        } else if (t.resizeShift > 0 && t.$scrollWin.width() > t.minWidthScroll) {
-                            t.$scrollWin.css({'left': t.resizeLeft + tempSdvig + 'px'});
-                            t.$scrollWin.css({'width': t.resizeWidth - tempSdvig + 'px'});
-                            t.scrollWinLeft = t.resizeLeft + tempSdvig;
-                            t.dragWinLeft = t.getWinLeft();
-                            t.resizeZoom = true;
-                        }
-                    }
-                }
-                if (t.dragRightFlag) {
-                    e = fixEvent(e);
-                    t.resizeShift = e.pageX - t.ScrollBarLeftmouseX;
-                    var tempSdvig = t.resizeShift;
-                    if (tempSdvig > 0) {
-                        tempSdvig = -tempSdvig;
-                    }
-                    if (t.resizeShift) {
-                        if (t.resizeShift < 0 && t.$scrollWin.width() > t.minWidthScroll) {//this.minWidthScroll  - минимальная ширина скрола
-                            t.$scrollWin.css({'width': t.resizeWidth + tempSdvig + 'px'});
-                            t.resizeZoom = true;
-                        } else if (t.resizeShift > 0 && (t.$scrollWin.width() + (t.getWinLeft()) + t.padding) < t.$container.width()) {
-                            t.$scrollWin.css({'width': t.resizeWidth - tempSdvig + 'px'});
-                            t.resizeZoom = true;
-                        }
-                    }
+            if (e.type === 'touchmove') {
+                e = e.originalEvent.touches[0] || e.originalEvent.changedTouches[0];
+            }
+            if (t.dragLeftFlag) {
+                e = fixEvent(e);
+                t.resizeShift = e.pageX - t.ScrollBarLeftmouseX;
+                var tempSdvig = t.resizeShift;
+                if (tempSdvig < 0) {
+                    tempSdvig = -tempSdvig;
                 }
 
-                if (t.dragWinFlag) {
-                    e = fixEvent(e);
-                    var offsetX = e.pageX - t.mouseX;
-                    if (offsetX) {
-                        t.scrollWinLeft = t.dragWinLeft + offsetX;
-                        if (t.scrollWinLeft < t.padding - 1) {
-                            t.scrollWinLeft = t.padding - 1;
-                        }
-                        if (t.scrollWinLeft > t.containerWidth - t.$scrollWin.width() - t.marginScrollRight) {
-                            t.scrollWinLeft = t.containerWidth - t.$scrollWin.width() - t.marginScrollRight;
-                        }
-
-                        t.$scrollWin.css({'left': t.scrollWinLeft + 'px'});
-                        t.big.goToPx(- t.getWinLeft() / t.thumbScale, false, false, true);
-                        t.mouseX = e.pageX;
+                if (t.resizeShift) {
+                    if (t.resizeShift < 0 && t.getWinLeft() > t.padding) {
+                        t.$scrollWin.css({'left': t.resizeLeft - tempSdvig + 'px'});
+                        t.$scrollWin.css({'width': t.resizeWidth + tempSdvig + 'px'});
+                        t.scrollWinLeft = t.resizeLeft - tempSdvig;
                         t.dragWinLeft = t.getWinLeft();
-                        t.big.dragPaperStart = t.big.getLeftPx();
-
+                        t.resizeZoom = true;
+                    } else if (t.resizeShift > 0 && t.$scrollWin.width() > t.minWidthScroll) {
+                        t.$scrollWin.css({'left': t.resizeLeft + tempSdvig + 'px'});
+                        t.$scrollWin.css({'width': t.resizeWidth - tempSdvig + 'px'});
+                        t.scrollWinLeft = t.resizeLeft + tempSdvig;
+                        t.dragWinLeft = t.getWinLeft();
+                        t.resizeZoom = true;
                     }
                 }
-            });
-    }
+            }
+            if (t.dragRightFlag) {
+                e = fixEvent(e);
+                t.resizeShift = e.pageX - t.ScrollBarLeftmouseX;
+                var tempSdvig = t.resizeShift;
+                if (tempSdvig > 0) {
+                    tempSdvig = -tempSdvig;
+                }
+                if (t.resizeShift) {
+                    if (t.resizeShift < 0 && t.$scrollWin.width() > t.minWidthScroll) {//this.minWidthScroll  - минимальная ширина скрола
+                        t.$scrollWin.css({'width': t.resizeWidth + tempSdvig + 'px'});
+                        t.resizeZoom = true;
+                    } else if (t.resizeShift > 0 && (t.$scrollWin.width() + (t.getWinLeft()) + t.padding) < t.$container.width()) {
+                        t.$scrollWin.css({'width': t.resizeWidth - tempSdvig + 'px'});
+                        t.resizeZoom = true;
+                    }
+                }
+            }
+
+            if (t.dragWinFlag) {
+                e = fixEvent(e);
+                var offsetX = e.pageX - t.mouseX;
+                if (offsetX) {
+                    t.scrollWinLeft = t.dragWinLeft + offsetX;
+                    if (t.scrollWinLeft < t.padding - 1) {
+                        t.scrollWinLeft = t.padding - 1;
+                    }
+                    if (t.scrollWinLeft > t.containerWidth - t.$scrollWin.width() - t.marginScrollRight) {
+                        t.scrollWinLeft = t.containerWidth - t.$scrollWin.width() - t.marginScrollRight;
+                    }
+
+                    t.$scrollWin.css({'left': t.scrollWinLeft + 'px'});
+                    t.big.goToPx(- t.getWinLeft() / t.thumbScale, false, false, true);
+                    t.mouseX = e.pageX;
+                    t.dragWinLeft = t.getWinLeft();
+                    t.big.dragPaperStart = t.big.getLeftPx();
+                }
+            }
+        });
+    };
 
     this.init();
     return this;
