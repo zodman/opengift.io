@@ -567,8 +567,16 @@ class PM_Task(models.Model):
                     user__in=self.observers.all()
                 )
 
-            cManagers = managers.count()
+            cManagers = 0
+            aManagers = []
             for manager in managers:
+                bet = manager.user.get_profile().getBet(self.project, manager.role.code)
+                if bet:
+                   cManagers += 1
+                   setattr(manager, 'bet', bet)
+                   aManagers.append(manager)
+
+            for manager in aManagers:
                 curTime = None
 
                 if manager.payment_type == 'real_time' and allRealTime:
@@ -578,7 +586,7 @@ class PM_Task(models.Model):
                     curTime = self.planTime * 1.0 / cManagers
 
                 if curTime:
-                    bet = manager.user.get_profile().getBet(self.project, manager.role.code)
+                    bet = manager.bet
                     price = bet * float(curTime)
                     if price:
                         credit = Credit(
@@ -597,13 +605,20 @@ class PM_Task(models.Model):
                 project=self.project,
                 role__code='client'
             )
-            #client with bet
-            # clientPaid = 0
-            # lastClient = False
-            cClients = clients.count()
+
+
+            cClients = 0
+            aClients = []
             for client in clients:
                 clientProf = client.user.get_profile()
                 bet = clientProf.getBet(self.project)
+                if bet:
+                    setattr(client, 'bet', bet)
+                    aClients.append(client)
+                    cClients += 1
+
+            for client in aClients:
+                bet = client.bet
                 if bet:
                     curTime = None
                     if client.payment_type == 'plan_time':
@@ -621,41 +636,7 @@ class PM_Task(models.Model):
                             type='Client with bet'
                         )
                         credit.save()
-                        clientProf.save()
-                        # clientPaid = price
                         break
-                # else:
-                #     lastClient = client
-
-            #or client without bet
-            # if not clientPaid:
-            #     if lastClient:
-            #         credit = Credit(
-            #             payer=lastClient.user,
-            #             value=allSum,
-            #             project=self.project,
-            #             task=self,
-            #             type='Client without bet'
-            #         )
-            #         credit.save()
-            #         lastClient.user.get_profile().save()
-            #         clientPaid = allSum
-
-            # diff = clientPaid - allSum
-            # if diff:
-            #     credit = Credit(
-            #         value=abs(diff),
-            #         project=self.project,
-            #         task=self,
-            #         type='Master'
-            #     )
-            #     if diff > 0:
-            #         credit.user = self.project.author
-            #     else:
-            #         credit.payer = self.project.author
-            #
-            #     credit.save()
-            #     self.project.author.get_profile().save()
 
     def Open(self):
         self.closed = False
