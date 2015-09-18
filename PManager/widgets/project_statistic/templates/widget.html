@@ -47,7 +47,7 @@
             <div class="stat-widget">
                 <h4>
                     {{ chart.title }}
-                    {% if chart.rows and chart.title == 'Текущие бонусы' %}
+                    {% if chart.rows and chart.xls %}
                     <a type="button" class="btn btn-xs js-excel" href="/ajax/stat_excel/?excel=loan">Выгрузить в Excel&nbsp;&nbsp;<i class="fa fa-share"></i></a>
                     {% endif %}
                 </h4>
