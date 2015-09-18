@@ -215,8 +215,11 @@ $(function(){
     <div class="overflow"></div>
     <div class="popup js-popup">
         <h3 class="text-center">Новое достижение!</h3>
-        <img class="pull-left" style="margin: 0 10px 10px 0;" src="{{ userAchievement.smallImageUrl }}" alt="{{ userAchievement.name }}" /><h4>{{ userAchievement.name }}</h4>
-        <p>{{ userAchievement.description|safe }}</p>
+        <img class="pull-left" style="margin: 0 10px 10px 0;" src="{{ userAchievement.achievement.smallImageUrl }}" alt="{{ userAchievement.achievement.name }}" /><h4>{{ userAchievement.achievement.name }}</h4>
+        <p>{{ userAchievement.achievement.description|safe }}</p>
+        {% if userAchievement.text %}
+        <p>{{ userAchievement.text|safe }}</p>
+        {% endif %}
         <div class="clearfix"></div>
 
         <p class="text-center">

@@ -189,7 +189,7 @@ class MainPage:
             'activeMenuItem': activeMenuItem,
             'userTimer': userTimer,
             'currentProject': headerValues['CURRENT_PROJECT'],
-            'userAchievement': userAchievement.achievement if userAchievement else None,
+            'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty
         })
