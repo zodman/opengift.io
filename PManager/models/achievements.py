@@ -45,10 +45,13 @@ class PM_Achievement(models.Model):
 
         created = False
         if can_add_achievement:
-            acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
+
             if project:
-                acc.project = project
-                acc.save()
+                acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self, project=project)
+            else:
+                acc, created = PM_User_Achievement.objects.get_or_create(user=user, achievement=self)
+
+
 
             if created:
                 if ps:
@@ -56,6 +59,11 @@ class PM_Achievement(models.Model):
                         if ps.type == 'fix':
                             credit = Credit(user=user, value=ps.value, project=project, type='achievement ' + str(self.id))
                             credit.save()
+                            acc.text = u'Бонус: ' + str(ps.value)
+                        elif ps.type == 'bet':
+                            acc.text = u'Ваш рейтинг по проекту ' + project.name + ' увеличен на ' + str(ps.value)
+
+                        acc.save()
 
         return created
 
@@ -121,8 +129,20 @@ def addAchievement(sender, instance, **kwargs):
                     instance.resp.id != instance.author.id and \
                     not oldTask.wasClosed:
 
-                acc = PM_Achievement.objects.get(code='first_closed_task')
-                acc.addToUser(instance.resp, instance.project)
+                closedTaskQty = PM_Task.objects.filter(
+                    project=instance.project,
+                    closed=True,
+                    resp=instance.resp
+                ).exclude(author=instance.resp)\
+                .count()
+
+                try:
+                    acc = PM_Achievement.objects.get(code=str(closedTaskQty+1) + '_tasks_closed')
+                    acc.addToUser(instance.resp, instance.project)
+                except PM_Achievement.DoesNotExist:
+                    pass
+
+
 
         except PM_Achievement.DoesNotExist:
             pass
