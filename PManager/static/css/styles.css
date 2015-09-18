@@ -4320,7 +4320,7 @@ ul.colors {
 .project_graph .well h5 {margin-bottom: 10px;}
 .project_graph .well .role-titles {color:#47a447;}
 .project_graph .well .role-titles h5 {border-bottom:1px dashed #47a447; color:#47a447; display: inline-block; margin-right: 10px;}
-.project_graph .well .role-titles h5.active {color:#000; border-color:transparent;}
+.project_graph .well .role-titles h5.active {color:#000; border-color:transparent;width: calc(100% - 30px);}
 
 .project_graph .well .role-titles {}
 
