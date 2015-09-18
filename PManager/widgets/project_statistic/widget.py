@@ -36,6 +36,7 @@ class Chart:
     projects = []
     xAxe = []
     yAxes = []
+    xls = False
 
     def __init__(self, dateFrom, dateTo, projects):
         self.dateFrom = dateFrom
@@ -98,6 +99,7 @@ class PaymentChart(Chart):
 class sumLoanChart(Chart):
     title = u'Начисленные бонусы'
     type = 'table'
+    xls = True
     def getData(self):
         arDebts = Credit.objects.filter(
             date__range=(datetime.datetime.combine(self.dateFrom, datetime.time.min),
