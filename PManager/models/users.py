@@ -328,7 +328,12 @@ class PM_User(models.Model):
 
                 for uac in PM_User_Achievement.objects.filter(user=self.user, project=project):
                     try:
-                        pac = PM_Project_Achievement.objects.get(project=project, achievement=uac.achievement, type='bet', value__isnull=False)
+                        pac = PM_Project_Achievement.objects.get(
+                            project=project,
+                            achievement=uac.achievement,
+                            type='bet',
+                            value__isnull=False
+                        )
                         rate += pac.value
 
                     except PM_Project_Achievement.DoesNotExist:

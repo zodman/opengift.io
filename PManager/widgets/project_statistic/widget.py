@@ -1,10 +1,10 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Credit, PM_Project, PM_Timer
+from PManager.models import Credit, PM_Timer
 from django.db import connection
 from django.contrib.auth.models import User
+from django.db.models import Sum
 
 import datetime
 from django.utils import timezone
@@ -83,37 +83,16 @@ class PaymentChart(Chart):
     payQuery = ''
     def getData(self):
         self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in xrange((self.dateTo - self.dateFrom).days)]
-        aSums = []
+
         sOut = 0
         sIn = 0
-        pIn = 0
-        pOut = 0
         self.xAxe = []
         self.yAxes = {
-            'in': Axis(u'Бонусов списано', '#0bd145'),
-            'out': Axis(u'Бонусов начислено', '#003060'),
+            'in': Axis(u'Бонусов начислено', '#0bd145'),
+            'out': Axis(u'Бонусов списано', '#003060'),
             # 'pin': Axis(u'Входящие платежи', 'rgba(63, 255, 0, 0.34)'),
-            'pout': Axis(u'Погасили бонусов', 'rgba(0, 255, 232, 0.34)'),
+            # 'pout': Axis(u'Погасили бонусов', 'rgba(0, 255, 232, 0.34)'),
         }
-
-
-
-        paymentsIn = []
-        paymentsOut = []
-        creditsIn = []
-        creditsOut = []
-
-        dateMin = dateToDb(self.dateFrom, 'min')
-        dateMax = dateToDb(self.dateTo, 'max')
-        cursor = connection.cursor()
-
-        q = """SELECT id, sum(`value`) as sum, date(`date`) as day FROM pmanager_credit WHERE
-            `payer_id` IS NOT NULL AND `date` BETWEEN %s AND %s GROUP BY %s"""
-
-        cursor.execute(q, [dateMin, dateMax, 'day'])
-
-        for x in cursor.fetchall():
-            paymentsIn.append(x)
 
         for day in self.dayGenerator:
             credit = Credit.objects.filter(
@@ -123,28 +102,16 @@ class PaymentChart(Chart):
             if self.projects:
                 credit = credit.filter(project__in=self.projects)
 
-            creditOut = credit.filter(user__isnull=False)
-            creditIn = credit.filter(payer__isnull=False)
+            creditOut = credit.filter(value__lt=0).aggregate(Sum('value'))
+            creditIn = credit.filter(value__gt=0).aggregate(Sum('value'))
 
-            sOut += sum(c.value for c in creditOut)
-            sIn += sum(c.value for c in creditIn)
+            sOut -= creditOut['value__sum'] or 0
+            sIn += creditIn['value__sum'] or 0
 
-
-            payments = Credit.objects.filter(value__lt=0, date__range=(datetime.datetime.combine(day, datetime.time.min),
-                                                           datetime.datetime.combine(day, datetime.time.max)))
-            if self.projects:
-                payments = payments.filter(project__in=self.projects)
-
-            paymentsOut = payments.filter(user__isnull=False)
-            paymentsIn = payments.filter(payer__isnull=False)
-            pOut += sum(c.value for c in paymentsOut)
-            pIn += sum(c.value for c in paymentsIn)
 
             self.xAxe.append(day)
             self.yAxes['in'].values.append(sIn)
             self.yAxes['out'].values.append(sOut)
-            # self.yAxes['pin'].values.append(pIn)
-            self.yAxes['pout'].values.append(pOut)
 
 class sumLoanChart(Chart):
     title = u'Текущие бонусы'
