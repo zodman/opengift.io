@@ -1,8 +1,8 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
 <style>
-    .role-titles h5:not(.active) {
-        cursor: pointer;
+    .project_graph .well .role-titles h5:not(.active) {
+        display: none;
     }
 </style>
 <script>
@@ -12,7 +12,17 @@
                 $(this).addClass('active').siblings('.js-select-role').removeClass('active');
                 $('.js-role').filter('[data-role='+$(this).data('role')+']').show().siblings('.js-role').hide();
             }
-        })
+        });
+        $('.js-change-role').click(function(){
+            var $next = $('.js-select-role.active').next('.js-select-role');
+            var $first = $('.js-select-role').not('.active').eq(0);
+            if ($next.get(0)) {
+                $next.trigger('click');
+            } else {
+                $first.trigger('click')
+            }
+            return false;
+        });
     })
 </script>
 <div class="row project_graph">
@@ -21,8 +31,13 @@
         <div class="well hide-on-mobile">
             <div class="role-titles">
                 {% for role in project_graph.roles %}
-                        <h5 class="{% if forloop.first %}active{% endif %} js-select-role" data-role="{{ role.role.code }}">Роль: {{ role.role.name }}</h5>
+                        <h5 class="{% if forloop.first %}active{% endif %} js-select-role" data-role="{{ role.role.code }}">
+                            Роль: {{ role.role.name }}
+                        </h5>
                 {% endfor %}
+                {% if project_graph.roles|length > 1 %}
+                    <a href="#" class="js-change-role"><i class="fa fa-chevron-right"></i> </a>
+                {% endif %}
             </div>
             {% for role in project_graph.roles %}
                 <div class="role-{{ role.role.code }} js-role" data-role="{{ role.role.code }}" {% if not forloop.first %}style="display: none;" {% endif %}>
