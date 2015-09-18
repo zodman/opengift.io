@@ -206,6 +206,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     arBets = {}
     arClientBets = {}
     aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
+    now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
     for task in tasks:
         if not task.id in arBIsManager:
             arBIsManager[task.id] = task.project.id in aManagedProjectsId
@@ -213,7 +214,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
                                                                 aUsersHaveAccess)
 
-        now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
         last_message_q = task.messages
         if not arBIsManager[task.id]:
             last_message_q = last_message_q.filter(
