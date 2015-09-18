@@ -49,7 +49,8 @@
                                 <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
                                 +{% endif %}{{ project_graph.rating }}
                                 </span>
-                            {% endif %}
+                             {% else %}&nbsp;
+                             {% endif %}
                             </span>
                             <br /><span style="text-transform: lowercase">{{ role.bet_type_name }}</span> <a href="/wiki/bonuses">?</a>
                         </div>
