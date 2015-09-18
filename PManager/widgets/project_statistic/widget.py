@@ -96,18 +96,16 @@ class PaymentChart(Chart):
 
         for day in self.dayGenerator:
             credit = Credit.objects.filter(
+                project__in=self.projects,
                 date__range=(datetime.datetime.combine(day, datetime.time.min),
                              datetime.datetime.combine(day, datetime.time.max))
             )
-            if self.projects:
-                credit = credit.filter(project__in=self.projects)
 
             creditOut = credit.filter(value__lt=0).aggregate(Sum('value'))
             creditIn = credit.filter(value__gt=0).aggregate(Sum('value'))
 
             sOut -= creditOut['value__sum'] or 0
             sIn += creditIn['value__sum'] or 0
-
 
             self.xAxe.append(day)
             self.yAxes['in'].values.append(sIn)
