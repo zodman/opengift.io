@@ -823,6 +823,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			var obj = this;
 			if (!onlyView) {
 				obj.stopAllTask();
+                this.model.set('started', true);
 				taskManager.TaskStart(this.model.id, function (data) {
 					data = $.parseJSON(data);
 
@@ -1289,12 +1290,11 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'TaskStart': function (task_id, call) {
 			if (!task_id) return false;
-            if (!this.taskPlayAjax)
-                this.taskPlayAjax = this.taskAjaxRequest({
-                    'action': 'taskPlay',
-                    'id': task_id,
-                    'play': task_id
-                }, call);
+            this.taskPlayAjax = this.taskAjaxRequest({
+                'action': 'taskPlay',
+                'id': task_id,
+                'play': task_id
+            }, call);
 			return this;
 		},
 		'TaskStop': function (task_id, addParams, call) {
