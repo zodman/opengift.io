@@ -4,7 +4,13 @@ from PManager.models import PM_Files, PM_File_Category
 from PManager.templatetags.thumbnail import thumbnail, protected
 import os
 
-def widget(request,headerValues,ar,qargs):
+
+def widget(request, headerValues, ar, qargs):
+    if not headerValues['CURRENT_PROJECT']:
+        return {
+            'redirect': '/'
+        }
+
     files = PM_Files.objects.order_by('name').filter(
         fileTasks__isnull=True,
         msgTasks__isnull=True,
@@ -17,11 +23,11 @@ def widget(request,headerValues,ar,qargs):
         categoriesArray.append(category)
 
     def build_tree(categoriesArray):
-        treeAll = build_tree_recursive(None,categoriesArray)
+        treeAll = build_tree_recursive(None, categoriesArray)
 
         return treeAll
 
-    def build_tree_recursive(parent,nodes):
+    def build_tree_recursive(parent, nodes):
         tree = []
         children = []
         for n in nodes:
@@ -32,16 +38,17 @@ def widget(request,headerValues,ar,qargs):
         for child in children:
             # start new subtree
             obj = {
-                'id':child.id,
-                'name':child.name
+                'id': child.id,
+                'name': child.name
             }
             # call recursively to build a subtree for current node
-            obj['children'] = build_tree_recursive(obj['id'],nodes)
+            obj['children'] = build_tree_recursive(obj['id'], nodes)
             tree.append(obj)
 
         return tree
 
-    with file(os.path.dirname(os.path.realpath(__file__))+'/templates/file.html') as f: fileTpl = f.read()
+    with file(os.path.dirname(os.path.realpath(__file__)) + '/templates/file.html') as f:
+        fileTpl = f.read()
 
     aFiles = []
     for fileObject in files:
