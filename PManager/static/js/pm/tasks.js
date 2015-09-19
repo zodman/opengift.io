@@ -1289,11 +1289,12 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'TaskStart': function (task_id, call) {
 			if (!task_id) return false;
-			this.taskAjaxRequest({
-				'action': 'taskPlay',
-				'id': task_id,
-				'play': task_id
-			}, call);
+            if (!this.taskPlayAjax)
+                this.taskPlayAjax = this.taskAjaxRequest({
+                    'action': 'taskPlay',
+                    'id': task_id,
+                    'play': task_id
+                }, call);
 			return this;
 		},
 		'TaskStop': function (task_id, addParams, call) {
