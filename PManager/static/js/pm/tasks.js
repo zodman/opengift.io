@@ -1290,7 +1290,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'TaskStart': function (task_id, call) {
 			if (!task_id) return false;
-            this.taskPlayAjax = this.taskAjaxRequest({
+            this.taskAjaxRequest({
                 'action': 'taskPlay',
                 'id': task_id,
                 'play': task_id
