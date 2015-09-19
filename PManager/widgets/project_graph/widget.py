@@ -28,12 +28,17 @@ def widget(request, headerValues, ar, qargs):
 
     roles = []
     realtime = 0
+    isEmployee = False
+
     if current_project:
         o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project)
         for role in o_roles:
             setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
             if not role.rate:
                 setattr(role, 'rate', bet)
+
+            if role.role.code == 'employee':
+                isEmployee = True
 
             roles.append(role)
 
@@ -73,6 +78,7 @@ def widget(request, headerValues, ar, qargs):
         'rating': profile.rating or 0 if not profile.isClient(current_project) else 0,
         'rate': bet,
         'roles': roles,
+        'isEmployee': isEmployee,
         'premiumTill': profile.premium_till if request.user.is_staff else '',
         'realTime': realtime,
         'taskTagCoefficient': taskTagCoefficient,

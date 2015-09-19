@@ -81,7 +81,11 @@
                         </div>
                     </div>
                     <div class="col-xs-3" style="border-left: 1px solid #efefef;">
-                        <h5>Место: <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b></h5>
+                        {% if project_graph.roles and project_graph.isEmployee %}
+                            <h5>Место: <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b></h5>
+                        {% else %}
+                            <h5>Рейтинг</h5>
+                        {% endif %}
                         Закрыто задач: <b style="color:#fe781e;">{{ project_graph.allTaskQty }}</b><br>
                         Компетентность: <b style="color:#fe781e;">{{ project_graph.taskTagCoefficient }}</b>
 
