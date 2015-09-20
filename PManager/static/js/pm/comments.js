@@ -204,6 +204,11 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 } else {
                     arKeys['USER_TO_NAME'] = '';
                 }
+                if (messageInfo.modifiedBy.last_name) {
+                    arKeys['MODIFIED'] = '&nbsp;(изменил ' + messageInfo.modifiedBy.first_name + ' ' + messageInfo.modifiedBy.last_name + ' в ' + messageInfo.dateModify + ')';
+                } else {
+                    arKeys['MODIFIED'] = '';
+                }
                 if (messageInfo.author.id) {
                     arKeys['AUTHOR_NAME'] = messageInfo.author.name;
                     arKeys['AUTHOR_LAST_NAME'] = messageInfo.author.last_name;

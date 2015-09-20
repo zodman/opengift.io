@@ -905,86 +905,85 @@ class taskAjaxManagerCreator(object):
 
         if not t.closed:
             profile = user.get_profile()
-            if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
-                bugsExists = t.messages.filter(Q(Q(bug=True) | Q(todo=True))).filter(checked=False).exists()
-                if bugsExists:
-                    text = u'Перед тем как закрыть задачу, пометьте все баги и todo в ней как решенные.'
-                    message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
-                                              userTo=user, code='WARNING', hidden=True)
-                    message.save()
-                    responseJson = message.getJson()
+            bugsExists = t.messages.filter(Q(Q(bug=True) | Q(todo=True))).filter(checked=False).exists()
+            if bugsExists:
+                text = u'Перед тем как закрыть задачу, пометьте все баги и todo в ней как решенные.'
+                message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
+                                          userTo=user, code='WARNING', hidden=True)
+                message.save()
+                responseJson = message.getJson()
 
-                    mess = RedisMessage(service_queue,
-                                        objectName='comment',
-                                        type='add',
-                                        fields=responseJson
-                                        )
-                    mess.send()
-                    return
+                mess = RedisMessage(service_queue,
+                                    objectName='comment',
+                                    type='add',
+                                    fields=responseJson
+                                    )
+                mess.send()
+            else:
+                if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
+                    taskTimers = PM_Timer.objects.filter(task=t)
+                    if not taskTimers.count():
+                        oneSecond = datetime.timedelta(seconds=1)
+                        taskOneSecondTimer = PM_Timer(
+                            task=t,
+                            user=user,
+                            dateStart=datetime.datetime.now() - oneSecond,
+                            dateEnd=datetime.datetime.now(),
+                            seconds=1,
+                            comment=u'Закрытие задачи'
+                        )
+                        taskOneSecondTimer.save()
 
-                taskTimers = PM_Timer.objects.filter(task=t)
-                if not taskTimers.count():
-                    oneSecond = datetime.timedelta(seconds=1)
-                    taskOneSecondTimer = PM_Timer(
-                        task=t,
-                        user=user,
-                        dateStart=datetime.datetime.now() - oneSecond,
-                        dateEnd=datetime.datetime.now(),
-                        seconds=1,
-                        comment=u'Закрытие задачи'
+                    t.Close(user)
+                    t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
+
+                    #TODO: данный блок дублируется 4 раза
+                    if t.milestone and not t.milestone.closed:
+                        qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
+                            .exclude(id=t.id).count()
+
+                        if not qtyInMS:
+                            t.milestone.closed = True
+                            t.milestone.save()
+
+                    if t.parentTask and not t.parentTask.closed:
+                        c = t.parentTask.subTasks.filter(closed=False, active=True).count()
+                        if c == 0:
+                            t.parentTask.Close(user)
+                            if t.parentTask.milestone and not t.parentTask.milestone.closed:
+                                qtyInMS = PM_Task.objects.filter(active=True, milestone=t.parentTask.milestone,
+                                                                 closed=False).count()
+                                if not qtyInMS:
+                                    t.parentTask.milestone.closed = True
+                                    t.parentTask.milestone.save()
+
+
+                    else:
+                        for stask in t.subTasks.all():
+                            if stask.started:
+                                stask.Stop()
+                                stask.endTimer(user, u'Закрытие задачи')
+
+                            stask.Close(user)
+
+                    net = TaskMind()
+                    net.train([t])
+
+                    sendMes = emailMessage('task_closed',
+                       {
+                           'task': t
+                       },
+                       u'Задача закрыта: ' + t.name
                     )
-                    taskOneSecondTimer.save()
+                    sendMes.send([t.author.email, t.resp.email])
 
-                t.Close(user)
-                t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
-
-                #TODO: данный блок дублируется 4 раза
-                if t.milestone and not t.milestone.closed:
-                    qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
-                        .exclude(id=t.id).count()
-
-                    if not qtyInMS:
-                        t.milestone.closed = True
-                        t.milestone.save()
-
-                if t.parentTask and not t.parentTask.closed:
-                    c = t.parentTask.subTasks.filter(closed=False, active=True).count()
-                    if c == 0:
-                        t.parentTask.Close(user)
-                        if t.parentTask.milestone and not t.parentTask.milestone.closed:
-                            qtyInMS = PM_Task.objects.filter(active=True, milestone=t.parentTask.milestone,
-                                                             closed=False).count()
-                            if not qtyInMS:
-                                t.parentTask.milestone.closed = True
-                                t.parentTask.milestone.save()
-
-
-                else:
-                    for stask in t.subTasks.all():
-                        if stask.started:
-                            stask.Stop()
-                            stask.endTimer(user, u'Закрытие задачи')
-
-                        stask.Close(user)
-
-                net = TaskMind()
-                net.train([t])
-
-                sendMes = emailMessage('task_closed',
-                   {
-                       'task': t
-                   },
-                   u'Задача закрыта: ' + t.name
-                )
-                sendMes.send([t.author.email, t.resp.email])
-
-            elif (not t.status) or t.status.code != 'ready':
-                t.setStatus('ready')
-                t.systemMessage(
-                    u'Статус изменен на "' + t.status.name + u'"',
-                    user,
-                    'STATUS_' + t.status.code.upper()
-                )
+                elif (not t.status) or t.status.code != 'ready':
+                    t.setStatus('ready')
+                    t.systemMessage(
+                        u'Статус изменен на "' + t.status.name + u'"',
+                        user,
+                        'STATUS_' + t.status.code.upper()
+                    )
 
         return json.dumps({
             'closed': t.closed,

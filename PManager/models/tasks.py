@@ -1425,6 +1425,8 @@ class PM_Task_Message(models.Model):
     text = models.CharField(max_length=10000)
     author = models.ForeignKey(User, related_name="outputMessages", null=True, blank=True, db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
+    dateModify = models.DateTimeField(auto_now=True, blank=True, null=True)
+    modifiedBy = models.ForeignKey(User, null=True, blank=True)
     task = models.ForeignKey(PM_Task, null=True, related_name="messages", db_index=True)
     project = models.ForeignKey(PM_Project, null=True, db_index=True)
     commit = models.CharField(max_length=42, null=True, blank=True)
@@ -1467,35 +1469,42 @@ class PM_Task_Message(models.Model):
                                   code="GIT_COMMIT"
                                   )
 
-    def updateFromRequestData(self, data):
+    def updateFromRequestData(self, data, user):
         changed = False
         if 'checked' in data and self.checked != bool(data['checked']):
             self.checked = bool(data['checked'])
             changed = True
-        if 'todo' in data and self.todo != bool(data['todo']):
-            self.todo = bool(data['todo'])
-            changed = True
-        if 'bug' in data and self.bug != bool(data['bug']):
-            self.bug = bool(data['bug'])
-            changed = True
-        if 'hidden_from_employee' in data:
-            r = not not data['hidden_from_employee']
-            if self.hidden_from_employee != r:
-                self.hidden_from_employee = r
+
+        if self.canEdit(user):
+            if 'todo' in data and self.todo != bool(data['todo']):
+                self.todo = bool(data['todo'])
                 changed = True
-        if 'hidden_from_clients' in data:
-            r = bool(data['hidden_from_clients'])
-            if self.hidden_from_clients != r:
-                self.hidden_from_clients = r
+            if 'bug' in data and self.bug != bool(data['bug']):
+                self.bug = bool(data['bug'])
+                changed = True
+            if 'hidden_from_employee' in data:
+                r = not not data['hidden_from_employee']
+                if self.hidden_from_employee != r:
+                    self.hidden_from_employee = r
+                    changed = True
+            if 'hidden_from_clients' in data:
+                r = bool(data['hidden_from_clients'])
+                if self.hidden_from_clients != r:
+                    self.hidden_from_clients = r
+                    changed = True
+
+            if 'text' in data and not changed:
+                self.text = data['text']
                 changed = True
 
-        if 'text' in data and not changed:
-            self.text = data['text']
-        if 'task' in data:
-            try:
-                self.task = PM_Task.objects.get(pk=int(data['task']))
-            except (PM_Task.DoesNotExist, TypeError):
-                pass
+            if 'task' in data:
+                try:
+                    self.task = PM_Task.objects.get(pk=int(data['task']))
+                    changed = True
+                except (PM_Task.DoesNotExist, TypeError):
+                    pass
+
+        return changed
 
     def getJson(self, addParams=None, cur_user=None):
         from django.utils.html import escape
@@ -1588,7 +1597,12 @@ class PM_Task_Message(models.Model):
                 'username': self.author.username,
                 'avatar': profileAuthor.avatarSrc,
                 'avatar_color': profileAuthor.avatar_color
-            } if self.author else {}
+            } if self.author else {},
+            'modifiedBy': {
+                'last_name': self.modifiedBy.last_name,
+                'first_name': self.modifiedBy.first_name
+            } if self.modifiedBy else {},
+            'dateModify': templateTools.dateTime.convertToSite(timezone.localtime(self.dateModify)) if self.dateModify else ''
         })
 
         if self.author and profileAuthor.avatarSrc:

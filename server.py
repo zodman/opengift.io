@@ -80,7 +80,7 @@ class PM_Tasks_Connector():
     def addMessage(self, messageData, user):
         if user:
             message = PM_Task_Message()
-            message.updateFromRequestData(messageData)
+            message.updateFromRequestData(messageData, user)
             message.author = user
             message.save()
 
@@ -92,13 +92,14 @@ class PM_Tasks_Connector():
         try:
             if 'id' in messageData:
                 message = PM_Task_Message.objects.get(pk=messageData['id'])
-                if message.canEdit(user):
-                    message.updateFromRequestData(messageData)
+
+                if message.updateFromRequestData(messageData, user):
+                    message.modifiedBy = user
                     message.save()
 
-                    return json.dumps({
-                        'id': message.id
-                    })
+                return json.dumps({
+                    'id': message.id
+                })
 
         except PM_Task_Message.DoesNotExist:
             return 'Message Not found'
