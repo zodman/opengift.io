@@ -1,9 +1,11 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags
-from django.db.models import Sum
+from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone
+from django.db.models import Sum, Count
 from django.contrib.contenttypes.models import ContentType
+
 from django.contrib.auth.models import User
+from PManager.widgets.gantt.widget import widget as gantWidget
 
 def widget(request, headerValues, ar, qargs):
     def get_bet_type_name(bet_type):
@@ -29,6 +31,7 @@ def widget(request, headerValues, ar, qargs):
     roles = []
     realtime = 0
     isEmployee = False
+    closestMilestone = None
 
     if current_project:
         o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project)
@@ -45,6 +48,52 @@ def widget(request, headerValues, ar, qargs):
         tasks = PM_Task.objects.filter(project=current_project).aggregate(Sum('planTime'))
         realtime = PM_Timer.objects.filter(task__project=current_project).aggregate(Sum('seconds'))
         realtime = realtime['seconds__sum'] * 100 / tasks['planTime__sum'] if tasks['planTime__sum'] else 0
+
+        # CLOSEST MILESTONE
+        closestMilestone = PM_Milestone.objects.filter(
+            project=current_project,
+            closed=False,
+            id__in=PM_Task.getForUser(
+                request.user,
+                current_project,
+                {
+                    'closed': False,
+                    'exclude': {
+                        'milestone': False
+                    }
+                })['tasks'].values_list('milestone__id', flat=True)
+        ).order_by('date')
+
+        if closestMilestone:
+            closestMilestone = closestMilestone[0]
+            if not profile.isManager(current_project) and not profile.isClient(current_project):
+                aResp = [request.user.id]
+            else:
+                aResp = [d['resp__id'] for d in closestMilestone.tasks.values('resp__id').annotate(dcount=Count('resp__id'))]
+
+            gantt = gantWidget(request, headerValues, {
+                'resp__in': aResp,
+                'virgin': True
+            })
+            tasksId = closestMilestone.tasks.values_list('id', flat=True)
+
+            for task in gantt['tasks']:
+                if task['id'] in tasksId:
+                    if 'endTime' in task and task['endTime'] > closestMilestone.date:
+                        setattr(closestMilestone, 'wouldOverdue', True)
+
+            setattr(
+                closestMilestone,
+                'taskClosedPercent',
+                closestMilestone.tasks.filter(
+                    closed=True,
+                    resp__in=aResp
+                ).count() * 100 / (closestMilestone.tasks.filter(
+                    resp__in=aResp
+                ).count() or 1)
+            )
+        #END CLOSEST MILESTONE
+
 
     taskTagCoefficient = 0
     taskTagPosition = 0
@@ -82,7 +131,8 @@ def widget(request, headerValues, ar, qargs):
         'premiumTill': profile.premium_till if request.user.is_staff else '',
         'realTime': realtime,
         'taskTagCoefficient': taskTagCoefficient,
-        'taskTagPosition': taskTagPosition
+        'taskTagPosition': taskTagPosition,
+        'closestMilestone': closestMilestone
     }
 
     return projectData

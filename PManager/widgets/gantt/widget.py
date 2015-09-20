@@ -85,6 +85,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     if 'filter' in widgetParams:
         filter.update(widgetParams['filter'])
+
     else:
         qArgs.append(Q(
             Q(realDateStart__isnull=False) | Q(closed=False)
