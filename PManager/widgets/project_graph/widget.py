@@ -58,7 +58,7 @@ def widget(request, headerValues, ar, qargs):
                 current_project,
                 {
                     'closed': False,
-                    'project': current_project,
+                    'project': current_project.id,
                     'exclude': {
                         'milestone': False
                     }

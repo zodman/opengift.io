@@ -1840,10 +1840,10 @@ def check_task_save(sender, instance, **kwargs):
         origin = PM_Task.objects.get(id=task.id)
 
         if (
-            origin.resp and
             task.critically == origin.critically and
             task.planTime == origin.planTime and
-            task.resp.id == origin.resp.id
+            (task.milestone.id if task.milestone else None) == (origin.milestone.id if origin.milestone else None) and
+            (task.resp.id if task.resp else None) == (origin.resp.id if origin.resp else None)
         ):
             return
     except PM_Task.DoesNotExist:
@@ -1853,7 +1853,7 @@ def check_task_save(sender, instance, **kwargs):
     if not overdueMilestones:
         return
     else:
-        task.critically = 0
+        # task.critically = 0
         # Send message
         template = u'При изменении данной задачи '
         if task.lastModifiedBy == task.resp:
@@ -1869,8 +1869,7 @@ def check_task_save(sender, instance, **kwargs):
         else:
             template += u'цели ' + overdueMilestones[0]['project__name'] + u': ' + overdueMilestones[0]['name']
 
-        template += "\n" + u'Мы понизили критичность задачи до нуля.' \
-                           u'Измените критичность или ответственного задачи, или сдвиньте сроки цели.'
+        template += "\n" + u'Измените критичность или ответственного задачи, или сдвиньте сроки цели.'
 
         secondsAgo = datetime.datetime.now() - datetime.timedelta(seconds=5)
         secondsAgo = timezone.make_aware(secondsAgo, timezone.get_default_timezone())
