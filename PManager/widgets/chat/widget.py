@@ -41,7 +41,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         Q(
              unManagedQ
         )
-    ).select_related('author', 'project', 'task', 'task__parentTask')
+    ).select_related('author', 'project', 'task', 'task__parentTask', 'modifiedBy')
     # result = result.filter(task__active=True)
     result = result.exclude(code="WARNING")
 
