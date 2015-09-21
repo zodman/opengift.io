@@ -464,6 +464,7 @@ var widget_tl, currentGroup;
                 return $newTab;
             },
             'applyWorkFlowState': function (params) {
+
                 this.$searchRulesHolder.empty();
                 this.TL_SearchTask.val('');
                 var filter = params.taskListFilter;
@@ -671,6 +672,7 @@ var widget_tl, currentGroup;
                 if (!$('.show-more').pushed()) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
 
+                $('.js-new-first-task').hide();
                 if (!params) params = {};
                 if (!params.parent) {
                     if (!params.task_search && this.TL_GetSearchText()) {
@@ -716,6 +718,7 @@ var widget_tl, currentGroup;
                 PM_AjaxPost("/task_handler",
                     params,
                     function (data) {
+                        $('.js-new-first-task').show();
                         var data = $.parseJSON(data),
                             paginator = data.paginator,
                             tasks = data.tasks;
