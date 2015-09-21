@@ -58,10 +58,7 @@ def widget(request, headerValues, ar, qargs):
                 current_project,
                 {
                     'closed': False,
-                    'project': current_project.id,
-                    'exclude': {
-                        'milestone': False
-                    }
+                    'milestone__id__gt': 0
                 })['tasks'].values_list('milestone__id', flat=True)
         ).order_by('date')
 
