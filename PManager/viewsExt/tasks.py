@@ -801,7 +801,6 @@ class taskAjaxManagerCreator(object):
 
     @task_ajax_action
     def process_inviteUsers(self):
-        import datetime
         from PManager.services.task_drafts import get_unique_slug
         task_ids = self.request.POST.getlist('tasks[]')
         title = self.request.POST.get('title', '')

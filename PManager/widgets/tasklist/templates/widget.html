@@ -257,17 +257,7 @@
 {% endif %}
         <hr class="no-top-magin-hr">
         <script language="javascript">
-        var aTaskList = [],taskRespSummary = {};
-        {% for task in tasklist.tasks %}
-            aTaskList.push({{ task|jsonify|safe }});
-            taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
-            {% if task.time %}
-                arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
-                {% if task.startedTimerExist %}
-                    arTimers['{{ task.id }}'].start();
-                {% endif %}
-            {% endif %}
-        {% endfor %}
+        window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         </script>
 
         <div class="js-tasks">

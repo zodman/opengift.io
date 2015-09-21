@@ -47,7 +47,7 @@ def widget(request, headerValues, ar, qargs):
 
         tasks = PM_Task.objects.filter(project=current_project).aggregate(Sum('planTime'))
         realtime = PM_Timer.objects.filter(task__project=current_project).aggregate(Sum('seconds'))
-        realtime = realtime['seconds__sum'] * 100 / tasks['planTime__sum'] if tasks['planTime__sum'] else 0
+        realtime = (realtime['seconds__sum'] or 0) * 100 / tasks['planTime__sum'] if tasks['planTime__sum'] else 0
 
         # CLOSEST MILESTONE
         closestMilestone = PM_Milestone.objects.filter(
@@ -123,7 +123,7 @@ def widget(request, headerValues, ar, qargs):
         'allTaskQty': allTaskQty,
         'taskClosedPercent': int(round(closedTaskQty * 100 / (taskQty or 1))),
         'bPay': bPay,
-        'rating': profile.rating or 0 if not profile.isClient(current_project) else 0,
+        'rating': profile.getRating(current_project),
         'rate': bet,
         'roles': roles,
         'isEmployee': isEmployee,
@@ -131,7 +131,8 @@ def widget(request, headerValues, ar, qargs):
         'realTime': realtime,
         'taskTagCoefficient': taskTagCoefficient,
         'taskTagPosition': taskTagPosition,
-        'closestMilestone': closestMilestone
+        'closestMilestone': closestMilestone,
+        'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0
     }
 
     return projectData

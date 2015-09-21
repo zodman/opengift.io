@@ -116,7 +116,7 @@ class MainPage:
                 aMessages.append(mes)
 
             if not widgetList:
-                widgetList = ['chat', 'achievements', 'tasklist']
+                widgetList = ['chat', 'tasklist']
 
             userTimer = PM_Timer.objects.filter(user=request.user, dateEnd__isnull=True)
             if userTimer:
