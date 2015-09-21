@@ -741,7 +741,8 @@ var widget_tl, currentGroup;
                         }
 
                         if ((!tasks || tasks.length <= 0) && !params.parent && !params.page) {
-                            obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
+                            if (!$('.js-new-first-task').get(0))
+                                obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
                         }
                         if (!params.parent) {
                             if (paginator.lastPage) {
