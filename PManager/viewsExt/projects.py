@@ -58,7 +58,7 @@ def projectDetail(request, project_id):
 
         prof = role.user.get_profile()
         setattr(role.user, 'rate', role.rate)
-        setattr(role.user, 'defaultRate', prof.sp_price + (prof.rating or 0))
+        setattr(role.user, 'defaultRate', prof.sp_price)
         setattr(role.user, 'sum', oDebts.get(role.user.id, None))
         setattr(role.user, 'role_id', role.id)
 

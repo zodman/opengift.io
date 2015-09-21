@@ -174,17 +174,12 @@ var widget_tl, currentGroup;
                     return this;
                 })();
 
-                var oTask;
-                for (var i in aTaskList) {
-                    oTask = new window.taskClass(aTaskList[i]);
-                    widget_tl.TL_Tasks.add(oTask);
-                }
-
                 this.TL_Tasks.on('add', function (task) {
                     var $firstTask = $('.js-new-first-task');
                     if ($firstTask.get(0)) {
                         $firstTask.remove();
-                        showTutorial();
+                        if (window.B_NEED_TUTORIAL)
+                            showTutorial();
                     }
                 });
 
@@ -469,48 +464,47 @@ var widget_tl, currentGroup;
                 return $newTab;
             },
             'applyWorkFlowState': function (params) {
-                if (params.taskListFilter) {
-                    this.$searchRulesHolder.empty();
-                    this.TL_SearchTask.val('');
-                    var filter = params.taskListFilter;
-                    if (filter.task_search) {
-                        this.TL_SearchTask.val(filter.task_search);
-                    }
-                    var aFilterFields = [
-                        'responsible',
-                        'author',
-                        'closed',
-                        'viewed',
-                        'date_modify',
-                        'date_create',
-                        'date_close'
-                    ];
-                    var field;
-                    for (var i in aFilterFields) {
-                        field = aFilterFields[i];
-                        if (field.indexOf('date_') === 0 && filter[field]) {
-                            this.addVisualSearchElement(field, filter[field].join(','));
-                        } else
-                            for (var k in filter[field])
-                                this.addVisualSearchElement(field, filter[field][k]);
-                    }
-
-                    if (filter.action) {
-                        var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(JSON.stringify(params)) + '"]');
-                        if ($userTabEqualsQuery.get(0)) {
-                            $userTabEqualsQuery.closest('li').activateListItem();
-                        } else {
-                            $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
-                        }
-                    }
-
-                    if (filter.page) {
-                        filter.startPage = filter.page;
-                        delete filter.page;
-                    }
-
-                    this.TL_SilentSearch(filter);
+                this.$searchRulesHolder.empty();
+                this.TL_SearchTask.val('');
+                var filter = params.taskListFilter;
+                if (!filter) filter = {};
+                if (filter.task_search) {
+                    this.TL_SearchTask.val(filter.task_search);
                 }
+                var aFilterFields = [
+                    'responsible',
+                    'author',
+                    'closed',
+                    'viewed',
+                    'date_modify',
+                    'date_create',
+                    'date_close'
+                ];
+                var field;
+                for (var i in aFilterFields) {
+                    field = aFilterFields[i];
+                    if (field.indexOf('date_') === 0 && filter[field]) {
+                        this.addVisualSearchElement(field, filter[field].join(','));
+                    } else
+                        for (var k in filter[field])
+                            this.addVisualSearchElement(field, filter[field][k]);
+                }
+
+                if (filter.action) {
+                    var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(JSON.stringify(params)) + '"]');
+                    if ($userTabEqualsQuery.get(0)) {
+                        $userTabEqualsQuery.closest('li').activateListItem();
+                    } else {
+                        $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
+                    }
+                }
+
+                if (filter.page) {
+                    filter.startPage = filter.page;
+                    delete filter.page;
+                }
+
+                this.TL_SilentSearch(filter);
             },
             'checkSearchInput': function () {
                 var h = 'hidden';

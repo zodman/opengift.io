@@ -78,8 +78,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     if filter:
         lManager = listManager(PM_Task)
         filter = lManager.parseFilter(filter)
+
+    needTaskList = False
     if 'filter' in widgetParams:
         filter.update(widgetParams['filter'])
+        needTaskList = True
 
     pst = lambda n: request.POST.get(n, 0) if hasattr(request, 'POST') else None
     if 'CURRENT_PROJECT' in headerValues and \
@@ -161,207 +164,212 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         arPageParams['pageCount'] = 100
         arPageParams['page'] = 1
 
-    #try:
-    addTasks = {}
-
-    if not 'parentTask' in filter and \
-            not 'pk' in filter and \
-            not 'all' in filter:
-        filter['parentTask__isnull'] = True
-    else:
-        if 'pageCount' in arPageParams:
-            del arPageParams['pageCount'] #выводим все подзадачи, а не только кусок, как для задач
-
-    if 'exclude' in widgetParams:
-        filter['exclude'] = widgetParams['exclude']
-
-    arTaskOrderParams = {
-        'group': arPageParams.get('group', None)
-    }
-    tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
-    try:
-        tasks = tasks['tasks']
-        tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
-        qty = tasks.count()
-    except AttributeError:
-        qty = 0
-        tasks = []
-    if 'page' not in arPageParams:
-        arPageParams['page'] = 1
-
-    paginator = {}
-    if 'pageCount' in arPageParams:
-        tasks = tasks[
-                (arPageParams['page'] - 1) * arPageParams['pageCount']: arPageParams['page'] * arPageParams[
-                    'pageCount']]
-
-        paginator = {
-            'all_qty': qty,
-            'lastPage': (qty <= arPageParams['page'] * arPageParams['pageCount'])
-        }
-
-    currentRecommendedUser = None
-    arBIsManager = {}
-
-    arBets = {}
-    arClientBets = {}
-    aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
+    tasks, paginator = {}, {}
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
-    for task in tasks:
-        if not task.id in arBIsManager:
-            arBIsManager[task.id] = task.project.id in aManagedProjectsId
 
-        currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
-                                                                aUsersHaveAccess)
+    if needTaskList:
 
-        last_message_q = task.messages
-        if not arBIsManager[task.id]:
-            last_message_q = last_message_q.filter(
-                hidden=False, hidden_from_clients=False, hidden_from_employee=False, isSystemLog=False
-            )
-        last_message_q = last_message_q.order_by("-pk")
+        addTasks = {}
 
-        try:
-            startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
-        except PM_Timer.DoesNotExist:
-            startedTimer = None
-
-        if 'parentTask' not in filter:
-            # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
-            filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project)
-            filterQArgs = PM_Task.mergeFilterObjAndArray(
-                {'parentTask': task, 'active': True},
-                filterQArgs
-            )
-            subtasksQuery = PM_Task.objects.filter(*filterQArgs).distinct()
-            subtasksQty = subtasksQuery.count()
-
-            subtasksActiveQuery = subtasksQuery.filter(closed=False).distinct()
-            subtasksActiveQty = subtasksActiveQuery.count()
+        if not 'parentTask' in filter and \
+                not 'pk' in filter and \
+                not 'all' in filter:
+            filter['parentTask__isnull'] = True
         else:
-            subtasksQty = 0
-            subtasksActiveQty = 0
+            if 'pageCount' in arPageParams:
+                del arPageParams['pageCount'] #выводим все подзадачи, а не только кусок, как для задач
 
-        responsibleSequence = None
-        if subtasksQty:
-            subtaskPlanTime = 0
-            for t in subtasksQuery.annotate(summ=Sum('planTime')):
-                subtaskPlanTime += t.summ if t.summ else 0
+        if 'exclude' in widgetParams:
+            filter['exclude'] = widgetParams['exclude']
 
-            if subtasksActiveQty:
-                responsibleSequence = []
-                idSequence = []
-                for stask in subtasksActiveQuery.filter(resp__isnull=False):
-                    if stask.resp:
-                        respName = stask.resp.first_name + ' ' + stask.resp.last_name \
-                            if stask.resp.first_name else stask.resp.username
-                        if not stask.resp.id in idSequence:
-                            idSequence.append(stask.resp.id)
-                            responsibleSequence.append({
-                                'id': stask.resp.id,
-                                'name': respName
-                            })
-
-        bCanBaneUser = False
-        if arBIsManager[task.id] and task.resp:
-            bCanBaneUser = True
-
-        last_mes = last_message_q[0] if last_message_q else None
-        addTasks[task.id] = {
-            'url': task.url,
-            'project': {
-                'name': task.project.name
-            },
-            'canEdit': task.canEdit(cur_user),
-            'canRemove': task.canPMUserRemove(cur_prof),
-            'canSetOnPlanning': arBIsManager[task.id] or False,
-            'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
-            #todo: разрешать платным пользователям только если денег хватает
-            'canClose': arBIsManager[task.id] or cur_user.id == task.author.id,
-            'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
-            'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
-            'canBaneUser': bCanBaneUser,
-            'startedTimerExist': startedTimer != None,
-            'startedTimerUserId': startedTimer.user.id if startedTimer else None,
-            'status': task.status.code if task.status else '',
-            'todo': [
-                {
-                    'todo': t['todo'],
-                    'bug': t['bug'],
-                    'checked': t['checked']
-                } for t in task.messages.filter(Q(Q(todo=True) | Q(bug=True))).order_by('id').values('checked', 'bug', 'todo')
-            ],
-            'resp': responsibleSequence if responsibleSequence else [
-                {'id': task.resp.id,
-                 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
-            ],
-            'last_message': {
-                'text': TextFilters.escapeText(last_mes.text),
-                'date': last_mes.dateCreate,
-                #todo: исправить говнокод на метод сообщения getLastTextObject
-                'author': last_mes.author.first_name + ' ' + last_mes.author.last_name if
-                last_mes.author else '',
-            } if last_mes and last_mes.author else {'text': task.text},
-            'responsibleList': userTagSums,
-            'files': taskExtensions.getFileList(task.files.all()),
-            'planTimes': [],
-            'viewed': (task.closed or task.isViewed(cur_user)),
-            'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
-            'subtasksQty': subtasksQty,
-            'subtasksActiveQty': subtasksActiveQty,
-            'observer': True if task.observers.filter(id=cur_user.id) else False,
-            'group': {
-                'name': task.milestone.name,
-                'id': task.milestone.id,
-                'code': 'milestone',
-                'closed': task.milestone.closed,
-                'date': templateTools.dateTime.convertToSite(task.milestone.date, '%d.%m.%Y')
-            } if task.milestone and arPageParams.get('group') == 'milestones' else {}  #overrides by projects
+        arTaskOrderParams = {
+            'group': arPageParams.get('group', None)
         }
+        tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
+        try:
+            tasks = tasks['tasks']
+            tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
+            qty = tasks.count()
 
-        if not project:
-            addTasks[task.id]['group'] = {
-                'name': task.project.name,
-                'id': task.project.id,
-                'code': 'project',
-                'url': task.project.url
+        except AttributeError:
+            qty = 0
+            tasks = []
+        if 'page' not in arPageParams:
+            arPageParams['page'] = 1
+
+        paginator = {}
+        if 'pageCount' in arPageParams:
+            tasks = tasks[
+                    (arPageParams['page'] - 1) * arPageParams['pageCount']: arPageParams['page'] * arPageParams[
+                        'pageCount']]
+
+            paginator = {
+                'all_qty': qty,
+                'lastPage': (qty <= arPageParams['page'] * arPageParams['pageCount'])
             }
 
-        if subtasksQty:
-            addTasks[task.id]['planTime'] = subtaskPlanTime
+        currentRecommendedUser = None
+        arBIsManager = {}
 
-        addTasks[task.id]['needRespRecommendation'] = (
-            len(addTasks[task.id]['resp']) <= 0 or
-            not addTasks[task.id]['resp'][0]
-        )
+        arBets = {}
+        arClientBets = {}
+        aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
 
-        reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
-        if reminder.exists():
-            addTasks[task.id]['reminder'] = reminder[0]
+        for task in tasks:
+            if not task.id in arBIsManager:
+                arBIsManager[task.id] = task.project.id in aManagedProjectsId
 
-        if addTasks[task.id]['needRespRecommendation']:
-            if currentRecommendedUser:
-                recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
-                recommendedUserArray = {
-                    'id': recommendedUser.id,
-                    'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
+            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
+                                                                    aUsersHaveAccess)
+
+            last_message_q = task.messages
+            if not arBIsManager[task.id]:
+                last_message_q = last_message_q.filter(
+                    hidden=False, hidden_from_clients=False, hidden_from_employee=False, isSystemLog=False
+                )
+            last_message_q = last_message_q.order_by("-pk")
+
+            try:
+                startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
+            except PM_Timer.DoesNotExist:
+                startedTimer = None
+
+            if 'parentTask' not in filter:
+                # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
+                filterQArgs = PM_Task.getQArgsFilterForUser(cur_user, task.project)
+                filterQArgs = PM_Task.mergeFilterObjAndArray(
+                    {'parentTask': task, 'active': True},
+                    filterQArgs
+                )
+                subtasksQuery = PM_Task.objects.filter(*filterQArgs).distinct()
+                subtasksQty = subtasksQuery.count()
+
+                subtasksActiveQuery = subtasksQuery.filter(closed=False).distinct()
+                subtasksActiveQty = subtasksActiveQuery.count()
+            else:
+                subtasksQty = 0
+                subtasksActiveQty = 0
+
+            responsibleSequence = None
+            if subtasksQty:
+                subtaskPlanTime = 0
+                for t in subtasksQuery.annotate(summ=Sum('planTime')):
+                    subtaskPlanTime += t.summ if t.summ else 0
+
+                if subtasksActiveQty:
+                    responsibleSequence = []
+                    idSequence = []
+                    for stask in subtasksActiveQuery.filter(resp__isnull=False):
+                        if stask.resp:
+                            respName = stask.resp.first_name + ' ' + stask.resp.last_name \
+                                if stask.resp.first_name else stask.resp.username
+                            if not stask.resp.id in idSequence:
+                                idSequence.append(stask.resp.id)
+                                responsibleSequence.append({
+                                    'id': stask.resp.id,
+                                    'name': respName
+                                })
+
+            bCanBaneUser = False
+            if arBIsManager[task.id] and task.resp:
+                bCanBaneUser = True
+
+            last_mes = last_message_q[0] if last_message_q else None
+            addTasks[task.id] = {
+                'url': task.url,
+                'project': {
+                    'name': task.project.name
+                },
+                'canEdit': task.canEdit(cur_user),
+                'canRemove': task.canPMUserRemove(cur_prof),
+                'canSetOnPlanning': arBIsManager[task.id] or False,
+                'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
+                #todo: разрешать платным пользователям только если денег хватает
+                'canClose': arBIsManager[task.id] or cur_user.id == task.author.id,
+                'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
+                'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
+                'canBaneUser': bCanBaneUser,
+                'startedTimerExist': startedTimer != None,
+                'startedTimerUserId': startedTimer.user.id if startedTimer else None,
+                'status': task.status.code if task.status else '',
+                'todo': [
+                    {
+                        'todo': t['todo'],
+                        'bug': t['bug'],
+                        'checked': t['checked']
+                    } for t in task.messages.filter(Q(Q(todo=True) | Q(bug=True))).order_by('id').values('checked', 'bug', 'todo')
+                ],
+                'resp': responsibleSequence if responsibleSequence else [
+                    {'id': task.resp.id,
+                     'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
+                ],
+                'last_message': {
+                    'text': TextFilters.escapeText(last_mes.text),
+                    'date': last_mes.dateCreate,
+                    #todo: исправить говнокод на метод сообщения getLastTextObject
+                    'author': last_mes.author.first_name + ' ' + last_mes.author.last_name if
+                    last_mes.author else '',
+                } if last_mes and last_mes.author else {'text': task.text},
+                'responsibleList': userTagSums,
+                'files': taskExtensions.getFileList(task.files.all()),
+                'planTimes': [],
+                'viewed': (task.closed or task.isViewed(cur_user)),
+                'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
+                'subtasksQty': subtasksQty,
+                'subtasksActiveQty': subtasksActiveQty,
+                'observer': True if task.observers.filter(id=cur_user.id) else False,
+                'group': {
+                    'name': task.milestone.name,
+                    'id': task.milestone.id,
+                    'code': 'milestone',
+                    'closed': task.milestone.closed,
+                    'date': templateTools.dateTime.convertToSite(task.milestone.date, '%d.%m.%Y')
+                } if task.milestone and arPageParams.get('group') == 'milestones' else {}  #overrides by projects
+            }
+
+            if not project:
+                addTasks[task.id]['group'] = {
+                    'name': task.project.name,
+                    'id': task.project.id,
+                    'code': 'project',
+                    'url': task.project.url
                 }
-                addTasks[task.id]['recommendedUser'] = {
-                    'id': int(currentRecommendedUser),
-                    'name': recommendedUserArray['name']
-                }
 
-        planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
-        for obj in planTimes:
-            addTasks[task.id]['planTimes'].append({
-                'user_url': obj.user.get_profile().url,
-                'user_id': obj.user.id,
-                'user_name': obj.user.first_name + ' ' + obj.user.last_name,
-                'time': obj.time
-            })
+            if subtasksQty:
+                addTasks[task.id]['planTime'] = subtaskPlanTime
 
-            if not task.planTime and obj.user.id == cur_user.id:
-                addTasks[task.id]['planTime'] = obj.time
+            addTasks[task.id]['needRespRecommendation'] = (
+                len(addTasks[task.id]['resp']) <= 0 or
+                not addTasks[task.id]['resp'][0]
+            )
+
+            reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
+            if reminder.exists():
+                addTasks[task.id]['reminder'] = reminder[0]
+
+            if addTasks[task.id]['needRespRecommendation']:
+                if currentRecommendedUser:
+                    recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
+                    recommendedUserArray = {
+                        'id': recommendedUser.id,
+                        'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
+                    }
+                    addTasks[task.id]['recommendedUser'] = {
+                        'id': int(currentRecommendedUser),
+                        'name': recommendedUserArray['name']
+                    }
+
+            planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
+            for obj in planTimes:
+                addTasks[task.id]['planTimes'].append({
+                    'user_url': obj.user.get_profile().url,
+                    'user_id': obj.user.id,
+                    'user_name': obj.user.first_name + ' ' + obj.user.last_name,
+                    'time': obj.time
+                })
+
+                if not task.planTime and obj.user.id == cur_user.id:
+                    addTasks[task.id]['planTime'] = obj.time
 
     aUserLinks = dict()
     resps = widgetManager.getResponsibleList(cur_user, project)
@@ -376,26 +384,27 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             }
         aResps.append(resp)
 
-    aTasksId = addTasks.keys()
-    if aTasksId:
-        #todo: all queries
-        aTimers = PM_Task.getAllTimeOfTasksWithSubtasks(aTasksId)
-        tasks = tasks_to_tuple(tasks, addFields)
-        tasks = task_list_prepare(tasks, addTasks, False)
+    if needTaskList:
+        aTasksId = addTasks.keys()
+        if aTasksId:
+            #todo: all queries
+            aTimers = PM_Task.getAllTimeOfTasksWithSubtasks(aTasksId)
+            tasks = tasks_to_tuple(tasks, addFields)
+            tasks = task_list_prepare(tasks, addTasks, False)
 
-        for task in tasks:
-            task['time'] = 0
-            task['timers'] = []
-            if task['id'] in aTimers:
-                task['time'] = sum(aTimers[task['id']].values())
-                for uid in aTimers[task['id']]:
-                    if uid in aUserLinks.keys():
-                        task['timers'].append({
-                            'time': templateTools.dateTime.timeFromTimestamp(aTimers[task['id']][uid]),
-                            'user': aUserLinks[uid]['name'],
-                            'user_url': aUserLinks[uid]['url']
-                        })
-            task['full'] = True
+            for task in tasks:
+                task['time'] = 0
+                task['timers'] = []
+                if task['id'] in aTimers:
+                    task['time'] = sum(aTimers[task['id']].values())
+                    for uid in aTimers[task['id']]:
+                        if uid in aUserLinks.keys():
+                            task['timers'].append({
+                                'time': templateTools.dateTime.timeFromTimestamp(aTimers[task['id']][uid]),
+                                'user': aUserLinks[uid]['name'],
+                                'user_url': aUserLinks[uid]['url']
+                            })
+                task['full'] = True
 
     today = timezone.make_aware(datetime.datetime.today(), timezone.get_current_timezone())
     yesterday = timezone.make_aware(datetime.datetime.today() - datetime.timedelta(days=1),

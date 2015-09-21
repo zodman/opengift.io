@@ -142,9 +142,6 @@ class PM_User(models.Model):
                     0] if self.user.last_name and self.user.first_name else ''
             }
 
-
-
-
     @property
     def managedProjects(self):
         try:
@@ -211,6 +208,30 @@ class PM_User(models.Model):
             p_user.setRole(role, project)
 
         return user
+
+    def getRating(self, project=None):
+        if project:
+            if project.getSettings().get('disable_rating', False):
+                return 0
+
+            if self.isClient(project):
+                return 0
+
+        rate = self.rating or 0
+        for uac in PM_User_Achievement.objects.filter(user=self.user, project=project):
+            try:
+                pac = PM_Project_Achievement.objects.get(
+                    project=project,
+                    achievement=uac.achievement,
+                    type='bet',
+                    value__isnull=False
+                )
+                rate += pac.value
+
+            except PM_Project_Achievement.DoesNotExist:
+                continue
+
+        return rate
 
     def isClient(self, project):
         return self.isRole('client', project)
@@ -327,22 +348,8 @@ class PM_User(models.Model):
             rate = projectRole.rate if projectRole and projectRole.rate else (
                 int(self.sp_price) if self.sp_price else 0)
 
-            if rate and not self.isClient(project):
-                if self.rating:
-                    rate += self.rating
-
-                for uac in PM_User_Achievement.objects.filter(user=self.user, project=project):
-                    try:
-                        pac = PM_Project_Achievement.objects.get(
-                            project=project,
-                            achievement=uac.achievement,
-                            type='bet',
-                            value__isnull=False
-                        )
-                        rate += pac.value
-
-                    except PM_Project_Achievement.DoesNotExist:
-                        continue
+            if rate:
+                rate += self.getRating(project)
 
             return rate
 
