@@ -79,6 +79,7 @@ def widget(request, headerValues, ar, qargs):
                 if task['id'] in tasksId:
                     if 'endTime' in task and task['endTime'] > closestMilestone.date:
                         setattr(closestMilestone, 'wouldOverdue', True)
+                        break
 
             setattr(
                 closestMilestone,
