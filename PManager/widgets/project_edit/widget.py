@@ -71,7 +71,7 @@ def widget(request, headerValues, ar, qargs):
 
                 if is_new:
                     request.user.get_profile().setRole(SET_USER_ROLE, instance)
-                    return {'redirect': request.get_full_path() + '?id=' + str(instance.id)}
+                    return {'redirect': '/?project=' + str(instance.id)}
                 return {'redirect': request.get_full_path()}
             else:
                 pass
