@@ -871,8 +871,8 @@ GANTT.prototype = {
             .find('.js-e-d-date-create')
             .text(model.get('dateCreate')).end()
             .find('.js-e-d-author')
-            .text(model.get('author__last_name') + ' ' + model.get('author__first_name'));
-        
+            .text(model.get('author')['last_name'] + ' ' + model.get('author')['first_name']);
+
         if (resp)
             t.$detailEventWin.find('.js-e-d-resp')
             .text(resp['name']).attr('href', '/user_detail/?id=' + resp['id']);
