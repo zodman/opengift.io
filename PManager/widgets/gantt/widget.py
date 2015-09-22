@@ -156,7 +156,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 'milestone__id',
                 'parentTask__name',
                 'author__last_name',
-                'author__first_name'
+                'author__first_name',
                 'resp__id',
                 'virgin',
                 'critically'
