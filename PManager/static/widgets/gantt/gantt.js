@@ -892,7 +892,7 @@ GANTT.prototype = {
         } else {
             $lastMes.hide();
         }
-        t.$detailEventWin.show();
+        t.$detailEventWin.show().css('height', $(window).height());
     },
     'assignEventTo': function(eventId, respId) {
         var t = this;
