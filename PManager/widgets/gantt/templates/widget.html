@@ -420,8 +420,10 @@ var GANTT_TASKS = [
                 project: {{ task.project__name|jsonify|safe }},
                 title: {{ task.name|jsonify|safe }},
                 url: {{ task.url|jsonify|safe }},
-                author__first_name: "{{ task.author__first_name }}",
-                author__last_name: "{{ task.author__last_name }}",
+                author: {
+                    first_name: "{{ task.author__first_name }}",
+                    last_name: "{{ task.author__last_name }}"
+                },
                 date_create: "{{ task.dateCreate }}",
                 status: "{{ task.status__code }}",
                 planTime: {{ task.planTime|jsonify|safe }},
