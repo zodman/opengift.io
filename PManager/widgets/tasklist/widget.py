@@ -280,6 +280,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'project': {
                     'name': task.project.name
                 },
+                'author': {
+                    'first_name': task.author.first_name,
+                    'last_name': task.author.last_name
+                },
                 'canEdit': task.canEdit(cur_user),
                 'canRemove': task.canPMUserRemove(cur_prof),
                 'canSetOnPlanning': arBIsManager[task.id] or False,
