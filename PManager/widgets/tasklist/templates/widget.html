@@ -118,7 +118,7 @@
     <p>Чтобы создать задачу, выберите проект в правом верхнем углу экрана.</p>
 {% endif %}
 {% endif %}
-{% if tasklist.tasks %}
+
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
 
         <hr>
@@ -254,7 +254,7 @@
             </div>
         </div>
         <div class="search_items_holder" ></div>
-{% endif %}
+
         <hr class="no-top-magin-hr">
         <script language="javascript">
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
