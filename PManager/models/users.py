@@ -334,7 +334,7 @@ class PM_User(models.Model):
 
     def getBet(self, project, type=None, role_code=None):
         try:
-            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project, rate__isnull=False)
+            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project)
 
             if type:
                 projectRole = projectRole.filter(payment_type=type)
@@ -342,14 +342,16 @@ class PM_User(models.Model):
             if role_code:
                 projectRole = projectRole.filter(role__code=role_code)
 
+            rate = 0
+
             if projectRole:
                 projectRole = projectRole[0]
 
-            rate = projectRole.rate if projectRole and projectRole.rate else (
-                int(self.sp_price) if self.sp_price else 0)
+                rate = projectRole.rate if projectRole.rate is not None else (
+                    int(self.sp_price) if self.sp_price else 0)
 
-            if rate:
-                rate += self.getRating(project)
+                if rate:
+                    rate += self.getRating(project)
 
             return rate
 
