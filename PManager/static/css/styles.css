@@ -2328,6 +2328,17 @@ border-top-right-radius: 0;}
 .footer-links {border-top: 1px solid #ddd; color:#ddd; margin-top: 25px; padding-bottom: 15px; padding-top: 25px;}
 .footer-links a {color:#999; display:inline-block; margin:0 10px;}
 
+
+.gant-scrollable {
+    background: white none repeat scroll 0 0;
+    left: 0;
+    margin: 0 100px 0 0;
+    padding: 10px 10px 0;
+    position: fixed;
+    top: 55px;
+    width: 100%;
+    z-index: 100000;
+}
 #chatWindow .task-message.last {display: block;}
 #chatWindow .task-message {display: none;}
 
