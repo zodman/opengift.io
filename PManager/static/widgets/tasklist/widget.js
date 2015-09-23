@@ -375,7 +375,7 @@ var widget_tl, currentGroup;
                             });
                         });
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить внешних исполнителей', '#invite-developers', function () {
+                        $block = menuTaskBlock('Пригласить TOP-фрилансеров', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-add-developers').click(function (e) {
                                 e.preventDefault();
