@@ -819,7 +819,7 @@ GANTT.prototype = {
             var sc = this;
             $(this).find('.gantt-reponsibles').css(
                 'left',
-                $(this).scrollLeft()
+                $(this).scrollLeft()-1
             );
             $('.gantt-dates-top').scrollLeft(
                 $(this).scrollLeft()
