@@ -2328,8 +2328,12 @@ border-top-right-radius: 0;}
 .footer-links {border-top: 1px solid #ddd; color:#ddd; margin-top: 25px; padding-bottom: 15px; padding-top: 25px;}
 .footer-links a {color:#999; display:inline-block; margin:0 10px;}
 
-
-.gant-scrollable {
+.gant-top-thump-container {
+    height: 95px;
+    margin: 0 100px 0 0;
+    position: relative;
+}
+.gant-top-thump-container.gant-scrollable {
     background: white none repeat scroll 0 0;
     left: 0;
     margin: 0 100px 0 0;
