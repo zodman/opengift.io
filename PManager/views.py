@@ -106,7 +106,26 @@ class MainPage:
         aMessages = []
         pageTitle = ''
         if request.user.is_authenticated():
-            messages = PM_Task_Message.objects.filter(userTo=request.user, read=False).order_by('-dateCreate')
+            messages = PM_Task_Message.objects.filter(
+                userTo=request.user,
+                read=False
+            ).order_by('-dateCreate')
+
+            taskNumber = int(request.GET.get('number', 0))
+            taskId = int(request.GET.get('id', 0))
+            projectId = int(request.GET.get('project', 0))
+
+            if projectId:
+                if taskId:
+                    messages = messages.exclude(
+                        task=taskId,
+                        project=projectId
+                    )
+                elif taskNumber:
+                    messages = messages.exclude(
+                        task__number=taskNumber,
+                        project=projectId
+                    )
             messages = messages.exclude(code="WARNING")
             messages_qty = messages.count()
 
