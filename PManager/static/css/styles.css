@@ -139,7 +139,7 @@ header .header >nav {float:left; width:60%; text-align:center; height:29px; line
 
     header .header .notifications > a:hover,
     header .header .notifications > a:active,
-    header .header .notifications > a:focus {color:#47a447;}
+    header .header .notifications > a:focus {color:#cd0000;}
 
     header .header .notifications .dropdown-menu {text-align:left;}
 	header .header .notifications b {font-size:13px !important;}
