@@ -4,7 +4,7 @@
  * Date: 15.07.14
  * Time: 16:18
  */
-var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream;
+var iOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
 
 if (!iOS) {
     var sound = new Howl({
