@@ -220,10 +220,8 @@ function PM_AjaxPost(url, data, func, type) {
  */
 function startLoader(name, container, add_params) {
     container = $(container);
-    if (typeof(container) == 'object') {
-        if (!container.is(":visible")) {
+    if (!container.is(":visible")) {
             return false;
-        }
     }
     $loader = $('.loader.' + name + '');
     var objPos = getObjectCenterPos(container);
