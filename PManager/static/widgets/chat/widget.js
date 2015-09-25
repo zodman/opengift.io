@@ -191,8 +191,9 @@ $(function(){
 
             $(window).scroll(onScroll);
             $('body').scroll(onScroll);
-
-            widget_chat.getMessagesFromServer();
+            setTimeout(function(){
+                widget_chat.getMessagesFromServer();
+            }, 500);
         },
         'reset': function() {
             widget_chat.lastMessageId = -1;

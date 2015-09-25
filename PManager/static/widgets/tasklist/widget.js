@@ -670,7 +670,7 @@ var widget_tl, currentGroup;
                 return this.TL_Search(params, true);
             },
             'TL_Search': function (params, silent) {
-                if (!$('.show-more').pushed()) //if not show more btn clicked
+                if (!$('.show-more').pushed() && !silent) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
 
                 $('.js-new-first-task').hide();
@@ -1171,7 +1171,7 @@ var widget_tl, currentGroup;
                             if (isNaN(numSub)) {
                                 numSub = 0;
                             }
-                            ;
+
                             var newNumSub = numSub + 1;
                             $taskWrapper.find('.js-subNum').text(newNumSub + ' ');
                         });//.addTaskFilePasteSimple();
