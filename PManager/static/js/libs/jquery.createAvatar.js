@@ -44,15 +44,19 @@
     };
     $.updateAvatar = function(el, options) {
         var params = $(el).attr('rel');
-        if(params.length <= 0) {
+        if(!params || params.length <= 0) {
             return
         }
-        params = JSON.parse(params);
-        if (typeof options === 'undefined') {
-            options = {};
+        try {
+            params = JSON.parse(params);
+            if (typeof options === 'undefined') {
+                options = {};
+            }
+            $.extend(options, params);
+            $(el).html($.createAvatar(options));
+        } catch (e) {
+
         }
-        $.extend(options, params);
-        $(el).html($.createAvatar(options));
     };
 }( jQuery ));
 
