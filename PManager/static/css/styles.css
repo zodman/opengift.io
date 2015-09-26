@@ -4372,3 +4372,8 @@ ul.colors {
     top: -5px;
     width: 20px;
 }
+.project-thumb-link {
+    height: 100px;
+    display: block;
+    margin: 0 15px 0 0;
+}
