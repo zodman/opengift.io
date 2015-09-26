@@ -190,6 +190,25 @@ def __search_filter(header_values, request):
         ar_filter['closed'] = False
     elif action == 'all':
         pass
+
+
+    kanbanFilter = None
+    if 'gantt_props[]' in request.POST:
+        propCodesKanban = request.POST.getlist('gantt_props[]')
+
+        for propCode in propCodesKanban:
+            if 'gantt_prop_' + propCode + '[]' in request.POST:
+                propVals = request.POST.getlist('gantt_prop_' + propCode + '[]')
+                for val in propVals:
+                    if not kanbanFilter:
+                        kanbanFilter = Q(**{propCode:val})
+                    else:
+                        kanbanFilter = kanbanFilter | Q(**{propCode:val})
+
+    if kanbanFilter:
+        qArgs.append(kanbanFilter)
+
+
     if 'responsible[]' in request.POST:
         ar_filter['resp__in'] = request.POST.getlist('responsible[]')
     if 'observers[]' in request.POST:
