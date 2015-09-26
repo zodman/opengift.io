@@ -202,7 +202,7 @@ def widget(request, headerValues, ar, qargs):
                 timeGraph.append({
                     'date': arWeekDays.get(date.isoweekday(), u''),
                     'time': str(round(allTime / 3600, 2)).replace(',', '.'),
-                    'commits': str(round(allTime / 3600, 2)).replace(',', '.'),
+                    'commits': commits,
                     'tasksClosed': tasksClosed
                 })
 

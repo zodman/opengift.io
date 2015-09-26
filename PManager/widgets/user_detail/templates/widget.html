@@ -4,7 +4,7 @@
     var global_user_id = {{ user_detail.user.id }};
     window.taskHtml = {{ user_detail.taskTemplate|jsonify|safe }};
     var USER_TIME_DATA = [
-          {% for vals in user_detail.timeGraph %}{State:'{{ vals.date }}',freq:{time:{{ vals.time }}, tasks:{{ vals.tasksClosed }}}}{% if not forloop.last %},{% endif %}{% endfor %}
+          {% for vals in user_detail.timeGraph %}{State:'{{ vals.date }}',freq:{time:{{ vals.time }}, tasks:{{ vals.tasksClosed }}, commits:{{ vals.commits }}}}{% if not forloop.last %},{% endif %}{% endfor %}
     ];
 </script>
 <div id="key-add" class="modal fade" role="dialog" aria-labelledby="keyAdd" aria-hidden="true">
