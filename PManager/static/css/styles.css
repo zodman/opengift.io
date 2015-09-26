@@ -772,7 +772,7 @@ border-bottom-right-radius: 0px;}
 
 /* ====================== КОНТЕЙНЕР ЗАДАЧИ */
 
-.widget.tasklist {z-index:2;}
+.widget.tasklist {z-index:2;border-left: 3px solid #cfcfcf;}
 
 .pause_dialog {padding:10px 15px; width:235px;}
 .task-wrapper:hover {transition: box-shadow 0.2s linear 0s;}
