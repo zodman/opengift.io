@@ -8,7 +8,10 @@ $(function () {
             var avatar = $el.find('.js-avatar-container');
             if (this.model.get('avatar')) {
                 avatar.attr('rel', JSON.stringify(this.model.get('avatar')));
-                $.updateAvatar(avatar, { size: 30 });
+                $.updateAvatar(
+                    avatar,
+                    { size: 30 }
+                );
             }
 
             $el.find('.js-task-status').attr('rel', this.model.get(this.model.get('status_type')));
@@ -38,9 +41,7 @@ $(function () {
         initDND: function() {
             var t = this;
             $(document).on('mousedown touchstart', '.task-wrapper-kanban', function(e) {
-                t.draggable = $(this).css({
-                    'width': $(this).width()
-                });
+                t.draggable = $(this);
                 var view = t.taskViews[t.draggable.attr('rel')];
                 view.model.set('parentBlock', $(this).parent());
                 t.offsetTaskY = e.clientY - $(this).offset().top + $(window).scrollTop();
@@ -126,7 +127,8 @@ $(function () {
                         'position': 'absolute',
                         'top': e.clientY - t.offsetTaskY,
                         'left': e.clientX - t.offsetTaskX,
-                        'z-index': 99999
+                        'z-index': 99999,
+                        'width': t.draggable.width()
                     }).appendTo('body');
                 }
             });
@@ -171,7 +173,7 @@ $(function () {
     $('.js-project-row').each(function () {
         $(this).kanban();
     });
-    $(document).on('mousedown', '.js-task_menu', function(e) {
+    $(document).on('mousedown', '.js-task_menu, .js-select_resp, .js-task-name', function(e) {
         e.stopPropagation();
         return false;
     });

@@ -43,6 +43,7 @@
         }
     };
     $.updateAvatar = function(el, options) {
+        console.log(el);
         var params = $(el).attr('rel');
         if(!params || params.length <= 0) {
             return
@@ -62,7 +63,7 @@
 
 
 $(document).ready(function(){
-    $('.avatar_container').each(function(index,el){
-        $.updateAvatar(el);
+    $('.avatar_container').each(function(){
+        $.updateAvatar(this, {'size': $(this).data('size') || 40});
     })
 });
