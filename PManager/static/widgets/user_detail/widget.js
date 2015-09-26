@@ -287,7 +287,7 @@ $(function () {
         function() {
             $('.js-tab-menu > li').removeClass('active')
         }
-    )
+    );
 });
 
 function dashboard(id, fData) {
