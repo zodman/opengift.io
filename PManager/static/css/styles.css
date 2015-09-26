@@ -121,7 +121,7 @@ header .header > nav {float:left; width:60%; text-align:right; height:29px; line
     header .header .notifications > a {
         color: #494949;
         display: inline-block;
-        font-size: 24px;
+        font-size: 20px;
         position: relative;
         text-align: left;
         text-decoration: none;
@@ -242,6 +242,10 @@ header .header .timer-wrapper {float:right; width:25%; height:29px; line-height:
 }
 .projects-list-menu .fa:hover {
     opacity: 1;
+}
+.all-projects-link-main {
+    display: block;
+    padding-top: 4px;
 }
 .find-a-project {position:relative; margin-bottom:0px;} 
 	.all-projects-link {vertical-align:middle; width:130px; padding-left:15px; font-weight:bold; color:#47a447;}
