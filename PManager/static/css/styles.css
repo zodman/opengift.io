@@ -622,9 +622,9 @@ border-bottom-right-radius: 0px;}
 .big-input .fa {
     color: #d9d9d9;
     font-size: 18px;
-    left: 13px;
+    left: 11px;
     position: absolute;
-    top: 9px;
+    top: 8px;
 }
 .big-input .input-block-level { padding:4px 12px 4px 37px; }
 .task-create-wrapper > ul,
