@@ -383,10 +383,6 @@ $(function(){
     <div class="row sub-menu_line clearfix">
         {% if user.is_authenticated %}
         <div class="sub-menu_line_section-user">
-
-            {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
-            <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><b><i class="fa fa-plus-square-o"></i><span>&nbsp;Создать задачу</span></b></a>&nbsp;&nbsp;
-            {% endif %}
             <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i class="fa fa-desktop"></i><span>&nbsp;Канбан</span></a>&nbsp;&nbsp;
 
             <a href="/gantt/" class="btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
@@ -400,10 +396,12 @@ $(function(){
 
             <a href="/stat/" class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
-
-
             {% if taskdrafts_cnt %}
                 <a href="/taskdrafts/" class="btn btn-default"><i class="fa fa-list"></i><span>&nbsp;Рассылки</span> &nbsp;({{ taskdrafts_cnt }})</a>
+            {% endif %}
+
+            {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
+                <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default" style="color:#47a447;"><b><i class="fa fa-plus-square-o" style="font-weight: bold;"></i><span>&nbsp;Добавить задачу</span></b></a>
             {% endif %}
         </div>
 
