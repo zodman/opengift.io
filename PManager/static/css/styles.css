@@ -2928,23 +2928,26 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .project-row-headers {
     overflow: auto;
 }
-.kanban .project-row .tasks-column {
-    position: absolute;
-    overflow:visible;
-    padding: 10px 0;
+.task-kanban-dummy {
+    width: 100%;
+    height: 80px;
+    border: 1px dashed red;
 }
-.kanban .task-wrapper-kanban {
-    display:none;
-    width: 230px;
-    height: 100px;
-    padding: 0px;
-    margin: 5px;
+.kanban .project-row .tasks-column {
+    overflow:visible;
+    padding: 10px;
+}
+.task-wrapper-kanban {
+    width: 100%;
+    height: 80px;
+    padding: 0;
+    margin: 5px 0;
     background:none;
 }
-.kanban .task-card {
+.task-card {
     display: block;
     width: 100%;
-    height: 100px;
+    height: 80px;
     position:relative;
     padding: 0;
     margin:0;
@@ -2953,78 +2956,78 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     -moz-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
     -webkit-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
 }
-.kanban .task-card .name {
+.task-card .name {
 	font-size: 12px;
-    height: 99px;
     line-height: 16px;
     overflow: hidden;
     padding: 7px 15px;
-    width: 195px;
+    width: 80%;
 }
-.kanban .task-card .name a {color: #333;}
-.kanban .task-card .name a:hover {color:#47a447;}
+.task-card .name a {color: #333;}
+.task-card .name a:hover {color:#47a447;}
 
-.kanban .task-card .executor {
+.task-card .executor {
     position: absolute;
     bottom: 5px;
     right:5px;
     width: 30px;
 }
-.tasks-header {
+.kanban .tasks-header {
 	color: #fff;
     font-size: 14px;
     font-weight: bold;
     padding-bottom: 8px;
     padding-top: 8px;
     text-align: center;
+    margin: 5px;
 }
 
-.tasks-header.tasks-not_approved {
+.kanban .tasks-header.tasks-not_approved {
 	background: none repeat scroll 0 0 #f2f2f2;
     border-bottom: 2px solid #999;
     color: #999;
 }
 
-.tasks-header.tasks-revision {
+.kanban .tasks-header.tasks-revision {
 	background: none repeat scroll 0 0 #ffe8fe;
     border-bottom: 2px solid #ac05a6;
     color: #ac05a6;
 }
 
-.tasks-header.tasks-ready {    
+.kanban .tasks-header.tasks-ready {
 	background: none repeat scroll 0 0 #e9fde9;
     border-bottom: 2px solid #47a447;
     color: #47a447;
 }
 
-.kanban .executor .avatar_container {
+.executor .avatar_container {
 }
-.kanban .task-card .due_date {
+.task-card .due_date {
     position: absolute;
-    bottom: 0px;
+    bottom: 0;
     left: 8px;
     display: none;
 }
-.kanban .task-card .properties-icon {
+.task-card .properties-icon {
     position: absolute; 
 	right: 16px;
     top: 10px;
 	color:#aaa;
 }
 
-.kanban .task-card .properties-icon:hover {
+.task-card .properties-icon:hover {
     color: #999;
     cursor: pointer;
 }
 
-.kanban .task-card .properties-icon:active {
+.task-card .properties-icon:active {
     color: white;
     cursor: default;
 }
 .kanban .task-status {
     width: 2px;
     position:absolute;
-    height:100px;
+    height:80px;
     top:0px;
     left:0px;
     background: #ffa500;
