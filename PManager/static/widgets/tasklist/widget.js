@@ -690,6 +690,9 @@ var widget_tl, currentGroup;
                         params.group = $group.val();
                     }
 
+                    if (params.group == 'milestones') {
+                        $('.milestones-btn').addClass('active');
+                    }
                     //собираем все элементы формы поиска (созданные через поисковое меню)
                     this.$searchRulesHolder.find('input[type=hidden]').each(function () {
                         if (!params[$(this).attr('name')])

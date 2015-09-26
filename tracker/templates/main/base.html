@@ -129,12 +129,13 @@
                 </div>
 
                 <hr class="margin-25" />
-                <h2>Пригласите проверенных специалистов!</h2>
-                <p>Для приглашения компетентных исполнителей Heliard вам нужно:</p>
+                <h2>Пригласите фрилансеров из TOP 4%</h2>
+                <p>Пригласите в команду компетентных исполнителей Heliard, для этого:</p>
                 <ol>
-                    <li>Проставить галочки на против задач, которые вы хотите делегировать</li>
-                    <li>Нажать "Пригласить исполнителей" в панели снизу</li>
+                    <li>Поставьте галочки напротив задач, которые вы хотите делегировать</li>
+                    <li>Нажмите "Пригласить TOP фрилансеров" в появившейся панели внизу</li>
                 </ol>
+                <p>Система выберет подходящих специалистов и создаст ветки обсуждения с ними для предварительного обсуждения заданий</p>
 
 
             </div><!--modal-body-->
@@ -284,35 +285,29 @@ $(function(){
 		{% if user.is_authenticated %}
         <nav class="menu">
             <ul>
-                <li class="{% if activeMenuItem == 'main' %} active{% endif %}">
-                    <a href="/kanban">
-                        <span aria-hidden="true" class="fa fa-desktop"></span>
-                        <span>Канбан</span>
-                    </a>
-                </li>
                 <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">
                     <a href="/calendar/">
                         <span aria-hidden="true" class="fa fa-calendar-o"></span>
-                        <span>КАЛЕНДАРЬ</span>
+                        <span>Календарь проектов</span>
                     </a>
                 </li>
-                <li class="{% if activeMenuItem == 'statistic' %} active{% endif %}">
+                <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">
                     <a href="/milestones/">
                         <span aria-hidden="true" class="fa fa-star"></span>
-                        <span>ЦЕЛИ</span>
+                        <span>Цели</span>
                     </a>
                 </li>
                 <li class="{% if activeMenuItem == 'life' %} active{% endif %}">
                     <a href="/life/">
                         <span aria-hidden="true" class="fa fa-bolt"></span>
-                        <span>АКТИВНОСТЬ</span>
+                        <span>Текущая активность</span>
                     </a>
                 </li>
 
                 <li class="{% if activeMenuItem == 'wiki' %} active{% endif %}">
                     <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}">
                         <span aria-hidden="true" class="fa fa-file-text"></span>
-                        <span>ВИКИ</span>
+                        <span>Вики</span>
                     </a>
                 </li>
             </ul>
@@ -392,19 +387,20 @@ $(function(){
             {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
             <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp;
             {% endif %}
+            <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i class="fa fa-desktop"></i><span>&nbsp;Канбан</span></a>&nbsp;&nbsp;
 
-            <a href="#" class="btn btn-default js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal"><i class="fa fa-check-square-o"></i><span>&nbsp;Пригласить людей</span></a>&nbsp;&nbsp;
-
-            <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
-
-            <a href="/files/" class="btn btn-default {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
-
-            <a href="/stat/" class="btn btn-default {% if not main.IS_MANAGER %}disabled{% endif %}"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
-
-            <a href="/gantt/" class="btn btn-default {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
+            <a href="/gantt/" class="btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
                 <i class="fa fa-tasks"></i>
-                <span>&nbsp;График</span>
+                <span>&nbsp;План</span>
             </a>
+
+            <a href="/user_list/" class="btn btn-default{% if activeMenuItem == 'user_list' %} active{% endif %}"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
+
+            <a href="/files/" class="btn btn-default{% if activeMenuItem == 'files' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
+
+            <a href="/stat/" class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
+
+
 
             {% if taskdrafts_cnt %}
                 <a href="/taskdrafts/" class="btn btn-default"><i class="fa fa-list"></i><span>&nbsp;Рассылки</span> &nbsp;({{ taskdrafts_cnt }})</a>
@@ -432,7 +428,7 @@ $(function(){
                         {% if main.CURRENT_PROJECT.id %}
                             <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
                         {% endif %}
-
+                        <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i class="fa fa-user-plus"></i></a>
                         <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
                     </div>
 
@@ -451,7 +447,9 @@ $(function(){
                    <div class="right">
                        {% if main.CURRENT_PROJECT.id %}
                         <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog" title="Параметры проекта"></a>
-                       {% endif %}<a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
+                       {% endif %}
+                       <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i class="fa fa-user-plus"></i></a>
+                       <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
                     </div>
                 </li>
             </ul>

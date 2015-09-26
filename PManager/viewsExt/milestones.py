@@ -87,7 +87,7 @@ def ajaxMilestonesResponder(request):
     return HttpResponse(responseText)
 
 
-def milestonesResponder(request):
+def milestonesResponder(request, activeMenuItem=None):
     from PManager.viewsExt import headers
 
     headerValues = headers.initGlobals(request)
@@ -103,4 +103,4 @@ def milestonesResponder(request):
     else:
         mprojects = context.get("projects")
 
-    return render(request, 'milestones/index.html', {'m_projects': mprojects, 'pageTitle': u'Цели'})
+    return render(request, 'milestones/index.html', {'m_projects': mprojects, 'pageTitle': u'Цели', 'activeMenuItem': activeMenuItem})
