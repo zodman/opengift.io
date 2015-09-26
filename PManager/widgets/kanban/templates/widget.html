@@ -35,7 +35,7 @@
     {% endblock %}
     <div class="kanban">
         {% for project in kanban.projects_data %}
-            <style>
+            <style type="text/css">
                 {% for status in project.columns %}
                     #project_{{ project.id }} .tasks-{{ status.code }},
                     #project_{{ project.id }} .project-row-headers .tasks-{{ status.code }} {
