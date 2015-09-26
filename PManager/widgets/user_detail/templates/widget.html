@@ -152,9 +152,16 @@
 
                           <div class="statistic-graph-wrapper">
                               <div class="statistic-graph"><h3>Продуктивность</h3>
-                                    <div id='dashboard'></div>
+{#                                    <div id='dashboard'></div>#}
+                                  <div style="width: 100%">
+                                    <canvas id="dashboard" height="230" width="600"></canvas>
+                                </div>
                               </div>
-                              <div class="statistic-detail js-user-legend"></div>
+                              <div class="statistic-detail js-user-legend">
+                                  <p style="background-color: rgba(220,220,220,0.5);padding:10px;"><b>Затраченое время, ч</b></p>
+                                  <p style="background-color: rgba(151,205,187,0.5);padding:10px;"><b>Закрытые задачи</b></p>
+                                  <p style="background-color: rgba(205,151,187,0.5);padding:10px;"><b>Коммиты</b></p>
+                              </div>
                           </div>
                     </div>
                 </div><!--ВКЛАДКА "СВОДКА" - svodka-->

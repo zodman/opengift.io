@@ -134,15 +134,28 @@ $(function () {
             });
         },
         getTasksFromServer: function () {
-            var t = this;
+            var t = this,
+                props = [],
+                propVals = {};
+
+            t.$columns.each(function() {
+                if ($.inArray($(this).data('prop'), props) == -1)
+                    props.push($(this).data('prop'));
+
+                if (!propVals['gantt_prop_' + $(this).data('prop')]) {
+                    propVals['gantt_prop_' + $(this).data('prop')] = [];
+                }
+                propVals['gantt_prop_' + $(this).data('prop')].push($(this).attr('rel'));
+            });
 
             PM_AjaxPost(
                 "/task_handler",
-                {
+                $.extend({
                     'action': 'all',
                     'startPage': 3,
-                    'project': this.options.project
-                },
+                    'project': this.options.project,
+                    'gantt_props': props
+                }, propVals),
                 function (data) {
                     var i, taskData;
                     for (i in data.tasks) {

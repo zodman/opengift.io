@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import Credit, PM_Task, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
+from PManager.models import Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
@@ -198,9 +198,11 @@ def widget(request, headerValues, ar, qargs):
                 )
 
                 tasksClosed = LogData.objects.filter(code='DAILY_TASKS_CLOSED', user=user, datetime__range=date_range).count()
+                commits = PM_Task_Message.objects.filter(dateCreate__range=date_range, author=user, code='GIT_COMMIT').count()
                 timeGraph.append({
-                    'date': arWeekDays.get(date.isoweekday(), ''),
+                    'date': arWeekDays.get(date.isoweekday(), u''),
                     'time': str(round(allTime / 3600, 2)).replace(',', '.'),
+                    'commits': str(round(allTime / 3600, 2)).replace(',', '.'),
                     'tasksClosed': tasksClosed
                 })
 

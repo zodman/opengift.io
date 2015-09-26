@@ -984,8 +984,15 @@ var CRITICALLY_THRESHOLD = 0.7;
 				}
 
 				this.model.destroy();
-				if (!this.model.get('parent'))
-					this.$el.parent().remove();
+				if (!this.model.get('parent')) {
+                    var $taskWrapper = this.$el.closest('.task-wrapper');
+                    if ($taskWrapper.get(0)) {
+                        $taskWrapper.remove();
+                    } else {
+                        this.$el.remove();
+                    }
+                }
+
 				this.remove();
 			}
 		},

@@ -198,8 +198,7 @@ PIPELINE_JS = {
             'widgets/user_detail/key_form.js',
             'js/jquery.bxslider.min.js',
             'js/libs/raphael-min.js',
-            'js/libs/charts.js',
-            'js/libs/d3.js',
+            'js/libs/charts.js'
         ),
         'output_filename': 'js_compressed/user_detail.js'
     },
