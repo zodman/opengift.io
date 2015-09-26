@@ -138,6 +138,7 @@ $(function () {
                 "/task_handler",
                 {
                     'action': 'all',
+                    'startPage': 3,
                     'project': this.options.project
                 },
                 function (data) {
