@@ -408,12 +408,11 @@ $(function(){
 
         <div class="sub-menu_line_section-tracker">
             <ul class="list-inline navbar-right">
-                <li class="section-tracker_menu_name h5"><span>Проект:</span></li>
+                {% if main.CURRENT_PROJECT %}
+                <li class="section-tracker_menu_name h5"><span class="all-projects-link-main"><a href="/?project=0">Все проекты</a> &nbsp;<i class="fa fa-angle-right"></i>&nbsp; </span></li>
+                {% endif %}
                 <li class="projects-list-menu">
                     <div class="dropdown">
-                        {% if main.CURRENT_PROJECT %}
-                            <a href="{% if is_detail_page %}/{% endif %}?project=0"><i class="fa fa-remove cancel-project-select"></i></a>
-                        {% endif %}
                         <button onclick="if ($('.js-projects').get(0)) {$('.js-projects').show();$('.overflow').show();return false;}" type="button" class="btn btn-link tracker-choose js-openProjectList" data-toggle="dropdown">
                             <span>
                                 {% if main.CURRENT_PROJECT %}
