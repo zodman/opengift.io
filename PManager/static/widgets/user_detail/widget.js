@@ -287,7 +287,8 @@ $(function () {
         function() {
             $('.js-tab-menu > li').removeClass('active')
         }
-    )
+    );
+    $('.statistic-graph-wrapper').css('height', $('statistic-list').height());
 });
 
 function dashboard(id, fData) {
