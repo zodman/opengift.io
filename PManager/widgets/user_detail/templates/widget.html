@@ -1,4 +1,4 @@
-{% load floattags jsonify compressed humanize %}
+{% load floattags jsonify compressed humanize thumbnail %}
 {% compressed_js 'user_detail' %}
 <script>
     var global_user_id = {{ user_detail.user.id }};
@@ -168,7 +168,7 @@
                 <div class="tab-pane" id="ychastvyet">
                     {% for project in user_detail.user_projects %}
                         <div class="media clearfix">
-                        	<img src="/static/images/avatar_unknown.png" class="img-thumbnail pull-left" width="100" />
+                        	<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"100x100" }}{% else %}/static/images/avatar_unknown.png{% endif %}" class="img-thumbnail pull-left" width="100" />
                             <h3>{{ project.name }}</h3>
                             <ul class="list-inline" >
                                 {% if project.canEdit  or 'client' in project.roles %}
