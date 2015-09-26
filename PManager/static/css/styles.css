@@ -752,7 +752,7 @@ border-bottom-right-radius: 0px;}
 .tasks-toolbar .icon-remove { position:absolute; right:5px; top:10px; opacity:0.4; display:none; }
 .tasks-toolbar .icon-remove:hover { text-decoration: none; }
 .find-container {position: relative;}
-.find-container .form-control {padding: 6px 18px 6px 12px}
+.find-container .form-control {padding: 6px 18px 6px 37px}
 .find-container .icon-remove.fa-times {color: #999999;}
 
 .search-input {border-right:0px;}
