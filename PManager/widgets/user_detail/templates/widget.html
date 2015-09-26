@@ -116,18 +116,16 @@
                 <div class="tab-pane active" id="svodka">
                     <div class="statistic-wrapper clearfix">
                           <div class="statistic-list">
-
-                                <p>Последняя активность: <strong>{% if user_detail.profile.last_activity_date %}{{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
+                                <h3>Активность</h3>
+                                <p>Последняя активность: <strong>
+                                    {% if user_detail.profile.last_activity_date %}<br />{{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
                                 <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
+                                <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
                                 <hr />
-                                <h4>Финансы</h4>
+                                <h3>Финансы</h3>
                                 <p>Цена часа:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
                                     {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span> баллов</p>
                                 <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
-
-                                <div class="sp" style="margin-top: 10px;">
-                                    Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b>
-                                </div>
 
                                 <div class="sp" style="margin-top: 10px;">На счету:
                                     <span class="dropdown dropup">
@@ -154,7 +152,7 @@
                               <div class="statistic-graph"><h3>Продуктивность</h3>
 {#                                    <div id='dashboard'></div>#}
                                   <div style="width: 100%">
-                                    <canvas id="dashboard" height="230" width="600"></canvas>
+                                    <canvas id="dashboard" height="250" width="600"></canvas>
                                 </div>
                               </div>
                               <div class="statistic-detail js-user-legend">

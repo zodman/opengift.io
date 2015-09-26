@@ -992,8 +992,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 }
 
 .user-inner-tabs .nav > li.active > a {
-    border: 1px solid #428bca;
-    background: #428bca;
+    border: 1px solid #d9534f;
+    background: #d43f3a;
     color: #ffffff;
 }
 
@@ -1795,7 +1795,7 @@ i.tag-num-icon {
 
 .statistic-list, .statistic-graph, .statistic-detail {float: left;}
 
-.statistic-list {background-color: #eee; padding: 15px; border-radius:10px; -moz-border-radius:10px; width:250px; -webkit-border-radius:10px;}
+.statistic-list {padding: 0 15px 15px;width:250px;}
 .statistic-graph-wrapper {width: calc(100% - 250px); float: left;}
 .statistic-graph {width: calc(100% - 290px);}
 .statistic-graph #myChart {width: 100%;}
