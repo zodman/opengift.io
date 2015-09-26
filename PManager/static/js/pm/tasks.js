@@ -658,7 +658,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 										obj.fillEffectivelyProgress($userLink, obj.model.id);
 									}
 								}
-								$('.js-avatar-container').each(function (index, el) {
+								$('.js-user-list-of-user .js-avatar-container').each(function (index, el) {
 									$.updateAvatar(el, {size: 40});
 								});
 							}
