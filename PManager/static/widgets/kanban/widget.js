@@ -44,7 +44,7 @@ $(function () {
                 t.draggable = $(this);
                 var view = t.taskViews[t.draggable.attr('rel')];
                 view.model.set('parentBlock', $(this).parent());
-                t.offsetTaskY = e.clientY - $(this).offset().top + $(window).scrollTop();
+                t.offsetTaskY = e.clientY - ($(this).offset().top - $(window).scrollTop());
                 t.offsetTaskX = e.clientX - $(this).offset().left;
                 t.overColumn = false;
                 return false;
@@ -101,15 +101,17 @@ $(function () {
                         };
 
                         var isOverColumn = e.clientX > offset.left && e.clientX < offset.right &&
-                                           e.clientY > offset.top && e.clientY < offset.bottom;
+                                           e.clientY + $(window).scrollTop() > offset.top &&
+                                            e.clientY + $(window).scrollTop() < offset.bottom;
 
                         if (isOverColumn) {
                             t.overColumn = $(this);
                             var $columnObjects = false;
                             t.overColumn.children().each(function(){
+                                console.log($(this).offset().top + ','+parseInt(e.clientY + $(window).scrollTop()));
                                 if (
                                     !$columnObjects &&
-                                    $(this).offset().top + $(this).width() / 2 > e.clientY + $(window).scrollTop()
+                                    ($(this).offset().top + ($(this).height() / 2)) > (e.clientY + $(window).scrollTop())
                                     ) {
                                     $columnObjects = $(this);
                                 }
@@ -125,7 +127,7 @@ $(function () {
 
                     t.draggable.css({
                         'position': 'absolute',
-                        'top': e.clientY - t.offsetTaskY,
+                        'top': e.clientY + $(window).scrollTop() - t.offsetTaskY,
                         'left': e.clientX - t.offsetTaskX,
                         'z-index': 99999,
                         'width': t.draggable.width()
