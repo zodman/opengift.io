@@ -233,7 +233,7 @@ def widget(request, headerValues, ar, qargs):
             taskTagPosition = 0
             for obj1 in ObjectTags.objects.raw(
                                         'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
-                        request.user.id) + ' AND content_type_id=' + str(
+                        user.id) + ' AND content_type_id=' + str(
                     ContentType.objects.get_for_model(User).id) + ''):
                 for obj2 in ObjectTags.objects.raw(
                                 'SELECT COUNT(v.w) as position, id FROM (SELECT SUM(`weight`) as w, `id`, `object_id` from PManager_objecttags WHERE content_type_id=' + str(
