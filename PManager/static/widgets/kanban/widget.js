@@ -124,7 +124,7 @@ $(function () {
                     console.log(data);
                     if (t.taskViews[data.id]) {
                         var view = t.taskViews[data.id];
-                        if (data['status'] == 'revision' && view.model.get('status') == 'ready') {
+                        if (data['status'] == 'revision' && ($.inArray(view.model.get('status'), ['ready', 'today']) > -1)) {
                             data['status'] = 'today';
                         }
                         for (var i in data) {
