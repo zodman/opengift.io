@@ -1120,7 +1120,7 @@ class PM_Task(models.Model):
             if excludeFilter:
                 tasks = tasks.exclude(**excludeFilter)
 
-        tasks = tasks.order_by(*order)
+            tasks = tasks.order_by(*order)
 
         return {
             'tasks': tasks,

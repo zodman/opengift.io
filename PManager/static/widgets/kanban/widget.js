@@ -141,13 +141,14 @@ $(function () {
                 propVals = {};
 
             t.$columns.each(function() {
-                if ($.inArray($(this).data('prop'), props) == -1)
-                    props.push($(this).data('prop'));
+                var propName = $(this).data('prop') == 'status' ? 'status__code' : $(this).data('prop');
+                if ($.inArray(propName, props) == -1)
+                    props.push(propName);
 
-                if (!propVals['gantt_prop_' + $(this).data('prop')]) {
-                    propVals['gantt_prop_' + $(this).data('prop')] = [];
+                if (!propVals['gantt_prop_' + propName]) {
+                    propVals['gantt_prop_' + propName] = [];
                 }
-                propVals['gantt_prop_' + $(this).data('prop')].push($(this).attr('rel'));
+                propVals['gantt_prop_' + propName].push($(this).attr('rel'));
             });
 
             PM_AjaxPost(
