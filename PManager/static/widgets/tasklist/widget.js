@@ -691,7 +691,7 @@ var widget_tl, currentGroup;
                     }
 
                     if (params.group == 'milestones') {
-                        $('.milestones-btn').addClass('active');
+                        $('.js-milestones-checkbox').attr('checked', 'checked');
                     }
                     //собираем все элементы формы поиска (созданные через поисковое меню)
                     this.$searchRulesHolder.find('input[type=hidden]').each(function () {
@@ -779,6 +779,7 @@ var widget_tl, currentGroup;
                         '</div>' : '') +
                     '</div>' +
                     '</div>';
+
                 $('#edit-milestone').on('shown.bs.modal', function (event) {
                     event.stopPropagation();
                     var button = $(event.relatedTarget); // Button that triggered the modal
