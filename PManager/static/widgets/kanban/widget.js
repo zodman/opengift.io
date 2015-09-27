@@ -141,7 +141,7 @@ $(function () {
                 propVals = {};
 
             t.$columns.each(function() {
-                var propName = $(this).data('prop') == 'status' ? 'status_code' : $(this).data('prop');
+                var propName = $(this).data('prop') == 'status' ? 'status__code' : $(this).data('prop');
                 if ($.inArray(propName, props) == -1)
                     props.push(propName);
 
