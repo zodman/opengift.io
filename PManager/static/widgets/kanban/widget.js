@@ -35,7 +35,7 @@ $(function () {
         }
     };
 
-    var addTaskToColumn = function(view, $column, $dummyBlock) {
+    var addTaskToColumn = function(view, $column, $dummyBlock, silent) {
         var project = $column.data('project');
         if ($dummyBlock) {
             view.$el.insertBefore($dummyBlock);
@@ -61,27 +61,28 @@ $(function () {
             }
             setTodayTasks(project, todayTasks)
         }
-        taskManager.SetTaskProperty(
-            view.model.id,
-            $column.data('prop'),
-            $column.attr('rel'),
-            function(data){
-                try {
-                    data = $.parseJSON(data);
-                    if (data.error) {
-                        alert(data.error);
-                        view.$el.animateAppendTo(view.model.get('parentBlock'), 1000);
-                        view.model.set(
-                            view.model.get('oldStatusName'),
-                            view.model.get('oldStatus')
-                        );
-                        view.render();
+        if (!silent)
+            taskManager.SetTaskProperty(
+                view.model.id,
+                $column.data('prop'),
+                $column.attr('rel'),
+                function(data){
+                    try {
+                        data = $.parseJSON(data);
+                        if (data.error) {
+                            alert(data.error);
+                            view.$el.animateAppendTo(view.model.get('parentBlock'), 1000);
+                            view.model.set(
+                                view.model.get('oldStatusName'),
+                                view.model.get('oldStatus')
+                            );
+                            view.render();
+                        }
+                    } catch (e) {
+                        console.log(data);
                     }
-                } catch (e) {
-                    console.log(data);
                 }
-            }
-        );
+            );
     };
 
     $.fn.animateAppendTo = function(sel, speed) {
@@ -144,7 +145,7 @@ $(function () {
                         if (data[$column.data('prop')] && $column.attr('rel') != data[$column.data('prop')]) {
                             t.$columns.each(function() {
                                 if ($(this).attr('rel') == data[$column.data('prop')]) {
-                                    addTaskToColumn(view, $(this));
+                                    addTaskToColumn(view, $(this), false, true);
                                 }
                             });
                         }
