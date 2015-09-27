@@ -227,6 +227,7 @@ def projectDetail(request, project_id):
 
 def parseSettingsFromPost(project, request):
         settings = project.getSettings()
+
         for k, v in request.POST.iteritems():
             if k.find('settings_') > -1:
                 k = k.replace('settings_', '')
