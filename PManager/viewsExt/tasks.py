@@ -581,6 +581,9 @@ def taskListAjax(request):
                             pass
                     #\client have not enough money#
 
+                    if str(value) == 'today':#from kanban
+                        value = 'revision'
+
                     try:
                         task.setStatus(str(value))
                         task.systemMessage(
