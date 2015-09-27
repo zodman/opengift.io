@@ -20,6 +20,7 @@
 			overflow: hidden;
 			padding: 0px;
 			position: relative;
+            border: 1px solid #EEEEEE;
         }
 		
 		/* СТРЕЛКИ, СКРЫЛИ
@@ -428,6 +429,7 @@ var GANTT_TASKS = [
                 status: "{{ task.status__code }}",
                 planTime: {{ task.planTime|jsonify|safe }},
                 responsible: {{ task.resp__id|jsonify|safe }},
+                otherProject: {{ task.otherProject|jsonify|safe }},
                 description: {{ task.text|jsonify|safe }},
                 section: 1,
                 closed: {{ task.closed|yesno:"true,false" }},

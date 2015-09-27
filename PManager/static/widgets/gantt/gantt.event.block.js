@@ -24,7 +24,8 @@ var EventBlock = function (event) {
             this.$elem.append(
                     '<div class="gantt-event-plantime">Примерное время: <span>' + event.planTime + ' ч.</span></div>'
             );
-    } else {
+    }
+    if (event.otherProject) {
         this.$elem.addClass('other');
     }
 
