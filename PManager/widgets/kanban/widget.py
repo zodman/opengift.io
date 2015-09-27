@@ -7,7 +7,7 @@ from PManager.models.users import PM_User, PM_ProjectRoles, PM_Role
 from PManager.models.tasks import PM_Project, PM_Task, PM_Task_Status
 from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.widgets.tasklist.widget import get_task_tag_rel_array, get_user_tag_sums
-import datetime, json
+import datetime, json, copy
 from django.db import transaction
 
 
@@ -57,6 +57,16 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         else:
             for status in statuses:
                 status.update({'prop': 'status'})
+                if status['code'] == 'ready':
+                    newStatus = copy.copy(status)
+                    newStatus['code'] = 'today'
+                    newStatus['name'] = u'Сделаю сегодня'
+
+                    aColumns.append(newStatus)
+
+                if status['code'] == 'revision':
+                    status['name'] = u'В работе'
+
                 aColumns.append(status)
 
         setattr(project, 'columns', aColumns)

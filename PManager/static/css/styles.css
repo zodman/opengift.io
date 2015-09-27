@@ -3025,7 +3025,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     position:relative;
     padding: 0;
     margin:0;
-    background: #f4f4f4;
+    /*background: #f4f4f4;*/
     box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
     -moz-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
     -webkit-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
@@ -3033,7 +3033,6 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .task-card .name {
 	font-size: 12px;
     line-height: 16px;
-    overflow: hidden;
     padding: 7px 15px;
     width: 80%;
 }
@@ -3050,25 +3049,34 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 	color: #fff;
     font-size: 14px;
     font-weight: bold;
-    padding-bottom: 8px;
-    padding-top: 8px;
     text-align: center;
-    margin: 5px;
+    padding: 10px;
 }
 
-.kanban .tasks-header.tasks-not_approved {
+.kanban .tasks-header div {
+    padding-bottom: 8px;
+    padding-top: 8px;
+}
+
+.kanban .tasks-header.tasks-not_approved div {
 	background: none repeat scroll 0 0 #f2f2f2;
     border-bottom: 2px solid #999;
     color: #999;
 }
 
-.kanban .tasks-header.tasks-revision {
+.kanban .tasks-header.tasks-today div {
+	background: none repeat scroll 0 0 #c3a0f2;
+    border-bottom: 2px solid #3c2999;
+    color: #5d2f99;
+}
+
+.kanban .tasks-header.tasks-revision div {
 	background: none repeat scroll 0 0 #ffe8fe;
     border-bottom: 2px solid #ac05a6;
     color: #ac05a6;
 }
 
-.kanban .tasks-header.tasks-ready {
+.kanban .tasks-header.tasks-ready div {
 	background: none repeat scroll 0 0 #e9fde9;
     border-bottom: 2px solid #47a447;
     color: #47a447;
@@ -3108,9 +3116,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     padding: 0;
     margin: 0;
 }
-.kanban .task-status[rel=revision] {background:#ac05a6;}
-.kanban .task-status[rel=ready] {background:#47a447;}
-.kanban .task-status[rel=not_approved] {background:#999;}
+
 .kanban .task-status.overdue {background:#c00f00;}
 
 .kanban .ui-resizable-handle {
@@ -3130,6 +3136,7 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 .kanban .avatar_container {
     width:30px;
     height: 30px;
+    overflow: hidden;
 }
 .kanban .avatar_container i.fa {
     font-size:16px;
@@ -4392,13 +4399,13 @@ ul.colors {
     -webkit-opacity: 1;
 }
 
-.task-status[rel=grey], .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
-.task-status[rel=green], .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
-.task-status[rel=blue], .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
-.task-status[rel=red], .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
-.task-status[rel=yellow], .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
-.task-status[rel=purple], .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
-.task-status[rel=orange], .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
+.task-status.grey, .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.task-status.green, .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
+.task-status.blue, .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.task-status.red, .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
+.task-status.yellow, .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.task-status.purple, .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.task-status.orange, .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
 
 .wiking-content__image {
     width: 300px;

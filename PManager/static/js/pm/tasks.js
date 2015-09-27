@@ -315,7 +315,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 					+ (taskInfo.onPlanning ? ' <b style="color:red">?</b> ' : '');
 				sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
 
-				for (var i in this.arPlanTimes) {
+				for (i in this.arPlanTimes) {
 					var planTime = this.arPlanTimes[i];
 					sPlanTime += '<li><a rel="' + planTime[0] + '">' + planTime[1] + '</a></li>';
 				}
@@ -497,7 +497,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 				} else {
 					timer.stop();
 				}
-			}
+			} else {
+                this.$el.find('.js-time').html('00:00:00')
+            }
 
 			if (playBtnStatus == 'disabled') {
 				this.disableTimerButton();
@@ -507,10 +509,21 @@ var CRITICALLY_THRESHOLD = 0.7;
 				this.hideTimerButton();
 			}
 
+            var avatar = this.$el.find('.js-avatar-container');
+            if (avatar.get(0) && this.model.get('avatar')) {
+                console.log(avatar);
+                avatar.empty().attr('rel', JSON.stringify(this.model.get('avatar')));
+                $.updateAvatar(
+                    avatar,
+                    { size: 30 }
+                );
+            }
+
 			this.delegateEvents();
 
 			if (this.$el.parent().get(0))
 				setTaskCellsHeight(this.$el);
+
 			return this;
 		},
 		'showPauseCommentForm': function () {

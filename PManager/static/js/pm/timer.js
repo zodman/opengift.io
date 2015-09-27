@@ -50,9 +50,9 @@ PM_Timer.prototype = {
         this.started = false;
     },
     'toString': function () {
-        var hours = this.hours * 1,
-            minutes = this.minutes * 1,
-            seconds = this.seconds * 1;
+        var hours = this.hours * 1 || 0,
+            minutes = this.minutes * 1 || 0,
+            seconds = this.seconds * 1 || 0;
 
         if (hours < 10 && (hours.length < 2 || hours.length == undefined)) hours = '0' + hours + '';
         if (minutes < 10 && (minutes.length < 2 || minutes.length == undefined)) minutes = '0' + minutes + '';

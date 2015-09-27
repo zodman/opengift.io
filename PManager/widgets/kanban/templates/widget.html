@@ -15,6 +15,7 @@
     <div class="kanban">
         <div class="widget inner">
             <div class="project-header js-project-header">
+            <div class="project-header js-project-header">
                 <div class="widget-title clearfix">
                     {% if kanban.current_project %}
                         {{ kanban.current_project }}
@@ -36,12 +37,9 @@
     <div class="kanban">
         {% for project in kanban.projects_data %}
             <style type="text/css">
-                {% for status in project.columns %}
-                    #project_{{ project.id }} .tasks-{{ status.code }},
-                    #project_{{ project.id }} .project-row-headers .tasks-{{ status.code }} {
-                        width: {{ project.status_width }}%;
-                    }
-                {% endfor %}
+                .tasks-column, .tasks-header {
+                    width: {{ project.status_width }}%;
+                }
 
                 .kanban .project-row .tasks-revision,
                 .kanban .project-row-headers .tasks-revision {
@@ -75,7 +73,7 @@
                                 <tr>
                                     {% for status in project.columns %}
                                         <td class="tasks-header tasks-{{ status.code }}">
-                                            {{ status.name }}
+                                            <div style="width: 100%">{{ status.name }}</div>
                                         </td>
                                     {% endfor %}
                                 </tr>
@@ -88,7 +86,7 @@
                             <tr>
                                 {% for status in project.columns %}
                                     <td class="tasks-column task-droppable js-tasks-column js-task-droppable tasks-{{ status.code }} js-tasks-{{ status.code }}"
-                                        rel="{{ status.code }}" data-prop="{{ status.prop }}">
+                                        rel="{{ status.code }}" data-prop="{{ status.prop }}" data-project="{{ project.id }}">
 
                                     </td>
                                 {% endfor %}
@@ -136,20 +134,53 @@
         });
     </script>
 {% endif %}
-
+<div>
 <div class="js-task-wrapper-template" style="display: none">
-    <div class="task-card js-task-card js_task_responsibles message-info">
-        <div class="task-status js-task-status"></div>
+    <div class="task-card js-task-card message-info">
+        <div class="task-status js-task-status task-name_status"></div>
         <div class="name">
             <a href="" class="js-task-name">
-            </a><br />
-            <a href="#" class="js-plan-time"></a>
+                #TASK_NAME#
+            </a><b class="red-text">#DEADLINE#</b><br />
+            <div class="task-info-time task_play-wrap">
+                <span class="btn-group dropdown">
+                    <a class="task_play-wrap_btn dropdown-toggle js-task_play play" rel="#TASK_ID#"><span class="fa fa-play-circle"></span></a>
+
+                <div class="how-much-time dropdown-menu pull-right">
+                    <h5>Сколько времени по вашему займет задача?</h5>
+                    <div class="col-wrapper">
+                        <div class="col-10">
+                            <select class="form-control on-desktop"><option>12 часов</option></select>
+                            <input type="time" value="00:00:00" class="on-mobile form-control" autofocus="autofocus">
+                        </div>
+                    </div>
+                    <div class="col-wrapper">
+                        <div class="col-5">
+                            <a class="pause_comment_success btn btn-success width-100">Отправить</a>
+                        </div>
+                        <div class="col-5">
+                            <a class="pause_comment_cancel btn btn-danger width-100">Отменить</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pause_dialog dropdown-menu pull-right">
+                    <h5>Что сделано?</h5>
+                    <textarea class="form-control" name="comment"></textarea>
+                    <label class="checkbox">
+                        <input type="checkbox" name="solution" value="Y" />В базу знаний
+                    </label>
+                    <a class="pause_comment_success btn btn-success">Ок</a>
+                    <a class="pause_comment_cancel btn btn-danger">Отменить таймер</a>
+                </div>&nbsp;&nbsp;
+                </span>
+            	<span class="dropdown task-card-time">
+            		<a href="#" class="link-with-popup task-time js-time" data-toggle="dropdown" >00:00:00</a>&nbsp;<span class="task-plantime"></span>
+                </span>
+            </div><!--task-info-time-->
         </div>
         <div class="executor js-task-executor dropdown" rel="">
-            <a data-toggle="dropdown" class="js-select_resp">
-                <div class="avatar_container js-avatar-container" data-size="30">
-                    <i class="fa fa-share"></i>
-                </div>
+            <a data-toggle="dropdown" class="js-select_resp js-avatar-container avatar_container" data-size="30">
             </a>
         </div>
         <div class="properties-icon js-options_popup">
@@ -159,3 +190,36 @@
         </div>
     </div>
 </div>
+</div>
+<script>
+    window.taskHtml = $('<div></div>').append(
+            $('<div></div>').addClass('task task-wrapper-kanban').append($('.js-task-wrapper-template').html())
+    ).html();
+</script>
+<style>
+    .task {
+        padding: 0;
+        margin: 5px 0;
+        background-color: #f2f2f2;
+    }
+
+    .task-info-time {
+        margin-top: 5px;
+        display: block;
+        vertical-align: bottom;
+    }
+
+    .task-card-time {
+        margin-top: 1px;
+        display: inline-block;
+    }
+
+    .btn-group {
+        display: block;
+        float: left;
+    }
+
+    .btn-group .fa {
+        color: #47a447;
+    }
+</style>
