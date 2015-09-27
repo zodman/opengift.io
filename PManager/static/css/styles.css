@@ -3847,11 +3847,13 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     opacity: 0.6;
     -moz-opacity: 0.6;
     -webkit-opacity: 0.6;
+    cursor: pointer;
 }
 
 
 .editable-textarea-wrapper {display: block; font-size: 15px; position: relative; line-height: 24px;}
 .editable-textarea-wrapper .fa {
+    cursor: pointer;
     font-size: 14px;
     margin-left: 8px;
     position: relative;
@@ -4373,7 +4375,7 @@ ul.colors {
     width: 20px;
 }
 .project-thumb-link {
-    height: 100px;
+    height: 75px;
     display: block;
     margin: 0 15px 0 0;
 }

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData, PM_User
+from PManager.models import ObjectTags, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
@@ -12,6 +12,7 @@ from PManager.classes.git.gitolite_manager import GitoliteManager
 from tracker.settings import USE_GIT_MODULE
 from PManager.services.rating import get_user_quality
 import json
+from django.contrib.contenttypes.models import ContentType
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -70,7 +71,10 @@ def widget(request, headerValues, ar, qargs):
                         'allProjects': True
                     }
                 },
-                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
+                [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))],
+                {
+                    'pageCount': 10
+                }
             )
 
             # tasksObserverResult = taskList(
@@ -225,6 +229,21 @@ def widget(request, headerValues, ar, qargs):
                         setattr(sp, 'weight', tagWeight[sp.name])
                     s.append(sp)
 
+            taskTagCoefficient = 0
+            taskTagPosition = 0
+            for obj1 in ObjectTags.objects.raw(
+                                        'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
+                        request.user.id) + ' AND content_type_id=' + str(
+                    ContentType.objects.get_for_model(User).id) + ''):
+                for obj2 in ObjectTags.objects.raw(
+                                'SELECT COUNT(v.w) as position, id FROM (SELECT SUM(`weight`) as w, `id`, `object_id` from PManager_objecttags WHERE content_type_id=' + str(
+                    ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id HAVING w >= ' + str(obj1.weight_sum or 0) + ') as v'):
+                    taskTagPosition = obj2.position + 1
+                    break
+
+                taskTagCoefficient += (obj1.weight_sum or 0)
+                break
+
             return {
                 'user': user,
                 'profile': profile,
@@ -268,7 +287,9 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
-                'payments': paymentsAndCredits
+                'payments': paymentsAndCredits,
+                'competence': taskTagCoefficient,
+                'competencePlace': taskTagPosition
             }
         except User.DoesNotExist:
             pass
