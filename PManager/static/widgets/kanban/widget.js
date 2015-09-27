@@ -122,6 +122,9 @@ $(function () {
                 if (data && data.id) {
                     if (t.taskViews[data.id]) {
                         var view = t.taskViews[data.id];
+                        if (data['status'] == 'revision' && view.model.get('status') == 'ready') {
+                            data['status'] = 'today';
+                        }
                         for (var i in data) {
                             if (i == 'viewedOnly') {
                                 if (data[i] != document.mainController.userId) {
@@ -134,6 +137,7 @@ $(function () {
                         }
                         view.render();
                         var $column = view.$el.parent();
+
                         if (data[$column.data('prop')] && $column.attr('rel') != data[$column.data('prop')]) {
                             t.$columns.each(function() {
                                 if ($(this).attr('rel') == data[$column.data('prop')]) {
