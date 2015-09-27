@@ -41,7 +41,7 @@ $(function () {
             view.$el.insertBefore($dummyBlock);
             $dummyBlock.remove();
         } else {
-            view.$el.appendTo($column);
+            view.$el.animateAppendTo($column);
         }
 
         view.model.set(
