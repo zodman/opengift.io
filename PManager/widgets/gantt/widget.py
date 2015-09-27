@@ -94,6 +94,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     # if not 'parentTask' in filter:
     #     filter['parentTask__isnull'] = True
 
+    aManagedProjects = [p.id for p in request.user.get_profile().managedProjects]
     tasks = PM_Task.getForUser(
         request.user,
         filter.get('project', 0),
@@ -137,6 +138,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         if task['resp__id'] and task['resp__id'] not in aResp:
             aResp.append(task['resp__id'])
 
+        task['otherProject'] = False
         aTasks.append(task)
 
     if 'project' in filter and filter['project']:
@@ -151,6 +153,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 'dateCreate',
                 'dateClose',
                 'dateModify',
+                'project__id',
                 'project__name',
                 'status__code',
                 'milestone__id',
@@ -165,8 +168,16 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True).count():
                     continue
 
-                task['name'] = ''
+                if task['project__id'] not in aManagedProjects:
+                    task['name'] = ''
+                else:
+                    task['name'] = task['project__name'] + ': ' + task['name']
+                    task['parentTask__name'] = ''
+
+                task['otherProject'] = True
+
                 aOtherTasks.append(task)
+
             aTasks = aOtherTasks + aTasks
             aTasks = sorted(aTasks, cmp=sortGantt)
 
@@ -236,7 +247,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         if bProjectSelected:
             task['title'] = task['name']
         else:
-            task['title'] = task['project__name'] + task['name']
+            task['title'] = task['project__name'] + ': ' + task['name']
 
         task['full'] = True
         task['resp__id'] = task['resp__id'] if task['resp__id'] else 0
