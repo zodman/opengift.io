@@ -1,27 +1,100 @@
 $(function () {
-    var kanbanView = window.taskViewClass.extend({
-        'render': function () {
-            var template = $('.js-task-wrapper-template').html();
-            var $el = $('<div></div>').addClass('task task-wrapper-kanban')
-                .attr('rel', this.model.id).append(template);
-
-            var avatar = $el.find('.js-avatar-container');
-            if (this.model.get('avatar')) {
-                avatar.attr('rel', JSON.stringify(this.model.get('avatar')));
-                $.updateAvatar(
-                    avatar,
-                    { size: 30 }
-                );
-            }
-
-            $el.find('.js-task-status').attr('rel', this.model.get(this.model.get('status_type')));
-            $el.find('.js-task-name').text(this.model.get('name'));
-            this.$el.replaceWith($el);
-            this.$el = $el;
-            this.el = this.$el.get(0);
-            this.delegateEvents();
+    var getTodayTasks = function(projectId) {
+        if (!projectId) {
+            projectId = 0
         }
-    });
+        var todayTasksString = $.cookie('today_tasks'), todayTasks;
+        try {
+            todayTasks = $.parseJSON(todayTasksString);
+            if (typeof todayTasks != typeof {}) {
+                todayTasks = {}
+            }
+            return todayTasks[projectId]
+        } catch (e) {
+            return [];
+        }
+    };
+
+    var setTodayTasks = function(projectId, arTasksId) {
+        if (!projectId) {
+            projectId = 0
+        }
+        var todayTasksString = $.cookie('today_tasks'), todayTasks;
+
+        try {
+            if (todayTasksString)
+                todayTasks = $.parseJSON(todayTasksString);
+            else
+                todayTasks = {};
+
+            todayTasks[projectId] = arTasksId;
+            $.cookie('today_tasks', JSON.stringify(todayTasks));
+            return true;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    var addTaskToColumn = function(view, $column, $dummyBlock) {
+        var project = $column.data('project');
+        view.$el.insertBefore($dummyBlock);
+        $dummyBlock.remove();
+        view.model.set(
+            $column.data('prop'),
+            $column.attr('rel')
+        );
+        view.render();
+        var todayTasks = getTodayTasks(project);
+        if ($column.attr('rel') == 'today') {
+            if ($.inArray(view.model.id, todayTasks) == -1) {
+                todayTasks.push(view.model.id);
+            }
+            setTodayTasks(project, todayTasks)
+        } else if (view.model.get('parentBlock').attr('rel') == 'today') {
+            for (var i = todayTasks.length; --i >= 0;) {
+                if (todayTasks[i] === view.model.id) todayTasks.splice(i, 1);
+            }
+            setTodayTasks(project, todayTasks)
+        }
+        taskManager.SetTaskProperty(
+            view.model.id,
+            $column.data('prop'),
+            $column.attr('rel'),
+            function(data){
+                try {
+                    data = $.parseJSON(data);
+                    if (data.error) {
+                        alert(data.error);
+                        view.$el.animateAppendTo(view.model.get('parentBlock'), 1000);
+                        view.model.set(
+                            view.model.get('oldStatusName'),
+                            view.model.get('oldStatus')
+                        );
+                        view.render();
+                    }
+                } catch (e) {
+                    console.log(data);
+                }
+            }
+        );
+    };
+
+    $.fn.animateAppendTo = function(sel, speed) {
+        var $this = this,
+            newEle = $this.clone(true).appendTo($this.parent());
+        $this.appendTo(sel);
+        var newPos = $this.position();
+        $this.hide();
+        newEle.css({
+            'position':'absolute',
+            'width': newEle.width()
+        }).animate(newPos, speed, function() {
+            newEle.remove();
+            $this.show();
+        });
+
+        return newEle;
+    };
 
     $.widget("custom.kanban", {
         taskViews: {
@@ -36,15 +109,32 @@ $(function () {
             this.$columns = this.element.find('.js-tasks-column');
             this.$dummyBlock = $('<div></div>').addClass('task-kanban-dummy');
             this.getTasksFromServer();
+
             this.initDND();
+        },
+        initToday: function() {
+            var t = this, i, view;
+            this.$columns.each(function(){
+                if ($(this).attr('rel') == 'today') {
+                    var todayTasks = getTodayTasks($(this).data('project'));
+                    for (i in t.taskViews) {
+                        view = t.taskViews[i];
+                        if ($.inArray(view.model.id, todayTasks) > -1) {
+                            view.$el.animateAppendTo($(this));
+                        }
+                    }
+                }
+            })
         },
         initDND: function() {
             var t = this;
-            $(document).on('mousedown touchstart', '.task-wrapper-kanban', function(e) {
+            $(document).on('mousedown touchstart', '.task', function(e) {
                 t.draggable = $(this);
-                var view = t.taskViews[t.draggable.attr('rel')],
+                var view = t.taskViews[t.draggable.data('taskid')],
                     $oldColumn = $(this).parent(),
                     statusName = $(this).parent().data('prop');
+                t.draggable = view.$el;
+
                 view.model.set('parentBlock', $oldColumn);
                 view.model.set('oldStatusName', statusName);
                 view.model.set('oldStatus', view.model.get(statusName));
@@ -61,46 +151,18 @@ $(function () {
                         'width': '100%'
                     });
                     if (t.overColumn) {
-                        t.$dummyBlock.replaceWith(t.draggable);
-
-                        var view = t.taskViews[t.draggable.attr('rel')];
-                        view.model.set(
-                            t.overColumn.data('prop'),
-                            t.overColumn.attr('rel')
-                        );
-                        view.render();
-
-                        taskManager.SetTaskProperty(
-                            view.model.id,
-                            t.overColumn.data('prop'),
-                            t.overColumn.attr('rel'),
-                            function(data){
-                                try {
-                                    data = $.parseJSON(data);
-                                    if (data.error) {
-                                        alert(data.error);
-                                        view.$el.appendTo(view.model.get('parentBlock'));
-                                        view.model.set(
-                                            view.model.get('oldStatusName'),
-                                            view.model.get('oldStatus')
-                                        );
-                                        view.render();
-                                    }
-                                } catch (e) {
-                                    console.log(data);
-                                }
-                            }
-                        );
+                        var view = t.taskViews[t.draggable.data('taskid')];
+                        addTaskToColumn(view, t.overColumn, t.$dummyBlock);
                     } else {
                         if (t.$dummyBlock.is(':visible')) {
-                            t.$dummyBlock.replaceWith(t.draggable);
+                            t.draggable.insertBefore(t.$dummyBlock);
+                            t.$dummyBlock.remove();
                         }
                     }
                 }
                 t.draggable = false;
             }).on('mousemove touchmove', this.element, function(e) {
                 if (t.draggable) {
-
                     t.$columns.each(function () {
                         var offset = {
                             'top': $(this).offset().top,
@@ -117,7 +179,6 @@ $(function () {
                             t.overColumn = $(this);
                             var $columnObjects = false;
                             t.overColumn.children().each(function(){
-                                console.log($(this).offset().top + ','+parseInt(e.clientY + $(window).scrollTop()));
                                 if (
                                     !$columnObjects &&
                                     ($(this).offset().top + ($(this).height() / 2)) > (e.clientY + $(window).scrollTop())
@@ -174,6 +235,7 @@ $(function () {
                         taskData = data.tasks[i];
                         t.addTaskRow(taskData);
                     }
+                    t.initToday();
                 },
                 'json'
             )
@@ -185,8 +247,8 @@ $(function () {
                     var task = new window.taskClass(taskData);
                     task.set('status_type', $(this).data('prop'));
                     task.set('status', task.get($(this).data('prop')));
-                    var taskView = new kanbanView({'model': task});
-                    taskView.render();
+                    var taskView = new window.taskViewClass({'model': task});
+                    taskView.createEl().render();
                     $(this).append(taskView.$el);
 
                     t.taskViews[task.id] = taskView;

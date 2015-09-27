@@ -43,7 +43,6 @@
         }
     };
     $.updateAvatar = function(el, options) {
-        console.log(el);
         var params = $(el).attr('rel');
         if(!params || params.length <= 0) {
             return
