@@ -227,8 +227,10 @@
                            
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
-                             <label class="btn milestones-btn" >
-                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>
+                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />
+                                <label for="mlst-checkbox"><span>Цели</span></label>
+{#                                 <label class="btn milestones-btn" >#}
+{#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                              </div>
                              {% endif %}
                              
