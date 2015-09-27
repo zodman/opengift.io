@@ -42,8 +42,12 @@ $(function () {
             var t = this;
             $(document).on('mousedown touchstart', '.task-wrapper-kanban', function(e) {
                 t.draggable = $(this);
-                var view = t.taskViews[t.draggable.attr('rel')];
-                view.model.set('parentBlock', $(this).parent());
+                var view = t.taskViews[t.draggable.attr('rel')],
+                    $oldColumn = $(this).parent(),
+                    statusName = $(this).parent().data('prop');
+                view.model.set('parentBlock', $oldColumn);
+                view.model.set('oldStatusName', statusName);
+                view.model.set('oldStatus', view.model.get(statusName));
                 t.offsetTaskY = e.clientY - ($(this).offset().top - $(window).scrollTop());
                 t.offsetTaskX = e.clientX - $(this).offset().left;
                 t.overColumn = false;
@@ -76,6 +80,11 @@ $(function () {
                                     if (data.error) {
                                         alert(data.error);
                                         view.$el.appendTo(view.model.get('parentBlock'));
+                                        view.model.set(
+                                            view.model.get('oldStatusName'),
+                                            view.model.get('oldStatus')
+                                        );
+                                        view.render();
                                     }
                                 } catch (e) {
                                     console.log(data);

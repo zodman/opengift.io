@@ -1653,7 +1653,7 @@ div.task-details {background: none repeat scroll 0 0 #f0f0f0;
     right: 0px;
     top: 48px;
     width: 400px;
-    z-index: 10;
+    z-index: 100000;
 	border-left:1px solid #ccc;}
 div.task-details h3 {margin:0 0 5px; display:block;}
 div.task-details .task-details-time-user {color:#555; font-size:12px;}
@@ -3039,9 +3039,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     padding: 0;
     margin: 0;
 }
-.kanban .task-status.revision {background:#ac05a6;}
-.kanban .task-status.ready {background:#47a447;}
-.kanban .task-status.not_approved {background:#999;}
+.kanban .task-status[rel=revision] {background:#ac05a6;}
+.kanban .task-status[rel=ready] {background:#47a447;}
+.kanban .task-status[rel=not_approved] {background:#999;}
 .kanban .task-status.overdue {background:#c00f00;}
 
 .kanban .ui-resizable-handle {
