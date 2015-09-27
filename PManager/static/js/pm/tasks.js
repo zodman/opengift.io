@@ -511,7 +511,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             var avatar = this.$el.find('.js-avatar-container');
             if (avatar.get(0) && this.model.get('avatar')) {
-                console.log(avatar);
                 avatar.empty().attr('rel', JSON.stringify(this.model.get('avatar')));
                 $.updateAvatar(
                     avatar,
@@ -701,17 +700,20 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'responsibleMenuActive': false,
 		'showResponsibleArrow': function (userList) {
-			var linkLeftPos = getObjectCenterPos('.js-select_resp').left;
-			console.log(linkLeftPos);
+			var linkLeftPos = getObjectCenterPos(this.$('.js-select_resp')).left;
+
 			var popupLeftPos = getObjectCenterPos(userList).left;
 			var arrowPos = linkLeftPos - popupLeftPos;
 			userList.find('.add-user-popup-top-arrow').css('left', arrowPos + 20); // approximately third letter of responsible name
 		},
 		'responsibleMenuPosition': function (userList) {
-			var position = getObjectCenterPos(this.$('.js_task_responsibles .dropdown'));
+			var position = getObjectCenterPos(this.$('.js-select_resp')),
+                left = position.left - 320 > 0 ? position.left - 320 : 0;
 			userList.css({
 				'position': 'absolute',
-				'top': (position.top + position.height + 5)
+				'top': (position.top + position.height + 5),
+                'left': left,
+                'right': 'auto'
 			});
 		},
 		'fillEffectivelyProgress': function (userLink, taskId) {

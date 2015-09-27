@@ -60,8 +60,7 @@
     };
 }( jQuery ));
 
-
-$(document).ready(function(){
+$(function(){
     $('.avatar_container').each(function(){
         $.updateAvatar(this, {'size': $(this).data('size') || 40});
     })
