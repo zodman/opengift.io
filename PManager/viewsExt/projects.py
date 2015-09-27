@@ -231,7 +231,7 @@ def parseSettingsFromPost(project, request):
         for k, v in request.POST.iteritems():
             if k.find('settings_') > -1:
                 k = k.replace('settings_', '')
-                settings[k] = v
+                settings[k] = False if v == 'N' else v
 
         project.setSettings(settings)
 
