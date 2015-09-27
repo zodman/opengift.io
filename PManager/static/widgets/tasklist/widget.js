@@ -670,6 +670,7 @@ var widget_tl, currentGroup;
                 return this.TL_Search(params, true);
             },
             'TL_Search': function (params, silent) {
+                currentGroup = false;
                 if (!$('.show-more').pushed() && !silent) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
 
