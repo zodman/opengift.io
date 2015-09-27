@@ -215,6 +215,16 @@
                 activeTab.tab('show');
             }
         }
+
+        $('form').submit(function(){
+            $(this).find('[type=checkbox]').each(function() {
+                if ($(this).attr('name').find('settings_') > -1) {
+                    if (!$(this).is(':checked')) {
+                        $(this).replaceWith('<input type=hidden name='+$(this).attr('name')+' value=0 />');
+                    }
+                }
+            });
+        });
     });
 </script>
 {% endblock %}
