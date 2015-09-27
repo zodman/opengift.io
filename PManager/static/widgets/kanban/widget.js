@@ -9,7 +9,7 @@ $(function () {
             if (typeof todayTasks != typeof {}) {
                 todayTasks = {}
             }
-            return todayTasks[projectId]
+            return todayTasks[projectId] || []
         } catch (e) {
             return [];
         }
