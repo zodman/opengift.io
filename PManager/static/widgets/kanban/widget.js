@@ -120,6 +120,7 @@ $(function () {
             var t = this;
             baseConnector.addListener('fs.task.update', function (data) {
                 if (data && data.id) {
+                    console.log(data);
                     if (t.taskViews[data.id]) {
                         var view = t.taskViews[data.id];
                         if (data['status'] == 'revision' && view.model.get('status') == 'ready') {
