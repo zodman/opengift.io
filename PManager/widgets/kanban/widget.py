@@ -19,27 +19,6 @@ def flush_transaction():
 def multiply(position, width, *args, **kwargs):
     return position * width
 
-
-@register.inclusion_tag('kanban/templates/task.html')
-def show_micro_task(task):
-    avatar = False
-    if not task:
-        return False
-    if task.resp:
-        avatar = task.resp.get_profile().avatar_rel
-        avatar['size'] = 30
-
-    return {
-        'id': task.id,
-        'name': task.name if task.name else '',
-        'url': task.url,
-        'status': task.kanbanStatus,
-        'executor': json.dumps(avatar) if avatar else '',
-        'executor_id': task.resp.id if task.resp else '',
-        'deadline': task.deadline if task.deadline else '',
-        'status_is_color': task.status_is_color,
-    }
-
 def widget(request, headerValues, widgetParams={}, qArgs=[]):
     flush_transaction()
     widgetManager = TaskWidgetManager()

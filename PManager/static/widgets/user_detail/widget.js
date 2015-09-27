@@ -266,13 +266,6 @@ $(function () {
 
     document.mainController.widgetsData["user_detail"] = widget_ud;
 
-//    $('.TabsMenu li').click(
-//        function () {
-//            $(this).addClass('Active').siblings().removeClass('Active');
-//            $('.TabsHolder .Block').removeClass('visible').filter('.' + $(this).attr('data-block')).addClass('visible');
-//            return false;
-//        }
-//    );
     $('#myTab a').bind(function (e) {
         e.preventDefault();
         $(this).tab('show');
@@ -316,10 +309,10 @@ function dashboard(id, fData) {
 				data : datasets[1]
 			},
             {
-				fillColor : "rgba(205,151,187,0.5)",
-				strokeColor : "rgba(205,151,187,0.8)",
-				highlightFill : "rgba(205,151,187,0.75)",
-				highlightStroke : "rgba(205,151,187,1)",
+				fillColor : "rgba(215, 185, 180,0.5)",
+				strokeColor : "rgba(215, 185, 180,0.8)",
+				highlightFill : "rgba(215, 185, 180,0.75)",
+				highlightStroke : "rgba(215, 185, 180,1)",
 				data : datasets[2]
 			}
 		]
