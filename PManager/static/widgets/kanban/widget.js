@@ -137,7 +137,9 @@ $(function () {
                         }
                         view.render();
                         var $column = view.$el.parent();
-
+                        console.log(data);
+                        console.log($column.data('prop'));
+                        console.log($column.attr('rel'));
                         if (data[$column.data('prop')] && $column.attr('rel') != data[$column.data('prop')]) {
                             t.$columns.each(function() {
                                 if ($(this).attr('rel') == data[$column.data('prop')]) {
