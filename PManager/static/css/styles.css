@@ -3039,9 +3039,9 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     padding: 0;
     margin: 0;
 }
-.kanban .task-status.revision {background:#ac05a6;}
-.kanban .task-status.ready {background:#47a447;}
-.kanban .task-status.not_approved {background:#999;}
+.kanban .task-status[rel=revision] {background:#ac05a6;}
+.kanban .task-status[rel=ready] {background:#47a447;}
+.kanban .task-status[rel=not_approved] {background:#999;}
 .kanban .task-status.overdue {background:#c00f00;}
 
 .kanban .ui-resizable-handle {
