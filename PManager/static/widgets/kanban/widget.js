@@ -273,6 +273,7 @@ $(function () {
                         t.addTaskRow(taskData);
                     }
                     t.initToday();
+                    t.initAsync();
                 },
                 'json'
             )
