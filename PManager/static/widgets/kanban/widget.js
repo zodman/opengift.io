@@ -61,6 +61,10 @@ $(function () {
             }
             setTodayTasks(project, todayTasks)
         }
+        view.model.set(
+            $column.data('prop'),
+            $column.attr('rel')
+        );
         if (!silent)
             taskManager.SetTaskProperty(
                 view.model.id,
