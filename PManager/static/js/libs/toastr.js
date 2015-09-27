@@ -173,7 +173,7 @@
                         error: 'toast-error',
                         info: 'toast-info',
                         success: 'toast-success',
-                        warning: 'toast-warning'
+                        warning: 'toast-error'
                     },
                     iconClass: 'toast-info',
                     positionClass: 'toast-bottom-right',
