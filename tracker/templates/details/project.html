@@ -216,9 +216,11 @@
             }
         }
 
+
+        //TODO: исправить отправку снятых чекбоксов в проекте вместо этого блока
         $('form').submit(function(){
             $(this).find('[type=checkbox]').each(function() {
-                if ($(this).attr('name').find('settings_') > -1) {
+                if ($(this).attr('name').indexOf('settings_') > -1) {
                     if (!$(this).is(':checked')) {
                         $(this).replaceWith('<input type=hidden name='+$(this).attr('name')+' value=0 />');
                     }
