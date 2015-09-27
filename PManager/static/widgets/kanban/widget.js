@@ -37,8 +37,13 @@ $(function () {
 
     var addTaskToColumn = function(view, $column, $dummyBlock) {
         var project = $column.data('project');
-        view.$el.insertBefore($dummyBlock);
-        $dummyBlock.remove();
+        if ($dummyBlock) {
+            view.$el.insertBefore($dummyBlock);
+            $dummyBlock.remove();
+        } else {
+            view.$el.appendTo($column);
+        }
+
         view.model.set(
             $column.data('prop'),
             $column.attr('rel')
@@ -109,8 +114,36 @@ $(function () {
             this.$columns = this.element.find('.js-tasks-column');
             this.$dummyBlock = $('<div></div>').addClass('task-kanban-dummy');
             this.getTasksFromServer();
-
             this.initDND();
+        },
+        'initAsync': function() {
+            var t = this;
+            baseConnector.addListener('fs.task.update', function (data) {
+                if (data && data.id) {
+                    if (t.taskViews[data.id]) {
+                        var view = t.taskViews[data.id];
+                        for (var i in data) {
+                            if (i == 'viewedOnly') {
+                                if (data[i] != document.mainController.userId) {
+                                    view.model.set('viewed', false);
+                                }
+                            }
+                            if (i != 'id') {
+                                view.model.set(i, data[i]);
+                            }
+                        }
+                        view.render();
+                        var $column = view.$el.parent();
+                        if (data[$column.data('prop')] && $column.attr('rel') != data[$column.data('prop')]) {
+                            t.$columns.each(function() {
+                                if ($(this).attr('rel') == data[$column.data('prop')]) {
+                                    addTaskToColumn(view, $(this));
+                                }
+                            });
+                        }
+                    }
+                }
+            });
         },
         initToday: function() {
             var t = this, i, view;
