@@ -1653,7 +1653,7 @@ div.task-details {background: none repeat scroll 0 0 #f0f0f0;
     right: 0px;
     top: 48px;
     width: 400px;
-    z-index: 10;
+    z-index: 100000;
 	border-left:1px solid #ccc;}
 div.task-details h3 {margin:0 0 5px; display:block;}
 div.task-details .task-details-time-user {color:#555; font-size:12px;}
