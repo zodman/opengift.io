@@ -255,11 +255,8 @@
      aria-hidden="true">
     <div class="modal-dialog projects-popup">
         <div class="modal-content green-popup">
-            <span class="close-icon"><i class="fa fa-times"
-                                        onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();"></i></span>
-
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <button type="button" class="close" onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();" data-dismiss="modal" aria-hidden="true">×</button>
                 <h2 class="modal-title">Ваши проекты</h2>
             </div>
             <div class="modal-body clearfix">
