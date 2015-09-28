@@ -3044,9 +3044,11 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .task-card .executor {
     position: absolute;
-    bottom:10px;
+    top:10px;
     left:10px;
     width: 50px;
+    height: 50px;
+    overflow: hidden;
 }
 .kanban .tasks-header {
 	color: #fff;
