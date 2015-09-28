@@ -71,7 +71,7 @@ h1, h2, h3, h4, h5, h6,
 	font-style: normal;
 }
 
-.loginPage-logoBig {margin:30px 20%; }
+.loginPage-logoBig {margin:30px 20% 10px 20%; }
 .loginPage-helloText{ font-family: 'pt_sansregular'; }
 .loginPage-loginBlock {}
 .loginPage-loginBlock input {height:35px; width:205px; display:block; float:left;}
