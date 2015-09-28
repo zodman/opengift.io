@@ -514,7 +514,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 avatar.empty().attr('rel', JSON.stringify(this.model.get('avatar')));
                 $.updateAvatar(
                     avatar,
-                    { size: 30 }
+                    { size: avatar.data('size') || 30 }
                 );
             }
 
