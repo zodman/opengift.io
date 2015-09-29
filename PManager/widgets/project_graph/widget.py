@@ -29,7 +29,7 @@ def widget(request, headerValues, ar, qargs):
     aBetTypes = PM_ProjectRoles.type_choices
 
     roles = []
-    realtime = 0
+    realtime, plantime = 0, 0
     isEmployee = False
     closestMilestone = None
 
@@ -45,9 +45,10 @@ def widget(request, headerValues, ar, qargs):
 
             roles.append(role)
 
-        tasks = PM_Task.objects.filter(project=current_project).aggregate(Sum('planTime'))
-        realtime = PM_Timer.objects.filter(task__project=current_project).aggregate(Sum('seconds'))
-        realtime = (realtime['seconds__sum'] or 0) * 100 / tasks['planTime__sum'] if tasks['planTime__sum'] else 0
+        tasks = PM_Task.objects.filter(project=current_project, closed=False).aggregate(Sum('planTime'))
+        realtime = PM_Timer.objects.filter(task__project=current_project, task__closed=False).aggregate(Sum('seconds'))
+        realtime = realtime['seconds__sum'] or 0
+        plantime = tasks['planTime__sum'] or 0
 
         # CLOSEST MILESTONE
         closestMilestone = PM_Milestone.objects.filter(
@@ -128,7 +129,8 @@ def widget(request, headerValues, ar, qargs):
         'roles': roles,
         'isEmployee': isEmployee,
         'premiumTill': profile.premium_till if request.user.is_staff else '',
-        'realTime': realtime,
+        'allOpenRealTime': round(realtime/3600.0, 2),
+        'allOpenPlanTime': plantime,
         'taskTagCoefficient': taskTagCoefficient,
         'taskTagPosition': taskTagPosition,
         'closestMilestone': closestMilestone,
