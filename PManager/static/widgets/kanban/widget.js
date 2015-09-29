@@ -130,7 +130,12 @@ $(function () {
                     console.log(data);
                     if (t.taskViews[data.id]) {
                         var view = t.taskViews[data.id];
-                        if (data['status'] == 'revision' && ($.inArray(view.model.get('status'), ['ready', 'today']) > -1)) {
+                        if (data['status'] == 'revision' &&
+                            ($.inArray(view.model.get('status'), ['ready', 'today']) > -1) &&
+
+                            view.model.get('resp') && view.model.get('resp')[0] &&
+                            document.mainController.userId == view.model.get('resp')[0]['id']
+                            ) {
                             data['status'] = 'today';
                         }
                         for (var i in data) {
@@ -145,9 +150,7 @@ $(function () {
                         }
                         view.render();
                         var $column = view.$el.parent();
-                        console.log(data);
-                        console.log($column.data('prop'));
-                        console.log($column.attr('rel'));
+
                         if (data[$column.data('prop')] && $column.attr('rel') != data[$column.data('prop')]) {
                             t.$columns.each(function() {
                                 if ($(this).attr('rel') == data[$column.data('prop')]) {
