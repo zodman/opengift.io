@@ -666,7 +666,8 @@ var widget_tl, currentGroup;
                 return this;
             },
             'TL_SilentSearch': function (params) {
-                $('.show-more').hide();
+                if (!params.parent)
+                    $('.show-more').hide();
                 return this.TL_Search(params, true);
             },
             'TL_Search': function (params, silent) {
