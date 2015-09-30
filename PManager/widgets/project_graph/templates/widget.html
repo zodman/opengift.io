@@ -6,14 +6,15 @@
     }
 </style>
 <script>
-    $(function() {
-        $('.js-select-role').click(function(){
+    $(function () {
+        $('.js-select-role').click(function () {
             if (!$(this).is('.active')) {
                 $(this).addClass('active').siblings('.js-select-role').removeClass('active');
-                $('.js-role').filter('[data-role='+$(this).data('role')+']').show().siblings('.js-role').hide();
+                $('.js-role').filter('[data-role=' + $(this).data('role') + ']').show().siblings('.js-role').hide();
             }
+            $('.js-graph-'+$(this).data('role')).show().siblings().hide();
         });
-        $('.js-change-role').click(function(){
+        $('.js-change-role').click(function () {
             var $next = $('.js-select-role.active').next('.js-select-role');
             var $first = $('.js-select-role').not('.active').eq(0);
             if ($next.get(0)) {
@@ -23,94 +24,119 @@
             }
             return false;
         });
+        $('.js-graph-'+$('.js-select-role.active').data('role')).show().siblings().hide();
     })
 </script>
 <div class="row project_graph">
     {% if project_graph.roles %}
-    <div class="col-sm-3">
-        <div class="well hide-on-mobile">
-            <div class="role-titles">
-                {% for role in project_graph.roles %}
-                        <h5 class="{% if forloop.first %}active{% endif %} js-select-role" data-role="{{ role.role.code }}">
-                            <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: {{ role.role.name }}
-                        </h5>
-                {% endfor %}
-                {% if project_graph.roles|length > 1 %}
-                    <a href="#" class="js-change-role"><i class="fa fa-chevron-right"></i> </a>
-                {% endif %}
-            </div>
-            {% for role in project_graph.roles %}
-                <div class="role-{{ role.role.code }} js-role" data-role="{{ role.role.code }}" {% if not forloop.first %}style="display: none;" {% endif %}>
-
-                    <div class="role-content">
-                        <div class="role-content-tab">
-                            <strong>Цена часа:</strong> &nbsp;<span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
-                             {% if role.rate and project_graph.rating != 0 %}
-                                <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
-                                +{% endif %}{{ project_graph.rating }}
-                                </span>
-                             {% else %}&nbsp;
-                             {% endif %}
-                            </span>
-                            <br /><span style="text-transform: lowercase;margin-top: 3px;display: inline-block;">{{ role.bet_type_name }}</span> <a href="/wiki/bonuses">?</a>
+        <div class="col-sm-6">
+            <div class="well hide-on-mobile">
+                <div class="row">
+                    <div class="col-xs-6">
+                        <div class="role-titles">
+                            {% for role in project_graph.roles %}
+                                <h5 class="{% if forloop.first %}active{% endif %} js-select-role"
+                                    data-role="{{ role.role.code }}">
+                                    <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: {{ role.role.name }}
+                                </h5>
+                            {% endfor %}
+                            {% if project_graph.roles|length > 1 %}
+                                <a href="#" class="js-change-role"><i class="fa fa-chevron-right"></i> </a>
+                            {% endif %}
                         </div>
-                    </div>
-                </div>
-            {% endfor %}
-        </div>
-    </div>
-    {% endif %}
-    <div class="col-sm-{% if project_graph.roles %}9{% else %}12{% endif %}">
-        <div class="well hide-on-mobile" style="border-left-color: #fe781e;">
-            <div class="row">
-                    <div class="col-xs-2" >
-                        <h5>Счет <a href="/wiki/bonuses">?</a></h5>
-                        <span style="white-space: nowrap;"><strong>Всего:</strong> <b style="color:#fe781e;font-size:18px;">{{ project_graph.allPrice|intcomma }}</b></span><br>
-                        <span style="white-space: nowrap;"><strong>По проекту:</strong> <b style="color:#fe781e;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
+                        {% for role in project_graph.roles %}
+                            <div class="role-{{ role.role.code }} js-role" data-role="{{ role.role.code }}"
+                                 {% if not forloop.first %}style="display: none;" {% endif %}>
+
+                                <div class="role-content">
+                                    <div class="role-content-tab">
+                                        <strong>Цена часа:</strong> &nbsp;<span
+                                            class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                                        {% if role.rate and project_graph.rating != 0 %}
+                                            <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
+                                                +{% endif %}{{ project_graph.rating }}
+                                    </span>
+                                        {% else %}&nbsp;
+                                        {% endif %}
+                                </span>
+                                        <br/><span
+                                            style="text-transform: lowercase;margin-top: 3px;display: inline-block;">{{ role.bet_type_name }}</span>
+                                        <a href="/wiki/bonuses">?</a>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
                     </div>
 
-                    <div class="col-xs-7" style="border-left: 1px solid #efefef;">
-                        {% if project_graph.closestMilestone %}
-                            <h5>Ближайшая цель</h5>
-                            <b style="color:#{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}fe781e{% endif %};">{{ project_graph.closestMilestone.name }}</b> до <b style="color:#{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}fe781e{% endif %};">{{ project_graph.closestMilestone.date|date:"d.m.Y" }}</b>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="{{ project_graph.closestMilestone.taskClosedPercent }}" aria-valuemin="0"
-                                     aria-valuemax="100" style="width: {{ project_graph.closestMilestone.taskClosedPercent }}%;
-                                        background-color: #{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}5cb85c{% endif %};">
-                                    <span class="sr-only">{{ project_graph.closestMilestone.taskClosedPercent }}% Complete</span>
-                                </div>
-                            </div>
-                        {% else %}
-                            <h5>Прогресс</h5>
-                            Закрыто задач: <b style="color:#fe781e;">{{ project_graph.closedTasksQty }}</b> из <b style="color:#fe781e;">{{ project_graph.tasksQty }}</b>
-                            <div class="progress">
-                                <div class="progress-bar progress-bar-info" role="progressbar"
-                                     aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
-                                     aria-valuemax="100" style="width: {{ project_graph.taskClosedPercent }}%;background-color: #5cb85c;">
-                                    <span class="sr-only">{{ project_graph.taskClosedPercent }}% Complete</span>
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="col-xs-3" style="border-left: 1px solid #efefef;">
-                        {% if project_graph.roles and project_graph.isEmployee %}
+                <div class="col-xs-6" style="border-left: 1px solid #efefef;">
+                    {% if project_graph.roles and project_graph.isEmployee %}
+                        <div class="js-graph-employee">
                             <h5>Рейтинг специалиста</h5>
                             Закрыто задач всего: <b style="color:#fe781e;">{{ project_graph.allTaskQty }}</b><br>
-                            Компетентность: <b style="color:#fe781e;">{{ project_graph.taskTagCoefficient }}</b> ( <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b>-й )
-                        {% else %}
-                            <h5>Время открытых задач</h5>
-                            <table width="100%;">
-                                <tr><td><strong>Реальное</strong></td><td><strong>Плановое</strong></td></tr>
-                                <tr>
-                                    <td><b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#d9534f{% else %}#fe781e;{% endif %}">{{ project_graph.allOpenRealTime }} ч.</b></td>
-                                    <td><b style="color:#fe781e;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
-                                </tr>
-                            </table>
-                            </div>
-                        {% endif %}
+                            Компетентность: <b style="color:#fe781e;">{{ project_graph.taskTagCoefficient }}</b> (
+                            <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b>-й )
+                        </div>
+                    {% endif %}
+                    <div class="js-graph-manager">
+                        <h5>Время открытых задач</h5>
+                        <table width="100%;">
+                            <tr>
+                                <td><strong>Реальное</strong></td>
+                                <td><strong>Плановое</strong></td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#d9534f{% else %}#fe781e;{% endif %}">{{ project_graph.allOpenRealTime }}
+                                        ч.</b></td>
+                                <td><b style="color:#fe781e;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
+                            </tr>
+                        </table>
                     </div>
-                    <div class="clr"></div>
+                </div>
+            </div>
+        </div>
+        </div>
+    {% endif %}
+    <div class="col-sm-{% if project_graph.roles %}6{% else %}12{% endif %}">
+        <div class="well hide-on-mobile" style="border-left-color: #fe781e;">
+            <div class="row">
+                <div class="col-xs-4">
+                    <h5>Счет <a href="/wiki/bonuses">?</a></h5>
+                    <span style="white-space: nowrap;"><strong>Всего:</strong> <b
+                            style="color:#fe781e;font-size:18px;">{{ project_graph.allPrice|intcomma }}</b></span><br>
+                    <span style="white-space: nowrap;"><strong>По проекту:</strong> <b
+                            style="color:#fe781e;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
+                </div>
+
+                <div class="col-xs-8" style="border-left: 1px solid #efefef;">
+                    {% if project_graph.closestMilestone %}
+                        <h5>Ближайшая цель</h5>
+                        <b style="color:#{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}fe781e{% endif %};">{{ project_graph.closestMilestone.name }}</b>
+                        до
+                        <b style="color:#{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}fe781e{% endif %};">{{ project_graph.closestMilestone.date|date:"d.m.Y" }}</b>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                 aria-valuenow="{{ project_graph.closestMilestone.taskClosedPercent }}" aria-valuemin="0"
+                                 aria-valuemax="100" style="width: {{ project_graph.closestMilestone.taskClosedPercent }}%;
+                                    background-color: #{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}5cb85c{% endif %};">
+                                <span class="sr-only">{{ project_graph.closestMilestone.taskClosedPercent }}% Complete</span>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h5>Прогресс</h5>
+                        Закрыто задач: <b style="color:#fe781e;">{{ project_graph.closedTasksQty }}</b> из
+                        <b style="color:#fe781e;">{{ project_graph.tasksQty }}</b>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                 aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
+                                 aria-valuemax="100"
+                                 style="width: {{ project_graph.taskClosedPercent }}%;background-color: #5cb85c;">
+                                <span class="sr-only">{{ project_graph.taskClosedPercent }}% Complete</span>
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+                <div class="clr"></div>
             </div>
         </div>
     </div>
