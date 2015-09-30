@@ -147,7 +147,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
                                                 {% for resp_user in tasklist.users %}
-                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{% if resp_user.last_name %}{{ resp_user.last_name }} {{ resp_user.first_name }}{% else %}{{ resp_user.username }}{% endif %}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
@@ -156,7 +156,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
                                                 {% for resp_user in tasklist.users %}
-                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{% if resp_user.last_name %}{{ resp_user.last_name }} {{ resp_user.first_name }}{% else %}{{ resp_user.username }}{% endif %}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
@@ -165,7 +165,7 @@
                                             <ul class="dropdown-menu">
                                                 <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
                                                 {% for resp_user in tasklist.users %}
-                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</a></li>
+                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">{% if resp_user.last_name %}{{ resp_user.last_name }} {{ resp_user.first_name }}{% else %}{{ resp_user.username }}{% endif %}</a></li>
                                                 {% endfor %}
                                             </ul>
                                         </li>
