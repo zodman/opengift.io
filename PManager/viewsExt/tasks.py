@@ -636,11 +636,10 @@ class taskManagerCreator:
         self.task.systemMessage(u'Задача создана', self.currentUser, 'TASK_CREATE')
         settings = self.task.project.getSettings()
         if not settings.get('start_unapproved', False):
-            self.task.status = PM_Task_Status.objects.get(code='not_approved')
+            self.task.setStatus('not_approved')
         else:
-            self.task.status = PM_Task_Status.objects.get(code='revision')
+            self.task.setStatus('revision')
 
-        self.task.save()
         return self.task
 
     def stopUserTimersAndPlayNew(self):

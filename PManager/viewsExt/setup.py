@@ -55,6 +55,7 @@ def register(request):
 
             task = PM_Task.createByString(u'Ознакомиться с сервисом контроля удаленной работы Heliard', user, None, None, project=project)
             task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
+            task.setStatus('revision')
 
             return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')
 
