@@ -36,7 +36,7 @@ def register(request):
 
             project.save()
 
-            user = PM_User.getOrCreateByEmail(email, project, 'client')
+            user = PM_User.getOrCreateByEmail(email, project, 'manager')
             user.is_staff = True
 
             user.save()
@@ -46,7 +46,7 @@ def register(request):
             request.COOKIES["CURRENT_PROJECT"] = project.id
 
             prof = user.get_profile()
-            prof.setRole('manager', project)
+            # prof.setRole('manager', project)
             # prof.setRole('client', project, 'plan_time')
             # prof.sp_price = 1500
             # prof.account_total = 0
