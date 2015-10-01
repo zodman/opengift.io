@@ -72,9 +72,9 @@
                     {% if project_graph.roles and project_graph.isEmployee %}
                         <div class="js-graph-employee">
                             <h5>Рейтинг специалиста</h5>
-                            Закрыто задач всего: <b style="color:#fe781e;">{{ project_graph.allTaskQty }}</b><br>
+                            Закрыто задач всего: <b style="color:#5cb85c;">{{ project_graph.allTaskQty }}</b><br>
                             Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
-                            <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b>-й )
+                            <b style="color:#5cb85c;">{{ project_graph.taskTagPosition }}</b>-е место )
                         </div>
                     {% endif %}
                     <div class="js-graph-manager">
@@ -124,7 +124,7 @@
                         </div>
                     {% else %}
                         <h5>Прогресс</h5>
-                        Закрыто задач: <b style="color:#fe781e;">{{ project_graph.closedTasksQty }}</b> из
+                        Закрыто задач: <b style="color:#5cb85c;">{{ project_graph.closedTasksQty }}</b> из
                         <b style="color:#999;">{{ project_graph.tasksQty }}</b>
                         <div class="progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
