@@ -901,6 +901,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 				obj.model.set('status', data.status);
 				obj.model.set('loader', false);
 				if (data.closed) {
+                    $(window).trigger('task_closed', [data]);
 					obj.render();
 				} else {
 					obj.checkModel(function () {
