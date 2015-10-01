@@ -73,7 +73,7 @@
                         <div class="js-graph-employee">
                             <h5>Рейтинг специалиста</h5>
                             Закрыто задач всего: <b style="color:#fe781e;">{{ project_graph.allTaskQty }}</b><br>
-                            Компетентность: <b style="color:#fe781e;">{{ project_graph.taskTagCoefficient }}</b> (
+                            Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
                             <b style="color:#fe781e;">{{ project_graph.taskTagPosition }}</b>-й )
                         </div>
                     {% endif %}
@@ -86,9 +86,9 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#d9534f{% else %}#fe781e;{% endif %}">{{ project_graph.allOpenRealTime }}
+                                    <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#fe781e;{% endif %}">{{ project_graph.allOpenRealTime }}
                                         ч.</b></td>
-                                <td><b style="color:#fe781e;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
+                                <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
                             </tr>
                         </table>
                     </div>
@@ -102,10 +102,10 @@
             <div class="row">
                 <div class="col-xs-4">
                     <h5>Счет <a href="/wiki/bonuses">?</a></h5>
-                    <span style="white-space: nowrap;"><strong>Всего:</strong> <b
-                            style="color:#fe781e;font-size:18px;">{{ project_graph.allPrice|intcomma }}</b></span><br>
-                    <span style="white-space: nowrap;"><strong>По проекту:</strong> <b
-                            style="color:#fe781e;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
+                    <span style="white-space: nowrap;"><strong>Всего:&nbsp;</strong> <b
+                            style="color:#fe781e;">{{ project_graph.allPrice|intcomma }}</b></span><br>
+                    <span style="white-space: nowrap;"><strong>По проекту:&nbsp;</strong> <b
+                            style="font-size:13px;color: #999;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
                 </div>
 
                 <div class="col-xs-8" style="border-left: 1px solid #efefef;">
@@ -125,7 +125,7 @@
                     {% else %}
                         <h5>Прогресс</h5>
                         Закрыто задач: <b style="color:#fe781e;">{{ project_graph.closedTasksQty }}</b> из
-                        <b style="color:#fe781e;">{{ project_graph.tasksQty }}</b>
+                        <b style="color:#999;">{{ project_graph.tasksQty }}</b>
                         <div class="progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
                                  aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
