@@ -637,7 +637,10 @@ class taskManagerCreator:
         settings = self.task.project.getSettings()
         if not settings.get('start_unapproved', False):
             self.task.status = PM_Task_Status.objects.get(code='not_approved')
-            self.task.save()
+        else:
+            self.task.status = PM_Task_Status.objects.get(code='revision')
+
+        self.task.save()
         return self.task
 
     def stopUserTimersAndPlayNew(self):
