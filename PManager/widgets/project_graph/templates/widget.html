@@ -25,6 +25,14 @@
             return false;
         });
         $('.js-graph-'+$('.js-select-role.active').data('role')).show().siblings().hide();
+        $(window).on('task_closed', function(taskInfo) {
+            var $tClosed = $('.js-project-graph-tasks-closed'),
+                $tAll = $('.js-project-graph-tasks-all'),
+                $progress = $('.js-closed-tasks-progress');
+
+            $tClosed.text(parseInt($tClosed.text()) + 1);
+            $progress.css('width', Math.round(parseInt($tClosed.text()) * 100 / parseInt($tAll.text())) + '%');
+        });
     })
 </script>
 <div class="row project_graph">
@@ -124,10 +132,10 @@
                         </div>
                     {% else %}
                         <h5>Прогресс</h5>
-                        Закрыто задач: <b style="color:#5cb85c;">{{ project_graph.closedTasksQty }}</b> из
-                        <b style="color:#999;">{{ project_graph.tasksQty }}</b>
+                        Закрыто задач: <b style="color:#5cb85c;" class="js-project-graph-tasks-closed">{{ project_graph.closedTasksQty }}</b> из
+                        <b style="color:#999;" class="js-project-graph-tasks-all">{{ project_graph.tasksQty }}</b>
                         <div class="progress">
-                            <div class="progress-bar progress-bar-info" role="progressbar"
+                            <div class="progress-bar progress-bar-info js-closed-tasks-progress" role="progressbar"
                                  aria-valuenow="{{ project_graph.taskClosedPercent }}" aria-valuemin="0"
                                  aria-valuemax="100"
                                  style="width: {{ project_graph.taskClosedPercent }}%;background-color: #5cb85c;">
