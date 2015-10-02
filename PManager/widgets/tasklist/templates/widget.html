@@ -110,11 +110,7 @@
 
 {% endif %}
 {% if not tasklist.tasks %}
-{% if tasklist.project and not tasklist.isInvite %}
-    <div class="js-new-first-task"><br />
-    <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
-    </div>
-{% elif not tasklist.project %}
+{% if not tasklist.project %}
     <p>Чтобы создать задачу, выберите проект в левом верхнем углу экрана.</p>
 {% endif %}
 {% endif %}
@@ -261,7 +257,13 @@
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         taskRespSummary = {}
         </script>
-
+{% if not tasklist.tasks %}
+{% if tasklist.project and not tasklist.isInvite %}
+    <div class="js-new-first-task"><br />
+    <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
+    </div>
+{% endif %}
+{% endif %}
         <div class="js-tasks">
         	
         </div>
