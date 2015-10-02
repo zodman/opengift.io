@@ -629,7 +629,7 @@ class PM_Task(models.Model):
                         price = curTime * bet
                         credit = Credit(
                             payer=client.user,
-                            value=-price,
+                            value=price,
                             project=self.project,
                             task=self,
                             type='Client with bet'

@@ -128,8 +128,8 @@ def widget(request, headerValues, ar, qargs):
 
                     projPrice = 0
                     for o in Credit.objects.raw(
-                            'SELECT SUM(`value`) as summ, id, user_id, project_id from PManager_credit' +
-                            ' WHERE `user_id`=' + str(int(user.id)) +
+                            'SELECT sum(CASE WHEN user_id=' + str(user.id) + ' THEN value ELSE -value END) as summ, id, user_id, project_id from PManager_credit' +
+                            ' WHERE (`user_id`=' + str(int(user.id)) + ' or `payer_id`=' + str(int(user.id)) + ')'
                             ' AND `project_id`=' + str(int(project.id))
                         ):
 
@@ -139,7 +139,10 @@ def widget(request, headerValues, ar, qargs):
 
                     arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
 
-                paymentsAndCredits = Credit.objects.filter(user=user, project__in=projectsForPaymentsId).order_by('-date')
+                pAc = Credit.objects.filter(Q(Q(user=user) | Q(payer=user)), project__in=projectsForPaymentsId).order_by('-date')
+                for credit in pAc:
+                    setattr(credit, 'value', credit.value if credit.user and credit.user.id == user.id else -credit.value)
+                    paymentsAndCredits.append(credit)
 
             setattr(profile, 'sp', {
                 'summ': sum,
