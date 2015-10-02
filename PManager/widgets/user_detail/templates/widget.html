@@ -328,7 +328,7 @@
 	                                  <td>{{ payment.date }}</td>
 	                                  <td>{{ payment.value }}</td>
 		                              <td>{{ payment.project.name }}</td>
-		                              <td>{{ payment.task.name }}</td>
+		                              <td><a href="{{ payment.task.url }}">{{ payment.task.name }}</a></td>
 		                              <td>{{ payment.comment|default_if_none:'' }}</td>
 	                              </tr>
 	                          {% endfor %}
