@@ -724,7 +724,7 @@ var widget_tl, currentGroup;
                 PM_AjaxPost("/task_handler",
                     params,
                     function (data) {
-                        $('.js-new-first-task').show();
+                        $('.js-new-first-task, .js-search-block').show();
                         var data = $.parseJSON(data),
                             paginator = data.paginator,
                             tasks = data.tasks;
