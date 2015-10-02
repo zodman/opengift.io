@@ -265,10 +265,12 @@ $(function () {
     widget_ud.init();
 
     document.mainController.widgetsData["user_detail"] = widget_ud;
-
+    var hash = window.location.hash;
+    hash && $('ul.nav a[href="' + hash + '"]').tab('show');
     $('#myTab a').bind(function (e) {
         e.preventDefault();
         $(this).tab('show');
+        window.location.hash = this.hash;
         return false;
     });
     $('.js-link-tasks').click(

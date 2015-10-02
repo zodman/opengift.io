@@ -110,8 +110,8 @@
             <div class="row">
                 <div class="col-xs-4">
                     <h5>Счет <a href="/wiki/bonuses">?</a></h5>
-                    <span style="white-space: nowrap;"><strong>Всего:&nbsp;</strong> <b
-                            style="color:#fe781e;">{{ project_graph.allPrice|intcomma }}</b></span><br>
+                    <span style="white-space: nowrap;"><strong>Всего:&nbsp;</strong> <a href="/user_detail/?id={{ user.id }}#payments" style="text-decoration: none;"><b
+                            style="color:#fe781e;text-decoration: underline;">{{ project_graph.allPrice|intcomma }}</b></a></span><br>
                     <span style="white-space: nowrap;"><strong>По проекту:&nbsp;</strong> <b
                             style="font-size:13px;color: #999;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
                 </div>
