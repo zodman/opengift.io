@@ -82,7 +82,8 @@ class PM_User(models.Model):
     def account_total(self):
         qText = """
                   SELECT
-                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
+                      sum(CASE WHEN user_id=""" + str(self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
+                      or payer_id=""" + str(self.user.id) + """
               """
         cursor = connection.cursor()
 
@@ -101,7 +102,8 @@ class PM_User(models.Model):
 
         qText = """
                   SELECT
-                      sum(value) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
+                      sum(CASE WHEN user_id=""" + str(self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where (user_id=""" + str(self.user.id) + """
+                      or payer_id=""" + str(self.user.id) + """)
                       AND project_id=""" + str(project.id) + """
               """
         cursor = connection.cursor()
