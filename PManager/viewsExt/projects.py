@@ -14,13 +14,11 @@ from PManager.viewsExt.headers import set_project_in_session
 from PManager.classes.git.gitolite_manager import GitoliteManager
 import json
 
-
 class InterfaceForm(forms.ModelForm):
     class Meta:
         model = AccessInterface
         fields = ["name", "address", "port", "protocol",
                   "username", "password", "access_roles", "project"]
-
 
 def projectDetail(request, project_id):
     if not request.user.is_authenticated():
@@ -94,11 +92,7 @@ def projectDetail(request, project_id):
                 if role:
                     sum = int(request.POST.get('sum', 0))
                     comment = request.POST.get('comment', '')
-                    p = Credit(project=project, value=sum, type='payment', comment=comment)
-                    if role.role.code == 'client':
-                        p.payer = role.user
-                    else:
-                        p.user = role.user
+                    p = Credit(user=role.user, project=project, value=sum, type='payment', comment=comment)
                     p.save()
 
                     responseObj = {'result': 'payment added'}
@@ -229,7 +223,6 @@ def projectDetail(request, project_id):
     t = loader.get_template('details/project.html')
     return HttpResponse(t.render(c))
 
-
 def parseSettingsFromPost(project, request):
         settings = project.getSettings()
 
@@ -264,7 +257,6 @@ def removeInterface(request):
         interface.delete()
 
     return HttpResponse('ok')
-
 
 def checkUniqRepNameResponder(request):
     if not USE_GIT_MODULE:

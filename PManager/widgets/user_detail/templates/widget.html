@@ -130,21 +130,16 @@
                                     {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span> баллов</p>
                                 <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
 
-                                <div class="sp" style="margin-top: 10px;">На счету:
+                                <div class="sp" style="margin: 10px 0;background: #efefef;padding: 5px;">На счету:
                                     <span class="dropdown dropup">
                                         <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
-                                        {% if user_detail.bets %}
-                                        <ul class="dropdown-menu">
-                                            {% for arBet in user_detail.bets %}
-                                                {% if arBet.price %}
-                                                <li>{{ arBet.project }} —  <b>{{ arBet.price }} бонусов. ({{ arBet.bet }} бонусов./ч.)</b></li>
-                                                {% endif %}
-                                            {% endfor %}
-                                        </ul>
-                                        {% endif %}
                                         <b>баллов</b>
+                                        {% if user_detail.bets %}
+                                        <a href="#" class="js-show-bonuses" style="font-size: 16px;float: right;display: block;margin-top: 1px;"><i class="fa fa-chevron-right"></i></a>
+                                        {% endif %}
                                     </span>
                                 </div>
+                                <div class="clear"></div>
                                 {% if not user_detail.userIsEqualCurrentUser %}
                                 <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
                                 {% endif %}
@@ -152,7 +147,26 @@
                            </div>
 
                           <div class="statistic-graph-wrapper">
-                              <div class="statistic-graph"><h3>Продуктивность</h3>
+                              {% if user_detail.bets %}
+                              <div class="statistic-graph js-bonuses" style="display: none"><h3>Бонусы</h3>
+                                  <div class="list-group">
+                                    {% for arBet in user_detail.bets %}
+                                        {% if arBet.price %}
+                                        <span class="list-group-item js-pay-item">
+                                            {{ arBet.project }}: 
+                                            <b>{{ arBet.price }} (ставка: {{ arBet.bet }})</b>
+                                            <a href="#" class="js-pay"
+                                               style="float: right;"
+                                               data-project="{{ arBet.project_id }}"
+                                               data-role="{{ arBet.role_id }}"
+                                               data-sum="{{ arBet.price }}">Списать</a>
+                                            <span class="clr"></span></span>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                              </div>
+                              {% endif %}
+                              <div class="statistic-graph js-productivity"><h3>Продуктивность</h3>
 {#                                    <div id='dashboard'></div>#}
                                   <div style="width: 100%">
                                     <canvas id="dashboard" height="250" width="600"></canvas>

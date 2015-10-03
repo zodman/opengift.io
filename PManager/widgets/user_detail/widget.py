@@ -105,6 +105,8 @@ def widget(request, headerValues, ar, qargs):
             else:
                 projectsForPayment = currentUserManagedProjects
 
+            userRoles = [role for role in user.userRoles.filter(project__in=currentUserAccessProjects)]
+
             paymentsAndCredits = []
             if projectsForPayment.exists():
                 projectsForPaymentsId = []
@@ -136,8 +138,21 @@ def widget(request, headerValues, ar, qargs):
                         projPrice += o.summ if o.summ else 0
 
                     rest += projPrice
+                    curRole = None
+                    for role in userRoles:
+                        if role.project.id == project.id:
+                            curRole = role
 
-                    arUserBets.append({'project': project.name, 'price': projPrice, 'bet': projectBet})
+                    if curRole and projPrice:
+                        arUserBets.append(
+                            {
+                                'project': project.name,
+                                'price': projPrice,
+                                'bet': projectBet,
+                                'project_id': project.id,
+                                'role_id': curRole.id
+                            }
+                        )
 
                 pAc = Credit.objects.filter(Q(Q(user=user) | Q(payer=user)), project__in=projectsForPaymentsId).order_by('-date')
                 for credit in pAc:
@@ -154,7 +169,6 @@ def widget(request, headerValues, ar, qargs):
                 userKeys = Key.objects.filter(user=user.id).order_by('-id')
             else:
                 userKeys = []
-            userRoles = [role for role in user.userRoles.filter(project__in=currentUserAccessProjects)]
 
             taskTemplate = templateTools.get_task_template()
 
