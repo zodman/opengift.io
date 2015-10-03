@@ -94,8 +94,13 @@ def projectDetail(request, project_id):
                 if role:
                     sum = int(request.POST.get('sum', 0))
                     comment = request.POST.get('comment', '')
-                    p = Credit(user=role.user, project=project, value=sum, type='payment', comment=comment)
+                    p = Credit(project=project, value=sum, type='payment', comment=comment)
+                    if role.role.code == 'client':
+                        p.payer = role.user
+                    else:
+                        p.user = role.user
                     p.save()
+
                     responseObj = {'result': 'payment added'}
 
             elif action == 'change_name':

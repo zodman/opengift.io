@@ -44,6 +44,11 @@
             Скрывать сообщения клиента и исполнителя друг от друга
         </label>
     </p>
+    <p class="checkbox">
+        <label>
+            Клиент без ставки покрывает расходы + <input {% if not canEdit %}disabled="disabled" {% endif %} type="text" name="settings_client_comission" value="{{ settings.client_comission }}" /> %
+        </label>
+    </p>
     <h2>Категории задач</h2>
     <hr>
     <p class="checkbox">
