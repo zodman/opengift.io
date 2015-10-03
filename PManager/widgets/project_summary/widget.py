@@ -5,7 +5,7 @@ import datetime
 from django.db.models import Sum
 
 def widget(request, headerValues, a, b):
-    projects = request.user.get_profile().managedProjects
+    projects = request.user.get_profile().getProjects(only_managed=True)
     for project in projects:
         projectSum = 0
         for o in Credit.objects.raw(
