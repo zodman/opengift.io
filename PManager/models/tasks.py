@@ -616,26 +616,40 @@ class PM_Task(models.Model):
                     aClients.append(client)
                     cClients += 1
 
-            for client in aClients:
-                bet = client.bet
-                if bet:
-                    curTime = None
-                    if client.payment_type == 'plan_time':
-                        curTime = self.planTime * 1.0 / cClients
-                    elif client.payment_type == 'real_time':
-                        curTime = allRealTime * 1.0 / cClients
+            if cClients == 0 and clients.count() > 0 and allSum:
+                clientComission = int(self.project.getSettings().get('client_comission', 0))
+                if clientComission:
+                    clientRole = clients[0]
+                    allSum = round(allSum * (clientComission + 100) / 100, 2)
+                    credit = Credit(
+                        user=clientRole.user,
+                        value=-allSum,
+                        project=self.project,
+                        task=self,
+                        type='Client with comission'
+                    )
+                    credit.save()
+            else:
+                for client in aClients:
+                    bet = client.bet
+                    if bet:
+                        curTime = None
+                        if client.payment_type == 'plan_time':
+                            curTime = self.planTime * 1.0 / cClients
+                        elif client.payment_type == 'real_time':
+                            curTime = allRealTime * 1.0 / cClients
 
-                    if curTime:
-                        price = curTime * bet
-                        credit = Credit(
-                            payer=client.user,
-                            value=price,
-                            project=self.project,
-                            task=self,
-                            type='Client with bet'
-                        )
-                        credit.save()
-                        break
+                        if curTime:
+                            price = curTime * bet
+                            credit = Credit(
+                                user=client.user,
+                                value=-price,
+                                project=self.project,
+                                task=self,
+                                type='Client with bet'
+                            )
+                            credit.save()
+                            break
 
     def Open(self):
         self.closed = False
