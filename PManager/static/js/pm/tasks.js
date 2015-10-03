@@ -572,12 +572,11 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (!time) {
                 return this.editTask();
             }
-
+            obj.model.set('planTime', time);
+            obj.render();
 			taskManager.SetTaskProperty(this.model.id, 'planTime', time, function (data) {
-				obj.checkModel(function () {
-					obj.planTime = time;
-					obj.render();
-				}, true);
+//				obj.checkModel(function () {
+//				}, true);
 			});
 			this.$el.find('.jsPlanTimeHolder').text(
 				this.$el.find('.jsPlanTimeList a[rel="' + time + '"]').text()

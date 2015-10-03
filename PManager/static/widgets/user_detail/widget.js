@@ -267,22 +267,56 @@ $(function () {
     document.mainController.widgetsData["user_detail"] = widget_ud;
     var hash = window.location.hash;
     hash && $('ul.nav a[href="' + hash + '"]').tab('show');
+
     $('#myTab a').bind(function (e) {
         e.preventDefault();
         $(this).tab('show');
         window.location.hash = this.hash;
         return false;
     });
+
     $('.js-link-tasks').click(
         function() {
             $('.js-current-tasks').trigger('click');
         }
     );
+
     $('.js-add-project').click(
         function() {
             $('.js-tab-menu > li').removeClass('active')
         }
     );
+
+    $('.js-show-bonuses').click(function(){
+        $('.js-bonuses, .js-productivity').toggle();
+        return false;
+    });
+
+    $('.js-pay').click(function() {
+        var t = this;
+        if (confirm('Вы действительно хотите списать эту сумму?')) {
+            var data = {
+                    action: 'send_payment',
+                    role: $(t).data('role'),
+                    sum: -Math.round($(t).data('sum')),
+                    comment: ''
+                };
+            PM_AjaxPost(
+                '/project/'+$(t).data('project')+'/',
+                data,
+                function (data) {
+                    if (data['result']) {
+                        $(t).closest('.js-pay-item').remove();
+                        if (!$('.js-pay-item').get(0)) {
+                            $('.js-show-bonuses').trigger('click').remove();
+                        }
+                    }
+                },
+                'json'
+            );
+        }
+        return false;
+    });
 });
 
 function dashboard(id, fData) {
