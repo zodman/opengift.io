@@ -139,7 +139,7 @@ class sumLoanChart(Chart):
                             'text': x.task.project.name + ': ' + x.task.name
                         } if x.task else {},
                         {
-                            'text': x.date
+                            'text': templateTools.dateTime.convertToSite(x.date)
                         },
                         {
                             'text': x.value
