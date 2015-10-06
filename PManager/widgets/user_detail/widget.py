@@ -306,7 +306,7 @@ def widget(request, headerValues, ar, qargs):
                 'timeGraph': timeGraph,
                 'payments': paymentsAndCredits,
                 'competence': taskTagCoefficient,
-                'competencePlace': taskTagPosition
+                'competencePlace': taskTagPosition+100
             }
         except User.DoesNotExist:
             pass
