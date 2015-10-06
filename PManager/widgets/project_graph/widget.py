@@ -132,7 +132,7 @@ def widget(request, headerValues, ar, qargs):
         'allOpenRealTime': round(realtime/3600.0, 2),
         'allOpenPlanTime': plantime,
         'taskTagCoefficient': taskTagCoefficient,
-        'taskTagPosition': taskTagPosition,
+        'taskTagPosition': taskTagPosition+100,
         'closestMilestone': closestMilestone,
         'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0
     }

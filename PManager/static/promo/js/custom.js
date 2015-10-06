@@ -247,3 +247,323 @@ if (navigator.userAgent.match(/IEMobile\/10\.0/)) {
   );
   document.querySelector('head').appendChild(msViewportStyle)
 }
+
+$(function () {
+    $('.color-overlay').css('min-height', $(window).height());
+
+    $(document).click(function(e){
+        $('.js-select-responsible').hide();
+    });
+
+    $('.js-demo-browser-block').on('click', '.js-gear', function () {
+        $(this).find('.js-menu').toggle();
+        return false;
+    })
+            .on('click', '.js-close-task', function () {
+                $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').toggleClass('closed');
+                return false;
+            })
+            .on('click', '.js-set-task-ready', function () {
+                var $task = $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').toggleClass('ready');
+                if ($task.hasClass('ready')) {
+                    $task.find('.js-set-ready').text('На доработку');
+                } else {
+                    $task.find('.js-set-ready').text('На доработку');
+                }
+            })
+            .on('click', '.js-play', function() {
+                if ($(this).hasClass('fa-play-circle')) {
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-play-circle').addClass('fa-pause')
+                            .parent().removeClass('play').addClass('pause').end()
+                            .each(function(){$(this).closest('.js-task-block').data('timer').start()});
+                } else {
+                    $(this).add('[data-id="'+$(this).closest('.js-task-block').data('id')+'"] .js-play').removeClass('fa-pause').addClass('fa-play-circle')
+                            .parent().removeClass('pause').addClass('play').end()
+                            .each(function(){$(this).closest('.js-task-block').data('timer').stop()});
+                }
+
+                return false;
+            })
+            .on('click', '.js-select-responsible a', function() {
+                $('[data-id="' + $(this).closest('.js-task-block').data('id') + '"]').find('.js-resp-name').text($(this).text());
+                $(this).closest('.js-select-responsible').hide();
+                return false;
+            });
+
+    $(window).scroll(function () {
+        var scrollTop = $('html, body').scrollTop();
+        if (scrollTop < 560 && scrollTop > 140) {
+
+        } else {
+
+        }
+        if (scrollTop > 560 && !$('.js-task-input').data('inputed')) {
+            var type_this = "Нарисовать логотип проекта для Синичкин";
+            var index = 0;
+            $('.js-task-input').data('inputed', true);
+            $('.js-task-input').val('');
+            window.next_letter = function () {
+                if (index <= type_this.length) {
+                    $('.js-task-input:eq(0)').val(type_this.substr(0, index++)).trigger('keyup');
+                    setTimeout("next_letter()", 70);
+                } else {
+                    var userVisible = $('.js-user-list:eq(0)').find('a:visible').eq(0).addClass('active');
+                    setTimeout(function(){
+                        userVisible.trigger('click');
+                        setTimeout(function(){
+                            $('.js-task-create:eq(0)').trigger('click');
+                            setTimeout(function(){
+                                $('.js-play:eq(0)').trigger('click');
+                                setTimeout(function(){
+                                    $('.js-play.fa-pause:eq(0)').trigger('click');
+                                    setTimeout(function(){
+                                        $('.js-gear:eq(0)').trigger('click');
+                                        setTimeout(function(){
+                                            $('.js-set-ready:eq(0)').trigger('click');
+                                        }, 500)
+                                    }, 1000);
+                                }, 5000)
+                            }, 1000)
+                        }, 1000);
+                    }, 1000);
+                }
+            };
+
+            next_letter();
+        }
+    });
+    $('.js-task-create').click(function () {
+        var $inp = $(this).closest('.js-taskinput-block').find('.js-task-input');
+        var a = $inp.val().split(' для '), text = $inp.val(), resp = 'Нет ответственного';
+        if (a.length > 1) {
+            text = a[0];
+            resp = a[1].replace((new RegExp('#', 'mig')), '');
+        }
+        addTask(text, resp, '', Math.random());
+        $inp.val('');
+        return false;
+    });
+
+    $('.js-task-input').keydown(function (e) {
+        var key;
+        if (window.event) {
+            key = window.event.keyCode;
+        } else {
+            key = e.keyCode;
+        }
+        if (key == 13) {
+            $(this).closest('.js-taskinput-block').find('.js-task-create').trigger('click');
+        }
+    });
+
+    function addTask(text, resp, status, id) {
+        var $task = $('<div class="task-wrapper clearfix js-task-block ' + status + '" data-id="' + id + '">' +
+                        '    <div class="task-title">' +
+                        '        <a href="#">' + text + '</a>' +
+                        '    </div>' +
+                        '    <div class="task-info clearfix">' +
+                        '        <div class="task-info-author"><span class="js-user-name"><a href="#" class="js-resp-name" onclick="$(this).closest(\'.js-task-block\').find(\'.js-select-responsible\').toggle();event.stopPropagation();return false;">' + resp + '</a>' +
+                        '<ul class="dropdown-menu pull-right js-select-responsible"><li><a href="#">Маслов Егор</a></li><li><a href="#">Синичкин Александр</a></li><li><a href="#">Смирнов Артем</a></li></ul></span></div>' +
+                        '        <div class="task-info-timer"><a class="play"><span class="fa fa-play-circle js-play"></span></a><span class="js-timer">00:00:00</span></div>' +
+                        '        <div class="task-info-control"> <span class="fa fa-close js-close-task"></span>' +
+                        '            <span class="fa fa-gear js-gear">' +
+                        '                <ul class="dropdown-menu pull-right js-menu" style="display: none;">' +
+                        '                    <li><a href="#"><i class="fa fa-eye"></i>&nbsp;&nbsp;Наблюдаю</a></li>' +
+                        '                    <li><a href="#" class="js-set-task-ready"><i class="fa fa-check-square-o"></i>&nbsp;&nbsp;<span class="js-set-ready">На проверку</span></a></li>' +
+                        '                </ul>' +
+                        '            </span>' +
+                        '        </div>' +
+                        '    </div>' +
+                        '</div>'
+        )
+        .insertAfter($('.js-taskinput-block:eq(0)'));
+
+        $task.data('timer', (new PM_Timer({'container': $task.find('.js-timer')})));
+        $task = $task.clone()
+                .insertAfter($('.js-taskinput-block:eq(1)'));
+        $task.data('timer', (new PM_Timer({'container': $task.find('.js-timer')})));
+    }
+
+    var tasks = [
+        {
+            'text': 'Сделать выгрузку текущих бонусов в статистике по проекту в эксель',
+            'resp': 'Александр Синичкин',
+            'status': 'critically'
+        },
+        {
+            'text': 'Редизайн списка рубрик подписки. Сделать стилизованные радиобаттоны и возможность добавить новую цель как сейчас, только удобнее и красивее',
+            'resp': 'Евгений Васютин',
+            'status': ''
+        },
+        {
+            'text': 'Сделать страницу опций рассылки новостей клиентам',
+            'resp': 'Егор Маслов',
+            'status': 'ready'
+        },
+        {
+            'text': 'Оптимизация скорости',
+            'resp': 'Гоцалюк Александр',
+            'status': 'not_approved'
+        }
+    ];
+
+    var k, task;
+    for (k in tasks) {
+        task = tasks[k];
+        (function (text, resp, status, id) {
+            addTask(text, resp, status, id);
+        })(task['text'], task['resp'], task['status'], k);
+    }
+
+    var TL_CreateTaskInput = $('.js-task-input:eq(0)'),
+        TL_Tags = {
+            'Responsible': 'для '
+        },
+        TL_HintBlocks = {
+            'Responsible': $('#TL_responsible_list')
+        },
+        TL_HintOpened = {},
+        TL_TagLen = 4,
+        tag,
+        TL_create_command,
+        inputedText;
+
+    TL_CreateTaskInput.keyup(function (e) {
+        var key = getKeyPressed(e), t = this;
+        TL_create_command = '';
+        for (var keytag in TL_Tags) {
+            tag = TL_Tags[keytag];
+
+            if ($(this).val().lastIndexOf(tag) != -1 && $(this).val().lastIndexOf(tag) == ($(this).val().length - tag.length)) {
+                TL_create_command = tag;
+            }
+        }
+
+        if (e.ctrlKey && key == 32) { //ctrl+space
+            if (TL_create_command)
+                TL_ShowTaskCreateHint(this);
+        } else if (e.ctrlKey && key == 78) { //ctrl+N
+            $('body,html').scrollTop(t.focus().offset().top);
+            return false;
+        } else if (key == 40 && TL_HintOpened.name) { //arrow down
+            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
+        } else if (!e.ctrlKey && key != 13) {
+            TL_ShowTaskCreateHint(this);
+        }
+    });
+
+    function TL_ShowTaskCreateHint(field) {
+        if (!TL_create_command) return false;
+        var currentTag = false;
+        for (i in TL_Tags) {
+            if (TL_Tags[i] == TL_create_command) {
+                currentTag = i;
+                break;
+            }
+        }
+        if (currentTag) {
+            TL_ShowHint(currentTag, field);
+        }
+
+        return false;
+    }
+
+    function TL_ShowHint(hintName, field) {
+        if (!hintName) return false;
+        var hint_block = TL_HintBlocks[hintName];
+
+        TL_PosDivToField(hint_block, field);
+
+        inputedText = '';
+
+        $(field).unbind('keyup.' + hintName).bind('keyup.' + hintName, function (e) {
+            var key = getKeyPressed(e);
+            var lastFor = 0;
+            if (lastFor = $(this).val().lastIndexOf(TL_Tags[hintName])) {
+                inputedText = $(this).val().substring((lastFor + TL_Tags[hintName].length), $(this).val().length);
+
+                var userLinks = TL_HintBlocks[hintName].find('li').show();
+
+                if (inputedText)
+                    userLinks.not(":Contains('" + inputedText + "')").hide();
+
+                if (!userLinks.filter(":visible").get(0)) {
+                    TL_HideHint()
+                }
+            }
+        });
+
+        TL_HintOpened = {
+            'name': hintName,
+            'container': hint_block
+        };
+
+        return hint_block;
+    }
+
+    function TL_HideHint() {
+        if (TL_HintOpened.name) {
+            TL_HintOpened.container.find('*').show().end().hide();
+            TL_CreateTaskInput.unbind('keyup.' + TL_HintOpened.name);
+            TL_HintOpened = {}
+        }
+    }
+
+    function TL_PosDivToField(block, field_selector) {
+        if (!block) return false;
+        var field = $(field_selector), left = field.offset().left + (field.val().length * 5);
+        block.insertAfter(field_selector);
+        if (typeof(block) == 'object') {
+            block.show();
+        }
+        return false;
+    }
+
+    function getKeyPressed(e) {
+        var key;
+        if (window.event) {
+            key = window.event.keyCode;
+        } else {
+            key = e.keyCode;
+        }
+        return key;
+    }
+
+    function TL_CreateSelectTag(name, tag, new_val, input) {
+        TL_HideHint();
+
+        var inpval = input.val();
+        var pos = inpval.lastIndexOf(TL_Tags[tag]);
+
+        pos += TL_Tags[tag].length;
+        inpval = inpval.substring(0, pos);
+
+        input.val(
+                inpval + "#" + (name == 'new' ? '' : name) + "#"
+        ).focus();
+
+        if (name == 'new') {
+            var len = input.val().length - 1;
+            input.get(0).setSelectionRange(len, len);
+        }
+
+        return false;
+    }
+
+    $('.js-user-list a').click(function(){
+        return TL_CreateSelectTag($(this).attr('rel'),'Responsible', false, $(this).closest('ul').prev());
+    })
+});
+
+
+function startTimer($block) {
+    stopAllTimers()
+}
+function stopTimer($block) {
+
+}
+function stopAllTimers() {
+    $('.js-timer-block').each(function () {
+        stopTimer($(this));
+    });
+}
