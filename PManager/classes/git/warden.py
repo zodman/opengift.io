@@ -140,16 +140,17 @@ class Warden(object):
             ext = d.path.split('.').pop()
             if ext == 'php' or ext == 'js':
                 r = _repo.git.show(message.commit + ':' + d.path[1:])
-                filename = 'tracker/sniffer_files/tmp' + str(message.author.id)
-                f = open(filename, 'w')
-                f.write(r)
-                f.close()
+                if r:
+                    filename = 'tracker/sniffer_files/tmp' + str(message.author.id)
+                    f = open(filename, 'w')
+                    f.write(r)
+                    f.close()
 
-                sniffer_report = []
-                if ext == 'php':
-                    sniffer_report = PHPSniffer.sniff(filename)
-                elif ext == 'js':
-                    sniffer_report = JSSniffer.sniff(filename)
-                d.error_qty = len(sniffer_report)
-                os.remove(filename)
+                    sniffer_report = []
+                    if ext == 'php':
+                        sniffer_report = PHPSniffer.sniff(filename)
+                    elif ext == 'js':
+                        sniffer_report = JSSniffer.sniff(filename)
+                    d.error_qty = len(sniffer_report)
+                    os.remove(filename)
         return df
