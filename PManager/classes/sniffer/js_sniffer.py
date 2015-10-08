@@ -22,10 +22,13 @@ class JSSniffer:
                 continue
             line = line.split('|')
             if len(line) >= 3:
-                _type, comment = line[2].split(':')
-                report.append({
-                    'line': line[0],
-                    'type': _type,
-                    'comment': comment
-                })
+                lineSplit = line[2].split(':')
+                if len(lineSplit) >= 2:
+                    _type = lineSplit[0]
+                    comment = lineSplit[1]
+                    report.append({
+                        'line': line[0],
+                        'type': _type,
+                        'comment': comment
+                    })
         return report
