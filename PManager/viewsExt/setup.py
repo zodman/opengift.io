@@ -28,7 +28,7 @@ def register(request):
             return HttpResponse(u'Введите правильный email')
         if not User.objects.filter(email=email).count():
             project = PM_Project(
-                name=u'Новый проект',
+                name=u'Мой проект',
                 description=u'Описание нового проекта',
                 tracker=PM_Tracker.objects.get(pk=1),
                 author=User.objects.get(pk=1)
