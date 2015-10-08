@@ -1898,8 +1898,8 @@ i.tag-num-icon {
 .sp .dropdown-menu:before {top:auto !important; bottom: -7px; border-bottom: none; border-top: 7px solid rgba(0, 0, 0, 0.2);}
 .sp .dropdown-menu li {padding:4px 10px; white-space:nowrap;}
 
-.dostizheniya-item {border:1px solid #ffcd0e; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; }
-.dostizheniya-item-img {background:#ffcd0e; padding:15px 10px; vertical-align:top; width:60px; text-align:center;}
+.dostizheniya-item {border:1px solid #5cb85c; border-radius:5px; -webkit-border-radius:5px; -moz-border-radius:5px; }
+.dostizheniya-item-img {background:#5cb85c; padding:15px 10px; vertical-align:middle; width:60px; text-align:center;}
 .dostizheniya-item-text {vertical-align:top;padding:15px;}
 .dostizheniya-item-text h4 {margin:0px 0px 5px;}
 .dostizheniya-item-text p.date {color:#777; margin:0px 0px 5px; font-size:11px;}
