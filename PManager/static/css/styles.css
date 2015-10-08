@@ -1050,9 +1050,9 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00e6f0e6', e
 .user-inner-tabs .nav > li {margin-left: 0px; margin-right: 5px; margin-bottom: 5px;}
 .user-inner-tabs .btn {margin-bottom: 5px;}
 .user-inner-tabs .nav > li > a {
-    background: none repeat scroll 0 0 #eee;
-    border: 1px solid #eee;
-    color: #333;
+    background: none repeat scroll 0 0 #555;
+    border: 1px solid #555;
+    color: #efefef;
     display: block;
     font-size: 14px;
     line-height: 1.42857;
