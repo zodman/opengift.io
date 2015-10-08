@@ -689,7 +689,7 @@ class taskManagerCreator:
             code = "SOLUTION"
         else:
             code = ""
-        message = PM_Task_Message(text=u'Время: ' + unicode(self.task.currentTimer) + "\r\n" + message, task=self.task,
+        message = PM_Task_Message(text=u'Затраченное время: ' + unicode(self.task.currentTimer) + "\r\nСделано: " + message, task=self.task,
                                   author=self.currentUser, solution=solution, code=code)
         message.save()
         responseJson = message.getJson({
