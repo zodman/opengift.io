@@ -133,8 +133,7 @@ def addAchievement(sender, instance, **kwargs):
                     project=instance.project,
                     closed=True,
                     resp=instance.resp
-                ).exclude(author=instance.resp)\
-                .count()
+                ).exclude(author=instance.resp).count()
 
                 try:
                     acc = PM_Achievement.objects.get(code=str(closedTaskQty+1) + '_tasks_closed')
@@ -142,7 +141,19 @@ def addAchievement(sender, instance, **kwargs):
                 except PM_Achievement.DoesNotExist:
                     pass
 
+                if instance.closedInTime:
+                    closedInTimeTaskQty = PM_Task.objects.filter(
+                        project=instance.project,
+                        closed=True,
+                        closedInTime=True,
+                        resp=instance.resp
+                    ).exclude(author=instance.resp).count()
 
+                    try:
+                        acc = PM_Achievement.objects.get(code='deadline_' + str(closedInTimeTaskQty+1))
+                        acc.addToUser(instance.resp, instance.project)
+                    except PM_Achievement.DoesNotExist:
+                        pass
 
         except PM_Achievement.DoesNotExist:
             pass
