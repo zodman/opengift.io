@@ -389,6 +389,7 @@ class PM_Task(models.Model):
     closed = models.BooleanField(blank=True, verbose_name='Закрыта')
     started = models.BooleanField(blank=True)
     wasClosed = models.BooleanField(blank=True)
+    closedInTime = models.BooleanField(blank=True, default=False)
     public = models.BooleanField(blank=True)
     active = models.BooleanField(default=True, blank=True)
 
@@ -421,6 +422,12 @@ class PM_Task(models.Model):
     def safeDelete(self):
         self.active = False
         self.save()
+
+    def setIsInTime(self):
+        if self.deadline and self.deadline > timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()):
+            self.closedInTime = True
+        else:
+            self.closedInTime = False
 
     def Close(self, user):
         from django.contrib.contenttypes.models import ContentType

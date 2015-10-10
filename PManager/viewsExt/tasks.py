@@ -100,6 +100,7 @@ def __change_resp(request):
             not task.project.getSettings().get('unplan_approve', False):  # if finance relationship
         task.setStatus('not_approved')
     else:
+        task.closedInTime = False
         task.setStatus('revision')
     #end outsources
     task.lastModifiedBy = request.user
@@ -585,7 +586,13 @@ def taskListAjax(request):
                         value = 'revision'
 
                     try:
+                        if value == 'ready':
+                            task.setIsInTime()
+                        else:
+                            task.closedInTime = False
+
                         task.setStatus(str(value))
+
                         task.systemMessage(
                             u'Статус изменен на "' + task.status.name + u'"',
                             request.user,
@@ -957,6 +964,8 @@ class taskAjaxManagerCreator(object):
                         )
                         taskOneSecondTimer.save()
 
+
+                    t.setIsInTime()
                     t.Close(user)
                     t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
 
@@ -1001,7 +1010,9 @@ class taskAjaxManagerCreator(object):
                     sendMes.send([t.author.email, t.resp.email])
 
                 elif (not t.status) or t.status.code != 'ready':
+                    t.setIsInTime()
                     t.setStatus('ready')
+
                     t.systemMessage(
                         u'Статус изменен на "' + t.status.name + u'"',
                         user,
