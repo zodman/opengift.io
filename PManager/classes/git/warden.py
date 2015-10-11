@@ -47,14 +47,17 @@ class Warden(object):
 
     def is_task(self):
         try:
-            timer = PM_Timer.objects.get(user=self.user, dateEnd__isnull=True)
+            timer = PM_Timer.objects.get(user=self.user, dateEnd__isnull=True, project=self.project)
             logger.info(u'Active timer found. User: {0:s} Project: {1:s}'.format(self.user, self.project))
         except PM_Timer.DoesNotExist:
-            logger.info(u'Active timer not found. User: {0:s} Project: {1:s}'.format(self.user, self.project))
-            timer = None
+            timer = PM_Timer.objects.get(user=self.user, project=True).order_by('-dateEnd')
+            timer = timer[0] if timer else None
+
         if timer and timer.task.project == self.project:
             self.timer = timer
             return 'true'
+        else:
+            logger.info(u'Active timer not found. User: {0:s} Project: {1:s}'.format(self.user, self.project))
         return 'false'
 
     def write_message(self, ref, hashes):
