@@ -1,41 +1,41 @@
 $(function () {
-    var getTodayTasks = function(projectId) {
-        if (!projectId) {
-            projectId = 0
-        }
-        var todayTasksString = $.cookie('today_tasks'), todayTasks;
-        try {
-            todayTasks = $.parseJSON(todayTasksString);
-            if (typeof todayTasks != typeof {}) {
-                todayTasks = {}
+    var COOKIES_NAME = 'today_tasks',
+        getTodayTasks = function(projectId) {
+            if (!projectId) {
+                projectId = 0
             }
-            if (todayTasks[projectId])
-                return todayTasks[projectId];
-            else return []
-        } catch (e) {
-            return [];
-        }
-    };
-
-    var setTodayTasks = function(projectId, arTasksId) {
-        if (!projectId) {
-            projectId = 0
-        }
-        var todayTasksString = $.cookie('today_tasks'), todayTasks;
-
-        try {
-            if (todayTasksString)
+            var todayTasksString = $.cookie(COOKIES_NAME), todayTasks;
+            try {
                 todayTasks = $.parseJSON(todayTasksString);
-            else
-                todayTasks = {};
+                if (typeof todayTasks != typeof {}) {
+                    todayTasks = {}
+                }
+                if (todayTasks[projectId])
+                    return todayTasks[projectId];
+                else return []
+            } catch (e) {
+                return [];
+            }
+        },
+        setTodayTasks = function(projectId, arTasksId) {
+            if (!projectId) {
+                projectId = 0
+            }
+            var todayTasksString = $.cookie(COOKIES_NAME), todayTasks;
 
-            todayTasks[projectId] = arTasksId;
-            $.cookie('today_tasks', JSON.stringify(todayTasks));
-            return true;
-        } catch (e) {
-            return false;
-        }
-    };
+            try {
+                if (todayTasksString)
+                    todayTasks = $.parseJSON(todayTasksString);
+                else
+                    todayTasks = {};
+
+                todayTasks[projectId] = arTasksId;
+                $.cookie(COOKIES_NAME, JSON.stringify(todayTasks));
+                return true;
+            } catch (e) {
+                return false;
+            }
+        };
 
     var addTaskToColumn = function(view, $column, $dummyBlock, silent) {
         var project = $column.data('project');

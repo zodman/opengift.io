@@ -245,13 +245,14 @@ PIPELINE_CSS = {
             'css/drowCanvas.css',
             'js/libs/timepicker/jquery.datetimepicker.css',
             'css/toastr.css',
+            'widgets/kanban/task.css'
         ),
         'output_filename': 'css_compressed/base.css',
     },
     'project_detail': {
         'source_filenames': (
             'css/project.edit.css',
-            'css/project.edit.achievements.css'
+            'css/project.edit.achievements.css',
         ),
         'output_filename': 'css_compressed/project_detail.css'
     },

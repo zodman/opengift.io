@@ -1,0 +1,31 @@
+.task {
+    padding: 0;
+    margin: 5px 0;
+    background-color: #f2f2f2;
+}
+
+.task-info-time {
+    margin-top: 5px;
+    display: block;
+    vertical-align: bottom;
+}
+
+.task-card-time {
+    margin-top: 1px;
+    display: inline-block;
+}
+
+.task-card .btn-group {
+    display: block;
+    float: left;
+}
+
+.task-card .btn-group .fa {
+    color: #47a447;
+}
+.task-card .pause_dialog a.btn, .pause_dialog a.btn:hover {
+    color: white;
+}
+.task-card-time .dropdown-menu {
+    padding: 5px;
+}
