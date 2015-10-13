@@ -128,7 +128,7 @@ $(function () {
             revertDuration: 50,
             animateDuration: 300,
             appendItemsTo: 'body',
-            taskidKey: 'taskid',
+            taskidKey: 'taskid'
         },
         _create: function () {
             this.initOptions();
@@ -142,7 +142,7 @@ $(function () {
             for (var i = this.$columns.length - 1; i >= 0; i--) {
                 column = this.$columns[i];
                 this._columns[$(column).attr(REL_ATTRIBUTE)] = $(column);
-            };
+            }
         },
         initOptions: function initOptions(){
             this.options.project = this.element.data(PROJECT_DATA_NAME);
@@ -158,7 +158,7 @@ $(function () {
                 propVals = {};
             for (var i = this._columns.length - 1; i >= 0; i--) {
                 propVals['gantt_prop_' + propName] = [i];
-            };
+            }
             this.ajax.props = props;
             this.ajax.propVals = propVals;
         },
@@ -206,13 +206,13 @@ $(function () {
                 }
                 var view = t.taskViews[data.id],
                     oldColumn = view.$el.parent().attr(REL_ATTRIBUTE),
-                    returnToFix = function returnToFix(){
+                    returnToFix = function(){
                         return (data['status'] == REVISION_COLUMN_CODE &&
                             ($.inArray(view.model.get('status'), [READY_COLUMN_CODE, TODAY_COLUMN_CODE]) > -1) &&
                             view.model.get('resp') && view.model.get('resp')[0] &&
                             document.mainController.userId == view.model.get('resp')[0]['id']
                         );
-                    }
+                    };
 
                 if (returnToFix()) {
                     data['status'] = TODAY_COLUMN_CODE;
@@ -231,7 +231,7 @@ $(function () {
                 var col = data[t.columnProperty];
                 if (col && oldColumn != col) {
                     addTaskToColumn(view, t._columns[col]);
-                };
+                }
                 t._columns[col].sortable("refresh");
             });
         },
@@ -267,7 +267,7 @@ $(function () {
                                 animateAppendTo(t.taskViews[taskid].$el, t._columns[fromColumn], t.options.animateDuration, function(){
                                     t.$columns.sortable('refreshPositions')
                                 });
-                            };
+                            }
                         }
                     );
                     t.taskViews[taskid].model.set(t.columnProperty, toColumn);
@@ -281,15 +281,13 @@ $(function () {
             var task = new window.taskClass(taskData);
             var taskView = new window.taskViewClass({'model': task});
             if(this._columns[key]){
-                // todo: find out why we need status_type
-                task.set('status_type', this.columnProperty);
                 task.set(this.columnProperty, key);
                 taskView.createEl().render();
                 this._columns[key].append(taskView.$el);
                 t.taskViews[task.id] = taskView;
             }else {
                 console.log('error encountered, task could not resolve column');
-                return;
+                return false;
             }
         }
     });
