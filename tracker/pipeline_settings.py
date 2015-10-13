@@ -97,7 +97,6 @@ PIPELINE_JS = {
     'kanban': {
         'source_filenames': (
             'js/libs/jquery-ui.custom.min.js',
-            'js/libs/chosen.jquery.min.js',
             'widgets/kanban/widget.js',
         ),
         'output_filename': 'js_compressed/kanban.js'
@@ -255,6 +254,12 @@ PIPELINE_CSS = {
             'css/project.edit.achievements.css',
         ),
         'output_filename': 'css_compressed/project_detail.css'
+    },
+    'kanban': {
+        'source_filenames': (
+            'css/external/jquery-ui.css'
+        ),
+        'output_filename': 'css_compressed/jquery-ui.css'
     },
     'markdown': {
         'source_filenames': (
