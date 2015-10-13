@@ -121,6 +121,7 @@ class sumLoanChart(Chart):
                 'name': u'Сумма'
             }
         ]
+
         self.rows = []
         for x in arDebts:
             try:
@@ -139,7 +140,8 @@ class sumLoanChart(Chart):
                             'text': x.task.project.name + ': ' + x.task.name
                         } if x.task else {},
                         {
-                            'text': templateTools.dateTime.convertToSite(x.date)
+                            'text': templateTools.dateTime.convertToSite(x.date),
+                            'text_xls': x.date
                         },
                         {
                             'text': x.value
@@ -173,7 +175,10 @@ class sumLoanChart(Chart):
 
             ws.write_url(row, col, item[0].get('text', ''), url_format, item[0].get('text', ''))
             ws.write_string(row, col + 1, item[1].get('text', ''))
-            ws.write_datetime(row, col + 2, timezone.make_naive(item[2].get('text', ''), timezone.get_current_timezone()), date_format)
+            ws.write_datetime(row, col + 2,
+                              timezone.make_naive(
+                                  item[2].get('text_xls') if 'text_xls' in item[2] else item[2].get('text', None),
+                                                  timezone.get_current_timezone()), date_format)
             ws.write_number(row, col + 3, item[3].get('text', ''))
             row += 1
 
