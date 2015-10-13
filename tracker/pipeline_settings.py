@@ -257,7 +257,7 @@ PIPELINE_CSS = {
     },
     'kanban': {
         'source_filenames': (
-            'css/external/jquery-ui.css'
+            'css/external/jquery-ui.css',
         ),
         'output_filename': 'css_compressed/jquery-ui.css'
     },
