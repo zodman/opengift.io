@@ -5,7 +5,7 @@
 <div class="kanban">
     {% for project in kanban.projects_data %}
         <div class="widget inner">
-            <div class="project-row js-project-row" id="project_{{ project.id }}" data-project="{{ project.id }}">
+            <div class="project-row js-project-row" id="project_{{ project.id }}" data-project="{{ project.id }}" data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
                         {{ project.name }}
@@ -21,8 +21,8 @@
                                 <div class="kanban-table-cell">
                                     <div class="kanban-cell-width-fix"></div>
                                     <div class="kanban-cell-title tasks-header tasks-{{status.code}}">{{ status.name }}</div>
-                                    <div class="js-tasks-column js-task-droppable js-tasks-{{ status.code }}"
-                                        rel="{{ status.code }}" data-prop="{{ status.prop }}" data-project="{{ project.id }}">
+                                    <div class="kanban-cell-list js-tasks-{{ status.code }} js-tasks-column"
+                                        rel="{{ status.code }}" data-project="{{ project.id }}">
 
                                     </div>
                                 </div>

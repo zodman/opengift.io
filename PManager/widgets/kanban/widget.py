@@ -4,6 +4,7 @@ from django.http import Http404
 from PManager.models.users import PM_User
 from PManager.models.tasks import PM_Task_Status, PM_Task
 from PManager.services.access import project_access
+import json, copy
 
 def get_projects(user, current_project):
     if current_project:
@@ -35,7 +36,7 @@ def project_columns(project, colors, statuses):
                 status['name'] = u'В работе'
 
             columns.append(status)
-    return columns
+    return (columns, projectSettings.get('use_colors_in_kanban', False))
 
 def project_to_kanban_project(project, columns):
     setattr(project, 'columns', columns)
@@ -55,12 +56,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     # raising Http404 if user has no access to current_project
     projects = get_projects(request.user, current_project)
     for project in projects:
-        columns = project_columns(project, colors, statuses)
+        (columns, use_colors) = project_columns(project, colors, statuses)
         project_to_kanban_project(project, columns)
+        setattr(project, 'use_colors', use_colors)
 
     return {
         'projects_data': projects,
         'title': u'Канбан',
         'current_project': current_project,
+        'use_colors': use_colors,
         'arColorsByProject': arColorsByProject
     }
