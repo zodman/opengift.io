@@ -185,7 +185,7 @@ $(function(){
             function onScroll(){
                 var windowBottom = $(window).height() + $(window).scrollTop();
                 if ($(document).height() - windowBottom < RANGE_BEFORE_END_OF_PAGE){
-                    widget_chat.getMessagesFromServer();
+                    widget_chat.getMessagesFromServer(onScroll);
                 }
             }
 
