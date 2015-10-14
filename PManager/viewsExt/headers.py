@@ -19,7 +19,6 @@ def set_project_in_session(project_id, projects, request):
         request.COOKIES["CURRENT_PROJECT"] = 0
         return project
     try:
-        print('try block started')
         project = PM_Project.objects.get(closed=False, id=int(project_id))
         request.COOKIES["CURRENT_PROJECT"] = project.id
     except (PM_Project.DoesNotExist, ValueError):
