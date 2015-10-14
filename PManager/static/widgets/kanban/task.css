@@ -1,31 +1,31 @@
-.kanban .task {
+.task {
     padding: 0;
     margin: 5px 0;
     background-color: #f2f2f2;
 }
 
-.kanban .task-info-time {
+.task-info-time {
     margin-top: 5px;
     display: block;
     vertical-align: bottom;
 }
 
-.kanban .task-card-time {
+.task-card-time {
     margin-top: 1px;
     display: inline-block;
 }
 
-.kanban .task-card .btn-group {
+.task-card .btn-group {
     display: block;
     float: left;
 }
 
-.kanban .task-card .btn-group .fa {
+.task-card .btn-group .fa {
     color: #47a447;
 }
-.kanban .task-card .pause_dialog a.btn, .pause_dialog a.btn:hover {
+.task-card .pause_dialog a.btn, .pause_dialog a.btn:hover {
     color: white;
 }
-.kanban .task-card-time .dropdown-menu {
+.task-card-time .dropdown-menu {
     padding: 5px;
 }
