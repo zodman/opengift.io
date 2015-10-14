@@ -297,17 +297,18 @@ $(function () {
         } else {
 
         }
+
         if (scrollTop > 560 && !$('.js-task-input').data('inputed')) {
             var type_this = "Нарисовать логотип проекта для Синичкин";
             var index = 0;
-            $('.js-task-input').data('inputed', true);
-            $('.js-task-input').val('');
+            $('.js-task-input').data('inputed', true).val('');
             window.next_letter = function () {
                 if (index <= type_this.length) {
                     $('.js-task-input:eq(0)').val(type_this.substr(0, index++)).trigger('keyup');
                     setTimeout("next_letter()", 70);
                 } else {
                     var userVisible = $('.js-user-list:eq(0)').find('a:visible').eq(0).addClass('active');
+
                     setTimeout(function(){
                         userVisible.trigger('click');
                         setTimeout(function(){
@@ -335,6 +336,8 @@ $(function () {
     $('.js-task-create').click(function () {
         var $inp = $(this).closest('.js-taskinput-block').find('.js-task-input');
         var a = $inp.val().split(' для '), text = $inp.val(), resp = 'Нет ответственного';
+        if (!text) return false;
+
         if (a.length > 1) {
             text = a[0];
             resp = a[1].replace((new RegExp('#', 'mig')), '');
@@ -443,7 +446,7 @@ $(function () {
             if (TL_create_command)
                 TL_ShowTaskCreateHint(this);
         } else if (e.ctrlKey && key == 78) { //ctrl+N
-            $('body,html').scrollTop(t.focus().offset().top);
+//            $('body,html').scrollTop(t.focus().offset().top);
             return false;
         } else if (key == 40 && TL_HintOpened.name) { //arrow down
             TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
@@ -551,7 +554,8 @@ $(function () {
     }
 
     $('.js-user-list a').click(function(){
-        return TL_CreateSelectTag($(this).attr('rel'),'Responsible', false, $(this).closest('ul').prev());
+        TL_CreateSelectTag($(this).attr('rel'), 'Responsible', false, $(this).closest('ul').prev());
+        return false;
     })
 });
 
