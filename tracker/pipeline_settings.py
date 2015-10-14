@@ -97,6 +97,7 @@ PIPELINE_JS = {
     'kanban': {
         'source_filenames': (
             'js/libs/jquery-ui.custom.min.js',
+            'js/libs/jquery.touchpunch.js',
             'widgets/kanban/widget.js',
         ),
         'output_filename': 'js_compressed/kanban.js'
@@ -244,7 +245,6 @@ PIPELINE_CSS = {
             'css/drowCanvas.css',
             'js/libs/timepicker/jquery.datetimepicker.css',
             'css/toastr.css',
-            'widgets/kanban/task.css'
         ),
         'output_filename': 'css_compressed/base.css',
     },
@@ -257,9 +257,9 @@ PIPELINE_CSS = {
     },
     'kanban': {
         'source_filenames': (
-            'css/external/jquery-ui.css',
+            'widgets/kanban/task.css',
         ),
-        'output_filename': 'css_compressed/jquery-ui.css'
+        'output_filename': 'css_compressed/kanban.css'
     },
     'markdown': {
         'source_filenames': (

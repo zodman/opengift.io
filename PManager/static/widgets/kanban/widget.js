@@ -23,9 +23,11 @@ $(function () {
                 if (typeof todayTasks != typeof {}) {
                     todayTasks = {}
                 }
-                if (todayTasks[projectId])
+                if (todayTasks[projectId]) {
                     return todayTasks[projectId];
-                else return []
+                } else {
+                    return [];
+                }
             } catch (e) {
                 return [];
             }
@@ -33,13 +35,11 @@ $(function () {
         setTodayTasks = function setTodayTasks(projectId, arTasksId) {
             projectId = projectId || 0;
             var todayTasksString = $.cookie(COOKIES_NAME), todayTasks;
-
             try {
                 if (todayTasksString)
                     todayTasks = $.parseJSON(todayTasksString);
                 else
                     todayTasks = {};
-
                 todayTasks[projectId] = arTasksId;
                 $.cookie(COOKIES_NAME, JSON.stringify(todayTasks));
                 return true;
@@ -47,24 +47,11 @@ $(function () {
                 return false;
             }
         },
-        addTaskToColumn = function addTaskToColumn(view, $column) {
-            var project = $column.data(PROJECT_DATA_NAME);
-            var todayTasks = getTodayTasks(project);
-            if ($column.attr(REL_ATTRIBUTE) == TODAY_COLUMN_CODE) {
-                if ($.inArray(view.model.id, todayTasks) == -1) {
-                    todayTasks.push(view.model.id);
-                }
-                setTodayTasks(project, todayTasks);
-                //todo: investigate further
-            } else if (view.model.get(PARENT_BLOCK_MODEL_KEY).attr(REL_ATTRIBUTE) == TODAY_COLUMN_CODE) {
-                for (var i = todayTasks.length; --i >= 0;) {
-                    if (todayTasks[i] === view.model.id) todayTasks.splice(i, 1);
-                }
-                setTodayTasks(project, todayTasks)
-            }
-        },
         insertTask = function insertTask(index, column, what){
-            if(index > 1){
+            if(index === -1){
+                return what.appendTo(column);
+            }
+            if(index >= 1){
                 return what.insertAfter(column.find(TASK_SELECTOR + ':eq(' + (index - 1) + ')'));
             }else{
                 return what.prependTo(column);
@@ -72,14 +59,18 @@ $(function () {
         },
         animateAppendTo = function animateAppendTo(item, sel, speed, fn) {
             item = $(item);
+
             var frame = { top: 0, left: 0},
                 origin = item.offset(),
-                previndex = parseInt(item.attr(PREVINDEX_NAME)) || 0,
                 whiteSpace = $('<div>').addClass(EMPTY_TASK_CLASS),
                 whiteSpaceOrigin = whiteSpace.clone(),
                 currentIndex = item.index(),
                 column = item.parent(),
-                destination;
+                destination, adjustDuration, previndex;
+            previndex = parseInt(item.attr(PREVINDEX_NAME));
+            if(isNaN(previndex)){
+                previndex = -1;
+            }
             item.removeAttr(PREVINDEX_NAME);
             insertTask(previndex, sel, whiteSpace);
             destination = whiteSpace.offset();
@@ -100,10 +91,14 @@ $(function () {
                 },
                 easing: EASING_EFFECT_WHITESPACE
             });
+            adjustDuration = Math.sqrt(
+                Math.pow(destination.top - origin.top, 2) +
+                Math.pow(destination.left - origin.left, 2)
+            ) * speed / 400;
             item.animate({
                 top: destination.top - frame.top,
                 left: destination.left - frame.left
-            }, speed, EASING_EFFECT, function(){
+            }, adjustDuration, EASING_EFFECT, function(){
                 insertTask(previndex, sel, item);
                 whiteSpace.remove();
                 item.attr('style','').removeClass(UI_SORTABLE_HELPER_CLASS);
@@ -114,7 +109,44 @@ $(function () {
 
             return false;
         };
-
+    window.taskViewKanbanClass = window.taskViewClass.extend({
+        'showResponsibleArrow': function (userList) {
+            var TASK_EXECUTOR_SELECTOR = '.js-task-executor',
+                ARROW_DISTANCE_TO_CENTER = 8,
+                ARROW_SELECTOR = '.add-user-popup-top-arrow',
+                taskExecutor = this.$(TASK_EXECUTOR_SELECTOR),
+                linkLeftOffset = taskExecutor.offset(),
+                linkWidth = taskExecutor.innerWidth(),
+                ulOffset = userList.offset(),
+                arrowPos;
+            arrowPos = linkWidth/2 - ARROW_DISTANCE_TO_CENTER;
+            if(ulOffset.left < linkLeftOffset.left){
+                arrowPos += linkLeftOffset.left - ulOffset.left + ARROW_DISTANCE_TO_CENTER;
+            }
+            userList.find(ARROW_SELECTOR).css('left', arrowPos);
+        },
+        'responsibleMenuPosition': function (userList) {
+            var TASK_EXECUTOR_SELECTOR = '.js-task-executor',
+                taskExecutor = this.$(TASK_EXECUTOR_SELECTOR),
+                offset = this.$el.offset(),
+                height = taskExecutor.height() + taskExecutor.position().top,
+                width = this.$el.width(),
+                ulistW = userList.width(),
+                totalW = $(window).width(),
+                left;
+            left = offset.left + 20;
+            if(left + ulistW >= totalW -4){
+                left = totalW - ulistW - 5;
+            }
+            userList.css({
+                'position': 'absolute',
+                'top': offset.top + height,
+                'left': left,
+                'right': 'auto',
+                'z-index': 999999
+            });
+        },
+    });
     $.widget("custom.kanban", {
         taskViews: {},
         _columns: {},
@@ -187,7 +219,6 @@ $(function () {
         },
         filterTodayTasks: function filterTodayTasks() {
             var i, view;
-
             if(this._columns[TODAY_COLUMN_CODE]){
                 var todayTasks = getTodayTasks(this.options.project);
                 for (i in this.taskViews) {
@@ -196,6 +227,20 @@ $(function () {
                         animateAppendTo(view.$el, this._columns[TODAY_COLUMN_CODE], 0);
                     }
                 }
+            }
+        },
+        addTaskToColumn: function addTaskToColumn(taskid, column, oldColumn) {
+            var todayTasks = getTodayTasks(this.options.project);
+            if (column == TODAY_COLUMN_CODE) {
+                if ($.inArray(taskid, todayTasks) == -1) {
+                    todayTasks.push(taskid);
+                }
+                setTodayTasks(this.options.project, todayTasks);
+            } else if (oldColumn == TODAY_COLUMN_CODE) {
+                for (var i = todayTasks.length; --i >= 0;) {
+                    if (todayTasks[i] === taskid) todayTasks.splice(i, 1);
+                }
+                setTodayTasks(this.options.project, todayTasks)
             }
         },
         onModelChange: function onModelChange() {
@@ -228,10 +273,12 @@ $(function () {
                     }
                 }
                 view.render();
-                var col = data[t.columnProperty];
+                var col = view.model.get(t.columnProperty);
                 if (col && oldColumn != col) {
-                    addTaskToColumn(view, t._columns[col]);
-                }
+                    animateAppendTo(view.$el, t._columns[col], t.options.animateDuration, function(){
+                        t.addTaskToColumn(view.model.id, col, oldColumn);
+                    });
+                };
                 t._columns[col].sortable("refresh");
             });
         },
@@ -245,12 +292,23 @@ $(function () {
                 revert: t.options.revertDuration,
                 appendTo: $(t.options.appendItemsTo),
                 start: function(event, ui) {
+                    var taskid = ui.item.data('taskid'),
+                        view = t.taskViews[taskid];
                     ui.item.attr(PREVINDEX_NAME, ui.item.index());
+                    view.model.set(PARENT_BLOCK_MODEL_KEY, view.$el.parent());
+                    view.model.set('oldStatusName', t.columnProperty);
+                    view.model.set('oldStatus', view.model.get(t.columnProperty));
                 },
                 receive: function(event, ui){
                     var toColumn = $(event.target).attr(REL_ATTRIBUTE);
                     var fromColumn = ui.sender.attr(REL_ATTRIBUTE);
                     var taskid = ui.item.data(t.options.taskidKey);
+                    t.addTaskToColumn(taskid, toColumn, fromColumn);
+                    if(toColumn == TODAY_COLUMN_CODE){
+                        t.taskViews[taskid].model.set(t.columnProperty, toColumn);
+                        t.taskViews[taskid].render();
+                        return;
+                    }
                     taskManager.SetTaskProperty(
                         taskid,
                         t.columnProperty,
@@ -265,13 +323,15 @@ $(function () {
                             if(data.error){
                                 alert(data.error);
                                 animateAppendTo(t.taskViews[taskid].$el, t._columns[fromColumn], t.options.animateDuration, function(){
-                                    t.$columns.sortable('refreshPositions')
+                                    t.$columns.sortable('refreshPositions');
                                 });
+                            }else{
+                                t.taskViews[taskid].model.set(t.columnProperty, toColumn);
+                                t.taskViews[taskid].render();
                             }
                         }
                     );
-                    t.taskViews[taskid].model.set(t.columnProperty, toColumn);
-                    t.taskViews[taskid].render();
+
                 }
             }).disableSelection();
         },
@@ -279,7 +339,7 @@ $(function () {
             var t = this;
             var key = taskData[this.columnProperty];
             var task = new window.taskClass(taskData);
-            var taskView = new window.taskViewClass({'model': task});
+            var taskView = new window.taskViewKanbanClass({'model': task});
             if(this._columns[key]){
                 task.set(this.columnProperty, key);
                 taskView.createEl().render();

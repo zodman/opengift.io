@@ -74,7 +74,7 @@ if (window.taskViewClass)
         showTimerMainPopup: function(e){
             var t = this;
 
-            this.$('.js-mainTimerPopup').show().find('textarea').unbind('click.mainTimer')
+            this.$('.js-mainTimerPopup').show().find('textarea').trigger('focus').unbind('click.mainTimer')
                     .bind('click.mainTimer', function(e){
                 e.stopPropagation();
             });
