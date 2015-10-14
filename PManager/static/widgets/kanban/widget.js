@@ -109,7 +109,44 @@ $(function () {
 
             return false;
         };
-
+    window.taskViewKanbanClass = window.taskViewClass.extend({
+        'showResponsibleArrow': function (userList) {
+            var TASK_EXECUTOR_SELECTOR = '.js-task-executor',
+                ARROW_DISTANCE_TO_CENTER = 8,
+                ARROW_SELECTOR = '.add-user-popup-top-arrow',
+                taskExecutor = this.$(TASK_EXECUTOR_SELECTOR),
+                linkLeftOffset = taskExecutor.offset(),
+                linkWidth = taskExecutor.innerWidth(),
+                ulOffset = userList.offset(),
+                arrowPos;
+            arrowPos = linkWidth/2 - ARROW_DISTANCE_TO_CENTER;
+            if(ulOffset.left < linkLeftOffset.left){
+                arrowPos += linkLeftOffset.left - ulOffset.left + ARROW_DISTANCE_TO_CENTER;
+            }
+            userList.find(ARROW_SELECTOR).css('left', arrowPos);
+        },
+        'responsibleMenuPosition': function (userList) {
+            var TASK_EXECUTOR_SELECTOR = '.js-task-executor',
+                taskExecutor = this.$(TASK_EXECUTOR_SELECTOR),
+                offset = this.$el.offset(),
+                height = taskExecutor.height() + taskExecutor.position().top,
+                width = this.$el.width(),
+                ulistW = userList.width(),
+                totalW = $(window).width(),
+                left;
+            left = offset.left + 20;
+            if(left + ulistW >= totalW -4){
+                left = totalW - ulistW - 5;
+            }
+            userList.css({
+                'position': 'absolute',
+                'top': offset.top + height,
+                'left': left,
+                'right': 'auto',
+                'z-index': 999999
+            });
+        },
+    });
     $.widget("custom.kanban", {
         taskViews: {},
         _columns: {},
@@ -302,7 +339,7 @@ $(function () {
             var t = this;
             var key = taskData[this.columnProperty];
             var task = new window.taskClass(taskData);
-            var taskView = new window.taskViewClass({'model': task});
+            var taskView = new window.taskViewKanbanClass({'model': task});
             if(this._columns[key]){
                 task.set(this.columnProperty, key);
                 taskView.createEl().render();
