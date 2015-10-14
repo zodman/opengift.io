@@ -97,6 +97,7 @@ PIPELINE_JS = {
     'kanban': {
         'source_filenames': (
             'js/libs/jquery-ui.custom.min.js',
+            'js/libs/jquery.touchpunch.js',
             'widgets/kanban/widget.js',
         ),
         'output_filename': 'js_compressed/kanban.js'
