@@ -1,6 +1,7 @@
 {% load jsonify compressed %}
 {% block scripts %}
     {% compressed_js 'kanban' %}
+    {% compressed_css 'kanban' %}
 {% endblock %}
 <div class="kanban">
     {% for project in kanban.projects_data %}

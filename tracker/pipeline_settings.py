@@ -244,7 +244,6 @@ PIPELINE_CSS = {
             'css/drowCanvas.css',
             'js/libs/timepicker/jquery.datetimepicker.css',
             'css/toastr.css',
-            'widgets/kanban/task.css'
         ),
         'output_filename': 'css_compressed/base.css',
     },
@@ -257,9 +256,9 @@ PIPELINE_CSS = {
     },
     'kanban': {
         'source_filenames': (
-            'css/external/jquery-ui.css'
+            'widgets/kanban/task.css',
         ),
-        'output_filename': 'css_compressed/jquery-ui.css'
+        'output_filename': 'css_compressed/kanban.css'
     },
     'markdown': {
         'source_filenames': (
