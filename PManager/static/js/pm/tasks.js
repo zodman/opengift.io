@@ -544,7 +544,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'showPauseDialog': function () {
 			var t = this;
-			t.$('.pause_dialog').show();
+			t.$('.pause_dialog').show().find('textarea').trigger('focus');
 			setTimeout(function () {
 				t.$('.pause_dialog').one('clickoutside', function () {
 					$(this).hide();
