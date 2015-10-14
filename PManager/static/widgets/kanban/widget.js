@@ -160,7 +160,7 @@ $(function () {
             revertDuration: 50,
             animateDuration: 300,
             appendItemsTo: 'body',
-            taskidKey: 'taskid',
+            taskidKey: 'taskid'
         },
         _create: function () {
             this.initOptions();
@@ -174,7 +174,7 @@ $(function () {
             for (var i = this.$columns.length - 1; i >= 0; i--) {
                 column = this.$columns[i];
                 this._columns[$(column).attr(REL_ATTRIBUTE)] = $(column);
-            };
+            }
         },
         initOptions: function initOptions(){
             this.options.project = this.element.data(PROJECT_DATA_NAME);
@@ -190,7 +190,7 @@ $(function () {
                 propVals = {};
             for (var i = this._columns.length - 1; i >= 0; i--) {
                 propVals['gantt_prop_' + propName] = [i];
-            };
+            }
             this.ajax.props = props;
             this.ajax.propVals = propVals;
         },
@@ -251,13 +251,13 @@ $(function () {
                 }
                 var view = t.taskViews[data.id],
                     oldColumn = view.$el.parent().attr(REL_ATTRIBUTE),
-                    returnToFix = function returnToFix(){
+                    returnToFix = function(){
                         return (data['status'] == REVISION_COLUMN_CODE &&
                             ($.inArray(view.model.get('status'), [READY_COLUMN_CODE, TODAY_COLUMN_CODE]) > -1) &&
                             view.model.get('resp') && view.model.get('resp')[0] &&
                             document.mainController.userId == view.model.get('resp')[0]['id']
                         );
-                    }
+                    };
 
                 if (returnToFix()) {
                     data['status'] = TODAY_COLUMN_CODE;
@@ -347,7 +347,7 @@ $(function () {
                 t.taskViews[task.id] = taskView;
             }else {
                 console.log('error encountered, task could not resolve column');
-                return;
+                return false;
             }
         }
     });
