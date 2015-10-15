@@ -268,6 +268,9 @@ $(function () {
                             view.model.set('viewed', false);
                         }
                     }
+                    if(i == 'resp' && data[i][0] && data[i][0].hasOwnProperty('avatar')){
+                        view.model.set('avatar', data[i][0].avatar);
+                    }
                     if (i != 'id') {
                         view.model.set(i, data[i]);
                     }

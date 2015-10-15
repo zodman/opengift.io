@@ -670,7 +670,6 @@ var CRITICALLY_THRESHOLD = 0.7;
 									}
 								}
 								$('.js-user-list-of-user .js-avatar-container').each(function () {
-                                    console.log(this);
 									$.updateAvatar(this, {size: 40});
 								});
 							}
