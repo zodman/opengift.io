@@ -148,11 +148,7 @@ $(function () {
         },
     });
     $.widget("custom.kanban", {
-        taskViews: {},
-        _columns: {},
-        columnProperty: 'status',
         requestUrl: '/task_handler',
-        ajax: {},
         options: {
             value: 0,
             project: 0,
@@ -163,6 +159,10 @@ $(function () {
             taskidKey: 'taskid'
         },
         _create: function () {
+            this.ajax = {};
+            this._columns = {};
+            this.taskViews = {};
+            this.columnProperty = 'status';
             this.initOptions();
             this.initColumns();
             this.initRequest();
@@ -337,13 +337,13 @@ $(function () {
         },
         addTaskRow: function addTaskRow(taskData) {
             var t = this;
-            var key = taskData[this.columnProperty];
+            var key = taskData[t.columnProperty];
             var task = new window.taskClass(taskData);
             var taskView = new window.taskViewKanbanClass({'model': task});
-            if(this._columns[key]){
-                task.set(this.columnProperty, key);
+            if(t._columns[key]){
+                task.set(t.columnProperty, key);
                 taskView.createEl().render();
-                this._columns[key].append(taskView.$el);
+                t._columns[key].append(taskView.$el);
                 t.taskViews[task.id] = taskView;
             }else {
                 console.log('error encountered, task could not resolve column');
