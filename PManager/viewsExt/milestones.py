@@ -54,7 +54,8 @@ def ajaxMilestonesResponder(request):
         if id:
             try:
                 milestone = PM_Milestone.objects.get(pk=id)
-                milestone.delete()
+                milestone.closed = True
+                milestone.save()
                 responseText = 'removed'
             except PM_Milestone.DoesNotExist:
                 pass
