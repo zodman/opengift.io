@@ -333,7 +333,7 @@ $(function () {
                     );
 
                 }
-            }).disableSelection();
+            });
         },
         addTaskRow: function addTaskRow(taskData) {
             var t = this;
