@@ -182,15 +182,22 @@ $(function(){
                 $(obj).val('');
             });
 
-            function onScroll(){
+            function onScroll(type, data){
+                if (type == 'messages') {
+                    if (!data.length) {
+                        $('body').unbind('scroll.chat');
+                        $(window).unbind('scroll.chat');
+                        return;
+                    }
+                }
                 var windowBottom = $(window).height() + $(window).scrollTop();
                 if ($(document).height() - windowBottom < RANGE_BEFORE_END_OF_PAGE){
                     widget_chat.getMessagesFromServer(onScroll);
                 }
             }
 
-            $(window).scroll(onScroll);
-            $('body').scroll(onScroll);
+            $(window).bind('scroll.chat', onScroll);
+            $('body').bind('scroll.chat', onScroll);
             setTimeout(function(){
                 widget_chat.getMessagesFromServer();
             }, 500);
@@ -245,7 +252,7 @@ $(function(){
                         widget_chat.bGettingFromServer = false;
 
                         if (call) {
-                            call();
+                            call('messages', data);
                         }
                     },
                     'json'
