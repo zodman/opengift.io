@@ -1121,7 +1121,6 @@ class PM_Task(models.Model):
 
         if arOrderParams.get('group') == 'milestones':
             order = ['-milestone__date']
-            tasks = tasks.exclude(milestone__closed=True, milestone__id__gt=0)
         else:
             order = []
 

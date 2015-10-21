@@ -55,12 +55,14 @@ def projectDetail(request, project_id):
             aRoles[role.role.name] = dict(role=role, users=[], text=aMessages[role.role.code])
 
         prof = role.user.get_profile()
-        setattr(role.user, 'rate', role.rate)
-        setattr(role.user, 'defaultRate', prof.sp_price)
-        setattr(role.user, 'sum', oDebts.get(role.user.id, None))
-        setattr(role.user, 'role_id', role.id)
+        curUser = role.user
+        setattr(curUser, 'rate', role.rate)
+        setattr(curUser, 'payment_type', role.payment_type)
+        setattr(curUser, 'defaultRate', prof.sp_price)
+        setattr(curUser, 'sum', oDebts.get(role.user.id, None))
+        setattr(curUser, 'role_id', role.id)
 
-        aRoles[role.role.name]['users'].append(role.user)
+        aRoles[role.role.name]['users'].append(curUser)
 
     bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
     if bCurUserIsAuthor:
@@ -204,6 +206,7 @@ def projectDetail(request, project_id):
             setattr(achievement, 'project_relation', ar_project_achievements[achievement.id])
 
         ar_achievements.append(achievement)
+
     projectSettings = project.getSettings()
     c = RequestContext(request, {
         'project': project,

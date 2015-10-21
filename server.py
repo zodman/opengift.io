@@ -104,6 +104,15 @@ class PM_Tasks_Connector():
         except PM_Task_Message.DoesNotExist:
             return 'Message Not found'
 
+    def profileHaveAccess(self, profile, task, message="view"):
+        if not isinstance(task, PM_Task):
+            try:
+                task = PM_Task.objects.get(pk=int(task))
+            except PM_Task.DoesNotExist:
+                pass
+            ##########
+        return profile.hasAccess(task, message)
+
     def userHaveAccess(self, user, task, message="view"):
         if not isinstance(task, PM_Task):
             try:
@@ -127,6 +136,7 @@ class PM_Tasks_Connector():
 class MyConnection(SocketConnection):
     id = None
     user = None
+    profile = None
     uniqueId = None
 
     def __init__(self, *args, **kwargs):
@@ -185,13 +195,14 @@ class MyConnection(SocketConnection):
 
                 if serverMessage and serverMessage.id and (userId != self.id or not userId):
                     if serverMessage.objectName == 'task':
-                        if self.user and taskConnector.userHaveAccess(self.user, serverMessage.id):
+                        if self.user and taskConnector.profileHaveAccess(self.profile, serverMessage.id):
                             serverMessage.send()
                     elif serverMessage.objectName == 'comment':
                         try:
                             serverMessage.send()
                         except PM_Task_Message.DoesNotExist:
                             pass
+
                 del serverMessage
 
     def on_open(self, info):
@@ -295,6 +306,7 @@ class MyConnection(SocketConnection):
 
                     if firstUserHandle.user:
                         arUsers.append(self.userData(firstUserHandle.user, 'online'))
+
             return arUsers
 
     @event('users:get_user_data')
@@ -325,6 +337,7 @@ class MyConnection(SocketConnection):
 
                     self.id = user.id
                     self.user = user
+                    self.profile = user.get_profile()
                     self.uniqueId = str(random.random()) + str(time.time())
 
                     if self.id in onlineUsers:
