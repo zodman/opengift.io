@@ -364,7 +364,7 @@
                             {% for mess in messages %}
                                 <li class="js-message">
                                     <div class="clearfix">
-                                        <div class="pull-left"><span class="label label-warning">Личное сообщение</span>
+                                        <div class="pull-left"><span class="label label-warning">{{ mess.task.project.name }}</span>
                                         </div>
                                         <div class="pull-right"><a href="#" class="fa fa-times js-read-message"
                                                                    rel="{{ mess.id }}"
