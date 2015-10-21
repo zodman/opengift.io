@@ -325,8 +325,8 @@ class PM_User(models.Model):
 
                 return (task.resp and self.user.id == task.resp.id) \
                        or self.user.id in [u.id for u in task.observers.all()] \
-                       or task.subTasks.filter(resp=self.user.id, active=True).count() > 0 \
-                       or task.subTasks.filter(author=self.user.id, active=True).count() > 0
+                       or task.subTasks.filter(resp=self.user.id, active=True).exists() \
+                       or task.subTasks.filter(author=self.user.id, active=True).exists()
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям

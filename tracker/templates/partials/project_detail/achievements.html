@@ -41,6 +41,8 @@
                            name="exist" value="1" {% if achievement.project_relation %}checked="checked"{% endif %} /> Использовать в проекте
                 </label>
             </div>
+            {% else %}
+                <div class="achievements-item-settings"><b>{% if achievement.project_relation.type == 'fix' %}Разовое начисление{% elif achievement.project_relation.type == 'bet' %}Прибавка к ставке по проекту{% endif %}</b>: {{ achievement.project_relation.value|default_if_none:'' }}</div>
            {% endif %}
           </li>
         {% endif %}
