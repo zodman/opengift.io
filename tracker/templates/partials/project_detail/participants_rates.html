@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-3">
                                 <b>Бонусов:</b>
-                                <div class="bonuses-num"><span class="bonuses-num-text">{{ user.sum|default_if_none:"0" }}</span> <span>баллов</span></div>
+                                <div class="bonuses-num"><span class="bonuses-num-text">{{ user.sum|default_if_none:"0"|intcomma }}</span> <span>баллов</span></div>
                             </div>
                             <div class="col-4">
                                 <b class="pseudo-title-to-hide">&nbsp;</b>
