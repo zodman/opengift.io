@@ -46,6 +46,7 @@
                                 <h5 class="{% if forloop.first %}active{% endif %} js-select-role"
                                     data-role="{{ role.role.code }}">
                                     <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: {{ role.role.name }}
+                                    {% if project_graph.isPro and role.role.code == 'employee' %}<a href="/pro/" class="pro-icon"><i class="fa fa-star"></i></a>{% endif %}
                                 </h5>
                             {% endfor %}
                             {% if project_graph.roles|length > 1 %}
@@ -71,8 +72,8 @@
                                         <br/>
                                         {% endif %}
                                         <span
-                                            style="margin-top: 3px;display: inline-block;">Счет: <b>{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
-                                        <a href="/wiki/bonuses">?</a>
+                                            style="margin-top: 8px;display: inline-block;">Счет: <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
+                                        <a href="/wiki/bonuses">?</a>{% if not project_graph.isPro and role.role.code == 'employee' %}<a href="/pro/" class="premium-button clearfix ">Получить PRO</a>{% endif %}
                                     </div>
                                 </div>
                             </div>
