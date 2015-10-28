@@ -4481,7 +4481,7 @@ ul.colors {
     border-left: 3px solid #47a447;
     min-height: 115px;
 }
-.project_graph .well h5 {margin-bottom: 10px;}
+.project_graph .well h5 {margin-bottom: 5px;}
 .project_graph .well .role-titles {color:#47a447;}
 .project_graph .well .role-titles h5 {border-bottom:1px dashed #47a447; color:#47a447; display: inline-block; margin-right: 10px;}
 .project_graph .well .role-titles h5.active {color:#000; border-color:transparent;width: calc(100% - 30px);}
@@ -4510,4 +4510,45 @@ ul.colors {
     height: 100px;
     display: block;
     margin: 0 15px 0 0;
+}
+
+
+.hide-on-mobile span, .well.hide-on-mobile a {
+    vertical-align: inherit;
+}
+.premium-button,
+.premium-button:hover {
+    background: #ffa500 none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    left: 6px;
+    line-height: 13px;
+    overflow: hidden;
+    padding: 4px 8px;
+    position: relative;
+    text-transform: uppercase;
+    top: 5px;
+}
+
+.premium-button:hover {background: #eb9800; text-decoration: none;}
+
+.pro-icon {
+    background: #47a447 none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 9px;
+    height: 16px;
+    line-height: 16px;
+    position: relative;
+    text-align: center;
+    top: -9px;
+    width: 16px;
+}
+
+.pro-icon i {
+    line-height: 16px;
 }
