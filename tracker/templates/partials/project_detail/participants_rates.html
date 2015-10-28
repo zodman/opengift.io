@@ -26,6 +26,7 @@
                     <div class="desc">
                         <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a> </h4>
                         <div class="col-wrapper">
+                            {% if o.role.role.code != 'client' %}
                             <div class="col-3 first">
                                 <b>Цена часа</b>
                                 <div class="input-group">
@@ -35,7 +36,8 @@
                                     <div class="input-group-addon">SP</div>
                                 </div>
                             </div>
-                            <div class="col-3">
+                            {% endif %}
+                            <div class="col-{% if o.role.role.code != 'client' %}3{% else %}6{% endif %}">
                                 <b>Бонусов:</b>
                                 <div class="bonuses-num"><span class="bonuses-num-text">{{ user.sum|default_if_none:"0"|intcomma }}</span> <span>баллов</span></div>
                             </div>

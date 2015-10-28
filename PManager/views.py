@@ -1,8 +1,8 @@
 # -*- coding:utf-8 -*-
 # Create your views here.
 from django.shortcuts import HttpResponse, HttpResponseRedirect
-
-from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message
+from django.db.models import Sum
+from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee
 from PManager import widgets
 from django.template import loader, RequestContext
 
@@ -28,6 +28,31 @@ class Brains:
 
 
 class MainPage:
+    @staticmethod
+    def likeAPro(request):
+        from robokassa.forms import RobokassaForm
+        userFee = Fee.objects.filter(user=request.user).order_by('-id')
+        c = RequestContext(request)
+        fee = userFee.aggregate(Sum('value'))['value__sum'] or 0
+        feeLatId = userFee[0].id if userFee else None
+        if feeLatId:
+            form = RobokassaForm(initial={
+               'OutSum': fee,#order.total,
+               'InvId': feeLatId,#order.id,
+               'Desc': 'Пополнение счета Heliard',#order.name,
+               'Email': request.user.email,
+               'user': request.user.id
+            })
+            c.update(
+                {
+                    'fee': fee,
+                    'form': form
+                }
+            )
+
+
+        return HttpResponse(loader.get_template('main/pro.html').render(c))
+
     @staticmethod
     def promoTmp(request):
         c = RequestContext(request)
