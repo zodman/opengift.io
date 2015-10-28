@@ -31,14 +31,6 @@
     <p class="checkbox">
         <label>
             <input {% if not canEdit %}disabled="disabled" {% endif %}
-            {% if settings.disable_rating %}checked="checked" {% endif %}
-            type="checkbox" value="1" name="settings_disable_rating" >&nbsp;
-            Не учитывать рейтинг исполнителей
-        </label>
-    </p>
-    <p class="checkbox">
-        <label>
-            <input {% if not canEdit %}disabled="disabled" {% endif %}
             {% if settings.autohide_messages %}checked="checked" {% endif %}
             type="checkbox" value="1" name="settings_autohide_messages" >&nbsp;
             Скрывать сообщения клиента и исполнителя друг от друга
@@ -46,7 +38,7 @@
     </p>
     <p class="checkbox">
         <label>
-            Клиент без ставки покрывает расходы + <input {% if not canEdit %}disabled="disabled" {% endif %} type="text" name="settings_client_comission" value="{{ settings.client_comission }}" /> %
+            Наценка на расходы для инвестора <input {% if not canEdit %}disabled="disabled" {% endif %} type="text" name="settings_client_comission" value="{{ settings.client_comission }}" /> %
         </label>
     </p>
     <h2>Категории задач</h2>

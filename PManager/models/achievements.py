@@ -129,6 +129,9 @@ def addAchievement(sender, instance, **kwargs):
                     instance.resp.id != instance.author.id and \
                     not oldTask.wasClosed:
 
+                if not instance.resp.get_profile().is_outsource:
+                    return
+
                 closedTaskQty = PM_Task.objects.filter(
                     project=instance.project,
                     closed=True,
