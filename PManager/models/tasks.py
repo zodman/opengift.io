@@ -345,6 +345,10 @@ class PM_Milestone(models.Model):
 
 
 class PM_Task(models.Model):
+    MANAGER_ADDITION_PER_BUG = 0.1
+    RESP_SUBSTRUCTION_PER_BUG = 0.05
+    FEE = 0.07
+
     bool_choices = (
         ('N', u'No'),
         ('Y', u'Yes'),
@@ -484,7 +488,7 @@ class PM_Task(models.Model):
         self.save()
 
     def setCreditForTime(self):
-        from PManager.models import Credit, PM_Achievement
+        from PManager.models import Credit, PM_Achievement, PM_Task_Message, Fee
 
         allSum = 0
         allRealTime = 0
@@ -503,10 +507,11 @@ class PM_Task(models.Model):
                 cUserProf = cUser.get_profile()
 
                 if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
-                    userTaskHours = round(float(obj.summ) / 3600., 2)
+                    ob['time'] = round(float(obj.summ) / 3600., 2)
+
                     if self.planTime:
-                        if userTaskHours > self.planTime:
-                            ob['rating'] = -round(5 * (userTaskHours - self.planTime))
+                        if ob['time'] > self.planTime:
+                            ob['rating'] = -round(5 * (ob['time'] - self.planTime))
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
@@ -521,142 +526,116 @@ class PM_Task(models.Model):
                             except PM_Achievement.DoesNotExist:
                                 pass
 
-                    ob['time'] = userTaskHours
-
                     curUserRating = ob.get('rating', 0)
                     #set user rating
                     profResp = cUser.get_profile()
-                    if curUserRating != 0 and not self.project.getSettings().get('disable_rating', False):
+                    if curUserRating != 0 and profResp.is_outsource:
                         profResp.rating = (profResp.rating or 0) + curUserRating
+                        if profResp.rating < 0:
+                            profResp.rating = 0
+
                         profResp.save()
 
-                    curtime = ob.get('time', 0)
-                    if curtime:
-                        allRealTime += curtime
+                    if ob['time']:
+                        allRealTime += ob['time']
 
-                        userBet = profResp.getBet(self.project, 'real_time', 'employee')
+                        userBet = profResp.getBet(self.project, None, 'employee')
                         if userBet:
-                            curPrice = userBet * float(curtime)
+                            curPrice = userBet * float(ob['time'])
 
                             if curPrice:
+                                substruction = 0
+                                if bugsQty:
+                                    substruction = curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty
+                                    curPrice -= substruction
+
                                 credit = Credit(
                                     user=profResp.user,
                                     value=curPrice,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
-                                    comment=(('+' if curUserRating >= 0 else '') + str(curUserRating) + u' к рейтингу')
+                                    comment=(('+' if curUserRating >= 0 else '') + str(curUserRating) + u' к рейтингу') +
+                                            ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
                                 allSum = allSum + curPrice
 
+                                if profResp.is_outsource:
+                                    fee = Fee(
+                                        user=profResp.user,
+                                        value=curPrice * self.FEE,
+                                        project=self.project,
+                                        task=self
+                                    )
+                                    fee.save()
+
         if allRealTime or self.planTime:
-            #responsibles plan time
-            profResp = self.resp.get_profile()
             if self.planTime:
-                if self.resp.id != self.author.id:
-                    profRespBet = profResp.getBet(self.project, 'plan_time', 'employee')
-                    if profRespBet:
-                        curPrice = profRespBet * float(self.planTime)
-                        credit = Credit(
-                            user=self.resp,
-                            value=curPrice,
-                            project=self.project,
-                            task=self,
-                            type='Resp plan time'
-                        )
-                        credit.save()
-                        allSum = allSum + curPrice
+                managers = PM_ProjectRoles.objects.filter(
+                        project=self.project,
+                        role__code='manager'
+                    )
 
-            managers = PM_ProjectRoles.objects.filter(
-                    project=self.project,
-                    role__code='manager',
-                    user__in=self.observers.all()
-                )
+                cManagers = 0
+                aManagers = []
+                for manager in managers:
+                    bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
+                    if bet:
+                       cManagers += 1
+                       setattr(manager, 'bet', bet)
+                       aManagers.append(manager)
 
-            cManagers = 0
-            aManagers = []
-            for manager in managers:
-                bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
-                if bet:
-                   cManagers += 1
-                   setattr(manager, 'bet', bet)
-                   aManagers.append(manager)
-
-            for manager in aManagers:
-                curTime = None
-
-                if manager.payment_type == 'real_time' and allRealTime:
-                    curTime = allRealTime * 1.0 / cManagers
-
-                elif manager.payment_type == 'plan_time' and self.planTime:
+                for manager in aManagers:
                     curTime = self.planTime * 1.0 / cManagers
 
-                if curTime:
-                    bet = manager.bet
-                    price = bet * float(curTime)
-                    if price:
-                        credit = Credit(
-                            user=manager.user,
-                            value=price,
-                            project=self.project,
-                            task=self,
-                            type='Manager with bet'
-                        )
-                        credit.save()
+                    if self.planTime > allRealTime:
+                        divider = allRealTime
+                    else:
+                        divider = 2 * self.planTime - allRealTime
 
-                        allSum = allSum + price
+                    if divider > 0:
+                        curTime = curTime * round(divider / self.planTime, 2)
 
-            #clients
-            clients = PM_ProjectRoles.objects.filter(
-                project=self.project,
-                role__code='client'
-            )
+                        if curTime:
+                            bugQty = PM_Task_Message.objects.filter(author=manager, bug=True, task=self).count()
+                            if bugQty:
+                                curTime += curTime * self.MANAGER_ADDITION_PER_BUG * bugQty
 
-            cClients = 0
-            aClients = []
-            for client in clients:
-                clientProf = client.user.get_profile()
-                bet = clientProf.getBet(self.project, None, client.role.code)
-                if bet:
-                    setattr(client, 'bet', bet)
-                    aClients.append(client)
-                    cClients += 1
+                            bet = manager.bet
+                            price = bet * float(curTime)
+                            if price:
+                                credit = Credit(
+                                    user=manager.user,
+                                    value=price,
+                                    project=self.project,
+                                    task=self,
+                                    type='Manager with bet'
+                                )
+                                credit.save()
 
-            if cClients == 0 and clients.count() > 0 and allSum:
-                clientComission = int(self.project.getSettings().get('client_comission', 0))
-                if clientComission:
-                    clientRole = clients[0]
+                                allSum = allSum + price
+            if allSum:
+                #clients
+                clients = PM_ProjectRoles.objects.filter(
+                    project=self.project,
+                    role__code='client'
+                )
+
+                for client in clients:
+                    clientComission = int(self.project.getSettings().get('client_comission', 0) or 0)
                     allSum = round(allSum * (clientComission + 100) / 100, 2)
+
                     credit = Credit(
-                        user=clientRole.user,
+                        user=client.user,
                         value=-allSum,
                         project=self.project,
                         task=self,
                         type='Client with comission'
                     )
-                    credit.save()
-            else:
-                for client in aClients:
-                    bet = client.bet
-                    if bet:
-                        curTime = None
-                        if client.payment_type == 'plan_time':
-                            curTime = self.planTime * 1.0 / cClients
-                        elif client.payment_type == 'real_time':
-                            curTime = allRealTime * 1.0 / cClients
 
-                        if curTime:
-                            price = curTime * bet
-                            credit = Credit(
-                                user=client.user,
-                                value=-price,
-                                project=self.project,
-                                task=self,
-                                type='Client with bet'
-                            )
-                            credit.save()
-                            break
+                    credit.save()
+                    break
 
     def Open(self):
         self.closed = False

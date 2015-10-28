@@ -178,7 +178,9 @@ class PM_User(models.Model):
     def getOrCreateByEmail(email, project, role):
         try:
             user = User.objects.filter(username=email).get()  #достанем пользователя по логину
+            is_new = False
         except User.DoesNotExist:
+            is_new = True
             password = User.objects.make_random_password()
             login = email
             if len(login) > 30:
@@ -201,21 +203,21 @@ class PM_User(models.Model):
             from tracker.settings import ADMIN_EMAIL
             message.send([ADMIN_EMAIL])
 
-        if project:
-            p_user = PM_User.getByUser(user)
-            if not user.is_active:
-                user.is_active = True
-                user.save()
+        if not user.is_active:
+            user.is_active = True
+            user.save()
 
+        if is_new and project:
+            p_user = PM_User.getByUser(user)
             p_user.setRole(role, project)
 
         return user
 
     def getRating(self, project=None):
-        if project:
-            if project.getSettings().get('disable_rating', False):
-                return 0
+        if not self.is_outsource:
+            return 0
 
+        if project:
             if self.isClient(project):
                 return 0
 

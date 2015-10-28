@@ -7,7 +7,7 @@ from PManager.models import Credit, Specialty, \
     PM_Timer, PM_Role, PM_Task, PM_ProjectRoles, \
     PM_Properties, PM_Project, PM_Tracker, PM_User, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
-    PM_Reminder, PM_Project_Achievement, Conditions, Test
+    PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -23,8 +23,12 @@ class UserRolesInline(admin.TabularInline):
     extra = 0
 
 class CreditInline(admin.ModelAdmin):
-    list_display = ['user', 'payer', 'project', 'value', 'type', 'task', 'date']
+    list_display = ['user', 'payer', 'project', 'value', 'type', 'date', 'task']
     list_filter = ['user', 'payer', 'project__name']
+
+class FeeInline(admin.ModelAdmin):
+    list_display = ['user', 'project', 'value', 'date', 'task']
+    list_filter = ['user', 'project__name']
 
 class UserRoles(admin.ModelAdmin):
     list_display = ['user', 'project', 'role']
@@ -66,6 +70,7 @@ admin.site.register(Agent)
 admin.site.register(LogData, LogDatas)
 admin.site.register(Specialty)
 admin.site.register(Credit, CreditInline)
+admin.site.register(Fee, FeeInline)
 admin.site.register(AccessInterface)
 admin.site.register(Test)
 admin.site.register(Conditions)

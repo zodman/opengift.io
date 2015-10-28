@@ -316,6 +316,7 @@ class MainPage:
             clientBet = client.get_profile().getBet(p)
         except PM_ProjectRoles.DoesNotExist:
             pass
+
         userBets = {}
         atasks = []
         allsum = {

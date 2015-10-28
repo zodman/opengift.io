@@ -49,7 +49,7 @@
                                 </h5>
                             {% endfor %}
                             {% if project_graph.roles|length > 1 %}
-                                <a href="#" class="js-change-role"><i class="fa fa-chevron-right"></i> </a>
+                                <a href="#" class="js-change-role project_graph__change_role"><i class="fa fa-chevron-right"></i> </a>
                             {% endif %}
                         </div>
                         {% for role in project_graph.roles %}
@@ -58,17 +58,20 @@
 
                                 <div class="role-content">
                                     <div class="role-content-tab">
+                                        {% if role.role.code != 'client' %}
                                         <strong>Цена часа:</strong> &nbsp;<span
                                             class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
                                         {% if role.rate and project_graph.rating != 0 %}
                                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
                                                 +{% endif %}{{ project_graph.rating }}
-                                    </span>
-                                        {% else %}&nbsp;
+                                                </span>
+                                                    {% else %}&nbsp;
+                                                    {% endif %}
+                                            </span>
+                                        <br/>
                                         {% endif %}
-                                </span>
-                                        <br/><span
-                                            style="text-transform: lowercase;margin-top: 3px;display: inline-block;">{{ role.bet_type_name }}</span>
+                                        <span
+                                            style="margin-top: 3px;display: inline-block;">Счет: <b>{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
                                         <a href="/wiki/bonuses">?</a>
                                     </div>
                                 </div>
@@ -77,29 +80,31 @@
                     </div>
 
                 <div class="col-xs-6" style="border-left: 1px solid #efefef;">
-                    {% if project_graph.roles and project_graph.isEmployee %}
-                        <div class="js-graph-employee">
+                {% for role in project_graph.roles %}
+
+                        <div class="js-graph-{{ role.role.code }}">
+                        {% if role.role.code == 'employee' %}
                             <h5>Рейтинг специалиста</h5>
                             Закрыто задач всего: <b style="color:#5cb85c;">{{ project_graph.allTaskQty }}</b><br>
                             Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
                             <b style="color:#5cb85c;">{{ project_graph.taskTagPosition }}</b>-е место )
+                        {% elif role.role.code == 'manager' or role.role.code == 'client' %}
+                            <h5>Время открытых задач</h5>
+                            <table width="100%;">
+                                <tr>
+                                    <td><strong>Реальное</strong></td>
+                                    <td><strong>Плановое</strong></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">{{ project_graph.allOpenRealTime }}
+                                            ч.</b></td>
+                                    <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
+                                </tr>
+                            </table>
+                        {% endif %}
                         </div>
-                    {% endif %}
-                    <div class="js-graph-manager">
-                        <h5>Время открытых задач</h5>
-                        <table width="100%;">
-                            <tr>
-                                <td><strong>Реальное</strong></td>
-                                <td><strong>Плановое</strong></td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">{{ project_graph.allOpenRealTime }}
-                                        ч.</b></td>
-                                <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
-                            </tr>
-                        </table>
-                    </div>
+                 {% endfor %}
                 </div>
             </div>
         </div>
@@ -108,15 +113,7 @@
     <div class="col-sm-{% if project_graph.roles %}6{% else %}12{% endif %}">
         <div class="well hide-on-mobile" style="border-left-color: #fe781e;">
             <div class="row">
-                <div class="col-xs-4">
-                    <h5>Счет <a href="/wiki/bonuses">?</a></h5>
-                    <span style="white-space: nowrap;"><strong>Всего:&nbsp;</strong> <a href="/user_detail/?id={{ user.id }}#payments" style="text-decoration: none;"><b
-                            style="color:#fe781e;text-decoration: underline;">{{ project_graph.allPrice|intcomma }}</b></a></span><br>
-                    <span style="white-space: nowrap;"><strong>По проекту:&nbsp;</strong> <b
-                            style="font-size:13px;color: #999;">{{ project_graph.allProjectPrice|intcomma }}</b></span>
-                </div>
-
-                <div class="col-xs-8" style="border-left: 1px solid #efefef;">
+                <div class="col-xs-12" >
                     {% if project_graph.closestMilestone %}
                         <h5>Ближайшая цель</h5>
                         <b style="color:#{% if project_graph.closestMilestone.wouldOverdue %}d9534f{% else %}fe781e{% endif %};">{{ project_graph.closestMilestone.name }}</b>

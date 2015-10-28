@@ -5,6 +5,7 @@ from PManager.models import PM_Project, PM_Task
 from django.db.models.signals import post_save, pre_delete
 from django.db import connection
 
+
 class Credit(models.Model):
     user = models.ForeignKey(User, related_name='arrears', null=True, blank=True)
     payer = models.ForeignKey(User, related_name='credits', null=True, blank=True)
@@ -42,6 +43,16 @@ class Credit(models.Model):
 
         return arElems
 
+    class Meta:
+        app_label = 'PManager'
+
+
+class Fee(models.Model):
+    user = models.ForeignKey(User, related_name='fee', null=True, blank=True)
+    project = models.ForeignKey(PM_Project, related_name='fee', null=True, blank=True)
+    value = models.IntegerField()
+    task = models.ForeignKey(PM_Task, related_name='fee', null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     class Meta:
         app_label = 'PManager'
