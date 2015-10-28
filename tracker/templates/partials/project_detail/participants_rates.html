@@ -1,4 +1,4 @@
-{%load jsonify %}
+{%load jsonify humanize %}
 <div class="nachislenie-bonusov">
     <h2>Ставки участников</h2>
     <hr>
@@ -38,7 +38,7 @@
                             <div class="col-md-7" >
                                 <b>Бонусов:</b>
                                 <div class="input-group">
-                                    <span style="font-size: 2.3em">{{ user.sum|default_if_none:"0" }}</span>
+                                    <span style="font-size: 2.3em">{{ user.sum|default_if_none:"0"|intcomma }}</span>
                                 </div>
                             </div>
                         </div>
