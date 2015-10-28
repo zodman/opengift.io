@@ -509,11 +509,39 @@ div.widget-control .w-close {background-position:-15px -396px; padding: 0px;}
     ###############################################################*/
 
 div.overflow {background:#000; opacity:0.7; position:fixed; width:100%; height:100%; z-index:1000; left:0px; top:0px;}
-div.popup {background:#f0f0f0; position:fixed; margin: 0 auto !important; left: 0; right: 0; top:150px; width:385px; box-shadow:0px 0px 25px #000; -webkit-box-shadow:0px 0px 25px #000; -moz-box-shadow:0px 0px 25px #000; padding:25px 35px; z-index:9999;-webkit-border-radius: 5px;-moz-border-radius: 5px;border-radius: 5px; }
-.popup-close, .popup-close:hover {position:absolute; top:5px; right:5px; font-size:20px; color:#5cb85c;}
+div.popup {
+    background:#fff;
+    position:fixed;
+    margin: 0 auto !important;
+    left: 0;
+    right: 0;
+    top:150px;
+    width:385px;
+    box-shadow:0 5px 15px rgba(0, 0, 0, 0.5);
+    -webkit-box-shadow:0 5px 15px rgba(0, 0, 0, 0.5);
+    -moz-box-shadow:0 5px 15px rgba(0, 0, 0, 0.5);
+    padding:25px 35px;
+    z-index:9999;
+}
+ .popup-close, .popup-close:hover {position:absolute; top:5px; right:5px; font-size:20px; color:#5cb85c;}
 div.popup .row {margin-bottom:15px; line-height:30px;}
 div.popup .row input[type="text"] {display:block; float:left; margin:0px;}
 
+
+.popup .modal-header {
+    margin: -25px -35px 0px;
+}
+
+.popup .modal-body {
+    margin: 0 -35px;
+    padding: 20px 25px;
+}
+
+.modal-body-img {width: 90px; margin: 0px 20px 0px 0px;}
+
+.popup .modal-footer {
+    margin: 0 -35px -25px;
+}
 
 div.add-message .radio.inline, div.add-message .checkbox.inline {float:left;}
 div.add-message select, input[type="file"] {height:auto;}
@@ -3478,11 +3506,17 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 
 .user-role-block .desc {float: left; width: calc(100% - 105px);}
+.user-role-block .desc b {display: block; margin-bottom: 6px;}
+
+.user-role-block .desc .bonuses-num {line-height: 21px; padding-top: 7px;}
+.user-role-block .desc .bonuses-num .bonuses-num-text {font-size: 24px; color: #47a447; }
 
 .nachislenie-bonusov .row-fluid p {margin-bottom: 7px;}
 .nachislenie-bonusov .row-fluid [class*="span"] {
         margin-bottom: 10px;
 }
+
+.nachislenie-bonusov .col-3.first {padding-right: 20px;}
 
 .roleName {position: relative; margin-top: -52px; text-align: center;}
 .roleName h4 {font-size: 30px; color:#47a447; background: #f2f2f2; padding: 15px 25px; display: inline-block; }
@@ -3501,12 +3535,17 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 
 .js-copy-password {color:#333;}
-.js-bonus-complete {float: right;}
 
 
 @media only screen and (max-width: 1024px) {
     .nachislenie-bonusov .col-7,
-    .nachislenie-bonusov .col-3 {width: 100%; padding-right: 0px; margin-bottom: 10px;}
+    .nachislenie-bonusov .col-3,
+    .nachislenie-bonusov .col-4 {width: 100%; padding-right: 0px !important; margin-bottom: 10px;}
+
+
+    .nachislenie-bonusov .col-7:last-child,
+    .nachislenie-bonusov .col-3:last-child,
+    .nachislenie-bonusov .col-4:last-child {margin-bottom: 0px;}
 
 
 
@@ -3520,12 +3559,16 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     }
     .bonuses span {display: block; top: 0px; margin: 0;}
 
-    .js-bonus-complete {float: none; display: block; margin: 5px auto 0;}
+    .pseudo-title-to-hide {display: none !important;}
+
 }
 
 @media only screen and (max-width: 576px) {
     header .header > nav > ul > li {width: 20%;}
     .hide-on-mobile {display: none !important;}
+
+    .user-role-block .avatar {display: none;}
+    .user-role-block .desc {width: 100%; float: none;}
 }
 
 
@@ -4453,7 +4496,7 @@ ul.colors {
     border-left: 3px solid #47a447;
     min-height: 115px;
 }
-.project_graph .well h5 {margin-bottom: 10px;}
+.project_graph .well h5 {margin-bottom: 5px;}
 .project_graph .well .role-titles {color:#47a447;}
 .project_graph .well .role-titles h5 {border-bottom:1px dashed #47a447; color:#47a447; display: inline-block; margin-right: 10px;}
 .project_graph .well .role-titles h5.active {color:#000; border-color:transparent;width: calc(100% - 30px);}
@@ -4482,4 +4525,45 @@ ul.colors {
     height: 100px;
     display: block;
     margin: 0 15px 0 0;
+}
+
+
+.hide-on-mobile span, .well.hide-on-mobile a {
+    vertical-align: inherit;
+}
+.premium-button,
+.premium-button:hover {
+    background: #ffa500 none repeat scroll 0 0;
+    border-radius: 4px;
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    left: 6px;
+    line-height: 13px;
+    overflow: hidden;
+    padding: 4px 8px;
+    position: relative;
+    text-transform: uppercase;
+    top: 5px;
+}
+
+.premium-button:hover {background: #eb9800; text-decoration: none;}
+
+.pro-icon {
+    background: #ffa500 none repeat scroll 0 0;
+    border-radius: 50%;
+    color: #fff;
+    display: inline-block;
+    font-size: 9px;
+    height: 16px;
+    line-height: 16px;
+    position: relative;
+    text-align: center;
+    top: -9px;
+    width: 16px;
+}
+
+.pro-icon i {
+    line-height: 16px;
 }
