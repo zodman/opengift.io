@@ -70,6 +70,9 @@ def executors_available(task_draft, active_task_limit=10):
                                        last_activity_date__gt=(
                                            datetime.now() - timedelta(days=TIME_INACTIVE_MAX_DAYS)))
         users.exclude(user__in=task_draft.users.distinct()).exclude(user__in=task.project.getUsers()).distinct()
+        if not users:
+            return None
+
         for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=users).iteritems():
             try:
                 user_ids.add(int(user_id))
