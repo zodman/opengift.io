@@ -30,6 +30,7 @@ admin.autodiscover()
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
 from PManager.models.tasks import PM_Project
+from PManager.models.payments import Fee
 from django.contrib.auth.models import User
 import datetime
 
@@ -42,23 +43,11 @@ def payment_received(sender, **kwargs):
     sum = int(float(kwargs['OutSum']))
 
     if sum:
-        days = None
-        if sum == 900:
-            days = 30
-        elif sum == 2300:
-            days = 90
-        elif sum == 9000:
-            days = 365
-
-        if days:
-            user.is_staff = True
-            user.save()
-            date = profile.premium_till or datetime.datetime.now()
-            date = date + datetime.timedelta(days=days)
-            profile.premium_till = date
-            profile.save()
-
-        PM_Project.objects.filter(author=user, locked=True).update(locked=False)
+        fee = Fee(
+            user=user,
+            value=-sum
+        )
+        fee.save()
 
 
 result_received.connect(payment_received)
@@ -75,6 +64,7 @@ urlpatterns = patterns('',
                        url(r'^widget_update/(?P<widget_name>[A-z_]+)', MainPage.widgetUpdate),
                        url(r'^user_list/', MainPage.indexRender, {'widgetList': ["user_list"], 'activeMenuItem': 'user_list'}),
                        url(r'^life/', MainPage.indexRender, {'widgetList': ["life"]}),
+                       url(r'^pro/', MainPage.likeAPro),
                        url(r'^achievements/', MainPage.indexRender, {'widgetList': ["achievements"]}),
                        url(r'^user_detail/', MainPage.indexRender, {'widgetList': ["user_detail"]}, name='user-detail'),
                        url(r'^task_edit/$', MainPage.indexRender,
