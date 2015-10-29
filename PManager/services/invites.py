@@ -60,9 +60,9 @@ def get_evaluations(user, draft, task):
         return None
 
 
-def executors_available(task_draft, active_task_limit=3):
-    TIME_INACTIVE_MAX_DAYS = 30
-    NUMBER_OF_TOP_USERS = 5
+def executors_available(task_draft, active_task_limit=10):
+    TIME_INACTIVE_MAX_DAYS = 60
+    NUMBER_OF_TOP_USERS = 10
     user_ids = set()
     for task in task_draft.tasks.all():
         users = PM_User.objects.filter(is_outsource=True,
@@ -80,6 +80,7 @@ def executors_available(task_draft, active_task_limit=3):
     for user_id in user_ids:
         if user_active_tasks(user_id) < active_task_limit:
             users_acceptable.add(user_id)
+
     return users_acceptable
 
 
