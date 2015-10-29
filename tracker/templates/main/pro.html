@@ -110,7 +110,7 @@
     {% if user.get_profile.is_outsource %}
         <p>У вас уже есть премиум аккаунт</p>
         <form name="robo" action="{{ form.target }}" method="POST">
-        {{ project_graph.payForm.as_p }}
+        {{ form.as_p }}
         </form>
         {% if fee %}
         <p><a href="#" {% if fee >= 0 %}onclick="document.forms.robo.submit();" {% endif %} class="btn btn-lg btn-success ">Оплатить комиссию {{ fee }} руб.</a></p>
