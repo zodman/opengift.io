@@ -546,7 +546,7 @@ class PM_Task(models.Model):
                             if curPrice:
                                 substruction = 0
                                 if bugsQty:
-                                    substruction = curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty
+                                    substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
 
                                 credit = Credit(
