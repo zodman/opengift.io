@@ -124,8 +124,16 @@
         </p>
         {% endif %}
         {% if not task_detail.task.parentTask %}
-            <div class="tasks">
+        <script>
+            $( document ).ready(function() {
+                $(".js-sub-tasks-button").click(function() {
+                    $(".js-sub-tasks").toggle();
+                });
+            });
+        </script>
+            <div class="tasks js-sub-tasks">
                 <div class="task-wrapper">
+                    <div class="tasks-title">Подзадачи<a class="js-sub-tasks-button">Показать</a></div>
                     <div class="subtask">
                         {% if task_detail.hiddenSubTasksExist %}
                             <div class="show-closed-task">
