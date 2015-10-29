@@ -61,7 +61,7 @@ class PM_User(models.Model):
     skype = models.CharField(max_length=70, null=True, blank=True)
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to=path_and_rename("users"))
-    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Ставка')
+    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Желаемая ставка')
 
     premium_till = models.DateTimeField(blank=True, null=True, verbose_name='Оплачен до')
     paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated

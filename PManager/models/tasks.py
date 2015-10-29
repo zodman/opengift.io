@@ -580,6 +580,9 @@ class PM_Task(models.Model):
                 cManagers = 0
                 aManagers = []
                 for manager in managers:
+                    if not manager.rate:
+                        continue
+
                     bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                     if bet:
                        cManagers += 1

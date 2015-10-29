@@ -12,9 +12,12 @@ from django.shortcuts import redirect
 from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user, get_draft_by_slug
 from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
+from django.shortcuts import HttpResponseRedirect
 
 
 def taskdraft_detail(request, draft_slug):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/?backurl=/taskdraft/' + draft_slug)
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
         raise Http404
