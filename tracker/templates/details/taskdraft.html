@@ -37,7 +37,6 @@
                     float: left;
                     height: 70px;
                     overflow: hidden;
-                    padding: 3px;
                     width: 70px;
                 }
                 .invite-user-item-left > span {
@@ -122,7 +121,7 @@
                         {% for user in users %}
                         <li class="clearfix">
                             <div class="invite-user-item-left">
-                                <span><img src="{{ user.get_profile.avatarSrc }}"></span>
+                                <div class="avatar_container js-avatar-container" data-size="70" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
                             </div>
                             <div class="invite-user-item-right">
                                 <a href="/user_detail/?id={{ user.id }}"><b>{{ user.get_full_name }}</b></a><br>
