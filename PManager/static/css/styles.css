@@ -889,19 +889,48 @@ border-bottom-right-radius: 0px;}
 .task-wrapper.task_over,
 .task-wrapper.critically.task_over {box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6;	-o-box-shadow:0px 1px 2px #FFE0A6;	-webkit-box-shadow:0px 1px 2px #FFE0A6;	-moz-box-shadow:0px 1px 2px #FFE0A6; background:#FFFDF1 !important;}
 
-.task-wrapper {border-top: 1px solid #eee;border-right: 1px solid #eee;margin-bottom:10px; box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -moz-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; -webkit-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset; line-height:24px; background:#f4f4f4;}
+.task-wrapper {border-top: 1px solid #eee;
+    border-right: 1px solid #eee;
+    margin-bottom:10px;
+    box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset;
+    -moz-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset;
+    -webkit-box-shadow:0px 1px 2px rgba(1, 1, 1, 0.2), 0px -1px 0px #ccc inset;
+    line-height:24px;
+    background:#f4f4f4;
+}
+
+.box-shadow-0 .task-wrapper {
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.sub-tasks-button,
+.sub-tasks-button:hover,
+.sub-tasks-button:focus {
+    background: #fff none repeat scroll 0 0;
+    border-radius: 3px;
+    text-decoration: none;
+    display: inline-block;
+    float: right;
+    font-size: 11px;
+    height: 20px;
+    line-height: 18px;
+    margin-top: 2px;
+    padding: 1px 9px;
+}
+
+.sub-tasks-button:hover {color:#468847;}
+
 
 .tasks-title {
     background: #47a447 none repeat scroll 0 0;
     border-left: 3px solid #468847;
-    border-radius: 3px 3px 0 0;
-    -moz-border-radius: 3px 3px 0 0;
-    -webkit-border-radius: 3px 3px 0 0;
     color: #fff;
     font-size: 14px;
     font-weight: bold;
     margin: 0;
-    padding: 10px 15px 8px;
+    padding: 4px 15px;
 }
 
 .temp_task {border-top: 2px dashed #ddd;  border-bottom: 2px dashed #ddd; background:#f9f9f9;  width: 100%;  height: 45px; margin: 10px 0 10px;}
