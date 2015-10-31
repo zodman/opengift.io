@@ -347,7 +347,7 @@ class PM_Milestone(models.Model):
 class PM_Task(models.Model):
     MANAGER_ADDITION_PER_BUG = 0.1
     RESP_SUBSTRUCTION_PER_BUG = 0.05
-    FEE = 0.07
+    FEE = 0.1
 
     bool_choices = (
         ('N', u'No'),
