@@ -118,7 +118,7 @@ RESPONSIVE FIXES
 	}
 
     header .intro-section {
-        padding-top: 13%;
+        padding-top: 0%;
     }
 
     .features .features-left,
@@ -175,7 +175,7 @@ RESPONSIVE FIXES
     .popup.popup-alert .content {text-align: center;}
 
     header .intro-section {
-        padding-top: 23%;
+        padding-top: 0%;
 		padding-bottom:25px;
     }
 
@@ -339,25 +339,25 @@ RESPONSIVE FIXES
 }
 
 @media (min-width: 480px) {
-	.download .container {top:12%;}
+	.download .container {top:10%;}
     .video {height:600px;}
 }
 @media (min-width: 568px) {
-	.download .container {top:20%;}
+	.download .container {top:10%;}
 	.video {height:650px;}
 }
 
 @media (min-width: 768px) {
-	.download .container {top:23%;}
+	.download .container {top:10%;}
 	.video {height:600px;}
 }
 
 @media (min-width: 1024px) {
-	.download .container {top:25%;}
+	.download .container {top:11%;}
 	.video {height:800px;}
 }
 @media (min-width: 1280px) {
-	.download .container {top:30%;}
+	.download .container {top:12%;}
 	.video {height:auto;max-width:inherit; width:100%;}
 }
 
