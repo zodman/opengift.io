@@ -371,7 +371,7 @@ header .only-logo .navbar .navbar-header {
 
 header .intro-section {
     margin: auto;
-    padding-top: 10%;
+    /*padding-top: 10%;*/
     padding-bottom: 5%;
 }
 
@@ -1459,10 +1459,10 @@ object {
     display: none;
 }
 
-.download h2 {
-    margin-bottom: 30px;
-	margin-top:0px;
-}
+/*.download h2 {*/
+    /*margin-bottom: 30px;*/
+	/*margin-top:0px;*/
+/*}*/
 
 
 /*---------------------------------------

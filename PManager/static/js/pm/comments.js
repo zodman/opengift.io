@@ -226,7 +226,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
                 arKeys['TODO_BTN'] = '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">To Do</a>';
-                arKeys['BUG_BTN'] = '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Bug</a>';
+                arKeys['BUG_BTN'] = '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Ошибка</a>';
                 //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 

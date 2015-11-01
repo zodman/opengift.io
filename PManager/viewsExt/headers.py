@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Project
+from PManager.models import PM_Project, PM_ProjectRoles
 from PManager.viewsExt.forms import WhoAreYou
 from django.contrib.auth import logout
 from PManager.services.trackers import get_tracker
@@ -91,6 +91,11 @@ def initGlobals(request):
                 if form.cleaned_data['sitename']:
                     project.name = form.cleaned_data['sitename']
                     project.save()
+                if form.cleaned_data['need_manager'] == 'N':
+                    pass
+                else:
+                    PM_ProjectRoles.objects.filter(project=project, user=request.user).delete()
+                    request.user.get_profile().setRole('client', project)
 
                 redirect = "/?project=" + str(project.id)
             except PM_Project.DoesNotExist:

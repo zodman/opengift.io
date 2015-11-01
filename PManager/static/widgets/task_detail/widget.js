@@ -191,12 +191,12 @@ $(function(){
                 if ($(this).data('open')){
                     proc = function(view){
                         return view.$el.addClass(h).prev('hr').addClass(h);
-                    }
+                    };
                     $(this).data('open',false).text('Показать закрытые задачи');
                 }else{
                     proc = function(view){
                         return view.$el.removeClass(h).prev('hr').removeClass(h);
-                    }
+                    };
                     $(this).data('open',true).text('Скрыть закрытые подзадачи');
                 }
                 for (var i in widget_td.subtaskTemplates){
