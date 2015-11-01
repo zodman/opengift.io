@@ -59,21 +59,28 @@ def get_evaluations(user, draft, task):
     except (ValueError, PM_Task_Message.DoesNotExist):
         return None
 
+def get_all_active_outsourcers(time_inactive=60, exclude=None):
+    last_date = datetime.now() - timedelta(days=time_inactive)
+    user_ids = PM_User.objects.filter(is_outsource=1,
+                                   user__is_active=True,
+                                   last_activity_date__gt=last_date,
+                                   last_activity_date__isnull=False).values_list('user_id', flat=True)
+    users = User.objects.filter(pk__in=user_ids)
+    if exclude is not None:
+        for x in exclude:
+            users.exclude(pk__in=x)
+    return users
 
 def executors_available(task_draft, active_task_limit=10):
-    TIME_INACTIVE_MAX_DAYS = 60
     NUMBER_OF_TOP_USERS = 10
     user_ids = set()
-    for task in task_draft.tasks.all():
-        users = PM_User.objects.filter(is_outsource=True,
-                                       user__is_active=True,
-                                       last_activity_date__gt=(
-                                           datetime.now() - timedelta(days=TIME_INACTIVE_MAX_DAYS)))
-        users.exclude(user__in=task_draft.users.distinct()).exclude(user__in=task.project.getUsers()).distinct()
-        if not users:
-            return None
+    users = get_all_active_outsourcers(exclude=(task_draft.users.distinct(),))
+    if not users:
+        return None
 
-        for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=users).iteritems():
+    for task in task_draft.tasks.all():
+        task_users = users.exclude(pk__in=task.project.getUsers()).distinct()
+        for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=task_users).iteritems():
             try:
                 user_ids.add(int(user_id))
             except ValueError:
@@ -88,12 +95,6 @@ def executors_available(task_draft, active_task_limit=10):
 
 
 def send_invites(users, draft):
-    emails = []
-    for user in users:
-        emails.append(user.user.email)
-
-    emails.append(ADMIN_EMAIL)
-
     sender = emailMessage(
         'invite_draft',
         {
@@ -102,4 +103,6 @@ def send_invites(users, draft):
         },
         'Приглашение к сотрудничеству'
     )
-    sender.send(emails)
+    sender.send([ADMIN_EMAIL])
+    for user in users:
+        sender.send([user.user.email])
