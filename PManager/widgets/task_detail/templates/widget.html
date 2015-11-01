@@ -124,13 +124,6 @@
         </p>
         {% endif %}
         {% if not task_detail.task.parentTask %}
-        <script>
-            $( document ).ready(function() {
-                $(".js-sub-tasks-button").click(function() {
-                    $(".js-addTaskInput").toggle();
-                });
-            });
-        </script>
             <div class="tasks js-sub-tasks box-shadow-0">
                 <div class="task-wrapper">
                     <div class="tasks-title">Подзадачи<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a></div>

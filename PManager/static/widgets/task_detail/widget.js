@@ -31,6 +31,7 @@ $(function(){
     widget_td.$todoList = widget_td.$container.find('.js-todo-list');
     widget_td.$todoContainer = widget_td.$container.find('.js-todo-container');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
+    widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
@@ -167,7 +168,12 @@ $(function(){
                 if (event.which == 13 && (event.ctrlKey || event.metaKey)){
                     $('.sendTaskMessage:not(.btn-close, .js-change_resp)').click();
                     return false;
-                };
+                }
+            });
+
+            widget_td.$addSubtaskBtn.click(function(){
+                $(".js-addTaskInput").toggle().not(':hidden').focus();
+                return false;
             });
 
             widget_td.$container.on("keypress", "form.newMessage .combobox-container .combobox", function(e){
