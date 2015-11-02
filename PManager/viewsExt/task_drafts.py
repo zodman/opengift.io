@@ -50,7 +50,7 @@ def taskdraft_resend_invites(request, draft_slug):
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
     try:
-        users = PM_User.objects.filter(pk__in=user_ids)
+        users = PM_User.objects.filter(user_id__in=user_ids)
     except (ValueError, PM_User.DoesNotExist):
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
