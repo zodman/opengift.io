@@ -1,10 +1,9 @@
 (function($){
-    console.log('help me!');
     var data = window.heliardData,
         aTaskList = window.heliardData.aTaskList,
         taskRespSummary = window.heliardData.taskRespSummary,
         events = {
-            "click .js-task-draft_envelopes-expand": "openDiscussion",
+            "click .js-draft-discussion_toggle": "openDiscussion",
             "click a.js-task_menu": "showMenu",
             "click a.js-select_resp": "showResponsibleMenu",
             "click a.js-resp-approve": "responsibleApprove",
@@ -13,19 +12,37 @@
         };
     var draftViewClass = window.taskViewClass.extend({
         events: events,
-        'openDiscussion': function(ev){
+        'openDiscussion': function(ev, task){
+            var CONTAINER_SELECTOR = '.js-discussion_container',
+                STATUS_COLLAPSE_CLASS = 'js-draft-expanded',
+                CONTAINER = '.'
+                collapsed = !$(ev.delegateTarget).hasClass(STATUS_COLLAPSE_CLASS),
+                container = $(ev.delegateTarget).find(CONTAINER_SELECTOR),
+                displayContainer = function(){
+                    collapsed = false;
+                    $(container).show('slow');
+                    $(ev.delegateTarget).addClass(STATUS_COLLAPSE_CLASS);
+                };
             ev.preventDefault();
             ev.stopPropagation();
-            var collapsed = true;
-
             if(!collapsed) {
                 collapsed = true;
+                $(ev.delegateTarget).removeClass(STATUS_COLLAPSE_CLASS);
+                $(container).hide('slow');
                 return false;
             }
-            if (typeof this.discussion == "undefined"){
-                this.discussion = "";
+            if (typeof(ev.delegateTarget.dataset.discussion) == "undefined" ||
+                ev.delegateTarget.dataset.discussion === ''){
+                ev.delegateTarget.dataset.discussion = "";
+                url = '/taskdraft/' + data.draft.slug +'/' + ev.delegateTarget.dataset.taskid + '?is_xhr=1';
+                $(container).hide();
+                $.get(url, function(response){
+                    $(container).html(response);
+                    ev.delegateTarget.dataset.discussion = "true";
+                    displayContainer();
+                });
             }else{
-                collapsed = false;
+                displayContainer();
             }
             return false;
         },
@@ -72,7 +89,7 @@
     });
     $('document').ready(function(){
         var views = [];
-        var $task_container = $('.js-tasks')
+        var $task_container = $('.js-tasks');
         $.extend($task_container, {
             'TL_Tasks': new window.taskList()
         });

@@ -64,6 +64,7 @@ def taskdraft_resend_invites(request, draft_slug):
 
 def taskdraft_task_discussion(request, draft_slug, task_id):
     draft = get_draft_by_slug(draft_slug, request.user)
+    is_xhr = request.GET.get('is_xhr', None);
     if not draft:
         raise Http404
     try:
@@ -73,14 +74,17 @@ def taskdraft_task_discussion(request, draft_slug, task_id):
     if request.method == 'POST':
         return __add_message(request, draft, task)
     evaluations = get_evaluations(request.user, draft, task)
-    messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('-created_at')
+    messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('created_at')
     context = RequestContext(request, {
         'draft': draft,
         'task': task,
         'simple_messages': messages.all(),
         'evaluations': evaluations
     })
-    template = loader.get_template('details/taskdraft_task.html')
+    if is_xhr is not None:
+        template = loader.get_template('details/taskdraft_task_ajax.html')
+    else:
+        template = loader.get_template('details/taskdraft_task.html')
     return HttpResponse(template.render(context))
 
 
@@ -112,7 +116,15 @@ def __add_message(request, draft, task):
         return
     message = SimpleMessage.objects.create(text=message.strip(), author=request.user, task=task, task_draft=draft)
     message.save()
-    return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
+    is_xhr = request.GET.get('is_xhr', None)
+    if is_xhr is not None:
+        context = RequestContext(request, {
+            'message': message
+        })
+        template = loader.get_template('details/taskdraft_task_message.html')
+        return HttpResponse(template.render(context))
+    else:
+        return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
 
 
 def __show(request, draft):

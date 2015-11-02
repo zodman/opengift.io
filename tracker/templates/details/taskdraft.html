@@ -14,7 +14,6 @@
             </div>
         </div>
         <div class="widget-body">
-
             <div class="invite-wrapper clearfix">
                 <div class="invite-user-list">
                     <div class="clearfix">
@@ -72,34 +71,34 @@
             </div>
         </div>
     </div>
-{% block javascript %}
-    <script language="javascript">
-        (function(){
-            window.taskHtml = {{ tasks_template|jsonify|safe }};
+    {% block javascript %}
+        <script language="javascript">
+            (function(){
+                window.taskHtml = {{ tasks_template|jsonify|safe }};
 
-            var aTaskList = [],taskRespSummary = {};
-            {% for task in tasks %}
-                aTaskList.push({{ task|jsonify|safe }});
-                taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
-                {% if task.time %}
-                    arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
-                    {% if task.startedTimerExist %}
-                        arTimers['{{ task.id }}'].start();
+                var aTaskList = [],taskRespSummary = {};
+                {% for task in tasks %}
+                    aTaskList.push({{ task|jsonify|safe }});
+                    taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
+                    {% if task.time %}
+                        arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                        {% if task.startedTimerExist %}
+                            arTimers['{{ task.id }}'].start();
+                        {% endif %}
                     {% endif %}
-                {% endif %}
-            {% endfor %}
-            window.heliardData = {
-                responsibleTag: '{% if draft.author.id == request.user.id %}a{% else %}span{% endif %}',
-                draft: {
-                    id: {{ draft.id }},
-                    slug: '{{ draft.slug }}'
-                },
-                aTaskList: aTaskList,
-                taskRespSummary: taskRespSummary
-            };
-        })();
-    </script>
-    {% compressed_js 'taskdraft_detail' %}
-{% endblock %}
+                {% endfor %}
+                window.heliardData = {
+                    responsibleTag: '{% if draft.author.id == request.user.id %}a{% else %}span{% endif %}',
+                    draft: {
+                        id: {{ draft.id }},
+                        slug: '{{ draft.slug }}'
+                    },
+                    aTaskList: aTaskList,
+                    taskRespSummary: taskRespSummary
+                };
+            })();
+        </script>
+        {% compressed_js 'taskdraft_detail' %}
+    {% endblock %}
 
 {% endblock %}
