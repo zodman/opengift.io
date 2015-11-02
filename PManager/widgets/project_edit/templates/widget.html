@@ -1,71 +1,37 @@
 {% load floattags compressed %}
 {% compressed_js 'project_edit' %}
-{% if project_edit.need_payment %}
-    <form action="{{ project_edit.form.target }}"
-          method="POST" name="robo">
+<div class="widget inner clearfix">
+    <div class="widget-title">Добавление проекта</div><br />
+    <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ project_edit.form.as_p }}
-    </form>
-    <div class="promo_payment">
-        <h4><i class="fa fa-diamond"></i>Premium аккаунт Heliard</h4>
-
-        <p align="center"><b>С Premium аккаунтом вы можете:</b></p>
-        <ul>
-            <li><i class="fa fa-folder"></i>Создавать и вести любое количество своих собственных проектов</li>
-            <li><i class="fa fa-user-plus"></i>Приглашать людей в проекты и распределять их роли в них</li>
-            <li><i class="fa fa-paper-plane"></i>Видеть и получать на почту ежедневные отчеты по своим проектам</li>
-            <li><i class="fa fa-file-text-o"></i>Вести собственную Wiki по своим проектам</li>
-            <li><i class="fa fa-star"></i>Определять для сотрудников ставки, бонусы и награды за потраченное время</li>
-        </ul>
-        <p class="price" align="center"><span>900 руб.</span> / месяц <br>
-            <button class="btn btn-success btn-large" onclick="document.robo.submit()">Получить Premium</button>
-        </p>
-        <div class="payment-logos">
-            <a class="visa" href="#"></a>
-            <a class="master" href="#"></a>
-            <a class="am" href="#"></a>
-            <a class="jcb" href="#"></a>
-            <a class="dinners" href="#"></a>
-            <a class="webmoney" href="#"></a>
-            <a class="yandex" href="#"></a>
-            <a class="qiwi" href="#"></a>
-        </div>
-
-    </div>
-{% else %}
-    <div class="widget inner clearfix">
-        <div class="widget-title">Добавление проекта</div><br />
-        <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
-            {% csrf_token %}
-            {% for field in project_edit.form %}
-                {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
+        {% for field in project_edit.form %}
+            {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' %}
+            {% else %}
+                {% if field.name == 'closed' %}
+                    <div class="row show-grid">
+                        <div class="col-xs-2"></div>
+                        <div class="col-xs-6"><label class="control-label">{{ field }}&nbsp;<span
+                                style="top:2px;display:inline-block;position:relative;">{{ field.label_tag }}</span></label>
+                        </div>
+                        <div class="col-xs-4">{{ field.errors }}</div>
+                    </div>
                 {% else %}
-                    {% if field.name == 'closed' %}
-                        <div class="row show-grid">
-                            <div class="col-xs-2"></div>
-                            <div class="col-xs-6"><label class="control-label">{{ field }}&nbsp;<span
-                                    style="top:2px;display:inline-block;position:relative;">{{ field.label_tag }}</span></label>
-                            </div>
-                            <div class="col-xs-4">{{ field.errors }}</div>
+                    <div class="row show-grid">
+                        <div class="col-xs-2"><label class="col-xs-2 control-label">{{ field.label_tag }}</label>
                         </div>
-                    {% else %}
-                        <div class="row show-grid">
-                            <div class="col-xs-2"><label class="col-xs-2 control-label">{{ field.label_tag }}</label>
-                            </div>
-                            <div class="col-xs-6">{{ field }}</div>
-                            <div class="col-xs-4">{{ field.errors }}</div>
-                        </div>
-                    {% endif %}
+                        <div class="col-xs-6">{{ field }}</div>
+                        <div class="col-xs-4">{{ field.errors }}</div>
+                    </div>
                 {% endif %}
-            {% endfor %}
-            <div class="row show-grid">
+            {% endif %}
+        {% endfor %}
+        <div class="row show-grid">
+        </div>
+        <div class="row show-grid">
+            <div class="col-xs-2"></div>
+            <div class="col-xs-6">
+                <input type="submit" value="Сохранить" class="btn btn-success js-submit">
             </div>
-            <div class="row show-grid">
-                <div class="col-xs-2"></div>
-                <div class="col-xs-6">
-                    <input type="submit" value="Сохранить" class="btn btn-success js-submit">
-                </div>
-            </div>
-        </form>
-    </div>
-{% endif %}
+        </div>
+    </form>
+</div>

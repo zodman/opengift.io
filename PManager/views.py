@@ -41,7 +41,8 @@ class MainPage:
                'InvId': feeLatId,#order.id,
                'Desc': 'Пополнение счета Heliard',#order.name,
                'Email': request.user.email,
-               'user': request.user.id
+               'user': request.user.id,
+               'request': ''
             })
             c.update(
                 {
@@ -49,7 +50,6 @@ class MainPage:
                     'form': form
                 }
             )
-
 
         return HttpResponse(loader.get_template('main/pro.html').render(c))
 

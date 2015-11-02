@@ -1,9 +1,9 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone
+from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone, PaymentRequest
 from django.db.models import Sum, Count
 from django.contrib.contenttypes.models import ContentType
-
+from robokassa.forms import RobokassaForm
 from django.contrib.auth.models import User
 from PManager.widgets.gantt.widget import widget as gantWidget
 
@@ -18,6 +18,22 @@ def widget(request, headerValues, ar, qargs):
     current_project = headerValues['CURRENT_PROJECT']
     bPay = request.POST.get('pay', False)
     summ = int(request.POST.get('summ', 0) or 0)
+    form = None
+    if bPay and current_project:
+        pRequest = PaymentRequest(
+            user=request.user,
+            project=current_project,
+            value=summ
+        )
+        pRequest.save()
+        form = RobokassaForm(initial={
+               'OutSum': summ,
+               'InvId': pRequest.id,
+               'Desc': 'Пополнение счета Heliard',#order.name,
+               'Email': request.user.email,
+               'user': request.user.id,
+               'request': pRequest.id
+           })
 
     profile = request.user.get_profile()
 
@@ -135,7 +151,8 @@ def widget(request, headerValues, ar, qargs):
         'taskTagPosition': taskTagPosition+100,
         'closestMilestone': closestMilestone,
         'isPro': profile.is_outsource,
-        'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0
+        'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0,
+        'paymentForm': form
     }
 
     return projectData

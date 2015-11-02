@@ -46,6 +46,14 @@ class Credit(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class PaymentRequest(models.Model):
+    user = models.ForeignKey(User, related_name='payment_requests', null=True, blank=True)
+    project = models.ForeignKey(PM_Project, related_name='payment_requests', null=True, blank=True)
+    value = models.IntegerField()
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+
+    class Meta:
+        app_label = 'PManager'
 
 class Fee(models.Model):
     user = models.ForeignKey(User, related_name='fee', null=True, blank=True)

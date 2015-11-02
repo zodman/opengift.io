@@ -42,11 +42,15 @@ $(function() {
     <div class="row-fluid user-list">
         <div class="container-fluid">
             {% for user in user_list.users %}
-            	
-                <div class="widget inner js-user span4" data-id="{{ user.id }}">
+                <div class="user-block widget inner js-user span4" data-id="{{ user.id }}">
                 	<div class="widget-title clearfix">
                     	<div class="pull-left"><i class="statusImg"></i>&nbsp;&nbsp;
                             <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a>
+                            {% if user.get_profile.is_outsource %}
+                            <span class="pro-icon" href="/pro/" style="top:-2px;left: 4px;">
+                                <i class="fa fa-star"></i>
+                            </span>
+                            {% endif %}
                             <small class="small">
                                 {% if user.profile.specialties.count %}
                                     {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
@@ -54,6 +58,7 @@ $(function() {
                                     {% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}
                                 {% endif %}
                             </small>
+
                         </div>
                             {% if user.user_achievements.count %}
                             <span class="achievement-ico">{{ user.user_achievements.count }}</span>
@@ -108,3 +113,9 @@ $(function() {
         </div>
     </div>
 </div>
+<style>
+    .user-block.pro {
+        border: 2px solid #aa7729;
+        border-radius: 6px;
+    }
+</style>

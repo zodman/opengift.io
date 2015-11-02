@@ -126,8 +126,8 @@
                                 <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
                                 <hr />
                                 <h3>Финансы</h3>
-                                <p>Цена часа:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
-                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span> баллов</p>
+                                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
                                 <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
 
                                 <div class="sp" style="margin: 10px 0;background: #efefef;padding: 5px;">На счету:

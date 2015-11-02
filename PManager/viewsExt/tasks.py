@@ -4,7 +4,7 @@ __author__ = 'Gvammer'
 from django.http import Http404
 from django.db.models import Q
 from django.db import transaction
-from tracker.settings import COMISSION
+# from tracker.settings import COMISSION
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma

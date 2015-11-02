@@ -8,7 +8,7 @@ from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from PManager.viewsExt.tasks import TaskWidgetManager
-from tracker.settings import COMISSION
+# from tracker.settings import COMISSION
 from django.db.models import Sum
 from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 from django.db.models import Q

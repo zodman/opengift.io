@@ -30,7 +30,7 @@ admin.autodiscover()
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
 from PManager.models.tasks import PM_Project
-from PManager.models.payments import Fee
+from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 import datetime
 
@@ -38,11 +38,24 @@ import datetime
 # todo: Needed explanation for this function/ why this is here, where supposed to be only urls?
 def payment_received(sender, **kwargs):
     id = int(kwargs['extra']['user'])
+    requestId = int(kwargs['extra']['request'])
+
     user = User.objects.get(id=id)
-    profile = user.get_profile()
     sum = int(float(kwargs['OutSum']))
 
-    if sum:
+    if requestId:
+        try:
+            pRequest = PaymentRequest.objects.get(pk=requestId)
+            credit = Credit(
+                user=pRequest.user,
+                value=-sum,
+                project=pRequest.project
+            )
+            credit.save()
+        except PaymentRequest.DoesNotExist:
+            pass
+
+    elif sum:
         fee = Fee(
             user=user,
             value=-sum

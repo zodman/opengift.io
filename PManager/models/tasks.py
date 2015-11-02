@@ -505,7 +505,9 @@ class PM_Task(models.Model):
                 cUser = User.objects.get(pk=int(obj.user_id))
                 cUserProf = cUser.get_profile()
 
-                if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
+                if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active \
+                        and cUserProf.is_outsource:
+
                     ob['time'] = round(float(obj.summ) / 3600., 2)
 
                     if self.planTime:
@@ -560,15 +562,6 @@ class PM_Task(models.Model):
                                 credit.save()
                                 allSum = allSum + curPrice
 
-                                if profResp.is_outsource:
-                                    fee = Fee(
-                                        user=profResp.user,
-                                        value=curPrice * self.FEE,
-                                        project=self.project,
-                                        task=self
-                                    )
-                                    fee.save()
-
         if allRealTime or self.planTime:
             if self.planTime:
                 managers = PM_ProjectRoles.objects.filter(
@@ -582,11 +575,12 @@ class PM_Task(models.Model):
                     if not manager.rate:
                         continue
 
-                    bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
-                    if bet:
-                       cManagers += 1
-                       setattr(manager, 'bet', bet)
-                       aManagers.append(manager)
+                    if manager.user.get_profile().is_outsource:
+                        bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
+                        if bet:
+                           cManagers += 1
+                           setattr(manager, 'bet', bet)
+                           aManagers.append(manager)
 
                 for manager in aManagers:
                     curTime = self.planTime * 1.0 / cManagers
@@ -625,8 +619,9 @@ class PM_Task(models.Model):
                 )
 
                 for client in clients:
-                    clientComission = int(self.project.getSettings().get('client_comission', 0) or 0)
-                    allSum = round(allSum * (clientComission + 100) / 100, 2)
+                    import math
+                    clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
+                    allSum = math.floor(allSum * (clientComission + 100) / 100)
 
                     credit = Credit(
                         user=client.user,
