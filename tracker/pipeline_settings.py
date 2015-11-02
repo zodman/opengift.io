@@ -215,6 +215,12 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/user_statistic.js'
     },
+    'taskdraft_detail': {
+        'source_filenames': (
+            'modules/taskdraft/taskdraft_detail.js',
+        ),
+        'output_filename': 'js_compressed/taskdraft_detail.js'
+    },
     'markdown': {
         'source_filenames': (
             'js/markdown.js',
@@ -261,6 +267,13 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css_compressed/kanban.css'
     },
+    'taskdraft_detail': {
+        'source_filenames': (
+            'modules/taskdraft/taskdraft_detail.css',
+        ),
+        'output_filename': 'css_compressed/taskdraft_detail.css'
+    },
+
     'markdown': {
         'source_filenames': (
             'css/bootstrap-markdown.css',

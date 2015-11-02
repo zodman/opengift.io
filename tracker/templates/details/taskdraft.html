@@ -1,6 +1,10 @@
 {% extends "main/base.html" %}
 {% load thumbnail %}
 {% load jsonify %}
+{% load compressed %}
+{% block stylesheets %}
+    {% compressed_css 'taskdraft_detail' %}
+{% endblock %}
 {% block content %}
     <div class="widget inner draft">
         <div class="widget-title clearfix">
@@ -10,100 +14,7 @@
             </div>
         </div>
         <div class="widget-body">
-            <style>
-                .invite-user-list {}
-                .invite-user-list ul.invite-user-list-list {margin: 0 -5px; list-style: none;}
-                .invite-user-list ul.invite-user-list-list li {
-                    background: none repeat scroll 0 0 #f5f5f5;
-                    border: 1px solid #e2e2e2;
-                    border-radius: 5px;
-                    box-shadow: 0 1px 1px #f0f0f0, 0 0 1px #fff inset;
-                    color: #222;
-                    display: table;
-                    float: left;
-                    margin: 10px 5px 0;
-                    padding: 10px;
-                    text-align: left;
-                    width: calc(25% - 10px);
-                }
-                .invite-developers {float: right; width: 220px;}
-                .invite-developers .btn {width: 100%; text-align: center;}
 
-
-                .invite-user-item-left {
-                    background: none repeat scroll 0 0 #fff;
-                    border: 1px solid #e2e2e2;
-                    border-radius: 5px;
-                    float: left;
-                    height: 70px;
-                    overflow: hidden;
-                    width: 70px;
-                }
-                .invite-user-item-left > span {
-                    border-radius: 4px;
-                    display: block;
-                    height: 62px;
-                    overflow: hidden;
-                    width: 62px;
-                }
-                .invite-user-item-left img {max-width: 100%;}
-                .invite-user-item-right {
-                    display: table-cell;
-                    padding-left: 14px;
-                    vertical-align: middle;
-                    width: 100%;
-                }
-                .invite-user-item-right > a {
-                    font-size: 13px;
-                    text-transform: uppercase;
-                }
-
-                .invite-developers-title {float: left; margin-bottom: 0px; margin-top: 7px;}
-                .invite-user-item-rate {font-size: 11px; color: #777;}
-
-
-                @media (max-width: 1280px) {
-                    .invite-user-list ul.invite-user-list-list li {width: calc(33.33% - 10px);}
-                }
-
-                @media (max-width: 1024px) {
-                    .invite-user-list ul.invite-user-list-list li {width: calc(50% - 10px);}
-                }
-
-                @media (max-width: 768px) {
-                    .invite-user-list ul.invite-user-list-list li {width: calc(100% - 10px);}
-                }
-
-
-                @media (max-width: 568px) {
-                    .invite-developers-title {float: none; margin-top: 0px; text-align: center;}
-                    .invite-developers {float: none; margin-top: 10px; width: 100%;}
-                    .invite-developers .btn {width: 100%;}
-
-                }
-
-
-                .invite-tasks .task-info .task-info-time {padding: 0px; width: 130px; text-align: right;}
-                .task-info-message-board {
-                    position: relative;
-                    text-align: left;
-                    top: -6px;
-                    width: 150px;
-                }
-                .task-info-message-board .fa {display: inline-block; margin-right: 10px; vertical-align: text-top;}
-
-                @media only screen and (max-width: 900px) {
-                    .task-info-message-board {width: 50px;}
-                    .task-info-message-board-to-hide {display: none;}
-                    .task-info-message-board .fa {margin-right: 5px;}
-                    .invite-tasks .task-title {padding-right:0px;}
-                }
-                @media only screen and (max-width: 640px) {
-                    .invite-tasks .task-info .task-info-author {display:inline-block;}
-
-                }
-
-            </style>
             <div class="invite-wrapper clearfix">
                 <div class="invite-user-list">
                     <div class="clearfix">
@@ -134,8 +45,6 @@
                 </div>
             </div>
             <hr>
-
-
             <div class="js-tasks invite-tasks">
                 {% if not tasks and draft.author.id == request.user.id %}
                     <div class="task-wrapper">
@@ -156,7 +65,6 @@
                                     <i class="fa-times-circle fa"></i>&nbsp;Закрыть список
                                 </a>
                             </form>
-
                             <div class="clearfix"></div>
                         </div>
                     </div>
@@ -164,117 +72,34 @@
             </div>
         </div>
     </div>
+{% block javascript %}
     <script language="javascript">
-        window.taskHtml = {{ tasks_template|jsonify|safe }};
-        var aTaskList = [],taskRespSummary = {};
-        {% for task in tasks %}
-            aTaskList.push({{ task|jsonify|safe }});
-            taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
-            {% if task.time %}
-                arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
-                {% if task.startedTimerExist %}
-                    arTimers['{{ task.id }}'].start();
+        (function(){
+            window.taskHtml = {{ tasks_template|jsonify|safe }};
+
+            var aTaskList = [],taskRespSummary = {};
+            {% for task in tasks %}
+                aTaskList.push({{ task|jsonify|safe }});
+                taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
+                {% if task.time %}
+                    arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                    {% if task.startedTimerExist %}
+                        arTimers['{{ task.id }}'].start();
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        {% endfor %}
-        var draftViewClass = window.taskViewClass.extend({
-            'render': function(){
-                var templateParams = {
-                    responsibleTag: {% if draft.author.id == request.user.id %}'a'{% else %}'span'{% endif %}
-                }
-
-                var playBtnStatus = 'disabled';
-                if (this.model.get('subtasksQty') > 0) {
-                    templateParams.responsibleTag = 'span';
-                    templateParams.timerTag = 'span';
-                    playBtnStatus = 'transparent';
-                }
-                this.$el.html(this.template(this.model.toJSON(), templateParams));
-
-                if (this.model.get('onPlanning'))
-                    this.$el.addClass('onplan').attr('data-onplan', 'Y');
-                else this.$el.removeClass('onplan').attr('data-onplan', 'N');
-
-                var iSTUID = this.model.get('startedTimerUserId');
-                if (iSTUID) {
-                    this.$el.attr('data-started_timer_user_id', iSTUID);
-                    if (window.baseUserParams.userId != iSTUID) playBtnStatus = 'disabled';
-                }
-
-                if (this.model.get('critically') > CRITICALLY_THRESHOLD) this.$el.addClass('critically').parent('.task-wrapper').addClass('critically');
-                else this.$el.removeClass('critically').parent('.task-wrapper').removeClass('critically');
-
-                if (this.model.get('startedTimerExist')) this.$el.addClass('started');
-                else this.$el.removeClass('started');
-
-                if (!this.model.get('viewed')) this.$el.addClass('newEvent');
-                else this.$el.removeClass('newEvent');
-
-                this.disableTimerButton();
-                this.hideTimerButton();
-                this.delegateEvents();
-                if (this.$el.parent().get(0)) {
-                    setTaskCellsHeight(this.$el);
-                }
-                return this;
-            }
-        });
-        $('document').ready(function(){
-            var views = [];
-            var $task_container = $('.js-tasks')
-            $.extend($task_container, {
-                'TL_Tasks': new window.taskList()
-            });
-            $('.js-invite-developers').click(function(ev){
-                ev.preventDefault();
-                var url = $(this).attr('href');
-                $.post(url, function(response){
-                    if(response.error) {
-                        alert(response.error);
-                    }
-                    if(response.result) {
-                        if (alert(response.result)){
-                            window.location.reload();
-                        }else{
-                            window.location.reload();
-                        }
-                    }
-                });
-                return false;
-            });
-            for(var i= 0, len= aTaskList.length; i < len; i++) {
-                var view = new draftViewClass({
-                    model: new taskClass(aTaskList[i]),
-                    responsibleMenuUrl: "/ajax/responsible_menu/?draft_id={{ draft.id }}"
-                });
-                views[aTaskList[i].id] = view;
-                view.createEl();
-                $task_container.append(view.$el);
-                view.render();
-                view.$el.wrap("<div class='task-wrapper'></div>");
-                $task_container.TL_Tasks.add(view);
-
-            }
-            baseConnector.addListener('fs.task.update',function(data){
-                if (data && data.id){
-                    if (views[data.id]){
-                        var view = views[data.id];
-                        view.checkModel(function(){
-                            for (var i in data){
-                                if (i == 'viewedOnly') {
-                                    if (data[i] != document.mainController.userId) {
-                                        view.model.set('viewed', false);
-                                    }
-                                }
-                                if (i != 'id'){
-                                    view.model.set(i, data[i]);
-                                }
-                            }
-                            view.render();
-                        });
-                    }
-                }
-            });
-        });
+            {% endfor %}
+            window.heliardData = {
+                responsibleTag: '{% if draft.author.id == request.user.id %}a{% else %}span{% endif %}',
+                draft: {
+                    id: {{ draft.id }},
+                    slug: '{{ draft.slug }}'
+                },
+                aTaskList: aTaskList,
+                taskRespSummary: taskRespSummary
+            };
+        })();
     </script>
+    {% compressed_js 'taskdraft_detail' %}
+{% endblock %}
+
 {% endblock %}
