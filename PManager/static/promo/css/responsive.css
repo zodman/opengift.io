@@ -335,21 +335,19 @@ RESPONSIVE FIXES
 
 @media (min-width: 0px) {
 	.download .container {top:8%;}
-	.video {height:650px;}
+	.video {height:850px;}
 }
 
 @media (min-width: 480px) {
 	.download .container {top:10%;}
-    .video {height:600px;}
 }
 @media (min-width: 568px) {
 	.download .container {top:10%;}
-	.video {height:650px;}
+	.video {height:790px;}
 }
 
 @media (min-width: 768px) {
 	.download .container {top:10%;}
-	.video {height:600px;}
 }
 
 @media (min-width: 1024px) {
