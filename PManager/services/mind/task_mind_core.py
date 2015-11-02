@@ -29,7 +29,7 @@ class TaskMind:
             self.save()
 
     def getInputParams(self, task):
-        similar = PM_Task.getSimilar(task.name+task.text, task.project)
+        similar = PM_Task.getSimilar(task.name+(task.text or u''), task.project)
 
         if task.resp and len(similar):
             f = lambda x: 1 if (float(x) / self._threshold) > 1 else (float(x) / self._threshold)
