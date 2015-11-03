@@ -632,6 +632,19 @@ div.taskWizard-required .taskWizard-question-title:after {
     padding: 15px 20px 5px;
 }
 
+.interface-block .close {
+    color: #d9534f;
+    font-size: 18px;
+    opacity: 0.5;
+    -moz-opacity: 0.5;
+    -webkit-opacity: 0.5;
+}
+.interface-block .close:hover {
+    opacity: 1;
+    -moz-opacity: 1;
+    -webkit-opacity: 1;
+}
+
 .show-closed-task a {display:block; height:25px; line-height:25px; color:#666; background:#ddd; transition:all ease-in-out 0.1s; -moz-transition:all ease-in-out 0.1s; -webkit-transition:all ease-in-out 0.1s;}
 .show-closed-task a:hover {background:#ccc; color:#333;}
 
