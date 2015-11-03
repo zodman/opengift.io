@@ -30,19 +30,7 @@
                     </div>
                     <ul class="invite-user-list-list">
                         {% for user in users %}
-                        <li class="clearfix">
-                            <div class="invite-user-item-left">
-                                <div class="avatar_container js-avatar-container" data-size="70" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
-                            </div>
-                            <div class="invite-user-item-right">
-                                <a href="/user_detail/?id={{ user.id }}"><b>{{ user.get_full_name }}</b></a><br>
-                                {% for spec in user.get_profile.specialties.all %}{{ spec.name }}{% if not forloop.last %}, {% endif %}{% endfor %}<br>
-
-                                <span class="invite-user-item-rate">Загруженность: {{ user.openTasks|floatformat }}</span>
-                                <span class="invite-user-item-rate">Цена часа: {{ user.get_profile.sp_price|floatformat }} ({% if user.get_profile.getRating > 0 %}+{% endif %}{{ user.get_profile.getRating }})</span>
-                                <button class="btn btn-success">Пригласить</button>
-                            </div>
-                        </li>
+                            {% include 'partials/user/user_list_item.html' %}
                         {% endfor %}
                     </ul>
                 </div>

@@ -383,6 +383,7 @@ var widget_tl, currentGroup;
                                 var data = $form.serialize();
                                 var url = $form.attr('action');
                                 var successUrl = '/taskdraft/'
+                                data += '&project=' + currentProject;
                                 $.post(url, data, function (response) {
                                     try {
                                         response = JSON.parse(response);
@@ -402,7 +403,10 @@ var widget_tl, currentGroup;
                                 $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });
                         });
-                        bottomPanel.addBlock('inviteDevelopers', $block);
+                        if(typeof(currentProject) !== "undefined") {
+                            bottomPanel.addBlock('inviteDevelopers', $block);
+                        }
+
                     } else {
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');

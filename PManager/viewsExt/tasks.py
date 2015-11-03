@@ -19,6 +19,8 @@ from PManager.classes.datetime.work_time import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
+from PManager.services.projects import get_project_by_id
+from PManager.services.task_drafts import get_unique_slug
 from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
 from django.core.context_processors import csrf
 
@@ -832,12 +834,15 @@ class taskAjaxManagerCreator(object):
 
     @task_ajax_action
     def process_inviteUsers(self):
-        from PManager.services.task_drafts import get_unique_slug
         task_ids = self.request.POST.getlist('tasks[]')
         title = self.request.POST.get('title', '')
+        project_id = self.request.POST.get('project', None)
+        project = get_project_by_id(project_id)
+        if project is None:
+            return HttpResponse(json.dumps({'error': 'Не выбран проект'}))
         tasks = PM_Task.objects.filter(id__in=task_ids)
         slug = get_unique_slug()
-        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title)
+        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
         task_draft.users.add(self.currentUser)
         for task in tasks:
             if not task.canEdit(self.currentUser):
