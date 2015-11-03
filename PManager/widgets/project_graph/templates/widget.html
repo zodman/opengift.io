@@ -185,3 +185,27 @@
     </form>
 </div>
 {% endif %}
+
+
+<div class="popup green-popup mobile-popup js-pay-popup" id="payment-popup">
+    <form class="form" method="POST">
+        <div class="modal-header">
+            <h2 class="modal-title">Пополнить аккаунт</h2>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Введите сумму </div>
+                <div class="modal-body-item-right">
+                    <input type="hidden" name="pay" value="Y" />
+                    <input class="form-control" name="sum" placeholder="" maxlength="6" value="10000" />
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <input type="submit" class="btn  btn-large btn-success" value="Пополнить" />
+            <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+        </div>
+    </form>
+</div>
