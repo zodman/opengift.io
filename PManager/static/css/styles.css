@@ -624,6 +624,13 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .widget.inner .widget-body {padding:15px 15px 15px;}
 
+.add-interface {
+    background: #fff none repeat scroll 0 0;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    padding: 15px 20px 5px;
+}
 
 .show-closed-task a {display:block; height:25px; line-height:25px; color:#666; background:#ddd; transition:all ease-in-out 0.1s; -moz-transition:all ease-in-out 0.1s; -webkit-transition:all ease-in-out 0.1s;}
 .show-closed-task a:hover {background:#ccc; color:#333;}
@@ -1652,8 +1659,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list .user td.avatar a img {max-width: 100%;}
 .user-list .user td.avatar a svg {width:90px;height: 90px;}
 .user-list .user td.about-user {padding-left:15px;}
-.user-list .user td.about-user a:not(.startedTask) {vertical-align:middle; display:block; text-decoration:none; color:#57A957;}
-.user-list .user td.about-user a.startedTask {color:#D43F3A; cursor:pointer; font-weight:bold;}
+.user-list .user td.about-user p {margin-bottom: 3px;}
 
 @media screen and (max-width: 992px) {
 	.user-list .widget.span4 {width:100%; margin-left:0px;}
@@ -3795,6 +3801,25 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     text-align: center;
 }
 
+.popup.create-poject-popup {width: 600px ; margin-left: -300px;}
+
+.green-popup .trans-element-radio {
+    display: inline-block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 3px;
+    width: 15px;
+    height: 15px;
+    background:url("../images/radiobutton.png") 0px 0px no-repeat;
+    background-size: 15px;
+}
+
+.green-popup label {cursor: pointer;}
+.green-popup label input {float: left; margin-top: 3px; margin-right: 10px;}
+
+.green-popup .trans-element-radio.unchecked {background-position: 0px 0px;}
+.green-popup .trans-element-radio.checked {background-position: 0px -15px;}
+
 .green-popup .modal-footer {
     background: #eee;
     text-align: center;
@@ -3803,6 +3828,28 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
 
 .green-popup .modal-header h3,
 .green-popup .modal-header h2 {margin: 0px; padding: 0 25px;}
+
+@media only screen and (max-width: 768px) {
+    .popup.create-poject-popup,
+    .popup.mobile-popup {
+        bottom: 0;
+        left: 0;
+        margin-left: 0;
+        right: 0;
+        top: 0;
+        width: 100%;
+    }
+
+    .popup.create-poject-popup .modal-footer,
+    .popup.mobile-popup .modal-footer {
+        bottom: 0;
+        left: 0;
+        margin-bottom: 0;
+        position: fixed;
+        right: 0;
+    }
+
+}
 
 .deadline-wrapper {margin-right: -20px;}
 .deadline-block {float: left; width: calc(50% - 20px); margin-right: 20px;}

@@ -86,24 +86,25 @@ $(function() {
                                 </td>
                                 <td class="about-user">
 
-                                    <span style="float: left;margin-top: 8px;">Занят:</span> <div class="progress">
-                                        <div class="progress-bar progress-bar-info" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
-                                            <span class="sr-only">{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}% Complete</span>
+                                    <div class="clearfix">
+                                        <span style="float: left;margin-top: 8px;">Занят:</span>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-info" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
+                                                <span class="sr-only">{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}% Complete</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <hr/>
-                                    Закрыто задач за месяц: <b>{{ user.tasksQty }}</b>
-                                    {% if user.last_login %}<br />Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}{% endif %}
+                                    <p>Закрыто задач за месяц: <b>{{ user.tasksQty }}</b></p>
+                                    {% if user.last_login %}<p>Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}</p>{% endif %}
                                     {% if user.startedTask %}
-                                        <hr>
-                                        <a class="startedTask" rel="tooltip" href="{{ user.startedTask.url }}"
+                                    <p><a class="startedTask" rel="tooltip" href="{{ user.startedTask.url }}"
                                               {% if user.bHaveAccessToStartedTask %}
                                               data-original-title="{{ user.startedTask.project.name }}: {{ user.startedTask.name }}"
-                                              {% endif %}>Занят</a>
+                                              {% endif %}>Занят</a></p>
                                     {% endif %}
                                     {% if is_admin %}
-                                         <b>Счет: {{ user.profile.account_total }}</b><br />
-                                        <a href="?auth={{ user.id }}">Авторизоваться</a>
+                                         <p>Счет: {{ user.profile.account_total }}</p>
+                                        <a href="?auth={{ user.id }}" class="btn btn-success btn-xs">Авторизоваться</a>
                                     {% endif %}
                                 </td>
                             </tr>

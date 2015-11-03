@@ -165,6 +165,7 @@
     Тех. поддержка
 </a>
 
+
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
     <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
@@ -188,45 +189,46 @@
                  src="//www.googleadservices.com/pagead/conversion/1036245549/?label=ayuYCLrew1YQrbSP7gM&amp;guid=ON&amp;script=0"/>
         </div>
     </noscript>
-    <div class="popup">
-        <h3>Представьтесь, пожалуйста.</h3>
-
-        <div class="border-wrapper">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="border">
-                    <div class="row">
-                        <div class="span3"><strong>Имя</strong></div>
-                        <div class="span3"><input required maxlength="200" name="name" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="span3"><strong>Фамилия</strong></div>
-                        <div class="span3"><input required maxlength="200" name="last_name" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    {% if main.IS_AUTHOR %}
-                    <div class="row">
-                        <div class="span3"><strong>Название вашего проекта</strong></div>
-                        <div class="span3"><input required maxlength="200" name="sitename" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    <div class="row">
-                            <label><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
-                            <br />
-                            <label><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
-                    </div>
-                    {% endif %}
-                    <div class="row">
-                        <div class="span1">&nbsp;</div>
-                        <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </form>
+<div class="popup green-popup create-poject-popup">
+    <form method="POST">
+        <div class="modal-header">
+            <h2 class="modal-title">Представьтесь, пожалуйста.</h2>
         </div>
-    </div>
+        <div class="modal-body">
+            {% csrf_token %}
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Имя</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="name" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Фамилия</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="last_name" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            {% if main.IS_AUTHOR %}
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Название проекта</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="sitename" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+
+                <label class="clearfix"><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
+                <br />
+                <label class="clearfix"><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
+            </div>
+            {% endif %}
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
+            <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+        </div>
+    </form>
+</div>
     {##}
     {#<div class="popup callback" style="display:none;">#}
     {#    <h3>Перед тем, как уйти</h3>#}
