@@ -54,7 +54,7 @@ class PM_Achievement(models.Model):
 
 
             if created:
-                if ps:
+                if ps and user.get_profile().is_outsource:
                     if ps.value:
                         if ps.type == 'fix':
                             credit = Credit(user=user, value=ps.value, project=project, type='achievement ' + str(self.id))
@@ -127,7 +127,8 @@ def addAchievement(sender, instance, **kwargs):
             if instance.closed and \
                 instance.resp and \
                     instance.resp.id != instance.author.id and \
-                    not oldTask.wasClosed:
+                    not oldTask.wasClosed and \
+                    not oldTask.subTasks.count():
 
                 if not instance.resp.get_profile().is_outsource:
                     return
@@ -135,7 +136,8 @@ def addAchievement(sender, instance, **kwargs):
                 closedTaskQty = PM_Task.objects.filter(
                     project=instance.project,
                     closed=True,
-                    resp=instance.resp
+                    resp=instance.resp,
+                    active=True
                 ).exclude(author=instance.resp).count()
 
                 try:

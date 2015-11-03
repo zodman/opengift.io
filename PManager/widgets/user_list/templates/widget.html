@@ -85,12 +85,14 @@ $(function() {
                                     </a>
                                 </td>
                                 <td class="about-user">
-                                {% if is_admin %}
-                                    <a href="mailto:{{ user.email }}"><i
-                                            class="fa fa-envelope"></i>&nbsp;&nbsp;{{ user.email }}</a>
-                                {% endif %}
+
+                                    <span style="float: left;margin-top: 8px;">Занят:</span> <div class="progress">
+                                        <div class="progress-bar progress-bar-info" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
+                                            <span class="sr-only">{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}% Complete</span>
+                                        </div>
+                                    </div>
                                     <hr/>
-                                    Закрыто задач за месяц: <b>{{ user.tasksQty }} ({{ user.tasksEffective }})</b>
+                                    Закрыто задач за месяц: <b>{{ user.tasksQty }}</b>
                                     {% if user.last_login %}<br />Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}{% endif %}
                                     {% if user.startedTask %}
                                         <hr>

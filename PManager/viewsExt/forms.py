@@ -12,6 +12,7 @@ class WhoAreYou(forms.Form):
     last_name = forms.CharField(max_length=255)
     skype = forms.CharField(max_length=255, required=False)
     sitename = forms.CharField(max_length=255, required=False)
+    need_manager = forms.CharField(max_length=1, required=False)
 
 
 class Feedback(forms.Form):

@@ -1,8 +1,9 @@
-<h2 class="clearfix relative line-34">Информация о доступах к серверам<a class="btn btn-success pull-right js-add-interface-button">Добавить</a></h2>
+<h2 class="clearfix relative line-34">Информация о доступах к серверам
+    <a class="btn btn-success pull-right js-add-interface-button"><i class="fa fa-plus"></i>&nbsp;Добавить информацию о доступе</a></h2>
     <hr>
 <div class="add-interface js-add-interface-wrapper" style="display: none;">
     <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
-        <input type="hidden" name="pid" value="{{ project.id }}"/>
+        <input type="hidden" name="pid" value="{{ project.id }}" />
 
         <div class="my-row clearfix">
             <div class="my-row-3">

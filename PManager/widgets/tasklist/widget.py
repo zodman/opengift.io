@@ -424,7 +424,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'project': project,
         'users': aResps,
         'paginator': paginator,
-        'milestones': PM_Milestone.objects.filter(project=project),
+        'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'nextPage': arPageParams.get('startPage', 0) + 1 if 'startPage' in arPageParams else None,
         'filterDates': {
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),

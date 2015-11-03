@@ -1,15 +1,12 @@
 <h2>Дополнительные параметры проекта</h2>
 <hr>
 <form method="POST" name="additional">
-    {% if not canEdit %}
-    <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
-    {% endif %}
     <p class="checkbox">
         <label>
             <input {% if not canEdit or not canDelete %}disabled="disabled" {% endif %}
             {% if project.closed %}checked="checked" {% endif %}
             type="checkbox" name="is_closed" value="1" >&nbsp;
-            Проект в архиве
+            Перенести проект в архив (операция необратима)
         </label>
     </p>
     <p class="checkbox">

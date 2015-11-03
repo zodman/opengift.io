@@ -34,7 +34,6 @@ def has_dead_tasks(project):
     except PM_Task.DoesNotExist:
         return False
 
-
 def has_dead_milestones(project):
     try:
         milestones = PM_Milestone.objects.filter(project=project, overdue=True, closed=False)

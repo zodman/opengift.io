@@ -64,7 +64,7 @@ def taskdraft_resend_invites(request, draft_slug):
 
 def taskdraft_task_discussion(request, draft_slug, task_id):
     draft = get_draft_by_slug(draft_slug, request.user)
-    is_xhr = request.GET.get('is_xhr', None);
+    is_xhr = request.GET.get('is_xhr', None)
     if not draft:
         raise Http404
     try:
@@ -129,10 +129,14 @@ def __add_message(request, draft, task):
 
 def __show(request, draft):
     users = draft.users.all()
+    aUsers = []
+    for u in users:
+        setattr(u, 'openTasks', u.todo.filter(closed=False, active=True).count())
+        aUsers.append(u)
+
     tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')\
         .filter(resp__isnull=True)
     add_tasks = dict()
-    user = request.user.get_profile()
     for task in tasks:
         add_tasks[task.id] = {
             'url': "/taskdraft/%s/%s" % (draft.slug, task.id),
@@ -144,16 +148,17 @@ def __show(request, draft):
             'last_message': {'text': task.text},
             'messages': draft_simple_msg_cnt(task, draft),
             'resp': [
-                {'id': task.resp.id,
-                 'name': task.resp.get_full_name()
-                 } if task.resp else {}
+                {
+                    'id': task.resp.id,
+                    'name': task.resp.get_full_name()
+                } if task.resp else {}
             ]
         }
     tasks = tasks_to_tuple(tasks)
     tasks = task_list_prepare(tasks, add_tasks)
 
     context = RequestContext(request, {
-        'users': users,
+        'users': aUsers,
         'tasks': tasks,
         'draft': draft,
         'tasks_template': templateTools.get_task_template('draft_task')

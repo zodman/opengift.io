@@ -281,6 +281,7 @@ def widget(request, headerValues, ar, qargs):
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,
                 'tagWeight': tagWeight,
+                'bugsQty': PM_Task_Message.objects.filter(task__in=user.todo.all(), bug=True).count(),
                 'timers': [
                     {
                         'id': timer.id,

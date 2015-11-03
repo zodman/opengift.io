@@ -50,51 +50,59 @@ class simpleChart(Chart):
     def getData(self):
         credit = Credit.objects.filter(
                 project__in=self.projects,
-                value__gt=0,
+                value__lt=0,
+                type="Client with comission",
                 date__range=(self.dateFrom, self.dateTo)
             ).aggregate(Sum('value'))
 
         credit_all = Credit.objects.filter(
                 project__in=self.projects,
-                value__gt=0
+                type="Client with comission",
+                value__lt=0
             ).aggregate(Sum('value'))
 
-        self.value_desc = credit_all['value__sum'] or 0
-        self.value = credit['value__sum'] or 0
+        self.value_desc = -credit_all['value__sum'] or 0
+        self.value = -credit['value__sum'] or 0
 
 class PaymentChart(Chart):
-    title = u'Расчетная статистика'
+    title = u'Потраченное время'
     type = 'chart'
     payQuery = ''
     def getData(self):
+        import random
+
         self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in xrange((self.dateTo - self.dateFrom).days)]
 
-        sOut = 0
-        sIn = 0
         self.xAxe = []
         self.yAxes = {
-            'in': Axis(u'Бонусов начислено', '#0bd145'),
-            'out': Axis(u'Бонусов списано', '#003060'),
-            # 'pin': Axis(u'Входящие платежи', 'rgba(63, 255, 0, 0.34)'),
-            # 'pout': Axis(u'Погасили бонусов', 'rgba(0, 255, 232, 0.34)'),
         }
-
+        aSums = {}
+        aUsers = []
         for day in self.dayGenerator:
-            credit = Credit.objects.filter(
-                project__in=self.projects,
-                date__range=(datetime.datetime.combine(day, datetime.time.min),
-                             datetime.datetime.combine(day, datetime.time.max))
-            )
+            aSums[day] = {}
 
-            creditOut = credit.filter(value__lt=0).aggregate(Sum('value'))
-            creditIn = credit.filter(value__gt=0).aggregate(Sum('value'))
+            time = PM_Timer.objects.filter(
+                    dateEnd__range=(datetime.datetime.combine(day, datetime.time.min),
+                                 datetime.datetime.combine(day, datetime.time.max)),
+                    task__project__in=self.projects
+                ).values('user__last_name') \
+                .annotate(sum_seconds = Sum('seconds'))
 
-            sOut -= creditOut['value__sum'] or 0
-            sIn += creditIn['value__sum'] or 0
+            for t in time:
+                if t['user__last_name'] and t['user__last_name'] not in aUsers:
+                    aUsers.append(t['user__last_name'])
+                aSums[day][t['user__last_name']] = t['sum_seconds'] or 0
 
             self.xAxe.append(day)
-            self.yAxes['in'].values.append(sIn)
-            self.yAxes['out'].values.append(sOut)
+
+        for userName in aUsers:
+            r = lambda: random.randint(0, 255)
+
+            self.yAxes[userName] = Axis(userName, '#%02X%02X%02X' % (r(),r(),r()))
+
+        for day in self.xAxe:
+            for userName in aUsers:
+                self.yAxes[userName].values.append(aSums[day][userName] or 0 if userName in aSums[day] else 0)
 
 class sumLoanChart(Chart):
     title = u'Начисленные бонусы'
@@ -185,7 +193,7 @@ class sumLoanChart(Chart):
         return workbook
 
 class timeChart(Chart):
-    title = u'Потраченное время'
+    title = u'Эффективность'
     type = 'table'
     def getData(self):
         from django.db.models import Sum
@@ -202,7 +210,7 @@ class timeChart(Chart):
                 'name': u'Потрачено времени'
             },
             {
-                'name': u'Закрыто по плану'
+                'name': u'Закрыто по плановому'
             }
         ]
 

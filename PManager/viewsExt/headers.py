@@ -118,11 +118,14 @@ def initGlobals(request):
         can_invite = (request.user.id == CURRENT_PROJECT.author.id or
                       request.user.get_profile().isManager(CURRENT_PROJECT))
         is_manager = request.user.get_profile().isManager(CURRENT_PROJECT)
+
+    is_author = bIsAuthenticated and request.user.createdProjects.exists()
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
         'CAN_INVITE': can_invite,
         'IS_MANAGER':  is_manager,
+        'IS_AUTHOR':  is_author,
         'FIRST_STEP_FORM': WhoAreYouForm,
         'REDIRECT': redirect,
         'COOKIES': request.COOKIES

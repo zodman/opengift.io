@@ -48,8 +48,9 @@ def payment_received(sender, **kwargs):
             pRequest = PaymentRequest.objects.get(pk=requestId)
             credit = Credit(
                 user=pRequest.user,
-                value=-sum,
-                project=pRequest.project
+                value=sum,
+                project=pRequest.project,
+                comment="Payment from robo"
             )
             credit.save()
         except PaymentRequest.DoesNotExist:

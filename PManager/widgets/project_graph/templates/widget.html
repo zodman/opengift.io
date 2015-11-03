@@ -67,25 +67,31 @@
                                  {% if not forloop.first %}style="display: none;" {% endif %}>
                                 <div class="role-content">
                                     <div class="role-content-tab">
-                                        {% if role.role.code != 'client' %}
+                                        {% if project_graph.isPro and role.role.code != 'client' %}
                                         <strong>Цена часа:</strong> &nbsp;<span
                                             class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
-                                        {% if role.rate and project_graph.rating != 0 %}
+                                            {% if role.rate and project_graph.rating != 0 %}
                                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
                                                 +{% endif %}{{ project_graph.rating }}
                                                 </span>
-                                                    {% else %}&nbsp;
-                                                    {% endif %}
+                                            {% else %}
+                                                &nbsp;
+                                            {% endif %}
                                             </span>
                                         <br/>
-                                        {% endif %}
-                                        <span
-                                            style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
-                                        <a href="/wiki/bonuses">?</a>
-                                        {% if not project_graph.isPro and role.role.code == 'employee' %}
-                                            <a href="/pro/" class="premium-button clearfix ">Получить PRO</a>
                                         {% elif role.role.code == 'employee' %}
-                                            <a href="#" class="premium-button clearfix " data-toggle="modal" data-target="#payment-popup">Пополнить</a>
+                                            При закрытии задач вам начисляется рейтинг специалиста.
+                                        {% elif role.role.code == 'client' %}
+                                            <a href="#" class="premium-button clearfix " data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a><br />
+                                        {% endif %}
+                                        {% if role.role.code == 'client' or project_graph.isPro %}
+                                            {% if role.role.code == 'client' and not project_graph.allPrice %}
+                                                Пополните баланс для расчета со специалистами Heliard
+                                            {% else %}
+                                            <span
+                                                style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
+                                            <a href="/wiki/bonuses">?</a>
+                                            {% endif %}
                                         {% endif %}
                                     </div>
                                 </div>

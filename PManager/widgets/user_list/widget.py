@@ -43,6 +43,7 @@ def widget(request, headerValues, a, b):
         arFilter['userRoles__in'] = PM_ProjectRoles.objects.filter(project=headerValues['CURRENT_PROJECT'])
         users = users.filter(**arFilter).distinct()
     # users = union(users, [request.user,])
+    allUsersTaskQty = 0
     for user in users:
         userJoinTime = now - datetime.timedelta(days=30)
         # userJoinTime = userJoinTime.days if userJoinTime.days > 0 else 1
@@ -56,10 +57,13 @@ def widget(request, headerValues, a, b):
         if profile.avatar:
             profile.avatar = str(profile.avatar).replace('PManager', '')
 
+        allTasksQty = user.todo.filter(active=True, closed=False).count()
+        if allUsersTaskQty < allTasksQty:
+            allUsersTaskQty = allTasksQty
+
         setattr(user, 'profile', profile)
         setattr(user, 'tasksQty', taskClosedQty)
-        if userJoinTime:
-            setattr(user, 'tasksEffective', round(taskClosedQty / 30, 2))
+        setattr(user, 'allTasksQtyForDivision', allTasksQty * 100)
 
         try:
             if user.pk:
@@ -74,6 +78,7 @@ def widget(request, headerValues, a, b):
 
     return {
         'users': users,
+        'allTasksQty': allUsersTaskQty or 1, #exclude division by zero in template
         'currentProject': int(request.GET.get('project', 0)),
         'title': u'Список пользователей'
     }

@@ -38,13 +38,13 @@
                     <div class="user-tasks-info pull-left">
                       <ul>
                         <li>Открытых задач: <b style="font-size: 14px;"> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></b></li>
-                        <li>Компетентность: <b> {{ user_detail.competence }}</b></li>
+                        <li>Компетентность специалиста: <b> {{ user_detail.competence }}</b></li>
                         <li>Место в рейтинге: <b> {{ user_detail.competencePlace }}</b></li>
                       </ul>
                     </div>
                     <div class="clearfix"></div>
                     <hr>
-                    {% if user_detail.userIsEqualCurrentUser or user_detail.user.is_superuser %}
+                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                                    placeholder="Укажите свои навыки" id="skillsDropdown"
@@ -95,10 +95,10 @@
                     <li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>
                     <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
                     {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
-                        <li><a href="#keys" role="tab" data-toggle="tab">Ключи</a></li>
+                        <li><a href="#keys" role="tab" data-toggle="tab">SSH-ключи</a></li>
                     {% endif %}
-                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
-                    <li><a href="#payments" role="tab" data-toggle="tab">Бонусы</a></li>
+                    {% if user_detail.userIsEqualCurrentUser %}
+                    <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -124,6 +124,9 @@
                                 <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
                                 <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
                                 <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
+                                <p>Всего ошибок:  <b>{{ user_detail.bugsQty|default_if_none:'0' }}</b></p>
+
+                                {% if user_detail.profile.is_outsource %}
                                 <hr />
                                 <h3>Финансы</h3>
                                 <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
@@ -144,7 +147,8 @@
                                 <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
                                 {% endif %}
                                 <p><small><a href="/wiki/bonuses/">Как начисляются бонусы?</a></small></p>
-                           </div>
+                                {% endif %}
+                          </div>
 
                           <div class="statistic-graph-wrapper">
                               {% if user_detail.bets %}
@@ -155,11 +159,13 @@
                                         <span class="list-group-item js-pay-item">
                                             {{ arBet.project }}: 
                                             <b>{{ arBet.price }} (ставка: {{ arBet.bet }})</b>
+                                            {% if user_detail.userIsEqualCurrentUser %}
                                             <a href="#" class="js-pay"
                                                style="float: right;"
                                                data-project="{{ arBet.project_id }}"
                                                data-role="{{ arBet.role_id }}"
                                                data-sum="{{ arBet.price }}">Списать</a>
+                                            {% endif %}
                                             <span class="clr"></span></span>
                                         {% endif %}
                                     {% endfor %}

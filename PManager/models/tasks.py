@@ -461,24 +461,21 @@ class PM_Task(models.Model):
         if not self.resp and user:
             self.resp = user
 
+        if not self.wasClosed and not self.subTasks.count():
+            self.setCreditForTime()
+            self.wasClosed = True
+
         tagRelArray = ObjectTags.objects.filter(
             object_id=self.id,
             content_type=ContentType.objects.get_for_model(PM_Task)
         ).all()
-        if self.resp:
-            #save user experiance
-            if self.resp.id != self.author.id:
-                increaseTagsForUser(self.resp, tagRelArray)
-
-            logger.log(self.resp, 'DAILY_TASKS_CLOSED', 1)
 
         for ob in self.observers.all():
-            if ob.id != self.author.id:
+            if ob.id != self.author.id and (not self.resp or ob.id != self.resp.id):
                 increaseTagsForUser(ob, tagRelArray)
 
-        if not self.wasClosed and not self.subTasks.count():
-            self.setCreditForTime()
-            self.wasClosed = True
+        if self.resp:
+            increaseTagsForUser(self.resp, tagRelArray)
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -572,9 +569,6 @@ class PM_Task(models.Model):
                 cManagers = 0
                 aManagers = []
                 for manager in managers:
-                    if not manager.rate:
-                        continue
-
                     if manager.user.get_profile().is_outsource:
                         bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                         if bet:

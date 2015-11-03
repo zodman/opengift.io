@@ -64,9 +64,6 @@ $(function() {
                 <div class="col-2 activity-avatar">
                     <img src="{% if user.profile.avatar %}{{ user.profile.avatarSrc|thumbnail:"30x30" }}{% else %}{{ "/static/images/avatar_unknown.png"|thumbnail:"30x30"}}{% endif %}"
                     class="img-thumbnail" width="30px" style="margin-right: 10px;" /><a href="/user_detail/?id={{ user.id }}"><b{% if user.activity == 0 %} style="color: lightgrey;"{% endif %}>{% if user.last_name %}{{ user.last_name }}&nbsp;{{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b></a>
-                    {% if user.id == life.topUser %}
-                    &nbsp;<img class="top_user_medal" src="/static/ico/gold.png" title="Лучший работник месяца" />
-                    {% endif %}
                     <div class="progress">
                         <div class="progress-bar progress-bar-success" style="width: {{ user.activity }}%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{{ user.activity }}" role="progressbar">
                             <span class="sr-only">{{ user.activity }}% activity</span>

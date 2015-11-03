@@ -205,6 +205,7 @@
                         <div class="span3"><input required maxlength="200" name="last_name" type="text"
                                                   class="input-block-level form-control" /></div>
                     </div>
+                    {% if main.IS_AUTHOR %}
                     <div class="row">
                         <div class="span3"><strong>Название вашего проекта</strong></div>
                         <div class="span3"><input required maxlength="200" name="sitename" type="text"
@@ -215,6 +216,7 @@
                             <br />
                             <label><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
                     </div>
+                    {% endif %}
                     <div class="row">
                         <div class="span1">&nbsp;</div>
                         <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
@@ -460,9 +462,9 @@
                 <a href="/user_list/" class="btn btn-default{% if activeMenuItem == 'user_list' %} active{% endif %}"><i
                         class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
 
-                <a href="/files/"
-                   class="btn btn-default{% if activeMenuItem == 'files' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i
-                        class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;
+{#                <a href="/files/"#}
+{#                   class="btn btn-default{% if activeMenuItem == 'files' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i#}
+{#                        class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a>&nbsp;&nbsp;#}
 
                 <a href="/stat/"
                    class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
