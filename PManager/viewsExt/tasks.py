@@ -836,7 +836,8 @@ class taskAjaxManagerCreator(object):
         task_ids = self.request.POST.getlist('tasks[]')
         title = self.request.POST.get('title', '')
         tasks = PM_Task.objects.filter(id__in=task_ids)
-        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=get_unique_slug(), title=title)
+        slug = get_unique_slug()
+        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title)
         task_draft.users.add(self.currentUser)
         for task in tasks:
             if not task.canEdit(self.currentUser):
@@ -854,7 +855,7 @@ class taskAjaxManagerCreator(object):
             task_draft.tasks.add(task)
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
-        return HttpResponse(json.dumps({'result': 'OK'}))
+        return HttpResponse(json.dumps({'result': 'OK', 'slug': slug }))
 
     @task_ajax_action
     def process_getEndTime(self):

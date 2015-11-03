@@ -382,9 +382,18 @@ var widget_tl, currentGroup;
                                 var $form = $(this).parents('form.js-invite-form');
                                 var data = $form.serialize();
                                 var url = $form.attr('action');
+                                var successUrl = '/taskdraft/'
                                 $.post(url, data, function (response) {
+                                    try {
+                                        response = JSON.parse(response);
+                                    }
+                                    catch(e) {
+                                        alert('Что-то пошло не так!');
+                                    }
                                     if (response.error) {
                                         alert(response.error);
+                                    }else{
+                                        window.location = successUrl + response.slug;
                                     }
                                     $('#invite-developers').modal('hide');
                                 });
