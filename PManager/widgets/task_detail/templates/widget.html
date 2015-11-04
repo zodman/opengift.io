@@ -151,6 +151,7 @@
             <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4>Добавить сообщение</h4>
+                <hr>
                 <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
                     <option value="">Кому</option>
                     {% for resp_user in task_detail.users %}
@@ -161,15 +162,15 @@
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний</label>
                 </div>
-                <div class="left">
-                    <a href="#" class="addPic js-addPic" onclick="return false">Нарисовать рисунок</a>
-                </div>
-                <hr>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">
                     <div class="col-xs-12">
                         <textarea name="task_message" rows="5" class="form-control" placeholder="Вы можете вставить изображение или скриншот из буфера прямо в это поле и произвести на нем отметки."></textarea>
                     </div>
+                </div>
+
+                <div class="left">
+                    <a href="#" class="addPic js-addPic" onclick="return false"><i class="fa fa-picture-o"></i><span>Нарисовать рисунок</span></a>
                 </div>
 
                 <div class="uploaded_file"></div>
