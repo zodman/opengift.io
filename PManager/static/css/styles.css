@@ -3827,7 +3827,10 @@ background-image: linear-gradient(to bottom, #E6C38F 0%, #CFA767 100%);}
     background: #eee;
     text-align: center;
 }
-.green-popup .modal-header button.close {margin: 0; position: absolute; right: 15px; top: 15px; padding: 0; font-size: 28px; line-height: 26px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+.green-popup .modal-header .close,
+.green-popup .modal-header .fa {margin: 0; position: absolute;
+    right: 30px;
+    top: 20px; padding: 0; font-size: 22px; line-height: 26px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
 .green-popup .modal-header h3,
 .green-popup .modal-header h2 {margin: 0px; padding: 0 25px;}
