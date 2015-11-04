@@ -1,62 +1,67 @@
 <h2 class="clearfix relative line-34">Информация о доступах к серверам
-    <a class="btn btn-success pull-right js-add-interface-button"><i class="fa fa-plus"></i>&nbsp;Добавить информацию о доступе</a></h2>
-    <hr>
-<div class="add-interface js-add-interface-wrapper" style="display: none;">
-    <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
-        <input type="hidden" name="pid" value="{{ project.id }}" />
+    <a data-toggle="modal" data-target="#add-interface-popup" class="btn btn-success pull-right" href="#">
+        <i class="fa fa-plus"></i>&nbsp;Добавить информацию о доступе
+    </a>
+</h2>
+<hr>
 
-        <div class="my-row clearfix">
-            <div class="my-row-3">
-                <div class="my-row-4">
-                    <h6>Протокол</h6>
-                    <select class="form-control" name="protocol">
-                        <option value="http">http://</option>
-                        <option value="ssh">ssh://</option>
-                        <option value="ftp">ftp://</option>
-                        <option value="rdp">rdp://</option>
-                    </select>
-                </div>
-                <div class="my-row-6">
-                    <h6>Адрес</h6>
-                    <input type="text" value="" name="address" placeholder="Введите адрес..."
-                           class="form-control js-add-interface-input"/>
-                </div>
-            </div>
-            <div class="my-row-3">
-                <h6>Название</h6>
-                <input type="text" value="" name="name" placeholder="Введите название..." class="form-control js-add-interface-input">
-            </div>
-            <div class="my-row-3">
-                <h6>Доступен</h6>
-                <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="1">
-                    Клиенты</label>
-                <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="2">
-                    Разработчики</label>
-                <label class="checkbox-inline"><input name="access_roles" checked type="checkbox" value="3">
-                    Менеджеры</label>
-            </div>
-        </div>
-
-        <div class="my-row clearfix">
-            <div class="my-row-3">
-                <h6>Имя пользователя</h6>
-                <input type="text" value="" name="username" placeholder="Введите имя пользователя..."
-                       class="form-control js-add-interface-input">
-            </div>
-            <div class="my-row-3">
-                <h6>Пароль</h6>
-                <input type="password" value="" name="password" placeholder="Введите пароль..."
-                       class="form-control js-add-interface-input">
-            </div>
-            <div class="my-row-3">
-                <input type="submit" class="btn btn-success js-project-submit" value="Добавить интерфейс"/>
-                <a class="btn btn-danger js-add-interface-button">Закрыть</a>
-            </div>
-        </div>
-    </form>
-</div>
 <div class="js-interface-container">
 
     {{ interfaces|safe }}
 </div>
 <p>Разместите здесь доступ в административную панель или к FTP серверу сайта.</p>
+
+<div class="modal fade" id="add-interface-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+     aria-hidden="true" style="z-index: 100000">
+    <div class="modal-dialog">
+        <div class="modal-content green-popup">
+            <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="myModalLabel">Добавить интерфейс нам</h2>
+                </div>
+                <div class="modal-body clearfix">
+                    <input type="hidden" name="pid" value="{{ project.id }}" />
+                    <div class="modal-body-item clearfix">
+                        <div class="modal-body-item-left">Протокол</div>
+                        <div class="modal-body-item-right">
+                            <select class="form-control" name="protocol">
+                                <option value="http">http://</option>
+                                <option value="ssh">ssh://</option>
+                                <option value="ftp">ftp://</option>
+                                <option value="rdp">rdp://</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-body-item clearfix">
+                        <div class="modal-body-item-left">Адрес</div>
+                        <div class="modal-body-item-right">
+                            <input type="text" value="" name="address" placeholder="Введите адрес..." class="form-control js-add-interface-input"/>
+                        </div>
+                    </div>
+                    <div class="modal-body-item clearfix">
+                        <div class="modal-body-item-left">Название</div>
+                        <div class="modal-body-item-right">
+                            <input type="text" value="" name="name" placeholder="Введите название..." class="form-control js-add-interface-input">
+                        </div>
+                    </div>
+                    <div class="modal-body-item clearfix">
+                        <div class="modal-body-item-left">Имя пользователя</div>
+                        <div class="modal-body-item-right">
+                            <input type="text" value="" name="username" placeholder="Введите имя пользователя..." class="form-control js-add-interface-input">
+                        </div>
+                    </div>
+                    <div class="modal-body-item clearfix">
+                        <div class="modal-body-item-left">Пароль</div>
+                        <div class="modal-body-item-right">
+                            <input type="password" value="" name="password" placeholder="Введите пароль..." class="form-control js-add-interface-input">                    </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <input type="submit" class="btn btn-success js-project-submit" value="Добавить"/>
+                    <a class="btn btn-danger js-add-interface-button">Закрыть</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
