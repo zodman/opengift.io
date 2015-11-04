@@ -61,8 +61,8 @@ class simpleChart(Chart):
                 value__lt=0
             ).aggregate(Sum('value'))
 
-        self.value_desc = -credit_all['value__sum'] or 0
-        self.value = -credit['value__sum'] or 0
+        self.value_desc = -(credit_all['value__sum'] or 0)
+        self.value = -(credit['value__sum'] or 0)
 
 class PaymentChart(Chart):
     title = u'Потраченное время'

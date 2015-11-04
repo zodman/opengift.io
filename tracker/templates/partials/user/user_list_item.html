@@ -33,7 +33,7 @@
                 <td class="about-user">
 
                     <div class="clearfix">
-                        <span style="float: left;margin-top: 8px;">Занят:</span>
+                        <span style="float: left;margin-top: 8px;">Задач</span>
                         <div class="progress">
                             <div class="progress-bar progress-bar-info" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
                                 <span class="sr-only">{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}% Complete</span>
@@ -50,7 +50,6 @@
                     {% endif %}
                     {% if is_admin %}
                          <p>Счет: {{ user.profile.account_total }}</p>
-                        <a href="?auth={{ user.id }}" class="btn btn-success btn-xs">Авторизоваться</a>
                     {% endif %}
                 </td>
             </tr>

@@ -833,13 +833,13 @@ var widget_tl, currentGroup;
 
                 if (group.id) {
                     var $row = $(row).on('click', '.js-close-milestone', function (e) {
-                        if (confirm('Вы действительно хотите удалить данную цель?')) {
+                        if (confirm('Вы действительно хотите закрыть данную цель?')) {
                             $.post('/milestone_ajax/', {
                                 'action': 'remove',
                                 'id': group.id
                             }, function (response) {
                                 if (response != 'removed') {
-                                    alert('Цель успешно удалена');
+                                    alert('Ошибка закрытия цели');
                                 } else {
                                     window.location.reload();
                                 }

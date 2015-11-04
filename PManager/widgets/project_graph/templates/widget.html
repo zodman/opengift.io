@@ -168,26 +168,7 @@
         </div>
     </div>
 </div>
-<div class="popup green-popup js-pay-popup" id="payment-popup" style="display: none;">
-    <form class="form" method="POST">
-        <div class="modal-header">
-            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-            <h2 class="modal-title">Пополнить аккаунт</h2>
-        </div>
-        <div class="input-group">
-            <input type="hidden" name="pay" value="Y" />
-            <label>Введите сумму <input class="form-control" name="sum" placeholder="" maxlength="6" value="10000" /></label>
-        </div>
-        <div class="modal-footer">
-             <input type="submit" class="btn  btn-large btn-success"
-               value="Пополнить" />
-        </div>
-    </form>
-</div>
-{% endif %}
-
-
-<div class="popup green-popup mobile-popup js-pay-popup" id="payment-popup">
+<div class="popup green-popup mobile-popup js-pay-popup" id="payment-popup" style="display: none;">
     <form class="form" method="POST">
         <div class="modal-header">
             <h2 class="modal-title">Пополнить аккаунт</h2>
@@ -202,10 +183,10 @@
                 </div>
             </div>
         </div>
-
         <div class="modal-footer">
             <input type="submit" class="btn  btn-large btn-success" value="Пополнить" />
             <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
         </div>
     </form>
 </div>
+{% endif %}
