@@ -517,16 +517,15 @@
                                 {% endif %}
                             </span>
                             </button>
-                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>
+                            <a data-target="#projects-popup" data-toggle="modal" title="Список проектов" class="fa fa-caret-down js-openProjectList" style="font-size: 15px; color: rgb(73, 73, 73); top: 3px; margin-right: 10px;"></a>
+{#                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>#}
                             {% if main.CURRENT_PROJECT.id %}
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog"
                                    title="Параметры проекта"></a>
                             {% endif %}
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i class="fa fa-user-plus"></i></a>
                             <a href="/new_task_wizard/" class="js-taskWizard-opener fa fa-plus" title="Добавить задачу"></a>
-
                         </div>
-
                     </li>
                     <li class="projects-list-select clearfix">
                         <div class="left">
@@ -541,7 +540,6 @@
                             </select>
                         </div>
                         <div class="right projects-list-menu">
-                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>
                             {% if main.CURRENT_PROJECT.id %}
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog"
                                    title="Параметры проекта"></a>

@@ -446,7 +446,7 @@ background-image: linear-gradient(to bottom, #5CB85C 0%, #4CAE4C 100%); color:#f
 
 /*.sub-menu_line_section-tracker > .navbar-right { float: right; }*/
 .sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
-.sub-menu_line_section-tracker .tracker-choose {padding: 4px 5px 4px 0; font-size:13px; display:inline-block; max-width:190px; overflow:hidden; position:relative;font-size: 18px;font-weight: bold;color: #494949; margin-right: 10px;}
+.sub-menu_line_section-tracker .tracker-choose {padding: 4px 5px 4px 0; font-size:13px; display:inline-block; max-width:190px; overflow:hidden; position:relative;font-size: 18px;font-weight: bold;color: #494949;}
 .sub-menu_line_section-tracker .tracker-choose span { border-bottom: 1px solid #494949; padding: 0;}
 .sub-menu_line_section-tracker .tracker-choose:hover span {border-color: #47a447;}
 .sub-menu_line_section-tracker .tracker-choose:hover {text-decoration: none; color: #47a447;}
