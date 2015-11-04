@@ -121,7 +121,7 @@ def __add_message(request, draft, task):
         context = RequestContext(request, {
             'message': message
         })
-        template = loader.get_template('details/taskdraft_task_message.html')
+        template = loader.get_template('partials/taskdraft_task/taskdraft_task_message.html')
         return HttpResponse(template.render(context))
     else:
         return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
