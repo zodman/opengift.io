@@ -7,7 +7,6 @@
         JS_ADD_INTERFACE_INPUT = '.js-add-interface-input',
         JS_INTERFACE_REMOVE = '.js-interface-remove',
         JS_INTERFACE_BLOCK = '.js-interface-block',
-        JS_ADD_INTERFACE_BUTTON = '.js-add-interface-button';
 
     $(JS_PROJECT_SUBMIT).click(function(){
         $(JS_ADD_INTERFACE).ajaxSubmit(function(data){
@@ -34,7 +33,4 @@
         );
     });
 
-    $(JS_ADD_INTERFACE_BUTTON).click(function() {
-        $(JS_ADD_INTERFACE_WRAPPER).toggle();
-    });
 });
