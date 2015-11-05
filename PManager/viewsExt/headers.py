@@ -91,7 +91,7 @@ def initGlobals(request):
                 if form.cleaned_data['sitename']:
                     project.name = form.cleaned_data['sitename']
                     project.save()
-                if form.cleaned_data['need_manager'] == 'N':
+                if 'need_manager' not in form.cleaned_data or form.cleaned_data['need_manager'] == 'N':
                     pass
                 else:
                     PM_ProjectRoles.objects.filter(project=project, user=request.user).delete()
