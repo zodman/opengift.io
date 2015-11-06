@@ -684,7 +684,7 @@ border-bottom-right-radius: 0px;}
 .btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
 .btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
-.big-input { float:left; width:calc(100% - 135px); position:relative;}
+.big-input { float:left; width:calc(100% - 360px); position:relative;}
 .big-input .fa {
     color: #d9d9d9;
     font-size: 18px;
@@ -716,7 +716,7 @@ border-bottom-right-radius: 0px;}
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left; position: relative; width: 135px;}
+.file-upload {float:left; position: relative; width: 360px;}
 .task-file-upload {}
 .tasklist .task-file-upload .qq-upload-drop-area {
     border-radius: 5px;
@@ -736,10 +736,15 @@ border-bottom-right-radius: 0px;}
 
 .file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
 .file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
+.file-upload .btn.task-send {
+    float: left;
+    margin-left: 5px;
+    width: 220px;
+}
 
 /* ====================== ФИЛЬТРЫ */
 
-.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px; padding: 5px 0;}
+.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px; padding: 5px 0 10px;}
 .search_items_holder h6 {line-height:20px; display:inline-block; clear:both; margin:0 5px 0 0;}
 .search_items_holder > span {margin:5px 0; display:block;}
 .search_items_holder span .close {float:none; color:#CD0000; font-size:20px; line-height: 20px; display:inline-block; vertical-align: text-bottom;}
@@ -839,6 +844,7 @@ border-bottom-right-radius: 0px;}
 /* ====================== КОНТЕЙНЕР ЗАДАЧИ */
 
 .widget.tasklist {z-index:2;border-left: 3px solid #cfcfcf;}
+.widget.tasklist h1 {text-align: center; margin-bottom: 15px;}
 
 .milestones-checkbox {
   vertical-align: top;
@@ -4635,14 +4641,38 @@ ul.colors {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-left: 3px solid #47a447;
-    min-height: 115px;
+    min-height: 120px;
 }
-.project_graph .well h5 {margin-bottom: 5px;}
+.project_graph .well h5 {margin-bottom: 5px; line-height: 24px;}
 .project_graph .well .role-titles {color:#47a447;}
 .project_graph .well .role-titles h5 {border-bottom:1px dashed #47a447; color:#47a447; display: inline-block; margin-right: 10px;}
 .project_graph .well .role-titles h5.active {color:#000; border-color:transparent;width: calc(100% - 30px);}
 
 .project_graph .well .role-titles {}
+
+.js-change-role.project_graph__change_role {
+    background: #fff none repeat scroll 0 0;
+    border: 2px solid #5cb85c;
+    border-radius: 5px;
+    color: #5cb85c;
+    font-size: 12px;
+    height: 22px;
+    line-height: 16px;
+    position: absolute;
+    right: 10px;
+    text-align: center;
+    top: 0;
+    width: 33px;
+}
+.project_graph__change_role .fa {
+    margin: 0 2px;
+}
+.project_graph__change_role .fa-chevron-right {
+    font-size: 8px;
+    line-height: 14px;
+    position: relative;
+    top: -1px;
+}
 
 .project_graph .progress {margin: 10px 0 0;}
 .project_graph b {color:#47a447; font-size: 16px;}

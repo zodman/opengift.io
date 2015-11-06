@@ -16,15 +16,10 @@
     <!--<div class="row">
         <div class="col-xs-12">-->
 
-        <div class="widget-control">
-{#            <a class="w-collapse">Свернуть</a>#}
-            <a class="w-close">Закрыть</a>
-        </div>
 
-        <h3>{{ tasklist.title }}</h3>
+        <h1>{{ tasklist.title }}</h1>
 
         {% if tasklist.project %}
-        <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
@@ -101,6 +96,7 @@
                     <div class="file-upload">
                         <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                         <button class="btn btn-success task-create" type="submit">Создать</button>
+                        <a class="btn btn-success task-send" data-target="#invite-developers" data-toggle="modal">Пригласить исполнителей</a>
                     </div>
             </div>
             <div class="task-file-upload"></div>
@@ -252,7 +248,7 @@
         </div>
         <div class="search_items_holder" ></div>
 
-        <hr class="no-top-magin-hr">
+
         <script language="javascript">
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         taskRespSummary = {}
