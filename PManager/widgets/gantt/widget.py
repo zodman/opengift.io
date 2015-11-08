@@ -183,11 +183,20 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
 
     #сначала пробежимся по начатым задачам, чтобы выстроить остальные за ними
+    aResponsiblesLastDateStart = {}
     for task in aTasks:
         if task['parentTask__name'] and task['name']:
             task['name'] = task['parentTask__name'] + ' / ' + task['name']
 
         if task['realDateStart']:
+            if not task['closed']:
+                if task['resp__id'] not in aResponsiblesLastDateStart or \
+                                aResponsiblesLastDateStart[task['resp__id']]['realStart'] < task['realDateStart']:
+                    aResponsiblesLastDateStart[task['resp__id']] = {
+                        'id': task['id'],
+                        'realStart': task['realDateStart']
+                    }
+
             if task['planTime']:
                 taskTimer = WorkTime(
                     startDateTime=task['realDateStart'],
@@ -201,15 +210,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
 
     aTaskMilestones = {}
+
     for task in aTasks:
         #если время задачи не задано, его надо расчитать
         if not task['planTime']:
             task['planTime'] = 4 #TODO: продумать, как можно сделать этот параметр динамическим
 
-        if task['realDateStart']:
+        if task['resp__id'] in aResponsiblesLastDateStart and \
+                        aResponsiblesLastDateStart[task['resp__id']]['id'] == task['id']:
             task['dateCreateGantt'] = task['realDateStart']
-        elif task['closed'] == True:
-            task['dateCreateGantt'] = task['dateCreate']
+        elif task['closed']:
+            task['dateCreateGantt'] = task['realDateStart'] if task['realDateStart'] else task['dateCreate']
         else:
             task['dateCreateGantt'] = now
             #если ответственный занят, выстраиваем в ряд
@@ -228,10 +239,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
             endTime = task['dateCreateGantt'] + datetime.timedelta(hours=taskTimer.taskRealTime)
             if endTime < now and not task['closed']: endTime = now
-        elif task['dateModify']:
-            endTime = now
-        else:
-            endTime = task['dateCreateGantt'] + datetime.timedelta(hours=1)
+        # elif task['dateModify']:
+        #     endTime = now
+        # else:
+        #     endTime = task['dateCreateGantt'] + datetime.timedelta(hours=1)
 
         responsibleLastDates = getTaskResponsibleDates(responsibleLastDates, task, endTime)
 
