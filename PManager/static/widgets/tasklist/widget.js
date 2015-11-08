@@ -374,6 +374,7 @@ var widget_tl, currentGroup;
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
+
                         bottomPanel.addBlock('addObservers', $block);
                         $block = menuTaskBlock('Пригласить TOP-фрилансеров', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
@@ -382,7 +383,7 @@ var widget_tl, currentGroup;
                                 var $form = $(this).parents('form.js-invite-form');
                                 var data = $form.serialize();
                                 var url = $form.attr('action');
-                                var successUrl = '/taskdraft/'
+                                var successUrl = '/taskdraft/';
                                 data += '&project=' + currentProject;
                                 $.post(url, data, function (response) {
                                     try {
@@ -403,6 +404,7 @@ var widget_tl, currentGroup;
                                 $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });
                         });
+
                         if(typeof(currentProject) !== "undefined") {
                             bottomPanel.addBlock('inviteDevelopers', $block);
                         }

@@ -457,7 +457,7 @@ $(function () {
 //            $('body,html').scrollTop(t.focus().offset().top);
             return false;
         } else if (key == 40 && TL_HintOpened.name) { //arrow down
-            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
+            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active');//.find('a').focus();
         } else if (!e.ctrlKey && key != 13) {
             TL_ShowTaskCreateHint(this);
         }
@@ -551,7 +551,7 @@ $(function () {
 
         input.val(
                 inpval + "#" + (name == 'new' ? '' : name) + "#"
-        ).focus();
+        );//.focus();
 
         if (name == 'new') {
             var len = input.val().length - 1;

@@ -108,8 +108,7 @@ def widget(request, headerValues, ar, qargs):
                     resp__in=aResp
                 ).count() or 1)
             )
-        #END CLOSEST MILESTONE
-
+    #END CLOSEST MILESTONE
 
     taskTagCoefficient = 0
     taskTagPosition = 0
@@ -123,7 +122,6 @@ def widget(request, headerValues, ar, qargs):
             ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id HAVING w >= ' + str(obj1.weight_sum or 0) + ') as v'):
             taskTagPosition = obj2.position + 1
             break
-
 
         taskTagCoefficient += (obj1.weight_sum or 0)
         break
