@@ -639,7 +639,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .nav-pills > li > a > .asked,
 .nav-pills > li > a > .no-asked {margin-top:1px; margin-right:5px;}
 
-.widget.inner .widget-body {padding:15px 15px 15px;}
+.widget.inner .widget-body {padding:15px 20px;}
 
 
 .interface-block .close {
@@ -2022,14 +2022,34 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
                              ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ
     ###############################################################*/
 .user-personal-left {width: 50%; float: left;}
-@media (max-width:838px) {
-    .user-personal-left {width: 100%; float: none;}
-    .user-personal-left:first-child {margin-bottom: 15px;}
+
+.user-avatar {margin-right:20px;}
+
+.user-avatar-wrapper {
+    background: #f6f6f6 none repeat scroll 0 0;
+    border-radius: 4px;
+    display: block;
+    height: 100px;
+    width: 100px;
 }
 
-.user-avatar,
-.user-contacts,
-.user-tasks-info {margin-right:20px;}
+.user-avatar-bonus {
+    background: #5cb85c none repeat scroll 0 0;
+    border-radius: 0 0 3px 3px;
+    color: #fff;
+    display: block;
+    font-size: 22px;
+    margin-top: -2px;
+    padding: 7px 0;
+    text-align: center;
+}
+
+.user-tasks-info {
+    background: #f6f6f6 none repeat scroll 0 0;
+    border-radius: 5px;
+    margin: 10px 0;
+    padding: 10px 15px;
+}
 
 .user-contacts ul,
 .user-tasks-info ul {margin-bottom: 0px;}
@@ -2109,7 +2129,15 @@ i.tag-num-icon {
     color: #47a447;
 }
 
-.user-contacts li {background:url(../images/sprite.png) 0px 0px no-repeat; height:18px; line-height:20px; padding-left:26px; margin-bottom:7px; list-style:none;}
+.user-contacts li {
+    background:url(../images/sprite.png) 0px 0px no-repeat;
+    height:18px;
+    line-height:20px;
+    padding-left:26px;
+    list-style:none;
+    float: left;
+    margin-right: 30px;
+}
 .user-contacts li.mailto {background-position:0px -440px;}
 .user-contacts li.user-icq {background-position:0px -460px;}
 .user-contacts li.user-skype {background-position:0px -480px;}
@@ -2136,11 +2164,15 @@ i.tag-num-icon {
 
 .statistic-list, .statistic-graph, .statistic-detail {float: left;}
 
-.statistic-list {padding: 0 15px 15px;width:250px;}
-.statistic-graph-wrapper {width: calc(100% - 250px); float: left;}
+.statistic-list {padding: 0 0 0 20px; width: 50%;}
+.statistic-list-item {float: left;}
+.statistic-list-item:first-child {width: calc(60% - 20px);margin-right: 20px;}
+.statistic-list-item:last-child {width: 40%;}
+
+.statistic-list-item .sp {background: #f6f6f6; padding: 5px 10px; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px; margin: 10px 0;}
 .statistic-graph {width: calc(100% - 290px);}
 .statistic-graph #myChart {width: 100%;}
-.statistic-detail {width: 290px; margin-top: 25px; padding: 10px;}
+.statistic-detail {width: 290px;}
 .statistic-detail table {width: 100%;}
 .statistic-detail table td {padding: 10px 5px; vertical-align: top; border-bottom: 1px solid #eee; font-weight: bold;}
 .statistic-detail table td:first-child {padding-left: 10px;}
@@ -2152,13 +2184,21 @@ i.tag-num-icon {
     .user-prizes {float: none;}
 }
 
+@media only screen and (max-width: 1024px) {
+    .user-personal-left {width: 100%; float: none;}
+    .user-personal-left:first-child {margin-bottom: 15px;}
+    .statistic-list {width: 100%; padding-left: 0px;}
+}
+
 
 @media only screen and (max-width: 768px) {
     .statistic-list,
     .statistic-graph-wrapper {width: 100%; float: none;}
-
-    .statistic-list {margin-bottom: 25px;}
+    .statistic-list-item:first-child {width: 100%; float: none; padding: 0px; margin: 0 0 20px;}
+    .statistic-list-item:last-child {width: 100%; float: none; padding: 0px; margin: 0px;}
+    .user-contacts li {margin-bottom: 10px; float: none;}
 }
+
 
 .user-prizes-slider {width: 450px;}
 .user-prizes-slider li {width: 150px; float: left;}
@@ -2627,7 +2667,7 @@ border-top-right-radius: 0;}
 
 /**** ДЕТАЛЬНАЯ ЗАДАЧИ ****/
 .widget.inner .widget-title {padding:10px 15px;}
-.widget.inner .widget-body {padding:15px 15px 15px;}
+.widget.inner .widget-body {padding:15px 20px;}
 .newMessage .btn {margin-bottom:3px;}
 }
 /**** ЗАГРУЗКА ФАЙЛОВ ****/
