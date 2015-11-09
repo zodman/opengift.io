@@ -26,7 +26,7 @@ qq.FineUploader = function(o){
             formatProgress: "{percent}% of {total_size}",
             waitingForResponse: "Подождите..."
         },
-        template: (!this._options.button ? '<div class="qq-upload-button" style="direction: ltr; background: none !important; display: block; height: 34px; overflow: hidden; position: absolute; right: 110px; top: 64px; width: 40px;"></div>' : '') +
+        template: (!this._options.button ? '<div class="qq-upload-button"></div>' : '') +
             '<div class="qq-uploader" >' +
             ((!this._options.dragAndDrop || !this._options.dragAndDrop.disableDefaultDropzone) ? '<div class="qq-upload-drop-area mini-layout"><span>{dragZoneText}</span></div>' : '') +
             '<span class="qq-drop-processing"><span">{dropProcessingText}</span><span class="qq-drop-processing-spinner"></span></span>' +
