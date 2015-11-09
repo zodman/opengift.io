@@ -1446,13 +1446,22 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .combobox-container .add-on {width: 30px;}
 
 .task_add-message_message-detail {margin: 15px 0 10px;}
-.task_add-message_message-detail .btn {
-    background: #d9534f none repeat scroll 0 0;
+.task_add-message_message-detail .btn,
+.task_add-message_message-detail .btn:focus,
+.task_add-message_message-detail .btn:active,
+.task_add-message_message-detail .btn:hover {
+    background: none;
+    box-shadow: none;
+    -moz-box-shadow: none;
+    -webkit-box-shadow: none;
     color: #fff;
     margin-bottom: 0;
     margin-left: 18px;
     margin-top: -2px;
-    padding: 1px 10px;
+    padding: 1px 0px;
+    font-weight: bold;
+    color: #d9534f;
+
 }
 .radioded {
     vertical-align: top;
