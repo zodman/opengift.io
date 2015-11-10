@@ -68,8 +68,8 @@
                                 <div class="role-content">
                                     <div class="role-content-tab">
                                         {% if project_graph.isPro and role.role.code != 'client' %}
-                                        <strong>Цена часа:</strong> &nbsp;<span
-                                            class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                                        <strong>Цена часа:</strong> &nbsp;
+                                        <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
                                             {% if role.rate and project_graph.rating != 0 %}
                                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
                                                 +{% endif %}{{ project_graph.rating }}

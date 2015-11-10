@@ -161,6 +161,8 @@
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний</label>
+                    <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
+                    <span title="Прикрепить файл" class="new-message-icon"><i class="fa fa-paperclip"></i><input name="file" type="file"></a>
                 </div>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">
@@ -169,16 +171,37 @@
                     </div>
                 </div>
 
-                <div class="left">
-                    <a href="#" class="addPic js-addPic" onclick="return false"><i class="fa fa-picture-o"></i><span>Нарисовать рисунок</span></a>
+                <script>
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip()
+                    })
+                </script>
+                <div class="uploaded_file clearfix">
+                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
+                        <span class="uploaded_file-item-image"><img src="http://smex-public.ru/uploads/posts/2015-04/1430383281_hqanqqxvmgm.jpg"></span>
+                        <span class="fa fa-remove"></span>
+                    </a>
+                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
+                        <span class="uploaded_file-item-image"><img src="http://smex-public.ru/uploads/posts/2015-04/1430383281_hqanqqxvmgm.jpg"></span>
+                        <span class="fa fa-remove"></span>
+                    </a>
+                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
+                        <span class="uploaded_file-item-image"><i class="fa fa-file-o"></i></span>
+                        <span class="fa fa-remove"></span>
+                    </a>
+                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
+                        <span class="uploaded_file-item-image"><i class="fa fa-file-archive-o"></i></span>
+                        <span class="fa fa-remove"></span>
+                    </a>
+                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
+                        <span class="uploaded_file-item-image"><i class="fa fa-file-word-o"></i></span>
+                        <span class="fa fa-remove"></span>
+                    </a>
+
                 </div>
 
-                <div class="uploaded_file"></div>
-
-                <div class="task_add-message_message-detail form-group">
-                    <label class="col-sm-2 control-label">Прикрепить файл</label>
-                    <div class="col-sm-2">
-                        <input name="file" type="file">
+                <div class="task_add-message_message-detail ">
+                    <!--<div class="col-sm-2">
                         <span class="message-detail_add-file help-block">
                             <a class="fa fa-plus-square"
                                href="#"
@@ -186,8 +209,8 @@
                                 Добавить
                             </a>
                         </span>
-                    </div>
-                    {% if task_detail.is_manager %}
+                    </div>-->
+                    <!--{% if task_detail.is_manager %}
                     <label class="col-sm-2 control-label">Скрыть сообщение:</label>
                     <div class="col-sm-2">
                         <div class="checkbox">
@@ -201,26 +224,17 @@
                             </label>
                         </div>
                     </div>
-                    {% endif %}
+                    {% endif %}-->
+
                     {% if task_detail.task.status.code != 'not_approved' %}
-                    <label class="col-sm-2 control-label">Установить статус:</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input onclick="$('input[name=status]').eq(1).attr('checked',false);"
-                                       type="checkbox"
-                                       name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
-                                на проверку
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input onclick="$('input[name=status]').eq(0).attr('checked',false);"
-                                       type="checkbox" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
-                                на доработку
-                            </label>
-                        </div>
-                    </div>
+                    <input class="radioded" onclick="$('input[name=status]').eq(2).attr('checked',false);" type="radio" id="checked" name="checked" value="checked">
+                    <label for="checked">не изменять</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="radioded" onclick="$('input[name=status]').eq(1).attr('checked',false);" type="radio" id="ready" name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
+                    <label for="ready">на проверку</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="radioded" onclick="$('input[name=status]').eq(0).attr('checked',false);" type="radio" id="revision" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
+                    <label for="revision">на доработку</label>
                     {% endif %}
                 </div>
 

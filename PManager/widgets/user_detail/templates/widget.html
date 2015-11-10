@@ -24,26 +24,27 @@
         <div class="user-personal row-fluid clearfix">
             <div class="user-personal-left clearfix">
                 <div class="user-avatar pull-left">
-                    <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                    <span class="user-avatar-wrapper">
+                        <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                        <span class="user-avatar-bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span>
+                    </span>
                 </div>
 
                 <div class="user-info-right-from-avatar">
-                    <div class="user-contacts pull-left">
-                        <ul>
+                    <div class="user-contacts">
+                        <ul class="clearfix">
                             {% if user_detail.user.email %}<li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>{% endif %}
                             {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
                             {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
                         </ul>
                     </div>
-                    <div class="user-tasks-info pull-left">
+                    <div class="user-tasks-info">
                       <ul>
                         <li>Открытых задач: <b style="font-size: 14px;"> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></b></li>
                         <li>Компетентность специалиста: <b> {{ user_detail.competence }}</b></li>
                         <li>Место в рейтинге: <b> {{ user_detail.competencePlace }}</b></li>
                       </ul>
                     </div>
-                    <div class="clearfix"></div>
-                    <hr>
                     {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
@@ -71,7 +72,42 @@
 
             </div>
 
-            <div class="user-personal-left">
+
+            <div class="statistic-list clearfix">
+                <div class="statistic-list-item">
+                <h3>Активность</h3>
+                <p>Последняя активность: <strong>{% if user_detail.profile.last_activity_date %} {{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
+                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
+                <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
+                <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
+                <p>Всего ошибок:  <b>{{ user_detail.bugsQty|default_if_none:'0' }}</b></p>
+                </div>
+
+                {% if user_detail.profile.is_outsource %}
+                <div class="statistic-list-item">
+                <h3>Финансы</h3>
+                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
+                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
+
+                <div class="sp">На счету:
+                                    <span class="dropdown dropup">
+                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
+                                        <b>баллов</b>
+                                        {% if user_detail.bets %}
+                                        <a href="#" class="js-show-bonuses" style="font-size: 16px;float: right;display: block;margin-top: 1px;"><i class="fa fa-chevron-right"></i></a>
+                                        {% endif %}
+                                    </span>
+                </div>
+                <div class="clear"></div>
+                {% if not user_detail.userIsEqualCurrentUser %}
+                <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
+                {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!--<div class="user-personal-left">
                 <div class="user-prizes">
                     {% if user_detail.achievements %}
                     <ul class="user-prizes-slider clearfix">
@@ -81,7 +117,7 @@
                     </ul>
                     {% endif %}
                 </div>
-            </div>
+            </div>-->
 
         </div><!--user-personal-->
         <hr>
@@ -117,37 +153,6 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="svodka">
                     <div class="statistic-wrapper clearfix">
-                          <div class="statistic-list">
-                                <h3>Активность</h3>
-                                <p>Последняя активность: <strong>
-                                    {% if user_detail.profile.last_activity_date %}<br />{{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
-                                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
-                                <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
-                                <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
-                                <p>Всего ошибок:  <b>{{ user_detail.bugsQty|default_if_none:'0' }}</b></p>
-
-                                {% if user_detail.profile.is_outsource %}
-                                <hr />
-                                <h3>Финансы</h3>
-                                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
-                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
-                                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
-
-                                <div class="sp" style="margin: 10px 0;background: #efefef;padding: 5px;">На счету:
-                                    <span class="dropdown dropup">
-                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
-                                        <b>баллов</b>
-                                        {% if user_detail.bets %}
-                                        <a href="#" class="js-show-bonuses" style="font-size: 16px;float: right;display: block;margin-top: 1px;"><i class="fa fa-chevron-right"></i></a>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="clear"></div>
-                                {% if not user_detail.userIsEqualCurrentUser %}
-                                <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
-                                {% endif %}
-                                {% endif %}
-                          </div>
 
                           <div class="statistic-graph-wrapper">
                               {% if user_detail.bets %}
