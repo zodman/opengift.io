@@ -36,9 +36,9 @@
                 </td>
                 <td class="about-user">
 
-                    <div class="clearfix">
-                        <span style="display: block;">Занятость</span>
-                        <div class="progress" style="margin: 14px 0;">
+                    <div class="about-user-progress">
+                        <b>Занятость</b>
+                        <div class="progress">
                             <div class="progress-bar progress-bar-success" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;" aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
                                 <span class="sr-only">{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}% Complete</span>
                             </div>

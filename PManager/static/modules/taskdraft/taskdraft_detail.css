@@ -1,91 +1,70 @@
-.invite-user-list {}
-.invite-user-list ul.invite-user-list-list {margin: 0 -5px; list-style: none;}
-.invite-user-list ul.invite-user-list-list li {
-    background: none repeat scroll 0 0 #f5f5f5;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    box-shadow: 0 1px 1px #f0f0f0, 0 0 1px #fff inset;
-    color: #222;
-    display: table;
-    float: left;
-    margin: 10px 5px 0;
-    padding: 10px;
-    text-align: left;
-    width: calc(25% - 10px);
-}
-.invite-developers {float: right; width: 220px;}
-.invite-developers .btn {width: 100%; text-align: center;}
 
-
-.invite-user-item-left {
-    background: none repeat scroll 0 0 #fff;
-    border: 1px solid #e2e2e2;
-    border-radius: 5px;
-    float: left;
-    height: 70px;
-    overflow: hidden;
-    width: 70px;
-}
-.invite-user-item-left > span {
+.draft-status {
+    background: #47a447 none repeat scroll 0 0;
     border-radius: 4px;
-    display: block;
-    height: 62px;
-    overflow: hidden;
-    width: 62px;
-}
-.invite-user-item-left img {max-width: 100%;}
-.invite-user-item-right {
-    display: table-cell;
-    padding-left: 14px;
-    vertical-align: middle;
-    width: 100%;
-}
-.invite-user-item-right > a {
-    font-size: 13px;
-    text-transform: uppercase;
-}
-
-.invite-developers-title {float: left; margin-bottom: 0px; margin-top: 7px;}
-.invite-user-item-rate {font-size: 11px; color: #777;}
-
-
-@media (max-width: 1280px) {
-    .invite-user-list ul.invite-user-list-list li {width: calc(33.33% - 10px);}
-}
-
-@media (max-width: 1024px) {
-    .invite-user-list ul.invite-user-list-list li {width: calc(50% - 10px);}
-}
-
-@media (max-width: 768px) {
-    .invite-user-list ul.invite-user-list-list li {width: calc(100% - 10px);}
-}
-
-
-@media (max-width: 568px) {
-    .invite-developers-title {float: none; margin-top: 0px; text-align: center;}
-    .invite-developers {float: none; margin-top: 10px; width: 100%;}
-    .invite-developers .btn {width: 100%;}
-
-}
-
-
-.invite-tasks .task-info .task-info-time {padding: 0px; width: 130px; text-align: right;}
-.task-info-message-board {
+    color: #fff;
+    display: inline-block;
+    font-size: 10px;
+    font-weight: bold;
+    line-height: 11px;
+    margin-left: 6px;
+    padding: 5px 6px 4px;
     position: relative;
-    text-align: left;
-    top: -6px;
-    width: 150px;
+    text-transform: uppercase;
+    top: -10px;
 }
-.task-info-message-board .fa {display: inline-block; margin-right: 10px; vertical-align: text-top;}
+
+
+.invite-tasks .task-info .task-info-time {
+    width: 100px;
+    padding: 0 0 0 25px;
+}
+
+.invite-tasks .task-info {
+    width: 35%;
+}
+
+.invite-tasks .task-title {
+    width: 65%;
+    padding-right: 140px;
+}
+
+.invite-tasks .task-title .task-info-message-board-to-hide {
+    color: #47a447;
+    margin-right: 5px;
+}
+
+.invite-tasks .task-title .task-info-message-board-to-hide span {margin-left: 5px;}
+
+
+.task-discussion {
+    background: rgba(255, 255, 255, 0.5) none repeat scroll 0 0;
+    border-top: 1px solid rgba(1, 1, 1, 0.07);
+    margin: 5px -15px -20px;
+    padding: 15px;
+}
+.message {background: #fff;}
+.task-discussion .message {padding: 0px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px;}
+.task-discussion .task_add-message {background: none; margin-bottom: 10px; padding: 0px;}
+.task-discussion .task_add-message .btn {margin-bottom: 0px;}
+
 
 @media only screen and (max-width: 900px) {
-    .task-info-message-board {width: 50px;}
-    .task-info-message-board-to-hide {display: none;}
-    .task-info-message-board .fa {margin-right: 5px;}
-    .invite-tasks .task-title {padding-right:0px;}
-}
-@media only screen and (max-width: 640px) {
-    .invite-tasks .task-info .task-info-author {display:inline-block;}
+    .invite-tasks .task_add-subtask {right: 0px;}
+    .invite-tasks .task-title,
+    .invite-tasks .task-info  {float:none; width:100%; text-align:left;}
 
+    .invite-tasks .task-info .task-info-time {padding-left: 0px; width: 100%;}
+    .invite-tasks .task-info .task-info-author {width: 100%;}
+}
+
+
+@media only screen and (max-width: 768px) {
+    .invite-tasks .task-title {padding-right: 50px;}
+    .invite-tasks .task-title .task-info-message-board-to-hide span {margin-left: 0px; display: none;}
+}
+
+
+@media only screen and (max-width: 568px) {
+    .task-info .task-info-time {top: 0px;}
 }

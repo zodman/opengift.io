@@ -7,18 +7,17 @@
     {% compressed_css 'taskdraft_detail' %}
 {% endblock %}
 {% block content %}
-    <div class="widget inner draft">
+    <div class="widget draft">
+
         <div class="widget-title clearfix">
-            Список задач: {{ draft }}
-            <div class="status" style="float:right">
-                Статус: {{ draft.status_humanize }}
-            </div>
+            <h3>Список задач: {{ draft }}</h3>
+            <span class="draft-status">{{ draft.status_humanize }}</span>
         </div>
+        <hr>
+
         <div class="widget-body">
             <div class="invite-wrapper clearfix">
-                <div class="invite-user-list">
-                    <div class="clearfix">
-                        <h4 class="invite-developers-title">Список участников:</h4>
+                <div class="row-fluid user-list invite-user-list">
                         {% if request.user.id == draft.author.id and tasks %}
                         <div class="invite-developers">
                             <a href="/taskdraft/{{ draft.slug }}/resend-invites"
@@ -27,15 +26,14 @@
                             </a>
                         </div>
                         {% endif %}
-                    </div>
-                    <ul class="invite-user-list-list">
+                    <ul class="invite-user-list-list clearfix">
                         {% for user in users %}
                             {% include 'partials/user/user_list_item.html' %}
                         {% endfor %}
                     </ul>
                 </div>
             </div>
-            <hr>
+
             <div class="js-tasks invite-tasks">
                 {% if not tasks and draft.author.id == request.user.id %}
                     <div class="task-wrapper">

@@ -4,12 +4,10 @@
 {% block content %}
     {% load thumbnail %}
 {% load jsonify %}
-<div class="widget inner draft">
+<div class="widget draft">
     <div class="widget-title clearfix">
-        Список задач: <a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
-        <div class="status" style="float:right">
-            Статус: {{ draft.status_humanize }}
-        </div>
+        <h3>Список задач: <a href="/taskdraft/{{ draft.slug }}">{{ draft }}</a></h3>
+        <div class="draft-status">Статус: {{ draft.status_humanize }}</div>
     </div>
     <div class="widget-body">
             <h2>{{ task.name|safe }}</h2>
@@ -42,7 +40,7 @@
             {% endfor %}
 
         <hr>
-        <div class="task_add-message form-horizontal">
+        <div class="task_add-message form-horizontal clearfix">
         <form action="/taskdraft/{{ draft.slug }}/{{ task.id }}" method="POST">
             {% csrf_token %}
             <div class="form-group">

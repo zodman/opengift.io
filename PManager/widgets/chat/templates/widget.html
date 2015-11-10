@@ -4,13 +4,12 @@
     var widget_chat,
         widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
 </script>
-<div class="widget" id="chat">
-    <h4>Лента событий</h4>
+<div class="widget chat" id="chat">
+    <h1>Лента событий</h1>
     <div class="TopPanel">
         <a href="#" class="RollUp"></a>
         <a href="#" class="Close"></a>
     </div>
-    <hr>
     
     <div class="clearfix chat-nav js-feed-options">
     	<div class="pull-left">
@@ -34,8 +33,7 @@
         </div>
         {% endif %}
     </div>
-    
-    <hr>
+
     
     <div class="Chat">
         <table width="100%">
