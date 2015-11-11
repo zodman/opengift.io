@@ -1,4 +1,5 @@
 {% load jsonify thumbnail arraytags compressed %}
+{% compressed_js 'fileup' %}
 {% compressed_js 'task_detail' %}
 {% if task_detail.error %}
             <div class="popup" >
@@ -176,6 +177,7 @@
                         $('[data-toggle="tooltip"]').tooltip()
                     })
                 </script>
+                <div class="task-file-upload"></div>
                 <div class="uploaded_file clearfix">
                     <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
                         <span class="uploaded_file-item-image"><img src="http://smex-public.ru/uploads/posts/2015-04/1430383281_hqanqqxvmgm.jpg"></span>
@@ -227,13 +229,13 @@
                     {% endif %}-->
 
                     {% if task_detail.task.status.code != 'not_approved' %}
-                    <input class="radioded" onclick="$('input[name=status]').eq(2).attr('checked',false);" type="radio" id="checked" name="checked" value="checked">
+                    <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">
                     <label for="checked">не изменять</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="radioded" onclick="$('input[name=status]').eq(1).attr('checked',false);" type="radio" id="ready" name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
+                    <input class="radioded" type="radio" id="ready" name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
                     <label for="ready">на проверку</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="radioded" onclick="$('input[name=status]').eq(0).attr('checked',false);" type="radio" id="revision" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
+                    <input class="radioded" type="radio" id="revision" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
                     <label for="revision">на доработку</label>
                     {% endif %}
                 </div>
@@ -247,6 +249,8 @@
                     <input type="hidden" name="responsible_change" value="" />
                     <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Отправить и сменить ответственного</button>
                 </div>
+
+
             </form>
         </div>
     </div>

@@ -257,7 +257,10 @@ $(function(){
 
                 if (data && data.fid)
                     widget_td.$messageForm.find('.uploaded_file')
-                        .append('<p>Загружен файл: ' + data.fid + '</p>')
+                        .append($('<a class="uploaded_file-item js-file-item" href="" data-toggle="tooltip" data-placement="top" title="'+data.fid+'">' +
+                                    '<span class="uploaded_file-item-image"><img src="'+data.path+'"></span>' +
+                                    '<span class="fa fa-remove" onclick="$(this).closest(\'.js-file-item\').remove();"></span>' +
+                                '</a>').tooltip())//<p>Загружен файл: ' + data.fid + '</p>')
                         .append('<input name="uploaded_files" value="' + data.fid + '" type="hidden" />');
             });
             widget_td.removeTempScripts();
@@ -453,4 +456,6 @@ $(function(){
     $('[data-toggle="popover"]').popover({
             'trigger': 'hover'
         });
+
+    taskFileUpload();
 });
