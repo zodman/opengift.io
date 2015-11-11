@@ -28,6 +28,7 @@ $(function(){
     widget_td.$createTaskInput = widget_td.$container.find('.js-addTaskInput input:text');
     widget_td.$blockAfterNewTask = widget_td.$task_holder.find('.js-addTaskInput');
     widget_td.$messageForm = widget_td.$container.find('form.newMessage');
+    widget_td.$attachedFileContainer = widget_td.$container.find('.uploaded_file');
     widget_td.$todoList = widget_td.$container.find('.js-todo-list');
     widget_td.$todoContainer = widget_td.$container.find('.js-todo-container');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
@@ -126,6 +127,7 @@ $(function(){
 //
 //            });
 
+
             $('.sendTaskMessage').on("click", function(){
                 var closeTask = $(this).hasClass('btn-close'),
                     btn = this,
@@ -133,8 +135,7 @@ $(function(){
                     parForm = $(this).closest("form.newMessage"),
                     getTextarea = parForm.find("textarea"),
                     getCheckboxs = parForm.find("input[type=checkbox]"),
-                    searchLoadBufPhotos = parForm.find("input[name=uploaded_files]"),
-                    searchInputPhotos = parForm.find("input[type=file]");
+                    searchLoadBufPhotos = parForm.find("input[name=files]");
 
 
                 if(getTextarea.val() != '') actions = true; //Проверка Textarea
@@ -142,9 +143,6 @@ $(function(){
                     if($(this).prop("checked")) actions = true;
                 });*/
                 if(searchLoadBufPhotos.length) actions = true; //Проверка закрепленных из буфера фотографии
-                searchInputPhotos.each(function(){ //Проветка выбор фотографии
-                    if($(this).val() != '') actions = true;
-                });
 
                 if(actions){
                     if (!$(btn).pushed()){
@@ -256,12 +254,8 @@ $(function(){
                 data = $.parseJSON(data);
 
                 if (data && data.fid)
-                    widget_td.$messageForm.find('.uploaded_file')
-                        .append($('<a class="uploaded_file-item js-file-item" href="" data-toggle="tooltip" data-placement="top" title="'+data.fid+'">' +
-                                    '<span class="uploaded_file-item-image"><img src="'+data.path+'"></span>' +
-                                    '<span class="fa fa-remove" onclick="$(this).closest(\'.js-file-item\').remove();"></span>' +
-                                '</a>').tooltip())//<p>Загружен файл: ' + data.fid + '</p>')
-                        .append('<input name="uploaded_files" value="' + data.fid + '" type="hidden" />');
+                    widget_td.$attachedFileContainer
+                        .append($attachedFileBlock(data.path, data.fid, data.fid, data.type));
             });
             widget_td.removeTempScripts();
             baseConnector.addListener('fs.task.update', function(data){
@@ -320,7 +314,7 @@ $(function(){
         'removeMessage': function(id){
             return this.removeMessageRequest(id, function(data){
                 if (data.success == "Y")
-                    $(widget_td.message_selector).filter('[data-id='+id+']').remnove();
+                    $(widget_td.message_selector).filter('[data-id='+id+']').remove();
             });
         },
         'removeMessageRequest': function(id, callback){
@@ -337,8 +331,8 @@ $(function(){
                         data = $.parseJSON(data);
                         data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
-                        widget_td.$messageForm.find('textarea[name=task_message], input:file').val('');
-                        widget_td.$messageForm.find('.uploaded_file').empty();
+                        widget_td.$messageForm.find('textarea[name=task_message]').val('');
+                        widget_td.$attachedFileContainer.empty();
                         if (callback) callback(data);
                     }
                 });
@@ -378,7 +372,6 @@ $(function(){
 
                         arTimers[data.id].container.html(arTimers[data.id].toString());
                     }
-
                 }
             });
 
@@ -457,5 +450,14 @@ $(function(){
             'trigger': 'hover'
         });
 
-    taskFileUpload();
+    taskFileUpload(
+        function(event,id, filename, data){
+            if (data.id){
+                $attachedFileBlock(data.src, data.name, data.id, data.type).appendTo(widget_td.$attachedFileContainer);
+                $(this).fineUploader('setDeleteFileParams', {"file_id": data.id}, id);
+            }
+        },
+        false,
+        true
+    )
 });

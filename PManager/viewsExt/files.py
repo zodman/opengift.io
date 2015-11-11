@@ -64,7 +64,7 @@ def fileSave(request):
             )
 
         file.save()
-        return HttpResponse(json.dumps({'path': str(file.file), 'fid': file.id}))
+        return HttpResponse(json.dumps({'path': str(file.file), 'fid': file.id, 'type': file.type}))
     return HttpResponse(json.dumps({'error': 'PNG expected'}))
 
 
@@ -360,6 +360,7 @@ class AjaxFileUploader(object):
                 })
                 # although "application/json" is the correct content type, IE throws a fit
             return HttpResponse(json.dumps(ret_json, cls=DjangoJSONEncoder), content_type='text/html; charset=utf-8')
+
         else:
             response = HttpResponseNotAllowed(['POST'])
             response.write("ERROR: Only POST allowed")

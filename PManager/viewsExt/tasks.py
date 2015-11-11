@@ -301,7 +301,6 @@ def __task_message(request):
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
-    files = request.FILES.getlist('file') if 'file' in request.FILES else []
     profile = request.user.get_profile()
     is_manager = profile.isManager(task.project)
     hidden_from_employee = False
@@ -316,7 +315,7 @@ def __task_message(request):
         elif profile.isClient(task.project):
             hidden_from_employee = True
     status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
-    uploaded_files = request.POST.getlist('uploaded_files') if 'uploaded_files' in request.POST else []
+    uploaded_files = request.POST.getlist('files') if 'files' in request.POST else []
     author = request.user
     if task:
         text = text.replace('<', '&lt;').replace('>', '&gt;')
@@ -344,12 +343,6 @@ def __task_message(request):
             task.setStatus(status)
             logger = Logger()
             logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
-
-        for filePost in files:
-            file_obj = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
-            file_obj.file = filePost
-            file_obj.save()
-            message.files.add(file_obj.id)
 
         for filePost in uploaded_files:
             try:
@@ -1276,12 +1269,7 @@ class TaskWidgetManager:
     @staticmethod
     def getUsersThatCanBeResponsibleInThisProject(user, project):
         if project:
-            if user.get_profile().isManager(project):
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
-            elif user.get_profile().isClient(project):
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['manager', 'client', 'employee'])
-            else:
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager'])
+            res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
         else:
             res = TaskWidgetManager.getUsersThatUserHaveAccess(user, None)
 

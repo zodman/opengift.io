@@ -333,7 +333,7 @@ fileList.initFileUpload = function(){
         text: {
             cancelButton:'Отмена',
             retryButton:'Повторить',
-            deleteButton:'Удалить',
+            deleteButton:'Удалить'
         },
         chunking: {
             enabled: true
@@ -381,8 +381,6 @@ fileList.initFileUpload = function(){
 
 $(function(){
     fileList.init();
-
-    console.log('csrf token is set here');
 });
 
 var fileObject = function(data){

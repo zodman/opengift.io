@@ -116,7 +116,7 @@
         </p>
         {% endif %}
         {% if task_detail.solutions %}
-            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Подобные задачи уже решались</a>
+            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >База знаний похожих задач</a>
         {% endif %}
         <hr />
         {% if task_detail.task.observersList %}
@@ -163,7 +163,7 @@
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний</label>
                     <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
-                    <span title="Прикрепить файл" class="new-message-icon"><i class="fa fa-paperclip"></i><input name="file" type="file"></a>
+                    <span title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
                 </div>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">
@@ -172,62 +172,11 @@
                     </div>
                 </div>
 
-                <script>
-                    $(function () {
-                        $('[data-toggle="tooltip"]').tooltip()
-                    })
-                </script>
                 <div class="task-file-upload"></div>
                 <div class="uploaded_file clearfix">
-                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
-                        <span class="uploaded_file-item-image"><img src="http://smex-public.ru/uploads/posts/2015-04/1430383281_hqanqqxvmgm.jpg"></span>
-                        <span class="fa fa-remove"></span>
-                    </a>
-                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
-                        <span class="uploaded_file-item-image"><img src="http://smex-public.ru/uploads/posts/2015-04/1430383281_hqanqqxvmgm.jpg"></span>
-                        <span class="fa fa-remove"></span>
-                    </a>
-                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
-                        <span class="uploaded_file-item-image"><i class="fa fa-file-o"></i></span>
-                        <span class="fa fa-remove"></span>
-                    </a>
-                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
-                        <span class="uploaded_file-item-image"><i class="fa fa-file-archive-o"></i></span>
-                        <span class="fa fa-remove"></span>
-                    </a>
-                    <a class="uploaded_file-item" href="" data-toggle="tooltip" data-placement="top" title="Название файла">
-                        <span class="uploaded_file-item-image"><i class="fa fa-file-word-o"></i></span>
-                        <span class="fa fa-remove"></span>
-                    </a>
-
                 </div>
 
                 <div class="task_add-message_message-detail ">
-                    <!--<div class="col-sm-2">
-                        <span class="message-detail_add-file help-block">
-                            <a class="fa fa-plus-square"
-                               href="#"
-                               onclick="d=$(this).parent().prev();d.clone().insertAfter(d).val('');return false;" >
-                                Добавить
-                            </a>
-                        </span>
-                    </div>-->
-                    <!--{% if task_detail.is_manager %}
-                    <label class="col-sm-2 control-label">Скрыть сообщение:</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="hidden_from_clients" value="Y"> для клиентов
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="hidden_from_employee" value="Y"> для разработчиков
-                            </label>
-                        </div>
-                    </div>
-                    {% endif %}-->
-
                     {% if task_detail.task.status.code != 'not_approved' %}
                     <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">
                     <label for="checked">не изменять</label>
@@ -249,8 +198,6 @@
                     <input type="hidden" name="responsible_change" value="" />
                     <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Отправить и сменить ответственного</button>
                 </div>
-
-
             </form>
         </div>
     </div>
@@ -261,7 +208,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Решения похожих задач</h2>
+        <h2 class="modal-title" id="myModalLabel">База знаний по похожим задачам</h2>
     </div>
     <div class="modal-body">
         <div class="js-solutions">
