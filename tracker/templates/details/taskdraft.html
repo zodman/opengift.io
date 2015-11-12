@@ -10,30 +10,10 @@
     <div class="widget draft">
 
         <div class="widget-title clearfix">
-            <h3>Список задач: {{ draft }}</h3>
-            <span class="draft-status">{{ draft.status_humanize }}</span>
+            <h3>Приглашения в проект {{ draft }}</h3>
+            <!--<span class="draft-status">{{ draft.status_humanize }}</span>-->
         </div>
-        <hr>
-
         <div class="widget-body">
-            <div class="invite-wrapper clearfix">
-                <div class="row-fluid user-list invite-user-list">
-                        {% if request.user.id == draft.author.id and tasks %}
-                        <div class="invite-developers">
-                            <a href="/taskdraft/{{ draft.slug }}/resend-invites"
-                               class="btn btn-success js-invite-developers">
-                                <i class="fa fa-paper-plane"></i>&nbsp;Отправить приглашения
-                            </a>
-                        </div>
-                        {% endif %}
-                    <ul class="invite-user-list-list clearfix">
-                        {% for user in users %}
-                            {% include 'partials/user/user_list_item.html' %}
-                        {% endfor %}
-                    </ul>
-                </div>
-            </div>
-
             <div class="js-tasks invite-tasks">
                 {% if not tasks and draft.author.id == request.user.id %}
                     <div class="task-wrapper">
@@ -59,6 +39,25 @@
                     </div>
                 {% endif %}
             </div>
+
+            {% if request.user.id == draft.author.id and tasks %}
+            <div align="center" class="invite-developers">
+                <a href="/taskdraft/{{ draft.slug }}/resend-invites"
+                   class="btn btn-success js-invite-developers">
+                    <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Отправить приглашения
+                </a>
+            </div>
+            {% endif %}
+
+
+            <div class="invite-wrapper">
+                    <ul class="invite-users-list clearfix">
+                        {% for user in users %}
+                        {% include 'partials/user/user_list_invite_item.html' %}
+                        {% endfor %}
+                    </ul>
+            </div>
+
         </div>
     </div>
     {% block javascript %}
