@@ -447,7 +447,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 /*.sub-menu_line_section-tracker > .navbar-right { float: right; }*/
 .sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
 .sub-menu_line_section-tracker .tracker-choose {padding: 4px 5px 4px 0; font-size:13px; display:inline-block; max-width:190px; overflow:hidden; position:relative;font-size: 18px;font-weight: bold;color: #494949;}
-.sub-menu_line_section-tracker .tracker-choose span { border-bottom: 1px solid #494949; padding: 0;}
+.sub-menu_line_section-tracker .tracker-choose span { border-bottom: 1px dashed #494949; padding: 0;}
 .sub-menu_line_section-tracker .tracker-choose:hover span {border-color: #47a447;}
 .sub-menu_line_section-tracker .tracker-choose:hover {text-decoration: none; color: #47a447;}
 .btn.btn-link.tracker-choose:after {position:absolute; content:""; right:0px; top:0px; height:25px; width:20px; display:block; /* IE9 SVG, needs conditional override of 'filter' to 'none' */
