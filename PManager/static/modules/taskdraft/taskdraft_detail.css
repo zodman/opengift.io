@@ -22,11 +22,13 @@
 
 .invite-tasks .task-info {
     width: 35%;
+    padding-left: 0px;
 }
 
 .invite-tasks .task-title {
     width: 65%;
     padding-right: 140px;
+    padding-left: 0px;
 }
 
 .invite-tasks .task-title .task-info-message-board-to-hide {
