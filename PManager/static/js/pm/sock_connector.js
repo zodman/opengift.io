@@ -13,7 +13,7 @@ var baseConnectorClass = function(data){
 baseConnectorClass.prototype = {
     'init': function(){
         var t = this;
-        this.socket = io.connect(this.url);
+        this.socket = io.connect(this.url, {secure: true});
 
         this.addListener('connect', function () {
             this.open = true;
