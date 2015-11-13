@@ -67,7 +67,7 @@ class Command(NoArgsCommand):
         app = web.Application(
             router.urls,
             socket_io_port=port,
-            socket_io_address='localhost',#settings.SOCKET_SERVER_ADDRESS,
+            socket_io_address='0.0.0.0',#settings.SOCKET_SERVER_ADDRESS,
             flash_policy_port=fport,
             flash_policy_file=os.path.join(ROOT, 'flashpolicy.xml'),
         )
