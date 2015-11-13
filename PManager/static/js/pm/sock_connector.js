@@ -53,7 +53,7 @@ var baseConnector = {};
 
 $(function(){
     baseConnector = new baseConnectorClass({
-        'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + (window.location.protocol == 'https:' ? ':8081' : ':8082')
+        'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081'
     });
 });
 
