@@ -2,10 +2,11 @@
 #!/usr/bin/env python
 __author__ = 'Gvammer'
 
-from tornado import gen
-from tornadio2 import SocketConnection, event
-import os, json, datetime, re, django.contrib.auth, django.utils, django.conf
+from tornado import gen, websocket
+
+import os, json, datetime, re, django.contrib.auth, django.utils, django.conf, time
 import tornadoredis
+import logging
 import tracker.settings as settings
 from django.utils import timezone
 from PManager.viewsExt.tools import templateTools
@@ -13,6 +14,7 @@ from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models import PM_Task_Message, PM_Files, PM_Task, PM_Timer
 from django.db import transaction
 from PManager.classes.server.message import ServerMessage
+from inspect import ismethod, getmembers
 
 ROOT = os.path.normpath(os.path.dirname(__file__))
 
@@ -27,6 +29,43 @@ ORDERS_REDIS_DB = getattr(settings, 'ORDERS_REDIS_DB', 0)
 def flush_transaction():
     transaction.commit()
 
+def event(name_or_func):
+    """Event handler decorator.
+
+    Can be used with event name or will automatically use function name
+    if not provided::
+
+        # Will handle 'foo' event
+        @event('foo')
+        def bar(self):
+            pass
+
+        # Will handle 'baz' event
+        @event
+        def baz(self):
+            pass
+    """
+
+    if callable(name_or_func):
+        name_or_func._event_name = name_or_func.__name__
+        return name_or_func
+
+    def handler(f):
+        f._event_name = name_or_func
+        return f
+
+    return handler
+
+class EventMagicMeta(type):
+    """Event handler metaclass"""
+    def __init__(cls, name, bases, attrs):
+        # find events, also in bases
+        is_event = lambda x: ismethod(x) and hasattr(x, '_event_name')
+        events = [(e._event_name, e) for _, e in getmembers(cls, is_event)]
+        setattr(cls, '_events', dict(events))
+
+        # Call base
+        super(EventMagicMeta, cls).__init__(name, bases, attrs)
 
 onlineUsers = {}
 
@@ -124,20 +163,107 @@ class PM_Tasks_Connector():
             return False
 
 # Declare connection class
-class MyConnection(SocketConnection):
+class MyConnection(websocket.WebSocketHandler):
     id = None
     user = None
     uniqueId = None
+    __metaclass__ = EventMagicMeta
 
-    def __init__(self, *args, **kwargs):
-        super(MyConnection, self).__init__(*args, **kwargs)
+    def check_origin(self, origin):
+        return True
+
+    def on_event(self, name, args=[], kwargs=dict()):
+        """Default on_event handler.
+
+        By default, it uses decorator-based approach to handle events,
+        but you can override it to implement custom event handling.
+
+        `name`
+            Event name
+        `args`
+            Event args
+        `kwargs`
+            Event kwargs
+
+        There's small magic around event handling.
+        If you send exactly one parameter from the client side and it is dict,
+        then you will receive parameters in dict in `kwargs`. In all other
+        cases you will have `args` list.
+
+        For example, if you emit event like this on client-side::
+
+            sock.emit('test', {msg='Hello World'})
+
+        you will have following parameter values in your on_event callback::
+
+            name = 'test'
+            args = []
+            kwargs = {msg: 'Hello World'}
+
+        However, if you emit event like this::
+
+            sock.emit('test', 'a', 'b', {msg='Hello World'})
+
+        you will have following parameter values::
+
+            name = 'test'
+            args = ['a', 'b', {msg: 'Hello World'}]
+            kwargs = {}
+
+        """
+        handler = self._events.get(name)
+
+        if handler:
+            try:
+                if args:
+                    return handler(self, *args)
+                else:
+                    return handler(self, **kwargs)
+            except TypeError:
+                if args:
+                    logging.error(('Attempted to call event handler %s ' +
+                                  'with %s arguments.') % (handler,
+                                                           repr(args)))
+                else:
+                    logging.error(('Attempted to call event handler %s ' +
+                                  'with %s arguments.') % (handler,
+                                                           repr(kwargs)))
+                raise
+        else:
+            logging.error('Invalid event name: %s' % name)
+
+    def open(self):
+        self.send('connect', {'result': 'ok'})
         self.listen_redis()
+        global onlineUsers
+        print 'Online users: ' + str(len(onlineUsers))
 
-    def close(self):
+    def send(self, event, data):
+        self.write_message(json.dumps({
+            'event': event,
+            'data': data
+        }))
+
+    def on_close(self):
         try:
             self.redis_client.disconnect()
         except Exception:
             pass
+        global onlineUsers
+        print 'connection closing...'
+        if self.id in onlineUsers:
+            if self.uniqueId in onlineUsers[self.id]:
+                #onlineUsers[self.id][self.uniqueId].close()
+                del onlineUsers[self.id][self.uniqueId]
+
+                if len(onlineUsers[self.id]) == 0:
+                    del onlineUsers[self.id]
+
+        if not self.id in onlineUsers:
+            conn = PM_Tasks_Connector()
+            conn.stopTimer(self.id)
+
+        print 'connection closed'
         super(MyConnection, self).close()
 
     @gen.engine
@@ -162,7 +288,7 @@ class MyConnection(SocketConnection):
 
     #быстрая отправка системного сообщения текущему соединению
     def systemMessage(self, message):
-        self.emit('message', json.dumps({
+        self.send('message', json.dumps({
             'message': message,
             'user': 'Система',
             'date': templateTools.dateTime.convertToSite(datetime.datetime.now())
@@ -194,26 +320,11 @@ class MyConnection(SocketConnection):
                             pass
                 del serverMessage
 
-    def on_open(self, info):
-        pass
-
     def on_message(self, msg):
-        self.send(msg)
 
-    def on_close(self):
-        global onlineUsers
-
-        if self.id in onlineUsers:
-            if self.uniqueId in onlineUsers[self.id]:
-                #onlineUsers[self.id][self.uniqueId].close()
-                del onlineUsers[self.id][self.uniqueId]
-
-                if len(onlineUsers[self.id]) == 0:
-                    del onlineUsers[self.id]
-
-        if not self.id in onlineUsers:
-            conn = PM_Tasks_Connector()
-            conn.stopTimer(self.id)
+        msg = json.loads(msg)
+        print msg
+        self.on_event(msg['event'], [], msg['data'])
 
     @event('task:read')
     def putTask(self, *args, **kags):
@@ -308,7 +419,6 @@ class MyConnection(SocketConnection):
     @event('connect')
     def connect(self, sessionid):
         import random, time
-
         global onlineUsers, tornadoDjangoSessions
 
         if sessionid:
@@ -332,8 +442,7 @@ class MyConnection(SocketConnection):
                     else:
                         onlineUsers[self.user.id] = {self.uniqueId: self}
 
-                    self.broadcast('userLogin', self.userJsonData(self.user,
-                                                                  'online')) #рассылаем всем онлайн-юзерам инфу о новом юзере
+                    self.broadcast('userLogin', json.loads(self.userJsonData(self.user, 'online'))) #рассылаем всем онлайн-юзерам инфу о новом юзере
 
             return 'Connected'
 
@@ -357,7 +466,15 @@ class MyConnection(SocketConnection):
 
     def broadcast(self, event, data):
         global onlineUsers
+        toRemove = []
         if onlineUsers:
             for i in onlineUsers:
                 for k in onlineUsers[i]:
-                    onlineUsers[i][k].emit(event, data)
+                    print onlineUsers[i][k]
+                    # try:
+                    onlineUsers[i][k].send(event, data)
+                    # except:
+                        # toRemove.append((i, k))
+
+        # for i, k in toRemove:
+        #     onlineUsers[i][k].close()

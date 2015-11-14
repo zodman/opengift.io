@@ -4,48 +4,81 @@
  * Date: 25.03.13
  * Time: 13:07
  */
+var FancyWebSocket = function(url, obj){
+  var conn = new WebSocket(url);
+
+  var callbacks = {};
+
+  this.bind = function(event_name, callback){
+    callbacks[event_name] = callbacks[event_name] || [];
+    callbacks[event_name].push(callback);
+    return this;// chainable
+  };
+
+  this.send = function(event_name, event_data){
+    var payload = JSON.stringify({event:event_name, data: event_data});
+    conn.send( payload ); // <= send JSON data to socket server
+    return this;
+  };
+
+  // dispatch to the right handlers
+  conn.onmessage = function(evt){
+    var json = JSON.parse(evt.data);
+    dispatch(json.event, json.data);
+  };
+
+  conn.onclose = function(){dispatch('close',null)};
+  conn.onopen = function(){dispatch('open',null)};
+
+  var dispatch = function(event_name, message){
+    var chain = callbacks[event_name];
+    if(typeof chain == 'undefined') return; // no callbacks for this event
+    for(var i = 0; i < chain.length; i++){
+      chain[i].call( obj, message )
+    }
+  }
+};
+
 var baseConnectorClass = function(data){
     this.socket = false;
     this.url = data.url;
+    this.events = {};
     this.init();
-}
+};
 
 baseConnectorClass.prototype = {
     'init': function(){
         var t = this;
-        this.socket = io.connect(this.url);
+        var prot = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
+        this.socket = new FancyWebSocket(prot + this.url, this);
 
         this.addListener('connect', function () {
             this.open = true;
-            this.emit("connect", {
-                    sessionid: $.cookie("sessionid")
-                }, function(data){
-//                    console.log(data);
+            this.send("connect", {
+                sessionid: $.cookie("sessionid")
             });
-        });
-    },
-    'addListener': function(event_name,func){
-        var jsonParseFunc = function(data){
-            if (data && (typeof data == 'string' || typeof data == 'String')){
-                if (data.indexOf('{') > -1 || data.indexOf('[') > -1){
-                    data = $.parseJSON(data);
-                }
+            if(window.timerID){
+               window.clearInterval(window.timerID);
+               window.timerID=0;
             }
+        });
 
-            return func.call(this, data);
-        }
-
-        this.socket.on(event_name, jsonParseFunc);
+        this.addListener('close', function() {
+            if(!window.timerID) {
+              window.timerID = setInterval(function(){t.init()}, 5000);
+            }
+        })
     },
-    'once': function(event_name,func){
-        this.socket.once(event_name,func);
+    'addListener': function(event_name, func){
+        this.socket.bind(event_name, func);
     },
-    'send': function(message, data, callback){
-        this.socket.emit(message, data, callback);
+    'send': function(message, data, func){
+        this.socket.send(message, data);
+        if (func) func();
     },
     'closeConnection': function(){
-        this.socket = null;
-        io.disconnect()
+        this.socket.onclose = function () {};
+        this.socket.close();
     }
 };
 
@@ -57,8 +90,8 @@ $(function(){
     });
 });
 (function($){
-    $('body').unload(function(e){
+    window.onbeforeunload = function(e) {
         window.unloadPage = true;
         baseConnector.closeConnection();
-    });
+    }
 })(jQuery);

@@ -44,7 +44,8 @@ PIPELINE_JS = {
             'js/pm/current_timer.js',
             'js/pm/drowCanvas.js',
             'js/libs/toastr.js',
-            'js/pm/csrf_protector.js'
+            'js/pm/csrf_protector.js',
+            'js/bootstrap/bootstrap-tooltip.js'
         ),
         'output_filename': 'js_compressed/base.js',
     },
@@ -204,7 +205,6 @@ PIPELINE_JS = {
     },
     'user_list': {
         'source_filenames': (
-            'js/bootstrap/bootstrap-tooltip.js'
             'widgets/user_list/widget.js',
         ),
         'output_filename': 'js_compressed/user_list.js'

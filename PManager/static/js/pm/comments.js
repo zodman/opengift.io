@@ -15,27 +15,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             'initialize': function () {
 
             },
-            'getFromServer': function (callback) {
-                this.fetch({
-                    'success': function (model, data) {
-                        try {
-                            data = $.parseJSON(data);
-                            if (typeof(data) == typeof({}) && data.id) {
-                                for (var i in data) {
-                                    model.set(i, data[i]);
-                                }
-                            }
-
-                            callback(data);
-                        } catch (e) {
-                            console.log(e);
-                        }
-                    },
-                    'error': function (model, data) {
-                        console.log('Read error: ' + data);
-                    }
-                });
-            },
             'saveToServer': function (callback) {
                 var t = this;
                 this.save(null, {

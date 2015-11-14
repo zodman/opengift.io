@@ -179,7 +179,7 @@
                               <div class="statistic-graph js-productivity"><h3>Продуктивность</h3>
 {#                                    <div id='dashboard'></div>#}
                                   <div style="width: 100%">
-                                    <canvas id="dashboard" height="250" width="600"></canvas>
+                                    <canvas id="dashboard" height="150" width="600"></canvas>
                                 </div>
                               </div>
                               <div class="statistic-detail js-user-legend">
@@ -256,7 +256,7 @@
                                     <div class="dostizheniya-item-text">
                                     <h4>{{ c.achievement.name }}</h4>
                                     <!--<p class="date">{{ c.achievement.date }}</p>-->
-                                    <p>{{ c.achievement.description|safe }}</p>
+                                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe }}</p>
                                     {% if c.project %}<hr>
                                         <p>Проект: <b>{{ c.project.name }}</b></p>
                                     {% endif %}

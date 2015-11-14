@@ -17,8 +17,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'getFromServer': function (callback) {
 			var t = this;
+            console.log('fetching task');
 			this.fetch({
 				'success': function (model, data) {
+                    console.log(data);
 					try {
 						data = $.parseJSON(data);
 						if (typeof(data) == typeof({}) && data.id) {
@@ -916,10 +918,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (this.model.get('onPlanning')) return false;
 			var obj = this;
 			taskManager.AddToPlanning(this.model.id, function () {
-				obj.checkModel(function () {
-					obj.model.set('onPlanning', true);
-					obj.render();
-				});
+				obj.model.set('onPlanning', true);
+                obj.render();
 			});
 			return false;
 		},
@@ -948,10 +948,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (!this.model.get('onPlanning')) return false;
 			var obj = this;
 			taskManager.RemoveFromPlanning(this.model.id, function () {
-				obj.checkModel(function () {
-					obj.model.set('onPlanning', false);
-					obj.render();
-				});
+				obj.model.set('onPlanning', false);
+                obj.render();
 			});
 			return false;
 		},
@@ -970,11 +968,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 				data = $.parseJSON(data);
 				if (data.error)
 					$('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(data.error).appendTo('body').show();
-				else
-					t.checkModel(function () {
-						t.model.set('status', 'revision');
-						t.render();
-					});
+				else {
+                    t.model.set('status', 'revision');
+                    t.render();
+                }
 			});
 		},
 		'removeTask': function () {

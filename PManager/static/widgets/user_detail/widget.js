@@ -289,6 +289,7 @@ $(function () {
 
     $('.js-show-bonuses').click(function(){
         $('.js-bonuses, .js-productivity').toggle();
+        $('[href="#svodka"]').trigger('click');
         return false;
     });
 

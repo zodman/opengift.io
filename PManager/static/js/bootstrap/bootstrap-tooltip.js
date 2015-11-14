@@ -347,7 +347,7 @@
   , delay: 0
   , html: false
   , container: false
-  }
+  };
 
 
  /* TOOLTIP NO CONFLICT
@@ -359,3 +359,6 @@
   }
 
 }(window.jQuery);
+jQuery(function() {
+    $('[data-toggle="tooltip"]').tooltip();
+});

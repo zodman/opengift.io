@@ -102,9 +102,6 @@
                 {% endif %}
             </span>
         </p>
-        
-{#        {{ task_detail.params }}#}
-        Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
         {% if task_detail.task.planTime %}
         Плановое время: {{ task_detail.task.planTime }} ч. &nbsp;&nbsp;
         {% endif %}
@@ -116,7 +113,7 @@
         </p>
         {% endif %}
         {% if task_detail.solutions %}
-            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >База знаний похожих задач</a>
+         <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
         {% endif %}
         <hr />
         {% if task_detail.task.observersList %}
@@ -161,7 +158,7 @@
                 </select>
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
-                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний</label>
+                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний <a href="#" data-toggle="tooltip" title="Комментарий будет отображаться в похожих по тексту задачах для помощи исполнителям.">?</a></label>
                     <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
                     <span title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
                 </div>
@@ -216,6 +213,7 @@
                 {% if solution %}
                 <div class="similar-solution message">
                     <div class="message-content">
+                        <h2>{{ solution.task.name }}</h2>
                         <div class="text">{{ solution.text }}</div>
                         <div class="author">{{ solution.author.last_name }} {{ solution.author.name }}</div>
                         <div class="date">{{ solution.dateCreate }}</div>

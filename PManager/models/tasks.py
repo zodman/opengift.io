@@ -1119,7 +1119,7 @@ class PM_Task(models.Model):
 
     @staticmethod
     def getSimilar(text, project):
-        SIMILARITY_PERCENT = 60
+        SIMILARITY_PERCENT = 40
 
         def sortByTagsCount(task):
             return task.tagSimilarCount
@@ -1274,7 +1274,20 @@ class PM_Task(models.Model):
         message = PM_Task_Message(text=text, task=self, author=user, isSystemLog=True, code=code)
         message.save()
         redisSendLogMessage(message.getJson({
-            'noveltyMark': True
+            'noveltyMark': True,
+            'onlyForUsers': [message.author.id] + ([message.userTo.id] if message.userTo else [])
+                            if message.hidden else
+                            (
+                                [u.id for u in message.task.observers.all()] +
+                                [message.author.id] +
+                                [message.userTo.id] if message.userTo else [] +
+                                [self.author.id] +
+                                [self.resp.id] if self.resp else [] +
+                                [r['user__id'] for r in PM_ProjectRoles.objects.filter(
+                                    project=self.project,
+                                    role__code='manager'
+                                ).values('user__id')]
+                            )
         }))
 
     def canEdit(self, user):
