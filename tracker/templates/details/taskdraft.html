@@ -10,7 +10,7 @@
     <div class="widget draft">
 
         <div class="widget-title clearfix">
-            <h3>Приглашения в проект {{ draft }}</h3>
+            <h3>Приглашения в проект {{ draft.project.name }}</h3>
             <!--<span class="draft-status">{{ draft.status_humanize }}</span>-->
         </div>
         <div class="widget-body">
@@ -53,7 +53,7 @@
             <div class="invite-wrapper">
                     <ul class="invite-users-list clearfix">
                         {% for user in users %}
-                        {% include 'partials/user/user_list_invite_item.html' %}
+                            {% include 'partials/user/user_list_invite_item.html' %}
                         {% endfor %}
                     </ul>
             </div>
