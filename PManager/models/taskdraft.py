@@ -26,8 +26,8 @@ class TaskDraft(models.Model):
 
     def __unicode__(self):
         if self.title:
-            return self.title
-        return self.slug
+            return self.project.name + ': ' + self.title
+        return self.project.name
 
     def status_humanize(self):
         for choice in self.status_choices:
