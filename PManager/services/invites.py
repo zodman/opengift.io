@@ -69,8 +69,7 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None):
         users = User.objects.filter(pk__in=user_ids)
         if exclude is not None:
             for x in exclude:
-                users.exclude(pk__in=x)
-
+                users = users.exclude(pk__in=x)
         return users
     else:
         return False
@@ -78,7 +77,7 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None):
 def executors_available(task_draft, active_task_limit=5):
     NUMBER_OF_TOP_USERS = 6
     user_ids = set()
-    users = get_all_active_outsourcers(exclude=(task_draft.users.distinct(),))
+    users = get_all_active_outsourcers(exclude=(task_draft.users.values_list('id', flat=True),))
     if not users:
         return None
 

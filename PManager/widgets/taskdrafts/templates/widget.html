@@ -5,15 +5,20 @@
     </div>
     <div class="widget-body clearfix">
     {% if not taskdrafts.drafts %}
-                    <div class="empty"><i class="fa fa-paper-plane"></i><br>Нет открытых списков задач.</p>
+        <div class="empty"><i class="fa fa-paper-plane"></i><br>Нет открытых списков задач.</p>
     {% else %}
         {% for draft in taskdrafts.drafts %}
                     <div class="task-message">
                         <div class="message created">
                             <div class="message-content">
                                 <span class="message-info-id">#{{ draft.id }}</span>
-                                <span class="message-info-time">23.03.2015 16:01</span>
-                                <a class="message-info-name" href="/taskdraft/{{ draft.slug }}">{{ draft }}</a>
+                                <a class="message-info-name" href="/taskdraft/{{ draft.slug }}">
+                                    {{ draft.created_at }}
+                                    <span style="background:cornflowerblue; border-radius:3px;padding:3px;color:white">
+                                        {{ draft }}
+                                    </span>
+
+                                </a>
                                 <b class="message-desc-status">Статус:&nbsp;{{ draft.status_humanize }}</b>
 
                                 {% if draft.author.id == request.user.id %}

@@ -81,7 +81,7 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
         user = User.objects.get(pk=int(user_accepted_id))
         if task_id is not None:
             task = PM_Task.objects.get(pk=int(task_id))
-            project = task.prpject
+            project = task.project
     except (ValueError, ):
         return "Ошибка идентификатора"
     except PM_Task.DoesNotExist:
