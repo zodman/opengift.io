@@ -23,11 +23,11 @@ class ServerMessage(object):
     def send(self):
         if self.canAccess():
             self.setAdditionalFields()
-
-            result = json.dumps(self.fields)
+            print self.fields
+            result = self.fields
             channel = '.'.join(['fs', self.objectName, self.type])
 
-            self.conn.emit(channel, result)
+            self.conn.send(channel, result)
 
     @staticmethod
     def getFromPMMessage(message, connection):
@@ -39,6 +39,10 @@ class ServerMessage(object):
         objectName = None
         messageFromJson = json.loads(redisMessage.body)
         channel = redisMessage.channel.split('.')
+
+        if 'onlyForUsers' in messageFromJson:
+            if connection.user.id not in messageFromJson['onlyForUsers']:
+                return False
 
         if channel:
             type = channel.pop()

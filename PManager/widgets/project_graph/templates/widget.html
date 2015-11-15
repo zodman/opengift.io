@@ -1,5 +1,14 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
+{% if project_graph.paymentForm %}
+    <form action="{{ project_graph.paymentForm.target }}"
+              method="POST" name="robo">
+            {{ project_graph.paymentForm.as_p }}
+    </form>
+    <script>
+    document.forms.robo.submit();
+    </script>
+{% else %}
 <style>
     .project_graph .well .role-titles h5:not(.active) {
         display: none;
@@ -50,30 +59,41 @@
                                 </h5>
                             {% endfor %}
                             {% if project_graph.roles|length > 1 %}
-                                <a href="#" class="js-change-role project_graph__change_role"><i class="fa fa-chevron-right"></i> </a>
+                            <a href="#" class="js-change-role project_graph__change_role"><i class="fa fa-user"></i><i class="fa fa-chevron-right"></i> </a>
                             {% endif %}
                         </div>
                         {% for role in project_graph.roles %}
                             <div class="role-{{ role.role.code }} js-role" data-role="{{ role.role.code }}"
                                  {% if not forloop.first %}style="display: none;" {% endif %}>
-
                                 <div class="role-content">
                                     <div class="role-content-tab">
-                                        {% if role.role.code != 'client' %}
-                                        <strong>Цена часа:</strong> &nbsp;<span
-                                            class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
-                                        {% if role.rate and project_graph.rating != 0 %}
+                                        {% if project_graph.isPro and role.role.code != 'client' %}
+                                        <strong>Цена часа:</strong> &nbsp;
+                                        <span class="stavka {% if project_graph.rating < 0 %}danger{% else %}success{% endif %}">{{ role.rate }}
+                                            {% if role.rate and project_graph.rating != 0 %}
                                             <span class="bonus">{% if project_graph.rating < 0 %}{% else %}
                                                 +{% endif %}{{ project_graph.rating }}
                                                 </span>
-                                                    {% else %}&nbsp;
-                                                    {% endif %}
+                                            {% else %}
+                                                &nbsp;
+                                            {% endif %}
                                             </span>
                                         <br/>
+                                        {% elif role.role.code == 'employee' %}
+                                            При закрытии задач вам начисляется рейтинг специалиста.
                                         {% endif %}
-                                        <span
-                                            style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
-                                        <a href="/wiki/bonuses">?</a>{% if not project_graph.isPro and role.role.code == 'employee' %}<a href="/pro/" class="premium-button clearfix ">Получить PRO</a>{% endif %}
+                                        {% if role.role.code == 'client' or project_graph.isPro %}
+                                            {% if role.role.code == 'client' and not project_graph.allPrice %}
+                                                Пополните баланс для расчета со специалистами Heliard
+                                            {% else %}
+                                            <span
+                                                style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
+                                            <a href="/wiki/bonuses">?</a>
+                                            {% endif %}
+                                            {% if role.role.code == 'client' %}
+                                                <br /><a href="#" data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a>
+                                            {% endif %}
+                                        {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -82,7 +102,6 @@
 
                 <div class="col-xs-6" style="border-left: 1px solid #efefef;">
                 {% for role in project_graph.roles %}
-
                         <div class="js-graph-{{ role.role.code }}">
                         {% if role.role.code == 'employee' %}
                             <h5>Рейтинг специалиста</h5>
@@ -98,8 +117,11 @@
                                 </tr>
                                 <tr>
                                     <td>
-                                        <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">{{ project_graph.allOpenRealTime }}
-                                            ч.</b></td>
+                                        <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">
+                                            {{ project_graph.allOpenRealTime }}
+                                            ч.
+                                        </b>
+                                    </td>
                                     <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
                                 </tr>
                             </table>
@@ -147,3 +169,25 @@
         </div>
     </div>
 </div>
+<div class="popup green-popup mobile-popup js-pay-popup" id="payment-popup" style="display: none;">
+    <form class="form" method="POST">
+        <div class="modal-header">
+            <h2 class="modal-title">Пополнить аккаунт</h2>
+        </div>
+
+        <div class="modal-body">
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Введите сумму </div>
+                <div class="modal-body-item-right">
+                    <input type="hidden" name="pay" value="Y" />
+                    <input class="form-control" name="sum" placeholder="" maxlength="6" value="10000" />
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <input type="submit" class="btn  btn-large btn-success" value="Пополнить" />
+            <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+        </div>
+    </form>
+</div>
+{% endif %}

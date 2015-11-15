@@ -1,5 +1,6 @@
 <div class="achievements-wrapper-big">
   <ul class="achievements-wrapper clearfix">
+    <p style="padding: 10px 15px 0;">Начисления по достижениям доступны только для исполнителей с аккаунтом PRO при условиях расчета через сервис. Для остальных исполнителей достижения будут просто отображаться в их профиле не принося финансовой выгоды.</p>
     {% for achievement in achievements %}
         {% if canEdit or achievement.project_relation %}
           <li class="achievements-item clearfix{% if achievement.project_relation %} active{% endif %} js-achievement">
@@ -42,7 +43,9 @@
                 </label>
             </div>
             {% else %}
-                <div class="achievements-item-settings"><b>{% if achievement.project_relation.type == 'fix' %}Разовое начисление{% elif achievement.project_relation.type == 'bet' %}Прибавка к ставке по проекту{% endif %}</b>: {{ achievement.project_relation.value|default_if_none:'' }}</div>
+                {% if achievement.project_relation.value %}
+                    <div class="achievements-item-settings"><b>{% if achievement.project_relation.type == 'fix' %}Разовое начисление{% elif achievement.project_relation.type == 'bet' %}Прибавка к ставке по проекту{% endif %}</b>: {{ achievement.project_relation.value|default_if_none:'' }}</div>
+                {% endif %}
            {% endif %}
           </li>
         {% endif %}

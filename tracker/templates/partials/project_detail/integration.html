@@ -1,10 +1,8 @@
 <div class="integration-wrapper clearfix">
     <div class="integration-left">
         <h2>GIT репозиторий</h2>
+        <small>Ваши сотрудники могут подключаться к репозиторию, загрузив SSH-ключ в свой профиль.</small>
         <hr>
-        {% if not canEdit %}
-        <p class="colored-bg bg-warning">У вас нет прав для редактирования настроек проекта</p>
-        {% endif %}
         <form method="POST" name="integration">
             <p class="checkbox">
                 <label>
@@ -41,7 +39,8 @@
         </form>
     </div>
     <div class="integration-right">
-        <h2>Тестовый сервер</h2>
+        <h2>Облачный сервер</h2>
+        <small>Облачный сервер будет располагаться на поддомене heliard-platform.ru.</small>
         <hr>
         {% if project.repository and not project.api_key %}
         <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>

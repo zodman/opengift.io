@@ -461,24 +461,21 @@ class PM_Task(models.Model):
         if not self.resp and user:
             self.resp = user
 
+        if not self.wasClosed and not self.subTasks.count():
+            self.setCreditForTime()
+            self.wasClosed = True
+
         tagRelArray = ObjectTags.objects.filter(
             object_id=self.id,
             content_type=ContentType.objects.get_for_model(PM_Task)
         ).all()
-        if self.resp:
-            #save user experiance
-            if self.resp.id != self.author.id:
-                increaseTagsForUser(self.resp, tagRelArray)
-
-            logger.log(self.resp, 'DAILY_TASKS_CLOSED', 1)
 
         for ob in self.observers.all():
-            if ob.id != self.author.id:
+            if ob.id != self.author.id and (not self.resp or ob.id != self.resp.id):
                 increaseTagsForUser(ob, tagRelArray)
 
-        if not self.wasClosed and not self.subTasks.count():
-            self.setCreditForTime()
-            self.wasClosed = True
+        if self.resp:
+            increaseTagsForUser(self.resp, tagRelArray)
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -505,7 +502,9 @@ class PM_Task(models.Model):
                 cUser = User.objects.get(pk=int(obj.user_id))
                 cUserProf = cUser.get_profile()
 
-                if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active:
+                if cUserProf.isEmployee(self.project) and cUser.id != self.author.id and cUser.is_active \
+                        and cUserProf.is_outsource:
+
                     ob['time'] = round(float(obj.summ) / 3600., 2)
 
                     if self.planTime:
@@ -560,15 +559,6 @@ class PM_Task(models.Model):
                                 credit.save()
                                 allSum = allSum + curPrice
 
-                                if profResp.is_outsource:
-                                    fee = Fee(
-                                        user=profResp.user,
-                                        value=curPrice * self.FEE,
-                                        project=self.project,
-                                        task=self
-                                    )
-                                    fee.save()
-
         if allRealTime or self.planTime:
             if self.planTime:
                 managers = PM_ProjectRoles.objects.filter(
@@ -579,14 +569,12 @@ class PM_Task(models.Model):
                 cManagers = 0
                 aManagers = []
                 for manager in managers:
-                    if not manager.rate:
-                        continue
-
-                    bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
-                    if bet:
-                       cManagers += 1
-                       setattr(manager, 'bet', bet)
-                       aManagers.append(manager)
+                    if manager.user.get_profile().is_outsource:
+                        bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
+                        if bet:
+                           cManagers += 1
+                           setattr(manager, 'bet', bet)
+                           aManagers.append(manager)
 
                 for manager in aManagers:
                     curTime = self.planTime * 1.0 / cManagers
@@ -625,8 +613,9 @@ class PM_Task(models.Model):
                 )
 
                 for client in clients:
-                    clientComission = int(self.project.getSettings().get('client_comission', 0) or 0)
-                    allSum = round(allSum * (clientComission + 100) / 100, 2)
+                    import math
+                    clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
+                    allSum = math.floor(allSum * (clientComission + 100) / 100)
 
                     credit = Credit(
                         user=client.user,
@@ -666,10 +655,9 @@ class PM_Task(models.Model):
             if not self.onPlanning and self.canPMUserSetPlanTime(request.user.get_profile()):
                 self.planTime = float(val)
                 self.save()
-            else:
-                planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
-                planTime.time = float(val)
-                planTime.save()
+            planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
+            planTime.time = float(val)
+            planTime.save()
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -1130,7 +1118,7 @@ class PM_Task(models.Model):
 
     @staticmethod
     def getSimilar(text, project):
-        SIMILARITY_PERCENT = 60
+        SIMILARITY_PERCENT = 40
 
         def sortByTagsCount(task):
             return task.tagSimilarCount
@@ -1285,7 +1273,20 @@ class PM_Task(models.Model):
         message = PM_Task_Message(text=text, task=self, author=user, isSystemLog=True, code=code)
         message.save()
         redisSendLogMessage(message.getJson({
-            'noveltyMark': True
+            'noveltyMark': True,
+            'onlyForUsers': [message.author.id] + ([message.userTo.id] if message.userTo else [])
+                            if message.hidden else
+                            (
+                                [u.id for u in message.task.observers.all()] +
+                                [message.author.id] +
+                                [message.userTo.id] if message.userTo else [] +
+                                [self.author.id] +
+                                [self.resp.id] if self.resp else [] +
+                                [r['user__id'] for r in PM_ProjectRoles.objects.filter(
+                                    project=self.project,
+                                    role__code='manager'
+                                ).values('user__id')]
+                            )
         }))
 
     def canEdit(self, user):
@@ -1768,9 +1769,15 @@ class PM_User_PlanTime(models.Model):
     def __unicode__(self):
         return self.user.username + ' ' + self.task.name
 
+    def hour_rate(self):
+        profile = self.user.get_profile()
+        return profile.sp_price + profile.getRating(self.task.project)
+
+    def total_cost(self):
+        return self.time * self.hour_rate()
+
     class Meta:
         app_label = 'PManager'
-
 
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)

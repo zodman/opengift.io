@@ -145,7 +145,6 @@ $(function(){
             widget_chat.setLastId(widget_chat.arStartMessages);
 
             baseConnector.addListener('fs.comment.add', function(data){
-
                 for (var k in widget_chat.options){
                     if (!widget_chat.options[k]){
                         switch (k){

@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
-from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task
+from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task, PM_Achievement, PM_Project_Achievement
 from PManager.viewsExt.tools import emailMessage
 from tracker.settings import ADMIN_EMAIL, INFO_EMAIL
 import datetime
@@ -40,22 +40,25 @@ def register(request):
             user.is_staff = True
 
             user.save()
+
             project.author = user
-            project.setSettings({'start_unapproved': True})
+            project.setSettings({'start_unapproved': True, 'unplan_approve': True})
             project.save()
             request.COOKIES["CURRENT_PROJECT"] = project.id
 
             prof = user.get_profile()
-            # prof.setRole('manager', project)
+            prof.setRole('client', project)
             # prof.setRole('client', project, 'plan_time')
             # prof.sp_price = 1500
             # prof.account_total = 0
-            prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=365)
+            prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=(365*10))
             prof.save()
 
             task = PM_Task.createByString(u'Ознакомиться с сервисом контроля удаленной работы Heliard', user, None, None, project=project)
             task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
             task.setStatus('revision')
+            for acc in PM_Achievement.objects.filter(use_in_projects=True):
+                PM_Project_Achievement.get_or_create(achievement=acc, project=project)
 
             return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')
 

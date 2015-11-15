@@ -35,6 +35,7 @@ PIPELINE_JS = {
             'js/pm/timer.js',
             'js/pm/panel.js',
             'js/pm/tasks.js',
+            'js/pm/specialties.js',
             'js/pm/files.js',
             'js/pm/beep.js',
             'js/pm/hint.js',
@@ -44,7 +45,8 @@ PIPELINE_JS = {
             'js/pm/current_timer.js',
             'js/pm/drowCanvas.js',
             'js/libs/toastr.js',
-            'js/pm/csrf_protector.js'
+            'js/pm/csrf_protector.js',
+            'js/bootstrap/bootstrap-tooltip.js'
         ),
         'output_filename': 'js_compressed/base.js',
     },
@@ -204,7 +206,6 @@ PIPELINE_JS = {
     },
     'user_list': {
         'source_filenames': (
-            'js/bootstrap/bootstrap-tooltip.js'
             'widgets/user_list/widget.js',
         ),
         'output_filename': 'js_compressed/user_list.js'
@@ -214,6 +215,14 @@ PIPELINE_JS = {
             'widgets/user_statistic/widget.js',
         ),
         'output_filename': 'js_compressed/user_statistic.js'
+    },
+    'taskdraft_detail': {
+        'source_filenames': (
+            'modules/taskdraft/taskdraft_detail.js',
+            'modules/taskdraft/taskdraft_task_detail.js',
+            'modules/taskdraft/taskdraft_detail_invite_user.js',
+        ),
+        'output_filename': 'js_compressed/taskdraft_detail.js'
     },
     'markdown': {
         'source_filenames': (
@@ -261,6 +270,13 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css_compressed/kanban.css'
     },
+    'taskdraft_detail': {
+        'source_filenames': (
+            'modules/taskdraft/taskdraft_detail.css',
+        ),
+        'output_filename': 'css_compressed/taskdraft_detail.css'
+    },
+
     'markdown': {
         'source_filenames': (
             'css/bootstrap-markdown.css',

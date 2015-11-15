@@ -13,6 +13,7 @@ from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user, get
 from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
 from django.shortcuts import HttpResponseRedirect
+from PManager.services.tasks import tasks_quantity_users
 
 
 def taskdraft_detail(request, draft_slug):
@@ -37,33 +38,37 @@ def taskdraft_detail(request, draft_slug):
 def taskdraft_resend_invites(request, draft_slug):
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
-        return HttpResponse(json.dumps({'error': 'Список задач не найден'}), content_type="application/json")
+        return HttpResponse(json.dumps({'error': 'Приглашение не найдено'}), content_type="application/json")
     if request.method != "POST":
         return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
     if draft.tasks.count() < 1:
-        return HttpResponse(json.dumps({'error': 'Нет задач в списке'}), content_type="application/json")
+        return HttpResponse(json.dumps({'error': 'Нет задач в приглашении'}), content_type="application/json")
 
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
+
     user_ids = executors_available(draft)
     if not user_ids:
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
     try:
-        users = PM_User.objects.filter(pk__in=user_ids)
+        users = PM_User.objects.filter(user_id__in=user_ids)
     except (ValueError, PM_User.DoesNotExist):
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
     send_invites(users, draft)
     for profile in users:
         draft.users.add(profile.user)
+
     draft.status = TaskDraft.OPEN
     draft.save()
+
     return HttpResponse(json.dumps({'result': 'Приглашения отправлены'}), content_type="application/json")
 
 
 def taskdraft_task_discussion(request, draft_slug, task_id):
     draft = get_draft_by_slug(draft_slug, request.user)
+    is_xhr = request.GET.get('is_xhr', None)
     if not draft:
         raise Http404
     try:
@@ -73,18 +78,21 @@ def taskdraft_task_discussion(request, draft_slug, task_id):
     if request.method == 'POST':
         return __add_message(request, draft, task)
     evaluations = get_evaluations(request.user, draft, task)
-    messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('-created_at')
+    messages = SimpleMessage.objects.filter(task=task, task_draft=draft).order_by('created_at')
     context = RequestContext(request, {
         'draft': draft,
         'task': task,
         'simple_messages': messages.all(),
         'evaluations': evaluations
     })
-    template = loader.get_template('details/taskdraft_task.html')
+    if is_xhr is not None:
+        template = loader.get_template('details/taskdraft_task_ajax.html')
+    else:
+        template = loader.get_template('details/taskdraft_task.html')
     return HttpResponse(template.render(context))
 
 
-def taskdraft_accept_developer(request, draft_slug, task_id):
+def taskdraft_accept_developer(request, draft_slug, task_id=None):
     draft = get_draft_by_slug(draft_slug, request.user)
     user_accepted_id = request.POST.get('user_id', False)
     if not draft:
@@ -105,22 +113,31 @@ def taskdraft_accept_developer(request, draft_slug, task_id):
     return HttpResponse(json.dumps({'error': 'Неудалось подключить пользователя к проекту:\n' + error}),
                         content_type="application/json")
 
-
 def __add_message(request, draft, task):
     message = request.POST.get('task_message', None)
     if not message:
         return
     message = SimpleMessage.objects.create(text=message.strip(), author=request.user, task=task, task_draft=draft)
     message.save()
-    return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
+    is_xhr = request.GET.get('is_xhr', None)
+    if is_xhr is not None:
+        context = RequestContext(request, {
+            'message': message
+        })
+        template = loader.get_template('partials/taskdraft_task/taskdraft_task_message.html')
+        return HttpResponse(template.render(context))
+    else:
+        return redirect("/taskdraft/%s/%s" % (draft.slug, task.id))
 
 
 def __show(request, draft):
     users = draft.users.all()
+    (aUsers, allTasksQty) = tasks_quantity_users(users)
+    for u in aUsers:
+        setattr(u, 'has_role', u.get_profile().hasRole(draft.project))
     tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')\
         .filter(resp__isnull=True)
     add_tasks = dict()
-    user = request.user.get_profile()
     for task in tasks:
         add_tasks[task.id] = {
             'url': "/taskdraft/%s/%s" % (draft.slug, task.id),
@@ -132,17 +149,19 @@ def __show(request, draft):
             'last_message': {'text': task.text},
             'messages': draft_simple_msg_cnt(task, draft),
             'resp': [
-                {'id': task.resp.id,
-                 'name': task.resp.get_full_name()
-                 } if task.resp else {}
+                {
+                    'id': task.resp.id,
+                    'name': task.resp.get_full_name()
+                } if task.resp else {}
             ]
         }
     tasks = tasks_to_tuple(tasks)
     tasks = task_list_prepare(tasks, add_tasks)
 
     context = RequestContext(request, {
-        'users': users,
+        'users': aUsers,
         'tasks': tasks,
+        'allTasksQty': allTasksQty,
         'draft': draft,
         'tasks_template': templateTools.get_task_template('draft_task')
     })

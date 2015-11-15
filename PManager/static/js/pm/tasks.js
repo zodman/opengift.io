@@ -17,8 +17,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 		},
 		'getFromServer': function (callback) {
 			var t = this;
+            console.log('fetching task');
 			this.fetch({
 				'success': function (model, data) {
+                    console.log(data);
 					try {
 						data = $.parseJSON(data);
 						if (typeof(data) == typeof({}) && data.id) {
@@ -375,9 +377,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 						$buttonClose.show();
 						var $closeIcon = $buttonClose.find('.fa');
 						if (taskInfo.canClose) {
-							$closeIcon.removeClass('fa-check').addClass('fa-close');
+							$closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Закрыть задачу');
 						} else {
-							$closeIcon.removeClass('fa-close').addClass('fa-check');
+							$closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
 						}
 					}
 				}
@@ -482,7 +484,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			//создание таймера и добавление его модельке
 			var timer = this.model.get('timer');
 			if (this.model.get('time') && !this.model.get('timer')) {
-				var timer = this.createTimer(this.model.get('time'));
+				timer = this.createTimer(this.model.get('time'));
 
 				this.model.set('timer', timer);
 			}
@@ -717,6 +719,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 		'fillEffectivelyProgress': function (userLink, taskId) {
 			var uId = $(userLink).attr('rel');
 			var width = 0;
+			if(typeof(taskRespSummary) == "undefined"){
+				taskRespSummary = window.heliardData.taskRespSummary;
+			}
 			if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
 				width = 100 * taskRespSummary[taskId][uId];
 			$(userLink).find('.js-progress-success').css('width', width + '%');
@@ -916,10 +921,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (this.model.get('onPlanning')) return false;
 			var obj = this;
 			taskManager.AddToPlanning(this.model.id, function () {
-				obj.checkModel(function () {
-					obj.model.set('onPlanning', true);
-					obj.render();
-				});
+				obj.model.set('onPlanning', true);
+                obj.render();
 			});
 			return false;
 		},
@@ -948,10 +951,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (!this.model.get('onPlanning')) return false;
 			var obj = this;
 			taskManager.RemoveFromPlanning(this.model.id, function () {
-				obj.checkModel(function () {
-					obj.model.set('onPlanning', false);
-					obj.render();
-				});
+				obj.model.set('onPlanning', false);
+                obj.render();
 			});
 			return false;
 		},
@@ -969,12 +970,11 @@ var CRITICALLY_THRESHOLD = 0.7;
 			taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
 				data = $.parseJSON(data);
 				if (data.error)
-					$('<div></div>').addClass('popup').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(data.error).appendTo('body').show();
-				else
-					t.checkModel(function () {
-						t.model.set('status', 'revision');
-						t.render();
-					});
+					$('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(data.error).appendTo('body').show();
+				else {
+                    t.model.set('status', 'revision');
+                    t.render();
+                }
 			});
 		},
 		'removeTask': function () {

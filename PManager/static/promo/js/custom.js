@@ -120,17 +120,25 @@ $(document).ready(function () {
         paginationSpeed: 800,
         autoPlay: 10000,
         singleItem: true
+
     });
 
     var owl = $("#screenshots");
 
     owl.owlCarousel({
-        items: 2, //10 items above 1000px browser width
-        itemsDesktop: [1000, 2], //5 items between 1000px and 901px
-        itemsDesktopSmall: [900, 2], // betweem 900px and 601px
+        items: 1, //10 items above 1000px browser width
+        itemsDesktop: [1000, 1], //5 items between 1000px and 901px
+        itemsDesktopSmall: [900, 1], // betweem 900px and 601px
         itemsTablet: [600, 1], //2 items between 600 and 0
         itemsMobile: false // itemsMobile disabled - inherit from itemsTablet option
     });
+
+    $(".next").click(function(){
+        owl.trigger('owl.next');
+    })
+    $(".prev").click(function(){
+        owl.trigger('owl.prev');
+    })
 
 
 });
@@ -449,7 +457,7 @@ $(function () {
 //            $('body,html').scrollTop(t.focus().offset().top);
             return false;
         } else if (key == 40 && TL_HintOpened.name) { //arrow down
-            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus();
+            TL_HintOpened.container.find('li:visible').removeClass('active').eq(0).addClass('active');//.find('a').focus();
         } else if (!e.ctrlKey && key != 13) {
             TL_ShowTaskCreateHint(this);
         }
@@ -543,7 +551,7 @@ $(function () {
 
         input.val(
                 inpval + "#" + (name == 'new' ? '' : name) + "#"
-        ).focus();
+        );//.focus();
 
         if (name == 'new') {
             var len = input.val().length - 1;

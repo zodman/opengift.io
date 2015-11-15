@@ -1,4 +1,5 @@
 {% load jsonify thumbnail arraytags compressed %}
+{% compressed_js 'fileup' %}
 {% compressed_js 'task_detail' %}
 {% if task_detail.error %}
             <div class="popup" >
@@ -18,7 +19,7 @@
 {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
         <div class="task-manage pull-right">
         {% if task_detail.subtasks|length == 0 %}
-            <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check {% if task_detail.task.closed %}closed{% endif %}"></a>
+            <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
             <a href="javascript:void(0);" title="Закрыть задачу" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
         {% endif %}
            
@@ -101,9 +102,6 @@
                 {% endif %}
             </span>
         </p>
-        
-{#        {{ task_detail.params }}#}
-        Примерное время: {{ task_detail.resultTime }} ч. &nbsp;&nbsp;
         {% if task_detail.task.planTime %}
         Плановое время: {{ task_detail.task.planTime }} ч. &nbsp;&nbsp;
         {% endif %}
@@ -115,7 +113,7 @@
         </p>
         {% endif %}
         {% if task_detail.solutions %}
-            <a href="#" class="similar_solutions btn btn-default" data-toggle="modal" data-target="#similar-solutions" >Подобные задачи уже решались</a>
+         <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
         {% endif %}
         <hr />
         {% if task_detail.task.observersList %}
@@ -151,6 +149,7 @@
             <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4>Добавить сообщение</h4>
+                <hr>
                 <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
                     <option value="">Кому</option>
                     {% for resp_user in task_detail.users %}
@@ -159,12 +158,10 @@
                 </select>
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
-                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний</label>
+                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний <a href="#" data-toggle="tooltip" title="Комментарий будет отображаться в похожих по тексту задачах для помощи исполнителям.">?</a></label>
+                    <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
+                    <span title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
                 </div>
-                <div class="left">
-                    <a href="#" class="addPic js-addPic" onclick="return false">Нарисовать рисунок</a>
-                </div>
-                <hr>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">
                     <div class="col-xs-12">
@@ -172,54 +169,20 @@
                     </div>
                 </div>
 
-                <div class="uploaded_file"></div>
+                <div class="task-file-upload"></div>
+                <div class="uploaded_file clearfix">
+                </div>
 
-                <div class="task_add-message_message-detail form-group">
-                    <label class="col-sm-2 control-label">Прикрепить файл</label>
-                    <div class="col-sm-2">
-                        <input name="file" type="file">
-                        <span class="message-detail_add-file help-block">
-                            <a class="fa fa-plus-square"
-                               href="#"
-                               onclick="d=$(this).parent().prev();d.clone().insertAfter(d);return false;" >
-                                Добавить
-                            </a>
-                        </span>
-                    </div>
-                    {% if task_detail.is_manager %}
-                    <label class="col-sm-2 control-label">Скрыть сообщение:</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="hidden_from_clients" value="Y"> для клиентов
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input type="checkbox" name="hidden_from_employee" value="Y"> для разработчиков
-                            </label>
-                        </div>
-                    </div>
-                    {% endif %}
+                <div class="task_add-message_message-detail ">
                     {% if task_detail.task.status.code != 'not_approved' %}
-                    <label class="col-sm-2 control-label">Установить статус:</label>
-                    <div class="col-sm-2">
-                        <div class="checkbox">
-                            <label>
-                                <input onclick="$('input[name=status]').eq(1).attr('checked',false);"
-                                       type="checkbox"
-                                       name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
-                                на проверку
-                            </label>
-                        </div>
-                        <div class="checkbox">
-                            <label>
-                                <input onclick="$('input[name=status]').eq(0).attr('checked',false);"
-                                       type="checkbox" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
-                                на доработку
-                            </label>
-                        </div>
-                    </div>
+                    <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">
+                    <label for="checked">не изменять</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="radioded" type="radio" id="ready" name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
+                    <label for="ready">на проверку</label>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <input class="radioded" type="radio" id="revision" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
+                    <label for="revision">на доработку</label>
                     {% endif %}
                 </div>
 
@@ -242,7 +205,7 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Решения похожих задач</h2>
+        <h2 class="modal-title" id="myModalLabel">База знаний по похожим задачам</h2>
     </div>
     <div class="modal-body">
         <div class="js-solutions">
@@ -250,6 +213,7 @@
                 {% if solution %}
                 <div class="similar-solution message">
                     <div class="message-content">
+                        <h2>{{ solution.task.name }}</h2>
                         <div class="text">{{ solution.text }}</div>
                         <div class="author">{{ solution.author.last_name }} {{ solution.author.name }}</div>
                         <div class="date">{{ solution.dateCreate }}</div>

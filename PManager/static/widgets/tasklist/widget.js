@@ -7,7 +7,13 @@
 var widget_tl, currentGroup;
 (function ($) {
     $(function () {
-
+        initSpecialtiesFind(function($t, appendSkills, $searchDropdown) {
+            appendSkills('', $t.val());
+            $searchDropdown.hide();
+            $t.val('');
+        }, function($t) {
+            $t.parent().parent().remove();
+        });
         $("input.js-date").datetimepicker({
             'dayOfWeekStart': 1,
             'format': 'd.m.Y',
@@ -374,6 +380,7 @@ var widget_tl, currentGroup;
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
+
                         bottomPanel.addBlock('addObservers', $block);
                         $block = menuTaskBlock('Пригласить TOP-фрилансеров', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
@@ -382,9 +389,19 @@ var widget_tl, currentGroup;
                                 var $form = $(this).parents('form.js-invite-form');
                                 var data = $form.serialize();
                                 var url = $form.attr('action');
+                                var successUrl = '/taskdraft/';
+                                data += '&project=' + currentProject;
                                 $.post(url, data, function (response) {
+                                    try {
+                                        response = JSON.parse(response);
+                                    }
+                                    catch(e) {
+                                        alert('Что-то пошло не так!');
+                                    }
                                     if (response.error) {
                                         alert(response.error);
+                                    }else{
+                                        window.location = successUrl + response.slug;
                                     }
                                     $('#invite-developers').modal('hide');
                                 });
@@ -393,7 +410,11 @@ var widget_tl, currentGroup;
                                 $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
                             });
                         });
-                        bottomPanel.addBlock('inviteDevelopers', $block);
+
+                        if(typeof(currentProject) !== "undefined") {
+                            bottomPanel.addBlock('inviteDevelopers', $block);
+                        }
+
                     } else {
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');
@@ -820,13 +841,13 @@ var widget_tl, currentGroup;
 
                 if (group.id) {
                     var $row = $(row).on('click', '.js-close-milestone', function (e) {
-                        if (confirm('Вы действительно хотите удалить данную цель?')) {
+                        if (confirm('Вы действительно хотите закрыть данную цель?')) {
                             $.post('/milestone_ajax/', {
                                 'action': 'remove',
                                 'id': group.id
                             }, function (response) {
                                 if (response != 'removed') {
-                                    alert('Цель успешно удалена');
+                                    alert('Ошибка закрытия цели');
                                 } else {
                                     window.location.reload();
                                 }

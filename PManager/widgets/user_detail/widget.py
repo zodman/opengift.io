@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import ObjectTags, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, PM_User_Achievement, LogData
+from PManager.models import ObjectTags, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, \
+    PM_User_Achievement, LogData
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
@@ -14,6 +15,7 @@ from PManager.services.rating import get_user_quality
 import json
 from django.contrib.contenttypes.models import ContentType
 
+
 def widget(request, headerValues, ar, qargs):
     get = request.GET
     post = request.POST
@@ -22,9 +24,10 @@ def widget(request, headerValues, ar, qargs):
         try:
             user = User.objects.get(pk=int(get['id']))
             profile = user.get_profile()
+            setattr(profile, 'rating', int(profile.rating or 0))
             cur_prof = request.user.get_profile()
             if 'action' in post:
-                #add this user to project
+                # add this user to project
                 if post['action'] == 'add_to_project':
                     project = post.get('project', None)
                     role = post.get('role', None)
@@ -51,14 +54,14 @@ def widget(request, headerValues, ar, qargs):
                         user.save()
 
                         return {
-                                    'redirect': u'/user_list/'
-                                }
+                            'redirect': u'/user_list/'
+                        }
                     else:
                         raise Exception(u'Нет прав для удаления прльзователя')
 
             if profile.avatar:
                 profile.avatar = str(profile.avatar).replace('PManager', '')
-            #проекты, к которым пользователь имеет доступ
+            # проекты, к которым пользователь имеет доступ
             currentUserAccessProjects = cur_prof.getProjects()
             currentUserManagedProjects = cur_prof.getProjects(only_managed=True)
 
@@ -89,11 +92,12 @@ def widget(request, headerValues, ar, qargs):
             #     [Q(Q(project__in=currentUserManagedProjects) | Q(author=request.user) | Q(resp=request.user))]
             # )
 
-            taskSum = PM_Task.objects.filter(resp=user, closed=False, dateClose__isnull=True, active=True, project__in=currentUserAccessProjects).count()
+            taskSum = PM_Task.objects.filter(resp=user, closed=False, dateClose__isnull=True, active=True,
+                                             project__in=currentUserAccessProjects).count()
             taskSumPerMonth = PM_Task.objects.filter(
                 resp=user,
                 active=True,
-                dateClose__gt=(datetime.datetime.now()-datetime.timedelta(weeks=4)),
+                dateClose__gt=(datetime.datetime.now() - datetime.timedelta(weeks=4)),
                 project__in=currentUserAccessProjects
             ).count()
 
@@ -117,24 +121,26 @@ def widget(request, headerValues, ar, qargs):
                         'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
                         ' WHERE `user_id`=' + str(int(user.id)) +
                         ' AND task_id in ' +
-                              '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ')'
+                        '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ')'
                     )
 
                     projectBet = profile.getBet(project)
                     projectHours = 0
                     for timer in timers:
                         if timer.summ:
-                            sumHours = float("%.2f" % (float(timer.summ)/3600))
+                            sumHours = float("%.2f" % (float(timer.summ) / 3600))
                             sum += sumHours
                             projectHours += sumHours
 
                     projPrice = 0
                     for o in Credit.objects.raw(
-                            'SELECT sum(CASE WHEN user_id=' + str(user.id) + ' THEN value ELSE -value END) as summ, id, user_id, project_id from PManager_credit' +
-                            ' WHERE (`user_id`=' + str(int(user.id)) + ' or `payer_id`=' + str(int(user.id)) + ')'
-                            ' AND `project_id`=' + str(int(project.id))
-                        ):
-
+                                                                                            'SELECT sum(CASE WHEN user_id=' + str(
+                                                                                            user.id) + ' THEN value ELSE -value END) as summ, id, user_id, project_id from PManager_credit' +
+                                                                            ' WHERE (`user_id`=' + str(
+                                                                    int(user.id)) + ' or `payer_id`=' + str(
+                                                    int(user.id)) + ')'
+                                                                    ' AND `project_id`=' + str(int(project.id))
+                    ):
                         projPrice += o.summ if o.summ else 0
 
                     rest += projPrice
@@ -154,9 +160,11 @@ def widget(request, headerValues, ar, qargs):
                             }
                         )
 
-                pAc = Credit.objects.filter(Q(Q(user=user) | Q(payer=user)), project__in=projectsForPaymentsId).order_by('-date')
+                pAc = Credit.objects.filter(Q(Q(user=user) | Q(payer=user)),
+                                            project__in=projectsForPaymentsId).order_by('-date')
                 for credit in pAc:
-                    setattr(credit, 'value', credit.value if credit.user and credit.user.id == user.id else -credit.value)
+                    setattr(credit, 'value',
+                            credit.value if credit.user and credit.user.id == user.id else -credit.value)
                     paymentsAndCredits.append(credit)
 
             setattr(profile, 'sp', {
@@ -164,7 +172,8 @@ def widget(request, headerValues, ar, qargs):
                 'rest': rest
             })
 
-            userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by('-id')[:20]
+            userTimes = PM_Timer.objects.filter(user=user.id, task__project__id__in=currentUserAccessProjects).order_by(
+                '-id')[:20]
             if USE_GIT_MODULE:
                 userKeys = Key.objects.filter(user=user.id).order_by('-id')
             else:
@@ -183,7 +192,6 @@ def widget(request, headerValues, ar, qargs):
                 setattr(project, 'canEdit', cur_prof.isManager(project))
                 setattr(project, 'roles', [role.role.code for role in userRoles if role.project.id == project.id])
 
-
             now = datetime.date.today()
             week = [now]
             for i in range(7):
@@ -194,17 +202,18 @@ def widget(request, headerValues, ar, qargs):
 
             timeGraph = []
             arWeekDays = {
-                1:u'Пн',
-                2:u'Вт',
-                3:u'Ср',
-                4:u'Чт',
-                5:u'Пт',
-                6:u'Сб',
-                7:u'Вс',
+                1: u'Пн',
+                2: u'Вт',
+                3: u'Ср',
+                4: u'Чт',
+                5: u'Пт',
+                6: u'Сб',
+                7: u'Вс',
             }
             for date in week:
                 time = LogData.objects.raw(
-                    'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' + str(int(user.id)) + '' +
+                    'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' + str(
+                        int(user.id)) + '' +
                     ' AND DATE(datetime) = \'' + date.isoformat() + '\'' +
                     ' AND code = \'DAILY_TIME\''
                 )
@@ -218,15 +227,16 @@ def widget(request, headerValues, ar, qargs):
                     datetime.datetime.combine(date, datetime.time.max)
                 )
 
-                tasksClosed = LogData.objects.filter(code='DAILY_TASKS_CLOSED', user=user, datetime__range=date_range).count()
-                commits = PM_Task_Message.objects.filter(dateCreate__range=date_range, author=user, code='GIT_COMMIT').count()
+                tasksClosed = LogData.objects.filter(code='DAILY_TASKS_CLOSED', user=user,
+                                                     datetime__range=date_range).count()
+                commits = PM_Task_Message.objects.filter(dateCreate__range=date_range, author=user,
+                                                         code='GIT_COMMIT').count()
                 timeGraph.append({
                     'date': arWeekDays.get(date.isoweekday(), u''),
                     'time': str(round(allTime / 3600, 2)).replace(',', '.'),
                     'commits': commits,
                     'tasksClosed': tasksClosed
                 })
-
 
             tagWeight = {}
             s = []
@@ -249,12 +259,14 @@ def widget(request, headerValues, ar, qargs):
             taskTagCoefficient = 0
             taskTagPosition = 0
             for obj1 in ObjectTags.objects.raw(
-                                        'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
-                        user.id) + ' AND content_type_id=' + str(
-                    ContentType.objects.get_for_model(User).id) + ''):
+                                                    'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
+                                                    user.id) + ' AND content_type_id=' + str(
+                                    ContentType.objects.get_for_model(User).id) + ''):
                 for obj2 in ObjectTags.objects.raw(
-                                'SELECT COUNT(v.w) as position, id FROM (SELECT SUM(`weight`) as w, `id`, `object_id` from PManager_objecttags WHERE content_type_id=' + str(
-                    ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id HAVING w >= ' + str(obj1.weight_sum or 0) + ') as v'):
+                                                        'SELECT COUNT(v.w) as position, id FROM (SELECT SUM(`weight`) as w, `id`, `object_id` from PManager_objecttags WHERE content_type_id=' + str(
+                                                        ContentType.objects.get_for_model(
+                                                                User).id) + ' GROUP BY object_id HAVING w >= ' + str(
+                                                obj1.weight_sum or 0) + ') as v'):
                     taskTagPosition = obj2.position + 1
                     break
 
@@ -269,6 +281,7 @@ def widget(request, headerValues, ar, qargs):
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,
                 'tagWeight': tagWeight,
+                'bugsQty': PM_Task_Message.objects.filter(task__in=user.todo.all(), bug=True).count(),
                 'timers': [
                     {
                         'id': timer.id,
@@ -306,7 +319,7 @@ def widget(request, headerValues, ar, qargs):
                 'timeGraph': timeGraph,
                 'payments': paymentsAndCredits,
                 'competence': taskTagCoefficient,
-                'competencePlace': taskTagPosition+100
+                'competencePlace': taskTagPosition + 100
             }
         except User.DoesNotExist:
             pass

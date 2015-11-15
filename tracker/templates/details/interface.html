@@ -1,8 +1,9 @@
 {% if show_git or not interface.is_git %}
-    <div class="alert alert-{% if interface.check %}success{% else %}danger{% endif %} clearfix alert-dismissible js-interface-block" role="alert" data-id="{{ interface.id }}">
-    {% if canDelete and not interface.is_git %}
+    <div class="alert alert-{% if interface.check %}success{% else %}danger{% endif %} clearfix alert-dismissible js-interface-block interface-block" role="alert" data-id="{{ interface.id }}">
+
+        {% if canDelete and not interface.is_git %}
         <button type="button" class="close js-interface-remove" data-dismiss="alert">
-            <span aria-hidden="true">×</span><span class="sr-only">Close</span>
+            <span aria-hidden="true"><i class="fa fa-trash"></i></span><span class="sr-only">Close</span>
         </button>
     {% endif %}
         <div class="pull-left">

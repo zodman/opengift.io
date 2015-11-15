@@ -2,6 +2,8 @@
 __author__ = 'Tonakai'
 from django.db import models
 from PManager.models.tasks import PM_Project, PM_Task
+from PManager.models.users import Specialty
+from django.contrib.contenttypes import generic
 from django.contrib.auth.models import User
 from django.utils import timezone
 
@@ -18,15 +20,17 @@ class TaskDraft(models.Model):
     slug = models.CharField(max_length=64, unique=True, blank=False)
     users = models.ManyToManyField(User, blank=True)
     author = models.ForeignKey(User, blank=False, related_name='task_drafts')
+    project = models.ForeignKey(PM_Project, blank=False, related_name='task_drafts')
     tasks = models.ManyToManyField(PM_Task, blank=True)
     closed_at = models.DateTimeField(blank=True, null=True)
     deleted = models.BooleanField(blank=False, default=False)
+    specialties = models.ManyToManyField(Specialty, blank=True)
     _status = models.IntegerField(blank=True, null=True, default=CLOSED, choices=status_choices, db_column='status')
 
     def __unicode__(self):
         if self.title:
-            return self.title
-        return self.slug
+            return self.project.name + ': ' + self.title
+        return self.project.name
 
     def status_humanize(self):
         for choice in self.status_choices:

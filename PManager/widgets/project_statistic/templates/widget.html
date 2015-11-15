@@ -123,9 +123,9 @@
                 var ctx{{ forloop.counter }} = canvas{{ forloop.counter }}.getContext("2d");
                 var chart{{ forloop.counter }} = new Chart(ctx{{ forloop.counter }}).Line(data, {
                     'scaleShowLabels': true,
-                    'bezierCurve': false,
+                    'bezierCurve': true,
                     'tooltipEvents': ["mousemove", "touchstart", "touchmove"],
-                    'pointDot': true,
+                    'pointDot': false,
                     'showTooltips': true,
                     'datasetFill': false,
                     'legendTemplate': "<div class=\"canvas-right\"><ul class=\"legend\"><%for (var i=0;i<datasets.length;i++){ %><li style=\"color:<%=datasets[i].strokeColor%>\"> <span style=\"color:black;\"><%=datasets[i].label%><% } %></span></li></ul></div>"

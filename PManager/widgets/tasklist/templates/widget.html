@@ -16,15 +16,10 @@
     <!--<div class="row">
         <div class="col-xs-12">-->
 
-        <div class="widget-control">
-{#            <a class="w-collapse">Свернуть</a>#}
-            <a class="w-close">Закрыть</a>
-        </div>
 
-        <h3>{{ tasklist.title }}</h3>
+        <h1>{{ tasklist.title }}</h1>
 
         {% if tasklist.project %}
-        <hr>
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
@@ -101,6 +96,7 @@
                     <div class="file-upload">
                         <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                         <button class="btn btn-success task-create" type="submit">Создать</button>
+                        <a class="btn btn-default task-send js-task-send" onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите нужные задачи!');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }" >Пригласить исполнителей</a>
                     </div>
             </div>
             <div class="task-file-upload"></div>
@@ -220,7 +216,7 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                           
+
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />
@@ -229,7 +225,7 @@
 {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                              </div>
                              {% endif %}
-                             
+
                             </td>
                         </tr>
                     </table>
@@ -252,20 +248,20 @@
         </div>
         <div class="search_items_holder" ></div>
 
-        <hr class="no-top-magin-hr">
+
         <script language="javascript">
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         taskRespSummary = {}
         </script>
 {% if not tasklist.tasks %}
-{% if tasklist.project and not tasklist.isInvite %}
-    <div class="js-new-first-task"><br />
-    <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
-    </div>
-{% endif %}
+    {% if tasklist.project and not tasklist.isInvite %}
+        <div class="js-new-first-task"><br />
+        <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
+        </div>
+    {% endif %}
 {% endif %}
         <div class="js-tasks">
-        	
+
         </div>
 
         <br /><p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
@@ -274,19 +270,31 @@
       <div class="modal-dialog">
         <div class="modal-content green-popup">
             <div class="modal-header">
-                <h2 class="modal-title" id="myModalLabel">Список Задач</h2>
+                <h2 class="modal-title" id="myModalLabel">Новое приглашение исполнителей</h2>
             </div>
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
                 {% csrf_token %}
-                <input type="text" class="form-control" name="title" maxlength="250" placeholder="Название" />
+                <input type="text" class="form-control" name="title" maxlength="250" placeholder="Тема приглашения (необязательно)" />
                 <br />
-                Создать список задач на аутсорс для приглашения специалистов?
+                <div class="dropdown js-specialties_search_wrapper">
+                    <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                           placeholder="Укажите необходимые навыки" id="skillsDropdown"
+                           class="form-control js-save_specialty" autocomplete="off" >
+                    <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                        aria-labelledby="skillsDropdown">
+                    </ul>
+                </div>
+                  <ul class="posibilities clearfix js-specialties" style="margin: 0">
+                  </ul>
+                <br />
+                Создание нового приглашения специалистов.
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-developers"></div>
                   <input type="hidden" name="action" value="inviteUsers" />
-                <input type="submit" name="add-developers" class="btn btn-success js-add-developers" value="Создать" />
+                  <input type="hidden" name="add-developers" value="Y" />
+                <button type="button" class="btn btn-success js-add-developers" >Создать</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
               </div>
             </form>
@@ -360,7 +368,7 @@
           </form>
         </div>
       </div>
-    </div>    
+    </div>
     <div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content green-popup">

@@ -4,12 +4,12 @@ __author__ = 'Gvammer'
 from django.http import Http404
 from django.db.models import Q
 from django.db import transaction
-from tracker.settings import COMISSION
+# from tracker.settings import COMISSION
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
+from PManager.models import Specialty, PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
     PM_Project, PM_Files, PM_Reminder
 import datetime, json, codecs
 from django.utils import simplejson, timezone
@@ -19,6 +19,8 @@ from PManager.classes.datetime.work_time import WorkTime
 from PManager.classes.server.message import RedisMessage
 from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
+from PManager.services.projects import get_project_by_id
+from PManager.services.task_drafts import get_unique_slug
 from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
 from django.core.context_processors import csrf
 
@@ -299,7 +301,6 @@ def __task_message(request):
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
-    files = request.FILES.getlist('file') if 'file' in request.FILES else []
     profile = request.user.get_profile()
     is_manager = profile.isManager(task.project)
     hidden_from_employee = False
@@ -314,8 +315,10 @@ def __task_message(request):
         elif profile.isClient(task.project):
             hidden_from_employee = True
     status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
-    uploaded_files = request.POST.getlist('uploaded_files') if 'uploaded_files' in request.POST else []
+    uploaded_files = request.POST.getlist('files') if 'files' in request.POST else []
     author = request.user
+    response_text = ''
+
     if task:
         text = text.replace('<', '&lt;').replace('>', '&gt;')
         message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
@@ -342,12 +345,6 @@ def __task_message(request):
             task.setStatus(status)
             logger = Logger()
             logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
-
-        for filePost in files:
-            file_obj = PM_Files(authorId=request.user, projectId=task.project, name=filePost.name)
-            file_obj.file = filePost
-            file_obj.save()
-            message.files.add(file_obj.id)
 
         for filePost in uploaded_files:
             try:
@@ -417,6 +414,7 @@ def __task_message(request):
             task_update_push_data['status'] = status
         redisSendTaskUpdate(task_update_push_data)
         response_text = json.dumps(response_json)
+
     return response_text
 
 
@@ -829,15 +827,25 @@ class taskAjaxManagerCreator(object):
         if self.result:
             return HttpResponse(self.result)
 
-
     @task_ajax_action
     def process_inviteUsers(self):
-        from PManager.services.task_drafts import get_unique_slug
+        from PManager.viewsExt.task_drafts import taskdraft_resend_invites
         task_ids = self.request.POST.getlist('tasks[]')
+        tags = self.request.POST.getlist('tag[]') if 'tag[]' in self.request.POST else []
         title = self.request.POST.get('title', '')
+        project_id = self.request.POST.get('project', None)
+        project = get_project_by_id(project_id)
+        if project is None:
+            return HttpResponse(json.dumps({'error': 'Не выбран проект'}))
+
         tasks = PM_Task.objects.filter(id__in=task_ids)
-        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=get_unique_slug(), title=title)
-        task_draft.users.add(self.currentUser)
+        slug = get_unique_slug()
+        task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
+        for tagName in tags:
+            tagId, created = Specialty.objects.get_or_create(name=tagName)
+
+            task_draft.specialties.add(tagId)
+
         for task in tasks:
             if not task.canEdit(self.currentUser):
                 continue
@@ -852,9 +860,12 @@ class taskAjaxManagerCreator(object):
                 'onPlanning': True
             })
             task_draft.tasks.add(task)
+
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
-        return HttpResponse(json.dumps({'result': 'OK'}))
+        taskdraft_resend_invites(self.request, task_draft.slug)
+
+        return HttpResponse(json.dumps({'result': 'OK', 'slug': slug}))
 
     @task_ajax_action
     def process_getEndTime(self):
@@ -1270,12 +1281,7 @@ class TaskWidgetManager:
     @staticmethod
     def getUsersThatCanBeResponsibleInThisProject(user, project):
         if project:
-            if user.get_profile().isManager(project):
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
-            elif user.get_profile().isClient(project):
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['manager', 'client', 'employee'])
-            else:
-                res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager'])
+            res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
         else:
             res = TaskWidgetManager.getUsersThatUserHaveAccess(user, None)
 

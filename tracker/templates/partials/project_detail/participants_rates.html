@@ -11,11 +11,11 @@
     </ul>
     <div class="tab-content">
         {% for roleName, o in roles.items %}
-        <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}">
+        <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}" >
             <p>{{ o.text }}:</p>
             <div class="clearfix user-role-block-wrapper">
                 {% for user in o.users %}
-                <div class="user-role-block">
+                <div class="user-role-block" {% if user.get_profile.is_outsource %}style="background-color: #ffffea;"{% endif %}>
                     <div class="avatar">
                         <a href="/user_detail/?id=1" class="pull-left">
                             <div class="avatar_container js-avatar-container" data-size="78"
@@ -24,16 +24,22 @@
                         </a>
                     </div>
                     <div class="desc">
-                        <h4><a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a> </h4>
+                        <h4>
+                            <a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a>
+                            {% if user.get_profile.is_outsource %}
+                                <span class="pro-icon" href="/pro/" style="top:-4px;left: 4px;">
+                                    <i class="fa fa-star"></i>
+                                </span>
+                            {% endif %}
+                        </h4>
                         <div class="col-wrapper">
                             {% if o.role.role.code != 'client' %}
                             <div class="col-3 first">
                                 <b>Цена часа</b>
-                                <div class="input-group">
-                                    <input type="text" class="js-ajax-input form-control" data-action="update_rate"
-                                           data-role="{{ user.role_id }}" value="{{ user.rate|default_if_none:'' }}"
-                                    {% if user.defaultRate %}placeholder="{{ user.defaultRate }}"{% endif %} />
-                                    <div class="input-group-addon">SP</div>
+                                <div class="bonuses-num">
+                                    <span class="bonuses-num-text">
+                                    {{ user.rate|default_if_none:"0" }}
+                                    </span>
                                 </div>
                             </div>
                             {% endif %}
@@ -43,7 +49,9 @@
                             </div>
                             <div class="col-4">
                                 <b class="pseudo-title-to-hide">&nbsp;</b>
-                                <button class="btn btn-success js-bonus-complete w100" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Начислить/Списать</button>
+                                {% if request.user.is_superuser %}
+                                    <button class="btn btn-success js-bonus-complete w100" rel="{{ user.role_id }}" data-sum="{{ user.sum|default_if_none:'' }}">Начислить/Списать</button>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
@@ -63,7 +71,7 @@
                 <p><input type="text" class="js-input-user-sum form-control" value="" /></p>
                 <h3>Комментарий: </h3>
                 <p><input type="text" class="js-input-comment form-control" value="" /></p>
-                <input type="button" class="btn btn-success form-control js-send-payment-button" value="Погасить бонусы"/>
+                <input type="button" class="btn btn-success form-control js-send-payment-button" value="Погасить бонусы" />
             </form>
         </div>
     </div>

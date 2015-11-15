@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Gvammer'
-from tornado import web, gen
-from tornadio2 import SocketConnection, TornadioRouter, SocketServer, event
+from tornado import web, gen, ioloop
 from server import MyConnection
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
@@ -60,16 +59,13 @@ class Command(NoArgsCommand):
             fport = int(options['fport'])
         else:
             fport = 843
-        # Create TornadIO2 router
-        router = TornadioRouter(MyConnection)
 
-        # Create Tornado application with urls from router
-        app = web.Application(
-            router.urls,
-            socket_io_port=port,
-            socket_io_address=settings.SOCKET_SERVER_ADDRESS,
-            flash_policy_port=fport,
-            flash_policy_file=os.path.join(ROOT, 'flashpolicy.xml'),
-        )
 
-        SocketServer(app)
+        def make_app():
+            return web.Application([
+                (r'/', MyConnection),
+            ])
+
+        app = make_app()
+        app.listen(port)
+        ioloop.IOLoop.current().start()

@@ -75,6 +75,7 @@ def get_top_users(task, limit=5, user_filter=None):
         for obj1 in related_users:
             if obj1.content_object:
                 user_tag_sums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+
     return user_tag_sums
 
 

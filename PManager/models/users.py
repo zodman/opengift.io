@@ -55,6 +55,7 @@ class PM_User(models.Model):
         ('#cd5555', '#cd5555'),
         ('#ab82ff', '#ab82ff'),
     )
+
     user = models.OneToOneField(User, db_index=True, related_name='profile')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
@@ -96,6 +97,10 @@ class PM_User(models.Model):
             return x[0]
         return 0
 
+    @property
+    def allTasksQty(self):
+        return self.user.todo.filter(active=True, closed=False).exclude(status__code='ready').count()
+
     def account_total_project(self, project):
         if not project:
             return 0
@@ -133,7 +138,7 @@ class PM_User(models.Model):
     def avatar_rel(self):
         if self.avatarSrc:
             return {
-                'image': self.avatarSrc, 
+                'image': self.avatarSrc,
                 'id': self.user.id
             }
         else:

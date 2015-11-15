@@ -35,8 +35,11 @@ def get_draft_by_id(draft_id, user):
 
 def get_draft_by_slug(slug, user):
     try:
-        draft = TaskDraft.objects.get(slug=slug, users__id=user.id, deleted=False)
-        return draft
+        draft = TaskDraft.objects.filter(slug=slug, deleted=False).filter(Q(Q(users__id=user.id) | Q(author=user)))
+        if draft:
+            return draft[0]
+        else:
+            return False
     except (ValueError, TaskDraft.DoesNotExist):
         return False
 
@@ -68,31 +71,36 @@ def draft_simple_msg_cnt(task, draft):
     except (ValueError, SimpleMessage.DoesNotExist):
         return 0
 
-
 def accept_user(draft, task_id, user_accepted_id, cur_user):
     from tracker.settings import USE_GIT_MODULE
+    project = draft.project
+    task = None
     if not cur_user.id == draft.author.id:
         return "Вы не являетесь автором списка задач"
     try:
-        task = PM_Task.objects.get(pk=int(task_id))
         user = User.objects.get(pk=int(user_accepted_id))
+        if task_id is not None:
+            task = PM_Task.objects.get(pk=int(task_id))
+            project = task.project
     except (ValueError, ):
         return "Ошибка идентификатора"
     except PM_Task.DoesNotExist:
         return "Задача не найдена"
     except User.DoesNotExist:
         return "Пользователь не найден"
-    if task.resp is not None:
+    if task and task.resp is not None:
         return "У данной задачи уже есть ответственный"
     try:
-        already_in_project = PM_ProjectRoles.objects.filter(user=user, project=task.project).count() > 0
+        already_in_project = PM_ProjectRoles.objects.filter(user=user, project=project).count() > 0
     except PM_ProjectRoles.DoesNotExist:
         already_in_project = False
     if not already_in_project:
-        user.get_profile().setRole("employee", task.project)
+        user.get_profile().setRole("employee", project)
         if USE_GIT_MODULE:
             from PManager.classes.git.gitolite_manager import GitoliteManager
-            GitoliteManager.regenerate_access(task.project)
+            GitoliteManager.regenerate_access(project)
+    if task is None:
+        return False
     try:
         plan_time = PM_User_PlanTime.objects.get(user=user, task=task)
         task.planTime = plan_time
@@ -103,6 +111,7 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
     task.save()
     __create_message_from_simple_messages(draft, task, cur_user, user)
     return False
+
 
 # todo: {Rayleigh} refactor: remove html from this
 def __create_message_from_simple_messages(draft, task, author, recipient):

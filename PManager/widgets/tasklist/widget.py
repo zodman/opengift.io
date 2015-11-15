@@ -8,7 +8,7 @@ from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from PManager.viewsExt.tasks import TaskWidgetManager
-from tracker.settings import COMISSION
+# from tracker.settings import COMISSION
 from django.db.models import Sum
 from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 from django.db.models import Q
@@ -416,7 +416,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name + u': ' if project and isinstance(project, PM_Project) else u'') + u'Задачи'
+    title = (project.name if project and isinstance(project, PM_Project) else u'Задачи')
 
     return {
         'title': title,
@@ -424,7 +424,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'project': project,
         'users': aResps,
         'paginator': paginator,
-        'milestones': PM_Milestone.objects.filter(project=project),
+        'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'nextPage': arPageParams.get('startPage', 0) + 1 if 'startPage' in arPageParams else None,
         'filterDates': {
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),

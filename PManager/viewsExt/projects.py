@@ -9,10 +9,10 @@ from PManager.models import PM_Project_Achievement, PM_ProjectRoles
 from PManager.models import AccessInterface, Credit
 from django import forms
 from PManager.classes.language.translit import transliterate
-from tracker.settings import USE_GIT_MODULE
+from tracker.settings import USE_GIT_MODULE, COMISSION
 from PManager.viewsExt.headers import set_project_in_session
 from PManager.classes.git.gitolite_manager import GitoliteManager
-import json
+import json, math
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -40,6 +40,8 @@ def projectDetail(request, project_id):
     show['employee'] = profile.isManager(project) or profile.isEmployee(project)
     show['client'] = profile.isManager(project) or profile.isClient(project)
 
+    needComission = profile.isManager(project) or profile.isClient(project)
+
     aDebts = Credit.getUsersDebt([project])
     oDebts = dict()
     for x in aDebts:
@@ -56,9 +58,15 @@ def projectDetail(request, project_id):
 
         prof = role.user.get_profile()
         curUser = role.user
-        setattr(curUser, 'rate', role.rate)
+
+        rate = role.rate or prof.sp_price or 0
+        if needComission:
+            clientComission = int(project.getSettings().get('client_comission', 0) or COMISSION)
+            rate = math.floor(rate * (clientComission + 100) / 100)
+
+        setattr(curUser, 'rate', rate)
         setattr(curUser, 'payment_type', role.payment_type)
-        setattr(curUser, 'defaultRate', prof.sp_price)
+        # setattr(curUser, 'defaultRate', prof.sp_price)
         setattr(curUser, 'sum', oDebts.get(role.user.id, None))
         setattr(curUser, 'role_id', role.id)
 

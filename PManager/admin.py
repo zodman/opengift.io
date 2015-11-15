@@ -7,7 +7,7 @@ from PManager.models import Credit, Specialty, \
     PM_Timer, PM_Role, PM_Task, PM_ProjectRoles, \
     PM_Properties, PM_Project, PM_Tracker, PM_User, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
-    PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee
+    PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -74,3 +74,4 @@ admin.site.register(Fee, FeeInline)
 admin.site.register(AccessInterface)
 admin.site.register(Test)
 admin.site.register(Conditions)
+admin.site.register(TaskDraft)

@@ -28,24 +28,25 @@ $(function(){
             if (data.status)
                 $userBlock.attr('data-status', data.status);
         },
-        "setOnlineStatusFromServer":function(){
+        "setOnlineStatusFromServer": function(){
             var widget = this;
             var $userBlocks = widget.$getUserBlocks();
+            baseConnector.addListener('users:online', function(receivedUsers){
+                var aUsersOnline = $.parseJSON(receivedUsers);
+                for (var i in aUsersOnline) {
+                    var aUserStatus = aUsersOnline[i];
+                    widget.setUserStatus(aUserStatus['id'], aUserStatus);
+                    $userBlocks = $userBlocks.not('[data-id='+aUserStatus['id']+']');
+                }
+
+                $userBlocks.each(function(){
+                    widget.setUserStatus($(this).data('id'), {
+                        'status':'offline'
+                    });
+                });
+            });
             baseConnector.send("users:get_online_list", {
                     'data':'test'
-                }, function(receivedUsers){
-                    var aUsersOnline = $.parseJSON(receivedUsers);
-                    for (var i in aUsersOnline){
-                        var aUserStatus = aUsersOnline[i];
-                        widget.setUserStatus(aUserStatus['id'], aUserStatus);
-                        $userBlocks = $userBlocks.not('[data-id='+aUserStatus['id']+']');
-                    }
-
-                    $userBlocks.each(function(){
-                        widget.setUserStatus($(this).data('id'), {
-                            'status':'offline'
-                        });
-                    });
                 }
             );
         }

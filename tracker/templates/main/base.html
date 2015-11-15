@@ -84,6 +84,8 @@
     </div>
 </div>
 
+
+
 {% if main.CAN_INVITE %}
     <div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -165,6 +167,7 @@
     Тех. поддержка
 </a>
 
+
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
     <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
@@ -188,43 +191,46 @@
                  src="//www.googleadservices.com/pagead/conversion/1036245549/?label=ayuYCLrew1YQrbSP7gM&amp;guid=ON&amp;script=0"/>
         </div>
     </noscript>
-    <div class="popup">
-        <h3>Представьтесь, пожалуйста.</h3>
-
-        <div class="border-wrapper">
-            <form method="POST">
-                {% csrf_token %}
-                <div class="border">
-                    <div class="row">
-                        <div class="span3"><strong>Имя</strong></div>
-                        <div class="span3"><input required maxlength="200" name="name" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="span3"><strong>Фамилия</strong></div>
-                        <div class="span3"><input required maxlength="200" name="last_name" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    <div class="row">
-                        <div class="span3"><strong>Название вашего проекта</strong></div>
-                        <div class="span3"><input required maxlength="200" name="sitename" type="text"
-                                                  class="input-block-level form-control" /></div>
-                    </div>
-                    <div class="row">
-                            <label><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
-                            <br />
-                            <label><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
-                    </div>
-                    <div class="row">
-                        <div class="span1">&nbsp;</div>
-                        <div class="span3"><input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
-                        </div>
-                    </div>
-                    <div class="clearfix"></div>
-                </div>
-            </form>
+<div class="popup green-popup create-poject-popup">
+    <form method="POST">
+        <div class="modal-header">
+            <h2 class="modal-title">Представьтесь, пожалуйста.</h2>
         </div>
-    </div>
+        <div class="modal-body">
+            {% csrf_token %}
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Имя</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="name" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Фамилия</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="last_name" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            {% if main.IS_AUTHOR %}
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Название проекта</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="200" name="sitename" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+
+                <label class="clearfix"><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
+                <br />
+                <label class="clearfix"><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
+            </div>
+            {% endif %}
+        </div>
+        <div class="modal-footer">
+            <input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
+            <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+        </div>
+    </form>
+</div>
     {##}
     {#<div class="popup callback" style="display:none;">#}
     {#    <h3>Перед тем, как уйти</h3>#}
@@ -294,10 +300,10 @@
                                 </a>
                             </div>
                             <div class="projects-list-text">
-                    <span class="projects-list-control">
-                        <a class="fa fa-cog" href="/project/{{ project.id }}/"></a>
-                        <a class="fa fa-pencil" href="/project/edit/?id={{ project.id }}"></a>
-                    </span>
+                                <span class="projects-list-control">
+                                    <a class="fa fa-cog" href="/project/{{ project.id }}/"></a>
+                                    <a class="fa fa-pencil" href="/project/edit/?id={{ project.id }}"></a>
+                                </span>
                                 <h4>
                                     <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}"
                                        class="js-itemProjectName">
@@ -309,6 +315,20 @@
                             </div>
                         </div>
                     {% endfor %}
+                    <div class="projects-item clearfix">
+                        <div class="projects-list-img">
+                            <a style="background-color: rgb(71, 164, 71);" href="/project/edit/">
+                                <i class="fa fa-plus"></i>
+                            </a>
+                        </div>
+                        <div class="projects-list-text">
+                            <h4>
+                                <a href="/project/edit/">
+                                    Добавить проект
+                                </a>
+                            </h4>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -329,7 +349,7 @@
                     <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">
                         <a href="/calendar/">
                             <span aria-hidden="true" class="fa fa-calendar-o"></span>
-                            <span>Календарь проектов</span>
+                            <span>Календарь</span>
                         </a>
                     </li>
                     <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">
@@ -341,14 +361,13 @@
                     <li class="{% if activeMenuItem == 'life' %} active{% endif %}">
                         <a href="/life/">
                             <span aria-hidden="true" class="fa fa-bolt"></span>
-                            <span>Текущая активность</span>
+                            <span>Активность</span>
                         </a>
                     </li>
-
-                    <li class="{% if activeMenuItem == 'wiki' %} active{% endif %}">
-                        <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}">
-                            <span aria-hidden="true" class="fa fa-file-text"></span>
-                            <span>Вики</span>
+                    <li class="{% if activeMenuItem == 'taskdrafts' %} active{% endif %}">
+                        <a href="/taskdrafts/">
+                            <span aria-hidden="true" class="fa fa-list"></span>
+                            <span>Приглашения</span>
                         </a>
                     </li>
                 </ul>
@@ -449,7 +468,7 @@
         {% if user.is_authenticated %}
             <div class="sub-menu_line_section-user">
                 <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i
-                        class="fa fa-desktop"></i><span>&nbsp;Канбан</span></a>&nbsp;&nbsp;
+                        class="fa fa-desktop"></i><span>&nbsp;Доска</span></a>&nbsp;&nbsp;
 
                 <a href="/gantt/"
                    class="btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
@@ -468,15 +487,12 @@
                    class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
                         class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
-                {% if taskdrafts_cnt %}
-                    <a href="/taskdrafts/" class="btn btn-default"><i class="fa fa-list"></i><span>&nbsp;Рассылки</span>
-                        &nbsp;({{ taskdrafts_cnt }})</a>
-                {% endif %}
+                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
+                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
+                        class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
 
-                {% if main.CURRENT_PROJECT.id and activeMenuItem != 'main' %}
-                    <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"
-                       style="color:#47a447;"><b><i class="fa fa-plus-square-o" style="font-weight: bold;"></i><span>&nbsp;Добавить задачу</span></b></a>
-                {% endif %}
+
+
             </div>
 
 
@@ -499,16 +515,15 @@
                                 {% endif %}
                             </span>
                             </button>
+                            <a data-target="#projects-popup" data-toggle="modal" title="Список проектов" class="fa fa-caret-down js-openProjectList" style="font-size: 15px; color: rgb(73, 73, 73); top: 3px; margin-right: 10px;"></a>
+{#                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>#}
                             {% if main.CURRENT_PROJECT.id %}
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog"
                                    title="Параметры проекта"></a>
                             {% endif %}
-                            <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}"
-                               data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i
-                                    class="fa fa-user-plus"></i></a>
-                            <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
+                            <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i class="fa fa-user-plus"></i></a>
+                            <a href="/new_task_wizard/" class="js-taskWizard-opener fa fa-plus" title="Добавить задачу"></a>
                         </div>
-
                     </li>
                     <li class="projects-list-select clearfix">
                         <div class="left">
@@ -522,7 +537,7 @@
                                 {% endfor %}
                             </select>
                         </div>
-                        <div class="right">
+                        <div class="right projects-list-menu">
                             {% if main.CURRENT_PROJECT.id %}
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/" class="fa fa-cog"
                                    title="Параметры проекта"></a>
@@ -530,7 +545,7 @@
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}"
                                data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i
                                     class="fa fa-user-plus"></i></a>
-                            <a href="/project/edit/" class="fa fa-plus" title="Создать новый проект"></a>
+                            <a href="/new_task_wizard/" class="js-taskWizard-opener fa fa-plus" title="Добавить задачу"></a>
                         </div>
                     </li>
                 </ul>

@@ -24,31 +24,32 @@
         <div class="user-personal row-fluid clearfix">
             <div class="user-personal-left clearfix">
                 <div class="user-avatar pull-left">
-                    <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                    <span class="user-avatar-wrapper">
+                        <img style="width:100px;" class="img-rounded" src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}" alt="{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}" />
+                        <span class="user-avatar-bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span>
+                    </span>
                 </div>
 
                 <div class="user-info-right-from-avatar">
-                    <div class="user-contacts pull-left">
-                        <ul>
+                    <div class="user-contacts">
+                        <ul class="clearfix">
                             {% if user_detail.user.email %}<li class="mailto"><a href="mailto:{{ user_detail.user.email }}">{{ user_detail.user.email }}</a></li>{% endif %}
                             {% if user_detail.profile.icq %}<li class="user-icq">{{ user_detail.profile.icq }}</li>{% endif %}
                             {% if user_detail.profile.skype %}<li class="user-skype"><a href="skype:{{ user_detail.profile.skype }}?call">{{ user_detail.profile.skype }}</a></li>{% endif %}
                         </ul>
                     </div>
-                    <div class="user-tasks-info pull-left">
+                    <div class="user-tasks-info">
                       <ul>
                         <li>Открытых задач: <b style="font-size: 14px;"> <a href="#" class="js-link-tasks">{{ user_detail.taskSumm }}</a></b></li>
-                        <li>Компетентность: <b> {{ user_detail.competence }}</b></li>
+                        <li>Компетентность специалиста: <b> {{ user_detail.competence }}</b></li>
                         <li>Место в рейтинге: <b> {{ user_detail.competencePlace }}</b></li>
                       </ul>
                     </div>
-                    <div class="clearfix"></div>
-                    <hr>
-                    {% if user_detail.userIsEqualCurrentUser or user_detail.user.is_superuser %}
+                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                                    placeholder="Укажите свои навыки" id="skillsDropdown"
-                                   class="form-control js-save_specialty">
+                                   class="form-control js-save_specialty" autocomplete="off" >
                             <ul class="dropdown-menu js-search_specialties" role="dropdown"
                                 aria-labelledby="skillsDropdown">
                             </ul>
@@ -71,7 +72,42 @@
 
             </div>
 
-            <div class="user-personal-left">
+
+            <div class="statistic-list clearfix">
+                <div class="statistic-list-item first-child">
+                <h3>Активность</h3>
+                <p>Последняя активность: <strong>{% if user_detail.profile.last_activity_date %} {{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
+                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
+                <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
+                <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
+                <p>Всего ошибок:  <b>{{ user_detail.bugsQty|default_if_none:'0' }}</b></p>
+                </div>
+
+                {% if user_detail.profile.is_outsource %}
+                <div class="statistic-list-item last-child">
+                <h3>Финансы</h3>
+                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
+                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
+
+                <div class="sp">На счету:
+                                    <span class="dropdown dropup">
+                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
+                                        <b>баллов</b>
+                                        {% if user_detail.bets %}
+                                        <a href="#" class="js-show-bonuses" style="font-size: 16px;float: right;display: block;margin-top: 1px;"><i class="fa fa-chevron-right"></i></a>
+                                        {% endif %}
+                                    </span>
+                </div>
+                <div class="clear"></div>
+                {% if not user_detail.userIsEqualCurrentUser %}
+                <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
+                {% endif %}
+                </div>
+                {% endif %}
+            </div>
+
+            <!--<div class="user-personal-left">
                 <div class="user-prizes">
                     {% if user_detail.achievements %}
                     <ul class="user-prizes-slider clearfix">
@@ -81,7 +117,7 @@
                     </ul>
                     {% endif %}
                 </div>
-            </div>
+            </div>-->
 
         </div><!--user-personal-->
         <hr>
@@ -95,10 +131,10 @@
                     <li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>
                     <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
                     {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
-                        <li><a href="#keys" role="tab" data-toggle="tab">Ключи</a></li>
+                        <li><a href="#keys" role="tab" data-toggle="tab">SSH-ключи</a></li>
                     {% endif %}
-                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
-                    <li><a href="#payments" role="tab" data-toggle="tab">Бонусы</a></li>
+                    {% if user_detail.userIsEqualCurrentUser %}
+                    <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -117,34 +153,6 @@
             <div class="tab-content">
                 <div class="tab-pane active" id="svodka">
                     <div class="statistic-wrapper clearfix">
-                          <div class="statistic-list">
-                                <h3>Активность</h3>
-                                <p>Последняя активность: <strong>
-                                    {% if user_detail.profile.last_activity_date %}<br />{{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
-                                <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
-                                <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
-                                <p>Всего наработано часов:  <b>{{ user_detail.profile.sp.summ|default_if_none:'0' }}</b></p>
-                                <hr />
-                                <h3>Финансы</h3>
-                                <p>Цена часа:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
-                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span> баллов</p>
-                                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
-
-                                <div class="sp" style="margin: 10px 0;background: #efefef;padding: 5px;">На счету:
-                                    <span class="dropdown dropup">
-                                        <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
-                                        <b>баллов</b>
-                                        {% if user_detail.bets %}
-                                        <a href="#" class="js-show-bonuses" style="font-size: 16px;float: right;display: block;margin-top: 1px;"><i class="fa fa-chevron-right"></i></a>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <div class="clear"></div>
-                                {% if not user_detail.userIsEqualCurrentUser %}
-                                <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
-                                {% endif %}
-                                <p><small><a href="/wiki/bonuses/">Как начисляются бонусы?</a></small></p>
-                           </div>
 
                           <div class="statistic-graph-wrapper">
                               {% if user_detail.bets %}
@@ -155,11 +163,13 @@
                                         <span class="list-group-item js-pay-item">
                                             {{ arBet.project }}: 
                                             <b>{{ arBet.price }} (ставка: {{ arBet.bet }})</b>
+                                            {% if user_detail.userIsEqualCurrentUser %}
                                             <a href="#" class="js-pay"
                                                style="float: right;"
                                                data-project="{{ arBet.project_id }}"
                                                data-role="{{ arBet.role_id }}"
                                                data-sum="{{ arBet.price }}">Списать</a>
+                                            {% endif %}
                                             <span class="clr"></span></span>
                                         {% endif %}
                                     {% endfor %}
@@ -169,7 +179,7 @@
                               <div class="statistic-graph js-productivity"><h3>Продуктивность</h3>
 {#                                    <div id='dashboard'></div>#}
                                   <div style="width: 100%">
-                                    <canvas id="dashboard" height="250" width="600"></canvas>
+                                    <canvas id="dashboard" height="150" width="600"></canvas>
                                 </div>
                               </div>
                               <div class="statistic-detail js-user-legend">
@@ -233,32 +243,32 @@
                             {% endif %}
                         {% endif %}
                     {% empty %}
-                       document.write('<p>Нет ни одной задачи</p>');
+                       document.write('<div class="empty"><img src="/static/images/no-tasks.png"><br>Нет ни одной задачи</div>');
                     {% endfor %}
                     </script>
                 </div>
                 <div class="tab-pane" id="dostizheniya">
                     {% if user_detail.achievements %}
+                    <div class="dostizheniya-item-wrapper clearfix">
                         {% for c in user_detail.achievements %}
                             <div class="dostizheniya-item">
-                                <table width="100%" cellpadding="0" cellspacing="0">
-                                    <tr>
-                                    <td class="dostizheniya-item-img"><a href="#"><img width="64" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></td>
-                                    <td class="dostizheniya-item-text">
+                                    <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
+                                    <div class="dostizheniya-item-text">
                                     <h4>{{ c.achievement.name }}</h4>
-                                    <p class="date">{{ c.achievement.date }}</p>
-                                    <p>{{ c.achievement.description|safe }}</p>
-                                    {% if c.project %}
-                                        <p>Проект: {{ c.project.name }}</p>
+                                    <!--<p class="date">{{ c.achievement.date }}</p>-->
+                                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe }}</p>
+                                    {% if c.project %}<hr>
+                                        <p>Проект: <b>{{ c.project.name }}</b></p>
                                     {% endif %}
-                                    </td>
-                                    </tr>
-                                </table>
+                                    </div>
                             </div>
-                            {% if not forloop.last %}<hr />{% endif %}
+                            {% if not forloop.last %}
+                        {% endif %}
+
                         {% endfor %}
+                    </div>
                     {% else %}
-                        <p>У пользователя нет ни одного достижения</p>
+                        <div class="empty"><i class="fa fa-rocket"></i><br>У пользователя нет ни одного достижения</div>
                     {% endif %}
 
 {#                        <hr />#}
@@ -266,6 +276,7 @@
                 </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
 
                 <div class="tab-pane" id="activity">
+                    {% if user_detail.timers %}
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
@@ -288,14 +299,14 @@
                       {% endfor %}
                       </tbody>
                     </table>
+                    {% else %}
+                        <div class="empty"><i class="fa fa-bolt"></i><br>У пользователя нет ни одной активности</div>
+                    {% endif %}
                     <div align="center">
                 	</div>
                 </div><!--ВКЛАДКА "Активность"-->
                 {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                     <div class="tab-pane" id="keys">
-                        <div>
-                        <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a></div>
-                        <div>&nbsp;</div>
                         {% if user_detail.keys %}
                         <table class="table table-bordered table-striped">
                           <thead>
@@ -317,8 +328,19 @@
                           {% endfor %}
                           </tbody>
                         </table>
+                        <p align="center" class="button-link">
+                            <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a>
+                            &nbsp;&nbsp;&nbsp;<a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
+                        </p>
+                        {% else %}
+                        <div class="empty">
+                            <img src="/static/images/key.png"><br><p>У вас нет ни одного ключа</p><br>
+                            <p align="center" class="button-link">
+                                <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a>
+                                &nbsp;&nbsp;&nbsp;<a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
+                            </p>
+                        </div>
                         {% endif %}
-                        <a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
                     </div><!--ВКЛАДКА "Ключи"-->
                 {% endif %}
                 {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
@@ -349,8 +371,9 @@
 	                          </tbody>
 	                        </table>
                             {% else %}
-                            <p>Нет ни одной оплаты</p>
-	                        {% endif %}
+                            <div class="empty"><img src="/static/images/payments.png"> <br>Нет ни одной оплаты</div>
+
+                        {% endif %}
 	                    </div><!--ВКЛАДКА "Оплаты"-->
                 {% endif %}
                 <div class="tab-pane" id="add-project">

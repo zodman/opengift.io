@@ -1,23 +1,23 @@
-<div id="taskLine_#TASK_ID#" class="task clearfix input-group" data-taskid="#TASK_ID#" >
-	<div class="task-border clearfix js-drag-task">
-    	<span class="task-id js-number-link">#TASK_NUMBER#</span><!-- ===== НОМЕР ЗАДАЧИ -->
+<div id="taskLine_#TASK_ID#" class="task clearfix input-group" data-taskid="#TASK_ID#" style="cursor:default;">
+	<div class="task-border clearfix">
        	<span class="task-drag task-name_status"></span><!-- ===== ПЕРЕТЯГИВАТЕЛЬ -->
 
        <div class="task-title">
-           <input class="js-task-checkbox" type="checkbox" name="#TASK_ID#" />
-           <a title="#LAST_MESSAGE#" class="js-name-link" href="#TASK_URL#">#TASK_NAME#</a>
-       #FILE_LIST#
-       #DEADLINE#
+           <a title="#TASK_NAME#" class="js-name-link js-draft-discussion_toggle" href="#TASK_URL#">#TASK_NAME#</a>
+           <div class="task-info-message-board task_add-subtask">
+               <a class="task-info-message-board-to-hide js-draft-discussion_toggle"><i class="fa fa-envelope"></i><span>Сообщений:</span></a><b>#MESSAGES#</b>
+           </div>
+           #FILE_LIST#
+            #DEADLINE#
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
-
 		<div class="task-info">
-            <div class="task-info-message-board"><i class="fa fa-envelope"></i><span class="task-info-message-board-to-hide">Сообщений:</span> #MESSAGES#</div>
-            <div class="task-info-author"><span class="title-to-hide">Ответственный:&nbsp;</span><span class="js_task_responsibles"><span class="dropdown"></span></span></div>
             <div class="task-info-time task_play-wrap">
             	<span class="dropdown">
             		<a href="#" class="link-with-popup js-time" data-toggle="dropdown" ></a><span class="task-plantime"></span>
                 </span>
             </div><!--task-info-time-->
 		</div><!--task-info-->
+
+        <div class="js-discussion_container"></div>
 	</div>
 </div>
