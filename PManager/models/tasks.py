@@ -655,10 +655,9 @@ class PM_Task(models.Model):
             if not self.onPlanning and self.canPMUserSetPlanTime(request.user.get_profile()):
                 self.planTime = float(val)
                 self.save()
-            else:
-                planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
-                planTime.time = float(val)
-                planTime.save()
+            planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
+            planTime.time = float(val)
+            planTime.save()
 
         redisSendTaskUpdate({
             'id': self.pk,
@@ -1770,9 +1769,15 @@ class PM_User_PlanTime(models.Model):
     def __unicode__(self):
         return self.user.username + ' ' + self.task.name
 
+    def hour_rate(self):
+        profile = self.user.get_profile()
+        return profile.sp_price + profile.getRating(self.task.project)
+
+    def total_cost(self):
+        return self.time * self.hour_rate()
+
     class Meta:
         app_label = 'PManager'
-
 
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)
