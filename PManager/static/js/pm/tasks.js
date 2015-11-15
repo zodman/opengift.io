@@ -719,6 +719,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 		'fillEffectivelyProgress': function (userLink, taskId) {
 			var uId = $(userLink).attr('rel');
 			var width = 0;
+			if(typeof(taskRespSummary) == "undefined"){
+				taskRespSummary = window.heliardData.taskRespSummary;
+			}
 			if (taskRespSummary[taskId] && taskRespSummary[taskId][uId])
 				width = 100 * taskRespSummary[taskId][uId];
 			$(userLink).find('.js-progress-success').css('width', width + '%');
