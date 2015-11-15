@@ -842,11 +842,6 @@ class taskAjaxManagerCreator(object):
         slug = get_unique_slug()
         task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
 
-        for tagName in tags:
-            tagId, created = Specialty.objects.get_or_create(name=tagName)
-
-            task_draft.specialties.add(Specialty.objects.get(pk=tagId))
-
         for task in tasks:
             if not task.canEdit(self.currentUser):
                 continue
@@ -864,6 +859,11 @@ class taskAjaxManagerCreator(object):
 
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
+        for tagName in tags:
+            spec, created = Specialty.objects.get_or_create(name=tagName)
+
+            task_draft.specialties.add(spec)
+
         taskdraft_resend_invites(self.request, task_draft.slug)
 
         return HttpResponse(json.dumps({'result': 'OK', 'slug': slug}))
