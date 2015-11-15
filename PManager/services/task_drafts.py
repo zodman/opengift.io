@@ -71,31 +71,36 @@ def draft_simple_msg_cnt(task, draft):
     except (ValueError, SimpleMessage.DoesNotExist):
         return 0
 
-
 def accept_user(draft, task_id, user_accepted_id, cur_user):
     from tracker.settings import USE_GIT_MODULE
+    project = draft.project
+    task = None
     if not cur_user.id == draft.author.id:
         return "Вы не являетесь автором списка задач"
     try:
-        task = PM_Task.objects.get(pk=int(task_id))
         user = User.objects.get(pk=int(user_accepted_id))
+        if task_id is not None:
+            task = PM_Task.objects.get(pk=int(task_id))
+            project = task.prpject
     except (ValueError, ):
         return "Ошибка идентификатора"
     except PM_Task.DoesNotExist:
         return "Задача не найдена"
     except User.DoesNotExist:
         return "Пользователь не найден"
-    if task.resp is not None:
+    if task and task.resp is not None:
         return "У данной задачи уже есть ответственный"
     try:
-        already_in_project = PM_ProjectRoles.objects.filter(user=user, project=task.project).count() > 0
+        already_in_project = PM_ProjectRoles.objects.filter(user=user, project=project).count() > 0
     except PM_ProjectRoles.DoesNotExist:
         already_in_project = False
     if not already_in_project:
-        user.get_profile().setRole("employee", task.project)
+        user.get_profile().setRole("employee", project)
         if USE_GIT_MODULE:
             from PManager.classes.git.gitolite_manager import GitoliteManager
-            GitoliteManager.regenerate_access(task.project)
+            GitoliteManager.regenerate_access(project)
+    if task is None:
+        return False
     try:
         plan_time = PM_User_PlanTime.objects.get(user=user, task=task)
         task.planTime = plan_time

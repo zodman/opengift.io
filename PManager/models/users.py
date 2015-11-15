@@ -97,6 +97,10 @@ class PM_User(models.Model):
             return x[0]
         return 0
 
+    @property
+    def allTasksQty(self):
+        return self.user.todo.filter(active=True, closed=False).exclude(status__code='ready').count()
+
     def account_total_project(self, project):
         if not project:
             return 0
@@ -134,7 +138,7 @@ class PM_User(models.Model):
     def avatar_rel(self):
         if self.avatarSrc:
             return {
-                'image': self.avatarSrc, 
+                'image': self.avatarSrc,
                 'id': self.user.id
             }
         else:

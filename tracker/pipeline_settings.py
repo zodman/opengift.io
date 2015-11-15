@@ -218,6 +218,7 @@ PIPELINE_JS = {
     'taskdraft_detail': {
         'source_filenames': (
             'modules/taskdraft/taskdraft_detail.js',
+            'modules/taskdraft/taskdraft_detail_invite_user.js',
         ),
         'output_filename': 'js_compressed/taskdraft_detail.js'
     },

@@ -216,7 +216,7 @@
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-                           
+
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />
@@ -225,7 +225,7 @@
 {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                              </div>
                              {% endif %}
-                             
+
                             </td>
                         </tr>
                     </table>
@@ -254,14 +254,14 @@
         taskRespSummary = {}
         </script>
 {% if not tasklist.tasks %}
-{% if tasklist.project and not tasklist.isInvite %}
-    <div class="js-new-first-task"><br />
-    <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
-    </div>
-{% endif %}
+    {% if tasklist.project and not tasklist.isInvite %}
+        <div class="js-new-first-task"><br />
+        <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
+        </div>
+    {% endif %}
 {% endif %}
         <div class="js-tasks">
-        	
+
         </div>
 
         <br /><p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
@@ -356,7 +356,7 @@
           </form>
         </div>
       </div>
-    </div>    
+    </div>
     <div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content green-popup">
