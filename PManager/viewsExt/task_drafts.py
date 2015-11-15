@@ -13,6 +13,7 @@ from PManager.services.task_drafts import draft_simple_msg_cnt, accept_user, get
 from PManager.services.invites import executors_available, send_invites, get_evaluations
 from PManager.models.taskdraft import TaskDraft
 from django.shortcuts import HttpResponseRedirect
+from PManager.services.tasks import tasks_quantity_users
 
 
 def taskdraft_detail(request, draft_slug):
@@ -88,7 +89,7 @@ def taskdraft_task_discussion(request, draft_slug, task_id):
     return HttpResponse(template.render(context))
 
 
-def taskdraft_accept_developer(request, draft_slug, task_id):
+def taskdraft_accept_developer(request, draft_slug, task_id=None):
     draft = get_draft_by_slug(draft_slug, request.user)
     user_accepted_id = request.POST.get('user_id', False)
     if not draft:
@@ -109,7 +110,6 @@ def taskdraft_accept_developer(request, draft_slug, task_id):
     return HttpResponse(json.dumps({'error': 'Неудалось подключить пользователя к проекту:\n' + error}),
                         content_type="application/json")
 
-
 def __add_message(request, draft, task):
     message = request.POST.get('task_message', None)
     if not message:
@@ -129,11 +129,9 @@ def __add_message(request, draft, task):
 
 def __show(request, draft):
     users = draft.users.all()
-    aUsers = []
-    for u in users:
-        setattr(u, 'openTasks', u.todo.filter(closed=False, active=True).count())
-        aUsers.append(u)
-
+    (aUsers, allTasksQty) = tasks_quantity_users(users)
+    for u in aUsers:
+        setattr(u, 'has_role', u.get_profile().hasRole(draft.project))
     tasks = draft.tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')\
         .filter(resp__isnull=True)
     add_tasks = dict()
@@ -160,6 +158,7 @@ def __show(request, draft):
     context = RequestContext(request, {
         'users': aUsers,
         'tasks': tasks,
+        'allTasksQty': allTasksQty,
         'draft': draft,
         'tasks_template': templateTools.get_task_template('draft_task')
     })

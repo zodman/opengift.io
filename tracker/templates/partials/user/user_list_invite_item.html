@@ -4,10 +4,8 @@
         <a href="/user_detail/?id={{ user.id }}">
             <span class="user-avatar-wrapper">
                 <img alt="User Test" src="/static/images/avatar_unknown.png" class="img-rounded" style="width:100px;">
-                <span class="user-avatar-bonus">+{{ user.profile.account_total }}</span>
-
                 {% if is_admin and user.profile.account_total%}
-                    <span class="user-avatar-bonus">+{{ user.profile.account_total }}</span>
+                    <span class="user-avatar-bonus">{{ user.profile.account_total }}</span>
                 {% endif %}
             </span>
         </a>
@@ -30,14 +28,16 @@
         <div class="about-user-progress">
             <b>Занятость: <strong>{{ user.allTasksQty|default_if_none:'0' }}</strong></b>
             <div class="progress">
-                <div class="progress-bar progress-bar-{% if user.overMaxTasks %}danger{% else %}success{% endif %}" style="width: {% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}%;"
-                     aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision user_list.allTasksQty 1 %}" role="progressbar">
+                <div class="progress-bar progress-bar-{% if user.overMaxTasks %}danger{% else %}success{% endif %}" style="width: {% widthratio user.allTasksQtyForDivision allTasksQty 1 %}%;"
+                     aria-valuemax="100" aria-valuemin="0" aria-valuenow="{% widthratio user.allTasksQtyForDivision allTasksQty 1 %}" role="progressbar">
                 </div>
             </div>
         </div>
-
-        <a href="#" class="btn btn-default width-100">Пригласить&nbsp;&nbsp;<i class="fa fa-user-plus"></i></a>
-
+        {% if not user.has_role %}
+        <a href="#" class="btn btn-default width-100 js-taskdraft-invite-user" data-userid="{{ user.id }}">
+            Пригласить&nbsp;&nbsp;<i class="fa fa-user-plus"></i>
+        </a>
+        {% endif %}
     </div>
 </li>
 

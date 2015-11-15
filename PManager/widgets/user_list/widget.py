@@ -10,6 +10,7 @@ from PManager.viewsExt.headers import TRACKER
 from PManager.viewsExt.tasks import TaskWidgetManager
 import datetime, itertools
 from django.utils import timezone
+from PManager.services.tasks import tasks_quantity_mixin
 def union(it1, it2):
     it1, it2 = iter(it1), iter(it2)
     for item in (item for pair in itertools.izip(it1, it2) for item in pair):
@@ -18,7 +19,7 @@ def union(it1, it2):
         for item in it:
             yield item
 
-MAX_TASKS_QTY = 10
+
 def widget(request, headerValues, a, b):
     users = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     users = users.order_by('last_name')
@@ -46,10 +47,6 @@ def widget(request, headerValues, a, b):
     # users = union(users, [request.user,])
     allUsersTaskQty = 0
     for user in users:
-        userJoinTime = now - datetime.timedelta(days=30)
-        # userJoinTime = userJoinTime.days if userJoinTime.days > 0 else 1
-        # userJoinTime = 30
-        taskClosedQty = PM_Task.objects.filter(closed=True, resp=user, dateClose__gte=userJoinTime, active=True).count()
         userRoles = user.userRoles.filter(project__in=projects)
         setattr(user, 'roles_in_projects', userRoles)
 
@@ -58,16 +55,11 @@ def widget(request, headerValues, a, b):
         if profile.avatar:
             profile.avatar = str(profile.avatar).replace('PManager', '')
 
-        allTasksQty = user.todo.filter(active=True, closed=False).exclude(status__code='ready').count()
-        if allUsersTaskQty < allTasksQty:
-            allUsersTaskQty = allTasksQty
+        tasks_quantity_mixin(user)
+        if allUsersTaskQty < user.allTasksQty:
+            allUsersTaskQty = user.allTasksQty
 
         setattr(user, 'profile', profile)
-        setattr(user, 'tasksQty', taskClosedQty)
-        if allTasksQty > MAX_TASKS_QTY:
-            setattr(user, 'overMaxTasks', True)
-        setattr(user, 'allTasksQty', allTasksQty)
-        setattr(user, 'allTasksQtyForDivision', allTasksQty * 100)
 
         try:
             if user.pk:
