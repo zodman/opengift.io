@@ -841,10 +841,11 @@ class taskAjaxManagerCreator(object):
         tasks = PM_Task.objects.filter(id__in=task_ids)
         slug = get_unique_slug()
         task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
+
         for tagName in tags:
             tagId, created = Specialty.objects.get_or_create(name=tagName)
 
-            task_draft.specialties.add(tagId)
+            task_draft.specialties.add(Specialty.objects.get(pk=tagId))
 
         for task in tasks:
             if not task.canEdit(self.currentUser):
