@@ -377,9 +377,9 @@ var CRITICALLY_THRESHOLD = 0.7;
 						$buttonClose.show();
 						var $closeIcon = $buttonClose.find('.fa');
 						if (taskInfo.canClose) {
-							$closeIcon.removeClass('fa-check').addClass('fa-close');
+							$closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Закрыть задачу');
 						} else {
-							$closeIcon.removeClass('fa-close').addClass('fa-check');
+							$closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
 						}
 					}
 				}
@@ -484,7 +484,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			//создание таймера и добавление его модельке
 			var timer = this.model.get('timer');
 			if (this.model.get('time') && !this.model.get('timer')) {
-				var timer = this.createTimer(this.model.get('time'));
+				timer = this.createTimer(this.model.get('time'));
 
 				this.model.set('timer', timer);
 			}

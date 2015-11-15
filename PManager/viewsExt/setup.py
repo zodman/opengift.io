@@ -40,13 +40,14 @@ def register(request):
             user.is_staff = True
 
             user.save()
+
             project.author = user
-            project.setSettings({'start_unapproved': True})
+            project.setSettings({'start_unapproved': True, 'unplan_approve': True})
             project.save()
             request.COOKIES["CURRENT_PROJECT"] = project.id
 
             prof = user.get_profile()
-            # prof.setRole('manager', project)
+            prof.setRole('client', project)
             # prof.setRole('client', project, 'plan_time')
             # prof.sp_price = 1500
             # prof.account_total = 0

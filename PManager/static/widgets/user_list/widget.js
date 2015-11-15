@@ -31,9 +31,7 @@ $(function(){
         "setOnlineStatusFromServer":function(){
             var widget = this;
             var $userBlocks = widget.$getUserBlocks();
-            baseConnector.send("users:get_online_list", {
-                    'data':'test'
-                }, function(receivedUsers){
+            baseConnector.addListener('users:online', function(receivedUsers){
                     var aUsersOnline = $.parseJSON(receivedUsers);
                     for (var i in aUsersOnline){
                         var aUserStatus = aUsersOnline[i];
@@ -48,6 +46,9 @@ $(function(){
                     });
                 }
             );
+            baseConnector.send("users:get_online_list", {
+                'data':'test'
+            });
         }
     });
     userList.init();

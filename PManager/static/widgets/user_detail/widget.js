@@ -235,6 +235,7 @@ $(function () {
         'addOnlineStatusListeners': function () {
             baseConnector.addListener('connect', function () {
                 if (widget_ud.statusInterval) clearInterval(widget_ud.statusInterval);
+                widget_ud.setOnlineStatusFromServer();
                 widget_ud.statusInterval = setInterval(function () {
                     widget_ud.setOnlineStatusFromServer();
                 }, 5000)
@@ -247,14 +248,13 @@ $(function () {
             });
         },
         "setOnlineStatusFromServer": function () {
+            baseConnector.addListener('users:data', function (userData) {
+                userData = $.parseJSON(userData);
+                widget_ud.setUserStatus(userData['status']);
+            });
             baseConnector.send("users:get_user_data", {
-                    'id': this.user_id
-                },
-                function (userData) {
-                    userData = $.parseJSON(userData);
-                    widget_ud.setUserStatus(userData['status']);
-                }
-            );
+                'id': this.user_id
+            });
         },
         'setUserStatus': function (status) {
             if (status)

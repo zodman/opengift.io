@@ -394,7 +394,7 @@ class MyConnection(websocket.WebSocketHandler):
 
     @event('users:get_online_list')
     def getOnlineUsers(self, data):
-        return json.dumps(self.getOnlineUsersList())
+        self.send('users:online', json.dumps(self.getOnlineUsersList()))
 
     def getOnlineUsersList(self):
         global onlineUsers
@@ -411,10 +411,12 @@ class MyConnection(websocket.WebSocketHandler):
     @event('users:get_user_data')
     def getUserData(self, id):
         global onlineUsers
-
+        data = ''
         if id in onlineUsers:
             for k in onlineUsers[id]:
-                return self.userJsonData(onlineUsers[id][k].user, 'online')
+                data = self.userJsonData(onlineUsers[id][k].user, 'online')
+                break
+        self.send('users:data', data)
 
     @event('connect')
     def connect(self, sessionid):
