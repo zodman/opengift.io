@@ -58,13 +58,17 @@ def get_evaluations(user, draft, task):
     except (ValueError, PM_Task_Message.DoesNotExist):
         return None
 
-def get_all_active_outsourcers(time_inactive=30, exclude=None):
+def get_all_active_outsourcers(time_inactive=30, exclude=None, specialties=[]):
     last_date = datetime.now() - timedelta(days=time_inactive)
     user_ids = PM_User.objects.filter(
                                    is_outsource=True,
                                    user__is_active=True,
                                    last_activity_date__gt=last_date,
-                                   last_activity_date__isnull=False).values_list('user_id', flat=True)
+                                   last_activity_date__isnull=False)
+    if specialties:
+        user_ids = user_ids.filter(specialties__in=specialties)
+
+    user_ids = user_ids.values_list('user_id', flat=True)
     if user_ids:
         users = User.objects.filter(pk__in=user_ids)
         if exclude is not None:
@@ -77,7 +81,7 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None):
 def executors_available(task_draft, active_task_limit=5):
     NUMBER_OF_TOP_USERS = 6
     user_ids = set()
-    users = get_all_active_outsourcers(exclude=(task_draft.users.values_list('id', flat=True),))
+    users = get_all_active_outsourcers(exclude=(task_draft.users.values_list('id', flat=True),), specialties=task_draft.specialties.all())
     if not users:
         return None
 

@@ -9,7 +9,7 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
 from django.shortcuts import HttpResponse
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
+from PManager.models import Specialty, PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
     PM_Project, PM_Files, PM_Reminder
 import datetime, json, codecs
 from django.utils import simplejson, timezone
@@ -831,14 +831,20 @@ class taskAjaxManagerCreator(object):
     def process_inviteUsers(self):
         from PManager.viewsExt.task_drafts import taskdraft_resend_invites
         task_ids = self.request.POST.getlist('tasks[]')
+        tags = self.request.POST.getlist('tag[]') if 'tag[]' in self.request.POST else []
         title = self.request.POST.get('title', '')
         project_id = self.request.POST.get('project', None)
         project = get_project_by_id(project_id)
         if project is None:
             return HttpResponse(json.dumps({'error': 'Не выбран проект'}))
+
         tasks = PM_Task.objects.filter(id__in=task_ids)
         slug = get_unique_slug()
         task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
+        for tagName in tags:
+            tagId, created = Specialty.objects.get_or_create(tagText=tagName)
+
+            task_draft.specialties.add(tagId)
 
         for task in tasks:
             if not task.canEdit(self.currentUser):

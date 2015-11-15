@@ -270,19 +270,31 @@
       <div class="modal-dialog">
         <div class="modal-content green-popup">
             <div class="modal-header">
-                <h2 class="modal-title" id="myModalLabel">Список Задач</h2>
+                <h2 class="modal-title" id="myModalLabel">Новое приглашение исполнителей</h2>
             </div>
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
                 {% csrf_token %}
-                <input type="text" class="form-control" name="title" maxlength="250" placeholder="Название" />
+                <input type="text" class="form-control" name="title" maxlength="250" placeholder="Тема приглашения (необязательно)" />
                 <br />
-                Создать список задач на аутсорс для приглашения специалистов?
+                <div class="dropdown js-specialties_search_wrapper">
+                    <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                           placeholder="Укажите необходимые навыки" id="skillsDropdown"
+                           class="form-control js-save_specialty" autocomplete="off" >
+                    <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                        aria-labelledby="skillsDropdown">
+                    </ul>
+                </div>
+                  <ul class="posibilities clearfix js-specialties" style="margin: 0">
+                  </ul>
+                <br />
+                Создание нового приглашения специалистов.
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-developers"></div>
                   <input type="hidden" name="action" value="inviteUsers" />
-                <input type="submit" name="add-developers" class="btn btn-success js-add-developers" value="Создать" />
+                  <input type="hidden" name="add-developers" value="Y" />
+                <button type="button" class="btn btn-success js-add-developers" >Создать</button>
                 <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
               </div>
             </form>

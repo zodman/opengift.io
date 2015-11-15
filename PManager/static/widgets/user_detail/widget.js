@@ -93,23 +93,7 @@ $(function () {
             });
             dashboard('#dashboard', USER_TIME_DATA);
 
-            var $specialtyInput = $('.js-save_specialty'),
-                $searchDropdown = $('.js-search_specialties'),
-                $specialties = $('.js-specialties');
-
-            var appendSkills = function (id, name) {
-                var $specialty = ('<li><span class="tag-name">' + name + '</span><span class="tag-num"><i class="fa fa-times tag-num-icon js-delete_specialty"' +
-                'data-specialty="' + id + '"></i></span></span></li>');
-                $specialties.append($specialty);
-                if ($specialties.hasClass('hidden')) {
-                    $specialties.removeClass('hidden')
-                }
-            };
-
-            $specialtyInput.keypress(function(e) {
-                var $t = $(this);
-                var key = e.keyCode;
-                if (key == 13) { // Enter key
+            initSpecialtiesFind(function($t, appendSkills) {
                     PM_AjaxPost(
                         '/users_ajax/',
                         {
@@ -128,93 +112,19 @@ $(function () {
                             $searchDropdown.hide();
                         }
                     );
-                }
-                if (key == 40) { // Down key
-                    $searchDropdown.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus()
-                }
-            }).on('click', function(e) {e.stopPropagation();});
-
-            $searchDropdown.keypress(function (e) {
-                var key = e.keyCode;
-
-                if (key == 40) { //down
-                    if ($(this).find('li.active').is(':last-child')) {
-                        return false
-                    } else {
-                        $(this).find('li.active').removeClass('active').next(':visible').addClass('active').find('a').focus();
-                    }
-                    return false;
-                } else if (key == 38) { //up
-                    if ($(this).find('li.active').is(':first-child')) {
-                        $(this).find('li.active').removeClass('active');
-                        $specialtyInput.focus()
-                    } else {
-                        $(this).find('li.active').removeClass('active').prev(':visible').addClass('active').find('a').focus();
-                    }
-                    return false;
-                } else if (key == 13) {
-                    $specialtyInput.val($(this).find('a').text()).focus();
-                    $searchDropdown.hide();
-                }
-            });
-
-            $searchDropdown.on('click', '*', function(e) {
-                e.stopPropagation();
-                $specialtyInput.val($(this).text()).focus();
-                $searchDropdown.hide();
-            });
-
-            $searchDropdown.on('mouseover', 'li', (function() {
-                $(this).activateListItem().find('a').blur()
-            }));
-
-            widget_ud.container.on('click', '.js-delete_specialty', function () {
-                var $t = $(this);
-                PM_AjaxPost(
-                    '/users_ajax/',
-                    {
-                        'action': 'deleteSpecialty',
-                        'specialty': $t.data('specialty'),
-                        'user': $('.js-save_specialty').data('user-id')
-                    },
-                    function () {
-                        $t.parent().parent().remove();
-                    }
-                )
-            });
-
-            var search_val = null;
-            $specialtyInput.keyup(function() {
-                var $t = $(this);
-                if ($t.val() != search_val) {
-                    search_val = $t.val();
-                    if (search_val.length > 2) {
-                        $.post(
-                            '/ajax/specialty/',
-                            {
-                                'action': 'specialty_search',
-                                'search_text': $t.val(),
-                                'user': $t.data('user-id')
-                            },
-                            function (response) {
-                                var data = $.parseJSON(response);
-                                if (data.length > 0) {
-                                    $searchDropdown.empty();
-                                    for (var i = 0; i < data.length; i++) {
-                                        var $skill = $('<li><a href=#>' + data[i] + '</a></li>');
-                                        $searchDropdown.append($skill)
-                                    }
-                                    $searchDropdown.show()
-                                }
-                            }
-                        )
-                    }
-                }
-            });
-
-            $(document).on('click', function() {
-                $searchDropdown.hide()
-            })
+                }, function($t) {
+                    PM_AjaxPost(
+                        '/users_ajax/',
+                        {
+                            'action': 'deleteSpecialty',
+                            'specialty': $t.data('specialty'),
+                            'user': $('.js-save_specialty').data('user-id')
+                        },
+                        function () {
+                            $t.parent().parent().remove();
+                        }
+                    )
+                });
         },
         'addTaskLine': function (taskData, $container) {
             var task = widget_ud.taskList.get(taskData.id);

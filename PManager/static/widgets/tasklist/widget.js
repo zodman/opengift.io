@@ -7,7 +7,13 @@
 var widget_tl, currentGroup;
 (function ($) {
     $(function () {
-
+        initSpecialtiesFind(function($t, appendSkills, $searchDropdown) {
+            appendSkills('', $t.val());
+            $searchDropdown.hide();
+            $t.val('');
+        }, function($t) {
+            $t.parent().parent().remove();
+        });
         $("input.js-date").datetimepicker({
             'dayOfWeekStart': 1,
             'format': 'd.m.Y',

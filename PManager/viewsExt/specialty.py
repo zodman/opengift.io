@@ -15,13 +15,18 @@ def specialty_ajax(request):
 def search_specialty(request):
     search_text = request.POST['search_text'].upper()
     userId = request.POST['user']
-    user = User.objects.get(id=userId)
-    profile = user.get_profile()
-    profile_specialties = profile.specialties.all()
+    profile_specialties = None
+    if userId:
+        user = User.objects.get(id=userId)
+        profile = user.get_profile()
+        profile_specialties = profile.specialties.all()
 
-    specialties = Specialty.objects.filter(name__icontains=search_text)\
-        .exclude(pk__in=profile_specialties).values_list('name', flat=True)
+    specialties = Specialty.objects.filter(name__icontains=search_text)
 
+    if profile_specialties:
+        specialties = specialties.exclude(pk__in=profile_specialties)
+
+    specialties = specialties.values_list('name', flat=True)
     return list(specialties)
 
 def matchSpecialtyWithTags(arSpecialty):

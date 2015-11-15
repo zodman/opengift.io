@@ -24,6 +24,16 @@ class Feedback(forms.Form):
                                                            'placeholder': u'Введите сообщение',
                                                            'rows': 2}))
 
+def sendFeedBackEmail(fullName, emailFrom, subject, message):
+    mes = {
+        'fromUser': fullName,
+        'userEmail': emailFrom,
+        'subject': subject,
+        'message': message,
+        'date': datetime.datetime.now()
+    }
+    sendMes = emailMessage('feedback', mes, 'New feedback')
+    sendMes.send([FEEDBACK_EMAIL])  # if error, admin will know and will resend
 
 def sendFeedback(request):
     form = Feedback(request.POST or None)
@@ -31,15 +41,12 @@ def sendFeedback(request):
 
     if 'subject' in request.POST and form.is_valid():
         context['send'] = True
-        mes = {
-            'fromUser': request.user.first_name + ' ' + request.user.last_name,
-            'userEmail': request.user.email,
-            'subject': form.cleaned_data['subject'],
-            'message': form.cleaned_data['message'],
-            'date': datetime.datetime.now()
-        }
-        sendMes = emailMessage('feedback', mes, 'New feedback')
-        sendMes.send([FEEDBACK_EMAIL])  # if error, admin will know and will resend
+        sendFeedBackEmail(
+            request.user.first_name + ' ' + request.user.last_name,
+            request.user.email,
+            form.cleaned_data['subject'],
+            form.cleaned_data['message']
+        )
 
     c = RequestContext(request, context)
     t = loader.get_template('helpers/feedback.html')

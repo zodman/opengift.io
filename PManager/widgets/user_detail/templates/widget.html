@@ -49,7 +49,7 @@
                         <div class="dropdown js-specialties_search_wrapper">
                             <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                                    placeholder="Укажите свои навыки" id="skillsDropdown"
-                                   class="form-control js-save_specialty">
+                                   class="form-control js-save_specialty" autocomplete="off" >
                             <ul class="dropdown-menu js-search_specialties" role="dropdown"
                                 aria-labelledby="skillsDropdown">
                             </ul>
@@ -276,6 +276,7 @@
                 </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
 
                 <div class="tab-pane" id="activity">
+                    {% if user_detail.timers %}
                     <table class="table table-bordered table-striped">
                       <thead>
                         <tr>
@@ -298,6 +299,9 @@
                       {% endfor %}
                       </tbody>
                     </table>
+                    {% else %}
+                        <div class="empty"><i class="fa fa-bolt"></i><br>У пользователя нет ни одной активности</div>
+                    {% endif %}
                     <div align="center">
                 	</div>
                 </div><!--ВКЛАДКА "Активность"-->

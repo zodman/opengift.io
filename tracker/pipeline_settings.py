@@ -35,6 +35,7 @@ PIPELINE_JS = {
             'js/pm/timer.js',
             'js/pm/panel.js',
             'js/pm/tasks.js',
+            'js/pm/specialties.js',
             'js/pm/files.js',
             'js/pm/beep.js',
             'js/pm/hint.js',

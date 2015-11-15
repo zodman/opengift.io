@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.models import PM_Project, PM_ProjectRoles
-from PManager.viewsExt.forms import WhoAreYou
+from PManager.viewsExt.forms import WhoAreYou, sendFeedBackEmail
 from django.contrib.auth import logout
 from PManager.services.trackers import get_tracker
 from django.http import Http404
@@ -94,7 +94,12 @@ def initGlobals(request):
                 if 'need_manager' not in form.cleaned_data or form.cleaned_data['need_manager'] == 'N':
                     pass
                 else:
-                    PM_ProjectRoles.objects.filter(project=project, user=request.user).delete()
+                    sendFeedBackEmail(
+                        request.user.first_name + ' ' + request.user.last_name,
+                        request.user.email,
+                        'Нужен менеджер',
+                        'Мне нужен менеджер'
+                    )
                     request.user.get_profile().setRole('client', project)
 
                 redirect = "/?project=" + str(project.id)
@@ -112,6 +117,7 @@ def initGlobals(request):
         if request.GET['logout'] == 'Y':
             logout(request)
             redirect = "/"
+
     can_invite = False
     is_manager = False
     if CURRENT_PROJECT and bIsAuthenticated:
@@ -120,6 +126,7 @@ def initGlobals(request):
         is_manager = request.user.get_profile().isManager(CURRENT_PROJECT)
 
     is_author = bIsAuthenticated and request.user.createdProjects.exists()
+
     return {
         'SET_COOKIE': SET_COOKIE,
         'CURRENT_PROJECT': CURRENT_PROJECT,
