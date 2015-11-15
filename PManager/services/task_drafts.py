@@ -35,8 +35,11 @@ def get_draft_by_id(draft_id, user):
 
 def get_draft_by_slug(slug, user):
     try:
-        draft = TaskDraft.objects.get(slug=slug, users__id=user.id, deleted=False)
-        return draft
+        draft = TaskDraft.objects.filter(slug=slug, deleted=False).filter(Q(Q(users__id=user.id) | Q(author=user)))
+        if draft:
+            return draft[0]
+        else:
+            return False
     except (ValueError, TaskDraft.DoesNotExist):
         return False
 
@@ -103,6 +106,7 @@ def accept_user(draft, task_id, user_accepted_id, cur_user):
     task.save()
     __create_message_from_simple_messages(draft, task, cur_user, user)
     return False
+
 
 # todo: {Rayleigh} refactor: remove html from this
 def __create_message_from_simple_messages(draft, task, author, recipient):

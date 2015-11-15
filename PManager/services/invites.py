@@ -58,32 +58,41 @@ def get_evaluations(user, draft, task):
     except (ValueError, PM_Task_Message.DoesNotExist):
         return None
 
-def get_all_active_outsourcers(time_inactive=60, exclude=None):
+def get_all_active_outsourcers(time_inactive=30, exclude=None):
     last_date = datetime.now() - timedelta(days=time_inactive)
-    user_ids = PM_User.objects.filter(is_outsource=1,
+    user_ids = PM_User.objects.filter(
+                                   is_outsource=True,
                                    user__is_active=True,
                                    last_activity_date__gt=last_date,
                                    last_activity_date__isnull=False).values_list('user_id', flat=True)
-    users = User.objects.filter(pk__in=user_ids)
-    if exclude is not None:
-        for x in exclude:
-            users.exclude(pk__in=x)
-    return users
+    if user_ids:
+        users = User.objects.filter(pk__in=user_ids)
+        if exclude is not None:
+            for x in exclude:
+                users.exclude(pk__in=x)
 
-def executors_available(task_draft, active_task_limit=10):
-    NUMBER_OF_TOP_USERS = 10
+        return users
+    else:
+        return False
+
+def executors_available(task_draft, active_task_limit=5):
+    NUMBER_OF_TOP_USERS = 6
     user_ids = set()
     users = get_all_active_outsourcers(exclude=(task_draft.users.distinct(),))
     if not users:
         return None
 
     for task in task_draft.tasks.all():
-        task_users = users.exclude(pk__in=task.project.getUsers()).distinct()
-        for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=task_users).iteritems():
-            try:
-                user_ids.add(int(user_id))
-            except ValueError:
-                continue
+        task_users = users.exclude(pk__in=task.project.getUsers().values_list('id', flat=True)).distinct()
+        if task_users:
+            for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=task_users).iteritems():
+                try:
+                    user_ids.add(int(user_id))
+                except ValueError:
+                    continue
+
+    if not user_ids:
+        user_ids = users.values_list('id', flat=True)
 
     users_acceptable = set()
     for user_id in user_ids:

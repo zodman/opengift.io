@@ -3,11 +3,13 @@
     <div class="invite-users-list-item-img">
         <a href="/user_detail/?id={{ user.id }}">
             <span class="user-avatar-wrapper">
-                <img alt="User Test" src="/static/images/avatar_unknown.png" class="img-rounded" style="width:100px;">
-                <span class="user-avatar-bonus">+{{ user.profile.account_total }}</span>
-
-                {% if is_admin and user.profile.account_total%}
-                    <span class="user-avatar-bonus">+{{ user.profile.account_total }}</span>
+                {% if user.profile.avatarSrc %}
+                    <img alt="User Test" src="{{ user.profile.avatarSrc }}" class="img-rounded" style="height:100px;" />
+                {% else %}
+                    <img alt="User Test" src="/static/images/avatar_unknown.png" class="img-rounded" style="width:100px;" />
+                {% endif %}
+                {% if user.profile.account_total%}
+                    <span class="user-avatar-bonus">{% if user.profile.account_total > 0 %}+{% endif %}{{ user.profile.account_total }}</span>
                 {% endif %}
             </span>
         </a>
@@ -19,13 +21,13 @@
             </a>
         </div>
 
-            {% if user.profile.specialties.count %}
-            <div class="invite-users-list-item-specialities">
-            {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
-            </div>
-            {% endif %}
+    {% if user.profile.specialties.count %}
+        <div class="invite-users-list-item-specialities">
+        {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
+        </div>
+    {% endif %}
 
-        <p><b>Кол-во часов в день:</b>&nbsp;10</p>
+        <p><b>Кол-во часов в день:</b>&nbsp;{{ user.hoursPerDay }}</p>
 
         <div class="about-user-progress">
             <b>Занятость: <strong>{{ user.allTasksQty|default_if_none:'0' }}</strong></b>
@@ -36,7 +38,7 @@
             </div>
         </div>
 
-        <a href="#" class="btn btn-default width-100">Пригласить&nbsp;&nbsp;<i class="fa fa-user-plus"></i></a>
+        <a href="#" class="btn btn-default width-100">Добавить в проект&nbsp;&nbsp;<i class="fa fa-user-plus"></i></a>
 
     </div>
 </li>

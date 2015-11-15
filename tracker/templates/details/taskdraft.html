@@ -44,7 +44,7 @@
             <div align="center" class="invite-developers">
                 <a href="/taskdraft/{{ draft.slug }}/resend-invites"
                    class="btn btn-success js-invite-developers">
-                    <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Отправить приглашения
+                    <i class="fa fa-paper-plane"></i>&nbsp;&nbsp;Пригласить других исполнителей
                 </a>
             </div>
             {% endif %}
@@ -69,12 +69,6 @@
                 {% for task in tasks %}
                     aTaskList.push({{ task|jsonify|safe }});
                     taskRespSummary['{{ task.id }}'] = {{ responsible_list|jsonify|safe }}
-                    {% if task.time %}
-                        arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
-                        {% if task.startedTimerExist %}
-                            arTimers['{{ task.id }}'].start();
-                        {% endif %}
-                    {% endif %}
                 {% endfor %}
                 window.heliardData = {
                     responsibleTag: '{% if draft.author.id == request.user.id %}a{% else %}span{% endif %}',

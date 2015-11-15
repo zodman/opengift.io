@@ -37,14 +37,15 @@ def taskdraft_detail(request, draft_slug):
 def taskdraft_resend_invites(request, draft_slug):
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
-        return HttpResponse(json.dumps({'error': 'Список задач не найден'}), content_type="application/json")
+        return HttpResponse(json.dumps({'error': 'Приглашение не найдено'}), content_type="application/json")
     if request.method != "POST":
         return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
     if draft.tasks.count() < 1:
-        return HttpResponse(json.dumps({'error': 'Нет задач в списке'}), content_type="application/json")
+        return HttpResponse(json.dumps({'error': 'Нет задач в приглашении'}), content_type="application/json")
 
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
+
     user_ids = executors_available(draft)
     if not user_ids:
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
@@ -57,8 +58,10 @@ def taskdraft_resend_invites(request, draft_slug):
     send_invites(users, draft)
     for profile in users:
         draft.users.add(profile.user)
+
     draft.status = TaskDraft.OPEN
     draft.save()
+
     return HttpResponse(json.dumps({'result': 'Приглашения отправлены'}), content_type="application/json")
 
 

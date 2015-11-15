@@ -15,12 +15,12 @@
         'openDiscussion': function(ev, task){
             var CONTAINER_SELECTOR = '.js-discussion_container',
                 STATUS_COLLAPSE_CLASS = 'js-draft-expanded',
-                CONTAINER = '.'
+                CONTAINER = '.',
                 collapsed = !$(ev.delegateTarget).hasClass(STATUS_COLLAPSE_CLASS),
                 container = $(ev.delegateTarget).find(CONTAINER_SELECTOR),
                 displayContainer = function(){
                     collapsed = false;
-                    $(container).show('slow');
+                    $(container).show();
                     $(ev.delegateTarget).addClass(STATUS_COLLAPSE_CLASS);
                 };
             ev.preventDefault();

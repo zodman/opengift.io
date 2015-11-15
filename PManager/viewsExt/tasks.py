@@ -317,6 +317,8 @@ def __task_message(request):
     status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
     uploaded_files = request.POST.getlist('files') if 'files' in request.POST else []
     author = request.user
+    response_text = ''
+
     if task:
         text = text.replace('<', '&lt;').replace('>', '&gt;')
         message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
@@ -412,6 +414,7 @@ def __task_message(request):
             task_update_push_data['status'] = status
         redisSendTaskUpdate(task_update_push_data)
         response_text = json.dumps(response_json)
+
     return response_text
 
 
@@ -824,9 +827,9 @@ class taskAjaxManagerCreator(object):
         if self.result:
             return HttpResponse(self.result)
 
-
     @task_ajax_action
     def process_inviteUsers(self):
+        from PManager.viewsExt.task_drafts import taskdraft_resend_invites
         task_ids = self.request.POST.getlist('tasks[]')
         title = self.request.POST.get('title', '')
         project_id = self.request.POST.get('project', None)
@@ -836,7 +839,7 @@ class taskAjaxManagerCreator(object):
         tasks = PM_Task.objects.filter(id__in=task_ids)
         slug = get_unique_slug()
         task_draft = TaskDraft.objects.create(author=self.currentUser, slug=slug, title=title, project=project)
-        task_draft.users.add(self.currentUser)
+
         for task in tasks:
             if not task.canEdit(self.currentUser):
                 continue
@@ -851,9 +854,12 @@ class taskAjaxManagerCreator(object):
                 'onPlanning': True
             })
             task_draft.tasks.add(task)
+
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
-        return HttpResponse(json.dumps({'result': 'OK', 'slug': slug }))
+        taskdraft_resend_invites(self.request, task_draft.slug)
+
+        return HttpResponse(json.dumps({'result': 'OK', 'slug': slug}))
 
     @task_ajax_action
     def process_getEndTime(self):
