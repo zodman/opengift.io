@@ -72,7 +72,7 @@ var $attachedFileBlock = function (path, name, id, type, thumb) {
     } else if (type == 'pptx' || type == 'ppt') {
         fileBlock = '<i class="fa fa-file-powerpoint-o"></i>'
     } else if (thumb) {
-        fileBlock = '<img src="' + path + '">'
+        fileBlock = '<img src="' + thumb + '">'
     } else {
         fileBlock = '<i class="fa fa-file-o"></i>'
     }
