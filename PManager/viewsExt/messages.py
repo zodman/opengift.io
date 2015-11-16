@@ -41,6 +41,7 @@ class ajaxActions(object):
                     message.read = True
                     message.save()
                     return 'ok'
+
             except PM_Task_Message.DoesNotExist:
                 return 'Message not found'
         else:
@@ -51,6 +52,7 @@ class ajaxActions(object):
             for mes in messages:
                 mes.read = True
                 mes.save()
+
             return 'ok'
 
     def getMessages(self):
