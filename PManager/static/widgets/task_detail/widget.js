@@ -255,7 +255,7 @@ $(function(){
 
                 if (data && data.fid)
                     widget_td.$attachedFileContainer
-                        .append($attachedFileBlock(data.path, data.fid, data.fid, data.type));
+                        .append($attachedFileBlock(data.path, data.fid, data.fid, data.type, data.thumbnail));
             });
             widget_td.removeTempScripts();
             baseConnector.addListener('fs.task.update', function(data){
@@ -453,7 +453,7 @@ $(function(){
     taskFileUpload(
         function(event,id, filename, data){
             if (data.id){
-                $attachedFileBlock(data.src, data.name, data.id, data.type).appendTo(widget_td.$attachedFileContainer);
+                $attachedFileBlock(data.src, data.name, data.id, data.type, data.thumbnail).appendTo(widget_td.$attachedFileContainer);
                 $(this).fineUploader('setDeleteFileParams', {"file_id": data.id}, id);
             }
         },

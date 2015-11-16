@@ -61,7 +61,7 @@ function taskFileUpload(complete, errorHandler, completeDelete) {
         .on("complete", complete);
 }
 
-var $attachedFileBlock = function (path, name, id, type) {
+var $attachedFileBlock = function (path, name, id, type, thumb) {
     var fileBlock;
     if (type == 'docx' || type == 'doc') {
         fileBlock = '<i class="fa fa-file-word-o"></i>'
@@ -71,7 +71,7 @@ var $attachedFileBlock = function (path, name, id, type) {
         fileBlock = '<i class="fa fa-file-archive-o"></i>'
     } else if (type == 'pptx' || type == 'ppt') {
         fileBlock = '<i class="fa fa-file-powerpoint-o"></i>'
-    } else if (type == 'png' || type == 'jpg' || type == 'jpeg') {
+    } else if (thumb) {
         fileBlock = '<img src="' + path + '">'
     } else {
         fileBlock = '<i class="fa fa-file-o"></i>'
