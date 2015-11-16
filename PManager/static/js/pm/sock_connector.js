@@ -9,6 +9,7 @@ var FancyWebSocket = function(url, obj){
 
   var callbacks = {};
 
+
   this.bind = function(event_name, callback){
     callbacks[event_name] = callbacks[event_name] || [];
     callbacks[event_name].push(callback);
