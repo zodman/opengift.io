@@ -430,6 +430,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
+        'canInvite': cur_prof.isManager(project) if project else False,
         'template': template,
         'qty': {
             'ready': PM_Task.getQtyForUser(cur_user, project,
