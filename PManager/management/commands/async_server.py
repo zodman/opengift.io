@@ -2,6 +2,7 @@
 __author__ = 'Gvammer'
 from tornado import web, gen, ioloop, httpserver
 from server import MyConnection
+import ssl
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
 # from django.core.management.base import BaseCommand
@@ -70,6 +71,7 @@ class Command(NoArgsCommand):
         app = make_app()
         # app.listen(port)
         http_server = httpserver.HTTPServer(app, ssl_options={
+            "ssl_version": ssl.PROTOCOL_TLSv1,
             "certfile": "/etc/ssl/heliard.ru.pem",
             "keyfile": "/etc/ssl/heliard.ru.key"
         })
