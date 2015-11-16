@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 __author__ = 'Gvammer'
-from tornado import web, gen, ioloop
+from tornado import web, gen, ioloop, httpserver
 from server import MyConnection
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
@@ -68,5 +68,10 @@ class Command(NoArgsCommand):
             ])
 
         app = make_app()
-        app.listen(port)
+        # app.listen(port)
+        http_server = httpserver.HTTPServer(app, ssl_options={
+            "certfile": "/etc/ssl/heliard.ru.pem",
+            "keyfile": "/etc/ssl/heliard.ru.key"
+        })
+        http_server.listen(port)
         ioloop.IOLoop.current().start()
