@@ -71,7 +71,6 @@ class Command(NoArgsCommand):
         app = make_app()
         # app.listen(port)
         http_server = httpserver.HTTPServer(app, ssl_options={
-            "ssl_version": ssl.PROTOCOL_TLSv1,
             "certfile": "/etc/ssl/heliard.ru.pem",
             "keyfile": "/etc/ssl/heliard.ru.key"
         })
