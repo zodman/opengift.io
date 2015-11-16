@@ -20,7 +20,7 @@ class TaskDraft(models.Model):
     slug = models.CharField(max_length=64, unique=True, blank=False)
     users = models.ManyToManyField(User, blank=True)
     author = models.ForeignKey(User, blank=False, related_name='task_drafts')
-    project = models.ForeignKey(PM_Project, blank=False, related_name='task_drafts')
+    project = models.ForeignKey(PM_Project, blank=False, null=True, related_name='task_drafts')
     tasks = models.ManyToManyField(PM_Task, blank=True)
     closed_at = models.DateTimeField(blank=True, null=True)
     deleted = models.BooleanField(blank=False, default=False)
