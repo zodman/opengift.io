@@ -6,13 +6,15 @@ from PManager.models import PM_Task_Message
 import json
 
 def ajaxResponder(request):
-    manager = ajaxActions(request)
-    return HttpResponse(manager.process())
+    if request.user.is_authenticated():
+        manager = ajaxActions(request)
+        return HttpResponse(manager.process())
 
 class ajaxActions(object):
     def __init__(self, request):
         self.request = request
         self.id = int(self.request.POST.get('id', 0))
+
         if 'action' in request.REQUEST:
             self.action = request.REQUEST['action']
         else:
@@ -21,6 +23,15 @@ class ajaxActions(object):
     def process(self):
         if self.action != 'process' and '__' not in self.action and hasattr(self, self.action):
             return json.dumps(self.__getattribute__(self.action)())
+
+    def update(self):
+        message = PM_Task_Message.objects.get(pk=self.request.POST['id'])
+
+        if message.updateFromRequestData(self.request.POST, self.request.user):
+            message.modifiedBy = self.request.user
+            message.save()
+
+        return message.getJson()
 
     def setRead(self):
         if self.id > 0:

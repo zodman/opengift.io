@@ -318,6 +318,7 @@ class MyConnection(websocket.WebSocketHandler):
                             serverMessage.send()
                         except PM_Task_Message.DoesNotExist:
                             pass
+
                 del serverMessage
 
     def on_message(self, msg):
@@ -333,15 +334,6 @@ class MyConnection(websocket.WebSocketHandler):
             conn = PM_Tasks_Connector()
             return conn.getTask(id, self.user)
 
-    @event('message:read')
-    def putMessage(self, *args, **kags):
-        if 'id' in kags:
-            id = int(kags['id'])
-            conn = PM_Tasks_Connector()
-            return conn.getMessage(id, self.user)
-        else:
-            return "Can't find ID in request"
-
     @event('message:delete')
     def deleteMessage(self, *args, **kags):
         if 'id' in kags:
@@ -356,12 +348,6 @@ class MyConnection(websocket.WebSocketHandler):
         if 'text' in kags:
             conn = PM_Tasks_Connector()
             return conn.addMessage(kags, self.user)
-
-    @event('message:update')
-    def updateMessage(self, *args, **kags):
-        if 'id' in kags:
-            conn = PM_Tasks_Connector()
-            return conn.updateMessage(kags, self.user)
 
     @event('chat_message')
     def receiveMessage(self, data):
