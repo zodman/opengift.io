@@ -1473,16 +1473,16 @@ class PM_Task_Message(models.Model):
 
     def updateFromRequestData(self, data, user):
         changed = False
-        if 'checked' in data and self.checked != bool(data['checked']):
-            self.checked = bool(data['checked'])
+        if 'checked' in data and self.checked != bool(int(data['checked'])):
+            self.checked = bool(int(data['checked']))
             changed = True
 
         if self.canEdit(user):
-            if 'todo' in data and self.todo != bool(data['todo']):
-                self.todo = bool(data['todo'])
+            if 'todo' in data and self.todo != bool(int(data['todo'])):
+                self.todo = bool(int(data['todo']))
                 changed = True
-            if 'bug' in data and self.bug != bool(data['bug']):
-                self.bug = bool(data['bug'])
+            if 'bug' in data and self.bug != bool(int(data['bug'])):
+                self.bug = bool(int(data['bug']))
                 changed = True
             if 'hidden_from_employee' in data:
                 r = not not data['hidden_from_employee']

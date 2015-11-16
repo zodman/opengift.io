@@ -1,9 +1,6 @@
 {% load jsonify compressed %}
 {% compressed_js 'fileup' %}
 {% compressed_js 'tasklist' %}
-<script language="JavaScript">
-    window.taskHtml = {{ tasklist.template|jsonify|safe }};
-</script>
 <script src="/static/js/jquery.fancyform.min.js"></script>
 <script>
     $(function(){
@@ -11,6 +8,7 @@
             base : "class" // Can be image or class, if class a span will be added
         });
     });
+    window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
 <div class="widget tasklist">
     <!--<div class="row">

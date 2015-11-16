@@ -17,25 +17,44 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             },
             'saveToServer': function (callback) {
                 var t = this;
-                this.save(null, {
-                    'success': function (model, data) {
-                        try {
-                            data = $.parseJSON(data);
-                            if (typeof(data) == typeof({}) && data.id) {
-                                for (var i in data) {
-                                    model.set(i, data[i]);
-                                }
-                            }
-
-                            callback.call(t, data);
-                        } catch (e) {
-                            console.log(e);
-                        }
+                PM_AjaxPost(
+                    '/messages_ajax/',
+                    {
+                        'action': 'update',
+                        'id': t.get('id'),
+                        'text': t.get('text'),
+                        'checked': t.get('checked') ? 1 : 0,
+                        'todo': t.get('todo') ? 1 : 0,
+                        'bug': t.get('bug') ? 1 : 0
                     },
-                    'error': function (model, data) {
-                        console.log('Save error: ' + data);
-                    }
-                });
+                    function(data) {
+                        var i;
+                        for (i in data) {
+                            t.set(i, data[i]);
+                        }
+                        callback.call(t, data);
+                    },
+                    'json'
+                );
+//                this.save(null, {
+//                    'success': function (model, data) {
+//                        try {
+//                            data = $.parseJSON(data);
+//                            if (typeof(data) == typeof({}) && data.id) {
+//                                for (var i in data) {
+//                                    model.set(i, data[i]);
+//                                }
+//                            }
+//
+//                            callback.call(t, data);
+//                        } catch (e) {
+//                            console.log(e);
+//                        }
+//                    },
+//                    'error': function (model, data) {
+//                        console.log('Save error: ' + data);
+//                    }
+//                });
             }
         });
 
@@ -108,6 +127,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 view.render();
 
                 this.model.saveToServer(function (data) {
+                    view.render();
                     $(window).triggerHandler('pmCheckTodo', view.model);
                 });
 
@@ -250,7 +270,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
                 return htmlTemplate;
             },
-            'render': function (params) {
+                'render': function (params) {
                 if (!params)
                     params = {};
 
