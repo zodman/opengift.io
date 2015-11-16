@@ -41,12 +41,12 @@ PIPELINE_JS = {
             'js/pm/hint.js',
             'js/pm/user_dynamics.js',
             # 'js/pm/sock_connector.js',
-            # 'js/pm/user-notice.js',
-            # 'js/pm/current_timer.js',
-            # 'js/pm/drowCanvas.js',
-            # 'js/libs/toastr.js',
-            # 'js/pm/csrf_protector.js',
-            # 'js/bootstrap/bootstrap-tooltip.js'
+            'js/pm/user-notice.js',
+            'js/pm/current_timer.js',
+            'js/pm/drowCanvas.js',
+            'js/libs/toastr.js',
+            'js/pm/csrf_protector.js',
+            'js/bootstrap/bootstrap-tooltip.js'
         ),
         'output_filename': 'js_compressed/base.js',
     },

@@ -47,14 +47,14 @@ var baseConnectorClass = function(data){
 };
 
 baseConnectorClass.prototype = {
-    'init': function(){
+    'init': function() {
         var t = this;
-        var prot = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
+        var prot = (document.location.protocol == 'https:' ? 'wss://' : 'ws://');
         this.socket = new FancyWebSocket((prot + this.url), this);
 
         this.addListener('connect', function () {
             this.open = true;
-            this.send("connect", {
+            this.send('connect', {
                 sessionid: $.cookie("sessionid")
             });
             if(window.timerID){
@@ -87,9 +87,13 @@ var baseConnector = {};
 $(function(){
     baseConnector = new baseConnectorClass({
 <<<<<<< HEAD
+<<<<<<< HEAD
         'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8082'
 =======
         'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081'
+>>>>>>> origin/dev_server
+=======
+        'url': (window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081')
 >>>>>>> origin/dev_server
     });
 });
