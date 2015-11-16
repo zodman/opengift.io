@@ -64,7 +64,7 @@ def fileSave(request):
             )
 
         file.save()
-        return HttpResponse(json.dumps({'path': str(file.file), 'fid': file.id, 'type': file.type}))
+        return HttpResponse(json.dumps({'path': str(file.file), 'fid': file.id, 'type': file.type, 'thumbnail': protected(thumbnail(str(file), '200x200')) if file.isPicture else ''}))
     return HttpResponse(json.dumps({'error': 'PNG expected'}))
 
 
