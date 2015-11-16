@@ -86,7 +86,11 @@ var baseConnector = {};
 
 $(function(){
     baseConnector = new baseConnectorClass({
+<<<<<<< HEAD
         'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8082'
+=======
+        'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081'
+>>>>>>> origin/dev_server
     });
 });
 
