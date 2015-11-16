@@ -5,7 +5,7 @@ __author__ = 'Rayleigh'
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 PIPELINE_JS = {
-    'base': {
+    # 'base': {
     #     'source_filenames': (
     #         'js/libs/jquery.min.js',
     #         'js/libs/fancybox.js',
