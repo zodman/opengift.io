@@ -1990,7 +1990,11 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 }
 
 .invite-users-list-item-img .user-avatar-wrapper {background: #fff; box-shadow: 0px 1px 0px #ddd; -moz-box-shadow: 0px 1px 0px #ddd; -webkit-box-shadow: 0px 1px 0px #ddd; }
-
+.user-avatar-wrapper .img-rounded {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
 .invite-users-list-item-text {
     float: left;
     width: calc(100% - 120px);
