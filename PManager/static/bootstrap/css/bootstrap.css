@@ -158,6 +158,11 @@ a:hover {
   color: #005580;
   text-decoration: underline;
 }
+.user-avatar-wrapper .img-rounded {
+    -webkit-border-radius: 6px 6px 0 0;
+    -moz-border-radius: 6px 6px 0 0;
+    border-radius: 6px 6px 0 0;
+}
 .img-rounded {
   -webkit-border-radius: 6px;
   -moz-border-radius: 6px;
