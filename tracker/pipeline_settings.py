@@ -131,22 +131,22 @@ PIPELINE_JS = {
         ),
         'output_filename': 'js_compressed/project_edit.js'
     },
-    'project_detail': {
-        'source_filenames': (
-            # 'js/libs/clipboard/zclib.js',
-            # 'js/pm/ajax_inputs.js',
-            # 'widgets/project_edit/clipboard_init.js',
-            # 'widgets/project_edit/project_edit.js',
-            # 'widgets/project_edit/interfaces_control.js',
-            # 'widgets/project_edit/achievements_control.js',
-            # 'widgets/project_edit/project_avatar.js',
-            # 'widgets/project_edit/payment.js',
-            # 'widgets/project_edit/tabs_navigation.js',
-            # 'widgets/project_edit/docker_check.js',
-            'widgets/project_edit/repository_check.js',
-        ),
-        'output_filename': 'js_compressed/project_detail.js'
-    },
+    # 'project_detail': {
+    #     'source_filenames': (
+    #         'js/libs/clipboard/zclib.js',
+    #         'js/pm/ajax_inputs.js',
+    #         'widgets/project_edit/clipboard_init.js',
+    #         'widgets/project_edit/project_edit.js',
+    #         'widgets/project_edit/interfaces_control.js',
+    #         'widgets/project_edit/achievements_control.js',
+    #         'widgets/project_edit/project_avatar.js',
+    #         'widgets/project_edit/payment.js',
+    #         'widgets/project_edit/tabs_navigation.js',
+    #         'widgets/project_edit/docker_check.js',
+    #         'widgets/project_edit/repository_check.js',
+    #     ),
+    #     'output_filename': 'js_compressed/project_detail.js'
+    # },
     'project_graph': {
         'source_filenames': (
             'widgets/project_graph/widget.js',
