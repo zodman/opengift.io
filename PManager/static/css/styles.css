@@ -1016,9 +1016,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .task {padding:0 15px; position:relative;}
 .task.ready {background:#e6f0e6;}
-.task.ready .js-task_done {
-    display: none !important;
-}
+
 .task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
 .task-drag {width:3px; height:0px; position:absolute; left:0px; top:-1px; background:#ffa500; cursor:move}
 

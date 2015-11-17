@@ -379,7 +379,10 @@ var CRITICALLY_THRESHOLD = 0.7;
 						if (taskInfo.canClose) {
 							$closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Закрыть задачу');
 						} else {
-							$closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
+                            $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
+                            if (taskInfo.status == 'ready') {
+                                $closeIcon.hide();
+                            }
 						}
 					}
 				}
