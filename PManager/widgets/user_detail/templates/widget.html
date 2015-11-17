@@ -59,11 +59,13 @@
                         {% if user_detail.specialties %}
                             {% for specialty in user_detail.specialties %}
                                 <li><span class="tag-name">{{ specialty.name }}</span>
+                                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser or specialty.weight %}
                                     <span class="tag-num">{% if specialty.weight %}<i class="tag-num-text">{{ specialty.weight }}</i>{% endif %}
                                         {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
                                         <i class="fa fa-times tag-num-icon js-delete_specialty" data-specialty="{{ specialty.id }}"></i>
                                         {% endif %}
                                     </span>
+                                    {% endif %}
                                 </li>
                             {% endfor %}
                         {% endif %}
@@ -106,19 +108,6 @@
                 </div>
                 {% endif %}
             </div>
-
-            <!--<div class="user-personal-left">
-                <div class="user-prizes">
-                    {% if user_detail.achievements %}
-                    <ul class="user-prizes-slider clearfix">
-                        {% for c in user_detail.achievements %}
-                            <li><img src="{{ c.achievement.smallImageUrl }}" alt="" width="64px">{{ c.achievement.name }}</li>
-                        {% endfor %}
-                    </ul>
-                    {% endif %}
-                </div>
-            </div>-->
-
         </div><!--user-personal-->
         <hr>
 
@@ -256,7 +245,7 @@
                                     <div class="dostizheniya-item-text">
                                     <h4>{{ c.achievement.name }}</h4>
                                     <!--<p class="date">{{ c.achievement.date }}</p>-->
-                                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe }}</p>
+                                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
                                     {% if c.project %}<hr>
                                         <p>Проект: <b>{{ c.project.name }}</b></p>
                                     {% endif %}

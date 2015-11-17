@@ -259,6 +259,7 @@ class MyConnection(websocket.WebSocketHandler):
                 if len(onlineUsers[self.id]) == 0:
                     del onlineUsers[self.id]
 
+        time.sleep(15)
         if not self.id in onlineUsers:
             conn = PM_Tasks_Connector()
             conn.stopTimer(self.id)

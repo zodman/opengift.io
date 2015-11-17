@@ -6,16 +6,12 @@
  */
 var FancyWebSocket = function (url, obj) {
     var conn = new WebSocket(url);
-
     var callbacks = {};
-
-
     this.bind = function (event_name, callback) {
         callbacks[event_name] = callbacks[event_name] || [];
         callbacks[event_name].push(callback);
         return this;
     };
-
     this.send = function (event_name, event_data) {
         var payload = JSON.stringify({event: event_name, data: event_data});
         conn.send(payload);
@@ -43,19 +39,17 @@ var FancyWebSocket = function (url, obj) {
         }
     }
 };
-
 var baseConnectorClass = function (data) {
     this.socket = false;
     this.url = data.url;
     this.events = {};
     this.init();
 };
-
 baseConnectorClass.prototype = {
     'init': function () {
         var t = this;
-        var prot = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
-        this.socket = new FancyWebSocket((prot + this.url), this);
+        var port = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
+        this.socket = new FancyWebSocket((port + this.url), this);
 
         this.addListener('connect', function () {
             this.open = true;
@@ -90,18 +84,9 @@ baseConnectorClass.prototype = {
         this.socket.close();
     }
 };
-
 var baseConnector = {};
-
-$(function () {
+$(function() {
     baseConnector = new baseConnectorClass({
-        'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081'
+        'url': (window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081')
     });
 });
-
-(function($){
-    window.onbeforeunload = function (e) {
-        window.unloadPage = true;
-        baseConnector.closeConnection();
-    }
-})(jQuery);

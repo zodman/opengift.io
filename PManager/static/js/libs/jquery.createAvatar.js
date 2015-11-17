@@ -53,7 +53,7 @@
                 options = {};
             }
             $.extend(options, params);
-            $(el).html($.createAvatar(options));
+            $(el).html($.createAvatar(options)).css('height', (options.size || 90)+'px');
         } catch (e) {
 
         }
