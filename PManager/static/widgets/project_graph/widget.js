@@ -8,9 +8,11 @@
             $.fancybox.close();
             return false;
         });
+
         $('[data-toggle="popover"]').popover({
             trigger:'hover'
         });
+
         $('.js-select-role').click(function () {
             if (!$(this).is('.active')) {
                 $(this).addClass('active').siblings('.js-select-role').removeClass('active');
@@ -40,5 +42,6 @@
             $tClosed.text(parseInt($tClosed.text()) + 1);
             $progress.css('width', Math.round(parseInt($tClosed.text()) * 100 / parseInt($tAll.text())) + '%');
         });
+
     });
 })(jQuery);
