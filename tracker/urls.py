@@ -45,23 +45,26 @@ def payment_received(sender, **kwargs):
         try:
             pRequest = PaymentRequest.objects.get(pk=requestId)
             credit = Credit(
-                user=pRequest.user,
+                user=pRequest.user.id,
                 value=sum,
-                project=pRequest.project,
+                project=pRequest.project.id,
                 comment="Payment from robo"
             )
             credit.save()
+
         except PaymentRequest.DoesNotExist:
             pass
 
     elif sum:
         if id:
             user = User.objects.get(id=id)
-        fee = Fee(
-            user=user,
-            value=-sum
-        )
-        fee.save()
+
+            fee = Fee(
+                user=user,
+                value=-sum
+            )
+
+            fee.save()
 
 
 result_received.connect(payment_received)
