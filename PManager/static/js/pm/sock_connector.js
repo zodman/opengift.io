@@ -94,25 +94,12 @@ var baseConnector = {};
 
 $(function () {
     baseConnector = new baseConnectorClass({
-<<<<<<< HEAD
-<<<<<<< HEAD
-        'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8082'
-=======
         'url': window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081'
->>>>>>> origin/dev_server
-=======
-        'url': (window.heliardSettings['SOCKET_SERVER_ADDRESS'] + ':8081')
->>>>>>> origin/dev_server
     });
 });
-<<<<<<< HEAD
 
 (function($){
-    window.onbeforeunload = function(e) {
-=======
-(function ($) {
     window.onbeforeunload = function (e) {
->>>>>>> origin/dev_server
         window.unloadPage = true;
         baseConnector.closeConnection();
     }
