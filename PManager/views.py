@@ -77,7 +77,7 @@ class MainPage:
                         if not backurl:
                             backurl = '/'
 
-                        return HttpResponseRedirect(backurl)
+                        return HttpResponseRedirect('https://heliard.ru/'+backurl)
                 else:
                     return HttpResponse(loader
                                         .get_template('main/unauth.html')
@@ -184,7 +184,7 @@ class MainPage:
 
                 if widget:
                     if 'redirect' in widget:
-                        return HttpResponseRedirect(widget['redirect'])
+                        return HttpResponseRedirect('https://heliard.ru/'+widget['redirect'])
                     if 'title' in widget:
                         pageTitle = widget['title']
 
@@ -248,7 +248,7 @@ class MainPage:
     def widgetUpdate(request, widget_name):
         headerValues = headers.initGlobals(request)
         if headerValues['REDIRECT']:
-            return redirect(headerValues['REDIRECT'])
+            return redirect('https://heliard.ru/'+headerValues['REDIRECT'])
 
         widget = {}
         str = 'widget = widgets.%s' % widget_name
@@ -257,7 +257,7 @@ class MainPage:
         c = RequestContext(request, {})
         if widget:
             if 'redirect' in widget:
-                return HttpResponseRedirect(widget['redirect'])
+                return HttpResponseRedirect('https://heliard.ru/'+widget['redirect'])
         c.update({widget_name: widget})
         return HttpResponse(loader.get_template("%s/templates/widget.html" % widget_name).render(c))
 
@@ -517,7 +517,7 @@ def add_timer(request):
                 #add user log
                 logger = Logger()
                 logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-                return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+                return redirect('https://heliard.ru/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
             else:
                 return HttpResponse('Operation not permitted')
 
