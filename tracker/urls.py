@@ -37,10 +37,8 @@ import datetime
 
 # todo: Needed explanation for this function/ why this is here, where supposed to be only urls?
 def payment_received(sender, **kwargs):
-    id = int(kwargs['extra']['user'])
-    requestId = int(kwargs['extra']['request'])
-
-    user = User.objects.get(id=id)
+    id = int(kwargs['extra']['user']) if 'user' in kwargs['extra'] else None
+    requestId = int(kwargs['extra']['request']) if 'request' in kwargs['extra'] else None
     sum = int(float(kwargs['OutSum']))
 
     if requestId:
@@ -57,6 +55,8 @@ def payment_received(sender, **kwargs):
             pass
 
     elif sum:
+        if id:
+            user = User.objects.get(id=id)
         fee = Fee(
             user=user,
             value=-sum
