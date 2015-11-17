@@ -259,9 +259,9 @@ class MyConnection(websocket.WebSocketHandler):
                 if len(onlineUsers[self.id]) == 0:
                     del onlineUsers[self.id]
 
-        if not self.id in onlineUsers:
-            conn = PM_Tasks_Connector()
-            conn.stopTimer(self.id)
+        # if not self.id in onlineUsers:
+        #     conn = PM_Tasks_Connector()
+        #     conn.stopTimer(self.id)
 
         print 'connection closed'
         super(MyConnection, self).close()

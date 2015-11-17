@@ -54,7 +54,7 @@ var baseConnectorClass = function (data) {
 baseConnectorClass.prototype = {
     'init': function () {
         var t = this;
-        var prot = (document.location.protocol == 'https:' ? 'wss://' : 'ws://');
+        var prot = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
         this.socket = new FancyWebSocket((prot + this.url), this);
 
         this.addListener('connect', function () {
