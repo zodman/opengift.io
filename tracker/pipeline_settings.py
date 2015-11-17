@@ -40,7 +40,7 @@ PIPELINE_JS = {
             'js/pm/beep.js',
             'js/pm/hint.js',
             'js/pm/user_dynamics.js',
-            'js/pm/sock_connector.js',
+            # 'js/pm/sock_connector.js',
             'js/pm/user-notice.js',
             'js/pm/current_timer.js',
             'js/pm/drowCanvas.js',
