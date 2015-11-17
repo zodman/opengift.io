@@ -17,7 +17,7 @@ def widget(request, headerValues, ar, qargs):
 
     current_project = headerValues['CURRENT_PROJECT']
     bPay = request.POST.get('pay', False)
-    summ = int(request.POST.get('summ', 0) or 0)
+    summ = int(request.POST.get('sum', 0) or 0)
     form = None
     if bPay and current_project:
         pRequest = PaymentRequest(
