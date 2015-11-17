@@ -90,7 +90,7 @@ class MainPage:
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout
             logout(request)
-            return HttpResponseRedirect('/login/')
+            return HttpResponseRedirect('https://heliard.ru/login/')
 
         if request.GET.get('from', '') == 'mobile':
             if request.user.is_authenticated():
@@ -216,7 +216,7 @@ class MainPage:
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
                 t = loader.get_template('main/promo.html')
             else:
-                return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
+                return HttpResponseRedirect('https://heliard.ru/login/?backurl='+urllib.quote(request.get_full_path()))
 
         cur_notice = PM_Notice.getForUser(
             request.user,
@@ -485,7 +485,7 @@ def add_timer(request):
     import datetime
 
     if not request.user.is_authenticated:
-        return redirect('/')
+        return redirect('https://heliard.ru/')
 
     headerValues = headers.initGlobals(request)
 
