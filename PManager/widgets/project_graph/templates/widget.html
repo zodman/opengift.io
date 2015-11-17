@@ -87,12 +87,15 @@
                                                 Пополните баланс для расчета со специалистами Heliard
                                             {% else %}
                                             <span
-                                                style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> ({{ project_graph.allProjectPrice|intcomma }})</span>
+                                                style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b>
+                                                {% if project_graph.allProjectPrice %} <small>{{ project_graph.allProjectPrice|intcomma }}</small>{% endif %}</span>
                                             <a href="/wiki/bonuses">?</a>
                                             {% endif %}
                                             {% if role.role.code == 'client' %}
                                                 <br /><a href="#" data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a>
                                             {% endif %}
+                                        {% elif role.role.code == 'manager' %}
+                                            Вы видите все задачи и можете их закрывать.
                                         {% endif %}
                                     </div>
                                 </div>

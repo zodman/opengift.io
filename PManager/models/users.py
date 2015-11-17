@@ -99,7 +99,7 @@ class PM_User(models.Model):
 
     @property
     def allTasksQty(self):
-        return self.user.todo.filter(active=True, closed=False).exclude(status__code='ready').count()
+        return self.user.todo.filter(active=True, closed=False).exclude(project__closed=True, project__locked=True, status__code='ready').count()
 
     def account_total_project(self, project):
         if not project:

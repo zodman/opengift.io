@@ -26,6 +26,7 @@ def widget(request, headerValues, a, b):
     projects = PM_Project.objects.filter(tracker=TRACKER, closed=False, locked=False)
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
     arFilter = {}
+
     if 'auth' in request.GET:
         if request.user.is_superuser:
             uid = int(request.GET.get('auth', 0))
@@ -44,6 +45,7 @@ def widget(request, headerValues, a, b):
     if headerValues['CURRENT_PROJECT']:
         arFilter['userRoles__in'] = PM_ProjectRoles.objects.filter(project=headerValues['CURRENT_PROJECT'])
         users = users.filter(**arFilter).distinct()
+
     # users = union(users, [request.user,])
     allUsersTaskQty = 0
     for user in users:
@@ -71,6 +73,7 @@ def widget(request, headerValues, a, b):
 
         if not user.email and user.username.find('@'):
             setattr(user, 'email', user.username)
+
 
     return {
         'users': users,

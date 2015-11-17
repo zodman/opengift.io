@@ -17,6 +17,7 @@ def tasks_quantity_users(users):
         user_list.append(user)
     return (user_list, allUsersTaskQty)
 
+
 def tasks_quantity_mixin(user):
     profile = user.get_profile()
     allTasksQty = profile.allTasksQty
@@ -26,7 +27,6 @@ def tasks_quantity_mixin(user):
         setattr(user, 'overMaxTasks', True)
     setattr(user, 'allTasksQty', allTasksQty)
     setattr(user, 'allTasksQtyForDivision', allTasksQty * 100)
-
 
 
 def tasks_closed_by_user(user, startTime=None):
