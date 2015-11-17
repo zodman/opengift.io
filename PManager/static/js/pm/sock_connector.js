@@ -62,6 +62,7 @@ baseConnectorClass.prototype = {
             this.send('connect', {
                 sessionid: $.cookie("sessionid")
             });
+            console.log('connected');
             if (window.timerID) {
                 window.clearInterval(window.timerID);
                 window.timerID = 0;
