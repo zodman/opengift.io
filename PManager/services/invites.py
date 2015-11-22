@@ -11,7 +11,8 @@ from django.db.models import Q, F
 from PManager.services.rating import get_top_users
 from PManager.models.users import PM_User
 from tracker.settings import ADMIN_EMAIL
-
+import logging
+logger = logging.getLogger('task_draft_log')
 
 def should_suggest_outsource(project):
     return is_project_failing(project) or is_project_stale(project)
@@ -79,29 +80,38 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None, specialties=[]):
         return False
 
 def executors_available(task_draft, active_task_limit=5):
-    NUMBER_OF_TOP_USERS = 6
+    NUMBER_OF_TOP_USERS = 50
     user_ids = set()
     users = get_all_active_outsourcers(exclude=(task_draft.users.values_list('id', flat=True),), specialties=task_draft.specialties.all())
     if not users:
+        logger.debug('No outsources found')
         return None
 
+    logger.debug('All active outsources: ' + str(list(users)))
     for task in task_draft.tasks.all():
         task_users = users.exclude(pk__in=task.project.getUsers().values_list('id', flat=True)).distinct()
+        logger.debug('Finding users for task:' + str(task.id))
+        logger.debug('All task users:' + str(list(task_users)))
         if task_users:
             for user_id, weight in get_top_users(task=task, limit=NUMBER_OF_TOP_USERS, user_filter=task_users).iteritems():
                 try:
+                    logger.debug('Adding user to task top users by tags: ' + str(user_id))
                     user_ids.add(int(user_id))
                 except ValueError:
                     continue
 
     if not user_ids:
         user_ids = users.values_list('id', flat=True)
+        logger.debug('No users by tags found, using all outsources')
 
     users_acceptable = set()
     for user_id in user_ids:
         if user_active_tasks(user_id) < active_task_limit:
             users_acceptable.add(user_id)
-
+            logger.debug('User added to acceptable:' + str(user_id))
+        else:
+            logger.debug('User has too many active tasks: ' + str(user_id))
+    logger.debug('Acceptable users:' + str(users_acceptable))
     return users_acceptable
 
 

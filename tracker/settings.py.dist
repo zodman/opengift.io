@@ -272,12 +272,28 @@ LOGGING = {
             '()': 'django.utils.log.RequireDebugFalse'
         }
     },
+    'formatters': {
+        'verbose': {
+            'format' : "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s\n",
+            'datefmt' : "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s : %(message)s'
+        }
+    },
     'handlers': {
         'mail_admins': {
             'level': 'ERROR',
             'filters': ['require_debug_false'],
             'class': 'django.utils.log.AdminEmailHandler'
-        }
+        },
+        'file_handler': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'invites.log',
+            'formatter': 'verbose'
+        },
+
     },
     'loggers': {
         'django.request': {
@@ -285,6 +301,10 @@ LOGGING = {
             'level': 'ERROR',
             'propagate': True,
         },
+        'task_draft_log': {
+            'handlers': ['file_handler'],
+            'level': 'DEBUG'
+        }
     }
 }
 

@@ -15,6 +15,8 @@ from PManager.models.taskdraft import TaskDraft
 from django.shortcuts import HttpResponseRedirect
 from PManager.services.tasks import tasks_quantity_users
 
+import logging
+logger = logging.getLogger('task_draft_log')
 
 def taskdraft_detail(request, draft_slug):
     if not request.user.is_authenticated():
@@ -36,6 +38,7 @@ def taskdraft_detail(request, draft_slug):
 
 
 def taskdraft_resend_invites(request, draft_slug):
+    LIMIT_USER_INVITES_PER_REQUEST = 6
     draft = get_draft_by_slug(draft_slug, request.user)
     if not draft:
         return HttpResponse(json.dumps({'error': 'Приглашение не найдено'}), content_type="application/json")
@@ -43,17 +46,21 @@ def taskdraft_resend_invites(request, draft_slug):
         return HttpResponse(json.dumps({'error': 'Ошибка метода запроса'}), content_type="application/json")
     if draft.tasks.count() < 1:
         return HttpResponse(json.dumps({'error': 'Нет задач в приглашении'}), content_type="application/json")
-
     if draft.author.id != request.user.id:
         return HttpResponse(json.dumps({'error': 'У вас нет доступа к этому списку'}), content_type="application/json")
 
+    logger.debug('Send invites requested for draft:' + str(draft.id) + ' by user:' + str(request.user.id))
     user_ids = executors_available(draft)
     if not user_ids:
+        logger.debug('Executors not available')
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
+    logger.debug('Executors available: ' + ', '.join(str(x) for x in user_ids))
     try:
-        users = PM_User.objects.filter(user_id__in=user_ids)
+        users = PM_User.objects.filter(user_id__in=user_ids).order_by('-rating')[:LIMIT_USER_INVITES_PER_REQUEST]
+        logger.debug('Final users:' + ', '.join(str(x.id) for x in users))
     except (ValueError, PM_User.DoesNotExist):
+        logger.debug('Final users not found')
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
     send_invites(users, draft)
