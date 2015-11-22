@@ -22,7 +22,7 @@ class InterfaceForm(forms.ModelForm):
 
 def projectDetail(request, project_id):
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect('https://heliard.ru/login/')
 
     project = get_object_or_404(PM_Project, id=project_id)
     profile = request.user.get_profile()
@@ -180,7 +180,7 @@ def projectDetail(request, project_id):
 
         parseSettingsFromPost(project, request)
         project.save()
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect('https://heliard.ru'+request.path)
 
 
     if 'integration_settings_save' in request.POST and request.POST['integration_settings_save'] and canEditProject:
@@ -189,7 +189,7 @@ def projectDetail(request, project_id):
 
         parseSettingsFromPost(project, request)
         project.save()
-        return HttpResponseRedirect('')
+        return HttpResponseRedirect('https://heliard.ru'+request.path)
 
     interfaces = AccessInterface.objects.filter(project=project)
     interfaces_html = ''

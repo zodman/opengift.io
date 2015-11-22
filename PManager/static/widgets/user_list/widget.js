@@ -52,4 +52,8 @@ $(function(){
         }
     });
     userList.init();
+    $('body').tooltip({
+        selector: "[rel=tooltip]",
+        placement: "top"
+    });
 });

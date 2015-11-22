@@ -7,11 +7,17 @@
 var FancyWebSocket = function (url, obj) {
     var conn = new WebSocket(url);
     var callbacks = {};
+
     this.bind = function (event_name, callback) {
         callbacks[event_name] = callbacks[event_name] || [];
         callbacks[event_name].push(callback);
         return this;
     };
+
+    this.state = function() {
+        return conn.readyState;
+    };
+
     this.send = function (event_name, event_data) {
         var payload = JSON.stringify({event: event_name, data: event_data});
         conn.send(payload);
@@ -39,9 +45,11 @@ var FancyWebSocket = function (url, obj) {
         }
     }
 };
+
 var baseConnectorClass = function (data) {
     this.socket = false;
     this.url = data.url;
+    this.connected = false;
     this.events = {};
     this.init();
 };
@@ -52,24 +60,18 @@ baseConnectorClass.prototype = {
         this.socket = new FancyWebSocket((port + this.url), this);
 
         this.addListener('connect', function () {
-            this.open = true;
+            t.connected = true;
             this.send('connect', {
                 sessionid: $.cookie("sessionid")
             });
-            console.log('connected');
-            if (window.timerID) {
-                window.clearInterval(window.timerID);
-                window.timerID = 0;
-            }
-        });
 
-        this.addListener('close', function () {
             if (!window.timerID) {
                 window.timerID = setInterval(function () {
-                    t.init()
-                }, 5000);
+                    if (t.socket.state() == 3)
+                        t.init()
+                }, 8000);
             }
-        })
+        });
     },
     'addListener': function (event_name, func) {
         this.socket.bind(event_name, func);
