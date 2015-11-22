@@ -64,7 +64,7 @@ class AccessInterface(models.Model):
                 if self.port:
                     ftplib.FTP_PORT = self.port
 
-                ftp = ftplib.FTP(self.address, self.username, self.password)
+                ftp = ftplib.FTP(self.address, self.username, self.password, False, 4)
                 ftp.voidcmd('NOOP')
                 self.check_flag = True
             except Exception:
