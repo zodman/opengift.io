@@ -76,7 +76,8 @@ baseConnectorClass.prototype = {
                 window.timerID = setInterval(function () {
                     if (t.socket.state() == 3) {
                         t.init();
-                        t.rebindAll();
+                        t.socket.rebindAll();
+                        console.log('reconnect');
                     }
                 }, 8000);
             }
