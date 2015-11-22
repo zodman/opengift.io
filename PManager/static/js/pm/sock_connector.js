@@ -11,7 +11,7 @@ var FancyWebSocket = function (url, obj) {
     this.rebindAll = function() {
         var i;
         for (i in callbacks) {
-            this.bind(i, callbacks[i]);
+            (function(i, v, t) {t.bind(i, v)})(i, callbacks[i], this);
         }
     };
 
