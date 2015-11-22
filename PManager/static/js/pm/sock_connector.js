@@ -8,6 +8,13 @@ var FancyWebSocket = function (url, obj) {
     var conn = new WebSocket(url);
     var callbacks = {};
 
+    this.rebindAll = function() {
+        var i;
+        for (i in callbacks) {
+            this.bind(i, callbacks[i]);
+        }
+    };
+
     this.bind = function (event_name, callback) {
         callbacks[event_name] = callbacks[event_name] || [];
         callbacks[event_name].push(callback);
@@ -67,8 +74,10 @@ baseConnectorClass.prototype = {
 
             if (!window.timerID) {
                 window.timerID = setInterval(function () {
-                    if (t.socket.state() == 3)
-                        t.init()
+                    if (t.socket.state() == 3) {
+                        t.init();
+                        t.rebindAll();
+                    }
                 }, 8000);
             }
         });
