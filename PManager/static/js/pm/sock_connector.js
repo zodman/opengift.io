@@ -73,7 +73,6 @@ baseConnectorClass.prototype = {
         var cb;
         if (this.socket) {
             cb = this.socket.getCallBacks();
-            console.log(cb);
         }
         this.socket = new FancyWebSocket((port + this.url), this);
 
@@ -91,7 +90,6 @@ baseConnectorClass.prototype = {
                         if (t.socket.state() == 3) {
                             t.init();
                             t.socket.rebindAll();
-                            console.log('reconnect');
                         }
                     }, 8000);
                 }
