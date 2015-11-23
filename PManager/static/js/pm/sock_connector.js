@@ -13,9 +13,11 @@ var FancyWebSocket = function (url, obj) {
     };
 
     this.rebindAll = function(cb) {
-        var i;
+        var i, j;
+
         for (i in cb) {
-            (function(i, v, t) {t.bind(i, v)})(i, cb[i], this);
+            for (j in cb[i])
+                (function(k, v, t) {t.bind(k, v)})(i, cb[i][j], this);
         }
     };
 
@@ -69,31 +71,32 @@ baseConnectorClass.prototype = {
         var t = this;
         var port = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
         var cb;
-        if (this.socket)
+        if (this.socket) {
             cb = this.socket.getCallBacks();
-
+            console.log(cb);
+        }
         this.socket = new FancyWebSocket((port + this.url), this);
 
         if (cb) {
             this.socket.rebindAll(cb);
-        }
+        } else {
+            this.addListener('connect', function () {
+                t.connected = true;
+                this.send('connect', {
+                    sessionid: $.cookie("sessionid")
+                });
 
-        this.addListener('connect', function () {
-            t.connected = true;
-            this.send('connect', {
-                sessionid: $.cookie("sessionid")
+                if (!window.timerID) {
+                    window.timerID = setInterval(function () {
+                        if (t.socket.state() == 3) {
+                            t.init();
+                            t.socket.rebindAll();
+                            console.log('reconnect');
+                        }
+                    }, 8000);
+                }
             });
-
-            if (!window.timerID) {
-                window.timerID = setInterval(function () {
-                    if (t.socket.state() == 3) {
-                        t.init();
-                        t.socket.rebindAll();
-                        console.log('reconnect');
-                    }
-                }, 8000);
-            }
-        });
+        }
     },
     'addListener': function (event_name, func) {
         this.socket.bind(event_name, func);
