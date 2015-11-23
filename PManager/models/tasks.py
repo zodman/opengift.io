@@ -563,7 +563,8 @@ class PM_Task(models.Model):
             if self.planTime:
                 managers = PM_ProjectRoles.objects.filter(
                         project=self.project,
-                        role__code='manager'
+                        role__code='manager',
+                        user__in=self.observers.all()
                     )
 
                 cManagers = 0
