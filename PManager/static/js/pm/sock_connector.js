@@ -8,10 +8,14 @@ var FancyWebSocket = function (url, obj) {
     var conn = new WebSocket(url);
     var callbacks = {};
 
-    this.rebindAll = function() {
+    this.getCallBacks = function() {
+        return callbacks;
+    };
+
+    this.rebindAll = function(cb) {
         var i;
-        for (i in callbacks) {
-            (function(i, v, t) {t.bind(i, v)})(i, callbacks[i], this);
+        for (i in cb) {
+            (function(i, v, t) {t.bind(i, v)})(i, cb[i], this);
         }
     };
 
@@ -64,7 +68,15 @@ baseConnectorClass.prototype = {
     'init': function () {
         var t = this;
         var port = document.location.protocol == 'https:' ? 'wss://' : 'ws://';
+        var cb;
+        if (this.socket)
+            cb = this.socket.getCallBacks();
+
         this.socket = new FancyWebSocket((port + this.url), this);
+
+        if (cb) {
+            this.socket.rebindAll(cb);
+        }
 
         this.addListener('connect', function () {
             t.connected = true;
