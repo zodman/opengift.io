@@ -5050,7 +5050,7 @@ ul.colors {
 
 .project_graph .well .role-titles {}
 
-.project_graph__change_role {
+.project_graph__change_role, .project_graph__change_role:active {
     background: #fff none repeat scroll 0 0;
     border: 2px solid #cecece;
     border-radius: 5px;
