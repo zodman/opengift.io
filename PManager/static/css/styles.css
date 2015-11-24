@@ -5050,11 +5050,11 @@ ul.colors {
 
 .project_graph .well .role-titles {}
 
-.js-change-role.project_graph__change_role {
+.project_graph__change_role {
     background: #fff none repeat scroll 0 0;
-    border: 2px solid #5cb85c;
+    border: 2px solid #cecece;
     border-radius: 5px;
-    color: #5cb85c;
+    color: #cecece;
     font-size: 12px;
     height: 22px;
     line-height: 16px;
@@ -5063,6 +5063,10 @@ ul.colors {
     text-align: center;
     top: 0;
     width: 33px;
+}
+.project_graph__change_role:hover {
+    border: 2px solid #5cb85c;
+    color: #5cb85c;
 }
 .project_graph__change_role .fa {
     margin: 0 2px;
