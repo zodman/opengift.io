@@ -13,7 +13,7 @@
             font-size: 22px;
             font-weight: normal;
             line-height: 30px;
-            margin: 0 0 20px;
+            margin: 0 0 30px;
         }
         .premium-page ul.four {max-width: 900px; margin: 0 auto 40px; display: block;}
         .premium-page ul.four li {
@@ -26,9 +26,9 @@
             text-align: center;
         }
         .premium-page ul.four li img {display: block; margin:0 auto 15px;}
+        .premium-page ul.four .four-li-text .green-text {display: block; margin-bottom: 5px;}
 
-
-        .premium-page ul.two {max-width: 550px; margin: 0 auto 40px; display: block;}
+        .premium-page ul.two {max-width: 650px; margin: 0 auto 40px; display: block;}
 
         .premium-page ul.two li {
             display: block;
@@ -39,14 +39,15 @@
             line-height: 22px;
             text-align: center;
         }
-        .premium-page ul.two li img {float: left; width: 100px;}
+        .premium-page ul.two li img {float: left; width: 128px;}
 
         .premium-page hr {margin: 40px 0;}
 
         .green-text {color: #5cb85c;}
 
         .premium-img {display: table-cell; vertical-align: middle;}
-        .premium-text {display: table-cell; vertical-align: middle;}
+        .premium-text {display: table-cell; vertical-align: middle; padding-left: 10px;}
+
 
         @media only screen and (max-width : 882px) {
 
@@ -98,14 +99,14 @@
     <h3>Премиум аккаунт дает возможность непрерывного <b class="green-text">роста</b><br>ваших <b class="green-text">доходов</b> в сервисе:</h3>
 
     <ul class="four clearfix">
-        <li><img src="https://cdn3.iconfinder.com/data/icons/flat-color-icons/504/bullish-128.png">
-            <div class="four-li-text"><b class="green-text">Профессиональный рейтинг</b><br> добавляется к стоимости вашего часа</div></li>
-        <li><img src="https://cdn0.iconfinder.com/data/icons/flat-color-icons/504/rating-128.png">
-            <div class="four-li-text"><b class="green-text">Награды и достижения</b><br> помогут увеличить заработок на проектах</div></li>
-        <li><img src="https://cdn3.iconfinder.com/data/icons/flat-color-icons/504/assistant-2-128.png">
-            <div class="four-li-text"><b class="green-text">Приглашения в проекты</b><br> менеджеры Heliard будут искать для вас работу</div></li>
-        <li><img src="https://cdn0.iconfinder.com/data/icons/flat-color-icons/504/money_transfer-128.png">
-            <div class="four-li-text"><b class="green-text">Разовый <br />бонус 15%</b><br> к вашей ставке в виде рейтинга</div></li>
+        <li><img src="/static/images/rating.png">
+            <div class="four-li-text"><b class="green-text">Профессиональный рейтинг</b>добавляется к стоимости вашего часа</div></li>
+        <li><img src="/static/images/bonus.png">
+            <div class="four-li-text"><b class="green-text">Награды и достижения</b>помогут увеличить заработок на проектах</div></li>
+        <li><img src="/static/images/invitations.png">
+            <div class="four-li-text"><b class="green-text">Приглашения в проекты</b>менеджеры Heliard будут искать для вас работу</div></li>
+        <li><img src="/static/images/bonus.png">
+            <div class="four-li-text"><b class="green-text">Разовый <br />бонус 15%</b>к вашей ставке в виде рейтинга</div></li>
     </ul>
     {% if user.get_profile.is_outsource %}
         <p>У вас уже есть премиум аккаунт</p>
@@ -123,11 +124,11 @@
     <h3>Требования для получения премиум аккаунта</h3>
     <ul class="two clearfix">
         <li class="clearfix">
-            <div class="premium-img"><img src="https://cdn0.iconfinder.com/data/icons/flat-color-icons/504/inspection-128.png"></div>
+            <div class="premium-img"><img src="/static/images/consultation.png"></div>
             <div class="premium-text">Прохождение  технического собеседования</div>
         </li>
         <li class="clearfix">
-            <div class="premium-img"><img src="https://cdn4.iconfinder.com/data/icons/flat-color-icons/504/donate-128.png"></div>
+            <div class="premium-img"><img src="/static/images/comission.png"></div>
             <div class="premium-text">10% комиссия от заработанных в проекте средств</div>
         </li>
     </ul>
