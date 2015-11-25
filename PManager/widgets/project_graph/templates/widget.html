@@ -2,7 +2,7 @@
 {% compressed_js 'project_graph' %}
 {% if project_graph.paymentYaForm %}
     <form action="https://demomoney.yandex.ru/eshop.xml"
-              method="POST" name="robo">
+              method="POST" name="robo" style="display: none;">
             {{ project_graph.paymentYaForm.as_p }}
     </form>
     <script>
