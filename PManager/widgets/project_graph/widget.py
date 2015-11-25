@@ -30,7 +30,7 @@ def widget(request, headerValues, ar, qargs):
         )
         pRequest.save()
 
-        payment = YaPayment(order_amount=summ, user=request.user, article_id=pRequest.id)
+        payment = YaPayment(order_amount=summ, user=request.user, article_id=pRequest.id, payment_type='AC')
         payment.save()
 
         formYa = PaymentForm(instance=payment)
