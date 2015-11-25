@@ -1,9 +1,9 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
-{% if project_graph.paymentForm %}
-    <form action="{{ project_graph.paymentForm.target }}"
+{% if project_graph.paymentYaForm %}
+    <form action="{{ project_graph.paymentYaForm.target }}"
               method="POST" name="robo">
-            {{ project_graph.paymentForm.as_p }}
+            {{ project_graph.paymentYaForm.as_p }}
     </form>
     <script>
     document.forms.robo.submit();

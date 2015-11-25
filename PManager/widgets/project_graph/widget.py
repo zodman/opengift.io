@@ -6,6 +6,9 @@ from django.contrib.contenttypes.models import ContentType
 from robokassa.forms import RobokassaForm
 from django.contrib.auth.models import User
 from PManager.widgets.gantt.widget import widget as gantWidget
+from django.views.generic import TemplateView
+from yandex_money.forms import PaymentForm
+from yandex_money.models import Payment as YaPayment
 
 def widget(request, headerValues, ar, qargs):
     def get_bet_type_name(bet_type):
@@ -18,7 +21,7 @@ def widget(request, headerValues, ar, qargs):
     current_project = headerValues['CURRENT_PROJECT']
     bPay = request.POST.get('pay', False)
     summ = int(request.POST.get('sum', 0) or 0)
-    form = None
+    form, formYa = None, None
     if bPay and current_project:
         pRequest = PaymentRequest(
             user=request.user,
@@ -26,6 +29,11 @@ def widget(request, headerValues, ar, qargs):
             value=summ
         )
         pRequest.save()
+
+        payment = YaPayment(order_amount=summ, user=request.user, article_id=pRequest.id)
+        payment.save()
+
+        formYa = PaymentForm(instance=payment)
         form = RobokassaForm(initial={
                'OutSum': summ,
                'InvId': pRequest.id,
@@ -150,7 +158,8 @@ def widget(request, headerValues, ar, qargs):
         'closestMilestone': closestMilestone,
         'isPro': profile.is_outsource,
         'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0,
-        'paymentForm': form
+        'paymentForm': form,
+        'paymentYaForm': formYa,
     }
 
     return projectData

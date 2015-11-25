@@ -42,3 +42,4 @@ django-pipeline==1.3.24
 docx2html==0.2.3
 xlsxwriter
 openpyxl==2.3.0-b1
+lxml==3.5

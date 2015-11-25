@@ -33,7 +33,7 @@ from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 import datetime
-
+from django.views.generic import TemplateView
 
 # todo: Needed explanation for this function/ why this is here, where supposed to be only urls?
 def payment_received(sender, **kwargs):
@@ -153,6 +153,9 @@ urlpatterns = patterns('',
                         lambda r: HttpResponse("User-agent: *\r\nDisallow: /static/\r\n", mimetype="text/plain")),
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
+                       url(r'^fail-payment/$', TemplateView.as_view(template_name='yandex/fail.html'), name='payment_fail'),
+                        url(r'^success-payment/$', TemplateView.as_view(template_name='yandex/success.html'), name='payment_success'),
+                        url(r'^yandex-money/', include('yandex_money.urls')),
                        url(r'^payment_info/', paysystems),
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
