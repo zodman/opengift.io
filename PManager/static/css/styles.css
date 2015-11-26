@@ -793,9 +793,9 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
-.task-tab-filter {margin: 0px; background: none repeat scroll 0 0 #eee; border-radius: 5px; -moz-border-radius: 5px; -webkit-border-radius: 5px; margin: 0;}
+.task-tab-filter {margin: 0px; margin: 0;}
 .task-tab-filter > li {padding: 0; display:block; float:left;}
-.task-tab-filter a {padding: 7px 15px; display:block; float:left; position:relative;color: #494949;}
+.task-tab-filter a {padding: 7px 15px; display:block; float:left; position:relative;color: #494949;text-decoration: underline;}
 .task-tab-filter a span {
     background: none repeat scroll 0 0 #4cae4c;
     border-radius: 50%;
@@ -811,7 +811,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     width: 20px;
     z-index: 1;
 }
-.task-tab-filter > .active > a {background-color: #999999; text-decoration: none; color: #fff; text-align: center; padding: 7px 10px 7px 15px;}
+.task-tab-filter > .active > a {background-color: #999999; text-decoration: none; color: #fff; text-align: center; padding: 7px 10px;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
 .task-tab-filter > .active:first-child a {border-radius:3px 0 0 3px; -moz-border-radius:3px 0 0 3px; -webkit-border-radius:3px 0 0 3px;}
 .task-tab-filter > .active:last-child a {border-radius:0 3px 3px 0; -moz-border-radius:0 3px 3px 0; -webkit-border-radius:0 3px 3px 0;}
 .task-tab-filter li:not(.active) a:hover { text-decoration: none; color: #47a447;}
