@@ -1,13 +1,11 @@
 {% load floattags jsonify humanize compressed %}
 {% compressed_js 'project_graph' %}
 {% if project_graph.paymentYaForm %}
-    <form action="https://demomoney.yandex.ru/eshop.xml"
-              method="POST" name="robo" style="display: none;">
-            {{ project_graph.paymentYaForm.as_p }}
-    </form>
-    <script>
-    document.forms.robo.submit();
-    </script>
+<form action="https://demomoney.yandex.ru/eshop.xml"
+              method="POST" name="ya" style="display: none;">
+    {{ project_graph.paymentYaForm.as_p }}
+</form>
+<script>document.forms.ya.submit();</script>
 {% else %}
 <style>
     .project_graph .well .role-titles h5:not(.active) {
@@ -53,16 +51,13 @@
                                             При закрытии задач вам начисляется рейтинг специалиста.
                                         {% endif %}
                                         {% if role.role.code == 'client' or project_graph.isPro %}
-                                            {% if role.role.code == 'client' and not project_graph.allPrice %}
-                                                Пополните баланс для расчета со специалистами Heliard
+                                            {% if role.role.code == 'client' %}
+                                                Все расходы по проекту списываются с вашего счета
                                             {% else %}
                                             <span
                                                 style="margin-top: 8px;display: inline-block;"><strong>Счет:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b>
                                                 {% if project_graph.allProjectPrice %} <small>{{ project_graph.allProjectPrice|intcomma }}</small>{% endif %}</span>
                                             <a href="/wiki/bonuses">?</a>
-                                            {% endif %}
-                                            {% if role.role.code == 'client' %}
-                                                <br /><a href="#" data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a>
                                             {% endif %}
                                         {% elif role.role.code == 'manager' %}
                                             Вы видите все задачи и можете их закрывать.
@@ -81,7 +76,7 @@
                             Закрыто задач всего: <b style="color:#5cb85c;">{{ project_graph.allTaskQty }}</b><br>
                             Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
                             <b style="color:#5cb85c;">{{ project_graph.taskTagPosition }}</b>-е место )
-                        {% elif role.role.code == 'manager' or role.role.code == 'client' %}
+                        {% elif role.role.code == 'manager' %}
                             <h5>Время открытых задач</h5>
                             <table width="100%;">
                                 <tr>
@@ -98,6 +93,10 @@
                                     <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
                                 </tr>
                             </table>
+                        {% elif role.role.code == 'client' %}
+                            <h5>Счет</h5>
+                            <p><span style="margin-top: 8px;display: inline-block;"><strong>Баланс:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b></span> &nbsp;&nbsp;
+                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a></p>
                         {% endif %}
                         </div>
                  {% endfor %}
@@ -154,6 +153,17 @@
                 <div class="modal-body-item-right">
                     <input type="hidden" name="pay" value="Y" />
                     <input class="form-control" name="sum" placeholder="" maxlength="6" value="10000" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Выберите способ оплаты </div>
+                <div class="modal-body-item-right">
+                    <select id="id_paymentType" name="paymentType" class="form-control">
+                        <option selected="selected" value="pc">Яндекс.Деньги</option>
+                        <option value="ac">Банковская карта</option>
+                        <option value="gp">По коду через терминал</option>
+                        <option value="mc">со счета мобильного телефона</option>
+                    </select>
                 </div>
             </div>
         </div>

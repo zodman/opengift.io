@@ -21,6 +21,7 @@ def widget(request, headerValues, ar, qargs):
     current_project = headerValues['CURRENT_PROJECT']
     bPay = request.POST.get('pay', False)
     summ = int(request.POST.get('sum', 0) or 0)
+    pType = request.POST.get('paymentType', '') or 'ac'
     form, formYa = None, None
     if bPay and current_project:
         pRequest = PaymentRequest(
@@ -30,7 +31,7 @@ def widget(request, headerValues, ar, qargs):
         )
         pRequest.save()
 
-        payment = YaPayment(order_amount=summ, user=request.user, article_id=pRequest.id, payment_type='AC')
+        payment = YaPayment(order_amount=summ, user=request.user, article_id=pRequest.id, payment_type=pType)
         payment.save()
 
         formYa = PaymentForm(instance=payment)
