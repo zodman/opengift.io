@@ -237,12 +237,12 @@
             <div class="col-xs-8">
                 <ul class="task-tab-filter list-inline pull-right clearfix">
                     <li class="active"><a>Все</a></li>
-                    <li><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
+                    <li class="hide-on-mobile"><a rel="started">Начатые{% if tasklist.qty.started %}<span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                     <li><a rel="ready">На проверке{% if tasklist.qty.ready %}<span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
                     <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}<span>{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
-                    <li><a rel="not_ready">Не готовые</a></li>
-                    <li><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}<span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
-                    <li><a rel="arc">Архив</a></li>
+                    <li class="hide-on-mobile"><a rel="not_ready">Не готовые</a></li>
+                    <li class="hide-on-mobile"><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}<span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
+                    <li class="hide-on-mobile"><a rel="arc">Архив</a></li>
                 </ul>
             </div>
         </div>
