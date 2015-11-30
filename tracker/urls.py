@@ -28,53 +28,28 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 admin.autodiscover()
 
 from ajaxuploader.backends.local import LocalUploadBackend
-from robokassa.signals import result_received
 from yandex_money.signals import payment_completed
 from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 import datetime
 from django.views.generic import TemplateView
-
-# todo: Needed explanation for this function/ why this is here, where supposed to be only urls?
-def payment_received(sender, **kwargs):
-    id = int(kwargs['extra']['user']) if 'user' in kwargs['extra'] else None
-    requestId = int(kwargs['extra']['request']) if 'request' in kwargs['extra'] else None
-    sum = int(float(kwargs['OutSum']))
-
-    if requestId:
-        try:
-            pRequest = PaymentRequest.objects.get(pk=requestId)
-            credit = Credit(
-                user=pRequest.user,
-                value=sum,
-                project=pRequest.project,
-                comment="Payment from robo"
-            )
-            credit.save()
-
-        except PaymentRequest.DoesNotExist:
-            pass
-
-    elif sum:
-        if id:
-            user = User.objects.get(id=id)
-
-            fee = Fee(
-                user=user,
-                value=-sum
-            )
-
-            fee.save()
-
-
-result_received.connect(payment_received)
+import logging
+logger = logging.getLogger('yandex_money')
 
 def ya_payment_completed(sender, **kwargs):
+
+    try:
+        project = PM_Project.objects.get(pk=sender.article_id)
+    except PM_Project.DoesNotExist:
+        project = None
+    logger.info(sender)
+    logger.info(sender.user)
+    logger.info(project)
     credit = Credit(
                 user=sender.user,
                 value=sender.shop_amount,
-                project=PM_Project.objects.get(pk=sender.article_id),
+                project=project,
                 comment=u"Зачисление по договору ИИС№" + str(sender.user.id)
             )
     credit.save()
