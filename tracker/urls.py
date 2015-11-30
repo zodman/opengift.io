@@ -1,5 +1,5 @@
+# -*- coding: utf-8 -*-
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
 from PManager.views import MainPage, Brains, add_timer
 from PManager.viewsExt.git_view import GitView
@@ -29,6 +29,7 @@ admin.autodiscover()
 
 from ajaxuploader.backends.local import LocalUploadBackend
 from robokassa.signals import result_received
+from yandex_money.signals import payment_completed
 from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
@@ -68,6 +69,17 @@ def payment_received(sender, **kwargs):
 
 
 result_received.connect(payment_received)
+
+def ya_payment_completed(sender, **kwargs):
+    credit = Credit(
+                user=sender.user,
+                value=sender.shop_amount,
+                project=PM_Project.objects.get(pk=sender.article_id),
+                comment=u"Зачисление по договору ИИС№" + str(sender.user.id)
+            )
+    credit.save()
+
+payment_completed.connect(ya_payment_completed)
 
 default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 

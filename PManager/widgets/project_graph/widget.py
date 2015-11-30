@@ -1,9 +1,8 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone, PaymentRequest
+from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone
 from django.db.models import Sum, Count
 from django.contrib.contenttypes.models import ContentType
-from robokassa.forms import RobokassaForm
 from django.contrib.auth.models import User
 from PManager.widgets.gantt.widget import widget as gantWidget
 from django.views.generic import TemplateView
@@ -24,27 +23,13 @@ def widget(request, headerValues, ar, qargs):
     pType = request.POST.get('paymentType', '') or 'ac'
     form, formYa = None, None
     if bPay and current_project:
-        pRequest = PaymentRequest(
-            user=request.user,
-            project=current_project,
-            value=summ
-        )
-        pRequest.save()
 
         payment = YaPayment(
-            order_amount=summ, user=request.user, article_id=pRequest.id, payment_type=str(pType).upper()
+            order_amount=summ, user=request.user, article_id=(current_project.id or 0), payment_type=str(pType).upper()
         )
         payment.save()
 
         formYa = PaymentForm(instance=payment)
-        form = RobokassaForm(initial={
-               'OutSum': summ,
-               'InvId': pRequest.id,
-               'Desc': 'Пополнение счета Heliard',#order.name,
-               'Email': request.user.email,
-               'user': request.user.id,
-               'request': pRequest.id
-           })
 
     profile = request.user.get_profile()
 
@@ -161,7 +146,6 @@ def widget(request, headerValues, ar, qargs):
         'closestMilestone': closestMilestone,
         'isPro': profile.is_outsource,
         'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0,
-        'paymentForm': form,
         'paymentYaForm': formYa,
     }
 
