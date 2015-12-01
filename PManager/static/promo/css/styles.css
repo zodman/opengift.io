@@ -1639,6 +1639,13 @@ footer .copyright {
     text-align:left;
     z-index: 100;
 }
+.popup-footer {
+    background: #eee none repeat scroll 0 0;
+    border-radius: 0 0 4px 4px;
+    margin: 25px -25px -25px;
+    padding: 15px 0;
+    text-align: center;
+}
 .popup h3.title {margin:-25px -25px 25px; padding:25px; background:#7eb864; color:#fff;  font-weight:bold;
 -webkit-border-top-left-radius: 4px;
 -webkit-border-top-right-radius: 4px;
