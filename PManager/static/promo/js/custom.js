@@ -150,7 +150,6 @@ $(document).ready(function () {
 $(document).ready(function () {
 
     $('#screenshots a').nivoLightbox({
-        effect: 'fadeScale'
     });
 
 });
