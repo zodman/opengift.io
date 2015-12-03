@@ -62,7 +62,7 @@ def projectDetail(request, project_id):
         rate = int(math.floor(role.rate or prof.sp_price or 0))
         if needComission:
             clientComission = int(project.getSettings().get('client_comission', 0) or COMISSION)
-            rate = math.floor(rate * (clientComission + 100) / 100)
+            rate = int(math.floor(rate * (clientComission + 100) / 100))
 
         setattr(curUser, 'rate', rate)
         setattr(curUser, 'payment_type', role.payment_type)
