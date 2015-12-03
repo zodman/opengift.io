@@ -560,24 +560,19 @@
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
 
 <div class="container">
-
     {% block content %}{% endblock %}
-
-    {% if current_notice %}
-        <script language="javascript">
-            $(function () {
-                var popup = new hintObject({
-                    'title': '{{ current_notice.name }}',
-                    'text': '{{ current_notice.html|safe }}',
-                    'image': '{{ current_notice.src }}',
-                    'id': '{{ current_notice.id }}'
-                });
-                popup.show($('{{ current_notice.itemClass }}').get(0));
-            });
-        </script>
-    {% endif %}
     <script type="text/javascript">
         $(function () {
+            {% if current_notice %}
+            var popup = new hintObject({
+                'title': '{{ current_notice.name }}',
+                'text': '{{ current_notice.html|safe }}',
+                'image': '{{ current_notice.src }}',
+                'id': '{{ current_notice.id }}'
+            });
+            popup.show($('{{ current_notice.itemClass }}').get(0));
+            {% endif %}
+
             $('.js-taskWizard-opener').click(function (ev) {
                 ev.preventDefault();
                 var url = $(this).attr('href');
@@ -606,6 +601,12 @@
                     $('.js-inputProjectList').focus();
                 }, 200);
             });
+            $.get(
+                '/static/agreement.html',
+                function(data) {
+                    $('.js-agreement').html(data);
+                }
+            );
         });
     </script>
     <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium"/>
@@ -623,7 +624,15 @@
   };
 </script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/fxzhfmhp';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
 {% endif %}
+<div class="popup popup-alert" style="display: none;">
+    <h3 class="title">Пользовательское соглашение</h3>
+    <div class="content js-agreement" style="max-height: 250px; overflow: auto;">
+    </div>
+    <div class="popup-footer">
+        <a href="" class="btn btn-success">Принять</a>&nbsp;
+        <a href="" class="btn btn-danger js-popupClose">Закрыть</a>
+    </div>
+</div>
 </body>
 </html>

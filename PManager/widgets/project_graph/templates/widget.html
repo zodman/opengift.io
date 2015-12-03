@@ -95,8 +95,8 @@
                             </table>
                         {% elif role.role.code == 'client' %}
                             <h5>Счет</h5>
-                            <p><span style="margin-top: 8px;display: inline-block;"><strong>Баланс:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b></span> &nbsp;&nbsp;
-                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#payment-popup">Пополнить баланс</a></p>
+                            <p><span style="margin-top: 8px;display: inline-block;"><strong>Баланс:</strong> <b style="position: relative; top: 1px;">{{ project_graph.allPrice|intcomma }}</b> руб.</span> &nbsp;&nbsp;
+                            <a href="#" class="btn btn-success" data-toggle="modal" data-target="#payment-popup"><i class="fa fa-credit-card"></i> Пополнить</a></p>
                         {% endif %}
                         </div>
                  {% endfor %}

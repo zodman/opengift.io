@@ -544,6 +544,13 @@ div.popup {
 div.popup .row {margin-bottom:15px; line-height:30px;}
 div.popup .row input[type="text"] {display:block; float:left; margin:0px;}
 
+.popup-footer {
+    background: #eee none repeat scroll 0 0;
+    border-radius: 0 0 4px 4px;
+    margin: 25px -25px -25px;
+    padding: 15px 0;
+    text-align: center;
+}
 
 .popup .modal-header {
     margin: -25px -35px 0px;
@@ -882,7 +889,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== КОНТЕЙНЕР ЗАДАЧИ */
 
-.widget.tasklist {z-index:2;border-left: 3px solid #cfcfcf;}
+.widget.tasklist {z-index:2;}
 .widget.tasklist h1, .widget.chat h1 {text-align: center; margin-bottom: 15px;}
 
 .milestones-checkbox {
