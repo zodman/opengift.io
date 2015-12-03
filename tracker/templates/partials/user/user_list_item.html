@@ -4,7 +4,7 @@
         <div class="pull-left"><i class="statusImg"></i>&nbsp;&nbsp;
             <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b>
             {% if is_admin and user.profile.account_total%}
-                         <b style="color: #d9534f;">{{ user.profile.account_total }}</b>
+                         <b style="color: #d9534f;">{{ user.profile.account_total }} - {{ user.feeSum }}</b>
             {% endif %}
             </a>
             {% if user.get_profile.is_outsource %}
