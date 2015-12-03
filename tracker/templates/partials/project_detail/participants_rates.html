@@ -38,7 +38,7 @@
                                 <b>Цена часа</b>
                                 <div class="bonuses-num">
                                     <span class="bonuses-num-text">
-                                    {{ user.rate|default_if_none:"0" }}
+                                    {{ user.rate|default_if_none:"0"|intcomma }}
                                     </span>
                                 </div>
                             </div>
