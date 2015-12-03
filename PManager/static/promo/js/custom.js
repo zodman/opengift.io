@@ -135,12 +135,10 @@ $(document).ready(function () {
 
     $(".next").click(function(){
         owl.trigger('owl.next');
-    })
+    });
     $(".prev").click(function(){
         owl.trigger('owl.prev');
     })
-
-
 });
 
 
@@ -150,6 +148,7 @@ $(document).ready(function () {
 $(document).ready(function () {
 
     $('#screenshots a').nivoLightbox({
+        effect: 'fadeScale'
     });
 
 });
