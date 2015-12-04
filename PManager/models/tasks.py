@@ -557,6 +557,15 @@ class PM_Task(models.Model):
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
+
+                                fee = Fee(
+                                    user=profResp.user,
+                                    value=curPrice * self.FEE,
+                                    project=self.project,
+                                    task=self
+                                )
+                                fee.save()
+
                                 allSum = allSum + curPrice
 
         if allRealTime or self.planTime:
