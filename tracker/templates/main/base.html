@@ -9,7 +9,6 @@
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0"/>
     {% compressed_js 'base' %}
     {% compressed_css 'base' %}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     {% block stylesheets %}{% endblock %}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
@@ -83,9 +82,6 @@
         </div>
     </div>
 </div>
-
-
-
 {% if main.CAN_INVITE %}
     <div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -166,8 +162,6 @@
 <a href="#" class="feedback-button js-feedback" data-target="#feedback-popup" data-toggle="modal">
     Тех. поддержка
 </a>
-
-
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
     <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
@@ -377,7 +371,8 @@
 
             <span class="dropdown notifications">
                 <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
-                    <span class="js-notificator fa fa-bell"></span>
+                    <span class="js-notificator fa fa-bell{% if messages_qty %} faa-ring animated faa-slow{% endif %}"
+                          {% if messages_qty %}style="color: #d9534f"{% endif %}></span>
                     {% if messages_qty %}<b class="js-mes_qty mes-qty">{{ messages_qty }}</b>{% endif %}
                 </a>
                 <div class="dropdown-menu">
@@ -387,8 +382,7 @@
                     {% if messages|length > 0 %}
                         <div class="clearfix notifications-title">
                             <div class="pull-left title">Сообщения</div>
-                            <div class="pull-right"><a href="#" class="fa fa-times js-read-message"
-                                                       title="Отметить все как прочитанные"></a></div>
+                            <div class="pull-right"></div>
                         </div>
                         <ul class="js-pmessages-dropdown notifications-ul">
                             {% for mess in messages %}
@@ -488,7 +482,7 @@
                         class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
                 <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
-                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
+                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
                         class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
 
 
@@ -560,6 +554,11 @@
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
 
 <div class="container">
+    <div class="frame-container js-frame-mode" style="display:none;width:50%;z-index:100;position:fixed;right:0;top:0;">
+        <a href="#" style="padding: 15px 17px; font-size: 20px;width: 50px;height: 50px;top:50%;left:-50px;position: absolute;background: green;color: white;"
+           onclick="$('.js-frame').attr('src','').parent().hide();"><i class="fa fa-close"></i></a>
+        <iframe style="width:100%;" class="js-frame"></iframe>
+    </div>
     {% block content %}{% endblock %}
     <script type="text/javascript">
         $(function () {

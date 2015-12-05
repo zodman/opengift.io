@@ -485,6 +485,7 @@ class PM_Task(models.Model):
 
     def setCreditForTime(self):
         from PManager.models import Credit, PM_Achievement, PM_Task_Message, Fee
+        import math
 
         allSum = 0
         allRealTime = 0
@@ -547,9 +548,18 @@ class PM_Task(models.Model):
                                     substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
 
+                                feeValue = math.floor(curPrice * self.FEE)
+                                fee = Fee(
+                                    user=profResp.user,
+                                    value=feeValue,
+                                    project=self.project,
+                                    task=self
+                                )
+                                fee.save()
+
                                 credit = Credit(
                                     user=profResp.user,
-                                    value=curPrice,
+                                    value=curPrice - feeValue,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
@@ -557,14 +567,6 @@ class PM_Task(models.Model):
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
-
-                                fee = Fee(
-                                    user=profResp.user,
-                                    value=curPrice * self.FEE,
-                                    project=self.project,
-                                    task=self
-                                )
-                                fee.save()
 
                                 allSum = allSum + curPrice
 
@@ -623,7 +625,6 @@ class PM_Task(models.Model):
                 )
 
                 for client in clients:
-                    import math
                     clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
                     allSum = math.floor(allSum * (clientComission + 100) / 100)
 

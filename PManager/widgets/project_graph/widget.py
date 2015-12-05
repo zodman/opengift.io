@@ -46,7 +46,7 @@ def widget(request, headerValues, ar, qargs):
     closestMilestone = None
 
     if current_project:
-        o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project)
+        o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
         for role in o_roles:
             setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
             if not role.rate:

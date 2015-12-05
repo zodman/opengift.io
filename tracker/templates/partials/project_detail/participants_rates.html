@@ -12,7 +12,7 @@
     <div class="tab-content">
         {% for roleName, o in roles.items %}
         <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}" >
-            <p>{{ o.text }}:</p>
+            <p>{{ o.text }}</p>
             <div class="clearfix user-role-block-wrapper">
                 {% for user in o.users %}
                 <div class="user-role-block" {% if user.get_profile.is_outsource %}style="background-color: #ffffea;"{% endif %}>
