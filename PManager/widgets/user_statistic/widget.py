@@ -47,7 +47,7 @@ def widget(request, headerValues,a,b):
     allUsers = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     users = allUsers.filter(pk__in=users_id)
 
-    filterProject = request.GET.get('project', None)
+    filterProject = int(request.GET.get('project', 0))
     if filterProject:
         cur_user_access_projects = [filterProject]
 
