@@ -7,7 +7,7 @@ from django import forms
 import datetime
 from django.utils import timezone
 
-def widget(request,headerValues,a,b):
+def widget(request, headerValues,a,b):
     class FilterForm(forms.Form):
         fromDate = forms.DateTimeField(required=False)
         toDate = forms.DateTimeField(required=False)
@@ -47,6 +47,7 @@ def widget(request,headerValues,a,b):
     allUsers = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     users = allUsers.filter(pk__in=users_id)
 
+    filterProject = request.GET.get('project', None)
     for user in users:
         profile = user.get_profile()
         if profile.avatar:
@@ -56,13 +57,15 @@ def widget(request,headerValues,a,b):
         if not user.email and user.username.find('@'):
             setattr(user, 'email', user.username)
 
-        query = 'SELECT SUM(`seconds`) as summ, id, user_id,task_id,dateStart from PManager_pm_timer' + \
+        query = 'SELECT SUM(`seconds`) as summ, id, user_id, task_id, dateStart from PManager_pm_timer' + \
                 ' WHERE `user_id`=' + str(int(user.id)) + \
                 ' AND `dateStart` > \'' + str(dateStart) + '\'' + \
                 ((' AND `dateStart` < \'' + str(dateEnd) + '\'') if dateEnd else '') + \
                 ' GROUP BY `task_id` ORDER BY `dateStart` DESC'
         timers = PM_Timer.objects.raw(query)
-
+        if filterProject and filterProject in cur_user_access_projects:
+            cur_user_access_projects = [filterProject]
+            
         arTaskTime = []
         allUserTime = 0
         allCommentsQty = 0
