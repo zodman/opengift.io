@@ -484,9 +484,6 @@
                 <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
                    class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
                         class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
-
-
-
             </div>
 
 
@@ -554,7 +551,7 @@
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
 
 <div class="container">
-    <div class="frame-container js-frame-mode" style="display:none;width:50%;z-index:100;position:fixed;right:0;top:0;">
+    <div class="frame-container js-frame-mode" style="display:none;width:70%;z-index:100;position:fixed;right:0;top:0;">
         <a href="#" style="padding: 15px 17px; font-size: 20px;width: 50px;height: 50px;top:50%;left:-50px;position: absolute;background: green;color: white;"
            onclick="$('.js-frame').attr('src','').parent().hide();"><i class="fa fa-close"></i></a>
         <iframe style="width:100%;" class="js-frame"></iframe>
