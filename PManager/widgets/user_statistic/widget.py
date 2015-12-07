@@ -48,6 +48,9 @@ def widget(request, headerValues,a,b):
     users = allUsers.filter(pk__in=users_id)
 
     filterProject = request.GET.get('project', None)
+    if filterProject:
+        cur_user_access_projects = [filterProject]
+
     for user in users:
         profile = user.get_profile()
         if profile.avatar:
@@ -63,9 +66,8 @@ def widget(request, headerValues,a,b):
                 ((' AND `dateStart` < \'' + str(dateEnd) + '\'') if dateEnd else '') + \
                 ' GROUP BY `task_id` ORDER BY `dateStart` DESC'
         timers = PM_Timer.objects.raw(query)
-        if filterProject and filterProject in cur_user_access_projects:
-            cur_user_access_projects = [filterProject]
-            
+
+
         arTaskTime = []
         allUserTime = 0
         allCommentsQty = 0
@@ -79,9 +81,9 @@ def widget(request, headerValues,a,b):
                 comments = PM_Task_Message.objects.filter(task=task, author=user)
 
                 if dateEnd:
-                    comments = comments.filter(dateCreate__lt = dateEnd)
+                    comments = comments.filter(dateCreate__lt=dateEnd)
                 if dateStart:
-                    comments = comments.filter(dateCreate__gt = dateStart)
+                    comments = comments.filter(dateCreate__gt=dateStart)
 
                 if timer.summ:
                     allUserTime += int(timer.summ)
@@ -103,11 +105,12 @@ def widget(request, headerValues,a,b):
         closedTaskQty = PM_Task.objects.filter(resp=user, active=True)
         commentsQty = PM_Task_Message.objects.filter(author=user)
         if dateEnd:
-            closedTaskQty = closedTaskQty.filter(dateClose__lt = dateEnd)
-            commentsQty = commentsQty.filter(dateCreate__lt = dateEnd)
+            closedTaskQty = closedTaskQty.filter(dateClose__lt=dateEnd)
+            commentsQty = commentsQty.filter(dateCreate__lt=dateEnd)
+
         if dateStart:
-            closedTaskQty = closedTaskQty.filter(dateClose__gt = dateStart)
-            commentsQty = commentsQty.filter(dateCreate__gt = dateStart)
+            closedTaskQty = closedTaskQty.filter(dateClose__gt=dateStart)
+            commentsQty = commentsQty.filter(dateCreate__gt=dateStart)
 
         closedTaskQty = closedTaskQty.count()
         commentsQty = commentsQty.count()
