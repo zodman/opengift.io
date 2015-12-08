@@ -559,7 +559,7 @@ class PM_Task(models.Model):
 
                                 credit = Credit(
                                     user=profResp.user,
-                                    value=curPrice - feeValue,
+                                    value=curPrice,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
@@ -715,8 +715,6 @@ class PM_Task(models.Model):
 
 
     def endTimer(self, user=None, comment=None):
-        from PManager.models.payments import Credit
-
         logger = Logger()
 
         if not self.currentTimer:
@@ -735,11 +733,6 @@ class PM_Task(models.Model):
                 delta = timezone.make_aware(self.currentTimer.dateEnd,
                                             timezone.get_default_timezone()) - self.currentTimer.dateStart
                 self.currentTimer.seconds = delta.total_seconds()
-                #timeUserProf = self.currentTimer.user.get_profile()
-                #цена таймера
-                #TODO: убрать цену таймера как такового (полностью перенести в Credit)
-                #userBet = timeUserProf.getBet(self.project)
-                #userType = timeUserProf.getPaymentType(self.project)
 
                 self.currentTimer.save()
                 if not self.realTime: self.realTime = 0

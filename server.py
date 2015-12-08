@@ -290,7 +290,7 @@ class MyConnection(websocket.WebSocketHandler):
     def systemMessage(self, message):
         self.send('message', json.dumps({
             'message': message,
-            'user': 'Система',
+            'user': 'Heliard',
             'date': templateTools.dateTime.convertToSite(datetime.datetime.now())
         }))
 
