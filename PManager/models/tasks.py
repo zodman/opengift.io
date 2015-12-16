@@ -485,6 +485,7 @@ class PM_Task(models.Model):
 
     def setCreditForTime(self):
         from PManager.models import Credit, PM_Achievement, PM_Task_Message, Fee
+        import math
 
         allSum = 0
         allRealTime = 0
@@ -547,6 +548,15 @@ class PM_Task(models.Model):
                                     substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
 
+                                feeValue = math.floor(curPrice * self.FEE)
+                                fee = Fee(
+                                    user=profResp.user,
+                                    value=feeValue,
+                                    project=self.project,
+                                    task=self
+                                )
+                                fee.save()
+
                                 credit = Credit(
                                     user=profResp.user,
                                     value=curPrice,
@@ -557,6 +567,7 @@ class PM_Task(models.Model):
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
+
                                 allSum = allSum + curPrice
 
         if allRealTime or self.planTime:
@@ -614,7 +625,6 @@ class PM_Task(models.Model):
                 )
 
                 for client in clients:
-                    import math
                     clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
                     allSum = math.floor(allSum * (clientComission + 100) / 100)
 
@@ -705,8 +715,6 @@ class PM_Task(models.Model):
 
 
     def endTimer(self, user=None, comment=None):
-        from PManager.models.payments import Credit
-
         logger = Logger()
 
         if not self.currentTimer:
@@ -725,11 +733,6 @@ class PM_Task(models.Model):
                 delta = timezone.make_aware(self.currentTimer.dateEnd,
                                             timezone.get_default_timezone()) - self.currentTimer.dateStart
                 self.currentTimer.seconds = delta.total_seconds()
-                #timeUserProf = self.currentTimer.user.get_profile()
-                #цена таймера
-                #TODO: убрать цену таймера как такового (полностью перенести в Credit)
-                #userBet = timeUserProf.getBet(self.project)
-                #userType = timeUserProf.getPaymentType(self.project)
 
                 self.currentTimer.save()
                 if not self.realTime: self.realTime = 0

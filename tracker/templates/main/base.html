@@ -9,7 +9,6 @@
           content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0"/>
     {% compressed_js 'base' %}
     {% compressed_css 'base' %}
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
     {% block stylesheets %}{% endblock %}
     {% block header %}{% endblock %}
     <title>{% block title %}{{ pageTitle }}{% endblock %}</title>
@@ -83,9 +82,6 @@
         </div>
     </div>
 </div>
-
-
-
 {% if main.CAN_INVITE %}
     <div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -166,8 +162,6 @@
 <a href="#" class="feedback-button js-feedback" data-target="#feedback-popup" data-toggle="modal">
     Тех. поддержка
 </a>
-
-
 {% if not user.first_name and main.FIRST_STEP_FORM %}
     <div class="overflow"></div>
     <!-- Google Code for &#1050;&#1083;&#1080;&#1082; &#1087;&#1086; &#1088;&#1077;&#1075;&#1080;&#1089;&#1090;&#1088;&#1072;&#1094;&#1080;&#1080; Conversion Page -->
@@ -377,7 +371,8 @@
 
             <span class="dropdown notifications">
                 <a href="#" data-toggle="dropdown" data-target="#" title="Личные сообщения">
-                    <span class="js-notificator fa fa-bell"></span>
+                    <span class="js-notificator fa fa-bell{% if messages_qty %} faa-ring animated faa-slow{% endif %}"
+                          {% if messages_qty %}style="color: #d9534f"{% endif %}></span>
                     {% if messages_qty %}<b class="js-mes_qty mes-qty">{{ messages_qty }}</b>{% endif %}
                 </a>
                 <div class="dropdown-menu">
@@ -387,8 +382,7 @@
                     {% if messages|length > 0 %}
                         <div class="clearfix notifications-title">
                             <div class="pull-left title">Сообщения</div>
-                            <div class="pull-right"><a href="#" class="fa fa-times js-read-message"
-                                                       title="Отметить все как прочитанные"></a></div>
+                            <div class="pull-right"></div>
                         </div>
                         <ul class="js-pmessages-dropdown notifications-ul">
                             {% for mess in messages %}
@@ -488,11 +482,8 @@
                         class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
                 <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
-                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
+                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
                         class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
-
-
-
             </div>
 
 
@@ -560,24 +551,24 @@
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
 
 <div class="container">
-
+    <div class="frame-container js-frame-mode" style="display:none;width:70%;z-index:100;position:fixed;right:0;top:0;">
+        <a href="#" style="padding: 15px 17px; font-size: 20px;width: 50px;height: 50px;top:50%;left:-50px;position: absolute;background: green;color: white;"
+           onclick="$('.js-frame').attr('src','').parent().hide();"><i class="fa fa-close"></i></a>
+        <iframe style="width:100%;" class="js-frame"></iframe>
+    </div>
     {% block content %}{% endblock %}
-
-    {% if current_notice %}
-        <script language="javascript">
-            $(function () {
-                var popup = new hintObject({
-                    'title': '{{ current_notice.name }}',
-                    'text': '{{ current_notice.html|safe }}',
-                    'image': '{{ current_notice.src }}',
-                    'id': '{{ current_notice.id }}'
-                });
-                popup.show($('{{ current_notice.itemClass }}').get(0));
-            });
-        </script>
-    {% endif %}
     <script type="text/javascript">
         $(function () {
+            {% if current_notice %}
+            var popup = new hintObject({
+                'title': '{{ current_notice.name }}',
+                'text': '{{ current_notice.html|safe }}',
+                'image': '{{ current_notice.src }}',
+                'id': '{{ current_notice.id }}'
+            });
+            popup.show($('{{ current_notice.itemClass }}').get(0));
+            {% endif %}
+
             $('.js-taskWizard-opener').click(function (ev) {
                 ev.preventDefault();
                 var url = $(this).attr('href');
@@ -606,6 +597,12 @@
                     $('.js-inputProjectList').focus();
                 }, 200);
             });
+            $.get(
+                '/static/agreement.html',
+                function(data) {
+                    $('.js-agreement').html(data);
+                }
+            );
         });
     </script>
     <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium"/>
@@ -623,7 +620,15 @@
   };
 </script>
 <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/fxzhfmhp';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
-
 {% endif %}
+<div class="popup popup-alert" style="display: none;">
+    <h3 class="title">Пользовательское соглашение</h3>
+    <div class="content js-agreement" style="max-height: 250px; overflow: auto;">
+    </div>
+    <div class="popup-footer">
+        <a href="" class="btn btn-success">Принять</a>&nbsp;
+        <a href="" class="btn btn-danger js-popupClose">Закрыть</a>
+    </div>
+</div>
 </body>
 </html>

@@ -15,9 +15,8 @@
 </div>
 <script>
     $(document).ready(function(){
-        $('#modal').modal('show');
-        $('#modal').on('hidden.bs.modal', function (e) {
+        $('#modal').on('hidden.bs.modal', function(e) {
             $(this).remove();
-        });
+        }).modal('show');
     });
 </script>

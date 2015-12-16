@@ -2,7 +2,7 @@
 from __future__ import division
 
 __author__ = 'Gvammer'
-from PManager.models import PM_ProjectRoles, PM_Project, PM_Task, PM_Timer
+from PManager.models import PM_ProjectRoles, PM_Project, PM_Task, PM_Timer, Fee
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.http import HttpResponseRedirect
@@ -62,6 +62,13 @@ def widget(request, headerValues, a, b):
             allUsersTaskQty = user.allTasksQty
 
         setattr(user, 'profile', profile)
+        if request.user.is_superuser:
+            feeSum = 0
+            s = Fee.objects.raw('select sum(value) as s, id from pmanager_fee where user_id='+str(user.id))
+            for k in s:
+                feeSum += k.s or 0
+
+            setattr(user, 'feeSum', feeSum)
 
         try:
             if user.pk:

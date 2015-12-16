@@ -61,7 +61,7 @@ class PM_Achievement(models.Model):
                             credit.save()
                             acc.text = u'Бонус: ' + str(ps.value)
                         elif ps.type == 'bet':
-                            acc.text = u'Ваш рейтинг по проекту ' + project.name + ' увеличен на ' + str(ps.value)
+                            acc.text = u'Ваш рейтинг по проекту ' + project.name + u' увеличен на ' + str(ps.value)
 
                         acc.save()
 

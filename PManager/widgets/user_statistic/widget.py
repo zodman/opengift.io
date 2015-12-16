@@ -7,7 +7,7 @@ from django import forms
 import datetime
 from django.utils import timezone
 
-def widget(request,headerValues,a,b):
+def widget(request, headerValues,a,b):
     class FilterForm(forms.Form):
         fromDate = forms.DateTimeField(required=False)
         toDate = forms.DateTimeField(required=False)
@@ -47,6 +47,10 @@ def widget(request,headerValues,a,b):
     allUsers = TaskWidgetManager.getUsersThatUserHaveAccess(request.user, headerValues['CURRENT_PROJECT'])
     users = allUsers.filter(pk__in=users_id)
 
+    filterProject = int(request.GET.get('project', 0))
+    if filterProject:
+        cur_user_access_projects = [filterProject]
+
     for user in users:
         profile = user.get_profile()
         if profile.avatar:
@@ -56,12 +60,13 @@ def widget(request,headerValues,a,b):
         if not user.email and user.username.find('@'):
             setattr(user, 'email', user.username)
 
-        query = 'SELECT SUM(`seconds`) as summ, id, user_id,task_id,dateStart from PManager_pm_timer' + \
+        query = 'SELECT SUM(`seconds`) as summ, id, user_id, task_id, dateStart from PManager_pm_timer' + \
                 ' WHERE `user_id`=' + str(int(user.id)) + \
                 ' AND `dateStart` > \'' + str(dateStart) + '\'' + \
                 ((' AND `dateStart` < \'' + str(dateEnd) + '\'') if dateEnd else '') + \
                 ' GROUP BY `task_id` ORDER BY `dateStart` DESC'
         timers = PM_Timer.objects.raw(query)
+
 
         arTaskTime = []
         allUserTime = 0
@@ -76,9 +81,9 @@ def widget(request,headerValues,a,b):
                 comments = PM_Task_Message.objects.filter(task=task, author=user)
 
                 if dateEnd:
-                    comments = comments.filter(dateCreate__lt = dateEnd)
+                    comments = comments.filter(dateCreate__lt=dateEnd)
                 if dateStart:
-                    comments = comments.filter(dateCreate__gt = dateStart)
+                    comments = comments.filter(dateCreate__gt=dateStart)
 
                 if timer.summ:
                     allUserTime += int(timer.summ)
@@ -100,11 +105,12 @@ def widget(request,headerValues,a,b):
         closedTaskQty = PM_Task.objects.filter(resp=user, active=True)
         commentsQty = PM_Task_Message.objects.filter(author=user)
         if dateEnd:
-            closedTaskQty = closedTaskQty.filter(dateClose__lt = dateEnd)
-            commentsQty = commentsQty.filter(dateCreate__lt = dateEnd)
+            closedTaskQty = closedTaskQty.filter(dateClose__lt=dateEnd)
+            commentsQty = commentsQty.filter(dateCreate__lt=dateEnd)
+
         if dateStart:
-            closedTaskQty = closedTaskQty.filter(dateClose__gt = dateStart)
-            commentsQty = commentsQty.filter(dateCreate__gt = dateStart)
+            closedTaskQty = closedTaskQty.filter(dateClose__gt=dateStart)
+            commentsQty = commentsQty.filter(dateCreate__gt=dateStart)
 
         closedTaskQty = closedTaskQty.count()
         commentsQty = commentsQty.count()

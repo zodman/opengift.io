@@ -48,11 +48,13 @@
     <div class="widget-body">
 
         <ol class="Task_Detail_breadcrumb breadcrumb">
+            {% if not request.GET.frame_mode %}
             <li><a href="/">{{ task_detail.task.project.name }}</a></li>
             {% if task_detail.task.parentTask %}
                 {% with task_detail.task.parentTask as parent %}
                 <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
                 {% endwith %}
+            {% endif %}
             {% endif %}
             <li class="active">Задача №{{ task_detail.task.number }}</li>
         </ol>
