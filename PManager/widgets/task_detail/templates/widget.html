@@ -64,7 +64,7 @@
             <p>
                 {% for file in task_detail.files %}
                     {% if file.is_picture %}
-                        <a class="fnc" href="{{ file.url }}"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                        <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
                     {% endif %}
                 {% endfor %}
             </p>
