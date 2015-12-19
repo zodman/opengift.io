@@ -197,7 +197,10 @@ class MainPage:
                 else:
                     t = loader.get_template('main/xhr_response.html')
             else:
-                t = loader.get_template('index.html')
+                if request.GET.get('frame_mode', False):
+                    t = loader.get_template('index_frame.html')
+                else:
+                    t = loader.get_template('index.html')
 
             c.update({'widget_results': u" ".join(results)})
 

@@ -12,7 +12,7 @@
     <div class="tab-content">
         {% for roleName, o in roles.items %}
         <div role="tabpanel" class="tab-pane {% if forloop.first %}active{% endif %}" id="{{ o.role.role.code }}" >
-            <p>{{ o.text }}:</p>
+            <p>{{ o.text }}</p>
             <div class="clearfix user-role-block-wrapper">
                 {% for user in o.users %}
                 <div class="user-role-block" {% if user.get_profile.is_outsource %}style="background-color: #ffffea;"{% endif %}>
@@ -26,11 +26,6 @@
                     <div class="desc">
                         <h4>
                             <a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a>
-                            {% if user.get_profile.is_outsource %}
-                                <span class="pro-icon" href="/pro/" style="top:-4px;left: 4px;">
-                                    <i class="fa fa-star"></i>
-                                </span>
-                            {% endif %}
                         </h4>
                         <div class="col-wrapper">
                             {% if o.role.role.code != 'client' %}

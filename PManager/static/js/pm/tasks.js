@@ -528,6 +528,28 @@ var CRITICALLY_THRESHOLD = 0.7;
 			if (this.$el.parent().get(0))
 				setTaskCellsHeight(this.$el);
 
+			this.$('.js-name-link').click(function() {
+				if ($(window).width() > 420) {
+					$('.js-frame-mode').find('iframe')
+							.each(function () {
+								$(this.contentDocument).empty()
+							})
+							.attr('src', $(this).attr('href') + '&frame_mode=Y').css('height', $(window).height())
+							.css('background-color', 'white')
+							.load(function () {
+								$(this.contentDocument).on('click', 'a', function () {
+									var href = $(this).attr('href');
+									if (href && href != 'undefined' && href != '#')
+										window.location.href = $(this).attr('href');
+									return false;
+								});
+							})
+							.end()
+							.show();
+					return false;
+				}
+			});
+
 			return this;
 		},
 		'showPauseCommentForm': function () {

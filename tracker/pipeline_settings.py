@@ -246,6 +246,8 @@ PIPELINE_CSS = {
             'css/external/carousel.css',
             'css/external/bootstrap-responsive.css',
             'css/external/bootstrap3.min.css',
+            'css/external/font-awesome.css',
+            'css/external/font-awesome-animation.css',
             'css/external/linecons/linecons.css',
             'css/styles.css',
             'css/project.edit.css',
