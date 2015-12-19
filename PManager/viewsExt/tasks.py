@@ -57,7 +57,6 @@ def microTaskAjax(request, task_id):
     }), content_type="application/json")
 
 
-
 def __change_resp(request):
     task_id = int(request.POST.get('id', 0))  # переданный id задачи
     profile = request.user.get_profile()
@@ -291,6 +290,7 @@ def __search_filter(header_values, request):
     response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
 
     return response_text
+
 
 def __task_message(request):
     text = request.POST.get('task_message', '')

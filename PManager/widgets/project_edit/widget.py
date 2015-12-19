@@ -30,6 +30,7 @@ def widget(request, headerValues, ar, qargs):
         pform = {}
         is_new = True
         old_repository = False
+
         if 'id' in get:
             try:
                 projectData = PM_Project.objects.get(id=int(get['id']), locked=False)
@@ -47,13 +48,14 @@ def widget(request, headerValues, ar, qargs):
 
         if request.method == 'POST':
             post.update({'author': request.user.id})
+            post.update({'payer': request.user.id})
             post.update({'tracker': 1})
+
             pform = ProjectForm(
                 instance=projectData if hasattr(projectData, 'id') else None,
                 data=post,
                 files=request.FILES
             )
-
 
             # pform.data = post
             # pform.files = request.FILES
@@ -86,6 +88,7 @@ def widget(request, headerValues, ar, qargs):
                             hasattr(projectData, 'settings') and
                             projectData.settings else {}
         }
+
     else:
 
        return {'redirect': '/payment/'}

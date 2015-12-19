@@ -130,6 +130,7 @@ class MainPage:
         messages_qty = 0
         aMessages = []
         pageTitle = ''
+
         if request.user.is_authenticated():
             messages = PM_Task_Message.objects.filter(
                 userTo=request.user,
@@ -151,6 +152,7 @@ class MainPage:
                         task__number=taskNumber,
                         project=projectId
                     )
+                    
             messages = messages.exclude(code="WARNING")
             messages_qty = messages.count()
 

@@ -19,15 +19,21 @@
                 <div class="row">
                     <div class="col-xs-6">
                         <div class="role-titles">
-                            {% for role in project_graph.roles %}
-                                <h5 class="{% if forloop.first %}active{% endif %} js-select-role"
-                                    data-role="{{ role.role.code }}">
-                                    <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: {{ role.role.name }}
-                                    {% if project_graph.isPro and role.role.code == 'employee' %}<a href="/pro/" class="pro-icon"><i class="fa fa-star"></i></a>{% endif %}
+                            {% if isClient %}
+                                <h5 class="active js-select-role" >
+                                    <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: Инвестор
                                 </h5>
-                            {% endfor %}
-                            {% if project_graph.roles|length > 1 %}
-                            <a href="#" class="js-change-role project_graph__change_role"><i class="fa fa-user"></i><i class="fa fa-chevron-right"></i> </a>
+                            {% else %}
+                                {% for role in project_graph.roles %}
+                                    <h5 class="{% if forloop.first %}active{% endif %} js-select-role"
+                                        data-role="{{ role.role.code }}">
+                                        <i class="fa fa-user"></i>&nbsp;&nbsp;Роль: {{ role.role.name }}
+                                        {% if project_graph.isPro and role.role.code == 'employee' %}<a href="/pro/" class="pro-icon"><i class="fa fa-star"></i></a>{% endif %}
+                                    </h5>
+                                {% endfor %}
+                                {% if project_graph.roles|length > 1 %}
+                                <a href="#" class="js-change-role project_graph__change_role"><i class="fa fa-user"></i><i class="fa fa-chevron-right"></i> </a>
+                                {% endif %}
                             {% endif %}
                         </div>
                         {% for role in project_graph.roles %}
@@ -69,41 +75,51 @@
                     </div>
 
                 <div class="col-xs-6" style="border-left: 1px solid #efefef;">
-                {% for role in project_graph.roles %}
-                        <div class="js-graph-{{ role.role.code }}">
-                        {% if role.role.code == 'employee' %}
-                            <h5>Рейтинг специалиста</h5>
-                            Закрыто задач всего: <b style="color:#5cb85c;">{{ project_graph.allTaskQty }}</b><br>
-                            Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
-                            <b style="color:#5cb85c;">{{ project_graph.taskTagPosition }}</b>-е место )
-                        {% elif role.role.code == 'manager' %}
-                            <h5>Время открытых задач</h5>
-                            <table width="100%;">
-                                <tr>
-                                    <td><strong>Реальное</strong></td>
-                                    <td><strong>Плановое</strong></td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">
-                                            {{ project_graph.allOpenRealTime }}
-                                            ч.
-                                        </b>
-                                    </td>
-                                    <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
-                                </tr>
-                            </table>
-                        {% elif role.role.code == 'client' %}
-                            <h5>Счет</h5>
-                            <div class="role-content-tab">
-                                <span style="display: inline-block;margin-right: 15px;">Баланс: <b>{{ project_graph.allPrice|intcomma }}</b> руб.</span>
-                                <a href="#" data-toggle="modal" data-target="#payment-popup"><i class="fa fa-credit-card"></i>&nbsp;Пополнить</a>
-                                &nbsp;&nbsp;&nbsp;
-                                <a href="/stat/" ><i class="fa fa-list"></i>&nbsp;Отчет</a>
-                            </div>
-                        {% endif %}
+                    {% if isClient %}
+                        <h5>Счет</h5>
+                        <div class="role-content-tab">
+                            <span style="display: inline-block;margin-right: 15px;">Баланс: <b>{{ project_graph.allPrice|intcomma }}</b> руб.</span>
+                            <a href="#" data-toggle="modal" data-target="#payment-popup"><i class="fa fa-credit-card"></i>&nbsp;Пополнить</a>
+                            &nbsp;&nbsp;&nbsp;
+                            <a href="/stat/" ><i class="fa fa-list"></i>&nbsp;Отчет</a>
                         </div>
-                 {% endfor %}
+                    {% else %}
+                        {% for role in project_graph.roles %}
+                                <div class="js-graph-{{ role.role.code }}">
+                                {% if role.role.code == 'employee' %}
+                                    <h5>Рейтинг специалиста</h5>
+                                    Закрыто задач всего: <b style="color:#5cb85c;">{{ project_graph.allTaskQty }}</b><br>
+                                    Компетентность: <b style="color:#999;">{{ project_graph.taskTagCoefficient }}</b> (
+                                    <b style="color:#5cb85c;">{{ project_graph.taskTagPosition }}</b>-е место )
+                                {% elif role.role.code == 'manager' %}
+                                    <h5>Время открытых задач</h5>
+                                    <table width="100%;">
+                                        <tr>
+                                            <td><strong>Реальное</strong></td>
+                                            <td><strong>Плановое</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">
+                                                    {{ project_graph.allOpenRealTime }}
+                                                    ч.
+                                                </b>
+                                            </td>
+                                            <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b></td>
+                                        </tr>
+                                    </table>
+                                {% elif role.role.code == 'client' %}
+                                    <h5>Счет</h5>
+                                    <div class="role-content-tab">
+                                        <span style="display: inline-block;margin-right: 15px;">Баланс: <b>{{ project_graph.allPrice|intcomma }}</b> руб.</span>
+                                        <a href="#" data-toggle="modal" data-target="#payment-popup"><i class="fa fa-credit-card"></i>&nbsp;Пополнить</a>
+                                        &nbsp;&nbsp;&nbsp;
+                                        <a href="/stat/" ><i class="fa fa-list"></i>&nbsp;Отчет</a>
+                                    </div>
+                                {% endif %}
+                                </div>
+                         {% endfor %}
+                    {% endif %}
                 </div>
             </div>
         </div>

@@ -163,6 +163,7 @@ PIPELINE_JS = {
     'project_summary': {
         'source_filenames': (
             'widgets/project_summary/widget.js',
+            'js/libs/charts.js',
         ),
         'output_filename': 'js_compressed/project_summary.js'
     },

@@ -44,4 +44,4 @@ xlsxwriter
 openpyxl==2.3.0-b1
 lxml==3.5
 django-yandex-money
-django-pipeline
+django-notify

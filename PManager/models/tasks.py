@@ -110,6 +110,7 @@ class PM_Project(models.Model):
     closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
+    payer = models.ForeignKey(User)
 
     @property
     def url(self):
@@ -549,6 +550,7 @@ class PM_Task(models.Model):
                                     curPrice -= substruction
 
                                 feeValue = math.floor(curPrice * self.FEE)
+                                #задолженность по комиссии
                                 fee = Fee(
                                     user=profResp.user,
                                     value=feeValue,
@@ -556,10 +558,18 @@ class PM_Task(models.Model):
                                     task=self
                                 )
                                 fee.save()
+                                #погашение задолженности
+                                fee = Fee(
+                                    user=profResp.user,
+                                    value=-feeValue,
+                                    project=self.project,
+                                    task=self
+                                )
+                                fee.save()
 
                                 credit = Credit(
                                     user=profResp.user,
-                                    value=curPrice,
+                                    value=curPrice - feeValue,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
@@ -619,25 +629,36 @@ class PM_Task(models.Model):
                                 allSum = allSum + price
             if allSum:
                 #clients
-                clients = PM_ProjectRoles.objects.filter(
-                    project=self.project,
-                    role__code='client'
-                )
+                clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
+                allSumFromClient = math.floor(allSum * (clientComission + 100) / 100)
 
-                for client in clients:
-                    clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
-                    allSum = math.floor(allSum * (clientComission + 100) / 100)
-
+                if self.project.payer:
                     credit = Credit(
-                        user=client.user,
-                        value=-allSum,
+                        user=self.project.payer,
+                        value=-allSumFromClient,
                         project=self.project,
                         task=self,
                         type='Client with comission'
                     )
-
                     credit.save()
-                    break
+
+                    feeValue = allSumFromClient - allSum
+                    #задолженность по комиссии
+                    fee = Fee(
+                        user=self.project.payer,
+                        value=feeValue,
+                        project=self.project,
+                        task=self
+                    )
+                    fee.save()
+                    #погашение задолженности
+                    fee = Fee(
+                        user=self.project.payer,
+                        value=-feeValue,
+                        project=self.project,
+                        task=self
+                    )
+                    fee.save()
 
     def Open(self):
         self.closed = False
