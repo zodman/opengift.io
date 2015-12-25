@@ -77,7 +77,7 @@ class MainPage:
                         if not backurl:
                             backurl = '/'
 
-                        return HttpResponseRedirect('https://heliard.ru'+backurl)
+                        return HttpResponseRedirect(backurl)
                 else:
                     return HttpResponse(loader
                                         .get_template('main/unauth.html')
@@ -90,7 +90,7 @@ class MainPage:
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout
             logout(request)
-            return HttpResponseRedirect('https://heliard.ru/login/')
+            return HttpResponseRedirect('/login/')
 
         if request.GET.get('from', '') == 'mobile':
             if request.user.is_authenticated():
@@ -115,7 +115,7 @@ class MainPage:
 
         headerValues = headers.initGlobals(request)
         if headerValues['REDIRECT']:
-            return redirect('https://heliard.ru'+headerValues['REDIRECT'])
+            return redirect(headerValues['REDIRECT'])
 
         #stop timers
         leastHours = datetime.datetime.now() - datetime.timedelta(hours=9)
@@ -186,7 +186,7 @@ class MainPage:
 
                 if widget:
                     if 'redirect' in widget:
-                        return HttpResponseRedirect('https://heliard.ru'+widget['redirect'])
+                        return HttpResponseRedirect(widget['redirect'])
                     if 'title' in widget:
                         pageTitle = widget['title']
 
@@ -221,7 +221,7 @@ class MainPage:
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
                 t = loader.get_template('main/promo.html')
             else:
-                return HttpResponseRedirect('https://heliard.ru/login/?backurl='+urllib.quote(request.get_full_path()))
+                return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
         cur_notice = PM_Notice.getForUser(
             request.user,
@@ -253,7 +253,7 @@ class MainPage:
     def widgetUpdate(request, widget_name):
         headerValues = headers.initGlobals(request)
         if headerValues['REDIRECT']:
-            return redirect('https://heliard.ru'+headerValues['REDIRECT'])
+            return redirect(headerValues['REDIRECT'])
 
         widget = {}
         str = 'widget = widgets.%s' % widget_name
@@ -262,7 +262,7 @@ class MainPage:
         c = RequestContext(request, {})
         if widget:
             if 'redirect' in widget:
-                return HttpResponseRedirect('https://heliard.ru'+widget['redirect'])
+                return HttpResponseRedirect(widget['redirect'])
         c.update({widget_name: widget})
         return HttpResponse(loader.get_template("%s/templates/widget.html" % widget_name).render(c))
 
@@ -490,7 +490,7 @@ def add_timer(request):
     import datetime
 
     if not request.user.is_authenticated:
-        return redirect('https://heliard.ru/')
+        return redirect('/')
 
     headerValues = headers.initGlobals(request)
 
@@ -522,7 +522,7 @@ def add_timer(request):
                 #add user log
                 logger = Logger()
                 logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-                return redirect('https://heliard.ru/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+                return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
             else:
                 return HttpResponse('Operation not permitted')
 

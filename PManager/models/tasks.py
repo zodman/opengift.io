@@ -25,7 +25,6 @@ from django.db.models.signals import post_save, pre_delete, post_delete, pre_sav
 from PManager.services.service_queue import service_queue
 
 
-
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',
@@ -348,6 +347,7 @@ class PM_Task(models.Model):
     MANAGER_ADDITION_PER_BUG = 0.1
     RESP_SUBSTRUCTION_PER_BUG = 0.05
     FEE = 0.1
+    MAX_OVERTIME = 3
 
     bool_choices = (
         ('N', u'No'),
@@ -511,7 +511,10 @@ class PM_Task(models.Model):
 
                     if self.planTime:
                         if ob['time'] > self.planTime:
-                            ob['rating'] = -round(5 * (ob['time'] - self.planTime))
+                            if ob['time'] - self.planTime > self.MAX_OVERTIME:
+                                ob['time'] = self.planTime + self.MAX_OVERTIME
+
+                            ob['rating'] = -round(20 * (ob['time'] - self.planTime))
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
@@ -527,14 +530,29 @@ class PM_Task(models.Model):
                                 pass
 
                     curUserRating = ob.get('rating', 0)
+
                     #set user rating
                     profResp = cUser.get_profile()
+                    respFine = profResp.getFine()
                     if curUserRating != 0 and profResp.is_outsource:
-                        profResp.rating = (profResp.rating or 0) + curUserRating
-                        if profResp.rating < 0:
-                            profResp.rating = 0
+                        obRating = None
 
-                        profResp.save()
+                        if curUserRating < 0:
+                            obRating = FineHistory(value=curUserRating, user=cUser)
+                        elif curUserRating > 0:
+                            if respFine > 0:
+                                if respFine > curUserRating:
+                                    obRating = FineHistory(value=-curUserRating, user=cUser)
+                                else:
+                                    obRating = FineHistory(value=-respFine, user=cUser)
+                                    ratingLeft = curUserRating - respFine
+                                    ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
+                                    ratingLeft.save()
+                            else:
+                                obRating = RatingHistory(value=curUserRating, user=cUser)
+
+                        if obRating:
+                            obRating.save()
 
                     if ob['time']:
                         allRealTime += ob['time']
@@ -544,24 +562,29 @@ class PM_Task(models.Model):
                             curPrice = userBet * float(ob['time'])
 
                             if curPrice:
+                                allSum = allSum + curPrice
+
                                 substruction = 0
                                 if bugsQty:
                                     substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
 
+                                if respFine > 0:
+                                    fineSum = respFine * float(ob['time'])
+                                    fee = Fee(
+                                        user=profResp.user,
+                                        value=fineSum,
+                                        project=self.project,
+                                        task=self
+                                    )
+                                    fee.save()
+                                    curPrice -= fineSum
+
                                 feeValue = math.floor(curPrice * self.FEE)
-                                #задолженность по комиссии
+
                                 fee = Fee(
                                     user=profResp.user,
                                     value=feeValue,
-                                    project=self.project,
-                                    task=self
-                                )
-                                fee.save()
-                                #погашение задолженности
-                                fee = Fee(
-                                    user=profResp.user,
-                                    value=-feeValue,
                                     project=self.project,
                                     task=self
                                 )
@@ -577,8 +600,6 @@ class PM_Task(models.Model):
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
-
-                                allSum = allSum + curPrice
 
         if allRealTime or self.planTime:
             if self.planTime:
@@ -643,18 +664,10 @@ class PM_Task(models.Model):
                     credit.save()
 
                     feeValue = allSumFromClient - allSum
-                    #задолженность по комиссии
+
                     fee = Fee(
                         user=self.project.payer,
                         value=feeValue,
-                        project=self.project,
-                        task=self
-                    )
-                    fee.save()
-                    #погашение задолженности
-                    fee = Fee(
-                        user=self.project.payer,
-                        value=-feeValue,
                         project=self.project,
                         task=self
                     )
@@ -1811,6 +1824,24 @@ class PM_Reminder(models.Model):
 
     def __unicode__(self):
         return unicode(self.date.strftime('%d.%m.%Y %H:%M:%S'))
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class RatingHistory(models.Model):
+    value = models.FloatField(blank=True, verbose_name='Рейтинг', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class FineHistory(models.Model):
+    value = models.FloatField(blank=True, verbose_name='Штраф', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
         app_label = 'PManager'

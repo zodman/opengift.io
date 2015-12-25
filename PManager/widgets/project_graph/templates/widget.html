@@ -51,7 +51,10 @@
                                             {% else %}
                                                 &nbsp;
                                             {% endif %}
-                                            </span>
+                                        </span>
+                                        {% if project_graph.fine %}
+                                        &nbsp;&nbsp;Штраф:&nbsp;{{ project_graph.fine }}
+                                        {% endif %}
                                         <br/>
                                         {% elif role.role.code == 'employee' %}
                                             При закрытии задач вам начисляется рейтинг специалиста.

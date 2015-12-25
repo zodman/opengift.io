@@ -24,7 +24,7 @@ def widget(request, headerValues, ar, qargs):
         try:
             user = User.objects.get(pk=int(get['id']))
             profile = user.get_profile()
-            setattr(profile, 'rating', int(profile.rating or 0))
+            # setattr(profile, 'rating', int(profile.rating or 0))
             cur_prof = request.user.get_profile()
             if 'action' in post:
                 # add this user to project

@@ -267,30 +267,129 @@ def __search_filter(header_values, request):
                 Q(closed=False)
             ) | Q(dateClose__lt=datetime.datetime.now())
         )
-    page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
-    if start_page:
-        page = start_page
 
-    # if page > 2:
-    #     # count = 2 ** (page - 2) * 10
-    #     page = 2
-    if start_page:
-        count *= page
-        page = 1
+    needXlsOutput = request.POST.get('xls') and header_values['CURRENT_PROJECT'] or False
+    ar_page_params = {}
+    if not needXlsOutput:
+        page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
+        if start_page:
+            page = start_page
 
-    ar_page_params = {
-        'pageCount': count,
-        'page': page,
-        'startPage': start_page,
-        'group': group
-    }
-    tasks = task_list(request, header_values, {'filter': ar_filter, 'exclude': ar_exclude}, qArgs, ar_page_params)
-    paginator = tasks['paginator']
-    tasks = tasks['tasks']
-    response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
+        # if page > 2:
+        #     # count = 2 ** (page - 2) * 10
+        #     page = 2
+        if start_page:
+            count *= page
+            page = 1
+
+        ar_page_params = {
+            'pageCount': count,
+            'page': page,
+            'startPage': start_page,
+            'group': group
+        }
+
+
+    tasks = task_list(
+        request,
+        header_values,
+        {'filter': ar_filter, 'exclude': ar_exclude},
+        qArgs,
+        ar_page_params
+    )
+
+    if needXlsOutput:
+        response_text = simplejson.dumps(
+            {
+                'file':
+                    str(__save_xls_from_task_list(tasks['tasks'], header_values['CURRENT_PROJECT'], request.user))
+            }
+        )
+    else:
+        paginator = tasks['paginator']
+        tasks = tasks['tasks']
+        response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
 
     return response_text
 
+
+def __save_xls_from_task_list(task_list, project, user):
+    if not project:
+        return None
+
+    import xlsxwriter
+    import StringIO
+    from django.core.files.base import ContentFile
+
+    output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(output)
+
+    ws = workbook.add_worksheet('sumLoan')
+
+    bold = workbook.add_format({'bold': 1})
+    date_format = workbook.add_format({'num_format': 'd mmmm yyyy h:mm:ss'})
+    url_format = workbook.add_format({'color': 'green', 'underline': 1})
+
+    row = 0
+    col = 0
+
+    for title in [
+        u'Дата',
+        u'Ответственный',
+        u'Задача',
+        u'Время',
+        u'Результат',
+        u'Закрыта'
+    ]:
+
+        ws.write(row, col, title, bold)
+        col += 1
+
+    ws.set_column(0, 2, 20)  # first 3 columns width
+    col = 0
+    row = 1
+
+    for item in task_list:
+        date = item.get('last_message', {}).get('date', '')
+        ws.write_string(
+            row,
+            col,
+            date
+        )
+        ws.write_string(row, col + 1, item.get('resp', [])[0].get('name', ''))
+        ws.write_url(row, col + 2, settings.HTTP_ROOT_URL + item.get('url', ''), url_format, item.get('name', ''))
+        timeObj = templateTools.dateTime.timeFromTimestamp(item.get('time', 0))
+        ws.write_string(
+            row,
+            col + 3,
+            (
+                ('0' if len(str(timeObj['hours'])) == 1 else '') + str(timeObj['hours']) + ':' +
+                ('0' if len(str(timeObj['minutes'])) == 1 else '') + str(timeObj['minutes']) + ':' +
+                ('0' if len(str(timeObj['seconds'])) == 1 else '') + str(timeObj['seconds'])
+            )
+        )
+        ws.write_string(row, col + 4, item.get('last_message', {}).get('text', '') or '')
+        ws.write_string(row, col + 5, u'Да' if item.get('closed', None) else u'')
+
+        # ws.write_number(row, col + 3, item.get('text', ''))
+        row += 1
+
+    workbook.close()
+
+    xlsx_data = output.getvalue()
+    file = PM_Files(
+        projectId=project,
+        authorId=user,
+        name=str(user) + str(project)
+    )
+    file.save()
+    file.file.save(
+        'projects/' + str(int(project.id)) + '/stat/' + str(file.id) + '.xls',
+        ContentFile(xlsx_data)
+    )
+    file.save()
+
+    return file.src
 
 def __task_message(request):
     text = request.POST.get('task_message', '')
@@ -615,6 +714,10 @@ def taskListAjax(request):
             response_text = 'none'
     else:
         response_text = 'bad query'
+
+
+
+
 
     return HttpResponse(response_text)
 

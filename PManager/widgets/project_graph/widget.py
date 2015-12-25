@@ -139,6 +139,7 @@ def widget(request, headerValues, ar, qargs):
         'taskClosedPercent': int(round(closedTaskQty * 100 / (taskQty or 1))),
         'bPay': bPay,
         'rating': profile.getRating(current_project),
+        'fine': profile.getFine(),
         'rate': bet,
         'isClient': is_client,
         'roles': roles,
