@@ -58,6 +58,7 @@ class PM_User(models.Model):
     )
 
     user = models.OneToOneField(User, db_index=True, related_name='profile')
+    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Отчество')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
@@ -66,6 +67,9 @@ class PM_User(models.Model):
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
     documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
     #docIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+    order = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Лицевой счет')
+    bank = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Банк')
+    bik = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'БИК')
 
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to=path_and_rename("users"))
@@ -84,7 +88,8 @@ class PM_User(models.Model):
     # rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
-    is_outsource = models.BooleanField(blank=True, verbose_name='Аутсорс', default=False)
+    is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
+    overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
     @property
     def rating(self):

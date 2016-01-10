@@ -647,10 +647,23 @@ def taskListAjax(request):
                                     'error': u'Задача должна быть оценена'
                                 }))
 
+                            if task.resp.get_profile().is_outsource:
+                                if request.user.id == task.project.payer.id:
+                                    if task.project.payer.get_profile().account_total < -int(task.project.payer.get_profile().overdraft):
+                                        return HttpResponse(json.dumps({
+                                            'error': u'У автора проекта недостаточно средств для подтверждения задачи'
+                                        }))
+                                else:
+                                    return HttpResponse(json.dumps({
+                                        'error': u'Задачу может подтвердить только автор проекта'
+                                    }))
+
                             if not request.user.get_profile().isManager(task.project):
                                 return HttpResponse(json.dumps({
                                     'error': u'Задачу может подтвердить только менеджер'
                                 }))
+
+
 
                             # clientRole = PM_ProjectRoles.objects.get(
                             #     role__code='client',
@@ -1067,11 +1080,12 @@ class taskAjaxManagerCreator(object):
                 message.save()
                 responseJson = message.getJson()
 
-                mess = RedisMessage(service_queue,
-                                    objectName='comment',
-                                    type='add',
-                                    fields=responseJson
-                                    )
+                mess = RedisMessage(
+                    service_queue,
+                    objectName='comment',
+                    type='add',
+                    fields=responseJson
+                )
                 mess.send()
             else:
                 if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
@@ -1089,14 +1103,24 @@ class taskAjaxManagerCreator(object):
                         taskOneSecondTimer.save()
                     else:
                         if t.resp and t.resp.get_profile().is_outsource:
-                            from PManager.models.agreements import Agreement
-                            try:
-                                agreement = Agreement.objects.get(approvedByPayer=True, approvedByResp=True, resp=t.resp, payer=t.project.payer)
-                                if not user or user.id != agreement.payer.id:
-                                    error = u'Закрывать задачи с PRO ответственным может только автор проекта'
+                            if not user or user.id != t.project.payer.id:
+                                error = u'Закрывать задачи с участием PRO специалистов может только автор проекта'
 
-                            except Agreement.DoesNotExist:
-                                error = u'Нет заключенного договора'
+                            from PManager.models.agreements import Agreement
+                            from django.db.models import Count
+
+                            taskTimers = taskTimers.values('user__id').annotate(dcount=Count('user__id'))
+                            for timer in taskTimers:
+                                u = User.objects.get(pk=timer['user__id'])
+                                try:
+                                    agreement = Agreement.objects.get(
+                                        approvedByPayer=True,
+                                        approvedByResp=True,
+                                        resp=u,
+                                        payer=t.project.payer
+                                    )
+                                except Agreement.DoesNotExist:
+                                    error = u'Нет принятого с обоих сторон договора c ' + u.last_name + ' ' + u.first_name
 
                     if not error:
                         t.setIsInTime()

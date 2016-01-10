@@ -11,7 +11,7 @@ __author__ = 'Gvammer'
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email"]
+        fields = ["email", "first_name", "last_name"]
 
 
 def widget(request, headerValues, ar, qargs):
@@ -19,12 +19,12 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['phoneNumber', 'skype', 'avatar', 'specialties', 'sp_price', 'documentNumber', 'documentIssueDate', 'documentIssuedBy']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'sp_price', 'overdraft', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['phoneNumber', 'skype', 'avatar', 'documentNumber', 'documentIssueDate', 'documentIssuedBy']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
 
     uid = request.GET.get('id', None)
     if uid and request.user.is_staff:
