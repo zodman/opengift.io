@@ -453,14 +453,14 @@ class PM_Task(models.Model):
                 tagRelUser.weight = int(tagRelUser.weight) + 1
                 tagRelUser.save()
 
+        if not self.resp and user:
+            self.resp = user
+
         self.closed = True
         self.critically = 0.5
         self.status = None
         self.onPlanning = False
         self.dateClose = datetime.datetime.now()
-
-        if not self.resp and user:
-            self.resp = user
 
         if not self.wasClosed and not self.subTasks.count():
             self.setCreditForTime()
@@ -511,7 +511,7 @@ class PM_Task(models.Model):
 
                     if self.planTime:
                         if ob['time'] > self.planTime:
-                            if ob['time'] - self.planTime > self.MAX_OVERTIME:
+                            if (ob['time'] - self.planTime) > self.MAX_OVERTIME:
                                 ob['time'] = self.planTime + self.MAX_OVERTIME
 
                             ob['rating'] = -round(20 * (ob['time'] - self.planTime))
@@ -562,12 +562,12 @@ class PM_Task(models.Model):
                             curPrice = userBet * float(ob['time'])
 
                             if curPrice:
-                                allSum = allSum + curPrice
-
                                 substruction = 0
                                 if bugsQty:
                                     substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
+
+                                allSum = allSum + curPrice
 
                                 if respFine > 0:
                                     fineSum = respFine * float(ob['time'])
@@ -648,8 +648,9 @@ class PM_Task(models.Model):
                                 credit.save()
 
                                 allSum = allSum + price
+
             if allSum:
-                #clients
+                #client
                 clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
                 allSumFromClient = math.floor(allSum * (clientComission + 100) / 100)
 
@@ -960,6 +961,9 @@ class PM_Task(models.Model):
             roles = resp.get_profile().getRoles(task.project)
             if not roles:
                 resp.get_profile().setRole(task.project, 'employee')
+                if resp.get_profile().is_outsource:
+                    from PManager.models.agreements import Agreement
+                    Agreement.objects.get_or_create(payer=task.project.payer, resp=resp)
                 # elif task.parentTask:
         #     for resp in task.parentTask.responsible.all():
     #         task.responsible.add(resp) #17.04.2014 task #553

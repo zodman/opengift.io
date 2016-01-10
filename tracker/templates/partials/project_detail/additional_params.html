@@ -12,14 +12,6 @@
     <p class="checkbox">
         <label>
             <input {% if not canEdit %}disabled="disabled" {% endif %}
-            {% if settings.start_unapproved %}checked="checked" {% endif %}
-            type="checkbox" value="1" name="settings_start_unapproved" >&nbsp;
-            Разрешить начинать задачи без подтверждения
-        </label>
-    </p>
-    <p class="checkbox">
-        <label>
-            <input {% if not canEdit %}disabled="disabled" {% endif %}
             {% if settings.unplan_approve %}checked="checked" {% endif %}
             type="checkbox" value="1" name="settings_unplan_approve" >&nbsp;
             Разрешить подтверждать задачи без оценки

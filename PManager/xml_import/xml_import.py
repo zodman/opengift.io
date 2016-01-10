@@ -247,12 +247,13 @@ class XML_Import:
                             if userId:
                                 roles = task.author.get_profile().getRoles(task.project)
                                 if not roles:
-                                    task.author.get_profile().setRole(task.project,'client')
+                                    task.author.get_profile().setRole(task.project, 'employee')
 
                             task.deadline = taskObj['deadline'].replace('T',' ') if taskObj['deadline'] != '0001-01-01T00:00:00' else None
                             task.dateCreate = taskObj['create_on'].replace('T',' ')
                             task.closed = True
                             task.project_knowledge = 0.11
+
                             try:
                                 task.save()
                             except:

@@ -8,6 +8,7 @@ from django.utils import timezone
 from PManager.classes.server.message import RedisMessage
 from PManager.services.service_queue import service_queue
 
+
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',

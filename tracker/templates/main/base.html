@@ -65,23 +65,22 @@
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
     {% block scripts %}{% endblock %}
-    <link rel="shortcut icon" href="/static/ico/favicon.ico"/>
+    <link rel="shortcut icon" href="/static/ico/favicon.ico" />
 </head>
 <body>
-
-<div class="modal fade js-feedback_modal" id="feedback-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content green-popup">
-            <div class="modal-header">
-                <h2 class="modal-title" id="myModalLabel">Напишите нам</h2>
-            </div>
-            <div class="js-modal_content">
-                <div class="modal-body clearfix js-feedback_loader" style="height: 85px;width: 100%;"></div>
+    <div class="modal fade js-feedback_modal" id="feedback-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content green-popup">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="myModalLabel">Напишите нам</h2>
+                </div>
+                <div class="js-modal_content">
+                    <div class="modal-body clearfix js-feedback_loader" style="height: 85px;width: 100%;"></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
 {% if main.CAN_INVITE %}
     <div class="modal fade js-invite-popup" id="invite-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
          aria-hidden="true">
@@ -92,7 +91,6 @@
                     <h2 class="modal-title">Приглашение пользователей в проект</h2>
                 </div>
                 <div class="modal-body clearfix">
-
                     <div class="inputs-wrapper js-invite-cont">
                         <div class="with-input-and-plus">
                             <input type="text" name="email" class="form-control js-email-invite"
@@ -143,9 +141,7 @@
                         <li>Поставьте галочки напротив задач, которые вы хотите делегировать</li>
                         <li>Нажмите "Пригласить TOP фрилансеров" в появившейся панели внизу</li>
                     </ol>
-                    <p>Система выберет подходящих специалистов и создаст ветки обсуждения с ними для предварительного
-                        обсуждения заданий</p>
-
+                    <p>Мы выберем подходящих специалистов и пригласим их в проект.</p>
 
                 </div>
                 <!--modal-body-->
@@ -212,7 +208,6 @@
                 </div>
             </div>
             <div class="modal-body-item clearfix">
-
                 <label class="clearfix"><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
                 <br />
                 <label class="clearfix"><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
@@ -328,8 +323,6 @@
         </div>
     </div>
 </div>
-
-
 <header>
     <div class="header clearfix">
         <div class="logo">
@@ -454,8 +447,6 @@
     </div>
     <!--header-->
 </header>
-
-
 {# -=========== ПОДМЕНЮ: пользователи, файлы ===========- #}
 <div class="container sub-menu">
     <div class="row sub-menu_line clearfix">
@@ -485,8 +476,6 @@
                    class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
                         class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
             </div>
-
-
             <div class="sub-menu_line_section-tracker">
                 <ul class="list-inline navbar-right">
                     {% if main.CURRENT_PROJECT %}
@@ -545,11 +534,8 @@
     </div>
 </div>
 <!-- /container -->
-
 <hr style="margin-top:0px;">
-
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
-
 <div class="container">
     <div class="frame-container js-frame-mode" style="display:none;width:70%;z-index:100;position:fixed;right:0;top:0;">
         <a href="#" style="padding: 15px 17px; font-size: 20px;width: 50px;height: 50px;top:50%;left:-50px;position: absolute;background: green;color: white;"
@@ -597,38 +583,51 @@
                     $('.js-inputProjectList').focus();
                 }, 200);
             });
-            $.get(
-                '/static/agreement.html',
-                function(data) {
-                    $('.js-agreement').html(data);
-                }
-            );
+        {% if agreementForApprove %}
+            $('.js-agreement-approve').click(function(){
+                PM_AjaxPost(
+                        '/agreements/',
+                        {
+                            'action': 'approve_agreement',
+                            'id': $(this).data('agreement')
+                        },
+                        function(data) {
+                            $('.js-current-agreement').remove();
+                        }
+                );
+                return false;
+            });
+        {% endif %}
         });
     </script>
-    <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium"/>
-    <img src="/static/images/loaders/loader_4.png" alt="Loader" class="loader small"/>
-    <img src="/static/images/loaders/loader_5.png" alt="Loader" class="loader tiny"/>
+    <img src="/static/images/loaders/loader_3.png" alt="Loader" class="loader medium" />
+    <img src="/static/images/loaders/loader_4.png" alt="Loader" class="loader small" />
+    <img src="/static/images/loaders/loader_5.png" alt="Loader" class="loader tiny" />
     <iframe id="fileinput" src="" style="display:none;"></iframe>
-    <link type="text/css" rel="stylesheet" href="/static/css/bootstrap-combobox.css"/>
+    <link type="text/css" rel="stylesheet" href="/static/css/bootstrap-combobox.css" />
 {% if user.is_authenticated %}
-<script>
-  window.intercomSettings = {
-    app_id: "heliard",
-    name: "{{ user.first_name }} {{ user.last_name }}", // Full name
-    email: "{{ user.email }}", // Email address
-    created_at: (new Date()).getTime() // Signup date as a Unix timestamp
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/fxzhfmhp';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+    <script>
+      window.intercomSettings = {
+        app_id: "heliard",
+        name: "{{ user.first_name }} {{ user.last_name }}", // Full name
+        email: "{{ user.email }}", // Email address
+        created_at: (new Date()).getTime() // Signup date as a Unix timestamp
+      };
+    </script>
+    <script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/fxzhfmhp';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 {% endif %}
-<div class="popup popup-alert" style="display: none;">
-    <h3 class="title">Пользовательское соглашение</h3>
-    <div class="content js-agreement" style="max-height: 250px; overflow: auto;">
+{% if agreementForApprove %}
+<div class="popup popup-alert js-current-agreement" >
+    <h3 class="title">Пользовательское соглашение №{{ agreementForApprove.id }}</h3>
+    <div class="content js-agreement"
+         data-agreement="{{ agreementForApprove.id }}"
+         style="max-height: 250px; overflow: auto;">
+        {{ agreementForApprove.text|safe }}
     </div>
     <div class="popup-footer">
-        <a href="" class="btn btn-success">Принять</a>&nbsp;
-        <a href="" class="btn btn-danger js-popupClose">Закрыть</a>
+        <a href="#" data-agreement="{{ agreementForApprove.id }}" class="btn btn-success js-agreement-approve" >Принять</a>
     </div>
 </div>
+{% endif %}
 </body>
 </html>

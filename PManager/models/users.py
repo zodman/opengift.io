@@ -61,15 +61,21 @@ class PM_User(models.Model):
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
+    phoneNumber = models.CharField(max_length=12, null=True, blank=True, verbose_name=u'Номер телефона')
+    documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
+    documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
+    documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+    #docIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to=path_and_rename("users"))
-    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Желаемая ставка')
+    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name=u'Желаемая ставка')
 
-    premium_till = models.DateTimeField(blank=True, null=True, verbose_name='Оплачен до')
+    premium_till = models.DateTimeField(blank=True, null=True, verbose_name=u'Оплачен до')
     paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
-                                         verbose_name='Специальности')
+                                         verbose_name=u'Специальности')
     # all_sp = models.IntegerField(null=True,blank=True)
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
                                     max_length=20)
@@ -79,7 +85,6 @@ class PM_User(models.Model):
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
     is_outsource = models.BooleanField(blank=True, verbose_name='Аутсорс', default=False)
-
 
     @property
     def rating(self):
@@ -292,7 +297,7 @@ class PM_User(models.Model):
 
         return False
 
-    def setRole(self, roleCode, project, type=None):
+    def setRole(self, roleCode, project):
         if self.user and project and roleCode:
             try:
                 clientRole = PM_Role.objects.get(code=roleCode, tracker=headers.TRACKER)
@@ -303,8 +308,8 @@ class PM_User(models.Model):
                 userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole,
                                                                           project=project)
                 if type:
-                    userRole.payment_type = type
                     userRole.save()
+
         return self
 
     def getProjects(self, only_managed=False, locked=False):

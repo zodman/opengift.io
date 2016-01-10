@@ -100,7 +100,6 @@ def initGlobals(request):
                         'Нужен менеджер',
                         'Мне нужен менеджер'
                     )
-                    request.user.get_profile().setRole('client', project)
 
                 redirect = "/?project=" + str(project.id)
             except PM_Project.DoesNotExist:

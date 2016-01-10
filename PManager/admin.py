@@ -5,7 +5,7 @@ from PManager.models import Credit, Specialty, \
     PM_NoticedUsers, PM_Notice, PM_Task_Status, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
     PM_Timer, PM_Role, PM_Task, PM_ProjectRoles, \
-    PM_Properties, PM_Project, PM_Tracker, PM_User, \
+    PM_Properties, PM_Project, PM_Tracker, PM_User, Agreement, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
     RatingHistory, FineHistory
@@ -79,3 +79,4 @@ admin.site.register(TaskDraft)
 admin.site.register(PaymentRequest)
 admin.site.register(RatingHistory)
 admin.site.register(FineHistory)
+admin.site.register(Agreement)

@@ -2,7 +2,7 @@
 # Create your views here.
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.db.models import Sum
-from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee
+from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee, Agreement
 from PManager import widgets
 from django.template import loader, RequestContext
 
@@ -131,6 +131,7 @@ class MainPage:
         aMessages = []
         pageTitle = ''
 
+        agreementForApprove = None
         if request.user.is_authenticated():
             messages = PM_Task_Message.objects.filter(
                 userTo=request.user,
@@ -163,6 +164,15 @@ class MainPage:
 
             if not widgetList:
                 widgetList = ['chat', 'tasklist']
+
+            unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
+            unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)
+
+
+            if unapprovedAgreements:
+                agreementForApprove = unapprovedAgreements[0]
+            elif unapprovedAgreementsResp:
+                agreementForApprove = unapprovedAgreementsResp[0]
 
             userTimer = PM_Timer.objects.filter(user=request.user, dateEnd__isnull=True)
             if userTimer:
@@ -240,7 +250,8 @@ class MainPage:
             'currentProject': headerValues['CURRENT_PROJECT'],
             'userAchievement': userAchievement,
             'messages': aMessages,
-            'messages_qty': messages_qty
+            'messages_qty': messages_qty,
+            'agreementForApprove': agreementForApprove
         })
 
         response = HttpResponse(t.render(c))

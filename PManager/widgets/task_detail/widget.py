@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles
+from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles
 import datetime, json
 from PManager.viewsExt.tools import TextFilters, taskExtensions
 from PManager.widgets.tasklist.widget import widget as taskList
@@ -49,6 +49,8 @@ def widget(request, headerValues, arFilter, q):
 
                 if not authorProf.hasRole(task.project):
                     authorProf.setRole('employee', task.project)
+                    if authorProf.is_outsource:
+                        Agreement.objects.get_or_create(payer=task.project.payer, resp=authorProf.user)
 
                 if not authorProf.isEmployee(task.project):
                     task.resp = prof.user

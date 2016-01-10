@@ -32,6 +32,7 @@ from yandex_money.signals import payment_completed
 from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
+from PManager.viewsExt.agreements import ajax_handler as agreements_ajax
 import datetime
 from django.views.generic import TemplateView
 import logging
@@ -133,6 +134,7 @@ urlpatterns = patterns('',
                        url(r'^ajax/feedback/$', sendFeedback),
                        url(r'^ajax/specialty/$', specialty_ajax),
                        url(r'^ajax/stat_excel/$', stat_excel),
+                       url(r'^agreements/$', agreements_ajax),
                        url(r'^file_access/', protected_file),
                        url(r'^sniffer/get_errors/', get_errors),
                        url(r'^admin/', include(admin.site.urls)),

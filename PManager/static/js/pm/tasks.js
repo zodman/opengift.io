@@ -6,6 +6,9 @@
  */
 var CRITICALLY_THRESHOLD = 0.7;
 (function ($) {
+	var showError = function(text) {
+		$('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(text).appendTo('body').show();
+	}
 	window.taskClass = Backbone.Model.extend({
 		'url': function () {
 			return '/task/' + this.id + '/';
@@ -925,19 +928,25 @@ var CRITICALLY_THRESHOLD = 0.7;
 			var obj = this;
 			taskManager.TaskClose(this.model.id, function (data) {
 				data = $.parseJSON(data);
-				obj.model.set('closed', data.closed);
-				obj.model.set('status', data.status);
 				obj.model.set('loader', false);
-				if (data.closed) {
-                    $(window).trigger('task_closed', [data]);
+				if (data.error) {
+					showError(data.error);
 					obj.render();
 				} else {
-					obj.checkModel(function () {
+					obj.model.set('closed', data.closed);
+					obj.model.set('status', data.status);
+					obj.model.set('loader', false);
+					if (data.closed) {
+						$(window).trigger('task_closed', [data]);
 						obj.render();
-					});
-				}
+					} else {
+						obj.checkModel(function () {
+							obj.render();
+						});
+					}
 
-				obj.delegateEvents();
+					obj.delegateEvents();
+				}
 			});
 
 			return false;
@@ -995,7 +1004,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 			taskManager.SetTaskProperty(this.model.id, 'status', 'revision', function (data) {
 				data = $.parseJSON(data);
 				if (data.error)
-					$('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(data.error).appendTo('body').show();
+					showError(data.error);
 				else {
                     t.model.set('status', 'revision');
                     t.render();
