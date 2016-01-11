@@ -1,6 +1,7 @@
 <h2>Дополнительные параметры проекта</h2>
 <hr>
 <form method="POST" name="additional">
+{% if request.user.id == project.payer.id %}
     <p class="checkbox">
         <label>
             <input {% if not canEdit or not canDelete %}disabled="disabled" {% endif %}
@@ -17,7 +18,7 @@
             Разрешить подтверждать задачи без оценки
         </label>
     </p>
-
+{% endif %}
 {#    <p class="checkbox">#}
 {#        <label>#}
 {#            <input {% if not canEdit %}disabled="disabled" {% endif %}#}

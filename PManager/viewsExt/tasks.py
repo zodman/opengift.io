@@ -102,7 +102,7 @@ def __change_resp(request):
             Agreement.objects.get_or_create(payer=task.project.payer, resp=r_prof.user)
 
     # outsource
-    if r_prof.getBet(task.project) >= 0 and \
+    if r_prof.is_outsource and \
             not task.project.getSettings().get('unplan_approve', False):  # if finance relationship
         task.setStatus('not_approved')
     else:

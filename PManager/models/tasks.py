@@ -546,8 +546,10 @@ class PM_Task(models.Model):
                                 else:
                                     obRating = FineHistory(value=-respFine, user=cUser)
                                     ratingLeft = curUserRating - respFine
-                                    ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
-                                    ratingLeft.save()
+
+                                    if ratingLeft:
+                                        ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
+                                        ratingLeft.save()
                             else:
                                 obRating = RatingHistory(value=curUserRating, user=cUser)
 
@@ -569,8 +571,10 @@ class PM_Task(models.Model):
 
                                 allSum = allSum + curPrice
 
-                                if respFine > 0:
-                                    fineSum = respFine * float(ob['time'])
+                                respFine = profResp.getFine()
+                                fineSum = 0
+                                if respFine:
+                                    fineSum = - respFine * float(ob['time'])
                                     fee = Fee(
                                         user=profResp.user,
                                         value=fineSum,
@@ -578,7 +582,6 @@ class PM_Task(models.Model):
                                         task=self
                                     )
                                     fee.save()
-                                    curPrice -= fineSum
 
                                 feeValue = math.floor(curPrice * self.FEE)
 
@@ -592,7 +595,7 @@ class PM_Task(models.Model):
 
                                 credit = Credit(
                                     user=profResp.user,
-                                    value=curPrice - feeValue,
+                                    value=curPrice - feeValue - fineSum,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
@@ -612,7 +615,7 @@ class PM_Task(models.Model):
                 cManagers = 0
                 aManagers = []
                 for manager in managers:
-                    if manager.user.get_profile().is_outsource:
+                    if manager.user.get_profile().is_heliard_manager:
                         bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                         if bet:
                            cManagers += 1
@@ -652,27 +655,26 @@ class PM_Task(models.Model):
             if allSum:
                 #client
                 clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
-                allSumFromClient = math.floor(allSum * (clientComission + 100) / 100)
+                clientFeeSum = math.floor(allSum * clientComission / 100)
 
                 if self.project.payer:
                     credit = Credit(
                         user=self.project.payer,
-                        value=-allSumFromClient,
+                        value=-allSum-clientFeeSum,
                         project=self.project,
                         task=self,
                         type='Client with comission'
                     )
                     credit.save()
 
-                    feeValue = allSumFromClient - allSum
-
-                    fee = Fee(
-                        user=self.project.payer,
-                        value=feeValue,
-                        project=self.project,
-                        task=self
-                    )
-                    fee.save()
+                    if clientFeeSum:
+                        fee = Fee(
+                            user=self.project.payer,
+                            value=clientFeeSum,
+                            project=self.project,
+                            task=self
+                        )
+                        fee.save()
 
     def Open(self):
         self.closed = False

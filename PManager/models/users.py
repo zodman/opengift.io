@@ -89,6 +89,7 @@ class PM_User(models.Model):
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
     is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
+    is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
     @property
