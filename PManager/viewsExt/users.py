@@ -84,6 +84,7 @@ class userHandlers:
                             prof.deleteRole(roleCode, p)
 
                 return HttpResponse('ok')
+
         elif action == 'inviteUser':
             arEmail = request.POST.getlist('email[]', {})
 
@@ -104,10 +105,12 @@ class userHandlers:
                             user = PM_User.getOrCreateByEmail(email, p, roles.pop())
                             if USE_GIT_MODULE:
                                 GitoliteManager.regenerate_access(p)
+
                             for role in roles:
                                 user.get_profile().setRole(p, role)
 
             return HttpResponse('ok')
+
         elif action == 'getUsers':
             return userHandlers.getMyTeam(request)
 

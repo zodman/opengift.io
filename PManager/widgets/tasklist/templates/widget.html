@@ -13,10 +13,7 @@
 <div class="widget tasklist">
     <!--<div class="row">
         <div class="col-xs-12">-->
-
-
         <h1>{{ tasklist.title }}</h1>
-
         {% if tasklist.project %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
@@ -100,19 +97,14 @@
                     </div>
             </div>
             <div class="task-file-upload"></div>
-
         </form>
-
-
 {% endif %}
 {% if not tasklist.tasks %}
-{% if not tasklist.project %}
-    <p>Чтобы создать задачу, выберите проект в левом верхнем углу экрана.</p>
+    {% if not tasklist.project %}
+        <p>Чтобы создать задачу, выберите проект в левом верхнем углу экрана.</p>
+    {% endif %}
 {% endif %}
-{% endif %}
-
         {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
-
         <hr>
         <div class="row tasks-toolbar js-search-block" style="display: none;">
             <div class="col-xs-4">
@@ -208,15 +200,13 @@
                                         </li>
                                 	</ul>
                                 <!-- сохранить поиск -->
-                                <a class="btn btn-info add-search-tab js-save-search-tab hidden" title="Сохранить параметры поиска" >
-                                    <i class="fa fa-save"></i>
+                                <a class="btn btn-info add-search-tab js-xls-search-tab hidden" title="Сохранить параметры поиска" >
+                                    <i class="fa fa-file-excel-o"></i>
                                 </a>
                                 <!--!-->
-
                             </div>
                             </td>
                             <td style="width:39px;" width="39">
-
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />
@@ -225,15 +215,12 @@
 {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                              </div>
                              {% endif %}
-
                             </td>
                         </tr>
                     </table>
                     </div>
                 <!--</div> /.input-group -->
             </div>
-
-
             <div class="col-xs-8">
                 <ul class="task-tab-filter list-inline pull-right clearfix">
                     <li class="active"><a>Все</a></li>
@@ -247,24 +234,21 @@
             </div>
         </div>
         <div class="search_items_holder" ></div>
-
-
         <script language="javascript">
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         taskRespSummary = {}
         </script>
-{% if not tasklist.tasks %}
-    {% if tasklist.project and not tasklist.isInvite %}
-        <div class="js-new-first-task"><br />
-        <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
-        </div>
-    {% endif %}
-{% endif %}
+        {% if not tasklist.tasks %}
+            {% if tasklist.project and not tasklist.isInvite %}
+                <div class="js-new-first-task"><br />
+                <p align="center"><img  class="img-responsive" src="/static/img/create-a-task.png"></p><br />
+                </div>
+            {% endif %}
+        {% endif %}
         <div class="js-tasks">
-
         </div>
-
-        <br /><p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
+        <br />
+        <p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
 </div>
     <div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
@@ -285,8 +269,8 @@
                         aria-labelledby="skillsDropdown">
                     </ul>
                 </div>
-                  <ul class="posibilities clearfix js-specialties" style="margin: 0">
-                  </ul>
+                <ul class="posibilities clearfix js-specialties" style="margin: 0;">
+                </ul>
                 <br />
                 Создание нового приглашения специалистов.
               </div>

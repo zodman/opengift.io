@@ -44,6 +44,7 @@ def widget(request, headerValues, ar, qargs):
     realtime, plantime = 0, 0
     isEmployee = False
     closestMilestone = None
+    is_client = False
 
     if current_project:
         o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
@@ -104,6 +105,9 @@ def widget(request, headerValues, ar, qargs):
                     resp__in=aResp
                 ).count() or 1)
             )
+
+            is_client = current_project.payer.id == request.user.id if current_project.payer else False
+
     #END CLOSEST MILESTONE
 
     taskTagCoefficient = 0
@@ -135,7 +139,9 @@ def widget(request, headerValues, ar, qargs):
         'taskClosedPercent': int(round(closedTaskQty * 100 / (taskQty or 1))),
         'bPay': bPay,
         'rating': profile.getRating(current_project),
+        'fine': profile.getFine(),
         'rate': bet,
+        'isClient': is_client,
         'roles': roles,
         'isEmployee': isEmployee,
         'premiumTill': profile.premium_till if request.user.is_staff else '',

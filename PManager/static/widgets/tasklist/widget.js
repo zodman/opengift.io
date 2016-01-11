@@ -69,7 +69,7 @@ var widget_tl, currentGroup;
             'TL_Container': false,
             'TL_SearchTask': $('.search-input'),
             '$searchRulesHolder': $('.search_items_holder'),
-            '$saveFilterButton': $('.js-save-search-tab'),
+            '$xlsFilterButton': $('.js-xls-search-tab'),
             '$btnSuccess': $('.btn.btn-success'),
             '$btnFilter': $('.btn.js-filter-btn'),
             '$tabContainer': $('.task-tab-filter'),
@@ -242,18 +242,21 @@ var widget_tl, currentGroup;
 
                 this.createUserAdditionalTabs();
                 var t = this;
-                this.$saveFilterButton.click(function () {
-                    var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
-
-                    if (newTab) {
-                        var $tabElem = widget_tl.addNewTabToPanel(newTab);
-                        $tabElem.activateListItem();
-                        $tabElem.find('a.userTab').setEditable(function () {
-                            t.additionalTabs.renameTab(newTab.id, this.text());
-                        });
-                    }
-
-                    return false;
+                //this.$saveFilterButton.click(function () {
+                //    var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
+                //
+                //    if (newTab) {
+                //        var $tabElem = widget_tl.addNewTabToPanel(newTab);
+                //        $tabElem.activateListItem();
+                //        $tabElem.find('a.userTab').setEditable(function () {
+                //            t.additionalTabs.renameTab(newTab.id, this.text());
+                //        });
+                //    }
+                //
+                //    return false;
+                //});
+                this.$xlsFilterButton.click(function() {
+                    widget_tl.openXLS();
                 });
 
                 this.$tabContainer.on('click', 'a.js-removeTab', function () {
@@ -471,6 +474,26 @@ var widget_tl, currentGroup;
                         this.addNewTabToPanel(aUserTabs[k]);
                 }
             },
+            'openXLS': function () {
+                var $tab = $('.js-xls-search-tab');
+                $tab.pushTheButton();
+                this.TL_Search({
+                    'xls': 1
+                }, true, function(data) {
+                    $tab.pullTheButton();
+                    try {
+                        data = $.parseJSON(data);
+                    } catch (e) {
+                        alert('Неизвестная ошибка');
+                    }
+                    if (data.file) {
+                        document.location.href = data.file;
+                    } else {
+                        alert('Ошибка генерации XLS');
+                    }
+                });
+                return false;
+            },
             'addNewTabToPanel': function (oTab) {
                 var t = this;
                 var $newTab = $('<li style="position:relative;"></li>').attr('data-id', oTab.id),
@@ -485,7 +508,6 @@ var widget_tl, currentGroup;
                 return $newTab;
             },
             'applyWorkFlowState': function (params) {
-
                 this.$searchRulesHolder.empty();
                 this.TL_SearchTask.val('');
                 var filter = params.taskListFilter;
@@ -539,11 +561,11 @@ var widget_tl, currentGroup;
                         }
                         //try to find existing user tabs
                         if (!$userTabEqualsQuery.get(0))
-                            this.$saveFilterButton.removeClass(h);
+                            this.$xlsFilterButton.removeClass(h);
                         this.$btnFilter.removeClass(br);
                     } else {
                         this.$btnFilter.addClass(br);
-                        this.$saveFilterButton.addClass(h);
+                        this.$xlsFilterButton.addClass(h);
                         siblings('.icon-remove').hide();
                     }
                 }
@@ -576,7 +598,7 @@ var widget_tl, currentGroup;
                 this.TL_HintOpened = {
                     'name': hintName,
                     'container': hint_block
-                }
+                };
                 return hint_block;
             },
             'TL_HideHint': function () {
@@ -691,7 +713,7 @@ var widget_tl, currentGroup;
                     $('.show-more').hide();
                 return this.TL_Search(params, true);
             },
-            'TL_Search': function (params, silent) {
+            'TL_Search': function (params, silent, callback) {
                 currentGroup = false;
                 if (!$('.show-more').pushed() && !silent) //if not show more btn clicked
                     $('.js-search-btn').pushTheButton();
@@ -738,17 +760,17 @@ var widget_tl, currentGroup;
                     }
                 }
 
-
                 window.backurl = document.location.href;
                 this.checkSearchInput();
                 var obj = this;
                 PM_AjaxPost("/task_handler",
                     params,
-                    function (data) {
+                    (callback ? callback : function (data) {
                         $('.js-new-first-task, .js-search-block').show();
-                        var data = $.parseJSON(data),
-                            paginator = data.paginator,
+                        data = $.parseJSON(data);
+                        var paginator = data.paginator,
                             tasks = data.tasks;
+
                         $('.js-search-btn').pullTheButton();
 
                         if (!params.parent && !params.page) {
@@ -779,7 +801,7 @@ var widget_tl, currentGroup;
                             }
                         }
                         setTaskCellsHeight()
-                    });
+                    }));
                 return this;
             },
             'addGroupRow': function (group) {
@@ -839,8 +861,9 @@ var widget_tl, currentGroup;
                     });
                 });
 
+                var $row;
                 if (group.id) {
-                    var $row = $(row).on('click', '.js-close-milestone', function (e) {
+                    $row = $(row).on('click', '.js-close-milestone', function (e) {
                         if (confirm('Вы действительно хотите закрыть данную цель?')) {
                             $.post('/milestone_ajax/', {
                                 'action': 'remove',
@@ -855,7 +878,7 @@ var widget_tl, currentGroup;
                         }
                     });
                 } else {
-                    var $row = $(row);
+                    $row = $(row);
                 }
                 $row.appendTo(this.TL_Container);
             },

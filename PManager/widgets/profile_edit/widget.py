@@ -1,29 +1,30 @@
 # -*- coding:utf-8 -*-
-__author__ = 'Gvammer'
 from PManager.models import PM_Task, PM_User, PM_Timer
 from PManager.widgets.tasklist.widget import widget as taskList
 from django.contrib.auth.models import User
 from django import forms
 from django.template import RequestContext
 from django.core.context_processors import csrf
+__author__ = 'Gvammer'
 
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ["first_name", "last_name", "email"]
+        fields = ["email", "first_name", "last_name"]
+
 
 def widget(request, headerValues, ar, qargs):
     if request.user.is_superuser:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ["icq", "skype", "avatar", 'specialties', 'sp_price']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'sp_price', 'overdraft', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ["icq", "skype", "avatar"]
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
 
     uid = request.GET.get('id', None)
     if uid and request.user.is_staff:
@@ -50,6 +51,7 @@ def widget(request, headerValues, ar, qargs):
                 if password_confirm == password:
                     user.set_password(password_confirm)
                     user.save()
+
             return {'redirect': '/profile/edit/?id='+str(uid)}
     else:
         form = ProfileForm(instance=profile) # An unbound form
@@ -71,7 +73,6 @@ def widget(request, headerValues, ar, qargs):
             'summ': sum,
             'rest': sum * int(profile.sp_price) if profile.sp_price else 0
         })
-
 
     except User.DoesNotExist:
         pass

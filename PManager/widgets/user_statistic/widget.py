@@ -24,7 +24,7 @@ def widget(request, headerValues,a,b):
     cur_user_access_projects = [v['id'] for v in request.user.get_profile().getProjects().values('id')]
     weeksDelta = 4
 
-    dateStart = datetime.datetime.now()-datetime.timedelta(weeks=weeksDelta)
+    dateStart = datetime.datetime.now() - datetime.timedelta(weeks=weeksDelta)
     dateEnd = None
     users_id = filterForm['aUserId'].value()
     if filterForm.is_valid() and users_id:
@@ -54,19 +54,21 @@ def widget(request, headerValues,a,b):
     for user in users:
         profile = user.get_profile()
         if profile.avatar:
-            profile.avatar = str(profile.avatar).replace('PManager','')
+            profile.avatar = str(profile.avatar).replace('PManager', '')
         setattr(user,'profile',profile)
 
         if not user.email and user.username.find('@'):
             setattr(user, 'email', user.username)
 
-        query = 'SELECT SUM(`seconds`) as summ, id, user_id, task_id, dateStart from PManager_pm_timer' + \
-                ' WHERE `user_id`=' + str(int(user.id)) + \
-                ' AND `dateStart` > \'' + str(dateStart) + '\'' + \
-                ((' AND `dateStart` < \'' + str(dateEnd) + '\'') if dateEnd else '') + \
-                ' GROUP BY `task_id` ORDER BY `dateStart` DESC'
-        timers = PM_Timer.objects.raw(query)
-
+        # query = 'SELECT SUM(`seconds`) as summ, id, user_id, task_id, dateStart, dateEnd from PManager_pm_timer' + \
+        #         ' WHERE `user_id`=' + str(int(user.id)) + \
+        #         ' AND `dateStart` > \'' + str(dateStart) + '\'' + \
+        #         ((' AND `dateStart` < \'' + str(dateEnd) + '\'') if dateEnd else '') + \
+        #         ' GROUP BY `task_id` ORDER BY `dateStart` DESC'
+        # timers = PM_Timer.objects.raw(query)
+        timers = PM_Timer.objects.filter(dateEnd__gt=dateStart, user=user)
+        if dateEnd:
+            timers = timers.filter(dateEnd__lt=dateEnd)
 
         arTaskTime = []
         allUserTime = 0
@@ -74,7 +76,7 @@ def widget(request, headerValues,a,b):
         allFilesQty = 0
         for timer in timers:
             try:
-                task = PM_Task.objects.get(pk=timer.task_id)
+                task = timer.task
                 if task.project.id not in cur_user_access_projects:
                     continue
 
@@ -82,18 +84,21 @@ def widget(request, headerValues,a,b):
 
                 if dateEnd:
                     comments = comments.filter(dateCreate__lt=dateEnd)
+
                 if dateStart:
                     comments = comments.filter(dateCreate__gt=dateStart)
 
-                if timer.summ:
-                    allUserTime += int(timer.summ)
+                if timer.seconds:
+                    allUserTime += int(timer.seconds)
 
                 allCommentsQty += comments.count()
                 arTaskTime.append({
                     'comments_qty': comments.count(),
                     'task': task,
-                    'timer': PM_Timer(seconds=timer.summ) if timer.summ else None
+                    'timer': timer,
+                    'date': timer.dateEnd
                 })
+
             except PM_Task.DoesNotExist:
                 pass
 
@@ -115,13 +120,13 @@ def widget(request, headerValues,a,b):
         closedTaskQty = closedTaskQty.count()
         commentsQty = commentsQty.count()
 
-        setattr(user,'closedTaskQty',closedTaskQty)
-        setattr(user,'commentsQty',commentsQty)
+        setattr(user, 'closedTaskQty', closedTaskQty)
+        setattr(user, 'commentsQty', commentsQty)
 
     return {
-        'users':users,
-        'allUsers':allUsers,
-        'filterForm':filterForm,
+        'users': users,
+        'allUsers': allUsers,
+        'filterForm': filterForm,
         'now': templateTools.dateTime.convertToSite(timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())),
         'week_ago': templateTools.dateTime.convertToSite(timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()) - datetime.timedelta(days=7)),
         'title': u'Статистика пользователей'

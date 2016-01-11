@@ -61,6 +61,7 @@ class Fee(models.Model):
     value = models.IntegerField()
     task = models.ForeignKey(PM_Task, related_name='fee', null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
+    type = models.CharField(max_length=50, blank=True, null=True)
 
     class Meta:
         app_label = 'PManager'

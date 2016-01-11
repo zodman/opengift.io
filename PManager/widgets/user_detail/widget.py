@@ -24,7 +24,7 @@ def widget(request, headerValues, ar, qargs):
         try:
             user = User.objects.get(pk=int(get['id']))
             profile = user.get_profile()
-            setattr(profile, 'rating', int(profile.rating or 0))
+            # setattr(profile, 'rating', int(profile.rating or 0))
             cur_prof = request.user.get_profile()
             if 'action' in post:
                 # add this user to project
@@ -37,8 +37,14 @@ def widget(request, headerValues, ar, qargs):
                             role = PM_Role.objects.get(id=role)
                             if cur_prof.isManager(project):
                                 profile.setRole(role.code, project)
+                                if role.code == 'employee':
+                                    if cur_prof.is_outsource:
+                                        from PManager.models.agreements import Agreement
+                                        Agreement.objects.get_or_create(payer=project.payer, resp=cur_prof.user)
+
                                 if USE_GIT_MODULE:
                                     GitoliteManager.regenerate_access(project)
+
                                 return {
                                     'redirect': u'/user_detail/?id=' + unicode(get['id'])
                                 }

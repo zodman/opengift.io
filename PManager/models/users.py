@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 from django.db import models
 from django.contrib.auth.models import User
-from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project
+from PManager.models.tasks import PM_Tracker, PM_ProjectRoles, PM_Role, PM_Project, RatingHistory, FineHistory
 from PManager.models.achievements import PM_User_Achievement, PM_Project_Achievement
 from PManager.models.payments import Credit
 from PManager.viewsExt import headers
@@ -10,6 +10,7 @@ from PManager.viewsExt.tools import emailMessage
 from django.db.models.signals import post_save, pre_delete
 from PManager.customs.storages import path_and_rename
 from django.db import connection
+from django.db.models import Sum
 
 class Specialty(models.Model):
     name = models.CharField(max_length=500)
@@ -57,27 +58,46 @@ class PM_User(models.Model):
     )
 
     user = models.OneToOneField(User, db_index=True, related_name='profile')
+    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Отчество')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
+    phoneNumber = models.CharField(max_length=12, null=True, blank=True, verbose_name=u'Номер телефона')
+    documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
+    documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
+    documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+    #docIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+    order = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Лицевой счет')
+    bank = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Банк')
+    bik = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'БИК')
+
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to=path_and_rename("users"))
-    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name='Желаемая ставка')
+    sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name=u'Желаемая ставка')
 
-    premium_till = models.DateTimeField(blank=True, null=True, verbose_name='Оплачен до')
+    premium_till = models.DateTimeField(blank=True, null=True, verbose_name=u'Оплачен до')
     paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
-                                         verbose_name='Специальности')
+                                         verbose_name=u'Специальности')
     # all_sp = models.IntegerField(null=True,blank=True)
     avatar_color = models.CharField(blank=True, null=True, default=get_random_color, choices=color_choices,
                                     max_length=20)
 
     # account_total = models.IntegerField(blank=True, null=True, verbose_name='Счет')
-    rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
+    # rating = models.FloatField(blank=True, null=True, verbose_name='Рейтинг', default=0)
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
-    is_outsource = models.BooleanField(blank=True, verbose_name='Аутсорс', default=False)
+    is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
+    is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
+    overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
+
+    @property
+    def rating(self):
+        rAll = RatingHistory.objects.filter(
+                user=self.user
+            ).aggregate(Sum('value'))
+        return rAll['value__sum'] or 0
 
     @property
     def account_total(self):
@@ -218,6 +238,12 @@ class PM_User(models.Model):
 
         return user
 
+    def getFine(self):
+        rAll = FineHistory.objects.filter(
+                user=self.user
+            ).aggregate(Sum('value'))
+        return rAll['value__sum'] or 0
+
     def getRating(self, project=None):
         if not self.is_outsource:
             return 0
@@ -277,7 +303,7 @@ class PM_User(models.Model):
 
         return False
 
-    def setRole(self, roleCode, project, type=None):
+    def setRole(self, roleCode, project):
         if self.user and project and roleCode:
             try:
                 clientRole = PM_Role.objects.get(code=roleCode, tracker=headers.TRACKER)
@@ -288,8 +314,8 @@ class PM_User(models.Model):
                 userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole,
                                                                           project=project)
                 if type:
-                    userRole.payment_type = type
                     userRole.save()
+
         return self
 
     def getProjects(self, only_managed=False, locked=False):
@@ -394,7 +420,6 @@ def remove_keys(sender, instance, **kwargs):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = PM_User.objects.get_or_create(user=instance)
-
 
 pre_delete.connect(remove_keys, sender=User)
 post_save.connect(create_user_profile, sender=User)

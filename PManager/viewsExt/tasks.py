@@ -26,7 +26,8 @@ from django.core.context_processors import csrf
 
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
-#decorator
+
+
 def task_ajax_action(fn):
     def new(*args):
         if len(args) > 1:
@@ -55,7 +56,6 @@ def microTaskAjax(request, task_id):
         'executor': json.dumps(user.avatar_rel) if user is not None else '',
         'status': task.status.code
     }), content_type="application/json")
-
 
 
 def __change_resp(request):
@@ -97,8 +97,12 @@ def __change_resp(request):
     r_prof = task.resp.get_profile()
     if not r_prof.hasRole(task.project):
         r_prof.setRole('employee', task.project)
+        if r_prof.is_outsource:
+            from PManager.models.agreements import Agreement
+            Agreement.objects.get_or_create(payer=task.project.payer, resp=r_prof.user)
+
     # outsource
-    if r_prof.getBet(task.project) >= 0 and \
+    if r_prof.is_outsource and \
             not task.project.getSettings().get('unplan_approve', False):  # if finance relationship
         task.setStatus('not_approved')
     else:
@@ -268,29 +272,130 @@ def __search_filter(header_values, request):
                 Q(closed=False)
             ) | Q(dateClose__lt=datetime.datetime.now())
         )
-    page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
-    if start_page:
-        page = start_page
 
-    # if page > 2:
-    #     # count = 2 ** (page - 2) * 10
-    #     page = 2
-    if start_page:
-        count *= page
-        page = 1
+    needXlsOutput = request.POST.get('xls') and header_values['CURRENT_PROJECT'] or False
+    ar_page_params = {}
+    if not needXlsOutput:
+        page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
+        if start_page:
+            page = start_page
 
-    ar_page_params = {
-        'pageCount': count,
-        'page': page,
-        'startPage': start_page,
-        'group': group
-    }
-    tasks = task_list(request, header_values, {'filter': ar_filter, 'exclude': ar_exclude}, qArgs, ar_page_params)
-    paginator = tasks['paginator']
-    tasks = tasks['tasks']
-    response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
+        # if page > 2:
+        #     # count = 2 ** (page - 2) * 10
+        #     page = 2
+        if start_page:
+            count *= page
+            page = 1
+
+        ar_page_params = {
+            'pageCount': count,
+            'page': page,
+            'startPage': start_page,
+            'group': group
+        }
+
+
+    tasks = task_list(
+        request,
+        header_values,
+        {'filter': ar_filter, 'exclude': ar_exclude},
+        qArgs,
+        ar_page_params
+    )
+
+    if needXlsOutput:
+        response_text = simplejson.dumps(
+            {
+                'file':
+                    str(__save_xls_from_task_list(tasks['tasks'], header_values['CURRENT_PROJECT'], request.user))
+            }
+        )
+    else:
+        paginator = tasks['paginator']
+        tasks = tasks['tasks']
+        response_text = simplejson.dumps({'tasks': list(tasks), 'paginator': paginator})
 
     return response_text
+
+
+def __save_xls_from_task_list(task_list, project, user):
+    if not project:
+        return None
+
+    import xlsxwriter
+    import StringIO
+    from django.core.files.base import ContentFile
+
+    output = StringIO.StringIO()
+    workbook = xlsxwriter.Workbook(output)
+
+    ws = workbook.add_worksheet('sumLoan')
+
+    bold = workbook.add_format({'bold': 1})
+    date_format = workbook.add_format({'num_format': 'd mmmm yyyy h:mm:ss'})
+    url_format = workbook.add_format({'color': 'green', 'underline': 1})
+
+    row = 0
+    col = 0
+
+    for title in [
+        u'Дата',
+        u'Ответственный',
+        u'Задача',
+        u'Время',
+        u'Результат',
+        u'Закрыта'
+    ]:
+
+        ws.write(row, col, title, bold)
+        col += 1
+
+    ws.set_column(0, 2, 20)  # first 3 columns width
+    col = 0
+    row = 1
+
+    for item in task_list:
+        date = item.get('last_message', {}).get('date', '')
+        ws.write_string(
+            row,
+            col,
+            date
+        )
+        ws.write_string(row, col + 1, item.get('resp', [])[0].get('name', ''))
+        ws.write_url(row, col + 2, settings.HTTP_ROOT_URL + item.get('url', ''), url_format, item.get('name', ''))
+        timeObj = templateTools.dateTime.timeFromTimestamp(item.get('time', 0))
+        ws.write_string(
+            row,
+            col + 3,
+            (
+                ('0' if len(str(timeObj['hours'])) == 1 else '') + str(timeObj['hours']) + ':' +
+                ('0' if len(str(timeObj['minutes'])) == 1 else '') + str(timeObj['minutes']) + ':' +
+                ('0' if len(str(timeObj['seconds'])) == 1 else '') + str(timeObj['seconds'])
+            )
+        )
+        ws.write_string(row, col + 4, item.get('last_message', {}).get('text', '') or '')
+        ws.write_string(row, col + 5, u'Да' if item.get('closed', None) else u'')
+
+        # ws.write_number(row, col + 3, item.get('text', ''))
+        row += 1
+
+    workbook.close()
+
+    xlsx_data = output.getvalue()
+    file = PM_Files(
+        projectId=project,
+        authorId=user,
+        name=str(user) + str(project)
+    )
+    file.save()
+    file.file.save(
+        'projects/' + str(int(project.id)) + '/stat/' + str(file.id) + '.xls',
+        ContentFile(xlsx_data)
+    )
+    file.save()
+
+    return file.src
+
 
 def __task_message(request):
     text = request.POST.get('task_message', '')
@@ -542,10 +647,23 @@ def taskListAjax(request):
                                     'error': u'Задача должна быть оценена'
                                 }))
 
+                            if task.resp.get_profile().is_outsource:
+                                if request.user.id == task.project.payer.id:
+                                    if task.project.payer.get_profile().account_total < -int(task.project.payer.get_profile().overdraft):
+                                        return HttpResponse(json.dumps({
+                                            'error': u'У автора проекта недостаточно средств для подтверждения задачи'
+                                        }))
+                                else:
+                                    return HttpResponse(json.dumps({
+                                        'error': u'Задачу может подтвердить только автор проекта'
+                                    }))
+
                             if not request.user.get_profile().isManager(task.project):
                                 return HttpResponse(json.dumps({
                                     'error': u'Задачу может подтвердить только менеджер'
                                 }))
+
+
 
                             # clientRole = PM_ProjectRoles.objects.get(
                             #     role__code='client',
@@ -616,6 +734,10 @@ def taskListAjax(request):
     else:
         response_text = 'bad query'
 
+
+
+
+
     return HttpResponse(response_text)
 
 
@@ -640,7 +762,7 @@ class taskManagerCreator:
         self.task = PM_Task.createByString(text, self.currentUser, self.fileList, self.parentTask, project=self.project)
         self.task.systemMessage(u'Задача создана', self.currentUser, 'TASK_CREATE')
         settings = self.task.project.getSettings()
-        if not settings.get('start_unapproved', False):
+        if not settings.get('unplan_approve', False):
             self.task.setStatus('not_approved')
         else:
             self.task.setStatus('revision')
@@ -651,7 +773,7 @@ class taskManagerCreator:
         if self.task and self.currentUser:
             if self.task.status and self.task.status.code == 'not_approved':
                 settings = self.task.project.getSettings()
-                if not settings.get('start_unapproved', False):
+                if not settings.get('unplan_approve', False):
                     return False
 
             timers = PM_Timer.objects.filter(user=self.currentUser, dateEnd=None)
@@ -942,6 +1064,7 @@ class taskAjaxManagerCreator(object):
     def process_taskClose(self):
         t = self.taskManager.task
         user = self.currentUser
+        error = ''
 
         if t.started:
             t.Stop()
@@ -957,11 +1080,12 @@ class taskAjaxManagerCreator(object):
                 message.save()
                 responseJson = message.getJson()
 
-                mess = RedisMessage(service_queue,
-                                    objectName='comment',
-                                    type='add',
-                                    fields=responseJson
-                                    )
+                mess = RedisMessage(
+                    service_queue,
+                    objectName='comment',
+                    type='add',
+                    fields=responseJson
+                )
                 mess.send()
             else:
                 if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
@@ -977,51 +1101,71 @@ class taskAjaxManagerCreator(object):
                             comment=u'Закрытие задачи'
                         )
                         taskOneSecondTimer.save()
-
-
-                    t.setIsInTime()
-                    t.Close(user)
-                    t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
-
-                    #TODO: данный блок дублируется 4 раза
-                    if t.milestone and not t.milestone.closed:
-                        qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
-                            .exclude(id=t.id).count()
-
-                        if not qtyInMS:
-                            t.milestone.closed = True
-                            t.milestone.save()
-
-                    if t.parentTask and not t.parentTask.closed:
-                        c = t.parentTask.subTasks.filter(closed=False, active=True).count()
-                        if c == 0:
-                            t.parentTask.Close(user)
-                            if t.parentTask.milestone and not t.parentTask.milestone.closed:
-                                qtyInMS = PM_Task.objects.filter(active=True, milestone=t.parentTask.milestone,
-                                                                 closed=False).count()
-                                if not qtyInMS:
-                                    t.parentTask.milestone.closed = True
-                                    t.parentTask.milestone.save()
-
-
                     else:
-                        for stask in t.subTasks.all():
-                            if stask.started:
-                                stask.Stop()
-                                stask.endTimer(user, u'Закрытие задачи')
+                        if t.resp and t.resp.get_profile().is_outsource:
+                            if not user or user.id != t.project.payer.id:
+                                error = u'Закрывать задачи с участием PRO специалистов может только автор проекта'
 
-                            stask.Close(user)
+                            from PManager.models.agreements import Agreement
+                            from django.db.models import Count
 
-                    net = TaskMind()
-                    net.train([t])
+                            taskTimers = taskTimers.values('user__id').annotate(dcount=Count('user__id'))
+                            for timer in taskTimers:
+                                u = User.objects.get(pk=timer['user__id'])
+                                try:
+                                    agreement = Agreement.objects.get(
+                                        approvedByPayer=True,
+                                        approvedByResp=True,
+                                        resp=u,
+                                        payer=t.project.payer
+                                    )
+                                except Agreement.DoesNotExist:
+                                    error = u'Нет принятого с обоих сторон договора c ' + u.last_name + ' ' + u.first_name
 
-                    sendMes = emailMessage('task_closed',
-                       {
-                           'task': t
-                       },
-                       u'Задача закрыта: ' + t.name
-                    )
-                    sendMes.send([t.author.email, t.resp.email])
+                    if not error:
+                        t.setIsInTime()
+                        t.Close(user)
+                        t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
+
+                        #TODO: данный блок дублируется 4 раза
+                        if t.milestone and not t.milestone.closed:
+                            qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
+                                .exclude(id=t.id).count()
+
+                            if not qtyInMS:
+                                t.milestone.closed = True
+                                t.milestone.save()
+
+                        if t.parentTask and not t.parentTask.closed:
+                            c = t.parentTask.subTasks.filter(closed=False, active=True).count()
+                            if c == 0:
+                                t.parentTask.Close(user)
+                                if t.parentTask.milestone and not t.parentTask.milestone.closed:
+                                    qtyInMS = PM_Task.objects.filter(active=True, milestone=t.parentTask.milestone,
+                                                                     closed=False).count()
+                                    if not qtyInMS:
+                                        t.parentTask.milestone.closed = True
+                                        t.parentTask.milestone.save()
+
+
+                        else:
+                            for stask in t.subTasks.all():
+                                if stask.started:
+                                    stask.Stop()
+                                    stask.endTimer(user, u'Закрытие задачи')
+
+                                stask.Close(user)
+
+                        net = TaskMind()
+                        net.train([t])
+
+                        sendMes = emailMessage('task_closed',
+                           {
+                               'task': t
+                           },
+                           u'Задача закрыта: ' + t.name
+                        )
+                        sendMes.send([t.author.email, t.resp.email])
 
                 elif (not t.status) or t.status.code != 'ready':
                     t.setIsInTime()
@@ -1035,7 +1179,8 @@ class taskAjaxManagerCreator(object):
 
         return json.dumps({
             'closed': t.closed,
-            'status': t.status.code if t.status else None
+            'status': t.status.code if t.status else None,
+            'error': error
         })
 
     @task_ajax_action

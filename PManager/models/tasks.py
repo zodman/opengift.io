@@ -25,7 +25,6 @@ from django.db.models.signals import post_save, pre_delete, post_delete, pre_sav
 from PManager.services.service_queue import service_queue
 
 
-
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',
@@ -110,6 +109,7 @@ class PM_Project(models.Model):
     closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
+    payer = models.ForeignKey(User)
 
     @property
     def url(self):
@@ -347,6 +347,7 @@ class PM_Task(models.Model):
     MANAGER_ADDITION_PER_BUG = 0.1
     RESP_SUBSTRUCTION_PER_BUG = 0.05
     FEE = 0.1
+    MAX_OVERTIME = 3
 
     bool_choices = (
         ('N', u'No'),
@@ -452,14 +453,14 @@ class PM_Task(models.Model):
                 tagRelUser.weight = int(tagRelUser.weight) + 1
                 tagRelUser.save()
 
+        if not self.resp and user:
+            self.resp = user
+
         self.closed = True
         self.critically = 0.5
         self.status = None
         self.onPlanning = False
         self.dateClose = datetime.datetime.now()
-
-        if not self.resp and user:
-            self.resp = user
 
         if not self.wasClosed and not self.subTasks.count():
             self.setCreditForTime()
@@ -510,7 +511,10 @@ class PM_Task(models.Model):
 
                     if self.planTime:
                         if ob['time'] > self.planTime:
-                            ob['rating'] = -round(5 * (ob['time'] - self.planTime))
+                            if (ob['time'] - self.planTime) > self.MAX_OVERTIME:
+                                ob['time'] = self.planTime + self.MAX_OVERTIME
+
+                            ob['rating'] = -round(20 * (ob['time'] - self.planTime))
                             accCode = 'rating_minus'
                         else:
                             accCode = 'rating_plus'
@@ -526,14 +530,31 @@ class PM_Task(models.Model):
                                 pass
 
                     curUserRating = ob.get('rating', 0)
+
                     #set user rating
                     profResp = cUser.get_profile()
+                    respFine = profResp.getFine()
                     if curUserRating != 0 and profResp.is_outsource:
-                        profResp.rating = (profResp.rating or 0) + curUserRating
-                        if profResp.rating < 0:
-                            profResp.rating = 0
+                        obRating = None
 
-                        profResp.save()
+                        if curUserRating < 0:
+                            obRating = FineHistory(value=curUserRating, user=cUser)
+                        elif curUserRating > 0:
+                            if respFine > 0:
+                                if respFine > curUserRating:
+                                    obRating = FineHistory(value=-curUserRating, user=cUser)
+                                else:
+                                    obRating = FineHistory(value=-respFine, user=cUser)
+                                    ratingLeft = curUserRating - respFine
+
+                                    if ratingLeft:
+                                        ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
+                                        ratingLeft.save()
+                            else:
+                                obRating = RatingHistory(value=curUserRating, user=cUser)
+
+                        if obRating:
+                            obRating.save()
 
                     if ob['time']:
                         allRealTime += ob['time']
@@ -548,7 +569,22 @@ class PM_Task(models.Model):
                                     substruction = round(curPrice * self.RESP_SUBSTRUCTION_PER_BUG * bugsQty)
                                     curPrice -= substruction
 
+                                allSum = allSum + curPrice
+
+                                respFine = profResp.getFine()
+                                fineSum = 0
+                                if respFine:
+                                    fineSum = - respFine * float(ob['time'])
+                                    fee = Fee(
+                                        user=profResp.user,
+                                        value=fineSum,
+                                        project=self.project,
+                                        task=self
+                                    )
+                                    fee.save()
+
                                 feeValue = math.floor(curPrice * self.FEE)
+
                                 fee = Fee(
                                     user=profResp.user,
                                     value=feeValue,
@@ -559,7 +595,7 @@ class PM_Task(models.Model):
 
                                 credit = Credit(
                                     user=profResp.user,
-                                    value=curPrice,
+                                    value=curPrice - feeValue - fineSum,
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
@@ -567,8 +603,6 @@ class PM_Task(models.Model):
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
-
-                                allSum = allSum + curPrice
 
         if allRealTime or self.planTime:
             if self.planTime:
@@ -581,7 +615,7 @@ class PM_Task(models.Model):
                 cManagers = 0
                 aManagers = []
                 for manager in managers:
-                    if manager.user.get_profile().is_outsource:
+                    if manager.user.get_profile().is_heliard_manager:
                         bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                         if bet:
                            cManagers += 1
@@ -617,27 +651,30 @@ class PM_Task(models.Model):
                                 credit.save()
 
                                 allSum = allSum + price
+
             if allSum:
-                #clients
-                clients = PM_ProjectRoles.objects.filter(
-                    project=self.project,
-                    role__code='client'
-                )
+                #client
+                clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
+                clientFeeSum = math.floor(allSum * clientComission / 100)
 
-                for client in clients:
-                    clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
-                    allSum = math.floor(allSum * (clientComission + 100) / 100)
-
+                if self.project.payer:
                     credit = Credit(
-                        user=client.user,
-                        value=-allSum,
+                        user=self.project.payer,
+                        value=-allSum-clientFeeSum,
                         project=self.project,
                         task=self,
                         type='Client with comission'
                     )
-
                     credit.save()
-                    break
+
+                    if clientFeeSum:
+                        fee = Fee(
+                            user=self.project.payer,
+                            value=clientFeeSum,
+                            project=self.project,
+                            task=self
+                        )
+                        fee.save()
 
     def Open(self):
         self.closed = False
@@ -926,6 +963,9 @@ class PM_Task(models.Model):
             roles = resp.get_profile().getRoles(task.project)
             if not roles:
                 resp.get_profile().setRole(task.project, 'employee')
+                if resp.get_profile().is_outsource:
+                    from PManager.models.agreements import Agreement
+                    Agreement.objects.get_or_create(payer=task.project.payer, resp=resp)
                 # elif task.parentTask:
         #     for resp in task.parentTask.responsible.all():
     #         task.responsible.add(resp) #17.04.2014 task #553
@@ -1790,6 +1830,24 @@ class PM_Reminder(models.Model):
 
     def __unicode__(self):
         return unicode(self.date.strftime('%d.%m.%Y %H:%M:%S'))
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class RatingHistory(models.Model):
+    value = models.FloatField(blank=True, verbose_name='Рейтинг', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class FineHistory(models.Model):
+    value = models.FloatField(blank=True, verbose_name='Штраф', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
         app_label = 'PManager'
