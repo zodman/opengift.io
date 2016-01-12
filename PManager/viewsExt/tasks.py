@@ -649,7 +649,7 @@ def taskListAjax(request):
 
                             if task.resp.get_profile().is_outsource:
                                 if request.user.id == task.project.payer.id:
-                                    if task.project.payer.get_profile().account_total < -int(task.project.payer.get_profile().overdraft):
+                                    if task.project.payer.get_profile().account_total < -int(task.project.payer.get_profile().overdraft or 0):
                                         return HttpResponse(json.dumps({
                                             'error': u'У автора проекта недостаточно средств для подтверждения задачи'
                                         }))
