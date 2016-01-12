@@ -49,6 +49,9 @@
                     Результат
                 </th>
                 <th>
+                    Дата закрытия
+                </th>
+                <th>
                     Комментариев&nbsp;({{ user.commentsQty }})
                 </th>
                 <th>
@@ -65,6 +68,7 @@
                     <td>{{ taskTime.timer }}</td>
                     <td>{% if taskTime.task.planTime %}{{ taskTime.task.planTime }}{% endif %}</td>
                     <td>{{ taskTime.timer.comment|safe }}</td>
+                    <td>{% if taskTime.task.dateClose %}{{ taskTime.task.dateClose|date:"d.m.Y H:i:s" }}{% endif %}</td>
                     <td>{% if taskTime.comments_qty %}{{ taskTime.comments_qty }}{% endif %}</td>
                     <td>{{ taskTime.files_qty }}</td>
                     <td>{% if taskTime.task.closed %}Да{% endif %}</td>
@@ -74,6 +78,7 @@
                     <td><b>Итого</b></td>
                     <td></td>
                     <td><b>{% if user.allTime %}{{ user.allTime }}{% endif %}</b></td>
+                    <td></td>
                     <td></td>
                     <td></td>
                     <td><b>{% if user.all_comments_qty %}{{ user.all_comments_qty }}{% endif %}</b></td>
