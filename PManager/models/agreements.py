@@ -15,10 +15,10 @@ class Agreement(models.Model):
     dateRespApprove = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
-        return self.id
+        return str(self.id)
 
     def __unicode__(self):
-        return self.id
+        return unicode(self.id)
 
     @property
     def text(self):

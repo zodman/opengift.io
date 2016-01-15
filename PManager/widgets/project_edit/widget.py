@@ -12,7 +12,7 @@ from tracker.settings import USE_GIT_MODULE
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "image", "author", "tracker"]
+        fields = ["name", "description", "image", "author", "tracker", "payer"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
