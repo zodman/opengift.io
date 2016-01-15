@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 from PManager.models import Agreement
 from django.shortcuts import HttpResponse
-import datetime
+import datetime, json
 
 
 def __show_agreement(request):
@@ -34,7 +34,18 @@ def __approve_agreement(request):
 
                 agreement.save()
 
-                return ''
+                new_agreement = Agreement.objects.filter(resp=request.user, approvedByResp=False)
+                if new_agreement.exists():
+                    new_agreement = new_agreement[0]
+                    return json.dumps({'id': new_agreement.id, 'text': new_agreement.text})
+
+                new_agreement = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
+                if new_agreement.exists():
+                    new_agreement = new_agreement[0]
+                    return json.dumps({'id': new_agreement.id, 'text': new_agreement.text})
+
+
+                return json.dumps({})
 
             except Agreement.DoesNotExist:
                 pass

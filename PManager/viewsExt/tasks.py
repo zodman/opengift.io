@@ -1111,6 +1111,8 @@ class taskAjaxManagerCreator(object):
 
                             taskTimers = taskTimers.values('user__id').annotate(dcount=Count('user__id'))
                             for timer in taskTimers:
+                                if timer['user__id'] == t.project.payer.id:
+                                    continue
                                 u = User.objects.get(pk=timer['user__id'])
                                 try:
                                     agreement = Agreement.objects.get(

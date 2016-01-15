@@ -585,6 +585,8 @@
             });
         {% if agreementForApprove %}
             $('.js-agreement-approve').click(function(){
+                var $t = $(this);
+                $t.pushTheButton();
                 PM_AjaxPost(
                         '/agreements/',
                         {
@@ -592,8 +594,16 @@
                             'id': $(this).data('agreement')
                         },
                         function(data) {
-                            $('.js-current-agreement').remove();
-                        }
+                            $t.pullTheButton();
+                            if (data.id) {
+                                $('.js-agreement-title').text('Пользовательское соглашение №' + data.id);
+                                $('.js-agreement').html(data.text);
+                                $('.js-agreement-approve').data('agreement', data.id);
+                            } else {
+                                $('.js-current-agreement').remove();
+                            }
+                        },
+                        'json'
                 );
                 return false;
             });
@@ -619,7 +629,7 @@
 
 {% if agreementForApprove %}
 <div class="popup popup-alert js-current-agreement" >
-    <h3 class="title">Пользовательское соглашение №{{ agreementForApprove.id }}</h3>
+    <h3 class="title js-agreement-title">Пользовательское соглашение №{{ agreementForApprove.id }}</h3>
     <div class="content js-agreement"
          data-agreement="{{ agreementForApprove.id }}"
          style="max-height: 250px; overflow: auto;">
