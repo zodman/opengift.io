@@ -90,6 +90,7 @@ class PM_User(models.Model):
 
     is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
     is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
+    heliard_manager_rate = models.FloatField(blank=True, null=True, verbose_name=u'Ставка менеджера')
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
     @property

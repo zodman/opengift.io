@@ -310,7 +310,7 @@ def widget(request, headerValues, ar, qargs):
                 'project_roles': userRoles,
                 'user_projects': userProjects,
                 'userIsEqualCurrentUser': request.user.id == user.id,
-                'current_user_is_admin': request.user.is_superuser,
+                'current_user_is_admin': request.user.is_superuser or request.user.get_profile().is_heliard_manager,
                 'task': {
                     #'summ':taskSum,
                     #'summPerMonth':taskSumPerMonth,

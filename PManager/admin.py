@@ -47,6 +47,9 @@ class PaymentsInline(admin.ModelAdmin):
 class Reminder(admin.ModelAdmin):
     list_display = ['user', 'task', 'date']
 
+class AgreementInline(admin.ModelAdmin):
+    list_display = ['date', 'resp', 'payer']
+
 admin.site.register(PM_Role)
 admin.site.register(PM_Task)
 admin.site.register(PM_ProjectRoles, UserRoles)
@@ -79,4 +82,4 @@ admin.site.register(TaskDraft)
 admin.site.register(PaymentRequest)
 admin.site.register(RatingHistory)
 admin.site.register(FineHistory)
-admin.site.register(Agreement)
+admin.site.register(Agreement, AgreementInline)
