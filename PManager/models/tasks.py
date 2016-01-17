@@ -625,32 +625,24 @@ class PM_Task(models.Model):
                 for manager in aManagers:
                     curTime = self.planTime * 1.0 / cManagers
 
-                    if self.planTime > allRealTime:
-                        divider = allRealTime
-                    else:
-                        divider = 2 * self.planTime - allRealTime
+                    if curTime:
+                        bugQty = PM_Task_Message.objects.filter(author=manager, bug=True, task=self).count()
+                        if bugQty:
+                            curTime += curTime * self.MANAGER_ADDITION_PER_BUG * bugQty
 
-                    if divider > 0:
-                        curTime = curTime * round(divider / self.planTime, 2)
+                        bet = manager.user.get_profile().heliard_manager_rate
+                        price = bet * float(curTime)
+                        if price:
+                            credit = Credit(
+                                user=manager.user,
+                                value=price,
+                                project=self.project,
+                                task=self,
+                                type='Manager with bet'
+                            )
+                            credit.save()
 
-                        if curTime:
-                            bugQty = PM_Task_Message.objects.filter(author=manager, bug=True, task=self).count()
-                            if bugQty:
-                                curTime += curTime * self.MANAGER_ADDITION_PER_BUG * bugQty
-
-                            bet = manager.bet
-                            price = bet * float(curTime)
-                            if price:
-                                credit = Credit(
-                                    user=manager.user,
-                                    value=price,
-                                    project=self.project,
-                                    task=self,
-                                    type='Manager with bet'
-                                )
-                                credit.save()
-
-                                allSum = allSum + price
+                            allSum = allSum + price
 
             if allSum:
                 #client
