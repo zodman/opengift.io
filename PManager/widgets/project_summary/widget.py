@@ -12,8 +12,7 @@ def widget(request, headerValues, a, b):
 
     feeAll = Fee.objects.raw('SELECT SUM(value) s, id from pmanager_fee where value > 0')
     feeAll = feeAll[0].s
-    feePayed = Fee.objects.raw('SELECT SUM(value) s, id from pmanager_fee where value < 0')
-    feePayed = -feePayed[0].s
+
     aProjects = []
 
     for project in projects:
@@ -51,6 +50,5 @@ def widget(request, headerValues, a, b):
         'projects': aProjects,
         'title': u'Сводка по проектам',
         'feeAll': feeAll,
-        'feePayed': feePayed,
         'comission': PM_Task.FEE
     }
