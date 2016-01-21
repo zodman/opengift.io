@@ -132,7 +132,10 @@ def widget(request, headerValues, arFilter, q):
         messages = task.messages.order_by('dateCreate').exclude(code="WARNING")
         # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
         if not request.user.is_superuser:
-            messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
+            if prof.isEmployee(task.project) or prof.isManager(task.project):
+                messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
+            else:
+                messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
 
         if not prof.isManager(task.project):
             if prof.isClient(task.project):
@@ -145,6 +148,7 @@ def widget(request, headerValues, arFilter, q):
         if iMesCount > 0 and messages[iMesCount - 1]:
             if messages[iMesCount - 1].author and messages[iMesCount - 1].author.id == cur_user.id:
                 lamp = 'asked'
+
         arTodo = []
         arBugs = []
         for mes in messages:

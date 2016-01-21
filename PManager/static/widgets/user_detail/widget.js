@@ -81,7 +81,7 @@ $(function () {
                     '/users_ajax/',
                     {
                         'action': 'setRole',
-                        'role': $(this).attr('name'),
+                        'role': $(this).data('name'),
                         'roleProject': $(this).data('project'),
                         'user': $(this).data('user-id'),
                         'set': ($(this).is(':checked') ? 1 : 0)

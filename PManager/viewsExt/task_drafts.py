@@ -57,15 +57,19 @@ def taskdraft_resend_invites(request, draft_slug):
                             content_type="application/json")
     logger.debug('Executors available: ' + ', '.join(str(x) for x in user_ids))
     try:
-        users = PM_User.objects.filter(user_id__in=user_ids).order_by('-rating')[:LIMIT_USER_INVITES_PER_REQUEST]
+        users = PM_User.objects.filter(user_id__in=user_ids)[:LIMIT_USER_INVITES_PER_REQUEST]
         logger.debug('Final users:' + ', '.join(str(x.id) for x in users))
     except (ValueError, PM_User.DoesNotExist):
         logger.debug('Final users not found')
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
                             content_type="application/json")
+
     send_invites(users, draft)
     for profile in users:
         draft.users.add(profile.user)
+        profile.setRole('guest', draft.project)
+        for task in draft.tasks:
+            task.observers.add(profile.user)
 
     draft.status = TaskDraft.OPEN
     draft.save()

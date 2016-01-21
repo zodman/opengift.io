@@ -85,7 +85,7 @@
                 <p>Всего ошибок:  <b>{{ user_detail.bugsQty|default_if_none:'0' }}</b></p>
                 </div>
 
-                {% if user_detail.profile.is_outsource %}
+
                 <div class="statistic-list-item last-child">
                 <h3>Финансы</h3>
                 <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
@@ -106,7 +106,6 @@
                 <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
                 {% endif %}
                 </div>
-                {% endif %}
             </div>
         </div><!--user-personal-->
         <hr>
@@ -190,8 +189,9 @@
                                 {% if project.canEdit  or 'client' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
-                                    <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
-                                         data-user-id="{{ user_detail.user.id }}" name="client" value="1" type="checkbox">
+                                    <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %}
+                                           data-project="{{ project.id }}"
+                                         data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="client" value="1" type="radio" />
                                     {% endif %}
                                     <span class="fa fa-users"></span>
                                     Клиент</label></div></li>
@@ -199,8 +199,9 @@
                                 {% if project.canEdit  or 'manager' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
-                                    <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
-                                           data-user-id="{{ user_detail.user.id }}" name="manager" value="1" type="checkbox">
+                                    <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %}
+                                           data-project="{{ project.id }}"
+                                           data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="manager" value="1" type="radio" />
                                     {% endif %}
                                     <span class="fa fa-cogs"></span>
                                     Менеджер</label></div></li>
@@ -208,8 +209,9 @@
                                 {% if project.canEdit  or 'employee' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
-                                    <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %} data-project="{{ project.id }}"
-                                           data-user-id="{{ user_detail.user.id }}" name="employee" value="1" type="checkbox">
+                                    <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %}
+                                           data-project="{{ project.id }}"
+                                           data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="employee" value="1" type="radio" />
                                     {% endif %}
                                     <span class="fa fa-user"></span>
                                     Разработчик</label></div></li>

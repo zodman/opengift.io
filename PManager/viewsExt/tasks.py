@@ -102,8 +102,7 @@ def __change_resp(request):
             Agreement.objects.get_or_create(payer=task.project.payer, resp=r_prof.user)
 
     # outsource
-    if r_prof.is_outsource and \
-            not task.project.getSettings().get('unplan_approve', False):  # if finance relationship
+    if r_prof.is_outsource:  # if finance relationship
         task.setStatus('not_approved')
     else:
         task.closedInTime = False
@@ -640,22 +639,24 @@ def taskListAjax(request):
 
                 elif property == "status":
                     if task.status and task.status.code == 'not_approved':
-                        #client have not enough money#
                         try:
-                            if not task.project.getSettings().get('unplan_approve', False) and not task.planTime:
-                                return HttpResponse(json.dumps({
-                                    'error': u'Задача должна быть оценена'
-                                }))
-
                             if task.resp.get_profile().is_outsource:
+                                if not task.planTime:
+                                    return HttpResponse(json.dumps({
+                                        'error': u'Задача должна быть оценена'
+                                    }))
+
                                 if request.user.id == task.project.payer.id:
-                                    if task.project.payer.get_profile().account_total <= -int(task.project.payer.get_profile().overdraft or 0):
+                                    if task.resp.get_profile().getBet() * task.planTime > task.project.payer.get_profile().account_total + int(task.project.payer.get_profile().overdraft or 0):
                                         return HttpResponse(json.dumps({
-                                            'error': u'У автора проекта недостаточно средств для подтверждения задачи'
+                                            'error': u'У ' +
+                                                     task.project.payer.last_name + u' ' + task.project.payer.first_name +
+                                                     u' недостаточно средств для подтверждения задачи'
                                         }))
                                 else:
                                     return HttpResponse(json.dumps({
-                                        'error': u'Задачу может подтвердить только автор проекта'
+                                        'error': u'Задачу может подтвердить только ' +
+                                                 task.project.payer.last_name + u' ' + task.project.payer.first_name
                                     }))
 
                             if not request.user.get_profile().isManager(task.project):
@@ -663,37 +664,6 @@ def taskListAjax(request):
                                     'error': u'Задачу может подтвердить только менеджер'
                                 }))
 
-
-
-                            # clientRole = PM_ProjectRoles.objects.get(
-                            #     role__code='client',
-                            #     project=task.project,
-                            #     user__is_staff=True
-                            # )
-                            # client = clientRole.user
-                            # clientProfile = client.get_profile()
-                            # bet = clientProfile.getBet(task.project)
-                            # if not bet:
-                            #     bet = task.resp.get_profile().getBet(task.project) * COMISSION
-                            # #todo: remove HTML from controllers
-                            # if request.user.id == client.id:
-                            #     error = '<h3>На вашем счету недостаточно средств для данной задачи</h3>' + \
-                            #             '<hr>' + \
-                            #             'Необходимо ' + str(bet) + 'sp' + \
-                            #             '<div class="border-wrapper">'+ \
-                            #             '<p>Вы можете бесплатно пригласить в систему собственных исполнителей, создав для них задачу или пополнить счет и воспользоваться услугами любого из тысяч уже зарегистрированных пользователей.</p>' + \
-                            #             '<hr>' + \
-                            #             '<p><img src="/static/images/robokassa.png" class="img-responsive"></p>' + \
-                            #             '<hr>' + \
-                            #             '<p align="center"><a href="#" class="btn btn-large btn-success" onclick="$(\'.js-start-pay\').trigger(\'click\');$.fancybox(\'close\');" >Пополнить баланс</a>' + \
-                            #             '</div>'
-                            # else:
-                            #     error = u'У клиента недостаточно средств для подтверждения задачи'
-                            #
-                            # if clientProfile.account_total < task.planTime * bet:
-                            #     return HttpResponse(json.dumps({
-                            #         'error': error
-                            #     }))
                         except PM_ProjectRoles.DoesNotExist:
                             pass
                     #\client have not enough money#
@@ -734,10 +704,6 @@ def taskListAjax(request):
     else:
         response_text = 'bad query'
 
-
-
-
-
     return HttpResponse(response_text)
 
 
@@ -761,8 +727,8 @@ class taskManagerCreator:
     def fastCreateAndGetTask(self, text):
         self.task = PM_Task.createByString(text, self.currentUser, self.fileList, self.parentTask, project=self.project)
         self.task.systemMessage(u'Задача создана', self.currentUser, 'TASK_CREATE')
-        settings = self.task.project.getSettings()
-        if not settings.get('unplan_approve', False):
+
+        if self.task.resp and self.task.resp.get_profile().is_outsource:
             self.task.setStatus('not_approved')
         else:
             self.task.setStatus('revision')
@@ -772,9 +738,7 @@ class taskManagerCreator:
     def stopUserTimersAndPlayNew(self):
         if self.task and self.currentUser:
             if self.task.status and self.task.status.code == 'not_approved':
-                settings = self.task.project.getSettings()
-                if not settings.get('unplan_approve', False):
-                    return False
+                return False
 
             timers = PM_Timer.objects.filter(user=self.currentUser, dateEnd=None)
             for timer in timers:
@@ -973,11 +937,10 @@ class taskAjaxManagerCreator(object):
         for task in tasks:
             if not task.canEdit(self.currentUser):
                 continue
+
             task.onPlanning = True
             task.resp = None
-            if not task.project.getSettings().get('unplan_approve', False):
-                task.setStatus('not_approved')
-                task.save()
+            task.save()
 
             redisSendTaskUpdate({
                 'id': task.id,
@@ -988,9 +951,9 @@ class taskAjaxManagerCreator(object):
         task_draft.status = TaskDraft.OPEN
         task_draft.save()
 
-        taskdraft_resend_invites(self.request, task_draft.slug)
+        return taskdraft_resend_invites(self.request, task_draft.slug)
 
-        return HttpResponse(json.dumps({'result': 'OK', 'slug': slug}))
+        # return HttpResponse(json.dumps({'result': 'OK', 'slug': slug}))
 
     @task_ajax_action
     def process_getEndTime(self):
@@ -1431,7 +1394,7 @@ class TaskWidgetManager:
     @staticmethod
     def getUsersThatCanBeResponsibleInThisProject(user, project):
         if project:
-            res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client'])
+            res = TaskWidgetManager.getUsersOfCurrentProject(project, ['employee', 'manager', 'client', 'guest'])
         else:
             res = TaskWidgetManager.getUsersThatUserHaveAccess(user, None)
 

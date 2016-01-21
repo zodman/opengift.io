@@ -13,7 +13,7 @@
     Исли вас заинтересуют данные задачи, перейдите по ссылке и оцените те из них, которые вы выбрали.
 
     <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;">
-        <a style="color:#51A351" href="{% get_settings "HTTP_ROOT_URL" %}/taskdraft/{{ draft.slug }}">{{ draft }}</a>
+        <a style="color:#51A351" href="{% get_settings "HTTP_ROOT_URL" %}/?project={{ draft.project.id }}">{{ draft.project.name }}</a>
         <br /><br />
         <h3>Задачи</h3>
         {% for task in tasks %}
