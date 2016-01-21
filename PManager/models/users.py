@@ -278,9 +278,14 @@ class PM_User(models.Model):
     def isEmployee(self, project):
         return self.isRole('employee', project)
 
-    def hasRole(self, project):
+    def isGuest(self, project):
+        return self.isRole('guest', project)
+
+    def hasRole(self, project, not_guest=False):
         try:
             qs = PM_ProjectRoles.objects.filter(user=self.user, project=project)
+            if not_guest:
+                qs = qs.exclude(role__code='guest')
             if qs.count() > 0:
                 return True
             else:
@@ -314,20 +319,23 @@ class PM_User(models.Model):
             if clientRole:
                 userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole,
                                                                           project=project)
-                if type:
-                    userRole.save()
+                PM_ProjectRoles.objects.filter(user=self.user, project=project)\
+                    .exclude(id=userRole.id).delete()
 
         return self
 
-    def getProjects(self, only_managed=False, locked=False):
+    def getProjects(self, only_managed=False, locked=False, exclude_guest=False):
         userRoles = PM_ProjectRoles.objects.filter(user=self.user)
         if only_managed:
             userRoles = userRoles.filter(role__code='manager')
+        if exclude_guest:
+            userRoles = userRoles.exclude(role__code='guest')
 
         arId = [role.project.id for role in userRoles]
         projects = PM_Project.objects.filter(id__in=arId, closed=False)
         if not locked:
             projects = projects.filter(locked=False)
+
         projects = projects.distinct()
         return projects
 
@@ -355,7 +363,7 @@ class PM_User(models.Model):
 
             if rule == 'view':
                 if task.onPlanning and not task.resp:
-                    return self.hasRole(task.project)
+                    return self.hasRole(task.project, not_guest=True)
 
                 return (task.resp and self.user.id == task.resp.id) \
                        or self.user.id in [u.id for u in task.observers.all()] \

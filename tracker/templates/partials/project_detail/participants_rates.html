@@ -15,7 +15,7 @@
             <p>{{ o.text }}</p>
             <div class="clearfix user-role-block-wrapper">
                 {% for user in o.users %}
-                <div class="user-role-block" {% if user.get_profile.is_outsource %}style="background-color: #ffffea;"{% endif %}>
+                <div class="user-role-block js-role-block" {% if user.get_profile.is_outsource %}style="background-color: #ffffea;"{% endif %}>
                     <div class="avatar">
                         <a href="/user_detail/?id=1" class="pull-left">
                             <div class="avatar_container js-avatar-container" data-size="78"
@@ -25,6 +25,7 @@
                     </div>
                     <div class="desc">
                         <h4>
+                            <a href="#" class="js-remove-role" data-role="{{ user.role_id }}"><i class="fa fa-close"></i></a>
                             <a href="/user_detail/?id={{ user.id }}">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.email }}{% endif %}</a>
                         </h4>
                         <div class="col-wrapper">

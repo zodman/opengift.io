@@ -64,7 +64,7 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None, specialties=[]):
     user_ids = PM_User.objects.filter(
                                    is_outsource=True,
                                    user__is_active=True,
-                                   last_activity_date__gt=last_date,
+                                   # last_activity_date__gt=last_date,
                                    last_activity_date__isnull=False)
     if specialties:
         user_ids = user_ids.filter(specialties__in=specialties)

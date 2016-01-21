@@ -387,7 +387,7 @@ var widget_tl, currentGroup;
                         bottomPanel.addBlock('addObservers', $block);
                         $block = menuTaskBlock('Пригласить TOP-фрилансеров', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
-                            $('.js-add-developers').click(function (e) {
+                            $('.js-add-developers').unbind('click').click(function (e) {
                                 e.preventDefault();
                                 var $form = $(this).parents('form.js-invite-form');
                                 var data = $form.serialize();
@@ -404,7 +404,8 @@ var widget_tl, currentGroup;
                                     if (response.error) {
                                         alert(response.error);
                                     }else{
-                                        window.location = successUrl + response.slug;
+                                        alert(response.result);
+                                        //window.location = successUrl + response.slug;
                                     }
                                     $('#invite-developers').modal('hide');
                                 });

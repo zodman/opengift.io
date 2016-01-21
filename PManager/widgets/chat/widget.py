@@ -13,7 +13,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     else:
         hiddenQ = Q(hidden=False)
     managedProjects = request.user.get_profile().getProjects(only_managed=True).values_list('id', flat=True)
-    userProjects = request.user.get_profile().getProjects().values_list('id', flat=True)
+    userProjects = request.user.get_profile().getProjects(exclude_guest=True).values_list('id', flat=True)
 
     unManagedQ = Q(project__in=managedProjects)
     if len(userProjects) != len(managedProjects):

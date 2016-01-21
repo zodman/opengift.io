@@ -35,10 +35,12 @@ def projectDetail(request, project_id):
         'client': u'Бонусы за каждый час закрытых задач списываются с клиента, у которого установлена ставка.',
         'manager': u'Менеджеры получают бонусы за каждый час закрытых задач, в которых они являются наблюдателями.',
         'employee': u'Сотрудники получают бонусы за время, потраченное ими на задачи. Бонусы за плановое время распределяются поровну.',
+        'guest': u'Гости могут видеть только задачи, в которых они назначены наблюдателями, в переписке гости видят только адресованные им сообщения.',
     }
     show = dict(manager=True)
     show['employee'] = profile.isManager(project) or profile.isEmployee(project)
     show['client'] = profile.isManager(project) or profile.isClient(project)
+    show['guest'] = profile.isManager(project)
 
     needComission = profile.isManager(project) or profile.isClient(project)
 

@@ -80,8 +80,8 @@ class userHandlers:
 
                         if set:
                             prof.setRole(roleCode, p)
-                        else:
-                            prof.deleteRole(roleCode, p)
+                        # else:
+                        #     prof.deleteRole(roleCode, p)
 
                 return HttpResponse('ok')
 

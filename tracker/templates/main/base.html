@@ -208,9 +208,9 @@
                 </div>
             </div>
             <div class="modal-body-item clearfix">
-                <label class="clearfix"><input type="radio" name="need_manager" value="N" /> Я менеджер, я буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
+                <label class="clearfix"><input type="radio" name="need_manager" value="N" /> Я сам буду проверять задачи, ставить сроки, приглашать в свою команду специалистов.</label>
                 <br />
-                <label class="clearfix"><input type="radio" name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
+                <label class="clearfix"><input type="radio" checked name="need_manager" value="Y" /> Мне нужен менеджер, который бы курировал работу со специалистами.</label>
             </div>
             {% endif %}
         </div>
@@ -333,30 +333,30 @@
         {% if user.is_authenticated %}
             <nav class="menu">
                 <ul>
-                    <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">
-                        <a href="/calendar/">
-                            <span aria-hidden="true" class="fa fa-calendar-o"></span>
-                            <span>Календарь</span>
-                        </a>
-                    </li>
-                    <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">
-                        <a href="/milestones/">
-                            <span aria-hidden="true" class="fa fa-star"></span>
-                            <span>Цели</span>
-                        </a>
-                    </li>
-                    <li class="{% if activeMenuItem == 'life' %} active{% endif %}">
-                        <a href="/life/">
-                            <span aria-hidden="true" class="fa fa-bolt"></span>
-                            <span>Активность</span>
-                        </a>
-                    </li>
-                    <li class="{% if activeMenuItem == 'taskdrafts' %} active{% endif %}">
-                        <a href="/taskdrafts/">
-                            <span aria-hidden="true" class="fa fa-list"></span>
-                            <span>Приглашения</span>
-                        </a>
-                    </li>
+{#                    <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">#}
+{#                        <a href="/calendar/">#}
+{#                            <span aria-hidden="true" class="fa fa-calendar-o"></span>#}
+{#                            <span>Календарь</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">#}
+{#                        <a href="/milestones/">#}
+{#                            <span aria-hidden="true" class="fa fa-star"></span>#}
+{#                            <span>Цели</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="{% if activeMenuItem == 'life' %} active{% endif %}">#}
+{#                        <a href="/life/">#}
+{#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
+{#                            <span>Активность</span>#}
+{#                        </a>#}
+{#                    </li>#}
+{#                    <li class="{% if activeMenuItem == 'taskdrafts' %} active{% endif %}">#}
+{#                        <a href="/taskdrafts/">#}
+{#                            <span aria-hidden="true" class="fa fa-list"></span>#}
+{#                            <span>Приглашения</span>#}
+{#                        </a>#}
+{#                    </li>#}
                 </ul>
             </nav>
 
@@ -452,15 +452,21 @@
     <div class="row sub-menu_line clearfix">
         {% if user.is_authenticated %}
             <div class="sub-menu_line_section-user">
-                <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i
-                        class="fa fa-desktop"></i><span>&nbsp;Доска</span></a>&nbsp;&nbsp;
 
-                <a href="/gantt/"
-                   class="hide-on-mobile btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
-                    <i class="fa fa-tasks"></i>
-                    <span>&nbsp;План</span>
-                </a>
-
+{#                <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i#}
+{#                        class="fa fa-desktop"></i><span>&nbsp;Доска</span></a>&nbsp;&nbsp;#}
+{##}
+{#                <a href="/gantt/"#}
+{#                   class="hide-on-mobile btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">#}
+{#                    <i class="fa fa-tasks"></i>#}
+{#                    <span>&nbsp;План</span>#}
+{#                </a>#}
+{#                <a href="/life/">#}
+{#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
+{#                            <span>Активность</span>#}
+{#                        </a>#}
+                <a href="/life/" class="btn btn-default{% if activeMenuItem == 'life' %} active{% endif %}"><i
+                        class="fa fa-bolt"></i><span>&nbsp;Активность</span></a>&nbsp;&nbsp;
                 <a href="/user_list/" class="btn btn-default{% if activeMenuItem == 'user_list' %} active{% endif %}"><i
                         class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp;
 
@@ -472,9 +478,9 @@
                    class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
                         class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
-                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
-                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
-                        class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
+{#                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"#}
+{#                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i#}
+{#                        class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;#}
             </div>
             <div class="sub-menu_line_section-tracker">
                 <ul class="list-inline navbar-right">

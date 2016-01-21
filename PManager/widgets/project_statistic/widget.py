@@ -17,6 +17,7 @@ def dateToDb(date, type):
 
             return strDate #'STR_TO_DATE(\''+strDate+'\', \'%Y-%m-%d %H:%i:%s\')' if strDate else None
 
+
 class Axis:
     title = ''
     color = 'rgb(0,0,0)'
@@ -27,6 +28,7 @@ class Axis:
         self.color = color
         self.values = []
 
+
 class Chart:
     title = ''
     type = 'chart'
@@ -34,15 +36,18 @@ class Chart:
     dateFrom = datetime.datetime
     dateTo = datetime.datetime
     projects = []
+    user = False
     xAxe = []
     yAxes = []
     xls = False
 
-    def __init__(self, dateFrom, dateTo, projects):
+    def __init__(self, dateFrom, dateTo, projects, user=None):
         self.dateFrom = dateFrom
         self.dateTo = dateTo
         self.projects = projects
+        self.user = user
         self.getData()
+
 
 class simpleChart(Chart):
     title = u'Затраты'
@@ -63,6 +68,7 @@ class simpleChart(Chart):
 
         self.value_desc = -(credit_all['value__sum'] or 0)
         self.value = -(credit['value__sum'] or 0)
+
 
 class PaymentChart(Chart):
     title = u'Потраченное время'
@@ -86,7 +92,7 @@ class PaymentChart(Chart):
                                  datetime.datetime.combine(day, datetime.time.max)),
                     task__project__in=self.projects
                 ).values('user__last_name') \
-                .annotate(sum_seconds = Sum('seconds'))
+                .annotate(sum_seconds=Sum('seconds'))
 
             for t in time:
                 if t['user__last_name'] and t['user__last_name'] not in aUsers:
@@ -104,6 +110,7 @@ class PaymentChart(Chart):
             for userName in aUsers:
                 self.yAxes[userName].values.append(aSums[day][userName] or 0 if userName in aSums[day] else 0)
 
+
 class sumLoanChart(Chart):
     title = u'Начисленные бонусы'
     type = 'table'
@@ -113,7 +120,10 @@ class sumLoanChart(Chart):
             date__range=(datetime.datetime.combine(self.dateFrom, datetime.time.min),
                              datetime.datetime.combine(self.dateTo, datetime.time.max)),
             project__in=self.projects
-        ).order_by('-id')[:300]
+        ).order_by('-id')
+
+        if not self.user.get_profile().is_heliard_manager and not self.user.is_superuser:
+            arDebts = arDebts.filter(user=self.user)
 
         self.cols = [
             {
@@ -192,6 +202,7 @@ class sumLoanChart(Chart):
 
         return workbook
 
+
 class timeChart(Chart):
     title = u'Эффективность'
     type = 'table'
@@ -240,6 +251,7 @@ class timeChart(Chart):
             except User.DoesNotExist:
                 pass
 
+
 def widget(request, headerValues, a, b):
     filt = {}
     daysBeforeNowForStartFilt = 7
@@ -268,7 +280,7 @@ def widget(request, headerValues, a, b):
         projects = projects.filter(id__in=filt['projects'])
 
     payChart = PaymentChart(filt['dateFrom'], filt['dateTo'], projects)
-    loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects)
+    loanChart = sumLoanChart(filt['dateFrom'], filt['dateTo'], projects, request.user)
     tChart = timeChart(filt['dateFrom'], filt['dateTo'], projects)
     sChart = simpleChart(filt['dateFrom'], filt['dateTo'], projects)
     charts = [payChart, loanChart, tChart, sChart]

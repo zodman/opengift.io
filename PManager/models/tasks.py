@@ -1051,8 +1051,8 @@ class PM_Task(models.Model):
                         id__in=aExternalId)
                 ))
                 bExist = True
-            elif pm_user.isClient(project):
-                filterQArgs.append((Q(author=user) | Q(resp=user) | Q(observers=user)))
+            elif pm_user.isGuest(project):
+                filterQArgs.append(Q(observers=user))
                 bExist = True
 
         if not bExist:
@@ -1690,13 +1690,14 @@ class PM_Task_Message(models.Model):
             return True
 
         if not self.hidden_from_clients and not self.hidden_from_employee:
-            if self.task.resp and self.task.resp_id == user.id:
+            if self.task.resp and self.task.resp.id == user.id:
                 return True
+
             if user.id in [u.id for u in self.task.observers.all()]:
                 return True
 
         return (
-                    self.task.onPlanning and prof.hasRole(self.project)
+                    self.task.onPlanning and prof.hasRole(self.project, not_guest=True)
                )
         #todo: добавить про hidden_from_clients и from_employee
 

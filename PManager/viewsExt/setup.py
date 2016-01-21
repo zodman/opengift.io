@@ -48,7 +48,7 @@ def register(request):
             project.author = user
             project.payer = user
 
-            project.setSettings({'unplan_approve': True})
+            project.setSettings({'client_comission': 10})
             project.save()
             request.COOKIES["CURRENT_PROJECT"] = project.id
 
