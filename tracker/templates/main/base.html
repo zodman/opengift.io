@@ -27,7 +27,7 @@
             window.currentProject = {{ main.CURRENT_PROJECT.id }};
         {% endif %}
         window.baseUserParams = {
-            'userId':{{ user.id }}
+            'userId': {{ user.id }}
         };
 
         WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
@@ -351,12 +351,13 @@
 {#                            <span>Активность</span>#}
 {#                        </a>#}
 {#                    </li>#}
-{#                    <li class="{% if activeMenuItem == 'taskdrafts' %} active{% endif %}">#}
-{#                        <a href="/taskdrafts/">#}
-{#                            <span aria-hidden="true" class="fa fa-list"></span>#}
-{#                            <span>Приглашения</span>#}
-{#                        </a>#}
-{#                    </li>#}
+                    <li>
+                        <a href="#">
+                            <span aria-hidden="true" class="fa fa-user-plus"
+                                  onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }"></span>
+                            <span>Пригласить разработчиков Heliard</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
