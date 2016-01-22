@@ -88,7 +88,7 @@
                     </ul>
                  </div>
 
-                    <div class="file-upload" {% if not tasklist.canInvite %}style="width: 135px;" {% endif %}>
+                    <div class="file-upload">
                         <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                         <button class="btn btn-success task-create" type="submit">Создать</button>
                     </div>
@@ -256,8 +256,6 @@
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
                 {% csrf_token %}
-                <input type="text" class="form-control" name="title" maxlength="250" placeholder="Тема приглашения (необязательно)" />
-                <br />
                 <div class="dropdown js-specialties_search_wrapper">
                     <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                            placeholder="Укажите необходимые навыки" id="skillsDropdown"
@@ -275,8 +273,8 @@
                 <div class="js-tasks-for-developers"></div>
                   <input type="hidden" name="action" value="inviteUsers" />
                   <input type="hidden" name="add-developers" value="Y" />
-                <button type="button" class="btn btn-success js-add-developers" >Пригласить</button>
-                <button type="button" class="btn btn-success" data-dismiss="modal">Закрыть</button>
+                <button type="button" class="btn btn-success js-add-developers" >Найти исполнителей</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
               </div>
             </form>
         </div>

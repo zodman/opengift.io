@@ -385,7 +385,7 @@ var widget_tl, currentGroup;
                         });
 
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить TOP-фрилансеров', '#invite-developers', function () {
+                        $block = menuTaskBlock('Пригласить разработчиков Heliard', '#invite-developers', function () {
                             var $taskInputContainer = $('.js-tasks-for-developers').empty();
                             $('.js-add-developers').unbind('click').click(function (e) {
                                 e.preventDefault();
