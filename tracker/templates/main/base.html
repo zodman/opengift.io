@@ -357,9 +357,8 @@
 {#                        </a>#}
 {#                    </li>#}
                     <li>
-                        <a href="#">
-                            <span aria-hidden="true" class="fa fa-user-plus"
-                                  onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }"></span>
+                        <a href="#" onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }">
+                            <span aria-hidden="true" class="fa fa-user-plus"></span>
                             <span>Пригласить разработчиков Heliard</span>
                         </a>
                     </li>
