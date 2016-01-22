@@ -70,11 +70,12 @@ def taskdraft_resend_invites(request, draft_slug):
         profile.setRole('guest', draft.project)
         for task in draft.tasks:
             task.observers.add(profile.user)
+            task.save()
 
     draft.status = TaskDraft.OPEN
     draft.save()
 
-    return HttpResponse(json.dumps({'result': 'Приглашения отправлены'}), content_type="application/json")
+    return HttpResponse(json.dumps({'result': 'Найденные исполнители добавлены в задачи.'}), content_type="application/json")
 
 
 def taskdraft_task_discussion(request, draft_slug, task_id):
