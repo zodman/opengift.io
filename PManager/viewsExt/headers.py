@@ -91,6 +91,12 @@ def initGlobals(request):
                 if form.cleaned_data['sitename']:
                     project.name = form.cleaned_data['sitename']
                     project.save()
+
+                if form.cleaned_data['phone']:
+                    prof = currentUser.get_profile()
+                    prof.phoneNumber = form.cleaned_data['phone']
+                    prof.save()
+
                 if 'need_manager' not in form.cleaned_data or form.cleaned_data['need_manager'] == 'N':
                     pass
                 else:

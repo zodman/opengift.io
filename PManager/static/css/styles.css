@@ -709,7 +709,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
 .big-input { float:left; width:calc(100% - 360px); position:relative;}
-.input-task-wo-invites {width:calc(100% - 135px);}
+
 .big-input .fa {
     color: #d9d9d9;
     font-size: 18px;
@@ -775,7 +775,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 @media only screen and (max-width: 768px) {
     .file-upload {float:none; width: 100%; padding-top: 5px;}
-    .big-input, .big-input.input-task-wo-invites {float:none; width:100%;}
+    .big-input {float:none; width:100%;}
     .file-upload .btn.btn-default {margin-left: 0px;}
     .file-upload .btn.task-send {margin-left: 5px;}
 

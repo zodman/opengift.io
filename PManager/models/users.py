@@ -62,7 +62,7 @@ class PM_User(models.Model):
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
-    phoneNumber = models.CharField(max_length=12, null=True, blank=True, verbose_name=u'Номер телефона')
+    phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Номер телефона')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
     documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')

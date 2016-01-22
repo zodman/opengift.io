@@ -226,6 +226,7 @@ $(function(){
     $(window).resize(function() {
         setTaskCellsHeight();
     });
+
     $(document).on('click', '.fnc', function(){
         $.fancybox({
             'href': $(this).attr('href')
@@ -238,6 +239,8 @@ $(function(){
         });
         return false;
     }).on('click', '.w-close', function(){
-            $(this).closest('.widget').remove();
-        });
+        $(this).closest('.widget').remove();
+    });
+
+    $('.js-phone').mask('+7 (999) 999-99-99');
 });

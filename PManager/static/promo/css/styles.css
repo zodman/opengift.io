@@ -406,7 +406,7 @@ header .intro-section .buttons {
     margin-top: 35px;
 }
 
-.services-icons {margin: 70px auto 25px; text-align: center; font-size: 0px;}
+.services-icons {margin: 50px auto 50px; text-align: center; font-size: 0px;}
 .services-icons li {display: inline-block; width: 16.666%; vertical-align: top;}
 
 .service-icon-img {
@@ -415,7 +415,7 @@ header .intro-section .buttons {
     padding: 15px;
     height: 120px;
     /*background: rgba(126,184,100,0.4);*/
-    border: 3px solid #7eb864;
+    /*border: 3px solid #7eb864;*/
     border-radius: 50%;
     -moz-border-radius: 50%;
     -webkit-border-radius: 50%;
@@ -435,7 +435,7 @@ header .intro-section .buttons {
 .mobile-icon {background-image: url("/static/promo/images/mobile-icon.png");}
 .onec-icon {background-image: url("/static/promo/images/1c-icon.png");}
 
-.service-icon-text {font-size: 16px; line-height: 18px; font-weight: bold; color: #7eb864;}
+.service-icon-text {font-size: 16px; line-height: 18px; font-weight: bold;}
 
 @media (max-width:768px){
     .service-icon-img {

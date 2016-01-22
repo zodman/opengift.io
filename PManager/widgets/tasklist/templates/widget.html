@@ -18,7 +18,7 @@
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
-                <div class="big-input task-create-wrapper {% if not tasklist.canInvite %}input-task-wo-invites{% endif %}">
+                <div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text" placeholder="Что нужно сделать?">
                             <i class="fa fa-plus"></i>
                             <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
@@ -246,7 +246,7 @@
         </div>
         <br />
         <p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
-</div>
+    </div>
     <div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content green-popup">
