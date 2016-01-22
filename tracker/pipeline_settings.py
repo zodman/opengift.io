@@ -17,6 +17,7 @@ PIPELINE_JS = {
             'js/libs/string_mod.js',
             'js/libs/timepicker/jquery.datetimepicker.js',
             'js/libs/socket.io.js',
+            'js/libs/mask.js',
             'js/libs/backbone.js',
             'js/libs/backbone.iobind.js',
             'js/libs/backbone.iosync.js',

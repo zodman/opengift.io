@@ -7,10 +7,11 @@ from PManager.viewsExt.tools import emailMessage
 from tracker.settings import FEEDBACK_EMAIL
 import datetime
 
+
 class WhoAreYou(forms.Form):
     name = forms.CharField(max_length=255)
     last_name = forms.CharField(max_length=255)
-    skype = forms.CharField(max_length=255, required=False)
+    phone = forms.CharField(max_length=255, required=False)
     sitename = forms.CharField(max_length=255, required=False)
     need_manager = forms.CharField(max_length=1, required=False)
 
@@ -24,6 +25,7 @@ class Feedback(forms.Form):
                                                            'placeholder': u'Введите сообщение',
                                                            'rows': 2}))
 
+
 def sendFeedBackEmail(fullName, emailFrom, subject, message):
     mes = {
         'fromUser': fullName,
@@ -34,6 +36,7 @@ def sendFeedBackEmail(fullName, emailFrom, subject, message):
     }
     sendMes = emailMessage('feedback', mes, 'New feedback')
     sendMes.send([FEEDBACK_EMAIL])  # if error, admin will know and will resend
+
 
 def sendFeedback(request):
     form = Feedback(request.POST or None)

@@ -18,7 +18,7 @@
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
-                <div class="big-input task-create-wrapper {% if not tasklist.canInvite %}input-task-wo-invites{% endif %}">
+                <div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text" placeholder="Что нужно сделать?">
                             <i class="fa fa-plus"></i>
                             <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
@@ -91,9 +91,6 @@
                     <div class="file-upload" {% if not tasklist.canInvite %}style="width: 135px;" {% endif %}>
                         <button class="btn btn-default" type="submit" ><span class="fa fa-upload"></span></button>
                         <button class="btn btn-success task-create" type="submit">Создать</button>
-                        {% if tasklist.canInvite %}
-                        <a class="btn btn-default task-send js-task-send" onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите нужные задачи!');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }" >Пригласить исполнителей</a>
-                        {% endif %}
                     </div>
             </div>
             <div class="task-file-upload"></div>
@@ -249,7 +246,7 @@
         </div>
         <br />
         <p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
-</div>
+    </div>
     <div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
       <div class="modal-dialog">
         <div class="modal-content green-popup">
@@ -293,7 +290,7 @@
             <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
           </div>
           <form role="form" class="js-milestone-form" method="post">
-                {% csrf_token %}
+              {% csrf_token %}
               <div class="modal-body clearfix">
                   <div class="add-aim-body clearfix">
                       <div class="add-aim-checkbox"><input type="radio" name="milestone" class="js-select-milestone js-new" checked  value="" ></div>

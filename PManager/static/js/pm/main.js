@@ -19,21 +19,21 @@
                     self.callbacks[k]['func'].call(self, self.params);
                 }
             }
-        }
+        };
         this.addParams = function (params) {
             this.params = $.extend(this.params, params);
             this.pushUrl();
-        }
+        };
         this.addCallback = function (name, callback) {
             if (typeof name == 'function') {
                 callback = name;
                 name = false;
             }
             self.callbacks.push({'name': name, 'func': callback});
-        }
+        };
         this.pushUrl = function () {
             history.push(encodeURIComponent(JSON.stringify(this.params)));
-        }
+        };
         this.parseUrl = function (url) {
             if (url) {
                 try {
@@ -43,7 +43,7 @@
                     this.params = {};
                 }
             }
-        }
+        };
 
         history.on('load change', function (event, url, type) {
             if (url) {
@@ -89,19 +89,19 @@ $.fn.enterPressed = function (func) {
         if (key == 13) func(this);
     });
     return this;
-}
+};
 
 var widgetObject = function (widgetData) {
     this.id = widgetData.id;
     this.aReadyFunc = [];
     this.state = {
 
-    }
+    };
 
     this.container = widgetData.container;
     if (widgetData.init && typeof widgetData.init == 'function')
         this.init = widgetData.init;
-}
+};
 
 widgetObject.prototype = {
     init: function () {
@@ -116,7 +116,7 @@ widgetObject.prototype = {
             }
         }
     }
-}
+};
 
 var mainControllerClass = function (data) {
     this.userId = data.userId;
@@ -126,7 +126,7 @@ var mainControllerClass = function (data) {
 
     this.widgetsData = data.widgetsData;
     this.init();
-}
+};
 
 mainControllerClass.prototype = {
     init: function () {
@@ -172,7 +172,7 @@ mainControllerClass.prototype = {
             )
         }
     }
-}
+};
 
 function formatDate(date) {
     var dd = date.getDate();
@@ -199,6 +199,7 @@ function formatDate(date) {
     }
     return formatted;
 }
+
 function PM_AjaxPost(url, data, func, type) {
     if (!data.project) {
         if (window.currentProject)
@@ -258,6 +259,7 @@ function stopLoader(objloader) {
 function stopLoaders() {
     $('.loader').hide();
 }
+
 function getObjectCenterPos(container) {
     if (typeof(container) == 'object') {
         container = $(container);
@@ -267,7 +269,7 @@ function getObjectCenterPos(container) {
     }
     var heightObj = 0;
     var widthObj = 0;
-    var offset = {}
+    var offset = {};
     if (container && container != "") {
         $container = $(container);
         offset = $container.offset();
@@ -307,9 +309,10 @@ function showOverlay() {
 function hideOverlay() {
     $('.overlay').hide();
 }
+
 $.fn.pushed = function () {
     return this.hasClass('activated');
-}
+};
 $.fn.pushTheButton = function () {
     this.data(
         'loader',
@@ -317,12 +320,12 @@ $.fn.pushTheButton = function () {
     );
     this.addClass('activated');
     return this;
-}
+};
 $.fn.pullTheButton = function () {
     stopLoader(this.data('loader'));
     this.removeClass('activated');
     return this;
-}
+};
 $.fn.hasAttr = function (name) {
     return this.attr(name) !== undefined;
 };

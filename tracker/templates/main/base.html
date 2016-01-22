@@ -27,7 +27,7 @@
             window.currentProject = {{ main.CURRENT_PROJECT.id }};
         {% endif %}
         window.baseUserParams = {
-            'userId':{{ user.id }}
+            'userId': {{ user.id }}
         };
 
         WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
@@ -102,15 +102,15 @@
                                 <div class="checkbox">
                                     <label>
                                         <input class="js-role-check-invite"
-                                               name="roles" value="client" type="checkbox">
-                                        <span class="fa fa-users"></span> Клиент</label>
+                                               name="roles" value="guest" type="radio">
+                                        <span class="fa fa-users"></span> Гость</label>
                                 </div>
                             </li>
                             <li>
                                 <div class="checkbox">
                                     <label>
                                         <input class="js-role-check-invite"
-                                               name="roles" value="manager" type="checkbox">
+                                               name="roles" value="manager" type="radio">
                                         <span class="fa fa-cogs"></span> Менеджер</label>
                                 </div>
                             </li>
@@ -118,8 +118,8 @@
                                 <div class="checkbox">
                                     <label>
                                         <input class="js-role-check-invite"
-                                               name="roles" value="employee" type="checkbox">
-                                        <span class="fa fa-user"></span> Разработчик</label>
+                                               name="roles" value="employee" type="radio">
+                                        <span class="fa fa-user"></span> Участник</label>
                                 </div>
                             </li>
                         </ul>
@@ -134,14 +134,14 @@
                     </div>
 
                     <hr class="margin-25"/>
-                    <h2>Пригласите фрилансеров из TOP 4%</h2>
+                    <h2>Пригласите в проект разработчиков Heliard</h2>
 
                     <p>Пригласите в команду компетентных исполнителей Heliard, для этого:</p>
                     <ol>
                         <li>Поставьте галочки напротив задач, которые вы хотите делегировать</li>
-                        <li>Нажмите "Пригласить TOP фрилансеров" в появившейся панели внизу</li>
+                        <li>Нажмите "Пригласить разработчиков Heliard" в появившейся панели внизу</li>
                     </ol>
-                    <p>Мы выберем подходящих специалистов и пригласим их в проект.</p>
+                    <p>Мы выберем подходящих специалистов и пригласим их в ваш проект.</p>
 
                 </div>
                 <!--modal-body-->
@@ -191,20 +191,26 @@
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Имя</div>
                 <div class="modal-body-item-right">
-                    <input required maxlength="200" name="name" type="text" class="input-block-level form-control" />
+                    <input required maxlength="200" name="name" placeholder="Введите имя" type="text" class="input-block-level form-control" />
                 </div>
             </div>
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Фамилия</div>
                 <div class="modal-body-item-right">
-                    <input required maxlength="200" name="last_name" type="text" class="input-block-level form-control" />
+                    <input required maxlength="200" name="last_name" placeholder="Введите фамилию" type="text" class="input-block-level form-control" />
+                </div>
+            </div>
+            <div class="modal-body-item clearfix">
+                <div class="modal-body-item-left">Номер телефона</div>
+                <div class="modal-body-item-right">
+                    <input required maxlength="20" name="phone" placeholder="На этот номер вам придет смс для подтверждения" type="text" class="input-block-level form-control js-phone" />
                 </div>
             </div>
             {% if main.IS_AUTHOR %}
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Название проекта</div>
                 <div class="modal-body-item-right">
-                    <input required maxlength="200" name="sitename" type="text" class="input-block-level form-control" />
+                    <input required maxlength="200" name="sitename" placeholder="Мой сайт" type="text" class="input-block-level form-control" />
                 </div>
             </div>
             <div class="modal-body-item clearfix">
@@ -215,8 +221,7 @@
             {% endif %}
         </div>
         <div class="modal-footer">
-            <input type="submit" value="Продолжить" class="btn  btn-large btn-success"/>
-            <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+            <input type="submit" value="Начать работу" class="btn  btn-large btn-success"/>
         </div>
     </form>
 </div>
@@ -351,12 +356,13 @@
 {#                            <span>Активность</span>#}
 {#                        </a>#}
 {#                    </li>#}
-{#                    <li class="{% if activeMenuItem == 'taskdrafts' %} active{% endif %}">#}
-{#                        <a href="/taskdrafts/">#}
-{#                            <span aria-hidden="true" class="fa fa-list"></span>#}
-{#                            <span>Приглашения</span>#}
-{#                        </a>#}
-{#                    </li>#}
+                    <li>
+                        <a href="#">
+                            <span aria-hidden="true" class="fa fa-user-plus"
+                                  onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }"></span>
+                            <span>Пригласить разработчиков Heliard</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 

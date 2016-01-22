@@ -6,6 +6,7 @@ from PManager.models import PM_User, PM_Project, PM_Tracker, PM_Task, PM_Achieve
 from PManager.viewsExt.tools import emailMessage
 from tracker.settings import ADMIN_EMAIL, INFO_EMAIL
 import datetime
+from django.contrib.auth import login
 
 
 def recall(request):
@@ -73,8 +74,13 @@ def register(request):
             for acc in PM_Achievement.objects.filter(use_in_projects=True):
                 PM_Project_Achievement.get_or_create(achievement=acc, project=project)
 
-            return HttpResponse(u'В ближайшее время вам на почту придет ссылка на ваш проект.<br>Обратите внимание: письмо может попасть в спам.')
+            user.backend = 'django.contrib.auth.backends.ModelBackend'
+            login(
+                request,
+                user
+            )
 
+            return HttpResponse(u'OK')
         else:
             return HttpResponse(u'Такой email уже существует в системе!')
 
