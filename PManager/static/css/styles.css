@@ -708,7 +708,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
 .btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
 
-.big-input { float:left; width:calc(100% - 360px); position:relative;}
+.big-input { float:left; width:calc(100% - 135px); position:relative;}
 
 .big-input .fa {
     color: #d9d9d9;
@@ -742,7 +742,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left; position: relative; width: 360px;}
+.file-upload {float:left; position: relative; width: 135px;}
 .task-file-upload {}
 .tasklist .task-file-upload .qq-upload-drop-area {
     border-radius: 5px;

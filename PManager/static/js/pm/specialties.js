@@ -15,15 +15,21 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
         }
     };
 
-    $specialtyInput.keypress(function(e) {
+    $specialtyInput.keydown(function(e) {
+
+    }).keypress(function(e) {
+
         var $t = $(this);
         var key = e.keyCode;
         if (key == 13) { // Enter key
+            e.preventDefault();
             addFunc($t, appendSkills, $searchDropdown);
+            return false;
         }
         if (key == 40) { // Down key
             $searchDropdown.find('li:visible').removeClass('active').eq(0).addClass('active').find('a').focus()
         }
+
     }).on('click', function(e) {e.stopPropagation();});
 
     $searchDropdown.keypress(function (e) {
