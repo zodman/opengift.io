@@ -818,6 +818,9 @@ div.taskWizard-required .taskWizard-question-title:after {
     width: 20px;
     z-index: 1;
 }
+.task-tab-filter [rel=deadline] span {
+    background: none repeat scroll 0 0 #c00f00;
+}
 .task-tab-filter > .active > a {background-color: #999999; text-decoration: none; color: #fff; text-align: center; padding: 7px 10px;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
 .task-tab-filter li:not(.active) a:hover { text-decoration: none; color: #47a447;}
 
@@ -5150,4 +5153,8 @@ ul.colors {
 
 .pro-icon i {
     line-height: 16px;
+}
+
+.modal-backdrop.in {
+    display: none;
 }
