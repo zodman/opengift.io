@@ -73,7 +73,9 @@ def taskdraft_resend_invites(request, draft_slug):
         arUsers.append({
             'id': profile.user.id,
             'full_name': profile.user.first_name + ' ' + profile.user.last_name,
-            'avatar': profile.avatarSrc
+            'avatar': profile.avatarSrc,
+            'rating': profile.rating,
+            'specialties': [x.name for x in profile.specialties.all()[:4]]
         })
 
         for task in draft.tasks.all():
