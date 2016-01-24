@@ -424,6 +424,7 @@ var widget_tl, currentGroup;
                                                 '</div>'
                                             )
                                         }
+                                        $(btn).hide();
                                     }
 
                                 });
