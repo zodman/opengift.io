@@ -392,6 +392,7 @@ var widget_tl, currentGroup;
                                 var $form = $(this).parents('form.js-invite-form');
                                 var data = $form.serialize();
                                 var url = $form.attr('action');
+                                var btn = this;
                                 var successUrl = '/taskdraft/';
                                 data += '&project=' + currentProject;
                                 $.post(url, data, function (response) {
@@ -403,11 +404,29 @@ var widget_tl, currentGroup;
                                     }
                                     if (response.error) {
                                         alert(response.error);
+                                        $('#invite-developers').modal('hide');
                                     }else{
-                                        alert(response.result);
-                                        //window.location = successUrl + response.slug;
+                                        //alert(response.result);
+                                        var $container = $(btn).closest('.modal-dialog').find('.modal-body')
+                                                .empty().append('<p>'+response.result+'</p>'),
+                                            $uList = $container
+                                                .append('<div class="modal-invited-users__list js-invited-user-list"></div>')
+                                                .find('.js-invited-user-list');
+
+                                        for (var i in response.users) {
+                                            var user = response.users[i];
+                                            $uList.append(
+                                                '<div class="modal-invited-users__detail">' +
+                                                    '<img class="modal-invited-users__avatar thumbnail" src="'+user.avatar+'" />' +
+                                                    '<a href="/user_detail/?id='+user.id+'" class="modal-invited-users__name">'+ user.full_name + '</a>' +
+                                                    '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
+                                                    '<span class="modal-invited-users__rating">Рейтинг: ' + user.rating + '</span>' +
+                                                '</div>'
+                                            )
+                                        }
+                                        $(btn).hide();
                                     }
-                                    $('#invite-developers').modal('hide');
+
                                 });
                             });
                             $('.js-task-checkbox:checked').each(function () {

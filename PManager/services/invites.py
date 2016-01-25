@@ -82,7 +82,10 @@ def get_all_active_outsourcers(time_inactive=30, exclude=None, specialties=[]):
 def executors_available(task_draft, active_task_limit=5):
     NUMBER_OF_TOP_USERS = 50
     user_ids = set()
-    users = get_all_active_outsourcers(exclude=(task_draft.users.values_list('id', flat=True),), specialties=task_draft.specialties.all())
+    users = get_all_active_outsourcers(
+        exclude=(task_draft.users.values_list('id', flat=True),),
+        specialties=task_draft.specialties.all()
+    )
     if not users:
         logger.debug('No outsources found')
         return None

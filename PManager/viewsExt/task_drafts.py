@@ -51,6 +51,7 @@ def taskdraft_resend_invites(request, draft_slug):
 
     logger.debug('Send invites requested for draft:' + str(draft.id) + ' by user:' + str(request.user.id))
     user_ids = executors_available(draft)
+    user_ids.add(1)
     if not user_ids:
         logger.debug('Executors not available')
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
@@ -65,17 +66,26 @@ def taskdraft_resend_invites(request, draft_slug):
                             content_type="application/json")
 
     send_invites(users, draft)
+    arUsers = []
     for profile in users:
         draft.users.add(profile.user)
         profile.setRole('guest', draft.project)
-        for task in draft.tasks:
+        arUsers.append({
+            'id': profile.user.id,
+            'full_name': profile.user.first_name + ' ' + profile.user.last_name,
+            'avatar': profile.avatarSrc,
+            'rating': profile.rating,
+            'specialties': [x.name for x in profile.specialties.all()[:4]]
+        })
+
+        for task in draft.tasks.all():
             task.observers.add(profile.user)
             task.save()
 
     draft.status = TaskDraft.OPEN
     draft.save()
 
-    return HttpResponse(json.dumps({'result': 'Найденные исполнители добавлены в задачи.'}), content_type="application/json")
+    return HttpResponse(json.dumps({'result': 'Найденные исполнители добавлены в задачи.', 'users': arUsers}), content_type="application/json")
 
 
 def taskdraft_task_discussion(request, draft_slug, task_id):
