@@ -106,7 +106,7 @@ def widget(request, headerValues, ar, qargs):
                 ).count() or 1)
             )
 
-            is_client = current_project.payer.id == request.user.id if current_project.payer else False
+        is_client = current_project.payer.id == request.user.id if current_project.payer else False
 
     #END CLOSEST MILESTONE
 
