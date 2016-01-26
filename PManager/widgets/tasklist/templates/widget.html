@@ -255,8 +255,9 @@
             </div>
             <form role="form" class="js-invite-form" method="post" action="/task_handler">
               <div class="modal-body">
+                <p>Приглашение специалистов в задачи для обсуждения.</p>
                 {% csrf_token %}
-                <div class="dropdown js-specialties_search_wrapper">
+                <div class="dropdown js-specialties_search_wrapper margin-bottom-5">
                     <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
                            placeholder="Укажите необходимые навыки" id="skillsDropdown"
                            class="form-control js-save_specialty" autocomplete="off" >
@@ -266,8 +267,6 @@
                 </div>
                 <ul class="posibilities clearfix js-specialties" style="margin: 0;">
                 </ul>
-                <br />
-                Приглашение специалистов в задачи для обсуждения.
               </div>
               <div class="modal-footer">
                 <div class="js-tasks-for-developers"></div>

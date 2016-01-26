@@ -22,6 +22,9 @@ h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
 .width-100 {width: 100%;}
 
+.margin-bottom-10 {margin-bottom: 10px;}
+.margin-bottom-5 {margin-bottom: 5px;}
+
 .inline-block {display: inline-block;}
 .block {display: block;}
 .clr {clear:both; height:0px; padding:0px; margin:0px; font:0px/0px Arial, Helvetica, sans-serif;}
@@ -2259,7 +2262,7 @@ div.task-details .more-about-task {background:#ddd; padding:10px; border-radius:
 .user-info-right-from-avatar {float: left; width: calc(100% - 120px);}
 
 .posibilities {margin-bottom: 0px; margin-top: 10px;}
-.posibilities li {display: block; float: left; margin-right: 10px; margin-bottom: 5px;}
+.posibilities li {display: block; float: left; margin-right: 10px !important; margin-bottom: 5px !important;}
 .posibilities li span.tag-name {
     background: #5cb85c none repeat scroll 0 0;
     border-radius: 3px;
@@ -2469,6 +2472,86 @@ div.rate a:hover, div.rate a.active {color:#FFA500;}
 .tags .tags-ul li > span {padding: 2px 6px; background:#444; border-radius:4px 4px 4px 4px; -moz-border-radius:4px 4px 4px 4px; -webkit-border-radius:4px 4px 4px 4px; display:inline-block;}
 .tags .tags-ul li > span i.fa.fa-times {margin-left: 5px; color: #d43f3a; position: relative; top: -1px; cursor: pointer;}
 .tags .tags-ul li a.btn.btn-success.btn-xs {padding: 2px 6px;}
+
+
+/*** ПОПАП С ПРИГЛАШЕННЫМИ ЮЗЕРАМИ ***/
+.modal-invited-users__list {
+    margin: 0 -10px;
+    max-height: 170px;
+    overflow-y: auto;
+}
+.modal-invited-users__detail {
+    float: left;
+    height: 75px;
+    margin: 0 10px 20px;
+    width: calc(50% - 20px);
+}
+
+.modal-invited-users__detail-left {
+    border-radius: 3px;
+    float: left;
+    font-size: 0;
+    height: 60px;
+    line-height: 0;
+    margin-right: 15px;
+    margin-top: 3px;
+    overflow: hidden;
+    width: 60px;
+}
+
+.modal-invited-users__avatar {
+    max-width: 100%;
+    min-height: 60px;
+}
+
+.modal-invited-users__detail-right {
+    float: left;
+    line-height: 16px;
+    width: calc(100% - 75px);
+}
+
+.modal-invited-users__name {
+    display: block;
+    margin-bottom: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.modal-invited-users__specialties {
+    color: #666;
+    display: block;
+    font-size: 13px;
+    margin-bottom: 5px;
+    max-height: 34px;
+    overflow: hidden;
+    text-transform: lowercase;
+}
+
+.modal-invited-users__rating {
+    display: block;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+
+
+@media only screen and (max-width: 576px) {
+    .modal-invited-users__list {margin: 0;}
+    .modal-invited-users__detail {
+        float: left;
+        height: auto;
+        margin: 0 0 20px;
+        width: 100%;
+    }
+
+    .modal-invited-users__specialties {
+        max-height: auto;
+    }
+
+}
+
+
 
 .border-right {
     border-right: 1px solid #dddddd;
