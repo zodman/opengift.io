@@ -403,6 +403,7 @@ def __task_message(request):
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
+    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
     profile = request.user.get_profile()
@@ -429,6 +430,10 @@ def __task_message(request):
         message.hidden = hidden
         message.hidden_from_clients = hidden_from_clients
         message.hidden_from_employee = hidden_from_employee
+        message.requested_time = requested_time
+        if requested_time > 0:
+            message.code = 'TIME_REQUEST'
+
         if to:
             try:
                 to = User.objects.get(pk=int(to))

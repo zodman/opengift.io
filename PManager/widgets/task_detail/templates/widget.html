@@ -160,9 +160,15 @@
                 </select>
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
+                    <label class="left_check">
+                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Запрос времени
+                        <span class="js-need-time-hours" style="display: none;">
+                            <input type="number" maxlength="2" name="need-time-hours" /> ч.
+                        </span>
+                    </label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний <a href="#" data-toggle="tooltip" title="Комментарий будет отображаться в похожих по тексту задачах для помощи исполнителям.">?</a></label>
                     <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
-                    <span title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
+                    <a title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
                 </div>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">

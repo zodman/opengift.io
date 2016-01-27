@@ -817,13 +817,13 @@ class PM_Task(models.Model):
         return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
 
     def canPMUserSetPlanTime(self, pm_user):
-        return pm_user.isManager(self.project) or \
-            not self.realDateStart and (
+        return not self.realDateStart and (
+                pm_user.isManager(self.project) or
                 int(self.author.id) == int(pm_user.user.id) or
                 self.onPlanning or (
                     #is responsible and planTime is empty
                     hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
-                    (not self.planTime or self.planTime <= 0)
+                    (not self.planTime or self.status.code == 'not_approved')
                 )
         )
 
@@ -1480,6 +1480,9 @@ class PM_Task_Message(models.Model):
     checked = models.BooleanField(blank=True, db_index=True)
     bug = models.BooleanField(blank=True, db_index=True)
     solution = models.BooleanField(default=False)
+    requested_time = models.IntegerField(blank=True, null=True)
+    requested_time_approved = models.BooleanField(default=False)
+    requested_time_approve_date = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
         return self.text
@@ -1559,13 +1562,9 @@ class PM_Task_Message(models.Model):
                 p = self.task.project
 
                 if cur_profile and (
-                                cur_profile.isClient(p) and not profileAuthor.isClient(p)
+                                cur_profile.user.id == self.project.payer.id
                         or
-                                cur_profile.isEmployee(p) and self.author.id == self.task.author.id
-                        or
-                                cur_profile.isEmployee(p) and profileAuthor.isManager(p)
-                        or
-                                cur_profile.isManager(p) and profileAuthor.isEmployee(p)
+                                cur_profile.isEmployee(p)
                 ):
                     try:
                         planTime = PM_User_PlanTime.objects.get(
@@ -1595,6 +1594,25 @@ class PM_Task_Message(models.Model):
 
                     except PM_User_PlanTime.DoesNotExist:
                         pass
+
+        elif self.code == 'TIME_REQUEST':
+            if not self.requested_time_approved:
+                if cur_profile and cur_profile.user.id == self.project.payer.id:
+                    addParams.update({
+                            'confirmation': (
+                                '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
+                                '" class="js-confirm-estimate agree-with-button">Добавить время: ' + str(self.requested_time) + ' ч.</a></div>'
+                            )
+                        })
+            else:
+                addParams.update({
+                            'confirmation': (
+                                '<div class="message-desc-right">Добавлено <b>' +
+                                str(self.requested_time) + 'ч.</b> в <b>' +
+                                templateTools.dateTime.convertToSite(self.requested_time_approve_date) +
+                                '</b></div>'
+                            )
+                        })
 
         addParams.update({
             'id': self.id,
@@ -1854,6 +1872,7 @@ def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
         prof.last_activity_date = datetime.datetime.now()
         prof.save()
 
+
 def setOnlySolution(sender, instance, **kwargs):
     if instance.solution:
         instance.code = u"SOLUTION"
@@ -1865,6 +1884,7 @@ def setOnlySolution(sender, instance, **kwargs):
                 message.save()
         except (PM_Task_Message.DoesNotExist, ValueError) as e:
             pass
+
 
 def remove_git(sender, instance, **kwargs):
     from tracker.settings import USE_GIT_MODULE
@@ -1905,6 +1925,7 @@ def rewrite_git_access(sender, instance, **kwargs):
 
     if USE_GIT_MODULE and project and project.repository:
         GitoliteManager.regenerate_access(project)
+
 
 def check_task_save(sender, instance, **kwargs):
     # При каждом сохранении задачи проверка, укладывается ли ответственный в свои задачи. Если нет, вывести сообщение.
@@ -1968,7 +1989,6 @@ def check_task_save(sender, instance, **kwargs):
                                 fields=responseJson
                             )
             mess.send()
-
 
 
 post_save.connect(rewrite_git_access, sender=PM_ProjectRoles)

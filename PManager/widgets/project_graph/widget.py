@@ -150,6 +150,7 @@ def widget(request, headerValues, ar, qargs):
         'taskTagCoefficient': taskTagCoefficient,
         'taskTagPosition': taskTagPosition+100,
         'closestMilestone': closestMilestone,
+        'need_passport': not request.user.get_profile().documentNumber,
         'isPro': profile.is_outsource,
         'bNeedTutorial': 1 if not PM_Task.objects.filter(author=request.user).exists() else 0,
         'paymentYaForm': formYa,
