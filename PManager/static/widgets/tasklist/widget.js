@@ -410,17 +410,17 @@ var widget_tl, currentGroup;
                                         var $container = $(btn).closest('.modal-dialog').find('.modal-body')
                                                 .empty().append('<p>'+response.result+'</p>'),
                                             $uList = $container
-                                                .append('<div class="modal-invited-users__list js-invited-user-list"></div>')
+                                                .append('<div class="modal-invited-users__list js-invited-user-list clearfix"></div>')
                                                 .find('.js-invited-user-list');
 
                                         for (var i in response.users) {
                                             var user = response.users[i];
                                             $uList.append(
                                                 '<div class="modal-invited-users__detail">' +
-                                                    '<img class="modal-invited-users__avatar thumbnail" src="'+user.avatar+'" />' +
-                                                    '<a href="/user_detail/?id='+user.id+'" class="modal-invited-users__name">'+ user.full_name + '</a>' +
+                                                    '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="'+user.avatar+'" /></div>' +
+                                                    '<div class="modal-invited-users__detail-right"><a href="/user_detail/?id='+user.id+'" class="modal-invited-users__name">'+ user.full_name + '</a>' +
                                                     '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
-                                                    '<span class="modal-invited-users__rating">Рейтинг: ' + user.rating + '</span>' +
+                                                    '<span class="modal-invited-users__rating">Рейтинг: ' + user.rating + '</span></div>' +
                                                 '</div>'
                                             )
                                         }
