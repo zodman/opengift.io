@@ -771,7 +771,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .qq-upload-button,
 .qq-upload-button:hover,
 .qq-upload-button:focus,
-.qq-upload-button:active {direction: ltr; background: none !important; display: block !important; height: 34px; overflow: hidden; position: absolute; right: 335px; top: 63px; width: 40px;}
+.qq-upload-button:active {direction: ltr; background: none !important; display: block !important; height: 34px; overflow: hidden; position: absolute; right: 110px; top: 63px; width: 40px;}
 
 @media only screen and (max-width: 768px) {
     .file-upload {float:none; width: 100%; padding-top: 5px;}

@@ -43,45 +43,52 @@ def widget(request, headerValues, arFilter, q):
         if cid:
             try:
                 message = PM_Task_Message.objects.get(pk=cid, task=task)
-                planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
+                if message.code == 'SET_PLAN_TIME':
+                    planTime = PM_User_PlanTime.objects.get(task=task, user=message.author)
 
-                authorProf = message.author.get_profile()
+                    authorProf = message.author.get_profile()
 
-                if not authorProf.hasRole(task.project):
-                    authorProf.setRole('employee', task.project)
-                    if authorProf.is_outsource:
-                        Agreement.objects.get_or_create(payer=task.project.payer, resp=authorProf.user)
+                    if not authorProf.hasRole(task.project):
+                        authorProf.setRole('employee', task.project)
+                        if authorProf.is_outsource:
+                            Agreement.objects.get_or_create(payer=task.project.payer, resp=authorProf.user)
 
-                if not authorProf.isEmployee(task.project):
-                    task.resp = prof.user
-                else:
-                    task.resp = planTime.user
+                    if not authorProf.isEmployee(task.project):
+                        task.resp = prof.user
+                    else:
+                        task.resp = planTime.user
 
-                task.planTime = planTime.time
-                task.onPlanning = False
-                task.setStatus('revision')
-                task.save()
-                redisSendTaskUpdate({
-                    'status': task.status.code,
-                    'onPlanning': task.onPlanning,
-                    'planTime': task.planTime,
-                    'resp': [{
-                        'id': task.resp.id,
-                        'name': task.resp.first_name + ' ' + task.resp.last_name
-                    }],
-                    'viewedOnly': request.user.id,
-                })
+                    task.planTime = planTime.time
+                    task.onPlanning = False
+                    task.setStatus('revision')
+                    task.save()
+                    redisSendTaskUpdate({
+                        'status': task.status.code,
+                        'onPlanning': task.onPlanning,
+                        'planTime': task.planTime,
+                        'resp': [{
+                            'id': task.resp.id,
+                            'name': task.resp.first_name + ' ' + task.resp.last_name
+                        }],
+                        'viewedOnly': request.user.id,
+                    })
 
 
-                task.systemMessage(
-                    u'подтвердил(а) оценку в ' + str(task.planTime) +
-                    u'ч. пользователя ' + planTime.user.first_name +
-                    u' ' + planTime.user.last_name,
-                    cur_user,
-                    'CONFIRM_ESTIMATION'
-                )
+                    task.systemMessage(
+                        u'подтвердил(а) оценку в ' + str(task.planTime) +
+                        u'ч. пользователя ' + planTime.user.first_name +
+                        u' ' + planTime.user.last_name,
+                        cur_user,
+                        'CONFIRM_ESTIMATION'
+                    )
 
-                task.sendTaskEmail('new_task', [planTime.user.email])
+                    task.sendTaskEmail('new_task', [planTime.user.email])
+                elif message.code == 'TIME_REQUEST':
+                    message.requested_time_approved = True
+                    message.requested_time_approve_date = datetime.datetime.now()
+                    message.task.planTime += int(message.requested_time or 0)
+                    message.task.save()
+                    message.save()
 
                 return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:

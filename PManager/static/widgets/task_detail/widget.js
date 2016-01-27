@@ -127,6 +127,14 @@ $(function(){
 //
 //            });
 
+            $('.js-need-time').click(function() {
+                var $hoursInput = $('.js-need-time-hours');
+                if ($(this).is(':checked')) {
+                    $hoursInput.show();
+                } else {
+                    $hoursInput.hide();
+                }
+            });
 
             $('.sendTaskMessage').on("click", function(){
                 var closeTask = $(this).hasClass('btn-close'),
@@ -331,7 +339,8 @@ $(function(){
                         data = $.parseJSON(data);
                         data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
-                        widget_td.$messageForm.find('textarea[name=task_message]').val('');
+                        widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('');
+                        widget_td.$messageForm.find('.js-need-time:checked').trigger('click');
                         widget_td.$attachedFileContainer.empty();
                         if (callback) callback(data);
                     }
