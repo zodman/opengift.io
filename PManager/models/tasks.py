@@ -817,7 +817,7 @@ class PM_Task(models.Model):
         return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
 
     def canPMUserSetPlanTime(self, pm_user):
-        return not self.realDateStart and (
+        return (not self.planTime and pm_user.isManager(self.project)) or not self.realDateStart and (
                 pm_user.isManager(self.project) or
                 int(self.author.id) == int(pm_user.user.id) or
                 self.onPlanning or (
@@ -1482,6 +1482,7 @@ class PM_Task_Message(models.Model):
     solution = models.BooleanField(default=False)
     requested_time = models.IntegerField(blank=True, null=True)
     requested_time_approved = models.BooleanField(default=False)
+    requested_time_approved_by = models.ForeignKey(User, null=True, blank=True, related_name="approvedTimeRequests")
     requested_time_approve_date = models.DateTimeField(blank=True, null=True)
 
     def __unicode__(self):
@@ -1607,10 +1608,14 @@ class PM_Task_Message(models.Model):
             else:
                 addParams.update({
                             'confirmation': (
-                                '<div class="message-desc-right">Добавлено <b>' +
-                                str(self.requested_time) + 'ч.</b> в <b>' +
-                                templateTools.dateTime.convertToSite(self.requested_time_approve_date) +
-                                '</b></div>'
+                                u'<div class="message-desc-right">' +
+                                unicode(
+                                    self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
+                                        self.requested_time_approved_by else '') +
+                                u' дал согласие на добавление <b>' +
+                                    unicode(self.requested_time) + u'ч.</b> в <b>' +
+                                    unicode(templateTools.dateTime.convertToSite(self.requested_time_approve_date)) +
+                                u'</b></div>'
                             )
                         })
 

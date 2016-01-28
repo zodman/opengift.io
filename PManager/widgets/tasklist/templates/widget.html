@@ -259,7 +259,7 @@
                 {% csrf_token %}
                 <div class="dropdown js-specialties_search_wrapper margin-bottom-5">
                     <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
-                           placeholder="Укажите необходимые навыки" id="skillsDropdown"
+                           placeholder="Укажите необходимые навыки (необязательно)" id="skillsDropdown"
                            class="form-control js-save_specialty" autocomplete="off" >
                     <ul class="dropdown-menu js-search_specialties" role="dropdown"
                         aria-labelledby="skillsDropdown">
