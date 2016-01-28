@@ -48,10 +48,13 @@ def widget(request, headerValues, arFilter, q):
 
                     authorProf = message.author.get_profile()
 
-                    if not authorProf.hasRole(task.project):
+                    if not authorProf.hasRole(task.project, not_guest=True):
                         authorProf.setRole('employee', task.project)
                         if authorProf.is_outsource:
-                            Agreement.objects.get_or_create(payer=task.project.payer, resp=authorProf.user)
+                            Agreement.objects.get_or_create(
+                                payer=task.project.payer,
+                                resp=authorProf.user
+                            )
 
                     if not authorProf.isEmployee(task.project):
                         task.resp = prof.user
