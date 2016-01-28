@@ -812,11 +812,19 @@ class taskManagerCreator:
             return False
 
     def sendEmailAboutNewMessage(self, messageObject):
-        arEmail = self.task.getUsersEmail([self.currentUser.id])
+        arEmail = self.task.getUsersEmail(
+            [self.currentUser.id] +
+            self.project.projectRoles.filter(role__code='guest').values_list('user__id', flat=True)
+        )
+
+        if messageObject.userTo:
+            if self.currentUser.id != messageObject.userTo.id:
+                arEmail.append(messageObject.userTo.email)
+
         #send message to all managers
         #if it is client's message
         if messageObject.task and \
-                messageObject.author.get_profile().isClient(messageObject.task.project):
+                messageObject.author.id == messageObject.task.project.payer.id:
             for user in User.objects.filter(
                     pk__in=PM_ProjectRoles.objects.filter(
                             role__code='manager', project=messageObject.task.project

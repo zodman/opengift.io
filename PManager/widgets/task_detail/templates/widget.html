@@ -123,7 +123,7 @@
             Наблюдатели: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
         </p>
         {% endif %}
-        {% if not task_detail.task.parentTask %}
+        {% if false and not task_detail.task.parentTask %}
             <div class="tasks js-sub-tasks box-shadow-0">
                 <div class="task-wrapper">
                     <div class="tasks-title">Подзадачи<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a></div>
