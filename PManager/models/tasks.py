@@ -1588,8 +1588,10 @@ class PM_Task_Message(models.Model):
 
                         addParams.update({
                             'confirmation': (
-                                '<div class="message-desc-right"><a class="button orange-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                                '" class="js-confirm-estimate agree-with-button">Согласиться с оценкой: ' + str(planTime.time * bet) + '</a></div>'
+                                '<div class="message-desc-right">'
+                                ' стоимость задачи составит ' + str(planTime.time * bet) + ' '
+                                '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
+                                '" class="js-confirm-estimate agree-with-button">Выбрать исполнителем</a></div>'
                             )
                         })
 
