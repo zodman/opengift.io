@@ -51,7 +51,7 @@ def taskdraft_resend_invites(request, draft_slug):
 
     logger.debug('Send invites requested for draft:' + str(draft.id) + ' by user:' + str(request.user.id))
     user_ids = executors_available(draft)
-    user_ids.add(1)
+    user_ids.add(483)
     if not user_ids:
         logger.debug('Executors not available')
         return HttpResponse(json.dumps({'error': 'Не найдено подходящих исполнителей'}),
