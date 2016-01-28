@@ -1588,8 +1588,8 @@ class PM_Task_Message(models.Model):
 
                         addParams.update({
                             'confirmation': (
-                                '<div class="message-desc-right">'
-                                '<p>стоимость задачи составит ' + str(planTime.time * bet) + ' руб.</p>'
+                                '<div>'
+                                '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
                                 '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
                                 '" class="js-confirm-estimate agree-with-button">Выбрать исполнителем</a></div>'
                             )
