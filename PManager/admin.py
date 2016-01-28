@@ -83,3 +83,7 @@ admin.site.register(PaymentRequest)
 admin.site.register(RatingHistory)
 admin.site.register(FineHistory)
 admin.site.register(Agreement, AgreementInline)
+
+from django.contrib.auth.admin import UserAdmin
+
+UserAdmin.list_display += ('id',)
