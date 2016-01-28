@@ -1714,12 +1714,12 @@ class PM_Task_Message(models.Model):
         if prof.isManager(self.task.project):
             return True
 
-        if not self.hidden_from_clients and not self.hidden_from_employee:
-            if self.task.resp and self.task.resp.id == user.id:
-                return True
+        if self.task.resp and self.task.resp.id == user.id:
+            return True
 
-            if user.id in [u.id for u in self.task.observers.all()]:
-                return True
+        if prof.isEmployee(self.task.project) and \
+                        user.id in [u.id for u in self.task.observers.all()]:
+            return True
 
         return (
                     self.task.onPlanning and prof.hasRole(self.project, not_guest=True)

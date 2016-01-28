@@ -186,15 +186,15 @@
                             </a>
                             <h3>{{ project.name }}</h3>
                             <ul class="list-inline" >
-                                {% if project.canEdit  or 'client' in project.roles %}
+                                {% if project.canEdit  or 'guest' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
-                                    <input class="js-role-check" {% if 'client' in project.roles %}checked{% endif %}
+                                    <input class="js-role-check" {% if 'guest' in project.roles %}checked{% endif %}
                                            data-project="{{ project.id }}"
-                                         data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="client" value="1" type="radio" />
+                                         data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="guest" value="1" type="radio" />
                                     {% endif %}
                                     <span class="fa fa-users"></span>
-                                    Клиент</label></div></li>
+                                    Гость</label></div></li>
                                 {% endif %}
                                 {% if project.canEdit  or 'manager' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>

@@ -71,9 +71,6 @@ def register(request):
             task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
             task.setStatus('revision')
 
-            for acc in PM_Achievement.objects.filter(use_in_projects=True):
-                PM_Project_Achievement.get_or_create(achievement=acc, project=project)
-
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(
                 request,
