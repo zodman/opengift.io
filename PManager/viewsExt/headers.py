@@ -104,7 +104,7 @@ def initGlobals(request):
                         request.user.first_name + ' ' + request.user.last_name,
                         request.user.email,
                         'Нужен менеджер',
-                        'Мне нужен менеджер'
+                        'Мне нужен менеджер (' + str(request.user.get_profile().phoneNumber or '') + ')'
                     )
 
                 redirect = "/?project=" + str(project.id)
