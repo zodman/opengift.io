@@ -67,7 +67,7 @@ def register(request):
                 None,
                 project=project
             )
-
+            task.resp = user
             task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
             task.setStatus('revision')
 
