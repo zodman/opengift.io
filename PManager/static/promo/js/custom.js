@@ -372,7 +372,7 @@ $(function () {
                         '    </div>' +
                         '    <div class="task-info clearfix">' +
                         '        <div class="task-info-author"><span class="js-user-name"><a href="#" class="js-resp-name" onclick="$(this).closest(\'.js-task-block\').find(\'.js-select-responsible\').toggle();event.stopPropagation();return false;">' + resp + '</a>' +
-                        '<ul class="dropdown-menu pull-right js-select-responsible"><li><a href="#">Маслов Егор</a></li><li><a href="#">Синичкин Александр</a></li><li><a href="#">Смирнов Артем</a></li></ul></span></div>' +
+                        '<ul class="dropdown-menu pull-right js-select-responsible"><li><a href="#">Иванов Сергей</a></li><li><a href="#">Синичкин Александр</a></li><li><a href="#">Смирнов Артем</a></li></ul></span></div>' +
                         '        <div class="task-info-timer"><a class="play"><span class="fa fa-play-circle js-play"></span></a><span class="js-timer">00:00:00</span></div>' +
                         '        <div class="task-info-control"> <span class="fa fa-close js-close-task"></span>' +
                         '            <span class="fa fa-gear js-gear">' +
