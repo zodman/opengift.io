@@ -1066,18 +1066,7 @@ class taskAjaxManagerCreator(object):
             else:
                 if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
                     taskTimers = PM_Timer.objects.filter(task=t)
-                    if not taskTimers.count():
-                        oneSecond = datetime.timedelta(seconds=1)
-                        taskOneSecondTimer = PM_Timer(
-                            task=t,
-                            user=user,
-                            dateStart=datetime.datetime.now() - oneSecond,
-                            dateEnd=datetime.datetime.now(),
-                            seconds=1,
-                            comment=u'Закрытие задачи'
-                        )
-                        taskOneSecondTimer.save()
-                    else:
+                    if taskTimers.count():
                         if t.resp and t.resp.get_profile().is_outsource:
                             if not user or user.id != t.project.payer.id:
                                 error = u'Закрывать задачи с участием PRO специалистов может только автор проекта'
