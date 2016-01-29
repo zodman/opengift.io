@@ -417,7 +417,7 @@ var widget_tl, currentGroup;
                                             var user = response.users[i];
                                             $uList.append(
                                                 '<div class="modal-invited-users__detail">' +
-                                                    '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="'+user.avatar+'" /></div>' +
+                                                    '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="'+(user.avatar ? user.avatar : '/static/images/user-unknown.png')+'" /></div>' +
                                                     '<div class="modal-invited-users__detail-right"><a href="/user_detail/?id='+user.id+'" class="modal-invited-users__name">'+ user.full_name + '</a>' +
                                                     '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
                                                     '<span class="modal-invited-users__rating">Рейтинг: ' + user.rating + '</span></div>' +
