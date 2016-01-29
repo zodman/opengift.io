@@ -74,7 +74,7 @@ def taskdraft_resend_invites(request, draft_slug):
             'id': profile.user.id,
             'full_name': profile.user.first_name + ' ' + profile.user.last_name,
             'avatar': profile.avatarSrc,
-            'rating': profile.rating,
+            'bet': profile.getBet(draft.project),
             'specialties': [x.name for x in profile.specialties.all()[:4]]
         })
 

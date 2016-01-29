@@ -639,17 +639,19 @@
 {% endif %}
 
 {% if agreementForApprove %}
-<div class="popup popup-alert js-current-agreement" >
-    <h3 class="title js-agreement-title">Пользовательское соглашение №{{ agreementForApprove.id }}</h3>
-    <div class="content js-agreement"
-         data-agreement="{{ agreementForApprove.id }}"
-         style="max-height: 250px; overflow: auto;">
-        {{ agreementForApprove.text|safe }}
+    <div class="modal js-current-agreement" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+         aria-hidden="true" style="display: block;">
+        <div class="modal-dialog">
+            <div class="modal-content green-popup">
+                <div class="modal-header">
+                    <h2 class="modal-title" id="myModalLabel">Пользовательское соглашение №{{ agreementForApprove.id }}</h2>
+                </div>
+                <div class="modal-body clearfix js-agreement" data-agreement="{{ agreementForApprove.id }}" style="height: 250px; overflow-y:auto;">{{ agreementForApprove.text|safe }}</div>
+                <div class="modal-footer"> <a href="#" data-agreement="{{ agreementForApprove.id }}" class="btn btn-success js-agreement-approve" >Принять</a> </div>
+
+            </div>
+        </div>
     </div>
-    <div class="popup-footer">
-        <a href="#" data-agreement="{{ agreementForApprove.id }}" class="btn btn-success js-agreement-approve" >Принять</a>
-    </div>
-</div>
 {% endif %}
 </body>
 </html>
