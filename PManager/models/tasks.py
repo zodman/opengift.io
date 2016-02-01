@@ -1600,7 +1600,7 @@ class PM_Task_Message(models.Model):
 
         elif self.code == 'TIME_REQUEST':
             if not self.requested_time_approved:
-                if cur_profile and cur_profile.user.id == self.project.payer.id:
+                if cur_profile and cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project):
                     addParams.update({
                             'confirmation': (
                                 '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +

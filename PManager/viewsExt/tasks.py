@@ -651,7 +651,7 @@ def taskListAjax(request):
                                         'error': u'Задача должна быть оценена'
                                     }))
 
-                                if request.user.id == task.project.payer.id:
+                                if request.user.id == task.project.payer.id or request.user.get_profile().isManager(task.project):
                                     if task.resp.get_profile().getBet(task.project) * task.planTime > task.project.payer.get_profile().account_total + int(task.project.payer.get_profile().overdraft or 0):
                                         return HttpResponse(json.dumps({
                                             'error': u'У ' +
