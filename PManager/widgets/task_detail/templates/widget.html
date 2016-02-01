@@ -158,12 +158,21 @@
                         <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
                     {% endfor %}
                 </select>
+                <style>
+                    .need-time-hours.combobox {
+                        margin-left: 5px;
+                        margin-right: 5px;
+                        position: relative;
+                        top: -2px;
+                        width: 60px;
+                    }
+                </style>
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Лично</label>
                     <label class="left_check">
                         <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Нужно еще время
                         <span class="js-need-time-hours" style="display: none;">
-                            <input type="number" maxlength="2" name="need-time-hours" /> ч.
+                            <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours combobox" /> ч.
                         </span>
                     </label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний <a href="#" data-toggle="tooltip" title="Комментарий будет отображаться в похожих по тексту задачах для помощи исполнителям.">?</a></label>
