@@ -36,7 +36,7 @@ class Chart:
     dateFrom = datetime.datetime
     dateTo = datetime.datetime
     projects = []
-    user = False
+    user = None
     xAxe = []
     yAxes = []
     xls = False
