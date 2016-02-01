@@ -88,12 +88,13 @@ def widget(request, headerValues, arFilter, q):
                     task.sendTaskEmail('new_task', [planTime.user.email])
                 elif message.code == 'TIME_REQUEST':
                     if not message.requested_time_approved:
-                        message.requested_time_approved = True
-                        message.requested_time_approve_date = datetime.datetime.now()
-                        message.requested_time_approved_by = request.user
-                        message.task.planTime += int(message.requested_time or 0)
-                        message.task.save()
-                        message.save()
+                        if prof and prof.user.id == message.project.payer.id or prof.isManager(message.project):
+                            message.requested_time_approved = True
+                            message.requested_time_approve_date = datetime.datetime.now()
+                            message.requested_time_approved_by = request.user
+                            message.task.planTime += int(message.requested_time or 0)
+                            message.task.save()
+                            message.save()
 
                 return {'redirect': task.url}
             except PM_Task_Message.DoesNotExist:
