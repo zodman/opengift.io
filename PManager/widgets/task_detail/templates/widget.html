@@ -159,12 +159,34 @@
                     {% endfor %}
                 </select>
                 <style>
-                    .need-time-hours.combobox {
+                    .need-time-hours {
                         margin-left: 5px;
                         margin-right: 5px;
                         position: relative;
                         top: -2px;
                         width: 60px;
+                        height: 30px;
+                        display: inline-block;
+                        height:34px;
+                        padding:6px 12px;
+                        font-size:14px;
+                        line-height:1.428571429;
+                        color:#555;
+                        vertical-align:middle;
+                        background-color:#fff;
+                        border:1px solid #ccc;
+                        border-radius:4px;
+                        -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+                        box-shadow:inset 0 1px 1px rgba(0,0,0,0.075);
+                        -webkit-transition:border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                        transition:border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                    }
+
+                    .need-time-hours:focus {
+                        border-color:#66afe9;
+                        outline:0;
+                        -webkit-box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
+                        box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
                     }
                 </style>
                 <div class="left clearfix">
@@ -172,7 +194,7 @@
                     <label class="left_check">
                         <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Нужно еще время
                         <span class="js-need-time-hours" style="display: none;">
-                            <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours combobox" /> ч.
+                            <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> ч.
                         </span>
                     </label>
                     <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> В базу знаний <a href="#" data-toggle="tooltip" title="Комментарий будет отображаться в похожих по тексту задачах для помощи исполнителям.">?</a></label>
