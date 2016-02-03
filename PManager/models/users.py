@@ -378,7 +378,7 @@ class PM_User(models.Model):
 
     def getBet(self, project, type=None, role_code=None):
         try:
-            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project)
+            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project, rate__isnull=False)
 
             if type:
                 projectRole = projectRole.filter(payment_type=type)
