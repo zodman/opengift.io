@@ -559,7 +559,7 @@ class PM_Task(models.Model):
                     if ob['time']:
                         allRealTime += ob['time']
 
-                        userBet = profResp.getBet(self.project, None, 'employee')
+                        userBet = profResp.getBet(self.project)
                         if userBet:
                             curPrice = userBet * float(ob['time'])
 

@@ -210,7 +210,7 @@ class timeChart(Chart):
         from django.db.models import Sum
         aTimers = PM_Timer.objects.filter(task__project__in=self.projects, dateEnd__range=(self.dateFrom, self.dateTo))\
             .values('user') \
-                .annotate(score = Sum('seconds'))
+                .annotate(score=Sum('seconds'))
 
 
         self.cols = [
