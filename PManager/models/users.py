@@ -386,7 +386,7 @@ class PM_User(models.Model):
             if role_code:
                 projectRole = projectRole.filter(role__code=role_code)
 
-            rate = 0
+            rate = self.sp_price
 
             if projectRole:
                 projectRole = projectRole[0]
