@@ -37,10 +37,9 @@ class ajaxActions(object):
         if self.id > 0:
             try:
                 message = PM_Task_Message.objects.get(pk=self.id)
-                if message.canEdit(self.request.user):
-                    message.read = True
-                    message.save()
-                    return 'ok'
+                message.read = True
+                message.save()
+                return 'ok'
 
             except PM_Task_Message.DoesNotExist:
                 return 'Message not found'
