@@ -36,17 +36,19 @@
     });
 
     $(JS_REMOVE_ROLE).click(function() {
+        var t = this;
         PM_AjaxPost(
                 URL,
                 {
-                    'action': 'remove_payment',
-                    'id': $(this).data('role')
+                    'action': 'remove_role',
+                    'role': $(this).data('role')
                 },
                 function (data) {
-                    $(this).closest('.js-role-block').remove();
+                    $(t).closest('.js-role-block').remove();
                 },
                 'json'
             );
+        return false;
     });
 
     $(document).on('click', JS_SEND_PAYMENT_BUTTON, function(){

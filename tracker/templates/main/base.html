@@ -461,11 +461,11 @@
                 <a href="/kanban/" class="btn btn-default{% if activeMenuItem == 'kanban' %} active{% endif %}"><i
                         class="fa fa-desktop"></i><span>&nbsp;Доска</span></a>&nbsp;&nbsp;
 {##}
-{#                <a href="/gantt/"#}
-{#                   class="hide-on-mobile btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">#}
-{#                    <i class="fa fa-tasks"></i>#}
-{#                    <span>&nbsp;План</span>#}
-{#                </a>#}
+                <a href="/gantt/"
+                   class="hide-on-mobile btn btn-default{% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
+                    <i class="fa fa-tasks"></i>
+                    <span>&nbsp;План</span>
+                </a>
 {#                <a href="/life/">#}
 {#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
 {#                            <span>Активность</span>#}
@@ -483,9 +483,9 @@
                    class="btn btn-default{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
                         class="fa fa-bar-chart-o"></i><span>&nbsp;Статистика</span></a>&nbsp;&nbsp;
 
-{#                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"#}
-{#                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i#}
-{#                        class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;#}
+                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
+                   class="btn btn-default{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
+                        class="fa fa-file-text"></i><span>&nbsp;Вики</span></a>&nbsp;&nbsp;
             </div>
             <div class="sub-menu_line_section-tracker">
                 <ul class="list-inline navbar-right">
