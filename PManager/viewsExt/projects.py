@@ -100,6 +100,11 @@ def projectDetail(request, project_id):
                     role.save()
                     responseObj = {'result': 'rate updated'}
 
+            elif action == 'remove_role':
+                if role:
+                    role.delete()
+                    responseObj = {'result': 'role removed'}
+
             elif action == 'send_payment':
                 if role:
                     sum = int(request.POST.get('sum', 0))

@@ -32,7 +32,7 @@ function bindDragNDrop(callback) {
 
             var $highLightedResp = $('.gantt-event-desk td > div.'+highlightRowClass);
             $movedTask.css({
-                    'top': $movedTask.data('top')
+                'top': $movedTask.data('top')
             });
 
             if ($highLightedResp.get(0)){

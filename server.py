@@ -322,7 +322,6 @@ class MyConnection(websocket.WebSocketHandler):
                 del serverMessage
 
     def on_message(self, msg):
-
         msg = json.loads(msg)
         print msg
         self.on_event(msg['event'], [], msg['data'])
