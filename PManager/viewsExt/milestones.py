@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, render, HttpResponseRedirect
-from PManager.models import PM_Milestone, PM_Project
+from PManager.models import PM_Milestone, PM_Project, PM_Task
 from django.template import RequestContext
 from PManager.viewsExt.tools import templateTools
 from PManager.viewsExt import headers
@@ -31,6 +31,7 @@ def ajaxMilestonesResponder(request):
     responsible_id = request.POST.get('responsible', 0)
     date = templateTools.dateTime.convertToDateTime(request.POST.get('date', ''))
     id = request.POST.get('id', None)
+    task_id = int(request.POST.get('task_id', 0))
     critically = request.POST.get('critically', 2)
     action = request.POST.get('action', None)
     if not user.is_authenticated():
@@ -50,6 +51,7 @@ def ajaxMilestonesResponder(request):
                 project = milestone.project
             except PM_Milestone.DoesNotExist:
                 project = None
+
     if action == 'remove':
         if id:
             try:
@@ -59,6 +61,12 @@ def ajaxMilestonesResponder(request):
                 responseText = 'removed'
             except PM_Milestone.DoesNotExist:
                 pass
+    elif action == 'add_task_to_milestone':
+        milestone = PM_Milestone.objects.get(pk=id)
+        task = PM_Task.objects.get(pk=task_id)
+        task.milestone = milestone
+        task.save()
+        responseText = 'added'
     elif name and date and project:
         if not user.get_profile().isManager(project):
             return HttpResponse('user is not manager of project')

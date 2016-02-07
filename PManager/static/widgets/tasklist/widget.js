@@ -452,7 +452,28 @@ var widget_tl, currentGroup;
                     alert('Вы не можете перенести в эту задачу.');
                     return false;
                 } else if (task && !task.get('parent') && !parentTask) { //drop parent task to free space
-                    widget_tl.taskInsertBefore(id, $('[data-taskid=' + id + ']').parent().next().find('.task:first').data('taskid'));
+                    if ($('.js-milestones-checkbox').is(":checked")) {
+                        var $prev = $('[data-taskid=' + id + ']').parent(), $innerTaskBlock, milestoneId;
+                        while ($prev = $prev.prev()) {
+                            $innerTaskBlock = $prev.find('.task');
+                            milestoneId = $innerTaskBlock.data('milestoneid');
+                            if (!$innerTaskBlock.get(0)) break;
+                            if (milestoneId) {
+                                widget_tl.appendTaskToMilestone(
+                                    id,
+                                    milestoneId
+                                );
+                                break;
+                            }
+                        }
+
+                    } else {
+                        widget_tl.taskInsertBefore(
+                            id,
+                            $('[data-taskid=' + id + ']').parent().next().find('.task:first').data('taskid')
+                        );
+                    }
+
                     return true;
                 } else if (id) {
                     if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask ? 'задачу #"' + parentTask.get('number') + '"' : 'общий список') + '?')) {
@@ -477,6 +498,16 @@ var widget_tl, currentGroup;
                         return false;
                     }
                 }
+            },
+            'appendTaskToMilestone': function (id, milestoneId) {
+                $.post('/milestone_ajax/', {
+                    'action': 'add_task_to_milestone',
+                    'id': milestoneId,
+                    'task_id': id
+                }, function (response) {
+
+                });
+                return false;
             },
             'taskInsertBefore': function (id, before_id) {
                 taskManager.taskAjaxRequest({
