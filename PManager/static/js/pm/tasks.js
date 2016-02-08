@@ -532,7 +532,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 				setTaskCellsHeight(this.$el);
 
 			this.$('.js-name-link').click(function() {
-				if ($(window).width() > 420 && false) {
+				if (false) { //$(window).width() > 420
 					$('.js-frame-mode').find('iframe')
 							.each(function () {
 								$(this.contentDocument).empty()
