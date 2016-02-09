@@ -636,7 +636,7 @@ var widget_tl, currentGroup;
                     if (lastFor = $(this).val().lastIndexOf(widget_tl.TL_Tags[hintName])) {
                         widget_tl.inputedText = $(this).val().substring((lastFor + widget_tl.TL_Tags[hintName].length), $(this).val().length);
 
-
+                        var userLinks = widget_tl.TL_HintBlocks[hintName].find('li').show();
                         if (widget_tl.inputedText)
                             userLinks.not(":Contains('" + widget_tl.inputedText + "')").hide();
 
