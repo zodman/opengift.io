@@ -93,6 +93,7 @@ class PM_User(models.Model):
     heliard_manager_rate = models.FloatField(blank=True, null=True, verbose_name=u'Ставка менеджера')
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
+
     @property
     def rating(self):
         rAll = RatingHistory.objects.filter(
@@ -378,7 +379,7 @@ class PM_User(models.Model):
 
     def getBet(self, project, type=None, role_code=None):
         try:
-            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project)
+            projectRole = PM_ProjectRoles.objects.filter(user=self.user, project=project, rate__isnull=False)
 
             if type:
                 projectRole = projectRole.filter(payment_type=type)
@@ -386,7 +387,7 @@ class PM_User(models.Model):
             if role_code:
                 projectRole = projectRole.filter(role__code=role_code)
 
-            rate = 0
+            rate = self.sp_price
 
             if projectRole:
                 projectRole = projectRole[0]

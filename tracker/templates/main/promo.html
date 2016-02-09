@@ -95,11 +95,11 @@
             <div class="intro-heading">Найдите разработчика в два клика!</div>
             <form class="form-inline register">
                 <div class="form-group form-group-lg">
-                    <input type="email" name="email" id="subscriber-email" class="form-control js-email" placeholder="Введите E-mail" id="name" required data-validation-required-message="Введите E-mail">
+                    <input type="email" name="email" id="subscriber-email" class="form-control js-email" placeholder="Введите E-mail" required data-validation-required-message="Введите E-mail">
                 </div>
                 <button class="btn btn-xl js-register" type="submit" id="subscribe-button">Поехали!</button>
             </form>
-            <br><p class="font-20">Уже есть аккаунт? <a href="/auth">Авторизуйтесь!</a></p>
+            <br><p class="font-20">Уже есть аккаунт? <a href="/login/">Авторизуйтесь!</a></p>
         </div>
     </div>
 </header>
@@ -620,53 +620,53 @@
             </div>
         </div>
         <br><br>
-        <div class="row">
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img src="https://heliard.ru/media/users/458.jpg" class="img-responsive img-circle" alt="">
-                    <h4>Баженова Мария</h4>
-                    <p class="text-muted">менеджер</p>
-                    <!--<ul class="list-inline social-buttons">
-                        <li><a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>-->
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img src="https://heliard.ru/media/users/y_e81d24a9_1.jpg" class="img-responsive img-circle" alt="">
-                    <h4>Назиров Рамиль</h4>
-                    <p class="text-muted">Веб-дизайнер</p>
-                    <!--<ul class="list-inline social-buttons">
-                        <li><a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>-->
-                </div>
-            </div>
-            <div class="col-sm-4">
-                <div class="team-member">
-                    <img src="https://heliard.ru/media/users/409.jpg" class="img-responsive img-circle" alt="">
-                    <h4>Батов Владимир</h4>
-                    <p class="text-muted">Html-верстальщик</p>
-                    <!--<ul class="list-inline social-buttons">
-                        <li><a href="#"><i class="fa fa-twitter"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-facebook"></i></a>
-                        </li>
-                        <li><a href="#"><i class="fa fa-linkedin"></i></a>
-                        </li>
-                    </ul>-->
-                </div>
-            </div>
-        </div>
+{#        <div class="row">#}
+{#            <div class="col-sm-4">#}
+{#                <div class="team-member">#}
+{#                    <img src="https://heliard.ru/media/users/458.jpg" class="img-responsive img-circle" alt="">#}
+{#                    <h4>Баженова Мария</h4>#}
+{#                    <p class="text-muted">менеджер</p>#}
+{#                    <!--<ul class="list-inline social-buttons">#}
+{#                        <li><a href="#"><i class="fa fa-twitter"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-facebook"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-linkedin"></i></a>#}
+{#                        </li>#}
+{#                    </ul>-->#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-sm-4">#}
+{#                <div class="team-member">#}
+{#                    <img src="https://heliard.ru/media/users/y_e81d24a9_1.jpg" class="img-responsive img-circle" alt="">#}
+{#                    <h4>Назиров Рамиль</h4>#}
+{#                    <p class="text-muted">Веб-дизайнер</p>#}
+{#                    <!--<ul class="list-inline social-buttons">#}
+{#                        <li><a href="#"><i class="fa fa-twitter"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-facebook"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-linkedin"></i></a>#}
+{#                        </li>#}
+{#                    </ul>-->#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="col-sm-4">#}
+{#                <div class="team-member">#}
+{#                    <img src="https://heliard.ru/media/users/409.jpg" class="img-responsive img-circle" alt="">#}
+{#                    <h4>Батов Владимир</h4>#}
+{#                    <p class="text-muted">Html-верстальщик</p>#}
+{#                    <!--<ul class="list-inline social-buttons">#}
+{#                        <li><a href="#"><i class="fa fa-twitter"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-facebook"></i></a>#}
+{#                        </li>#}
+{#                        <li><a href="#"><i class="fa fa-linkedin"></i></a>#}
+{#                        </li>#}
+{#                    </ul>-->#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 text-center">
                 <hr>
@@ -836,42 +836,7 @@
 </div>
 
 
-<script>
-    $(function () {
-        $('.js-register').click(function () {
-            var $email = $(this).closest('section, header').find('.js-email');
-            if (!$email.val()) {
-                $email.addClass('error');
-                $email.one('keyup', function () {
-                    $(this).removeClass('error');
-                });
-            } else {
-                if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('register');
-                $.post(
-                        '/register/',
-                        {
-                            'email': $email.val()
-                        },
-                        function (data) {
-                            if (data == 'OK') {
-                                document.location.reload();
-                            } else {
-                                $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
-                                $('.js-popupClose').click(function () {
-                                    $(this).parent().fadeOut(200, function () {
-                                        $(this).remove();
-                                    })
-                                });
-                                $email.val('');
-                            }
-                        }
-                );
-            }
 
-            return false;
-        });
-    });
-</script>
 
 <!-- jQuery -->
 <script src="/static/promo/js/jquery.js"></script>
@@ -880,7 +845,7 @@
 <script src="/static/promo/js/bootstrap.min.js"></script>
 
 <!-- Plugin JavaScript -->
-<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
 <script src="/static/promo/js/classie.js"></script>
 <script src="/static/promo/js/cbpAnimatedHeader.js"></script>
 
@@ -894,7 +859,42 @@
 <script type="text/javascript" src="/static/promo/js/custom.js"></script>
 
 <script type="text/javascript" src="/static/js/pm/timer.js"></script>
+<script>
+    $(function () {
+        $('.js-register').click(function() {
+            var $email = $(this).closest('section, header').find('.js-email');
+            if (!$email.val()) {
+                $email.addClass('error');
+                $email.one('keyup', function () {
+                    $(this).removeClass('error');
+                });
+            } else {
+                if (window.yaCounter26252781) window.yaCounter26252781.reachGoal('register');
+                $.post(
+                    '/register/',
+                    {
+                        'email': $email.val()
+                    },
+                    function (data) {
+                        if (data == 'OK') {
+                            document.location.reload();
+                        } else {
+                            $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
+                            $('.js-popupClose').click(function () {
+                                $(this).parent().fadeOut(200, function () {
+                                    $(this).remove();
+                                })
+                            });
+                            $email.val('');
+                        }
+                    }
+                );
+            }
 
+            return false;
+        });
+    });
+</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (d, w, c) {
@@ -923,6 +923,7 @@
         } else { f(); }
     })(document, window, "yandex_metrika_callbacks");
 </script>
+
 <noscript><div><img src="https://mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
 <!-- /Yandex.Metrika counter -->
 

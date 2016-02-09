@@ -50,12 +50,13 @@ def stat_excel(request):
         if filter['projects']:
             projects = projects.filter(id__in=filter['projects'])
 
-        loanChart = sumLoanChart(filter['dateFrom'], filter['dateTo'], projects)
+        loanChart = sumLoanChart(filter['dateFrom'], filter['dateTo'], projects, request.user)
 
         output = StringIO.StringIO()
         workbook = xlsxwriter.Workbook(output)
         if request.GET.get('excel') == 'loan':
             workbook = loanChart.excel(workbook)
+
         workbook.close()
 
         xlsx_data = output.getvalue()

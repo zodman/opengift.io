@@ -559,7 +559,7 @@ class PM_Task(models.Model):
                     if ob['time']:
                         allRealTime += ob['time']
 
-                        userBet = profResp.getBet(self.project, None, 'employee')
+                        userBet = profResp.getBet(self.project)
                         if userBet:
                             curPrice = userBet * float(ob['time'])
 
@@ -823,7 +823,7 @@ class PM_Task(models.Model):
                 self.onPlanning or (
                     #is responsible and planTime is empty
                     hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
-                    (not self.planTime or self.status.code == 'not_approved')
+                    (not self.planTime or self.status and self.status.code == 'not_approved')
                 )
         )
 

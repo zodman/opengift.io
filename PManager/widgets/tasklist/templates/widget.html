@@ -67,7 +67,7 @@
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="aftertomorrow"
-                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),false,'Date',$(this).closest('ul').prev());">
+                               onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
                                 Послезавтра</a>
                         </li>
                         <li>
@@ -197,7 +197,7 @@
                                         </li>
                                 	</ul>
                                 <!-- сохранить поиск -->
-                                <a class="btn btn-info add-search-tab js-xls-search-tab hidden" title="Сохранить параметры поиска" >
+                                <a class="btn btn-info add-search-tab js-xls-search-tab hidden" title="Выгрузить результаты в эксель" >
                                     <i class="fa fa-file-excel-o"></i>
                                 </a>
                                 <!--!-->
