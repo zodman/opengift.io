@@ -10,7 +10,7 @@ from django.utils import timezone
 
 def remind(reminder):
     if reminder.task.resp:
-        arEmail = [reminder.task.resp.email, 'gvamm3r@gmail.com']
+        arEmail = [reminder.task.resp.email]
         sendMes = emailMessage('task_reminder',
            {
                'task': reminder.task
