@@ -626,6 +626,7 @@ var widget_tl, currentGroup;
                 var hint_block = this.TL_HintBlocks[hintName];
 
                 this.TL_PosDivToField(hint_block, field);
+                hint_block.find('li.active').removeClass('active');
 
                 this.inputedText = '';
 
@@ -635,7 +636,6 @@ var widget_tl, currentGroup;
                     if (lastFor = $(this).val().lastIndexOf(widget_tl.TL_Tags[hintName])) {
                         widget_tl.inputedText = $(this).val().substring((lastFor + widget_tl.TL_Tags[hintName].length), $(this).val().length);
 
-                        var userLinks = widget_tl.TL_HintBlocks[hintName].find('li').show();
 
                         if (widget_tl.inputedText)
                             userLinks.not(":Contains('" + widget_tl.inputedText + "')").hide();
@@ -1152,16 +1152,19 @@ var widget_tl, currentGroup;
         widget_tl.TL_CreateTaskInput.keydown(function (e) {
             var key = getKeyPressed(e);
             if (e.ctrlKey && key == 32) return false; //ctrl+space
-            else if (key == 13 && !widget_tl.TL_HintOpened.name) {
-                var parent = $(this).data('parent'),
+            else if (key == 13) {
+                if (!widget_tl.TL_HintOpened.name) {
+                    var parent = $(this).data('parent'),
                     taskParams = {'taskname': $(this).val()};
-                $('.task-file-upload input[type=hidden]').each(function () {
-                    if (!taskParams[this.name]) taskParams[this.name] = [];
-                    taskParams[this.name].push($(this).val());
-                });
-                widget_tl.TL_CreateTask(taskParams, parent);
-                $(this).val('');
-                $('.qq-upload-list').empty();
+                    $('.task-file-upload input[type=hidden]').each(function () {
+                        if (!taskParams[this.name]) taskParams[this.name] = [];
+                        taskParams[this.name].push($(this).val());
+                    });
+                    widget_tl.TL_CreateTask(taskParams, parent);
+                    $(this).val('');
+                    $('.qq-upload-list').empty();
+                }
+
                 return false;
             }
         });
@@ -1185,10 +1188,12 @@ var widget_tl, currentGroup;
                 var key = getKeyPressed(e);
                 if (widget_tl.TL_HintOpened) {
                     if (key == 40) { //down
-                        $(this).find('li.active').removeClass('active').next(':visible').addClass('active').find('a').focus();
+                        if ($(this).find('li.active').next(':visible').get(0))
+                            $(this).find('li.active').removeClass('active').next(':visible').addClass('active').find('a').focus();
                         return false;
                     } else if (key == 38) { //up
-                        $(this).find('li.active').removeClass('active').prev(':visible').addClass('active').find('a').focus();
+                        if ($(this).find('li.active').prev(':visible').get(0))
+                            $(this).find('li.active').removeClass('active').prev(':visible').addClass('active').find('a').focus();
                         return false;
                     }
                 }
