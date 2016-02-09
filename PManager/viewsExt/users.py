@@ -88,7 +88,6 @@ class userHandlers:
         elif action == 'inviteUser':
             arEmail = request.POST.getlist('email[]', {})
 
-
             if arEmail:
                 for email in arEmail:
                     roles = request.POST.getlist('roles['+email+'][]', [])

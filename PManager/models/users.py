@@ -234,7 +234,7 @@ class PM_User(models.Model):
             user.is_active = True
             user.save()
 
-        if is_new and project:
+        if project:
             p_user = PM_User.getByUser(user)
             p_user.setRole(role, project)
 
