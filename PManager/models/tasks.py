@@ -880,8 +880,13 @@ class PM_Task(models.Model):
             uploadedFiles = PM_Files.objects.filter(pk__in=uploadedFiles)
             for file in uploadedFiles:
                 arFiles.append(file)
+
         resp = None
         if len(taskName) > 0:
+            if taskName[-1] == u'!':
+                taskName = taskName[:-1]
+                arSaveFields['critically'] = 0.75
+
             for tagname, tag in arTags.iteritems():
                 aritems = taskName.split(tagname)
                 i = 0
