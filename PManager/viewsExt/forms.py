@@ -18,13 +18,13 @@ class WhoAreYou(forms.Form):
 
 class Feedback(forms.Form):
 
-    subject = forms.CharField(max_length=255, label='subject',
+    subject = forms.CharField(required=False, max_length=255, label='subject',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите тему'}))
-    phone = forms.CharField(max_length=255, label='phone',
+    phone = forms.CharField(required=False, max_length=255, label='phone',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите номер телефона'}))
-    name = forms.CharField(max_length=255, label='name',
+    name = forms.CharField(required=False, max_length=255, label='name',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите имя'}))
-    email = forms.CharField(max_length=255, label='email',
+    email = forms.CharField(required=False, max_length=255, label='email',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите email'}))
     message = forms.CharField(max_length=1500, label='message',
                               widget=forms.Textarea(attrs={'class': 'form-control',
