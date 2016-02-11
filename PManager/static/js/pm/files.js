@@ -140,7 +140,7 @@ $.fn.addFilePaste = function (options) {
                 pasteObj.pasteImageReader({'handles': true, 'callback': function (data) {
                     pasteFunc.showPastedImgForm(data.dataURL);
                 }});
-            } else if ($.browser.mozilla) {
+            } else if ($.browser.mozilla || $.browser.safari) {
                 var $frame = $('iframe#fileinput');
                 $frame.each(function () {
                     doc = this.contentDocument || this.contentWindow.document;
@@ -150,21 +150,25 @@ $.fn.addFilePaste = function (options) {
                 pasteObj.keydown(function (e) {
                     var frame = $frame.get(0), t = $(this);
                     var key = getKeyPressed(e);
-
-                    if (key == 17 && bIsIe11) {
-                        $frame.show().css({
-                            'position': 'fixed',
-                            'top': '50%',
-                            'left': '50%',
-                            'margin-top': '-50%',
-                            'margin-left': '-50%'
-                        });
-                        $frame.get(0).contentWindow.focus();
-                        window.pasteObject = $(this);
+                    if (key == 17 && bIsIe11 || key == 91) {
+                        if (pasteObj.data('timeout')) {
+                            clearTimeout(pasteObj.data('timeout'));
+                        }
+                        pasteObj.data('timeout', setTimeout(function() {
+                            $frame.show().css({
+                                'position': 'fixed',
+                                'top': '50%',
+                                'left': '50%',
+                                'margin-top': '-50%',
+                                'margin-left': '-50%'
+                            });
+                            $frame.get(0).contentWindow.focus();
+                            window.pasteObject = $(this);
+                        }, 1000));
                     }
-                    if ((e.metaKey || e.ctrlKey) && key == 86) {  //ctrl + v
 
-                        if (!bIsIe11) {
+                    if ((e.metaKey || e.ctrlKey) && key == 86) {  //ctrl + v
+                        if (!bIsIe11 && !$.browser.safari) {
                             $frame.show().focus().hide();
                             setTimeout(function () {
                                 if (frame.contentDocument && frame.contentDocument.images && frame.contentDocument.images.length)
@@ -189,12 +193,13 @@ $.fn.addFilePaste = function (options) {
                                 }, 300);
                             }, 30);
                         }
-
                     }
                 });
                 $($frame.get(0).contentDocument).keyup(function () {
-
                     if (window.pasteObject) {
+                        if (window.pasteObject.data('timeout')) {
+                            clearTimeout(pasteObj.data('timeout'));
+                        }
                         window.pasteObject.focus();
                         var $frame = $('iframe#fileinput').css('position', 'relative').hide();
                         var frame = $frame.get(0);
