@@ -48,7 +48,7 @@ def sendFeedback(request):
     form = Feedback(request.POST or None)
     context = {'form': form}
 
-    if 'subject' in request.POST and form.is_valid():
+    if 'message' in request.POST and form.is_valid():
         context['send'] = True
         bAuth = request.user.is_authenticated()
         sendFeedBackEmail(
