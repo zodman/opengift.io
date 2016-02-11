@@ -20,6 +20,12 @@ class Feedback(forms.Form):
 
     subject = forms.CharField(max_length=255, label='subject',
                               widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите тему'}))
+    phone = forms.CharField(max_length=255, label='phone',
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите номер телефона'}))
+    name = forms.CharField(max_length=255, label='name',
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите имя'}))
+    email = forms.CharField(max_length=255, label='email',
+                              widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': u'Ввведите email'}))
     message = forms.CharField(max_length=1500, label='message',
                               widget=forms.Textarea(attrs={'class': 'form-control',
                                                            'placeholder': u'Введите сообщение',
@@ -44,10 +50,11 @@ def sendFeedback(request):
 
     if 'subject' in request.POST and form.is_valid():
         context['send'] = True
+        bAuth = request.user.is_authenticated()
         sendFeedBackEmail(
-            request.user.first_name + ' ' + request.user.last_name,
-            request.user.email,
-            form.cleaned_data['subject'],
+            request.user.first_name + ' ' + request.user.last_name if bAuth else form.cleaned_data['name'],
+            request.user.email if bAuth else form.cleaned_data['email'],
+            form.cleaned_data['subject'] + ' ' + form.cleaned_data['phone'],
             form.cleaned_data['message']
         )
 
