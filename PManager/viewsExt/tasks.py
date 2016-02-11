@@ -812,6 +812,9 @@ class taskManagerCreator:
             return False
 
     def sendEmailAboutNewMessage(self, messageObject):
+        if not self.project:
+            self.project = messageObject.task.project
+
         arEmail = self.task.getUsersEmail(
             [self.currentUser.id] +
             list(self.project.projectRoles.filter(role__code='guest').values_list('user__id', flat=True))
