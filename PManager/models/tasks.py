@@ -1872,6 +1872,8 @@ class FineHistory(models.Model):
     user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return str(self.value) + ' ' + str(self.user)
     class Meta:
         app_label = 'PManager'
 
