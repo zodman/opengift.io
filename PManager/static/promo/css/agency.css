@@ -162,6 +162,68 @@ header .container {
 	color:#4cae4c !important;
 }
 
+
+.bs-callout {
+    padding: 20px;
+    margin: 30px 0;
+    border: 1px solid #eee;
+    border-left-width: 5px;
+    border-radius: 3px
+}
+.bs-callout h4 {
+    margin-top: 0;
+    margin-bottom: 10px
+}
+
+.bs-callout code {
+    background: #eee;
+    color: #000;
+}
+
+.bs-callout p:last-child {
+    margin-bottom: 0
+}
+.bs-callout code {
+    border-radius: 3px
+}
+.bs-callout+.bs-callout {
+    margin-top: -5px
+}
+.bs-callout-danger {
+    border-left-color: #ce4844
+}
+.bs-callout-danger h4 {
+    color: #ce4844
+}
+.bs-callout-warning {
+    border-left-color: #aa6708
+}
+.bs-callout-warning h4 {
+    color: #aa6708
+}
+.bs-callout-info {
+    border-left-color: #1b809e
+}
+.bs-callout-info h4 {
+    color: #1b809e
+}
+
+.bs-callout-success {
+    border-left-color: #4cae4c
+}
+.bs-callout-success h4,
+.bs-callout-success code {
+    color: #4cae4c
+}
+
+.bs-callout-success code {
+background: #f1fff1;
+}
+
+.text-red {
+    color:#fa3452 !important;
+}
+
 .colored-line {margin: 40px auto; height: 1px; background: #4cae4c; width: 200px;}
 
 .text-muted {
@@ -697,12 +759,15 @@ section {
 	text-align: center;
 	margin-bottom: 50px
 }
-.team-member img {
+.team-member .img {
 	margin: 0 auto;
 	border: 7px solid #fff;
 	height:225px;
 	width:225px;
+    overflow: hidden;
 }
+.team-member .img img {max-width: 100%; min-height: 225px;}
+
 .team-member h4 {
 	margin-top: 25px;
 	margin-bottom: 0;
