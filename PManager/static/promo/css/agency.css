@@ -759,12 +759,15 @@ section {
 	text-align: center;
 	margin-bottom: 50px
 }
-.team-member img {
+.team-member .img {
 	margin: 0 auto;
 	border: 7px solid #fff;
 	height:225px;
 	width:225px;
+    overflow: hidden;
 }
+.team-member .img img {max-width: 100%; min-height: 225px;}
+
 .team-member h4 {
 	margin-top: 25px;
 	margin-bottom: 0;
