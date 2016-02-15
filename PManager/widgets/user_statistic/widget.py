@@ -19,7 +19,7 @@ def widget(request, headerValues,a,b):
             ])
 
     filterForm = FilterForm(
-        data = request.GET
+        data=request.GET
     )
     cur_user_access_projects = [v['id'] for v in request.user.get_profile().getProjects().values('id')]
     weeksDelta = 4
