@@ -1874,6 +1874,7 @@ class FineHistory(models.Model):
 
     def __str__(self):
         return str(self.value) + ' ' + str(self.user)
+    
     class Meta:
         app_label = 'PManager'
 
