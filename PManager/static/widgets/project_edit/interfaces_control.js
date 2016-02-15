@@ -6,18 +6,21 @@
         JS_ADD_INTERFACE_WRAPPER = '.js-add-interface-wrapper',
         JS_ADD_INTERFACE_INPUT = '.js-add-interface-input',
         JS_INTERFACE_REMOVE = '.js-interface-remove',
-        JS_INTERFACE_BLOCK = '.js-interface-block';
+        JS_INTERFACE_BLOCK = '.js-interface-block',
+        JS_INTERFACE_FORM_CLOSE = '.js-interface-modal-close';
 
     $(JS_PROJECT_SUBMIT).click(function(){
         $(JS_ADD_INTERFACE).ajaxSubmit(function(data){
             var $ic = $(JS_INTERFACE_CONTAINER);
             $ic.append(data);
             $(JS_ADD_INTERFACE_WRAPPER)
-                .toggle()
                 .find(JS_ADD_INTERFACE_INPUT)
-                .val('');
-            //if (clipboardAppend)
-            //    clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
+                .val('')
+            .end()
+                .find(JS_INTERFACE_FORM_CLOSE).click();
+
+            if (clipboardAppend)
+                clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
 
         });
         return false;
