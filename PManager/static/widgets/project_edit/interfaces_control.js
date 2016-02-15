@@ -1,6 +1,6 @@
 ;$(function(){
     var JS_PROJECT_SUBMIT = '.js-project-submit',
-        JS_ADD_INTERFACE = '.js-add-interface',
+        JS_ADD_INTERFACE = '.js-add-interface-form',
         JS_INTERFACE_CONTAINER = '.js-interface-container',
         JS_COPY_PASSWORD = '.js-copy-password',
         JS_ADD_INTERFACE_WRAPPER = '.js-add-interface-wrapper',
