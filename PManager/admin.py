@@ -27,6 +27,11 @@ class CreditInline(admin.ModelAdmin):
     list_display = ['user', 'payer', 'project', 'value', 'type', 'date', 'task']
     list_filter = ['user', 'payer', 'project__name']
 
+
+class RatingInline(admin.ModelAdmin):
+    list_display = ['user', 'value', 'date_create']
+    list_filter = ['user']
+
 class FeeInline(admin.ModelAdmin):
     list_display = ['user', 'project', 'value', 'date', 'task']
     list_filter = ['user', 'project__name']
@@ -80,7 +85,7 @@ admin.site.register(Test)
 admin.site.register(Conditions)
 admin.site.register(TaskDraft)
 admin.site.register(PaymentRequest)
-admin.site.register(RatingHistory)
+admin.site.register(RatingHistory, RatingInline)
 admin.site.register(FineHistory)
 admin.site.register(Agreement, AgreementInline)
 
