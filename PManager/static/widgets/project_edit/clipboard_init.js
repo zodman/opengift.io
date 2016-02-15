@@ -2,7 +2,7 @@
 	var SWF_PATH = '/static/js/libs/clipboard/jquery.clipboard.swf',
 		TEXT_COMPLETE = 'пароль скопирован',
 		JS_COPY_PASSWORD = '.js-copy-password'; 
-	function clipboardAppend(t) {
+	clipboardAppend = function(t) {
 	    $(t).clipboard({
 	        path: SWF_PATH,
 	        copy: function () {
@@ -13,8 +13,9 @@
 	            return $(t).data('password');
 	        }
 	    });
-	}
+	};
 	$(JS_COPY_PASSWORD).each(function () {
 	    clipboardAppend(this);
 	});
 });
+var clipboardAppend;
