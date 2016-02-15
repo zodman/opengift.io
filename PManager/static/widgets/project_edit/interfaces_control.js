@@ -16,8 +16,8 @@
                 .toggle()
                 .find(JS_ADD_INTERFACE_INPUT)
                 .val('');
-            if (clipboardAppend)
-                clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
+            //if (clipboardAppend)
+            //    clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
 
         });
         return false;
