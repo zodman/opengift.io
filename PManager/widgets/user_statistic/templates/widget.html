@@ -59,6 +59,9 @@
                 Файлов
             </th>
             <th>
+                На проверке
+            </th>
+            <th>
                 Закрыта&nbsp;({{ user.closedTaskQty }})
             </th>
         </tr>
@@ -72,6 +75,7 @@
                 <td>{% if taskTime.task.dateClose %}{{ taskTime.task.dateClose|date:"d.m.Y H:i:s" }}{% endif %}</td>
                 <td>{% if taskTime.comments_qty %}{{ taskTime.comments_qty }}{% endif %}</td>
                 <td>{{ taskTime.files_qty }}</td>
+                <td>{% if taskTime.task.status.code == 'ready' %}Да{% endif %}</td>
                 <td>{% if taskTime.task.closed %}Да{% endif %}</td>
             </tr>
         {% endfor %}
@@ -79,6 +83,7 @@
                 <td><b>Итого</b></td>
                 <td></td>
                 <td><b>{% if user.allTime %}{{ user.allTime }}{% endif %}</b></td>
+                <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
