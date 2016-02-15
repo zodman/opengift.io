@@ -2,6 +2,7 @@
 import base64
 import struct
 
+
 __author__ = 'Tonakai'
 import os
 import os.path
