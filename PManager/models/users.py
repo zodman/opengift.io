@@ -395,8 +395,8 @@ class PM_User(models.Model):
                 rate = projectRole.rate if projectRole.rate is not None else (
                     int(self.sp_price) if self.sp_price else 0)
 
-                if rate:
-                    rate += self.getRating(project)
+            if rate:
+                rate += self.getRating(project)
 
             return rate
 
