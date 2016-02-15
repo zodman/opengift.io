@@ -12,11 +12,13 @@
         $(JS_ADD_INTERFACE).ajaxSubmit(function(data){
             var $ic = $(JS_INTERFACE_CONTAINER);
             $ic.append(data);
-            clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
             $(JS_ADD_INTERFACE_WRAPPER)
                 .toggle()
                 .find(JS_ADD_INTERFACE_INPUT)
                 .val('');
+            if (clipboardAppend)
+                clipboardAppend($ic.find(JS_COPY_PASSWORD).last());
+
         });
         return false;
     });
