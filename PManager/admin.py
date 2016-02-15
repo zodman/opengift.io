@@ -29,7 +29,7 @@ class CreditInline(admin.ModelAdmin):
 
 
 class RatingInline(admin.ModelAdmin):
-    list_display = ['user', 'value', 'date_create']
+    list_display = ['user', 'value', 'dateCreate']
     list_filter = ['user']
 
 class FeeInline(admin.ModelAdmin):
