@@ -540,12 +540,12 @@ class PM_Task(models.Model):
                         if curUserRating < 0:
                             obRating = FineHistory(value=curUserRating, user=cUser)
                         elif curUserRating > 0:
-                            if respFine > 0:
-                                if respFine > curUserRating:
+                            if respFine < 0:
+                                if -respFine > curUserRating:
                                     obRating = FineHistory(value=-curUserRating, user=cUser)
                                 else:
                                     obRating = FineHistory(value=-respFine, user=cUser)
-                                    ratingLeft = curUserRating - respFine
+                                    ratingLeft = curUserRating + respFine
 
                                     if ratingLeft:
                                         ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
