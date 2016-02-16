@@ -10,11 +10,11 @@
 </div>
 <p>Разместите здесь доступ в административную панель или к FTP серверу сайта.</p>
 
-<div class="modal fade js-add-interface" id="add-interface-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+<div class="modal fade js-add-interface-wrapper" id="add-interface-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true" style="z-index: 100000">
     <div class="modal-dialog">
         <div class="modal-content green-popup">
-            <form enctype="multipart/form-data" class="js-add-interface" method="POST" action="/add_interface/">
+            <form enctype="multipart/form-data" class="js-add-interface-form" method="POST" action="/add_interface/">
                 <div class="modal-header">
                     <h2 class="modal-title" id="myModalLabel">Добавить интерфейс нам</h2>
                     <a class="fa fa-remove" data-dismiss="modal"></a>
@@ -60,7 +60,7 @@
                 </div>
                 <div class="modal-footer">
                     <input type="submit" class="btn btn-success js-project-submit" value="Добавить"/>
-                    <button data-dismiss="modal" class="btn btn-danger" type="button">Закрыть</button>
+                    <button data-dismiss="modal" class="btn btn-danger js-interface-modal-close" type="button">Закрыть</button>
                 </div>
             </form>
         </div>

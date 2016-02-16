@@ -109,6 +109,10 @@ class MainPage:
         from django.utils.html import escape
         import urllib
 
+        cType = 'text/html'
+        mimeType = None
+        bXls = request.GET.get('xls_output', False)
+
         agents = Agent.objects.filter(Q(Q(datetime__lt=datetime.datetime.now()) | Q(datetime__isnull=True)))
         for agent in agents:
             agent.process()
@@ -201,7 +205,12 @@ class MainPage:
                         pageTitle = widget['title']
 
                     c.update({widgetName: widget})
-                    results.append(loader.get_template("%s/templates/widget.html" % widgetName).render(c))
+                    if bXls:
+                        templateName = 'xls'
+                    else:
+                        templateName = 'widget'
+
+                    results.append(loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c))
 
             if request.is_ajax():
                 if request.GET.get('modal', None) is not None:
@@ -211,6 +220,10 @@ class MainPage:
             else:
                 if request.GET.get('frame_mode', False):
                     t = loader.get_template('index_frame.html')
+                elif bXls:
+                    cType = 'application/xls'
+                    mimeType = 'application/xls'
+                    t = loader.get_template('index_xls.html')
                 else:
                     t = loader.get_template('index.html')
 
@@ -254,7 +267,10 @@ class MainPage:
             'agreementForApprove': agreementForApprove
         })
 
-        response = HttpResponse(t.render(c))
+        response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
+        if bXls:
+            response['Content-Disposition'] = 'attachment; filename="file.xls"'
+
         for key in headerValues['SET_COOKIE']:
             set_cookie(response, key, headerValues['SET_COOKIE'][key])
 

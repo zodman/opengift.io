@@ -540,12 +540,12 @@ class PM_Task(models.Model):
                         if curUserRating < 0:
                             obRating = FineHistory(value=curUserRating, user=cUser)
                         elif curUserRating > 0:
-                            if respFine > 0:
-                                if respFine > curUserRating:
-                                    obRating = FineHistory(value=-curUserRating, user=cUser)
+                            if respFine < 0:
+                                if -respFine >= curUserRating:
+                                    obRating = FineHistory(value=curUserRating, user=cUser)
                                 else:
                                     obRating = FineHistory(value=-respFine, user=cUser)
-                                    ratingLeft = curUserRating - respFine
+                                    ratingLeft = curUserRating + respFine
 
                                     if ratingLeft:
                                         ratingLeft = RatingHistory(value=ratingLeft, user=cUser)
@@ -1872,6 +1872,9 @@ class FineHistory(models.Model):
     user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return str(self.value) + ' ' + str(self.user)
+    
     class Meta:
         app_label = 'PManager'
 
