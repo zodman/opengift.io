@@ -247,7 +247,7 @@ class XML_Import:
                             if userId:
                                 roles = task.author.get_profile().getRoles(task.project)
                                 if not roles:
-                                    task.author.get_profile().setRole(task.project, 'employee')
+                                    task.author.get_profile().setRole('employee', task.project)
 
                             task.deadline = taskObj['deadline'].replace('T',' ') if taskObj['deadline'] != '0001-01-01T00:00:00' else None
                             task.dateCreate = taskObj['create_on'].replace('T',' ')
@@ -291,7 +291,7 @@ class XML_Import:
                                     task.responsible.add(oResponsible)
                                     roles = oResponsible.get_profile().getRoles(task.project)
                                     if not roles:
-                                        oResponsible.get_profile().setRole(task.project,'employee')
+                                        oResponsible.get_profile().setRole('employee', task.project)
                                 except User.DoesNotExist:
                                     pass
 

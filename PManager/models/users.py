@@ -234,9 +234,8 @@ class PM_User(models.Model):
             user.is_active = True
             user.save()
 
-        if project:
-            p_user = PM_User.getByUser(user)
-            p_user.setRole(role, project)
+        if project and role and not user.get_profile().hasRole(project, not_guest=True):
+            user.get_profile().setRole(role, project)
 
         return user
 
