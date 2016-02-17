@@ -219,9 +219,10 @@ class PM_User(models.Model):
                 'user_password': password
             }
 
-            message = emailMessage('hello_new_user',
-                                   context,
-                                   'Heliard: сообщество профессионалов. Добро пожаловать!'
+            message = emailMessage(
+                'hello_new_user',
+                context,
+                'Heliard: сообщество профессионалов. Добро пожаловать!'
             )
 
             message.send([email])
