@@ -1072,7 +1072,8 @@ class taskAjaxManagerCreator(object):
                     if taskTimers.count():
                         if t.resp and t.resp.get_profile().is_outsource:
                             if not user or user.id != t.project.payer.id:
-                                error = u'Закрывать задачи с участием PRO специалистов может только автор проекта'
+                                error = u'Закрывать задачи с участием PRO специалистов может только ' + \
+                                    t.project.payer.last_name + ' ' + t.project.payer.first_name
 
                             from PManager.models.agreements import Agreement
                             from django.db.models import Count
@@ -1081,6 +1082,7 @@ class taskAjaxManagerCreator(object):
                             for timer in taskTimers:
                                 if timer['user__id'] == t.project.payer.id:
                                     continue
+
                                 u = User.objects.get(pk=timer['user__id'])
                                 try:
                                     agreement = Agreement.objects.get(

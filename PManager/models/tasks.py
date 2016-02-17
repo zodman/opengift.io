@@ -957,9 +957,8 @@ class PM_Task(models.Model):
             task.resp = resp
 
             #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
-            roles = resp.get_profile().getRoles(task.project)
-            if not roles:
-                resp.get_profile().setRole(task.project, 'employee')
+            if not resp.get_profile().hasRole(task.project, not_guest=True):
+                resp.get_profile().setRole('employee', task.project)
                 if resp.get_profile().is_outsource:
                     from PManager.models.agreements import Agreement
                     Agreement.objects.get_or_create(payer=task.project.payer, resp=resp)
