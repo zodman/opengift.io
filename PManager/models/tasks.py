@@ -957,9 +957,8 @@ class PM_Task(models.Model):
             task.resp = resp
 
             #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
-            roles = resp.get_profile().getRoles(task.project)
-            if not roles:
-                resp.get_profile().setRole(task.project, 'employee')
+            if not resp.get_profile().hasRole(task.project, not_guest=True):
+                resp.get_profile().setRole('employee', task.project)
                 if resp.get_profile().is_outsource:
                     from PManager.models.agreements import Agreement
                     Agreement.objects.get_or_create(payer=task.project.payer, resp=resp)
@@ -1605,7 +1604,7 @@ class PM_Task_Message(models.Model):
 
         elif self.code == 'TIME_REQUEST':
             if not self.requested_time_approved:
-                if cur_profile and cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project):
+                if cur_profile and (cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
                     addParams.update({
                             'confirmation': (
                                 '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +

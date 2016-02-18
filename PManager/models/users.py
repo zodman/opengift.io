@@ -219,9 +219,10 @@ class PM_User(models.Model):
                 'user_password': password
             }
 
-            message = emailMessage('hello_new_user',
-                                   context,
-                                   'Heliard: сообщество профессионалов. Добро пожаловать!'
+            message = emailMessage(
+                'hello_new_user',
+                context,
+                'Heliard: сообщество профессионалов. Добро пожаловать!'
             )
 
             message.send([email])
@@ -234,9 +235,8 @@ class PM_User(models.Model):
             user.is_active = True
             user.save()
 
-        if project:
-            p_user = PM_User.getByUser(user)
-            p_user.setRole(role, project)
+        if project and role and not user.get_profile().hasRole(project, not_guest=True):
+            user.get_profile().setRole(role, project)
 
         return user
 
