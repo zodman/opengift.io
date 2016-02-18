@@ -789,8 +789,15 @@ section#contact .section-heading {
 	color: #fff
 }
 section#contact .form-group {
-	margin-bottom: 25px
+	margin-bottom: 25px;
+    position: relative;
 }
+section#contact .form-group .help-block {
+    position: absolute;
+    right: 20px;
+    top: 13px;
+}
+
 section#contact .form-group input, section#contact .form-group textarea {
 	padding: 20px
 }
