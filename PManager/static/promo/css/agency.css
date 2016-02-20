@@ -358,13 +358,13 @@ h1, h2, h3, h4, h5, h6 {
 	color: #4cae4c;
 	outline: 0
 }
-.navbar-default .navbar-nav>.active>a {
+.navbar-default .navbar-nav> .active>a {
 	border-radius: 0;
 	color: #fff;
 	background-color: #4cae4c
 }
-.navbar-default .navbar-nav>.active>a:hover, 
-.navbar-default .navbar-nav>.active>a:focus {
+.navbar-default .navbar-nav> .active>a:hover, 
+.navbar-default .navbar-nav> .active>a:focus {
 	color: #fff;
 	background-color: #4cae4c
 }
@@ -383,7 +383,7 @@ h1, h2, h3, h4, h5, h6 {
 	-moz-transition: all .3s;
 	transition: all .3s
 }
-.navbar-default .navbar-nav>.active>a {
+.navbar-default .navbar-nav> .active>a {
 	border-radius: 3px
 }
 .navbar-default.navbar-shrink {
@@ -580,38 +580,38 @@ section {
 	left: 40px;
 	margin-left: -1.5px
 }
-.timeline>li {
+.timeline > li {
 	margin-bottom: 50px;
 	position: relative;
 	min-height: 50px
 }
-.timeline>li:before, .timeline>li:after {
+.timeline > li:before, .timeline > li:after {
 	content: " ";
 	display: table
 }
-.timeline>li:after {
+.timeline > li:after {
 	clear: both
 }
-.timeline>li .timeline-panel {
+.timeline > li .timeline-panel {
 	width: 100%;
 	float: right;
 	padding: 0 20px 0 100px;
 	position: relative;
 	text-align: left
 }
-.timeline>li .timeline-panel:before {
+.timeline > li .timeline-panel:before {
 	border-left-width: 0;
 	border-right-width: 15px;
 	left: -15px;
 	right: auto
 }
-.timeline>li .timeline-panel:after {
+.timeline > li .timeline-panel:after {
 	border-left-width: 0;
 	border-right-width: 14px;
 	left: -14px;
 	right: auto
 }
-.timeline>li .timeline-image {
+.timeline > li .timeline-image {
 	left: 0;
 	margin-left: 0;
 	width: 80px;
@@ -633,29 +633,31 @@ section {
     top: 50%;
 }
 
-.timeline>li .timeline-image h4 {
-	font-size: 10px;
-	margin-top: 12px;
-	line-height: 14px
+.timeline > li .timeline-image h4 {
+    font-size: 9px;
+    line-height: 11px;
+    margin-top: 12px;
+    padding: 0 8px;
+    text-transform: none;
 }
-.timeline>li.timeline-inverted>.timeline-panel {
+.timeline > li.timeline-inverted > .timeline-panel {
 	float: right;
 	text-align: left;
 	padding: 0 20px 0 100px
 }
-.timeline>li.timeline-inverted>.timeline-panel:before {
+.timeline > li.timeline-inverted > .timeline-panel:before {
 	border-left-width: 0;
 	border-right-width: 15px;
 	left: -15px;
 	right: auto
 }
-.timeline>li.timeline-inverted>.timeline-panel:after {
+.timeline > li.timeline-inverted > .timeline-panel:after {
 	border-left-width: 0;
 	border-right-width: 14px;
 	left: -14px;
 	right: auto
 }
-.timeline>li:last-child {
+.timeline > li:last-child {
 	margin-bottom: 0
 }
 .timeline .timeline-heading h4 {
@@ -671,29 +673,31 @@ section {
 .timeline:before {
 	left: 50%
 }
-.timeline>li {
+.timeline > li {
 	margin-bottom: 100px;
 	min-height: 100px
 }
-.timeline>li .timeline-panel {
+.timeline > li .timeline-panel {
 	width: 41%;
 	float: left;
 	padding: 0 20px 20px 30px;
 	text-align: right
 }
-.timeline>li .timeline-image {
+.timeline > li .timeline-image {
 	width: 100px;
 	height: 100px;
 	left: 50%;
 	margin-left: -50px
 }
 
-.timeline>li .timeline-image h4 {
-	font-size: 13px;
-	margin-top: 16px;
-	line-height: 18px
+.timeline > li .timeline-image h4 {
+    font-size: 11px;
+    line-height: 15px;
+    margin-top: 16px;
+    padding: 0 7px;
+    text-transform: none;
 }
-.timeline>li.timeline-inverted>.timeline-panel {
+.timeline > li.timeline-inverted > .timeline-panel {
 	float: right;
 	text-align: left;
 	padding: 0 30px 20px 20px
@@ -715,43 +719,44 @@ section {
 }
 
 @media (min-width:992px) {
-.timeline>li {
+.timeline > li {
 	min-height: 150px
 }
-.timeline>li .timeline-panel {
+.timeline > li .timeline-panel {
 	padding: 0 20px 20px;
 }
-.timeline>li .timeline-image {
+.timeline > li .timeline-image {
 	width: 150px;
 	height: 150px;
 	margin-left: -75px;
 }
-.timeline>li .timeline-image h4 {
-	font-size: 18px;
+.timeline > li .timeline-image h4 {
+	font-size: 16px;
 	margin-top: 30px;
 	line-height: 26px;
 	text-transform:none;
 }
-.timeline>li.timeline-inverted>.timeline-panel {
+.timeline > li.timeline-inverted > .timeline-panel {
 	padding: 0 20px 20px;
 }
 }
 @media (min-width:1200px) {
-.timeline>li {
+.timeline > li {
 	min-height: 170px;
 }
-.timeline>li .timeline-panel {
+.timeline > li .timeline-panel {
 	padding: 0 20px 20px 100px
 }
-.timeline>li .timeline-image {
+.timeline > li .timeline-image {
 	width: 170px;
 	height: 170px;
 	margin-left: -85px
 }
-.timeline>li .timeline-image h4 {
-	margin-top: 40px
+.timeline > li .timeline-image h4 {
+	margin-top: 40px;
+    font-size: 18px;
 }
-.timeline>li.timeline-inverted>.timeline-panel {
+.timeline > li.timeline-inverted > .timeline-panel {
 	padding: 0 100px 20px 20px
 }
 }
