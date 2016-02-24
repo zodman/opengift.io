@@ -27,7 +27,7 @@ def __approve_agreement(request):
                     if not agreement.datePayerApprove:
                         agreement.datePayerApprove = datetime.datetime.now()
 
-                elif request.user.id == agreement.resp.id:
+                if request.user.id == agreement.resp.id:
                     agreement.approvedByResp = True
                     if not agreement.dateRespApprove:
                         agreement.dateRespApprove = datetime.datetime.now()

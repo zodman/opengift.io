@@ -88,10 +88,6 @@
 
                 <div class="statistic-list-item last-child">
                 <h3>Финансы</h3>
-                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
-                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
-                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
-
                 <div class="sp">На счету:
                                     <span class="dropdown dropup">
                                         <b{% if user_detail.bets %} data-toggle="dropdown"{% endif %}><a href="javascript:void(0);">{{ user_detail.profile.sp.rest|default_if_none:'0'|intcomma }}</a></b>
@@ -101,6 +97,13 @@
                                         {% endif %}
                                     </span>
                 </div>
+                {% if user_detail.profile.is_outsource %}
+                <p>Мин. ставка:  <span class="stavka {% if not user_detail.profile.rating %}{% elif user_detail.profile.rating < 0 %}danger{% else %}success{% endif %}">
+                                    {{ user_detail.profile.sp_price }}<span class="bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span></span></p>
+                <small><i>Цена часа для конкретного проекта может быть переопределена менеджером</i></small>
+                {% else %}
+                    <p><span style="color:grey">Пополните счет для привлечения платных специалистов Heliard для своих проектов.</span></p>
+                {% endif %}
                 <div class="clear"></div>
                 {% if not user_detail.userIsEqualCurrentUser %}
                 <small><i>Показана информация по проектам, в которых вы являетесь менеджером</i></small>
@@ -182,9 +185,9 @@
                     {% for project in user_detail.user_projects %}
                         <div class="media clearfix">
                         	<a href="/project/{{ project.id }}/#participants_and_rates" class="pull-left project-thumb-link">
-                            <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"100x100" }}{% else %}/static/images/avatar_unknown.png{% endif %}" class="img-thumbnail pull-left" width="100" />
+                                <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"100x100" }}{% else %}/static/images/avatar_red_eye.png{% endif %}" class="img-thumbnail pull-left" width="100" />
                             </a>
-                            <h3>{{ project.name }}</h3>
+                            <h3><a href="/project/{{ project.id }}/#participants_and_rates">{{ project.name }}</a></h3>
                             <ul class="list-inline" >
                                 {% if project.canEdit  or 'guest' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
@@ -196,7 +199,7 @@
                                     <span class="fa fa-users"></span>
                                     Гость</label></div></li>
                                 {% endif %}
-                                {% if project.canEdit  or 'manager' in project.roles %}
+                                {% if project.canEdit or 'manager' in project.roles %}
                                 <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
                                     {% if project.canEdit %}
                                     <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %}

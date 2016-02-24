@@ -326,10 +326,15 @@ $(function(){
             });
         },
         'removeMessageRequest': function(id, callback){
-            return PM_AjaxPost('/task_handler',{
-                'action':'removeMessage',
-                'id':id
-            },callback,'json');
+            return PM_AjaxPost(
+                '/task_handler',
+                {
+                    'action': 'removeMessage',
+                    'id': id
+                },
+                callback,
+                'json'
+            );
         },
         'newMessage': function(callback){
             if (widget_td.task_id){
@@ -341,6 +346,7 @@ $(function(){
                         widget_td.messageListHelper.addMessages([data]);
                         widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('');
                         widget_td.$messageForm.find('.js-need-time:checked').trigger('click');
+                        widget_td.$messageForm.find('.js-solution-set:checked').trigger('click');
                         widget_td.$attachedFileContainer.empty();
                         if (callback) callback(data);
                     }

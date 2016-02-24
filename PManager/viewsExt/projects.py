@@ -102,8 +102,11 @@ def projectDetail(request, project_id):
 
             elif action == 'remove_role':
                 if role:
-                    role.delete()
-                    responseObj = {'result': 'role removed'}
+                    res = role.safeDelete()
+                    if res:
+                        responseObj = {'result': 'role removed'}
+                    else:
+                        responseObj = {'error': u'Вы не можете удалить последнюю роль менеджера в проекте'}
 
             elif action == 'send_payment':
                 if role:

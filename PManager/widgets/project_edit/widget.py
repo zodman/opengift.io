@@ -12,7 +12,7 @@ from tracker.settings import USE_GIT_MODULE
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "image", "author", "tracker", "payer"]
+        fields = ["name", "description", "image", "author", "tracker"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -48,7 +48,6 @@ def widget(request, headerValues, ar, qargs):
 
         if request.method == 'POST':
             post.update({'author': request.user.id})
-            post.update({'payer': request.user.id})
             post.update({'tracker': 1})
 
             pform = ProjectForm(
