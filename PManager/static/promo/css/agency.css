@@ -3,6 +3,8 @@ body {
 	font-family: "Roboto Slab", "Helvetica Neue", Helvetica, Arial, sans-serif
 }
 
+.navbar-fixed-top .container {position: relative;}
+
 .color-overlay {
     background: rgba(0, 0, 0, 0.55) none repeat scroll 0 0;
     bottom: 0;
@@ -358,15 +360,17 @@ h1, h2, h3, h4, h5, h6 {
 	color: #4cae4c;
 	outline: 0
 }
-.navbar-default .navbar-nav> .active>a {
+.navbar-default .navbar-nav > .active > a {
 	border-radius: 0;
-	color: #fff;
-	background-color: #4cae4c
+	color: #4cae4c;
+	background: none !important;
+    border: 1px solid #4cae4c;
 }
-.navbar-default .navbar-nav> .active>a:hover, 
-.navbar-default .navbar-nav> .active>a:focus {
-	color: #fff;
-	background-color: #4cae4c
+.navbar-default .navbar-nav > .active > a:hover, 
+.navbar-default .navbar-nav > .active > a:focus {
+    background: none !important;
+    border: 1px solid #4cae4c;
+    color: #4cae4c;
 }
 @media (min-width:768px) {
 .navbar-default {
@@ -383,7 +387,7 @@ h1, h2, h3, h4, h5, h6 {
 	-moz-transition: all .3s;
 	transition: all .3s
 }
-.navbar-default .navbar-nav> .active>a {
+.navbar-default .navbar-nav > .active > a {
 	border-radius: 3px
 }
 .navbar-default.navbar-shrink {
@@ -1645,3 +1649,30 @@ body {
 
 .popup.popup-alert {border-color: #ce4844;}
 .popup.popup-alert .title {color: #ce4844;}
+
+.show-on-1200 {display: none !important; margin-right: 10px;}
+.show-on-1200 a {background: #4cae4c; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+
+@media (max-width:1200px) {
+    .show-on-1200 {display: block !important;}
+    .navbar-fixed-top .register {display: none;}
+    .navbar-default .nav li a {font-size: 12px;}
+}
+
+.navbar-fixed-top .register {position: absolute; top: 9px; left: 250px;}
+.navbar-fixed-top .register .form-control {
+    border: 0 none;
+    border-radius: 5px 0 0 5px !important;
+    padding-left: 15px !important;
+    padding-right: 15px !important;
+    width: 180px;
+}
+
+.navbar-fixed-top .register .btn {
+    border-radius: 0 5px 5px 0 !important;
+    height: 34px;
+    margin-left: -10px;
+    padding: 0 15px;
+}
+
+@media (min-width:768px){.container{width:inherit;}}
