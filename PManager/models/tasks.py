@@ -1764,6 +1764,21 @@ class PM_ProjectRoles(models.Model):
     def __unicode__(self):
         return self.role.name + ' ' + self.project.name
 
+    def isLastRequiredRole(self):
+        lastRequiredRoleCode = 'manager'
+        return self.role.code == lastRequiredRoleCode and \
+            not PM_ProjectRoles.objects.filter(
+                        project=self.project,
+                        role__code=lastRequiredRoleCode
+                ).exclude(id=self.id).exists()
+
+    def safeDelete(self):
+        if self.isLastRequiredRole():
+            return False
+
+        self.delete()
+        return True
+
     class Meta:
         app_label = 'PManager'
 

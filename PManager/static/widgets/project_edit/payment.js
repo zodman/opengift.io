@@ -44,7 +44,11 @@
                     'role': $(this).data('role')
                 },
                 function (data) {
-                    $(t).closest('.js-role-block').remove();
+                    if (data.error) {
+                        alert(data.error);
+                    } else {
+                        $(t).closest('.js-role-block').remove();
+                    }
                 },
                 'json'
             );

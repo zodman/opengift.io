@@ -386,19 +386,15 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
     background: none;
     border: none;
 }
-.sub-menu_line_section-user a:hover {color:#4cae4c; background:#fff; border:1px solid #ddd;}
-.sub-menu_line_section-user a.active {background-image: -webkit-gradient(
-    linear,
-    left top,
-    left bottom,
-    color-stop(0, #5CB85C),
-    color-stop(1, #4CAE4C)
-);
-    background-image: -o-linear-gradient(bottom, #5CB85C 0%, #4CAE4C 100%);
-    background-image: -moz-linear-gradient(bottom, #5CB85C 0%, #4CAE4C 100%);
-    background-image: -webkit-linear-gradient(bottom, #5CB85C 0%, #4CAE4C 100%);
-    background-image: -ms-linear-gradient(bottom, #5CB85C 0%, #4CAE4C 100%);
-    background-image: linear-gradient(to bottom, #5CB85C 0%, #4CAE4C 100%); color:#fff; border:1px solid #4cae4c;}
+.sub-menu_line_section-user a:hover {color:#4cae4c;border: 1px solid #f0f0f0;background:none;}
+.sub-menu_line_section-user a.active {
+    border: 1px solid #f0f0f0;
+    background:none;
+    color:#4cae4c;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+}
 
 .agree-with-button {background-image: -webkit-gradient(
     linear,

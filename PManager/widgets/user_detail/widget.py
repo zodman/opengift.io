@@ -195,8 +195,16 @@ def widget(request, headerValues, ar, qargs):
 
             userProjects = profile.getProjects().filter(pk__in=currentUserAccessProjects)
             for project in userProjects:
-                setattr(project, 'canEdit', cur_prof.isManager(project))
-                setattr(project, 'roles', [role.role.code for role in userRoles if role.project.id == project.id])
+                aRoles = []
+                lastRequired = False
+                for role in userRoles:
+                    if role.project.id == project.id:
+                        aRoles.append(role.role.code)
+                        if not lastRequired:
+                            lastRequired = role.isLastRequiredRole()
+
+                setattr(project, 'roles', aRoles)
+                setattr(project, 'canEdit', cur_prof.isManager(project) and not lastRequired)
 
             now = datetime.date.today()
             week = [now]

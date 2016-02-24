@@ -462,6 +462,28 @@ def __task_message(request):
             except PM_Files.DoesNotExist():
                 pass
 
+        if solution:
+            from wiking.services.articles import ArticleService
+            article = ArticleService.get_article(
+                None,
+                message.task.id,
+                message.task.project
+            )
+            articleData = {
+                    'project': message.task.project,
+                    'slug': message.task.id,
+                    'title': message.task.name,
+                    'comment': u'Задача №' + str(message.task.number),
+                    'content': message.text,
+                    'parent': None
+                }
+            if article:
+                ArticleService.update_article(article, articleData, author)
+            else:
+                ArticleService.create_article(
+                    articleData,
+                    author
+                )
         ar_email = task.getUsersEmail([author.id])
 
         if hidden:

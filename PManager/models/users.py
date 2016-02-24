@@ -318,10 +318,16 @@ class PM_User(models.Model):
                 return False
 
             if clientRole:
-                userRole, created = PM_ProjectRoles.objects.get_or_create(user=self.user, role=clientRole,
-                                                                          project=project)
-                PM_ProjectRoles.objects.filter(user=self.user, project=project)\
-                    .exclude(id=userRole.id).delete()
+                deletedOld = True
+                for role in PM_ProjectRoles.objects.filter(user=self.user, project=project):
+                    deletedOld = role.safeDelete()
+
+                if deletedOld:
+                    PM_ProjectRoles.objects.get_or_create(
+                        user=self.user,
+                        role=clientRole,
+                        project=project
+                    )
 
         return self
 
