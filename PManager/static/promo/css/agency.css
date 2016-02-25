@@ -1653,13 +1653,16 @@ body {
 .show-on-1200 {display: none !important; margin-right: 10px;}
 .show-on-1200 a {background: #4cae4c; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
 
+.navbar-fixed-top.navbar-shrink .register {display:inline;}
+
 @media (max-width:1200px) {
     .show-on-1200 {display: block !important;}
-    .navbar-fixed-top .register {display: none;}
+    .navbar-fixed-top.navbar-shrink .register {display: none;}
     .navbar-default .nav li a {font-size: 12px;}
 }
 
-.navbar-fixed-top .register {position: absolute; top: 9px; left: 250px;}
+.navbar-fixed-top .register {position: absolute; top: 9px; left: 250px;display: none}
+
 .navbar-fixed-top .register .form-control {
     border: 0 none;
     border-radius: 5px 0 0 5px !important;
