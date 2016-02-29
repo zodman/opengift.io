@@ -1,6 +1,7 @@
 $(function () {
     var COOKIES_NAME = 'today_tasks',
         PROJECT_DATA_NAME = 'project',
+        PROJECT_MILESTONE_ID = 'milestone',
         TODAY_COLUMN_CODE = 'today',
         READY_COLUMN_CODE = 'ready',
         REVISION_COLUMN_CODE = 'revision',
@@ -178,6 +179,7 @@ $(function () {
         },
         initOptions: function initOptions(){
             this.options.project = this.element.data(PROJECT_DATA_NAME);
+            this.options.milestone_id = this.element.data(PROJECT_MILESTONE_ID);
             this.options.useColors = this.element.data('use_colors');
             if(this.options.useColors){
                 this.columnProperty = 'color';
@@ -196,10 +198,12 @@ $(function () {
         },
         getTasksFromServer: function getTasksFromServer() {
             var t = this;
+            console.log(this.options);
             PM_AjaxPost(
                 t.requestUrl,
                 $.extend({
                     'action': 'all',
+                    'milestone_id': this.options.milestone_id,
                     'startPage': 3,
                     'project': this.options.project,
                     'gantt_props': this.ajax.props
