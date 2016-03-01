@@ -12,7 +12,7 @@
                  data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
-                        {% if project.current_milestone %}Ближайшая цель: {{ project.current_milestone.name }}{% else %}{{ project.name }}{% endif %}
+                        {% if project.current_milestone %}Ближайшая цель: {{ project.current_milestone.name }}{% else %}{{ project.name }} (нет текущей цели){% endif %}
                         <div style="float: right;">
                             <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
                             столбцы</a></div>
