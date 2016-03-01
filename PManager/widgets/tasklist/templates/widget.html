@@ -116,7 +116,7 @@
                                     <a class="icon-remove fa fa-times"></a>
                                 </div>
                             </td>
-                            <td style="vertical-align:top;" width="150">
+                            <td style="vertical-align:top;" width="200">
                             <div class="input-group-btn" style="position:relative;">
 
                                 <button class="btn btn-success border-r4 btn-gray js-filter-btn" type="button" data-toggle="dropdown">
@@ -200,10 +200,13 @@
                                 <a class="btn btn-info add-search-tab js-xls-search-tab hidden" title="Выгрузить результаты в эксель" >
                                     <i class="fa fa-file-excel-o"></i>
                                 </a>
+                                <a class="btn btn-info add-search-tab js-save-search-tab hidden" title="Сохранить результаты" >
+                                    <i class="fa fa-save"></i>
+                                </a>
                                 <!--!-->
                             </div>
                             </td>
-                            <td style="width:39px;" width="39">
+                            <td width="105">
                              {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />

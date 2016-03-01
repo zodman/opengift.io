@@ -51,11 +51,16 @@
             <a class="navbar-brand page-scroll" href="#page-top"><img src="/static/promo/img/logo.png"></a>
         </div>
 
+        <form class="form-inline register">
+           <input type="email" name="email" id="subscriber-email" class="form-control js-email" placeholder="Введите E-mail" required data-validation-required-message="Введите E-mail">
+            <button class="btn js-register btn-success" type="submit" id="subscribe-button">Поехали!</button>
+        </form>
+
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
-                <li class="hidden">
-                    <a href="#page-top"></a>
+                <li class="show-on-1200">
+                    <a href="#page-top">Зарегистрироваться</a>
                 </li>
                 <li>
                     <a class="page-scroll" href="#services">Услуги</a>
@@ -1084,7 +1089,7 @@
 <script>
     $(function () {
         $('.js-register').click(function() {
-            var $email = $(this).closest('section, header').find('.js-email');
+            var $email = $(this).closest('form').find('.js-email');
             if (!$email.val()) {
                 $email.addClass('error');
                 $email.one('keyup', function () {
@@ -1101,7 +1106,7 @@
                         if (data == 'OK') {
                             document.location.reload();
                         } else {
-                            $('body').append('<div class="popup popup-alert"><h3 class="title">Спасибо за регистрацию!</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
+                            $('body').append('<div class="popup popup-alert"><h3 class="title">Ошибка регистрации.</h3><button type="button" class="close js-popupClose"><span aria-hidden="true">×</span><span class="sr-only">Закрыть</span></button><div class="img"><i class="icon-lock"></i></div><!--ul class="list"><li><i class="icon-checked"></i>Пункт 1</li><li><i class="icon-checked"></i>Пункт 2</li><li><i class="icon-checked"></i>Пункт 3</li></ul--><div class="content">' + data + '</div></div>');
                             $('.js-popupClose').click(function () {
                                 $(this).parent().fadeOut(200, function () {
                                     $(this).remove();

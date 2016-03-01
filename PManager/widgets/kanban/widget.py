@@ -2,9 +2,9 @@
 __author__ = 'Tonakai'
 from django.http import Http404
 from PManager.models.users import PM_User
-from PManager.models.tasks import PM_Task_Status, PM_Task
+from PManager.models.tasks import PM_Task_Status, PM_Task, PM_Milestone
 from PManager.services.access import project_access
-import json, copy
+import json, copy, datetime
 
 def get_projects(user, current_project):
     if current_project:
@@ -59,6 +59,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         (columns, use_colors) = project_columns(project, colors, statuses)
         project_to_kanban_project(project, columns)
         setattr(project, 'use_colors', use_colors)
+        current_milestone = PM_Milestone.objects.filter(
+            closed=False,
+            date__gt=datetime.datetime.now(),
+            project=project
+        ).order_by('date')
+        if current_milestone:
+            current_milestone = current_milestone[0]
+            setattr(project, 'current_milestone', current_milestone)
 
     return {
         'projects_data': projects,

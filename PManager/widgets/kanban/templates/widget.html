@@ -6,10 +6,13 @@
 <div class="kanban">
     {% for project in kanban.projects_data %}
         <div class="widget inner">
-            <div class="project-row js-project-row" id="project_{{ project.id }}" data-project="{{ project.id }}" data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
+            <div class="project-row js-project-row" id="project_{{ project.id }}"
+                    {% if project.current_milestone %} data-milestone="{{ project.current_milestone.id }}"{% endif %}
+                 data-project="{{ project.id }}"
+                 data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
-                        {{ project.name }}
+                        {% if project.current_milestone %}Ближайшая цель: {{ project.current_milestone.name }}{% else %}{{ project.name }} (нет текущей цели){% endif %}
                         <div style="float: right;">
                             <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
                             столбцы</a></div>

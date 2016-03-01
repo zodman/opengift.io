@@ -264,6 +264,10 @@ def __search_filter(header_values, request):
     if 'parent' in request.POST:
         ar_filter['parentTask'] = request.POST.get('parent')
 
+    if 'milestone_id' in request.POST:
+        if request.POST['milestone_id']:
+            ar_filter['milestone'] = int(request.POST['milestone_id'])
+
     if action == 'deadline':
         qArgs.append(
             Q(

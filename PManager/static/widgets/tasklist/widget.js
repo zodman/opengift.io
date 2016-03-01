@@ -7,11 +7,11 @@
 var widget_tl, currentGroup;
 (function ($) {
     $(function () {
-        initSpecialtiesFind(function($t, appendSkills, $searchDropdown) {
+        initSpecialtiesFind(function ($t, appendSkills, $searchDropdown) {
             appendSkills('', $t.val());
             $searchDropdown.hide();
             $t.val('');
-        }, function($t) {
+        }, function ($t) {
             $t.parent().parent().remove();
         });
         $("input.js-date").datetimepicker({
@@ -70,6 +70,7 @@ var widget_tl, currentGroup;
             'TL_SearchTask': $('.search-input'),
             '$searchRulesHolder': $('.search_items_holder'),
             '$xlsFilterButton': $('.js-xls-search-tab'),
+            '$saveFilterButton': $('.js-save-search-tab'),
             '$btnSuccess': $('.btn.btn-success'),
             '$btnFilter': $('.btn.js-filter-btn'),
             '$tabContainer': $('.task-tab-filter'),
@@ -79,9 +80,7 @@ var widget_tl, currentGroup;
             'taskMoving': false,
             'taskOver': false,
             '$movedTask': false,
-            'TL_TaskTemplates': {
-
-            },
+            'TL_TaskTemplates': {},
             'TL_Tags': {
                 'Responsible': 'для ',
                 'Date': ' до ',
@@ -124,11 +123,18 @@ var widget_tl, currentGroup;
                         var hash = document.location.hash;
                         hash = hash.replace('#', '');
                         var id = randomString(10);
+                        hash = decodeURIComponent(hash);
+                        try {
+                            hash = $.parseJSON(hash);
+                            hash['activeTab'] = id;
+                        } catch (e) {
+                            hash = {'activeTab': id}
+                        }
 
                         var newTab = {
                             'id': id,
                             'name': name,
-                            'location': encodeURIComponent(hash)
+                            'location': encodeURIComponent(JSON.stringify(hash))
                         };
                         if (!this.tabsParams.push) this.tabsParams = [];
                         this.tabsParams.push(newTab);
@@ -145,8 +151,7 @@ var widget_tl, currentGroup;
                                     var data = decodeURIComponent(this.tabsParams[k]['location']);
                                     try {
                                         this.tabsParams[k]['params'] = $.parseJSON(data);
-                                    }
-                                    catch (err) {
+                                    } catch (err) {
                                         this.tabsParams[k]['location'] = ""
                                     }
                                 }
@@ -237,25 +242,25 @@ var widget_tl, currentGroup;
                     historyManager.trigger('taskListSearch');
                     setTaskCellsHeight();
                 });
-
+                this.createUserAdditionalTabs();
                 widget_tl.ready();
 
-                this.createUserAdditionalTabs();
+
                 var t = this;
-                //this.$saveFilterButton.click(function () {
-                //    var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
-                //
-                //    if (newTab) {
-                //        var $tabElem = widget_tl.addNewTabToPanel(newTab);
-                //        $tabElem.activateListItem();
-                //        $tabElem.find('a.userTab').setEditable(function () {
-                //            t.additionalTabs.renameTab(newTab.id, this.text());
-                //        });
-                //    }
-                //
-                //    return false;
-                //});
-                this.$xlsFilterButton.click(function() {
+                this.$saveFilterButton.click(function () {
+                    var newTab = widget_tl.additionalTabs.addCurrentState('Мой фильтр');
+
+                    if (newTab) {
+                        var $tabElem = widget_tl.addNewTabToPanel(newTab);
+                        $tabElem.activateListItem();
+                        $tabElem.find('a.userTab').setEditable(function () {
+                            t.additionalTabs.renameTab(newTab.id, this.text());
+                        });
+                    }
+
+                    return false;
+                });
+                this.$xlsFilterButton.click(function () {
                     widget_tl.openXLS();
                 });
 
@@ -366,7 +371,7 @@ var widget_tl, currentGroup;
                 $(document).on('click', '.js-task-checkbox', function () {
                     var $chTasks = $('.js-task-checkbox:checked');
                     if ($chTasks.get(0)) {
-                        bottomPanel.addCloseHandler('uncheck', function(){
+                        bottomPanel.addCloseHandler('uncheck', function () {
                             $('.js-task-checkbox:checked').attr('checked', false);
                         });
                         $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function () {
@@ -399,16 +404,16 @@ var widget_tl, currentGroup;
                                     try {
                                         response = JSON.parse(response);
                                     }
-                                    catch(e) {
+                                    catch (e) {
                                         alert('Что-то пошло не так!');
                                     }
                                     if (response.error) {
                                         alert(response.error);
                                         $('#invite-developers').modal('hide');
-                                    }else{
+                                    } else {
                                         //alert(response.result);
                                         var $container = $(btn).closest('.modal-dialog').find('.modal-body')
-                                                .empty().append('<p>'+response.result+'</p>'),
+                                            .empty().append('<p>' + response.result + '</p>'),
                                             $uList = $container
                                                 .append('<div class="modal-invited-users__list js-invited-user-list clearfix"></div>')
                                                 .find('.js-invited-user-list');
@@ -417,10 +422,10 @@ var widget_tl, currentGroup;
                                             var user = response.users[i];
                                             $uList.append(
                                                 '<div class="modal-invited-users__detail">' +
-                                                    '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="'+(user.avatar ? user.avatar : '/static/images/user-unknown.png')+'" /></div>' +
-                                                    '<div class="modal-invited-users__detail-right"><a href="/user_detail/?id='+user.id+'" class="modal-invited-users__name">'+ user.full_name + '</a>' +
-                                                    '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
-                                                    '<span class="modal-invited-users__rating"><i class="fa fa-ruble"></i> Ставка: ' + user.bet + ' руб./час</span></div>' +
+                                                '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="' + (user.avatar ? user.avatar : '/static/images/user-unknown.png') + '" /></div>' +
+                                                '<div class="modal-invited-users__detail-right"><a href="/user_detail/?id=' + user.id + '" class="modal-invited-users__name">' + user.full_name + '</a>' +
+                                                '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
+                                                '<span class="modal-invited-users__rating"><i class="fa fa-ruble"></i> Ставка: ' + user.bet + ' руб./час</span></div>' +
                                                 '</div>'
                                             )
                                         }
@@ -434,7 +439,7 @@ var widget_tl, currentGroup;
                             });
                         });
 
-                        if(typeof(currentProject) !== "undefined") {
+                        if (typeof(currentProject) !== "undefined") {
                             bottomPanel.addBlock('inviteDevelopers', $block);
                         }
 
@@ -530,7 +535,7 @@ var widget_tl, currentGroup;
                 $tab.pushTheButton();
                 this.TL_Search({
                     'xls': 1
-                }, true, function(data) {
+                }, true, function (data) {
                     $tab.pullTheButton();
                     try {
                         data = $.parseJSON(data);
@@ -549,8 +554,8 @@ var widget_tl, currentGroup;
                 var t = this;
                 var $newTab = $('<li style="position:relative;"></li>').attr('data-id', oTab.id),
                     $tabLink = $('<a></a>').attr({
-                        'href': '#' + oTab.location
-                    })
+                            'href': '#' + oTab.location
+                        })
                         .text(oTab.name)
                         .addClass('userTab'),
                     $removeLink = $('<div class="widget-control" style="right: -6px; top: -6px;"><a class="w-close js-removeTab">Закрыть</a></div>');
@@ -569,6 +574,7 @@ var widget_tl, currentGroup;
                 var aFilterFields = [
                     'responsible',
                     'author',
+                    'observers',
                     'closed',
                     'viewed',
                     'date_modify',
@@ -585,11 +591,13 @@ var widget_tl, currentGroup;
                             this.addVisualSearchElement(field, filter[field][k]);
                 }
 
-                if (filter.action) {
-                    var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(JSON.stringify(params)) + '"]');
-                    if ($userTabEqualsQuery.get(0)) {
-                        $userTabEqualsQuery.closest('li').activateListItem();
-                    } else {
+                if (params.activeTab) {
+                    var $userTabEqualsQuery = $('[data-id="' + params.activeTab + '"]');
+                    if ($userTabEqualsQuery.size()) {
+                        $userTabEqualsQuery.activateListItem();
+                    }
+                } else {
+                    if (filter.action) {
                         $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
                     }
                 }
@@ -611,12 +619,15 @@ var widget_tl, currentGroup;
                             siblings('.icon-remove').show();
                         }
                         //try to find existing user tabs
-                        if (!$userTabEqualsQuery.get(0))
+                        if (!$userTabEqualsQuery.get(0)) {
                             this.$xlsFilterButton.removeClass(h);
+                            this.$saveFilterButton.removeClass(h);
+                        }
                         this.$btnFilter.removeClass(br);
                     } else {
                         this.$btnFilter.addClass(br);
                         this.$xlsFilterButton.addClass(h);
+                        this.$saveFilterButton.addClass(h);
                         siblings('.icon-remove').hide();
                     }
                 }
@@ -693,7 +704,7 @@ var widget_tl, currentGroup;
                 inpval = inpval.substring(0, pos);
 
                 input.val(
-                        inpval + "#" + (name == 'new' ? '' : name) + "#"
+                    inpval + "#" + (name == 'new' ? '' : name) + "#"
                 ).focus();
 
                 if (name == 'new') {
@@ -868,11 +879,11 @@ var widget_tl, currentGroup;
                     (group.url ? '<a href="' + group.url + '" class="js-milestone-data">' : '<span class="js-milestone-data">') +
                     group.name + (group.date ? ' до ' + group.date : '') + (group.url ? '</a>' : '</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
-                        (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
-                        '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
-                        '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
-                        (!group.closed ? closeButton : '') +
-                        '</div>' : '') +
+                    (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
+                    '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
+                    '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
+                    (!group.closed ? closeButton : '') +
+                    '</div>' : '') +
                     '</div>' +
                     '</div>';
 
@@ -1155,7 +1166,7 @@ var widget_tl, currentGroup;
             else if (key == 13) {
                 if (!widget_tl.TL_HintOpened.name) {
                     var parent = $(this).data('parent'),
-                    taskParams = {'taskname': $(this).val()};
+                        taskParams = {'taskname': $(this).val()};
                     $('.task-file-upload input[type=hidden]').each(function () {
                         if (!taskParams[this.name]) taskParams[this.name] = [];
                         taskParams[this.name].push($(this).val());

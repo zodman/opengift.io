@@ -113,10 +113,10 @@ header .header {position:relative; max-width:1600px; margin:0 auto;}
 /*ЛОГО*/
 header .header .logo {float:left; width:15%;}
 /*МЕНЮ*/
-header .header > nav {float:left; width:60%; text-align:right; height:29px; line-height:29px;}
+header .header > nav {float:left; width:60%; text-align:center; height:29px; line-height:29px;}
 header .header > nav > ul {display: inline-block;//display: inline;zoom: 1; margin:0px; height:29px; line-height:29px;}
-header .header > nav > ul > li {float: left; display:inline; height:29px; line-height:29px;}
-header .header > nav > ul > li > a {display: block; float:left; padding:0 40px 0 0 ; font-size:14px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; color:#494949; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+header .header > nav > ul > li {display:inline; height:29px; line-height:29px;}
+header .header > nav > ul > li > a {display: block; padding:0 40px 0 0 ; font-size:14px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; color:#494949;}
 header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus, header .header >nav > ul > li.active > a {background-color: #fff; color:#cd0000; text-decoration:none; }
 header .header > nav > ul > li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:3px;}
 
@@ -203,7 +203,6 @@ header .header .timer-wrapper .user-menu a i {display:none;}
 @media (max-width: 1190px) {
     header .header .logo {width:25%;}
     header .header > nav {width:40%;}
-    header .header > nav > ul > li > a { font-size: 0px; }
     header .header > nav > ul > li > a > .fa { font-size: 22px;}
     header .header .timer-wrapper {width:35%;}
     header .header .timer-wrapper .user-menu a span {font-size:0px;}
@@ -366,27 +365,32 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 
 @media only screen and (max-width: 768px) {
     .sub-menu_line_section-tracker {float: none; width: 100%;}
-    .sub-menu_line_section-user {float: none; width: 100%; margin-bottom: 10px !important;}
-    .sub-menu_line_section-user a {width: calc(20% - 10px); margin-bottom: 0px;}
-
+    .sub-menu_line_section-user {float: none; width: 100%; margin-bottom: 20px !important;}
+    .sub-menu_line_section-user a {width: calc(14.285% - 20px); text-align: center; margin-bottom: 0px; margin-right: 10px !important; margin-left: 10px !important;}
 }
 
 .sub-menu_line_section-user a {
     display: inline-block;
-    margin-right: 10px;
     background:none;
     border: 1px solid #f0f0f0;
     font-size: 14px;
-    line-height: 18px;
+    line-height: 26px;
+    color: #000;
+    margin-left: 25px;
 }
 
 .sub-menu_line_section-user a i {margin-right: 5px;}
 
-.sub-menu_line_section-user a.disabled {
+.sub-menu_line_section-user a.disabled,
+.sub-menu_line_section-user a.disabled:hover {
     background: none;
     border: none;
+    text-decoration: none;
+    cursor: not-allowed;
+    color: lightgrey;
 }
-.sub-menu_line_section-user a:hover {color:#4cae4c;border: 1px solid #f0f0f0;background:none;}
+.sub-menu_line_section-user a:hover {color:#4cae4c; background:none;}
+
 .sub-menu_line_section-user a.active {
     border: 1px solid #f0f0f0;
     background:none;
@@ -505,7 +509,7 @@ div.widget-control .w-close {background-position:-15px -396px; padding: 0px;}
                              ЗДРАВСТВУЙТЕ!
     ###############################################################*/
 
-div.overflow {background:#000; opacity:0.7; position:fixed; width:100%; height:100%; z-index:1000; left:0px; top:0px;}
+div.overflow {background:#000; opacity:0.7; position:fixed; width:100%; height:100%; z-index:1001; left:0px; top:0px;}
 div.popup {
     background:#fff;
     position:fixed;
@@ -1267,7 +1271,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 @media only screen and (max-width: 640px) {
     .task-info .task-info-author {display:block;}
-    .task-info .task-info-time {padding:0px;}
+    .task-info .task-info-time {padding:0px; margin-top: 10px;}
 }
 
 .user-inner-tabs {margin-bottom: -5px;}
