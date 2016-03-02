@@ -144,7 +144,7 @@ class PM_Project(models.Model):
                                           PM_ProjectRoles.objects.filter(project=self)]).distinct()
 
     def save(self, *args, **kwargs):
-        if not self.payer:
+        if not self.id:
             self.payer = self.author
 
         super(self.__class__, self).save(*args, **kwargs)
