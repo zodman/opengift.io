@@ -22,5 +22,5 @@ var GOODS = [
     }
 ];
 $(function() {
-    console.log(document.cookie);
+    console.log($.cookie());
 });
