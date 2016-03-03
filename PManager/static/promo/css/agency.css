@@ -46,7 +46,7 @@ header .container {
 
 @media (max-width: 768px) {
     .video {
-        height: 530px;
+        height: 750px;
     }
 }
 
@@ -120,11 +120,20 @@ header .container {
 .font-16 {font-size: 16px;}
 .font-20 {font-size: 20px;}
 
-@media (max-width: 768px) {
+.form-group {
+    display: inline-block;
+    margin-bottom: 0;
+    vertical-align: middle;
+}
+
+@media (max-width: 568px) {
+    .form-group {display: block;}
+    
     .register .form-control,
     .register .btn {
         border-radius: 50px !important;
         width: 100%;
+        margin: 10px 0;
         margin-left: 0px;
     }
 }
@@ -624,7 +633,7 @@ section {
 	z-index: 100;
 	color: #fff;
 	border-radius: 100%;
-	border: 7px solid #fff;
+	border: 7px solid #f1f1f1;
 	text-align: center
 }
 
@@ -1650,8 +1659,8 @@ body {
 .popup.popup-alert {border-color: #ce4844;}
 .popup.popup-alert .title {color: #ce4844;}
 
-.show-on-1200 {display: none !important; margin-right: 10px;}
-.show-on-1200 a {background: #4cae4c; border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
+.show-on-1200 {display: none !important;}
+.show-on-1200 a {border-radius: 3px; -moz-border-radius: 3px; -webkit-border-radius: 3px;}
 
 .navbar-fixed-top.navbar-shrink .register {display:inline;}
 
