@@ -142,6 +142,13 @@ class PM_Project(models.Model):
     def getUsers(self):
         return User.objects.filter(pk__in=[role.user.id for role in
                                           PM_ProjectRoles.objects.filter(project=self)]).distinct()
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.payer = self.author
+
+        super(self.__class__, self).save(*args, **kwargs)
+
     class Meta:
         app_label = 'PManager'
 
