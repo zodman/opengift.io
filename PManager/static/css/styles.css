@@ -708,8 +708,21 @@ div.taskWizard-required .taskWizard-question-title:after {
 .tasks-toolbar .search-filter .btn {margin-bottom:0px;}
 .tasks-toolbar .search-filter .dropdown-menu {margin:0px;}
 
-.btn.btn-success.btn-gray {background: #ececec; border: 1px solid #cccccc; color: #333333;}
-.btn.btn-success.btn-gray:hover {border: 1px solid #adadad;}
+.btn.btn-success.btn-gray {
+    background: #f0f0f0 none repeat scroll 0 0;
+    border: 1px solid #e2e2e2;
+    border-radius: 0 4px 4px 0;
+    color: #333333;
+}
+.btn.btn-success.btn-gray:hover {
+    border: 1px solid #cdcdcd;
+    background: #e2e2e2;
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus {
+    background-color: #47a447;
+}
 
 .big-input { float:left; width:calc(100% - 135px); position:relative;}
 
@@ -795,17 +808,92 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== ФИЛЬТРЫ */
 
-.search_items_holder {overflow:hidden; height:100%; line-height:20px; font-size:13px; padding: 5px 0 10px;}
-.search_items_holder h6 {line-height:20px; display:inline-block; clear:both; margin:0 5px 0 0;}
-.search_items_holder > span {margin:5px 0; display:block;}
-.search_items_holder span .close {float:none; color:#CD0000; font-size:20px; line-height: 20px; display:inline-block; vertical-align: text-bottom;}
-.search-group > span {margin-right: 10px; display: inline-block;}
+.empty_result {
+    color: #999;
+    display: block;
+    font-size: 17px;
+    margin: 40px 0 20px;
+    text-align: center;
+}
+
+.search_items_holder_wrapper {
+    font-size: 12px;
+    height: 100%;
+    line-height: 20px;
+    overflow: hidden;
+    padding: 10px 0;
+}
+.search_items_holder h6 {
+    clear: both;
+    display: inline-block;
+    line-height: 20px;
+    margin: 0 5px 0 0;
+    vertical-align: middle;
+}
+.search_items_holder > span {
+    display: block;
+    float: left;
+    margin: 5px 15px 5px 0;
+}
+
+.search_buttons {
+    float: left;
+    margin: 5px 15px 5px 0;
+}
+
+.btn-xs {
+    padding: 1px 10px;
+    line-height: 20px;
+}
+
+
+@media only screen and (max-width: 768px) {
+    .search_buttons {display: none;}
+}
+
+.search_items_holder span .close {
+    color: #cd0000;
+    display: inline-block;
+    float: none;
+    font-size: 14px;
+    line-height: 20px;
+    position: relative;
+    right: -2px;
+    top: 0;
+}
+.search-group > span {
+    background: #f0f0f0 none repeat scroll 0 0;
+    border-radius: 3px;
+    display: inline-block;
+    line-height: 20px;
+    margin-right: 10px;
+    padding: 2px 7px;
+    vertical-align: middle;
+}
+
+.added-user {
+    line-height: 20px;
+}
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
 .task-tab-filter {margin: 0px; margin: 0;}
-.task-tab-filter > li {padding: 0; display:block; float:left;}
-.task-tab-filter a {padding: 7px 15px; display:block; float:left; position:relative;color: #494949;text-decoration: underline;}
+.task-tab-filter > li {padding: 0; display:block; float:left; margin-right: 5px;}
+.task-tab-filter a {
+    color: #494949;
+    display: block;
+    float: left;
+    padding: 7px 10px;
+    position: relative;
+}
+
+.task-tab-filter a.userTab,
+.task-tab-filter > .active > a.userTab {
+    background: #e8f5e8;
+    border-radius: 4px;
+    color: #47a447;
+}
+
 .task-tab-filter a span {
     background: none repeat scroll 0 0 #4cae4c;
     border-radius: 50%;
@@ -824,9 +912,32 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task-tab-filter [rel=deadline] span {
     background: none repeat scroll 0 0 #c00f00;
 }
-.task-tab-filter > .active > a {background-color: #999999; text-decoration: none; color: #fff; text-align: center; padding: 7px 10px;border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.task-tab-filter > .active > a {
+    background-color: #f0f0f0;
+    border-radius: 5px;
+    color: #47a447;
+    padding: 7px 10px;
+    text-align: center;
+    text-decoration: none;
+}
 .task-tab-filter li:not(.active) a:hover { text-decoration: none; color: #47a447;}
 
+.remove-tab {
+    background: #d43f3a none repeat scroll 0 0 !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    float: none !important;
+    font-size: 9px;
+    height: 14px;
+    line-height: 14px;
+    padding: 0 !important;
+    position: absolute !important;
+    right: -3px;
+    text-align: center !important;
+    top: -3px;
+    width: 14px;
+    z-index: 100;
+}
 
 @media only screen and (max-width : 960px) {
     .task-tab-filter > .active > a,
@@ -879,9 +990,6 @@ div.taskWizard-required .taskWizard-question-title:after {
 .find-container .icon-remove.fa-times {color: #999999;}
 
 .search-input {border-right:0px;}
-
-/* кнопка сохранить фильтр*/
-.btn.add-search-tab.js-save-search-tab { position: absolute; border-radius: 0 4px 4px 0 !important; }
 
 /* закругление кнопок справа */
 .border-r4 {border-radius: 0 4px 4px 0 !important; }
@@ -1026,7 +1134,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .temp_task {border-top: 2px dashed #ddd;  border-bottom: 2px dashed #ddd; background:#f9f9f9;  width: 100%;  height: 45px; margin: 10px 0 10px;}
 
 .task {padding:0 15px; position:relative;}
-.task.ready {background:#e6f0e6;}
+.task.ready {background:#e8f5e8;}
 
 .task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
 .task-drag {width:3px; height:0px; position:absolute; left:0px; top:-1px; background:#ffa500; cursor:move}

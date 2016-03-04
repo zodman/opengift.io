@@ -558,7 +558,7 @@ var widget_tl, currentGroup;
                         })
                         .text(oTab.name)
                         .addClass('userTab'),
-                    $removeLink = $('<div class="widget-control" style="right: -6px; top: -6px;"><a class="w-close js-removeTab">Закрыть</a></div>');
+                    $removeLink = $('<a class="fa fa-remove js-removeTab remove-tab"></a>');
 
                 this.$tabContainer.prepend($newTab.append($tabLink).append($removeLink));
                 return $newTab;
@@ -853,7 +853,7 @@ var widget_tl, currentGroup;
 
                         if ((!tasks || tasks.length <= 0) && !params.parent && !params.page) {
                             if (!$('.js-new-first-task').get(0))
-                                obj.TL_Container.html("<div><span class='empty_result'>Ничего не найдено</span></div>");
+                                obj.TL_Container.html("<div class='empty_result'>Ничего не найдено</div>");
                         }
                         if (!params.parent) {
                             if (paginator.lastPage) {
