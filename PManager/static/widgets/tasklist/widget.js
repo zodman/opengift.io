@@ -271,6 +271,7 @@ var widget_tl, currentGroup;
                     $tab.remove();
                     return false;
                 });
+
                 this.TL_Container.on('mousedown.taskdnd', '.task .js-drag-task', function (e) {
                     if ($(e.target).is('div')) {
                         widget_tl.$movedTask = $(this).closest('.task').parent('.task-wrapper');

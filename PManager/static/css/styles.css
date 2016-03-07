@@ -889,9 +889,9 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .task-tab-filter a.userTab,
 .task-tab-filter > .active > a.userTab {
-    background: #e8f5e8;
+    /*background: #e8f5e8;*/
     border-radius: 4px;
-    color: #47a447;
+    /*color: #47a447;*/
 }
 
 .task-tab-filter a span {
