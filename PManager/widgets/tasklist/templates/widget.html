@@ -116,13 +116,12 @@
                                     <a class="icon-remove fa fa-times"></a>
                                 </div>
                             </td>
-                            <td style="vertical-align:top;" width="200">
-                            <div class="input-group-btn" style="position:relative;">
-
+                            <td style="vertical-align:top; padding-right: 10px; width: 100px;">
+                            <div style="position:relative;">
                                 <button class="btn btn-success border-r4 btn-gray js-filter-btn" type="button" data-toggle="dropdown">
                                     <span class="fa fa-filter"></span><span class="name">Фильтр</span>
                                 </button>
-                                <ul role="menu" class="dropdown-menu pull-right js-search-menu" style="position:absolute; top:33px; right:-2px;">
+                                <ul role="menu" class="dropdown-menu pull-right js-search-menu" style="position:absolute; top:33px; left:0px;">
                                         <li data-code="responsible" class="dropdown-toggle dropdown-submenu">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ответственный</a>
                                             <ul class="dropdown-menu">
@@ -196,26 +195,18 @@
                                             </ul>
                                         </li>
                                 	</ul>
-                                <!-- сохранить поиск -->
-                                <a class="btn btn-info add-search-tab js-xls-search-tab hidden" title="Выгрузить результаты в эксель" >
-                                    <i class="fa fa-file-excel-o"></i>
-                                </a>
-                                <a class="btn btn-info add-search-tab js-save-search-tab hidden" title="Сохранить результаты" >
-                                    <i class="fa fa-save"></i>
-                                </a>
-                                <!--!-->
                             </div>
                             </td>
+                            {% if main.CURRENT_PROJECT %}
                             <td width="105">
-                             {% if main.CURRENT_PROJECT %}
                              <div class="milestones-btn-wrapper">
                              <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox" />
                                 <label for="mlst-checkbox"><span>Цели</span></label>
 {#                                 <label class="btn milestones-btn" >#}
 {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                              </div>
-                             {% endif %}
                             </td>
+                            {% endif %}
                         </tr>
                     </table>
                     </div>
@@ -233,7 +224,17 @@
                 </ul>
             </div>
         </div>
-        <div class="search_items_holder" ></div>
+        <div class="search_items_holder_wrapper">
+            <span class="search_items_holder"></span>
+            <span class="search_buttons">
+                <a class="btn btn-info btn-xs add-search-tab js-xls-search-tab hidden" title="Выгрузить результаты в эксель" >
+                    Выгрузить Excel&nbsp;&nbsp;<i class="fa fa-file-excel-o"></i>
+                </a>
+                <a class="btn btn-info btn-xs add-search-tab js-save-search-tab hidden" title="Сохранить результаты" >
+                    Сохранить фильтр&nbsp;&nbsp;<i class="fa fa-save"></i>
+                </a>
+            </span>
+        </div>
         <script language="javascript">
         window.B_NEED_TUTORIAL = {{ tasklist.bNeedTutorial|yesno:"true,false" }};
         taskRespSummary = {}
