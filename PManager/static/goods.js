@@ -21,6 +21,3 @@ var GOODS = [
         'IMG': 'http://demo.snstheme.com/html/simen/images/products/7.jpg'
     }
 ];
-$(function() {
-    console.log($.cookie());
-});
