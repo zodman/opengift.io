@@ -57,7 +57,6 @@
                 arFilter = {};
             }
             arFilter[window.currentProject] = params;
-            console.log(arFilter);
             $.cookie('saved_task_filters', JSON.stringify(arFilter));
         };
 
