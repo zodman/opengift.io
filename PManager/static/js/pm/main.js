@@ -12,6 +12,28 @@
         this.callbacks = [];
         this.url = '';
 
+        var hasOwnProperty = Object.prototype.hasOwnProperty;
+
+        function isEmpty(obj) {
+
+            // null and undefined are "empty"
+            if (obj == null) return true;
+
+            // Assume if it has a length property with a non-zero value
+            // that that property is correct.
+            if (obj.length > 0)    return false;
+            if (obj.length === 0)  return true;
+
+            // Otherwise, does it have any properties of its own?
+            // Note that this doesn't handle
+            // toString and valueOf enumeration bugs in IE < 9
+            for (var key in obj) {
+                if (hasOwnProperty.call(obj, key)) return false;
+            }
+
+            return true;
+        }
+
         this.trigger = function (event) {
             for (var k in self.callbacks) {
                 if (self.callbacks[k]['name'] == event) {
@@ -20,10 +42,35 @@
                 }
             }
         };
+
         this.addParams = function (params) {
             this.params = $.extend(this.params, params);
             this.pushUrl();
+            this.saveCookie(this.params);
         };
+
+        this.saveCookie = function (params) {
+            var arFilter;
+            try {
+                arFilter = $.parseJSON($.cookie('saved_task_filters') || '{}');
+            } catch (e) {
+                arFilter = {};
+            }
+            arFilter[window.currentProject] = params;
+            $.cookie('saved_task_filters', JSON.stringify(arFilter));
+        };
+
+        this.getSavedFilter = function () {
+            var arFilter;
+            try {
+                arFilter = $.parseJSON($.cookie('saved_task_filters') || '{}');
+            } catch (e) {
+                arFilter = {};
+            }
+
+            return arFilter[window.currentProject] || false;
+        };
+
         this.addCallback = function (name, callback) {
             if (typeof name == 'function') {
                 callback = name;
@@ -31,17 +78,29 @@
             }
             self.callbacks.push({'name': name, 'func': callback});
         };
+
         this.pushUrl = function () {
             history.push(encodeURIComponent(JSON.stringify(this.params)));
         };
+
         this.parseUrl = function (url) {
             if (url) {
                 try {
                     this.params = $.parseJSON(decodeURIComponent(url));
+                } catch(e) {
+
                 }
-                catch(e){
-                    this.params = {};
-                }
+            }
+
+            if (isEmpty(this.params)) {
+                this.params = this.getSavedFilter();
+
+                if (this.params)
+                    this.pushUrl();
+            }
+
+            if (isEmpty(this.params)) {
+                this.params = {};
             }
         };
 
