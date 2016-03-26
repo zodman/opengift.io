@@ -93,6 +93,7 @@ class PM_User(models.Model):
     heliard_manager_rate = models.FloatField(blank=True, null=True, verbose_name=u'Ставка менеджера')
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
+    hoursQtyPerDay = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальное кол-во часов в день')
 
     @property
     def rating(self):

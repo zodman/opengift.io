@@ -1,5 +1,7 @@
 import datetime
 from django.utils import timezone
+
+
 class WorkTime(object):
     taskHours = 0
     taskRealTime = 0
@@ -9,10 +11,13 @@ class WorkTime(object):
     endWorkDay = 19
     holyDays = [6, 7]
 
-    def __init__(self,*args,**kargs):
+    def __init__(self, *args, **kargs):
+        if 'userHoursPerDay' in kargs and kargs['userHoursPerDay']:
+            self.endWorkDay = self.startWorkDay + int(kargs['userHoursPerDay'])
 
         if kargs['taskHours'] and kargs['startDateTime']:
             self.taskHours = kargs['taskHours']
+
             try:
                 self.startDateTime = timezone.make_aware(kargs['startDateTime'], timezone.get_default_timezone())
             except ValueError:
@@ -21,7 +26,7 @@ class WorkTime(object):
             self.taskRealTime = self.cropHolyDays()
             self.endDateTime = self.startDateTime + datetime.timedelta(hours=self.taskRealTime)
 
-    def isHolyday(self,day):
+    def isHolyday(self, day):
         return day in self.holyDays
 
     def cropHolyDays(self):
@@ -48,7 +53,7 @@ class WorkTime(object):
                     timeLength += hoursToEndOfDay
                     curHour += hoursToEndOfDay
 
-                    #and next day
+                    # and next day
                     timeLength += 1
                     curHour += 1
                     continue
