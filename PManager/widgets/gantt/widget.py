@@ -131,12 +131,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     responsibleLastDates = {}
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
     aResp = []
+    aRespProfiles = {}
     for task in tasks:
         if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True):
             continue
 
         if task['resp__id'] and task['resp__id'] not in aResp:
             aResp.append(task['resp__id'])
+            aRespProfiles[task['resp__id']] = User.objects.get(pk=task['resp__id']).get_profile()
 
         task['otherProject'] = False
         aTasks.append(task)
@@ -200,7 +202,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             if task['planTime']:
                 taskTimer = WorkTime(
                     startDateTime=task['realDateStart'],
-                    taskHours=task['planTime']
+                    taskHours=task['planTime'],
+                    userHoursPerDay=aRespProfiles[task['resp__id']].hoursQtyPerDay if task['resp__id'] in aRespProfiles else 0
                 )
 
                 endTime = task['realDateStart'] + datetime.timedelta(hours=taskTimer.taskRealTime)
@@ -234,7 +237,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         elif task['planTime']:
             taskTimer = WorkTime(
                 startDateTime=task['dateCreateGantt'],
-                taskHours=task['planTime']
+                taskHours=task['planTime'],
+                userHoursPerDay=aRespProfiles[task['resp__id']].hoursQtyPerDay if task['resp__id'] in aRespProfiles else 0
             )
 
             endTime = task['dateCreateGantt'] + datetime.timedelta(hours=taskTimer.taskRealTime)

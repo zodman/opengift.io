@@ -778,9 +778,12 @@ class taskManagerCreator:
                 timer.task.Stop()
 
             if not self.task.deadline and self.task.planTime and self.task.critically > CRITICALLY_THRESHOLD:
-                taskTimer = WorkTime(taskHours=self.task.planTime,
+                taskTimer = WorkTime(
+                                     taskHours=self.task.planTime,
                                      startDateTime=timezone.make_aware(datetime.datetime.now(),
-                                                                       timezone.get_default_timezone()))
+                                                                       timezone.get_default_timezone()),
+                                     userHoursPerDay=self.currentUser.get_profile().userHoursPerDay
+                            )
                 self.task.deadline = taskTimer.endDateTime #will be saved in 'Start' method
 
             self.task.startTimer(self.currentUser) #запускаем таймер

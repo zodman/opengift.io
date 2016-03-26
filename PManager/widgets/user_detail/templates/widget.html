@@ -78,6 +78,9 @@
             <div class="statistic-list clearfix">
                 <div class="statistic-list-item first-child">
                 <h3>Активность</h3>
+                {% if user_detail.profile.hoursQtyPerDay %}
+                <p>Кол-во часов в день: <strong> {{ user_detail.profile.hoursQtyPerDay }}</strong></p>
+                {% endif %}
                 <p>Последняя активность: <strong>{% if user_detail.profile.last_activity_date %} {{ user_detail.profile.last_activity_date }}{% else %}Нет{% endif %}</strong></p>
                 <p>Всего закрыто задач: <strong>{{ user_detail.allTaskClosed|default_if_none:"0" }}</strong></p>
                 <p>За последний месяц: <strong>{{ user_detail.taskLastMonth|default_if_none:"0" }}</strong></p>
