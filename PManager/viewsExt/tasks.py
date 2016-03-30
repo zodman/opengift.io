@@ -782,7 +782,7 @@ class taskManagerCreator:
                                      taskHours=self.task.planTime,
                                      startDateTime=timezone.make_aware(datetime.datetime.now(),
                                                                        timezone.get_default_timezone()),
-                                     userHoursPerDay=self.currentUser.get_profile().userHoursPerDay
+                                     userHoursPerDay=self.currentUser.get_profile().hoursQtyPerDay
                             )
                 self.task.deadline = taskTimer.endDateTime #will be saved in 'Start' method
 
