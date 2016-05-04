@@ -185,6 +185,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         arTaskOrderParams = {
             'group': arPageParams.get('group', None)
         }
+        if arTaskOrderParams['group'] == 'milestones':
+            filter['closed'] = False
+
         tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
         try:
             tasks = tasks['tasks']
