@@ -214,7 +214,7 @@ $(function () {
                         taskData = data.tasks[i];
                         t.addTaskRow(taskData);
                     }
-                    t.filterTodayTasks();
+                    //t.filterTodayTasks();
                     t.onModelChange();
                     t.makeItSortable();
                 },
@@ -234,18 +234,18 @@ $(function () {
             }
         },
         addTaskToColumn: function addTaskToColumn(taskid, column, oldColumn) {
-            var todayTasks = getTodayTasks(this.options.project);
-            if (column == TODAY_COLUMN_CODE) {
-                if ($.inArray(taskid, todayTasks) == -1) {
-                    todayTasks.push(taskid);
-                }
-                setTodayTasks(this.options.project, todayTasks);
-            } else if (oldColumn == TODAY_COLUMN_CODE) {
-                for (var i = todayTasks.length; --i >= 0;) {
-                    if (todayTasks[i] === taskid) todayTasks.splice(i, 1);
-                }
-                setTodayTasks(this.options.project, todayTasks)
-            }
+            //var todayTasks = getTodayTasks(this.options.project);
+            //if (column == TODAY_COLUMN_CODE) {
+            //    if ($.inArray(taskid, todayTasks) == -1) {
+            //        todayTasks.push(taskid);
+            //    }
+            //    setTodayTasks(this.options.project, todayTasks);
+            //} else if (oldColumn == TODAY_COLUMN_CODE) {
+            //    for (var i = todayTasks.length; --i >= 0;) {
+            //        if (todayTasks[i] === taskid) todayTasks.splice(i, 1);
+            //    }
+            //    setTodayTasks(this.options.project, todayTasks)
+            //}
         },
         onModelChange: function onModelChange() {
             var t = this;
@@ -345,6 +345,9 @@ $(function () {
         addTaskRow: function addTaskRow(taskData) {
             var t = this;
             var key = taskData[t.columnProperty];
+            if (taskData['closed']) {
+                key = 'closed'
+            }
             var task = new window.taskClass(taskData);
             var taskView = new window.taskViewKanbanClass({'model': task});
             if(t._columns[key]){
