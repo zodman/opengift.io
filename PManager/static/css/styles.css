@@ -3837,10 +3837,10 @@ a.js-show-commit-diff {
     color: #999;
 }
 
-.kanban .tasks-header.tasks-today {
-    background: none repeat scroll 0 0 #c3a0f2;
-    border-bottom: 2px solid #3c2999;
-    color: #5d2f99;
+.kanban .tasks-header.tasks-closed {
+    background: none repeat scroll 0 0 #656163;
+    border-bottom: 2px solid #150f29;
+    color: #e5e8ea;
 }
 
 .kanban .tasks-header.tasks-revision {
