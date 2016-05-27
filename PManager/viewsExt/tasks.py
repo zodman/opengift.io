@@ -699,9 +699,6 @@ def taskListAjax(request):
                             pass
                     #\client have not enough money#
 
-                    if str(value) == 'today':#from kanban
-                        value = 'revision'
-
                     try:
                         if value == 'ready':
                             task.setIsInTime()
