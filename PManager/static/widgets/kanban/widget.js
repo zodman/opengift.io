@@ -16,38 +16,6 @@ $(function () {
         EASING_EFFECT = 'easeOutCubic',
         PROJECT_ROW_SELECTOR = '.js-project-row',
         PLACEHOLDER_CLASS = 'task-kanban-dummy',
-        getTodayTasks = function getTodayTasks(projectId) {
-            var todayTasksString = $.cookie(COOKIES_NAME), todayTasks;
-            projectId = projectId || 0;
-            try {
-                todayTasks = $.parseJSON(todayTasksString);
-                if (typeof todayTasks != typeof {}) {
-                    todayTasks = {}
-                }
-                if (todayTasks[projectId]) {
-                    return todayTasks[projectId];
-                } else {
-                    return [];
-                }
-            } catch (e) {
-                return [];
-            }
-        },
-        setTodayTasks = function setTodayTasks(projectId, arTasksId) {
-            projectId = projectId || 0;
-            var todayTasksString = $.cookie(COOKIES_NAME), todayTasks;
-            try {
-                if (todayTasksString)
-                    todayTasks = $.parseJSON(todayTasksString);
-                else
-                    todayTasks = {};
-                todayTasks[projectId] = arTasksId;
-                $.cookie(COOKIES_NAME, JSON.stringify(todayTasks));
-                return true;
-            } catch (e) {
-                return false;
-            }
-        },
         insertTask = function insertTask(index, column, what){
             if(index === -1){
                 return what.appendTo(column);
@@ -221,18 +189,6 @@ $(function () {
                 'json'
             )
         },
-        filterTodayTasks: function filterTodayTasks() {
-            var i, view;
-            if(this._columns[TODAY_COLUMN_CODE]){
-                var todayTasks = getTodayTasks(this.options.project);
-                for (i in this.taskViews) {
-                    view = this.taskViews[i];
-                    if ($.inArray(view.model.id, todayTasks) > -1) {
-                        animateAppendTo(view.$el, this._columns[TODAY_COLUMN_CODE], 0);
-                    }
-                }
-            }
-        },
         addTaskToColumn: function addTaskToColumn(taskid, column, oldColumn) {
             //var todayTasks = getTodayTasks(this.options.project);
             //if (column == TODAY_COLUMN_CODE) {
@@ -263,8 +219,8 @@ $(function () {
                         );
                     };
 
-                if (returnToFix()) {
-                    data['status'] = TODAY_COLUMN_CODE;
+                if (data['closed']) {
+                    data['status'] = 'closed';
                 }
                 for (var i in data) {
                     if (i == 'viewedOnly') {
@@ -316,29 +272,34 @@ $(function () {
                         t.taskViews[taskid].render();
                         return;
                     }
-                    taskManager.SetTaskProperty(
-                        taskid,
-                        t.columnProperty,
-                        toColumn,
-                        function(data){
-                            try{
-                                data = $.parseJSON(data);
-                            } catch(e){
-                                console.log(e);
-                                return;
-                            }
-                            if(data.error){
-                                alert(data.error);
-                                animateAppendTo(t.taskViews[taskid].$el, t._columns[fromColumn], t.options.animateDuration, function(){
-                                    t.$columns.sortable('refreshPositions');
-                                });
-                            }else{
-                                t.taskViews[taskid].model.set(t.columnProperty, toColumn);
-                                t.taskViews[taskid].render();
-                            }
-                        }
-                    );
+                    var cb = function(data){
+                                try{
+                                    data = $.parseJSON(data);
+                                } catch(e){
+                                    console.log(e);
+                                    return;
+                                }
+                                if(data.error){
+                                    alert(data.error);
+                                    animateAppendTo(t.taskViews[taskid].$el, t._columns[fromColumn], t.options.animateDuration, function(){
+                                        t.$columns.sortable('refreshPositions');
+                                    });
+                                }else{
+                                    t.taskViews[taskid].model.set(t.columnProperty, toColumn);
+                                    t.taskViews[taskid].render();
+                                }
+                            };
 
+                    if (toColumn == 'closed') {
+                        taskManager.TaskClose(taskid, cb);
+                    } else {
+                        taskManager.SetTaskProperty(
+                            taskid,
+                            t.columnProperty,
+                            toColumn,
+                            cb
+                        );
+                    }
                 }
             });
         },
