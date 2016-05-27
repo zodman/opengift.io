@@ -249,7 +249,7 @@ $(function () {
             var t = this;
             this.$columns.sortable({
                 connectWith: PROJECT_ROW_SELECTOR + '#project_' + t.options.project + ' ' + TASK_COLUMN_SELECTOR,
-                items: "> " + TASK_SELECTOR,
+                items: "> " + TASK_SELECTOR + ":not(.closed)",
                 placeholder: PLACEHOLDER_CLASS,
                 dropOnEmpty: true,
                 revert: t.options.revertDuration,
