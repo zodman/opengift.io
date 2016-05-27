@@ -25,15 +25,12 @@ def project_columns(project, colors, statuses):
     else:
         for status in statuses:
             status.update({'prop': 'status'})
-            if status['code'] == 'ready':
-                newStatus = copy.copy(status)
-                newStatus['code'] = 'today'
-                newStatus['name'] = u'Сделаю сегодня'
-
-                columns.append(newStatus)
-
             if status['code'] == 'revision':
                 status['name'] = u'В работе'
+
+                newStatus = copy.copy(status)
+                newStatus['code'] = 'closed'
+                newStatus['name'] = u'Закрыта'
 
             columns.append(status)
     return (columns, projectSettings.get('use_colors_in_kanban', False))
