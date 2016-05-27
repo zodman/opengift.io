@@ -23,6 +23,7 @@ def project_columns(project, colors, statuses):
             if settingColor in projectSettings and projectSettings[settingColor]:
                 columns.append({'code': color_code, 'name': projectSettings[settingColor], 'prop': 'color'})
     else:
+        newStatus = False
         for status in statuses:
             status.update({'prop': 'status'})
             if status['code'] == 'revision':
@@ -33,6 +34,9 @@ def project_columns(project, colors, statuses):
                 newStatus['name'] = u'Закрыта'
 
             columns.append(status)
+        if newStatus:
+            columns.append(newStatus)
+
     return (columns, projectSettings.get('use_colors_in_kanban', False))
 
 def project_to_kanban_project(project, columns):
