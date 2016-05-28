@@ -60,14 +60,29 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         (columns, use_colors) = project_columns(project, colors, statuses)
         project_to_kanban_project(project, columns)
         setattr(project, 'use_colors', use_colors)
-        current_milestone = PM_Milestone.objects.filter(
-            closed=False,
-            date__gt=datetime.datetime.now(),
-            project=project
-        ).order_by('date')
+
+        current_milestone = None
+        if request.GET.get('milestone_id', False):
+            try:
+                current_milestone = PM_Milestone.objects.get(project=project, pk=int(request.GET.get('milestone_id', 0)))
+            except PM_Milestone.DoesNotExist:
+                pass
+        else:
+            current_milestone = PM_Milestone.objects.filter(
+                closed=False,
+                date__gt=datetime.datetime.now(),
+                project=project
+            ).order_by('date')
+
         if current_milestone:
             current_milestone = current_milestone[0]
             setattr(project, 'current_milestone', current_milestone)
+
+        milestones = PM_Milestone.objects.filter(
+            project=project
+        ).order_by('date')
+
+        setattr(project, 'milestones', milestones)
 
     return {
         'projects_data': projects,
