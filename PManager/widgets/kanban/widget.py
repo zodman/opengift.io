@@ -80,7 +80,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
         milestones = PM_Milestone.objects.filter(
             project=project
-        ).order_by('date')
+        ).order_by('date').iteritems()
 
         setattr(project, 'milestones', milestones)
 
