@@ -63,10 +63,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
         current_milestone = None
         if request.GET.get('milestone', False):
-            try:
-                current_milestone = PM_Milestone.objects.get(project=project, pk=int(request.GET.get('milestone', 0)))
-            except PM_Milestone.DoesNotExist:
-                pass
+            current_milestone = PM_Milestone.objects.filter(project=project, pk=int(request.GET.get('milestone', 0)))
         else:
             current_milestone = PM_Milestone.objects.filter(
                 closed=False,
