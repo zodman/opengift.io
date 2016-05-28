@@ -12,7 +12,13 @@
                  data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
-                        {% if project.current_milestone %}Ближайшая цель: {{ project.current_milestone.name }}{% else %}{{ project.name }} (нет текущей цели){% endif %}
+                        {% if project.milestones %}
+                            <select class="js-select-milestone">
+                                {% for milestone in project.milestones %}
+                                    <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">{{ milestone.name }}</option>
+                                {% endfor %}
+                            </select>
+                        {% endif %}
                         <div style="float: right;">
                             <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
                             столбцы</a></div>

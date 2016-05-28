@@ -325,4 +325,7 @@ $(function () {
     $('.js-project-row').each(function () {
         $(this).kanban();
     });
+    $('.js-select-milestone').change(function() {
+        document.location.href = '?milestone=' + $(this).val();
+    });
 });
