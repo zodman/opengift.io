@@ -62,9 +62,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         setattr(project, 'use_colors', use_colors)
 
         current_milestone = None
-        if request.GET.get('milestone_id', False):
+        if request.GET.get('milestone', False):
             try:
-                current_milestone = PM_Milestone.objects.get(project=project, pk=int(request.GET.get('milestone_id', 0)))
+                current_milestone = PM_Milestone.objects.get(project=project, pk=int(request.GET.get('milestone', 0)))
             except PM_Milestone.DoesNotExist:
                 pass
         else:
