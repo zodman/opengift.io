@@ -78,15 +78,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             current_milestone = current_milestone[0]
             setattr(project, 'current_milestone', current_milestone)
 
-        milestones = PM_Milestone.objects.filter(
-            project=project
-        ).order_by('date')
-
-        aMilestones = []
-        for milestone in milestones:
-            aMilestones.append(milestone)
-
-        setattr(project, 'milestones', aMilestones)
 
     return {
         'projects_data': projects,
