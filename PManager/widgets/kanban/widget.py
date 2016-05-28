@@ -86,7 +86,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         for milestone in milestones:
             aMilestones.append(milestone)
 
-        setattr(project, 'milestones', aMilestones)
+        setattr(project, 'milestonesList', aMilestones)
 
     return {
         'projects_data': projects,
