@@ -24,7 +24,6 @@ from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
 
-
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',
@@ -148,6 +147,23 @@ class PM_Project(models.Model):
             self.payer = self.author
 
         super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class Release(models.Model):
+    statuses = (
+        ('ready', u'Собран'),
+        ('done', u'Выпущен'),
+        ('new', u'Новый')
+    )
+
+    name = models.CharField(max_length=255)
+    date = models.DateTimeField()
+    status = models.CharField(max_length=30, choices=statuses, default='new')
+    description = models.CharField(max_length=1000, blank=True, null=True)
+    project = models.ForeignKey(PM_Project, related_name='releases')
 
     class Meta:
         app_label = 'PManager'
@@ -423,6 +439,8 @@ class PM_Task(models.Model):
     startedTimerExist = False
 
     color = models.CharField(max_length=100, choices=colors, null=True, blank=True, default='blue')
+
+    release = models.ForeignKey(Release, blank=True, null=True, related_name='tasks')
 
     @property
     def url(self):

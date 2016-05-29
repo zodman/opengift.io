@@ -391,63 +391,19 @@ var widget_tl, currentGroup;
                         });
 
                         bottomPanel.addBlock('addObservers', $block);
-                        $block = menuTaskBlock('Пригласить разработчиков Heliard', '#invite-developers', function () {
-                            var $taskInputContainer = $('.js-tasks-for-developers').empty();
-                            $('.js-add-developers').unbind('click').click(function (e) {
-                                e.preventDefault();
-                                var $form = $(this).parents('form.js-invite-form');
-                                var data = $form.serialize();
-                                var url = $form.attr('action');
-                                var btn = this;
-                                var successUrl = '/taskdraft/';
-                                data += '&project=' + currentProject;
-                                $.post(url, data, function (response) {
-                                    try {
-                                        response = JSON.parse(response);
-                                    }
-                                    catch (e) {
-                                        alert('Что-то пошло не так!');
-                                    }
-                                    if (response.error) {
-                                        alert(response.error);
-                                        $('#invite-developers').modal('hide');
-                                    } else {
-                                        //alert(response.result);
-                                        var $container = $(btn).closest('.modal-dialog').find('.modal-body')
-                                            .empty().append('<p>' + response.result + '</p>'),
-                                            $uList = $container
-                                                .append('<div class="modal-invited-users__list js-invited-user-list clearfix"></div>')
-                                                .find('.js-invited-user-list');
 
-                                        for (var i in response.users) {
-                                            var user = response.users[i];
-                                            $uList.append(
-                                                '<div class="modal-invited-users__detail">' +
-                                                '<div class="modal-invited-users__detail-left"><img class="modal-invited-users__avatar" src="' + (user.avatar ? user.avatar : '/static/images/user-unknown.png') + '" /></div>' +
-                                                '<div class="modal-invited-users__detail-right"><a href="/user_detail/?id=' + user.id + '" class="modal-invited-users__name">' + user.full_name + '</a>' +
-                                                '<span class="modal-invited-users__specialties">' + user.specialties.join(', ') + '</span>' +
-                                                '<span class="modal-invited-users__rating"><i class="fa fa-ruble"></i> Ставка: ' + user.bet + ' руб./час</span></div>' +
-                                                '</div>'
-                                            )
-                                        }
-                                        $(btn).hide();
-                                    }
-
-                                });
-                            });
+                        $block = menuTaskBlock('Назначить релиз', '#add-to-release', function () {
+                            var $taskInputContainer = $('.js-tasks-for-release').empty();
                             $('.js-task-checkbox:checked').each(function () {
-                                $taskInputContainer.append('<input type="hidden" name="tasks[]" value="' + $(this).attr('name') + '" />');
+                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
                             });
                         });
-
-                        if (typeof(currentProject) !== "undefined") {
-                            bottomPanel.addBlock('inviteDevelopers', $block);
-                        }
+                        bottomPanel.addBlock('addToRelease', $block);
 
                     } else {
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');
-                        bottomPanel.removeBlock('inviteDevelopers');
+                        //bottomPanel.removeBlock('inviteDevelopers');
                     }
                 });
             },

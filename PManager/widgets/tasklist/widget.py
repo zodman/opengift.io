@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 import datetime
 from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
-    PM_Milestone, PM_ProjectRoles, PM_Reminder
+    PM_Milestone, PM_ProjectRoles, PM_Reminder, Release
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -126,6 +126,38 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             if int(tId):
                 task = PM_Task.objects.get(pk=int(tId))
                 task.milestone = milestone
+                task.save()
+
+        return {'redirect': ''}
+
+    elif pst('add-to-release'):
+        tasksId = request.POST.getlist('task')
+        mId = int(pst('release')) if pst('release') else 0
+        mName = pst('release_name')
+        mDate = pst('release_date')
+        milestone = None
+        if mId:
+            milestone = Release.objects.get(pk=mId)
+        elif project:
+            if mName:
+                mName = mName.strip()
+                if mDate:
+                    try:
+                        mDate = templateTools.dateTime.convertToDateTime(mDate)
+                    except (Exception):
+                        mDate = None
+
+                if not mDate:
+                    mDate = datetime.datetime.now()
+
+                milestone = Release(name=mName, project=project)
+                milestone.date = mDate
+                milestone.save()
+
+        for tId in tasksId:
+            if int(tId):
+                task = PM_Task.objects.get(pk=int(tId))
+                task.release = milestone
                 task.save()
 
         return {'redirect': ''}
@@ -428,6 +460,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'users': aResps,
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project, closed=False),
+        'releases': Release.objects.filter(project=project, status='new'),
         'nextPage': arPageParams.get('startPage', 0) + 1 if 'startPage' in arPageParams else None,
         'filterDates': {
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),

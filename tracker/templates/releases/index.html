@@ -1,0 +1,47 @@
+{% extends 'main/base.html' %}
+{% block stylesheets %}
+<style type="text/css">
+    .new-milestone {
+      background: url(/static/images/new-milestone.png) 0px 0px no-repeat;
+      height: 32px;
+      width: 32px;
+      display: inline-block;
+      text-indent: -99999em;
+      background-size: contain;
+      position: absolute;
+      right: 0px;
+      top: -7px;
+    }
+</style>
+{% endblock %}
+{% block content %}
+<div class="widget milestones_summary">
+    <h1>Релизы</h1>
+    <hr />
+    {% for project in projects %}
+        <div class="project-milestones">
+            <div class="project-milestones-title">
+                <h3 align="center">{{project.name}}</h3>
+
+            </div>
+
+            {% for release in project.releases.all %}
+            <div class="project-milestones-item">
+                <a href="#" class="button red-button-color" style="float: right;" data-project-id="{{ project.id }}"><i class="fa fa-close"></i></a>
+                <h4 class="clearfix">
+                    {{ release.name }}
+                </h4>
+                <div class="time">{{ release.date }}</div>
+                <ul style="padding-left: 40px;">
+                    {% for task in release.tasks.all %}
+                    <li><a href="{{ task.url }}">{{ task.name }}</a> </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% empty %}
+                <p>Цели помогают привязать ваши задачи к реальной дате и времени, чтобы быстрее достигать конкретных результатов.</p>
+            {% endfor %}
+        </div>
+    {% endfor %}
+</div>
+{% endblock %}
