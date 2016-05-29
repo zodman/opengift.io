@@ -24,7 +24,7 @@ class Key(models.Model):
     @classmethod
     def create(cls, name, data, user):
         file_path = GitoliteManager.add_key_to_user(user, name, data)
-        if (len(file_path) > 0):
+        if len(file_path) > 0:
             key = Key.objects.create(name=name, key_data=data, user=user, file_path=file_path)
             return key
         else:
@@ -39,4 +39,3 @@ class Key(models.Model):
             keys.delete()
             return True
         return False
-        

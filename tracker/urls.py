@@ -8,6 +8,7 @@ from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
+from PManager.viewsExt.releases import releasesResponder
 from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
@@ -106,6 +107,7 @@ urlpatterns = patterns('',
                        url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})/(?P<task_id>[0-9]+)$', taskdraft_task_discussion),
                        url(r'^taskdraft/(?P<draft_slug>[0-9A-z_]{64})$', taskdraft_detail),
                        url(r'^milestones/$', milestonesResponder, {'activeMenuItem': 'milestones'}),
+                       url(r'^releases/$', releasesResponder, {'activeMenuItem': 'releases'}),
                        url(r'^files_ajax/$', ajaxFilesResponder),
                        url(r'^messages_ajax/$', messagesAjaxResponder),
                        url(r'^users_ajax/$', userHandlers.setUserOptions),
