@@ -347,7 +347,8 @@ def __save_xls_from_task_list(task_list, project, user):
         u'Задача',
         u'Время',
         u'Результат',
-        u'Закрыта'
+        u'Закрыта',
+        u'Дата закрытия',
     ]:
 
         ws.write(row, col, title, bold)
@@ -378,7 +379,11 @@ def __save_xls_from_task_list(task_list, project, user):
         )
         ws.write_string(row, col + 4, item.get('last_message', {}).get('text', '') or '')
         ws.write_string(row, col + 5, u'Да' if item.get('closed', None) else u'')
-
+        ws.write_string(
+            row,
+            col + 6,
+            item.get('dateClose', '') or ''
+        )
         # ws.write_number(row, col + 3, item.get('text', ''))
         row += 1
 

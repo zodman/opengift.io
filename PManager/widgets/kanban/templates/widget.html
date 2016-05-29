@@ -21,11 +21,40 @@
                                 {% endfor %}
                             </select>
                         {% endif %}
-                        <div style="float: right;">
+
+                        <div style="float: right;margin-left: 30px;">
                             <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
                             столбцы</a></div>
+                    {% if project.current_milestone %}
+                        <div style="float: right;">
+                            <a href="#" style="color: white;text-decoration: underline;" class="js-get-xls-milestone">Отчет</a></div>
+                    {% endif %}
                     </div>
                 </div>
+                {% if project.current_milestone and project.current_milestone.taskTimeAllResps %}
+                    <div style="padding: 10px 20px 30px 20px">
+                        <div style="float: left;width:150px;">Прошло времени: </div>
+                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                            <div class="progress-bar progress-bar-info" role="progressbar"
+                                 aria-valuenow="{{ project.current_milestone.elapsedTimeAllResps }}" aria-valuemin="0"
+                                 aria-valuemax="{{ project.current_milestone.allTimeAllResps }}"
+                                 style="width: {{ project.current_milestone.elapsedTimeAllRespsPercent }}%;">
+                                <span class="sr-only"></span>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                        <div style="float: left;width:150px;">Закрыто SP: </div>
+                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                            <div class="progress-bar progress-bar-success" role="progressbar"
+                                 aria-valuenow="{{ project.current_milestone.closedTaskTimeAllResps }}" aria-valuemin="0"
+                                 aria-valuemax="{{ project.current_milestone.taskTimeAllResps }}"
+                                 style="width: {{ project.current_milestone.closedTaskTimeAllRespsPercent }}%;">
+                                <span class="sr-only"></span>
+                            </div>
+                        </div>
+                        <div style="clear: both"></div>
+                    </div>
+                {% endif %}
                 <div class="tasks-wrapper js-tasks-wrapper" rel="{{ project.id }}">
                     <div class="kanban-table">
                         <div class="kanban-table-row">
@@ -59,4 +88,8 @@
     window.taskHtml = $('<div></div>').append(
             $('<div></div>').addClass('task task-wrapper-kanban').append($('.js-task-wrapper-template').html())
     ).html();
+
 </script>
+<div class="js-burn-chart">
+
+</div>

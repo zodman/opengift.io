@@ -78,6 +78,7 @@ $(function () {
 
             return false;
         };
+
     window.taskViewKanbanClass = window.taskViewClass.extend({
         'showResponsibleArrow': function (userList) {
             var TASK_EXECUTOR_SELECTOR = '.js-task-executor',
@@ -166,7 +167,7 @@ $(function () {
         },
         getTasksFromServer: function getTasksFromServer() {
             var t = this;
-            console.log(this.options);
+
             PM_AjaxPost(
                 t.requestUrl,
                 $.extend({
@@ -185,6 +186,26 @@ $(function () {
                     //t.filterTodayTasks();
                     t.onModelChange();
                     t.makeItSortable();
+                },
+                'json'
+            )
+        },
+        getXls: function() {
+            var t = this;
+
+            PM_AjaxPost(
+                t.requestUrl,
+                $.extend({
+                    'action': 'all',
+                    'milestone_id': this.options.milestone_id,
+                    'startPage': 3,
+                    'project': this.options.project,
+                    'gantt_props': this.ajax.props,
+                    'xls': 1
+                }, this.ajax.propVals),
+                function (data) {
+                    if (data.file)
+                        document.location.href = data.file;
                 },
                 'json'
             )
@@ -322,9 +343,17 @@ $(function () {
             }
         }
     });
+
     $('.js-project-row').each(function () {
+        var t = this;
         $(this).kanban();
+
+        $(this).find('.js-get-xls-milestone').click(function() {
+            $(t).kanban('getXls');
+            return false;
+        });
     });
+
     $('.js-select-milestone').change(function() {
         document.location.href = '?milestone=' + $(this).val();
     });
