@@ -15,7 +15,7 @@ class WorkTime(object):
         if 'userHoursPerDay' in kargs and kargs['userHoursPerDay']:
             self.endWorkDay = self.startWorkDay + int(kargs['userHoursPerDay'])
 
-        if kargs['taskHours'] and kargs['startDateTime']:
+        if 'taskHours' in kargs and 'startDateTime' in kargs and kargs['taskHours'] and kargs['startDateTime']:
             self.taskHours = kargs['taskHours']
 
             try:
@@ -25,6 +25,57 @@ class WorkTime(object):
 
             self.taskRealTime = self.cropHolyDays()
             self.endDateTime = self.startDateTime + datetime.timedelta(hours=self.taskRealTime)
+
+    def getTimeBetween(self, startDate, endDate, hoursPerDay=None):
+        endWorkDay = self.endWorkDay
+
+        if hoursPerDay is not None:
+            if hoursPerDay > 24:
+                hoursPerDay = 24
+
+            endWorkDay = self.startWorkDay + hoursPerDay
+
+        allTime = 0
+        while self.isHolyday(startDate.isoweekday()) or startDate.hour >= endWorkDay:
+            startDate += datetime.timedelta(days=1)
+            startDate = datetime.datetime(startDate.year, startDate.month, startDate.day, self.startWorkDay, 0, 0,  0, startDate.tzinfo)
+
+        while self.isHolyday(endDate.isoweekday()) or endDate.hour < self.startWorkDay:
+            endDate -= datetime.timedelta(days=1)
+            endDate = datetime.datetime(endDate.year, endDate.month, endDate.day, endWorkDay, 0, 0,  0, endDate.tzinfo)
+
+        if startDate.hour < self.startWorkDay:
+            startDate = datetime.datetime(startDate.year, startDate.month, startDate.day, self.startWorkDay, 0, 0,  0, startDate.tzinfo)
+
+        if endDate > datetime.datetime(endDate.year, endDate.month, endDate.day, endWorkDay, 0, 0,  0, endDate.tzinfo):
+            endDate = datetime.datetime(endDate.year, endDate.month, endDate.day, endWorkDay, 0, 0,  0, endDate.tzinfo)
+
+        if startDate.minute > 0:
+            allTime += round(float(60 - startDate.minute) / 60.0, 2)
+
+            startDate += datetime.timedelta(hours=1)
+            startDate = datetime.datetime(startDate.year, startDate.month, startDate.day, startDate.hour, 0, 0,  0, startDate.tzinfo)
+
+        if endDate.minute > 0:
+            allTime += round(float(startDate.minute) / 60.0, 2)
+
+            endDate -= datetime.timedelta(hours=1)
+            endDate = datetime.datetime(endDate.year, endDate.month, endDate.day, endDate.hour, 0, 0,  0, endDate.tzinfo)
+
+        if startDate.hour >= endWorkDay:
+            startDate += datetime.timedelta(days=1)
+            startDate = datetime.datetime(startDate.year, startDate.month, startDate.day, self.startWorkDay, 0, 0,  0, startDate.tzinfo)
+
+        while startDate < endDate:
+            if not self.isHolyday(startDate.isoweekday()):
+                allTime += 1
+
+            startDate += datetime.timedelta(hours=1)
+            if startDate.hour >= endWorkDay:
+                startDate += datetime.timedelta(days=1)
+                startDate = datetime.datetime(startDate.year, startDate.month, startDate.day, self.startWorkDay, 0, 0,  0, startDate.tzinfo)
+
+        return allTime
 
     def isHolyday(self, day):
         return day in self.holyDays
