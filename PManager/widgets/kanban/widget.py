@@ -28,6 +28,9 @@ def project_columns(project, colors, statuses):
         newStatus = False
         for status in statuses:
             status.update({'prop': 'status'})
+            if status['code'] == 'ready':
+                status['name'] = u'На проверке'
+
             if status['code'] == 'revision':
                 status['name'] = u'В работе'
 
