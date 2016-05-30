@@ -73,6 +73,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                 project=project
             ).order_by('date')
 
+        if not current_milestone:
+            current_milestone = PM_Milestone.objects.filter(
+                project=project
+            ).order_by('-date')
+
         if current_milestone:
             current_milestone = current_milestone[0]
 
