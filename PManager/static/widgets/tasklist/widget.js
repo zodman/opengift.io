@@ -403,7 +403,7 @@ var widget_tl, currentGroup;
                     } else {
                         bottomPanel.removeBlock('addToMilestone');
                         bottomPanel.removeBlock('addObservers');
-                        //bottomPanel.removeBlock('inviteDevelopers');
+                        bottomPanel.removeBlock('addToRelease');
                     }
                 });
             },
