@@ -24,6 +24,7 @@ from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
 
+
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',
@@ -64,9 +65,9 @@ class ObjectTags(models.Model):
 
     @classmethod
     def get_weights(cls, tag_ids, content_type_id, obj_id=None, filter_content=[], order_by=(), limit=None):
-        request_str = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` ' +\
-                      'from PManager_objecttags WHERE tag_id in (' +\
-                      ', '.join(tag_ids) + ') AND content_type_id=' +\
+        request_str = 'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` ' + \
+                      'from PManager_objecttags WHERE tag_id in (' + \
+                      ', '.join(tag_ids) + ') AND content_type_id=' + \
                       str(content_type_id)
         if obj_id is not None:
             request_str += ' AND object_id=' + str(obj_id)
@@ -112,7 +113,7 @@ class PM_Project(models.Model):
 
     @property
     def url(self):
-        return '/?project='+str(self.id)
+        return '/?project=' + str(self.id)
 
     @property
     def imagePath(self):
@@ -125,7 +126,7 @@ class PM_Project(models.Model):
         return json.loads(self.settings) if self.settings else {}
 
     def generate_rep_name(self):
-        if(self.repository):
+        if (self.repository):
             return self.repository
         return transliterate(self.name)
 
@@ -140,7 +141,7 @@ class PM_Project(models.Model):
 
     def getUsers(self):
         return User.objects.filter(pk__in=[role.user.id for role in
-                                          PM_ProjectRoles.objects.filter(project=self)]).distinct()
+                                           PM_ProjectRoles.objects.filter(project=self)]).distinct()
 
     def save(self, *args, **kwargs):
         if not self.id:
@@ -332,7 +333,8 @@ class PM_Milestone(models.Model):
 
     def status(self):
         from PManager.classes.datetime.work_time import WorkTime
-        planTimeMax = self.tasks.filter(active=True, closed=0).values('resp_id').annotate(sumtime=Sum('planTime')).order_by('-sumtime')
+        planTimeMax = self.tasks.filter(active=True, closed=0).values('resp_id').annotate(
+            sumtime=Sum('planTime')).order_by('-sumtime')
         if planTimeMax:
             taskHours = planTimeMax[0]['sumtime']
             if not taskHours:
@@ -352,13 +354,16 @@ class PM_Milestone(models.Model):
         return self.STATUS_NORMAL
 
     def percent(self):
-        planTimeTable = self.tasks.filter(active=True).values('closed').annotate(sumtime=Sum('planTime')).order_by('-closed')
+        planTimeTable = self.tasks.filter(active=True).values('closed').annotate(sumtime=Sum('planTime')).order_by(
+            '-closed')
         if not planTimeTable:
             return 0
         if len(planTimeTable) == 1:
             return 100 if planTimeTable[0]['closed'] else 0
         if len(planTimeTable) > 1 and planTimeTable[1].get('sumtime', 0) > 0:
-            return int(round(planTimeTable[0]['sumtime'] * 100 / (planTimeTable[0]['sumtime'] + planTimeTable[1]['sumtime']), 0))
+            return int(
+                round(planTimeTable[0]['sumtime'] * 100 / (planTimeTable[0]['sumtime'] + planTimeTable[1]['sumtime']),
+                      0))
 
         return 0
 
@@ -453,13 +458,15 @@ class PM_Task(models.Model):
         self.save()
 
     def setIsInTime(self):
-        if self.deadline and self.deadline > timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone()):
+        if self.deadline and self.deadline > timezone.make_aware(datetime.datetime.now(),
+                                                                 timezone.get_current_timezone()):
             self.closedInTime = True
         else:
             self.closedInTime = False
 
     def Close(self, user):
         from django.contrib.contenttypes.models import ContentType
+        from PManager.models.integration import SlackIntegration
 
         logger = Logger()
 
@@ -515,7 +522,7 @@ class PM_Task(models.Model):
 
         allSum = 0
         allRealTime = 0
-        #responsibles real time
+        # responsibles real time
         timers = PM_Timer.objects.raw(
             'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
             ' WHERE `task_id`=' + str(self.id) +
@@ -556,7 +563,7 @@ class PM_Task(models.Model):
 
                     curUserRating = ob.get('rating', 0)
 
-                    #set user rating
+                    # set user rating
                     profResp = cUser.get_profile()
                     respFine = profResp.getFine()
                     if curUserRating != 0 and profResp.is_outsource:
@@ -624,7 +631,8 @@ class PM_Task(models.Model):
                                     project=self.project,
                                     task=self,
                                     type='Resp real time',
-                                    comment=(('+' if curUserRating >= 0 else '') + str(curUserRating) + u' к рейтингу') +
+                                    comment=(
+                                            ('+' if curUserRating >= 0 else '') + str(curUserRating) + u' к рейтингу') +
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
@@ -632,10 +640,10 @@ class PM_Task(models.Model):
         if allRealTime or self.planTime:
             if self.planTime:
                 managers = PM_ProjectRoles.objects.filter(
-                        project=self.project,
-                        role__code='manager',
-                        user__in=self.observers.all()
-                    )
+                    project=self.project,
+                    role__code='manager',
+                    user__in=self.observers.all()
+                )
 
                 cManagers = 0
                 aManagers = []
@@ -643,9 +651,9 @@ class PM_Task(models.Model):
                     if manager.user.get_profile().is_heliard_manager:
                         bet = manager.user.get_profile().getBet(self.project, None, manager.role.code)
                         if bet:
-                           cManagers += 1
-                           setattr(manager, 'bet', bet)
-                           aManagers.append(manager)
+                            cManagers += 1
+                            setattr(manager, 'bet', bet)
+                            aManagers.append(manager)
 
                 for manager in aManagers:
                     curTime = self.planTime * 1.0 / cManagers
@@ -670,14 +678,14 @@ class PM_Task(models.Model):
                             allSum = allSum + price
 
             if allSum:
-                #client
+                # client
                 clientComission = int(self.project.getSettings().get('client_comission', 0) or COMISSION)
                 clientFeeSum = math.floor(allSum * clientComission / 100)
 
                 if self.project.payer:
                     credit = Credit(
                         user=self.project.payer,
-                        value=-allSum-clientFeeSum,
+                        value=-allSum - clientFeeSum,
                         project=self.project,
                         task=self,
                         type='Client with comission'
@@ -705,8 +713,8 @@ class PM_Task(models.Model):
         self.save()
 
     def Start(self):
-        if not self.realDateStart: #если до этого еще не была запущена
-            self.realDateStart = datetime.datetime.now() #заносим дату запуска
+        if not self.realDateStart:  # если до этого еще не была запущена
+            self.realDateStart = datetime.datetime.now()  # заносим дату запуска
         self.started = True
         self.virgin = False
         self.save()
@@ -767,7 +775,6 @@ class PM_Task(models.Model):
             'url': self.url
         })
 
-
     def endTimer(self, user=None, comment=None):
         logger = Logger()
 
@@ -805,7 +812,6 @@ class PM_Task(models.Model):
 
         return self
 
-
     @staticmethod
     def getAllTimeOfTasksWithSubtasks(aId):
         if not aId:
@@ -820,7 +826,9 @@ class PM_Task(models.Model):
 
         for t in timers:
             delta = now - t['dateStart']
-            aCurObj = aTime[t['task__parentTask_id']] if 'task__parentTask_id' in t and t['task__parentTask_id'] in aTime else aTime[t['task_id']]
+            aCurObj = aTime[t['task__parentTask_id']] if 'task__parentTask_id' in t and t[
+                                                                                            'task__parentTask_id'] in aTime else \
+            aTime[t['task_id']]
             if t['user_id'] not in aCurObj:
                 aCurObj[t['user_id']] = 0
 
@@ -843,13 +851,13 @@ class PM_Task(models.Model):
 
     def canPMUserSetPlanTime(self, pm_user):
         return (not self.planTime and pm_user.isManager(self.project)) or not self.realDateStart and (
-                pm_user.isManager(self.project) or
-                int(self.author.id) == int(pm_user.user.id) or
-                self.onPlanning or (
-                    #is responsible and planTime is empty
-                    hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
-                    (not self.planTime or self.status and self.status.code == 'not_approved')
-                )
+            pm_user.isManager(self.project) or
+            int(self.author.id) == int(pm_user.user.id) or
+            self.onPlanning or (
+                # is responsible and planTime is empty
+                hasattr(self.resp, 'id') and int(self.resp.id) == int(pm_user.user.id) and
+                (not self.planTime or self.status and self.status.code == 'not_approved')
+            )
         )
 
     def setChangedForUsers(self, user=None):
@@ -893,7 +901,7 @@ class PM_Task(models.Model):
             u' от ': 'from'
         }
 
-        #TODO: сделать обработку быстрых тегов
+        # TODO: сделать обработку быстрых тегов
         arSaveFields = {}
 
         if project:
@@ -981,15 +989,15 @@ class PM_Task(models.Model):
         if resp:
             task.resp = resp
 
-            #если у юзера нет ролей в текущем проекте, назначаем его разработчиком
+            # если у юзера нет ролей в текущем проекте, назначаем его разработчиком
             if not resp.get_profile().hasRole(task.project, not_guest=True):
                 resp.get_profile().setRole('employee', task.project)
                 if resp.get_profile().is_outsource:
                     from PManager.models.agreements import Agreement
                     Agreement.objects.get_or_create(payer=task.project.payer, resp=resp)
-                # elif task.parentTask:
-        #     for resp in task.parentTask.responsible.all():
-    #         task.responsible.add(resp) #17.04.2014 task #553
+                    # elif task.parentTask:
+                    #     for resp in task.parentTask.responsible.all():
+                    #         task.responsible.add(resp) #17.04.2014 task #553
         task.lastModifiedBy = currentUser
         task.save()
 
@@ -1024,7 +1032,7 @@ class PM_Task(models.Model):
                                    'task': taskdata
                                },
                                (title if title else 'Вас назначили ответственным в новой задаче!')
-        )
+                               )
 
         try:
             sendMes.send(arEmail)
@@ -1127,7 +1135,7 @@ class PM_Task(models.Model):
 
         filter['active'] = True
 
-        #subtasks search
+        # subtasks search
         if filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
@@ -1145,11 +1153,12 @@ class PM_Task(models.Model):
 
         if aTasksIdFromSubTasks:
             filterQArgs = [Q(*filterQArgs) | Q(
-                id__in=aTasksIdFromSubTasks)] #old conditions array | ID of parent tasks of match subtasks
+                id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
             filter = {}
 
         try:
-            tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True, project__locked=True).distinct()
+            tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,
+                                                                           project__locked=True).distinct()
         except ValueError:
             tasks = None
 
@@ -1324,10 +1333,10 @@ class PM_Task(models.Model):
 
         if len(arTagsId) > 0:
             for obj1 in ObjectTags.objects.raw(
-                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
-                                    arTagsId) + ') AND object_id=' + str(
-                    user.id) + ' AND content_type_id=' + str(
-                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
+                                                                    'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
+                                                                arTagsId) + ') AND object_id=' + str(
+                                                user.id) + ' AND content_type_id=' + str(
+                                ContentType.objects.get_for_model(User).id) + ' GROUP BY object_id'):
                 if obj1.content_object:
                     userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
 
@@ -1340,18 +1349,19 @@ class PM_Task(models.Model):
         redisSendLogMessage(message.getJson({
             'noveltyMark': True,
             'onlyForUsers': [message.author.id] + ([message.userTo.id] if message.userTo else [])
-                            if message.hidden else
-                            (
-                                [u.id for u in message.task.observers.all()] +
-                                [message.author.id] +
-                                [message.userTo.id] if message.userTo else [] +
-                                [self.author.id] +
-                                [self.resp.id] if self.resp else [] +
-                                [r['user__id'] for r in PM_ProjectRoles.objects.filter(
-                                    project=self.project,
-                                    role__code='manager'
-                                ).values('user__id')]
-                            )
+            if message.hidden else
+            (
+                [u.id for u in message.task.observers.all()] +
+                [message.author.id] +
+                [message.userTo.id] if message.userTo else [] +
+                                                           [self.author.id] +
+                                                           [self.resp.id] if self.resp else [] +
+                                                                                            [r['user__id'] for r in
+                                                                                             PM_ProjectRoles.objects.filter(
+                                                                                                 project=self.project,
+                                                                                                 role__code='manager'
+                                                                                             ).values('user__id')]
+            )
         }))
 
     def canEdit(self, user):
@@ -1369,7 +1379,7 @@ class PM_Task(models.Model):
                 if roles and roles[0] and roles[0].project:
                     self.project = roles[0].project
 
-        #if task is new, add number
+        # if task is new, add number
         if not self.id:
             try:
                 lastTaskInProject = PM_Task.objects.filter(project=self.project).order_by('-number')
@@ -1423,7 +1433,7 @@ class PM_Timer(models.Model):
             try:
                 delta = dateEnd - self.dateStart
             except TypeError:
-                #if dateEnd is recently appended (not received from DB)
+                # if dateEnd is recently appended (not received from DB)
                 if not timezone.is_aware(dateEnd):
                     dateEnd = timezone.make_aware(dateEnd, timezone.get_current_timezone())
                 if self.dateStart:
@@ -1447,7 +1457,8 @@ class PM_Timer(models.Model):
             allTime[timer['task_id']][timer['user_id']] = timer['summ'] if timer['summ'] else 0
 
         aSubtasksByTask = dict()
-        subTasks = PM_Task.objects.filter(parentTask__in=aTaskId, virgin=False, active=True).values('id', 'parentTask_id')
+        subTasks = PM_Task.objects.filter(parentTask__in=aTaskId, virgin=False, active=True).values('id',
+                                                                                                    'parentTask_id')
 
         for s in subTasks:
             if s['parentTask_id'] not in aSubtasksByTask:
@@ -1458,7 +1469,8 @@ class PM_Timer(models.Model):
         for taskId in aSubtasksByTask:
             if not taskId in allTime:
                 allTime[taskId] = {}
-            timers = PM_Timer.objects.filter(task_id__in=aSubtasksByTask[taskId]).values('task_id', 'user_id').annotate(summ=Sum('seconds'))
+            timers = PM_Timer.objects.filter(task_id__in=aSubtasksByTask[taskId]).values('task_id', 'user_id').annotate(
+                summ=Sum('seconds'))
             for t in timers:
                 if t['user_id'] not in allTime[taskId]:
                     allTime[taskId][t['user_id']] = 0
@@ -1594,7 +1606,7 @@ class PM_Task_Message(models.Model):
                 if cur_profile and (
                                 cur_profile.user.id == self.project.payer.id
                         or
-                                cur_profile.isEmployee(p)
+                            cur_profile.isEmployee(p)
                 ):
                     try:
                         planTime = PM_User_PlanTime.objects.get(
@@ -1604,22 +1616,22 @@ class PM_Task_Message(models.Model):
 
                         if profileAuthor.isEmployee(p):
                             bet = cur_profile.getBet(self.project, None, 'client') \
-                                    or self.author.get_profile().getBet(self.project, None, 'employee')
+                                  or self.author.get_profile().getBet(self.project, None, 'employee')
 
                         elif profileAuthor.isClient(p):
                             bet = cur_profile.getBet(self.project, None, 'employee') \
-                                    or self.author.get_profile().getBet(self.project, None, 'client')
+                                  or self.author.get_profile().getBet(self.project, None, 'client')
 
                         else:
                             bet = cur_profile.getBet(self.project) \
-                                    or self.author.get_profile().getBet(self.project)
-
+                                  or self.author.get_profile().getBet(self.project)
 
                         addParams.update({
                             'confirmation': (
                                 '<div>'
                                 '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
-                                '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
+                                                                                                '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(
+                                    self.id) + '" ' +
                                 '" class="js-confirm-estimate agree-with-button">Выбрать исполнителем</a></div>'
                             )
                         })
@@ -1629,26 +1641,29 @@ class PM_Task_Message(models.Model):
 
         elif self.code == 'TIME_REQUEST':
             if not self.requested_time_approved:
-                if cur_profile and (cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
+                if cur_profile and (
+                        cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
                     addParams.update({
-                            'confirmation': (
-                                '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(self.id) + '" ' +
-                                '" class="js-confirm-estimate agree-with-button">Добавить время: ' + str(self.requested_time) + ' ч.</a></div>'
-                            )
-                        })
+                        'confirmation': (
+                            '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(
+                                self.id) + '" ' +
+                            '" class="js-confirm-estimate agree-with-button">Добавить время: ' + str(
+                                self.requested_time) + ' ч.</a></div>'
+                        )
+                    })
             else:
                 addParams.update({
-                            'confirmation': (
-                                u'<div class="message-desc-right">' +
-                                unicode(
-                                    self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
-                                        self.requested_time_approved_by else '') +
-                                u' дал согласие на добавление <b>' +
-                                    unicode(self.requested_time) + u'ч.</b> в <b>' +
-                                    unicode(templateTools.dateTime.convertToSite(self.requested_time_approve_date)) +
-                                u'</b></div>'
-                            )
-                        })
+                    'confirmation': (
+                        u'<div class="message-desc-right">' +
+                        unicode(
+                            self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
+                            self.requested_time_approved_by else '') +
+                        u' дал согласие на добавление <b>' +
+                        unicode(self.requested_time) + u'ч.</b> в <b>' +
+                        unicode(templateTools.dateTime.convertToSite(self.requested_time_approve_date)) +
+                        u'</b></div>'
+                    )
+                })
 
         addParams.update({
             'id': self.id,
@@ -1694,7 +1709,8 @@ class PM_Task_Message(models.Model):
                 'last_name': self.modifiedBy.last_name,
                 'first_name': self.modifiedBy.first_name
             } if self.modifiedBy else {},
-            'dateModify': templateTools.dateTime.convertToSite(timezone.localtime(self.dateModify)) if self.dateModify else ''
+            'dateModify': templateTools.dateTime.convertToSite(
+                timezone.localtime(self.dateModify)) if self.dateModify else ''
         })
 
         if self.author and profileAuthor.avatarSrc:
@@ -1751,9 +1767,9 @@ class PM_Task_Message(models.Model):
             return True
 
         return (
-                    self.task.onPlanning and prof.hasRole(self.project, not_guest=True)
-               )
-        #todo: добавить про hidden_from_clients и from_employee
+            self.task.onPlanning and prof.hasRole(self.project, not_guest=True)
+        )
+        # todo: добавить про hidden_from_clients и from_employee
 
     def getUsersForNotice(self):
         pass
@@ -1792,10 +1808,10 @@ class PM_ProjectRoles(models.Model):
     def isLastRequiredRole(self):
         lastRequiredRoleCode = 'manager'
         return self.role.code == lastRequiredRoleCode and \
-            not PM_ProjectRoles.objects.filter(
-                        project=self.project,
-                        role__code=lastRequiredRoleCode
-                ).exclude(id=self.id).exists()
+               not PM_ProjectRoles.objects.filter(
+                   project=self.project,
+                   role__code=lastRequiredRoleCode
+               ).exclude(id=self.id).exists()
 
     def safeDelete(self):
         if self.isLastRequiredRole():
@@ -1863,7 +1879,7 @@ class listManager:
                             else:
                                 i.clean(val, self.modelClass())
                         except Exception:
-                            del filter[field] #validation error
+                            del filter[field]  # validation error
         return filter
 
 
@@ -1884,6 +1900,7 @@ class PM_User_PlanTime(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
 
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)
@@ -1913,12 +1930,12 @@ class FineHistory(models.Model):
 
     def __str__(self):
         return str(self.value) + ' ' + str(self.user)
-    
+
     class Meta:
         app_label = 'PManager'
 
 
-#SIGNALS
+# SIGNALS
 
 def setActivityOfMessageAuthor(sender, instance, created, **kwargs):
     if instance.author:
@@ -1992,10 +2009,11 @@ def check_task_save(sender, instance, **kwargs):
         origin = PM_Task.objects.get(id=task.id)
 
         if (
-            task.critically == origin.critically and
-            task.planTime == origin.planTime and
-            (task.milestone.id if task.milestone else None) == (origin.milestone.id if origin.milestone else None) and
-            (task.resp.id if task.resp else None) == (origin.resp.id if origin.resp else None)
+                                task.critically == origin.critically and
+                                task.planTime == origin.planTime and
+                            (task.milestone.id if task.milestone else None) == (
+                        origin.milestone.id if origin.milestone else None) and
+                        (task.resp.id if task.resp else None) == (origin.resp.id if origin.resp else None)
         ):
             return
     except PM_Task.DoesNotExist:
@@ -2041,7 +2059,7 @@ def check_task_save(sender, instance, **kwargs):
                                 objectName='comment',
                                 type='add',
                                 fields=responseJson
-                            )
+                                )
             mess.send()
 
 

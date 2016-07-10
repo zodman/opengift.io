@@ -14,3 +14,4 @@ from PManager.models.taskdraft import *
 from PManager.models.simple_message import *
 from PManager.models.tests import *
 from PManager.models.agreements import *
+from PManager.models.integration import *
