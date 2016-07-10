@@ -18,7 +18,7 @@ class Command(NoArgsCommand):
                 tasks = tasks.filter(dateClose__gt=(now - datetime.timedelta(days=1)))
 
             for task in tasks:
-                integration.send({'text': u'Задача <https://heliard.ru' + task.url + u'|' + task.name + u'> закрыта.'})
+                integration.send({'text': u'<https://heliard.ru' + task.url + u'|' + task.name + u'> закрыта.'})
 
             integration.lastSendDate = now
             integration.save()

@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Task, PM_Project, PM_Achievement
+from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration
 from PManager.models import PM_Project_Achievement, PM_ProjectRoles
 from PManager.models import AccessInterface, Credit
 from django import forms
@@ -182,6 +182,12 @@ def projectDetail(request, project_id):
     canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
     canEditProject = request.user.is_superuser or request.user.id == project.author.id
 
+    try:
+        s = SlackIntegration.objects.get(project=project)
+        setattr(project, 'slackUrl', s.url)
+    except SlackIntegration.DoesNotExist:
+        setattr(project, 'slackUrl', '')
+
     if 'settings_save' in request.POST and request.POST['settings_save'] and canEditProject:
         if 'is_closed' in request.POST \
                 and (bool(request.POST['is_closed']) != project.closed)\
@@ -199,6 +205,20 @@ def projectDetail(request, project_id):
 
         parseSettingsFromPost(project, request)
         project.save()
+        return HttpResponseRedirect(request.path)
+
+    if 'integration_messangers_settings_save' in request.POST \
+            and request.POST['integration_messangers_settings_save'] and canEditProject:
+        if 'slack_url' in request.POST and request.POST['slack_url'] != project.slackUrl:
+            try:
+                s = SlackIntegration.objects.get(project=project)
+            except SlackIntegration.DoesNotExist:
+                s = SlackIntegration(project=project)
+
+            s.url = request.POST['slack_url']
+            s.save()
+            setattr(project, 'slackUrl', s.url)
+
         return HttpResponseRedirect(request.path)
 
     interfaces = AccessInterface.objects.filter(project=project)

@@ -37,6 +37,16 @@
             <p><input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success js-integration-save" /></p>
             {% endif %}
         </form>
+        <form method="POST" name="integration" action="#integration">
+        <h2>Slack</h2>
+        <p>
+                <label>Url интеграции</label>
+                <input type="text" name="slack_url"
+                value="{{ project.slackUrl }}" class="form-control js-slack-url" />
+        </p>
+        <p><input type="submit" value="Применить"
+                  name="integration_messangers_settings_save" class="btn btn-success" /></p>
+        </form>
     </div>
     <div class="integration-right">
         <h2>Облачный сервер</h2>
