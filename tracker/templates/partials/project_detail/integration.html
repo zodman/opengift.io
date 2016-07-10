@@ -40,7 +40,7 @@
         <form method="POST" name="integration" action="#integration">
         <h2>Slack</h2>
         <p>
-                <label>Url интеграции</label>
+                <label>Url для отправки сообщений <a href="https://api.slack.com/incoming-webhooks" target="_blank">?</a></label>
                 <input type="text" name="slack_url"
                 value="{{ project.slackUrl }}" class="form-control js-slack-url" />
         </p>
@@ -49,8 +49,8 @@
         </form>
     </div>
     <div class="integration-right">
-        <h2>Облачный сервер</h2>
-        <small>Облачный сервер будет располагаться на поддомене heliard-platform.ru.</small>
+        <h2>Публичный сервер</h2>
+        <small>Облачный сервер с автозагрузкой файлов из GIT будет располагаться на поддомене heliard-platform.ru.</small>
         <hr>
         {% if project.repository and not project.api_key %}
         <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>
