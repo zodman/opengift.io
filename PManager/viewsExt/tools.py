@@ -7,6 +7,7 @@ from django.template import Context, loader
 from django.utils import timezone
 from PManager.classes.server.message import RedisMessage
 from PManager.services.service_queue import service_queue
+from django.template.base import TemplateDoesNotExist
 
 
 def redisSendTaskUpdate(fields):
@@ -46,7 +47,16 @@ class emailMessage:
         t = loader.get_template('mail_templates/' + self.templateName + '.html')
         c = Context(self.context)
         html_content = t.render(c)
-        msg = EmailMultiAlternatives(self.subject, '', self.u_from, to)
+
+        text_content = ''
+        try:
+            t = loader.get_template('mail_templates/' + self.templateName + '.txt')
+            c = Context(self.context)
+            text_content = t.render(c)
+        except TemplateDoesNotExist:
+            pass
+
+        msg = EmailMultiAlternatives(self.subject, text_content, self.u_from, to)
         msg.attach_alternative(html_content, "text/html")
         try:
             msg.send()

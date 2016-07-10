@@ -1,4 +1,5 @@
 __author__ = 'Gvammer'
+from django.core.mail import EmailMultiAlternatives
 from django.core.mail import EmailMessage, BadHeaderError
 
 class PM_MailEvent:
@@ -6,6 +7,7 @@ class PM_MailEvent:
     to = ['']
     subject = ''
     message = ''
+    plain_content = ''
 
     event_name = ''
     @staticmethod
@@ -21,8 +23,11 @@ class PM_MailEvent:
     def send(self):
         if self.validateEmail(self.to):
             try:
-                msg = EmailMessage(self.subject, self.message, self.from_address, [self.to])
-                msg.content_subtype = "html"  # Main content is now text/html
+                subject, from_email, to = self.subject, self.from_address, self.to
+                text_content = self.plain_content
+                html_content = self.message
+                msg = EmailMultiAlternatives(subject, text_content, from_email, [to])
+                msg.attach_alternative(html_content, "text/html")
                 msg.send()
             except BadHeaderError:
                 return 'Invalid header found.'
