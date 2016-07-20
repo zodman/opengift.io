@@ -426,14 +426,14 @@ header .intro-text {
 }
 header .intro-text .intro-lead-in {
 	font-family: 'PT Serif', serif;
-	font-style: italic;
+	/*font-style: italic;*/
 	font-size: 24px;
 	line-height: 36px;
 	margin-bottom: 25px
 }
 header .intro-text .intro-heading {
 	font-family: 'Noto Sans', sans-serif;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	font-weight: 700;
 	font-size: 36px;
 	line-height: 50px;
@@ -446,14 +446,14 @@ header .intro-text {
 }
 header .intro-text .intro-lead-in {
 	font-family: 'PT Serif', serif;
-	font-style: italic;
+	/*font-style: italic;*/
 	font-size: 36px;
 	line-height: 50px;
 	margin-bottom: 35px
 }
 header .intro-text .intro-heading {
 	font-family: 'Noto Sans', sans-serif;
-	text-transform: uppercase;
+	/*text-transform: uppercase;*/
 	font-weight: 700;
 	font-size: 50px;
 	line-height: 70px;
@@ -809,6 +809,7 @@ section#contact .section-heading {
 section#contact .form-group {
 	margin-bottom: 25px;
     position: relative;
+	display: block;
 }
 section#contact .form-group .help-block {
     position: absolute;
