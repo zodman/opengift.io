@@ -322,7 +322,7 @@ class PM_Milestone(models.Model):
             for user in ms.responsible.all():
                 message = PM_Task_Message(
                     userTo=user,
-                    text=u'Майлстоун "' + ms.name + u'" просрочен',
+                    text=u'Цель "' + ms.name + u'" просрочена',
                     code='MILESTONE_OVERDUE',
                     project=ms.project
                 )
