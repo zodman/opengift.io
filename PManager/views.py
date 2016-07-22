@@ -67,7 +67,7 @@ class MainPage:
             try:
                 user = User.objects.get(username=uname)
                 password = User.objects.make_random_password()
-                user.password = password
+                user.set_password(password)
                 user.save()
 
                 context = {
