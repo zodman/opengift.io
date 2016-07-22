@@ -47,7 +47,7 @@
             </div>
             {% ifequal error "not_found" %}
                 <div class='alert alert-danger' role="alert">
-                    <strong>Ошибка:</strong>&nbsp;Пользователь не найден
+                    <strong>Ошибка:</strong>&nbsp;Email или пароль введены неверно.
                 </div>
             {% endifequal %}
             {% ifequal error "not_active" %}
