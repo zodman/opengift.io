@@ -5,6 +5,7 @@ from django.db.models import Sum
 from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee, Agreement
 from PManager import widgets
 from django.template import loader, RequestContext
+from PManager.viewsExt.tools import emailMessage
 
 import os
 from PManager.viewsExt.tools import set_cookie
@@ -12,7 +13,7 @@ from PManager.viewsExt import headers
 from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
 
-# from django.contrib.auth.models import User
+from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
 
 
@@ -57,6 +58,37 @@ class MainPage:
     def promoTmp(request):
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/promo_tmp.html').render(c))
+
+    @staticmethod
+    def changePassword(request):
+        message = ''
+        uname = request.POST.get('username', None)
+        if uname:
+            try:
+                user = User.objects.get(username=uname)
+                password = User.objects.make_random_password()
+                user.password = password
+                user.save()
+
+                context = {
+                    'user_name': ' '.join([user.first_name, user.last_name]),
+                    'user_login': user.username,
+                    'user_password': password
+                }
+
+                mess = emailMessage(
+                    'hello_new_user',
+                    context,
+                    'Heliard: сообщество профессионалов. Ваши регистрационные данные.'
+                )
+                mess.send([user.username])
+                message = 'success'
+
+            except User.DoesNotExist:
+                message = 'not_found'
+
+        c = RequestContext(request, {"message": message})
+        return HttpResponse(loader.get_template('main/change_password.html').render(c))
 
     @staticmethod
     def auth(request):
