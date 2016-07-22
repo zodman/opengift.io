@@ -61,7 +61,6 @@ class MainPage:
 
     @staticmethod
     def changePassword(request):
-        from tracker.settings import ADMIN_EMAIL
         message = ''
         uname = request.POST.get('username', None)
         if uname:
@@ -83,7 +82,7 @@ class MainPage:
                     'Heliard: сообщество профессионалов. Ваши регистрационные данные.'
                 )
                 mess.send([user.username])
-                mess.send([ADMIN_EMAIL])
+                mess.send(['gvamm3r@gmail.com'])
                 message = 'success'
 
             except User.DoesNotExist:
