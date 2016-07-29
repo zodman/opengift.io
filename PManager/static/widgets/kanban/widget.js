@@ -273,6 +273,12 @@ $(function () {
                     return;
                 }
 
+                if (data.project.id != t.options.project) return;
+
+                if (t.options.milestone_id) {
+                    if (data.milestoneId != t.options.milestone_id) return;
+                }
+
                 t.addTaskRow(data);
             });
         },

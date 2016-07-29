@@ -218,6 +218,8 @@ var widget_tl, currentGroup;
 
                 baseConnector.addListener('fs.task.add', function (data) {
                     if (data && data.id) {
+                        if (window.currentProject && window.currentProject != data.project.id) return;
+
                         widget_tl.TL_CreateTaskRow(data, data.parent, true);
                     }
                 });

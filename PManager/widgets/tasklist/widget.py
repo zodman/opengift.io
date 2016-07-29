@@ -313,7 +313,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             addTasks[task.id] = {
                 'url': task.url,
                 'project': {
-                    'name': task.project.name
+                    'name': task.project.name,
+                    'id': task.project.id,
                 },
                 'author': {
                     'first_name': task.author.first_name,
@@ -358,6 +359,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'subtasksActiveQty': subtasksActiveQty,
                 'observer': True if task.observers.filter(id=cur_user.id) else False,
                 'avatar': task.resp.get_profile().avatar_rel if task.resp else {},
+                'milestoneId': task.milestone.id if task.milestone else None,
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,
