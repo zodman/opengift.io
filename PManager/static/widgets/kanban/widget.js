@@ -256,14 +256,24 @@ $(function () {
                         view.model.set(i, data[i]);
                     }
                 }
+
                 view.render();
                 var col = view.model.get(t.columnProperty);
                 if (col && oldColumn != col) {
                     animateAppendTo(view.$el, t._columns[col], t.options.animateDuration, function(){
                         t.addTaskToColumn(view.model.id, col, oldColumn);
                     });
-                };
+                }
+
                 t._columns[col].sortable("refresh");
+            });
+
+            baseConnector.addListener('fs.task.add', function (data) {
+                if (!data || !data.id) {
+                    return;
+                }
+
+                t.addTaskRow(data);
             });
         },
         makeItSortable: function makeItSortable() {

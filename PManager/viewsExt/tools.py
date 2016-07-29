@@ -9,6 +9,13 @@ from PManager.classes.server.message import RedisMessage
 from PManager.services.service_queue import service_queue
 from django.template.base import TemplateDoesNotExist
 
+def redisSendTaskAdd(fields):
+    mess = RedisMessage(service_queue,
+                        objectName='task',
+                        type='add',
+                        fields=fields
+    )
+    mess.send()
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,

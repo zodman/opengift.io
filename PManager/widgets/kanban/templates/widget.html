@@ -12,7 +12,7 @@
                  data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
-                        {% if project.milestones %}
+                        {% if project.milestones.all %}
                             <select class="js-select-milestone">
                                 {% for milestone in project.milestones.all %}
                                     <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">
@@ -27,7 +27,7 @@
                             столбцы</a></div>
                     {% if project.current_milestone %}
                         <div style="float: right;">
-                            <a href="#" style="color: white;text-decoration: underline;" class="js-get-xls-milestone">Отчет</a></div>
+                            <a href="#" style="color: white;text-decoration: underline;" class="js-get-xls-milestone">Отчет (xls)</a></div>
                     {% endif %}
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                             </div>
                         </div>
                         <div style="clear: both"></div>
-                        <div style="float: left;width:150px;">Закрыто SP: </div>
+                        <div style="float: left;width:150px;">Закрыто (ч.): </div>
                         <div class="progress" style="margin-left: 155px;margin-top: 7px;">
                             <div class="progress-bar progress-bar-success" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.closedTaskTimeAllResps }}" aria-valuemin="0"
@@ -78,7 +78,7 @@
     {% endfor %}
 </div>
 {% include 'kanban/templates/task_template.html' %}
-<script>
+<script type="text/javascript">
     var taskRespSummary = {};
     {% for project in kanban.projects_data %}
         {% for task_data in project.tasks %}
@@ -88,7 +88,6 @@
     window.taskHtml = $('<div></div>').append(
             $('<div></div>').addClass('task task-wrapper-kanban').append($('.js-task-wrapper-template').html())
     ).html();
-
 </script>
 <div class="js-burn-chart">
 

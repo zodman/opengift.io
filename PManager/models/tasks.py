@@ -998,6 +998,7 @@ class PM_Task(models.Model):
                     # elif task.parentTask:
                     #     for resp in task.parentTask.responsible.all():
                     #         task.responsible.add(resp) #17.04.2014 task #553
+
         task.lastModifiedBy = currentUser
         task.save()
 
