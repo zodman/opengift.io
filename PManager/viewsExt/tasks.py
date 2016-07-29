@@ -21,7 +21,7 @@ from PManager.classes.logger.logger import Logger
 from PManager.services.mind.task_mind_core import TaskMind
 from PManager.services.projects import get_project_by_id
 from PManager.services.task_drafts import get_unique_slug
-from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue
+from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue, redisSendTaskAdd
 from django.core.context_processors import csrf
 
 FORMAT_TO_INTEGER = 1
@@ -1249,6 +1249,7 @@ class taskAjaxManagerCreator(object):
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:
+                    redisSendTaskAdd(tasks[0])
                     return json.dumps(tasks[0])
         else:
             return json.dumps({'errorText': 'Empty task name'})

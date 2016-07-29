@@ -75,12 +75,15 @@ baseConnectorClass.prototype = {
             cb = this.socket.getCallBacks();
         }
         this.socket = new FancyWebSocket((port + this.url), this);
+        this.disableAllInputs();
 
         if (cb) {
             this.socket.rebindAll(cb);
         } else {
             this.addListener('connect', function () {
                 t.connected = true;
+                this.enableDisabledInputs();
+
                 this.send('connect', {
                     sessionid: $.cookie("sessionid")
                 });
@@ -96,6 +99,12 @@ baseConnectorClass.prototype = {
             });
         }
     },
+    'disableAllInputs': function() {
+        $('input, textarea, button').addClass('disabled js-disabled').attr('disabled', 'disabled');
+    },
+    'enableDisabledInputs': function() {
+        $('.js-disabled').removeClass('disabled js-disabled').attr('disabled', false);
+    },
     'addListener': function (event_name, func) {
         this.socket.bind(event_name, func);
     },
@@ -109,6 +118,7 @@ baseConnectorClass.prototype = {
         this.socket.close();
     }
 };
+
 var baseConnector = {};
 $(function() {
     baseConnector = new baseConnectorClass({

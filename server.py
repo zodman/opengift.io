@@ -281,6 +281,7 @@ class MyConnection(websocket.WebSocketHandler):
 
         yield gen.Task(self.redis_client.subscribe, [
             're.task.update',
+            're.task.add',
             're.comment.add'
         ])
         self.redis_client.listen(self.on_redis_queue)  # при получении сообщения

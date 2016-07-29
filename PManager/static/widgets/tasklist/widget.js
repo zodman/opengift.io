@@ -216,6 +216,12 @@ var widget_tl, currentGroup;
                     }
                 });
 
+                baseConnector.addListener('fs.task.add', function (data) {
+                    if (data && data.id) {
+                        widget_tl.TL_CreateTaskRow(data, data.parent, true);
+                    }
+                });
+
                 baseConnector.addListener('fs.comment.add', function (data) {
                     if (data && data.task) {
                         var view = obj.TL_TaskTemplates[data.task.id];
@@ -683,7 +689,7 @@ var widget_tl, currentGroup;
                         data = $.parseJSON(data);
                         if (data.name) {
                             widget_tl.TL_CreateTaskInput.filter('[value="' + taskParams.taskname + '"]').val('');
-                            var taskRow = widget_tl.TL_CreateTaskRow(data, parentTask, true);
+                            //var taskRow = widget_tl.TL_CreateTaskRow(data, parentTask, true);
                         }
 
                         if (data.parent != parentTask) { //replace parent to container

@@ -23,7 +23,6 @@ class ServerMessage(object):
     def send(self):
         if self.canAccess():
             self.setAdditionalFields()
-            print self.fields
             result = self.fields
             channel = '.'.join(['fs', self.objectName, self.type])
 
@@ -41,7 +40,7 @@ class ServerMessage(object):
         channel = redisMessage.channel.split('.')
 
         if 'onlyForUsers' in messageFromJson:
-            if connection.user.id not in messageFromJson['onlyForUsers']:
+            if not connection.user or connection.user.id not in messageFromJson['onlyForUsers']:
                 return False
 
         if channel:
