@@ -75,14 +75,14 @@ baseConnectorClass.prototype = {
             cb = this.socket.getCallBacks();
         }
         this.socket = new FancyWebSocket((port + this.url), this);
-        //this.disableAllInputs();
+
 
         if (cb) {
             this.socket.rebindAll(cb);
         } else {
             this.addListener('connect', function () {
                 t.connected = true;
-                //this.enableDisabledInputs();
+
 
                 this.send('connect', {
                     sessionid: $.cookie("sessionid")
