@@ -2,7 +2,6 @@
 import base64
 import struct
 
-
 __author__ = 'Tonakai'
 import os
 import os.path
@@ -15,8 +14,9 @@ from git import *
 from tracker import settings
 # bug due to wrong os.getlogin argument
 # http://stackoverflow.com/questions/4399617/python-os-getlogin-problem
+
 import pwd
-os.getlogin = lambda: pwd.getpwuid(os.getuid())[0]
+os.getlogin = lambda: 'heliard'
 
 __all__ = ['os', 'FileSystemStorage', 'ContentFile', 'ConfigWriter']
 
