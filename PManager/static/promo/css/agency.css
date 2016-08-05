@@ -453,23 +453,26 @@ header .intro-text .intro-heading {
 
 @media (max-width:768px) {
     .video {display: none;}
-    header {height: 380px;}
     .color-overlay {background: #222;}
+    header .container {position: relative;}
+    header {height: auto;}
+    header .intro-text {padding-bottom: 5%;}
+
+    section h2.section-heading {
+        font-size: 24px;
+        line-height: 36px;
+        margin-top: 0;
+        margin-bottom: 50px;
+    }
 }
 
 
 @media (max-width:568px) {
-    header {height: 400px;}
     header .intro-text {padding-top: 20%;}
 }
 
 section {
 	padding: 100px 0
-}
-section h2.section-heading {
-	font-size: 40px;
-	margin-top: 0;
-	margin-bottom: 65px
 }
 section h3.section-subheading {
 	font-size: 18px;
@@ -1774,6 +1777,7 @@ section#services-2 .services_Des p {
         height: auto;
     }
 }
+
 
 .hint-wrapper {
     background:#fff;
