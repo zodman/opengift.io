@@ -1846,6 +1846,7 @@ ul.hint-steps li.active {background:#4cae4c;}
 
 .hint-wrapper h4 {color:#4cae4c; margin:0px 0px 10px;}
 .hint-separator {margin:15px -20px; padding:0 20px; height:1px; font:0px/0px Arial, Helvetica, sans-serif; background:#e5e5e5;}
-.button {display:inline-block; background:#4cae4c; color:#fff; text-align:center; padding:7px 35px; border-radius:3px;}
+.button {cursor:pointer; display:inline-block; background:#4cae4c; color:#fff; text-align:center; padding:7px 35px; border-radius:3px;}
+.button:hover {color:white;}
 .hint-wrapper p {margin:0px 0px 15px;}
 .hint-wrapper p:last-child {margin-bottom:0px;}
