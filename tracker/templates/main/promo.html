@@ -105,7 +105,7 @@
 </header>
 <section id="testdrive" class="bg-light-green hide-on-1024 relative">
 
-<div class="hint-wrapper" data-order="7">
+<div class="hint-wrapper hint-wrapper-7" data-order="7">
     <div class="hint-content">
         <h4 align="center">Совет №7: </h4>
         <p align="center">Следите за изменениями исходного кода прямо в задачах</p>
@@ -129,7 +129,7 @@
     <div class="hint-wrapper-arrow-overlay"></div>
 </div>
 
-<div class="hint-wrapper" data-order="6">
+<div class="hint-wrapper hint-wrapper-6" data-order="6">
     <div class="hint-content">
         <h4 align="center">Совет №6: </h4>
         <p align="center">Отметьте любой комментарий как ошибку, чтобы контролировать, когда ее исправят</p>
@@ -153,7 +153,7 @@
     <div class="hint-wrapper-arrow-overlay"></div>
 </div>
 
-<div class="hint-wrapper" data-order="5">
+<div class="hint-wrapper hint-wrapper-5" data-order="5">
     <div class="hint-content">
         <h4 align="center">Совет №5: </h4>
         <p align="center">Следите за работой в режиме реального времени с любого устройств</p>
@@ -177,7 +177,7 @@
     <div class="hint-wrapper-arrow-overlay"></div>
 </div>
 
-<div class="hint-wrapper" data-order="4">
+<div class="hint-wrapper hint-wrapper-4" data-order="4">
     <div class="hint-content">
         <h4 align="center">Совет №4: </h4>
         <p align="center">Перетаскивайте любые файлы в задачу</p>
@@ -201,7 +201,7 @@
     <div class="hint-wrapper-arrow-overlay"></div>
 </div>
 
-<div class="hint-wrapper" data-order="3">
+<div class="hint-wrapper hint-wrapper-3" data-order="3">
     <div class="hint-content">
         <h4 align="center">Совет №3: </h4>
         <p align="center">Быстро пригласите нового исполнителя, просто ваедя в поле ответственного email</p>
@@ -225,7 +225,7 @@
     <div class="hint-wrapper-arrow-overlay"></div>
 </div>
 
-<div class="hint-wrapper" data-order="2">
+<div class="hint-wrapper hint-wrapper-2" data-order="2">
     <div class="hint-content">
         <h4 align="center">Совет №2: </h4>
         <p align="center">Перетаскивайте задачи, их приоритет будет изменен автоматически.</p>
@@ -250,7 +250,7 @@
 </div>
 
 
-<div class="hint-wrapper" data-order="1">
+<div class="hint-wrapper hint-wrapper-1" data-order="1">
     <div class="hint-content">
         <h4 align="center">Совет №1: </h4>
         <p align="center">Cоздавайте задачи без лишних кликов используя теги "для", "до" и так далее.</p>
@@ -692,9 +692,16 @@
     </div>
 </section>
 
-<section style="background: transparent url(/static/promo/img/development.jpg) no-repeat fixed 50% 0px / cover ;" data-background="/static/promo/img/development.jpg" class="section index parallax-bg">
+<section style="background: transparent url(/static/promo/img/development.jpg) no-repeat fixed 50% 0px / cover ;" data-background="/static/promo/img/development.jpg" class="section index parallax-bg second-register">
     <p class="action-text text-white">До 1 Гб свободного места и до 15 человек в команде абсолютно бесплатно.</p>
-    <p align="center"><a class="btn btn-success btn-lg" href="#reglament" data-toggle="modal">Начать пользоваться</a></p>
+    <form class="form-inline register">
+        <div class="form-group form-group-lg">
+            <input type="email" name="email" id="subscriber-email" class="form-control js-email" placeholder="Введите E-mail" required data-validation-required-message="Введите E-mail">
+        </div>
+        <button class="btn btn-xl js-register" type="submit" id="subscribe-button">Поехали!</button>
+    </form>
+    <br><p class="font-20" align="center">Уже есть аккаунт? <a href="/login/">Авторизуйтесь!</a></p>
+    <!--<p align="center"><a class="btn btn-success btn-lg" href="#reglament" data-toggle="modal">Начать пользоваться</a></p>-->
 </section>
 
 <!-- About Section -->
