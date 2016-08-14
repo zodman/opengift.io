@@ -5283,6 +5283,38 @@ ul.colors {
 .project_graph .progress {margin: 10px 0 0;}
 .project_graph b {color:#47a447; font-size: 16px;}
 
+.project_graph .progress .progress-bar:first-child {border-radius: 4px 0 0 4px;}
+.project_graph .progress .progress-bar + .progress-bar {border-radius:0px;}
+
+.green-bg {background: #5cb85c !important;}
+.orange-bg {background: #f0ad4e !important;}
+.red-bg {background: #d9534f !important;}
+.green-color {color: #5cb85c !important;}
+.orange-color {color: #f0ad4e !important;}
+.red-color {color: #d9534f !important;}
+
+.progress-primechaniya {list-style: none;
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+.progress-primechaniya li {display: inline-block; margin-right: 20px; float: left;}
+.progress-primechaniya li span {display: inline-block; margin-top: 4px; width: 10px; height: 10px; border-radius:50%; float: left; margin-right: 10px;}
+
+
+
+
+.project_graph i.fa {font-size: 16px; display: inline-block; height: 40px; width: 40px; color:#47a447; text-align: center;
+    border-radius: 50%;
+    background: #47a447;
+    color: #fff;
+    line-height: 40px;
+    margin-right: 10px;
+    float: left;
+}
+
+.project_graph .row {margin-bottom: 25px;}
+.project_graph .row:last-child {margin-bottom: 0px;}
+
 .mes-qty {
     background: #5cb85c none repeat scroll 0 0;
     border-radius: 50%;

@@ -12,6 +12,76 @@
         display: none;
     }
 </style>
+
+<div class="row project_graph">
+    <div class="col-sm-6">
+        <div class="well" style="height: 210px;">
+
+            <h4>Текущая цель</h4>
+            <hr>
+            <div class="progress">
+                <div class="progress-bar progress-bar-success" style="width:35%">
+                    <span class="sr-only">35% Complete (success)</span>
+                </div>
+                <div class="progress-bar progress-bar-warning" style="width:20%">
+                    <span class="sr-only">20% Complete (warning)</span>
+                </div>
+                <div class="progress-bar progress-bar-danger" style="width:10%">
+                    <span class="sr-only">10% Complete (danger)</span>
+                </div>
+            </div>
+
+            <ul class="progress-primechaniya clearfix">
+                <li class="clearfix"><span class="green-bg"></span> Прошло времени: 30%</li>
+                <li class="clearfix"><span class="orange-bg"></span> Закрыто (ч.): 20%</li>
+                <li class="clearfix"><span class="red-bg"></span> Задач на проверке: 10%</li>
+            </ul>
+
+
+            <div class="row">
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-clock-o green-bg" aria-hidden="true"></i>Факт:<br><b class="green-color">14</b> часов
+                </div>
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-clock-o orange-bg" aria-hidden="true"></i>План:<br><b class="orange-color">14</b> часов
+                </div>
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-clock-o red-bg" aria-hidden="true"></i>Задач:<br><b class="red-color">14</b>
+                </div>
+            </div>
+
+
+
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="well" style="border-left-color: #fe781e; height: 210px;">
+            <h4>Сводка по проекту</h4>
+            <hr>
+            <div class="row">
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-tasks" aria-hidden="true"></i>Открыто задач <br>на <b>14</b> ч.
+                </div>
+                <div class="col-sm-8 clearfix">
+                    <i class="fa fa-battery-full" aria-hidden="true"></i>Закрыто за месяц: <br><b>5</b> задач на <b>15</b> ч.
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-bug" aria-hidden="true"></i>Исправлено: <br><b>4</b> из <b>5</b></b>
+                </div>
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-check" aria-hidden="true"></i>ToDo решено: <br><b>5</b> из <b>17</b>
+                </div>
+                <div class="col-sm-4 clearfix">
+                    <i class="fa fa-code" aria-hidden="true"></i>Изменений в коде: <br><b>158</b>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 <div class="row project_graph">
     {% if project_graph.roles %}
         <div class="col-sm-6">
