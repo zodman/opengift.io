@@ -14,7 +14,7 @@
                     <div class="widget-title clearfix">
                         {% if project.milestones.all %}
                             <select class="js-select-milestone">
-                                {% for milestone in project.milestones.all %}
+                                {% for milestone in project.all_milestones %}
                                     <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">
                                         {{ milestone.name }}{% if milestone.date %} до {{ milestone.date|date:"d.m.Y" }}{% endif %}
                                     </option>
