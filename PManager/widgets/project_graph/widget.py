@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone
+from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone, PM_Task_Message, PM_User_Achievement
 from django.db.models import Sum, Count
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
@@ -46,18 +46,19 @@ def widget(request, headerValues, ar, qargs):
     isEmployee = False
     closestMilestone = None
     is_client = False
+    plantimeClosed = 0
 
     if current_project:
-        o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
-        for role in o_roles:
-            setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
-            if not role.rate:
-                setattr(role, 'rate', bet)
-
-            if role.role.code == 'employee':
-                isEmployee = True
-
-            roles.append(role)
+        # o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
+        # for role in o_roles:
+        #     setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
+        #     if not role.rate:
+        #         setattr(role, 'rate', bet)
+        #
+        #     if role.role.code == 'employee':
+        #         isEmployee = True
+        #
+        #     roles.append(role)
 
         tasks = PM_Task.objects.filter(project=current_project, closed=False).aggregate(Sum('planTime'))
         tasksClosed = PM_Task.objects.filter(project=current_project, closed=True).aggregate(Sum('planTime'))
@@ -162,6 +163,18 @@ def widget(request, headerValues, ar, qargs):
     readyTaskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'closed': False, 'status__code': 'ready'}))
     taskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'active': True}))
     allTaskQty = int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True}))
+    commitsQty = PM_Task_Message.objects.filter(project=current_project).exclude(commit=None).count() if current_project else 0
+    allBugsQty = PM_Task_Message.objects.filter(bug=True, checked=False, project=current_project).count() if current_project else 0
+    allTodoQty = PM_Task_Message.objects.filter(todo=True, checked=False, project=current_project).count() if current_project else 0
+    allMilestoneQty = PM_Milestone.objects.filter(closed=False, project=current_project).count() if current_project else 0
+
+    users = None
+    if current_project:
+        users = User.objects.filter(id__in=current_project.projectRoles.values_list('user__id', flat=True))
+
+    usersQty = users.count() if users else 0
+    achQty = PM_User_Achievement.objects.filter(project=current_project).count() if current_project else 0
+
 
     projectData = {
         'allProjectPrice': totalProject,
@@ -171,13 +184,20 @@ def widget(request, headerValues, ar, qargs):
         'readyOpenTasksPercent': round(readyTaskQty * 100 / (taskQty or 1), 2),
         'tasksQty': taskQty,
         'allTaskQty': allTaskQty,
+        'allBugsQty': allBugsQty,
+        'allTodoQty': allTodoQty,
+        'commitsQty': commitsQty,
+        'allMilestoneQty': allMilestoneQty,
+        'usersQty': usersQty,
+        'achQty': achQty,
         'taskClosedPercent': int(round(closedTaskQty * 100 / (taskQty or 1))),
         'bPay': bPay,
         'rating': profile.getRating(current_project),
         'fine': profile.getFine(),
         'rate': bet,
         'isClient': is_client,
-        'roles': roles,
+        # 'roles': roles,
+        'project': current_project,
         'isEmployee': isEmployee,
         'premiumTill': profile.premium_till if request.user.is_staff else '',
         'allOpenRealTime': round(realtime/3600.0, 2),

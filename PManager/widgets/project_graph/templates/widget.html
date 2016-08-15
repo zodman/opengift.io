@@ -14,7 +14,7 @@
     </style>
 
     <div class="row project_graph">
-        <div class="col-sm-6">
+        <div class="col-sm-{% if project_graph.project %}6{% else %}12{% endif %}">
             <div class="well">
                 {% if project_graph.closestMilestone %}
                     <h4><a href="/kanban/?milestone={{ project_graph.closestMilestone.id }}"
@@ -59,16 +59,22 @@
                     </ul>
                     <div class="row">
                         <div class="col-sm-4 clearfix">
-                            <i class="fa fa-clock-o orange-bg" aria-hidden="true"></i>Запланировано:<br><b
+                            <i class="fa fa-clock-o orange-bg"
+                                data-toggle="popover" title="Общее плановое время задач текущей цели" data-position="right"
+                                aria-hidden="true"></i>Запланировано:<br><b
                                 class="orange-color">{{ project_graph.closestMilestone.taskTimeAllResps }}</b> часов
                         </div>
                         <div class="col-sm-4 clearfix">
-                            <i class="fa fa-clock-o green-bg" aria-hidden="true"></i>Закрыто:<br><b
+                            <i class="fa fa-clock-o green-bg"
+                               data-toggle="popover" title="Общее плановое время закрытых задач" data-position="right"
+                               aria-hidden="true"></i>Закрыто:<br><b
                                 class="green-color">{{ project_graph.closestMilestone.closedTaskTimeAllResps }}</b>
                             часов
                         </div>
                         <div class="col-sm-4 clearfix">
-                            <i class="fa fa-clock-o red-bg" aria-hidden="true"></i>Ресурс:<br><b
+                            <i class="fa fa-clock-o red-bg"
+                               data-toggle="popover" title="В ресурс суммируется все рабочее время ответственных по задачам" data-position="right"
+                               aria-hidden="true"></i>Ресурс:<br><b
                                 class="red-color">{{ project_graph.closestMilestone.allTimeAllResps }}</b> часов
                         </div>
                     </div>
@@ -115,35 +121,43 @@
                 <a href="#" class="toggle-button">Развернуть</a>
             </div>
         </div>
+        {% if project_graph.project %}
         <div class="col-sm-6">
             <div class="well" style="border-left-color: #f0ad4e;">
                 <h4>Сводка по проекту</h4>
                 <hr>
                 <div class="row">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок: <b>4</b>
+                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок:
+                        <b><a href="#comments" class="js-view-comments" data-type="BUGS">{{ project_graph.allBugsQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-check" aria-hidden="true"></i>ToDo: <b>5</b>
+                        <i class="fa fa-check" aria-hidden="true"></i>ToDo:
+                        <b><a href="#comments" class="js-view-comments" data-type="TODO">{{ project_graph.allTodoQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-code" aria-hidden="true"></i>Коммитов: <b>158</b>
+                        <i class="fa fa-code" aria-hidden="true"></i>Коммитов:
+                        <b><a href="#comments" class="js-view-comments" data-type="COMMITS">{{ project_graph.commitsQty }}</a></b>
                     </div>
                 </div>
                 <div class="row to-hide">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>Целей <b>14</b>
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>Целей:
+                        <b><a href="/kanban/">{{ project_graph.allMilestoneQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-users" aria-hidden="true"></i>Сотрудников: <b>5</b>
+                        <i class="fa fa-users" aria-hidden="true"></i>Сотрудников:
+                        <b><a href="/user_list/">{{ project_graph.usersQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-trophy" aria-hidden="true"></i>Достижений: <b>15</b>
+                        <i class="fa fa-trophy" aria-hidden="true"></i>Достижений:
+                        <b>{{ project_graph.achQty }}</b>
                     </div>
                 </div>
                 <a href="#" class="toggle-button">Развернуть</a>
             </div>
         </div>
+        {% endif %}
     </div>
 
 

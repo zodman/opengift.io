@@ -88,12 +88,16 @@ $(function(){
         'SYSTEM_MESSAGES':true,
         'OTHER_PROJECTS':true,
         'USER_MESSAGES':true,
+        'TODO':true,
+        'BUGS':true,
         'COMMITS':true
     };
     widget_chat.optionsClasses = {
         'SYSTEM_MESSAGES':'sm',
         'OTHER_PROJECTS':'op',
         'USER_MESSAGES':'um',
+        'TODO':'td',
+        'BUGS':'bg',
         'COMMITS':'cm'
     };
     widget_chat.$options = widget_chat.$container.find('.js-feed-options');
@@ -126,14 +130,19 @@ $(function(){
                 widget_chat.messageListHelper.bNeedToGroup = !(
                         !widget_chat.options['SYSTEM_MESSAGES'] &&
                         !widget_chat.options['USER_MESSAGES'] &&
+                        !widget_chat.options['TODO'] &&
+                        !widget_chat.options['BUGS'] &&
                         widget_chat.options['COMMITS']
                     );
             };
-
-            widget_chat.$options.find('input').each(v).click(v).click(function(){
-                widget_chat.reset();
-                $('.toggle-messages.minimize').remove();
-                setGroupFlag();
+            var resetTimeout = false;
+            widget_chat.$options.find('input').each(v).click(v).change(v).click(function(){
+                if (resetTimeout) clearTimeout(resetTimeout);
+                resetTimeout = setTimeout(function() {
+                    widget_chat.reset();
+                    $('.toggle-messages.minimize').remove();
+                    setGroupFlag();
+                }, 200);
             });
             setGroupFlag();
 
@@ -159,6 +168,12 @@ $(function(){
                                 break;
                             case 'COMMITS':
                                 if (data.commit) return;
+                                break;
+                            case 'TODO':
+                                if (data.todo) return;
+                                break;
+                            case 'BUGS':
+                                if (data.bug) return;
                                 break;
                             default:
                                 break;
