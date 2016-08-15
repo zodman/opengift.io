@@ -15,7 +15,7 @@
 
     <div class="row project_graph">
         <div class="col-sm-6">
-            <div class="well" style="height: 210px;">
+            <div class="well">
                 {% if project_graph.closestMilestone %}
                     <h4><a href="/kanban/?milestone={{ project_graph.closestMilestone.id }}"
                            style="color: #666;">{{ project_graph.closestMilestone.name }} до <b
@@ -99,7 +99,7 @@
                             На проверке: <strong
                                     class="js-project-graph-tasks-closed">{{ project_graph.readyOpenTasks|default_if_none:"0" }}</strong></li>
                     </ul>
-                    <div class="row">
+                    <div class="row to-hide">
                         <div class="col-sm-4 clearfix">
                             <i class="fa fa-clock-o orange-bg" aria-hidden="true"></i>В плане:<br><b
                                 class="orange-color">{{ project_graph.allOpenPlanTime|default_if_none:"0"|stringformat:".2f" }}</b> часов
@@ -112,35 +112,36 @@
                     </div>
                 {% endif %}
 
-
+                <a href="#" class="toggle-button">Развернуть</a>
             </div>
         </div>
         <div class="col-sm-6">
-            <div class="well" style="border-left-color: #fe781e; height: 210px;">
+            <div class="well" style="border-left-color: #f0ad4e;">
                 <h4>Сводка по проекту</h4>
                 <hr>
                 <div class="row">
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок: <br><b>4</b>
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок: <b>4</b>
                     </div>
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-check" aria-hidden="true"></i>ToDo: <br><b>5</b>
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-check" aria-hidden="true"></i>ToDo: <b>5</b>
                     </div>
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-code" aria-hidden="true"></i>Новых коммитов: <br><b>158</b>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-tasks" aria-hidden="true"></i>Целей<br /> <b>14</b>
-                    </div>
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-battery-full" aria-hidden="true"></i>Сотрудников: <br><b>5</b>
-                    </div>
-                    <div class="col-sm-4 clearfix">
-                        <i class="fa fa-battery-full" aria-hidden="true"></i>Достижений: <br><b>15</b>
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-code" aria-hidden="true"></i>Коммитов: <b>158</b>
                     </div>
                 </div>
+                <div class="row to-hide">
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>Целей <b>14</b>
+                    </div>
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-users" aria-hidden="true"></i>Сотрудников: <b>5</b>
+                    </div>
+                    <div class="col-sm-4 clearfix two-line">
+                        <i class="fa fa-trophy" aria-hidden="true"></i>Достижений: <b>15</b>
+                    </div>
+                </div>
+                <a href="#" class="toggle-button">Развернуть</a>
             </div>
         </div>
     </div>
