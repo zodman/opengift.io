@@ -16,6 +16,13 @@
     $(function() {
         $('.js-toggle-button').click(function(){
             $('.js-icons-inline').toggleClass('icons-inline');
+            $('.js-to-show').slideToggle('fast');
+            return false;
+        });
+
+
+        $('.js-toggle-button-2').click(function(){
+            $('.js-to-show-2').toggleClass('to-show');
             return false;
         });
     });
@@ -104,7 +111,7 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="to-show">
+                    <div class="to-show js-to-show-2">
                         <ul class="progress-primechaniya clearfix">
                             <li class="clearfix"><span class="green-bg"></span>
                                 Закрыто задач: <strong
@@ -128,7 +135,7 @@
                     </div>
                 {% endif %}
 
-                <a href="#" class="toggle-button js-toggle-button"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+                <a href="#" class="toggle-button js-toggle-button-2"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
             </div>
         </div>
         {% if project_graph.project %}
