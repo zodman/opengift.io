@@ -19,6 +19,7 @@
             $('.js-to-show-2').slideToggle('to-show');
             $('.js-to-show').slideToggle('fast');
             $('.js-toggle-button').toggleClass('open');
+            $('.js-toggle-button i').toggleClass('fa-chevron-up fa-chevron-down');
             return false;
         });
     });
@@ -70,20 +71,20 @@
                         </ul>
                         <div class="row">
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-circle fa-clock-o orange-bg"
-                                    data-toggle="popover" title="Общее плановое время задач текущей цели" data-position="right"
+                                <i class="fa fa-circle-css fa-clock-o orange-bg"
+                                    data-toggle="popover" title="Общее плановое время задач текущей цели" data-content="And here's some amazing content. It's very engaging. Right?" data-position="right"
                                     aria-hidden="true"></i>Запланировано:<br><b
                                     class="orange-color">{{ project_graph.closestMilestone.taskTimeAllResps }}</b> часов
                             </div>
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-circle fa-clock-o green-bg"
+                                <i class="fa fa-circle-css fa-clock-o green-bg"
                                    data-toggle="popover" title="Общее плановое время закрытых задач" data-position="right"
                                    aria-hidden="true"></i>Закрыто:<br><b
                                     class="green-color">{{ project_graph.closestMilestone.closedTaskTimeAllResps }}</b>
                                 часов
                             </div>
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-circle fa-clock-o red-bg"
+                                <i class="fa fa-circle-css fa-clock-o red-bg"
                                    data-toggle="popover" title="В ресурс суммируется все рабочее время ответственных по задачам" data-position="right"
                                    aria-hidden="true"></i>Ресурс:<br><b
                                     class="red-color">{{ project_graph.closestMilestone.allTimeAllResps }}</b> часов
@@ -119,11 +120,11 @@
                         </ul>
                         <div class="row">
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-clock-o orange-bg" aria-hidden="true"></i>В плане:<br><b
+                                <i class="fa fa-circle-css fa-clock-o orange-bg" aria-hidden="true"></i>В плане:<br><b
                                     class="orange-color">{{ project_graph.allOpenPlanTime|default_if_none:"0"|stringformat:".2f" }}</b> часов
                             </div>
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-clock-o green-bg" aria-hidden="true"></i>Закрыто:<br><b
+                                <i class="fa fa-circle-css fa-clock-o green-bg" aria-hidden="true"></i>Закрыто:<br><b
                                     class="green-color">{{ project_graph.allClosedPlanTime|default_if_none:"0"|stringformat:".2f" }}</b>
                                 часов
                             </div>
@@ -140,29 +141,29 @@
                 <h4>Сводка по проекту</h4>
                 <div class="row icons-inline js-icons-inline">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок:
+                        <i class="fa fa-circle-css fa-bug" aria-hidden="true"></i>Ошибок:
                         <b><a href="#comments" class="js-view-comments" data-type="BUGS">{{ project_graph.allBugsQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-check" aria-hidden="true"></i>ToDo:
+                        <i class="fa fa-circle-css fa-check" aria-hidden="true"></i>ToDo:
                         <b><a href="#comments" class="js-view-comments" data-type="TODO">{{ project_graph.allTodoQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-code" aria-hidden="true"></i>Коммитов:
+                        <i class="fa fa-circle-css fa-code" aria-hidden="true"></i>Коммитов:
                         <b><a href="#comments" class="js-view-comments" data-type="COMMITS">{{ project_graph.commitsQty }}</a></b>
                     </div>
                 </div>
                 <div class="row to-show js-to-show">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>Целей:
+                        <i class="fa fa-circle-css fa-thumbs-up" aria-hidden="true"></i>Целей:
                         <b><a href="/kanban/">{{ project_graph.allMilestoneQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-users" aria-hidden="true"></i>Сотрудников:
+                        <i class="fa fa-circle-css fa-users" aria-hidden="true"></i>Сотрудников:
                         <b><a href="/user_list/">{{ project_graph.usersQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-trophy" aria-hidden="true"></i>Достижений:
+                        <i class="fa fa-circle-css fa-trophy" aria-hidden="true"></i>Достижений:
                         <b>{{ project_graph.achQty }}</b>
                     </div>
                 </div>

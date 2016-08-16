@@ -5321,76 +5321,6 @@ ul.colors {
 
 .to-show {display: none;}
 
-@media (max-width: 1280px) {
-    .project_graph .col-sm-6 {
-        width: 50% !important;
-        float: left;
-
-        -webkit-transition: all 0.2s ease-in-out;
-        -moz-transition: all 0.2s ease-in-out;
-        -o-transition: all 0.2s ease-in-out;
-        transition: all 0.2s ease-in-out;
-    }
-
-    .project_graph .col-sm-4 {
-        width: 33.33333333333333% !important;
-        float: left;
-    }
-}
-
-@media (max-width: 1024px) {
-    .project_graph .col-sm-6 {
-        width: 100% !important;
-        float: none;
-    }
-
-    .project_graph .well {
-        height: 100% !important;
-    }
-
-    .project_graph .col-sm-4 {
-        width: 33.33333333333333% !important;
-    }
-
-    .to-hide {
-        display: none;
-    }
-
-    .toggle-button {display: block;}
-    .project_graph .well {padding-bottom: 30px;}
-}
-
-@media (max-width: 568px) {
-
-    .project_graph .col-sm-4.two-line {
-        line-height: 40px;
-    }
-
-    .project_graph .col-sm-4.two-line b {
-        display: inline-block;
-    }
-
-    .project_graph .col-sm-6 {
-        float: none;
-        padding: 0px;
-    }
-
-    .project_graph .row {
-        margin-bottom: 15px !important;
-    }
-
-    .project_graph .col-sm-4 {
-        width: 100% !important;
-        margin-bottom: 15px;
-    }
-
-
-    .project_graph .col-sm-4 b {display: inline-block;}
-
-    .project_graph .col-sm-4:last-child {
-        margin-bottom: 0px;
-    }
-}
 
 .green-bg {background: #5cb85c !important;}
 .orange-bg {background: #f0ad4e !important;}
@@ -5408,7 +5338,7 @@ ul.colors {
 .progress-primechaniya li span {display: inline-block; margin-top: 5px; width: 10px; height: 10px; border-radius:50%; float: left; margin-right: 10px;}
 
 
-.project_graph i.fa.fa-circle {
+.project_graph i.fa.fa-circle-css {
     font-size: 16px;
     display: inline-block;
     height: 40px;
@@ -5429,7 +5359,7 @@ ul.colors {
 }
 
 .project_graph .icons-inline {margin-top: -7px !important;}
-.project_graph .icons-inline i.fa.fa-circle {
+.project_graph .icons-inline i.fa.fa-circle-css {
     background: none;
     color:#47a447;
     height: 20px;
@@ -5513,4 +5443,79 @@ ul.colors {
 
 .modal-backdrop.in {
     display: none;
+}
+
+
+@media (max-width: 1280px) {
+    .project_graph .col-sm-6 {
+        width: 50% !important;
+        float: left;
+
+        -webkit-transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -o-transition: all 0.2s ease-in-out;
+        transition: all 0.2s ease-in-out;
+    }
+
+    .project_graph .col-sm-4 {
+        width: 33.33333333333333% !important;
+        float: left;
+    }
+}
+
+@media (max-width: 1024px) {
+    .project_graph .col-sm-6 {
+        width: 100% !important;
+        float: none;
+    }
+
+    .project_graph .well {
+        height: 100% !important;
+    }
+
+    .project_graph .col-sm-4 {
+        width: 33.33333333333333% !important;
+    }
+
+    .to-hide {
+        display: none;
+    }
+
+    .toggle-button {display: block;}
+    .project_graph .well {padding-bottom: 30px;}
+}
+
+@media (max-width: 568px) {
+
+    .project_graph .col-sm-4.two-line {
+        line-height: 40px;
+    }
+    .project_graph .icons-inline .col-sm-4.two-line {
+        line-height: 20px;
+    }
+
+    .project_graph .col-sm-4.two-line b {
+        display: inline-block;
+    }
+
+    .project_graph .col-sm-6 {
+        float: none;
+        padding: 0px;
+    }
+
+    .project_graph .row {
+        margin-top 15px !important;
+    }
+
+    .project_graph .col-sm-4 {
+        width: 100% !important;
+        margin-bottom: 15px;
+    }
+
+
+    .project_graph .col-sm-4 b {display: inline-block;}
+
+    .project_graph .col-sm-4:last-child {
+        margin-bottom: 0px;
+    }
 }
