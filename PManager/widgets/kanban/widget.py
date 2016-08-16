@@ -65,11 +65,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
         (columns, use_colors) = project_columns(project, colors, statuses)
         project_to_kanban_project(project, columns)
         setattr(project, 'use_colors', use_colors)
+        setattr(project, 'all_milestones', project.milestones.order_by('-date'))
 
-        current_milestone = None
-        if request.GET.get('milestone', False):
+        current_milestone = widgetParams['currentMilestone'] if 'currentMilestone' in widgetParams else None
+
+        if not current_milestone and request.GET.get('milestone', False):
             current_milestone = PM_Milestone.objects.filter(project=project, pk=int(request.GET.get('milestone', 0)))
-        else:
+
+        if not current_milestone:
             current_milestone = PM_Milestone.objects.filter(
                 closed=False,
                 date__gt=datetime.datetime.now(),
@@ -86,6 +89,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
             aTaskTime = {}
             aClosedTaskTime = {}
+            aClosedAndReadyTaskTime = {}
             aAllTime = {}
             aElapsedTime = {}
             aResps = []
@@ -95,6 +99,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             elapsedTimeAllResps = 0
             taskTimeAllResps = 0
             closedTaskTimeAllResps = 0
+            closedAndReadyTimeAllResps = 0
 
             for task in current_milestone.tasks.filter(active=True):
                 if task.resp:
@@ -104,6 +109,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
                     if task.resp.id not in aClosedTaskTime:
                         aClosedTaskTime[task.resp.id] = 0
 
+                    if task.resp.id not in aClosedAndReadyTaskTime:
+                        aClosedAndReadyTaskTime[task.resp.id] = 0
+
                     if not task.resp.id in aRespsId:
                         aRespsId.append(task.resp.id)
                         aResps.append(task.resp)
@@ -112,9 +120,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
                     if task.closed:
                         aClosedTaskTime[task.resp.id] += task.planTime or 0
+                        aClosedAndReadyTaskTime[task.resp.id] += task.planTime or 0
+                    elif task.status.code == 'ready':
+                        aClosedAndReadyTaskTime[task.resp.id] += task.planTime or 0
 
-                    closedTaskTimeAllResps += aClosedTaskTime[task.resp.id]
-                    taskTimeAllResps += aTaskTime[task.resp.id]
+            for rId in aClosedTaskTime:
+                closedTaskTimeAllResps += aClosedTaskTime[rId]
+
+            for rId in aClosedAndReadyTaskTime:
+                closedAndReadyTimeAllResps += aClosedAndReadyTaskTime[rId]
+
+            for rId in aTaskTime:
+                taskTimeAllResps += aTaskTime[rId]
 
             timeWorkManager = WorkTime()
             for resp in aResps:
@@ -148,6 +165,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
             setattr(current_milestone, 'taskTimeAllResps', float(taskTimeAllResps))
             setattr(current_milestone, 'closedTaskTimeAllResps', float(closedTaskTimeAllResps))
             setattr(current_milestone, 'closedTaskTimeAllRespsPercent', int(round(float(closedTaskTimeAllResps) * 100 / taskTimeAllResps, 2) if taskTimeAllResps else 0))
+
+            setattr(current_milestone, 'closedAndReadyTimeAllResps', float(closedAndReadyTimeAllResps))
+            setattr(current_milestone, 'closedAndReadyTimeAllRespsPercent', int(round(float(closedAndReadyTimeAllResps) * 100 / taskTimeAllResps, 2) if taskTimeAllResps else 0))
 
             setattr(project, 'current_milestone', current_milestone)
 

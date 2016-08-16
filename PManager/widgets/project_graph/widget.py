@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone
+from PManager.models import PM_Task, PM_ProjectRoles, PM_Timer, ObjectTags, PM_Milestone, PM_Task_Message, PM_User_Achievement
 from django.db.models import Sum, Count
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
@@ -8,6 +8,7 @@ from PManager.widgets.gantt.widget import widget as gantWidget
 from django.views.generic import TemplateView
 from yandex_money.forms import PaymentForm
 from yandex_money.models import Payment as YaPayment
+from PManager.widgets.kanban.widget import widget as kanbanWidget
 
 def widget(request, headerValues, ar, qargs):
     def get_bet_type_name(bet_type):
@@ -45,39 +46,47 @@ def widget(request, headerValues, ar, qargs):
     isEmployee = False
     closestMilestone = None
     is_client = False
+    plantimeClosed = 0
 
     if current_project:
-        o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
-        for role in o_roles:
-            setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
-            if not role.rate:
-                setattr(role, 'rate', bet)
-
-            if role.role.code == 'employee':
-                isEmployee = True
-
-            roles.append(role)
+        # o_roles = PM_ProjectRoles.objects.filter(user=request.user, project=current_project).order_by('role__code')
+        # for role in o_roles:
+        #     setattr(role, 'bet_type_name', get_bet_type_name(role.payment_type))
+        #     if not role.rate:
+        #         setattr(role, 'rate', bet)
+        #
+        #     if role.role.code == 'employee':
+        #         isEmployee = True
+        #
+        #     roles.append(role)
 
         tasks = PM_Task.objects.filter(project=current_project, closed=False).aggregate(Sum('planTime'))
+        tasksClosed = PM_Task.objects.filter(project=current_project, closed=True).aggregate(Sum('planTime'))
         realtime = PM_Timer.objects.filter(task__project=current_project, task__closed=False).aggregate(Sum('seconds'))
         realtime = realtime['seconds__sum'] or 0
         plantime = tasks['planTime__sum'] or 0
+        plantimeClosed = tasksClosed['planTime__sum'] or 0
 
         # CLOSEST MILESTONE
-        closestMilestone = PM_Milestone.objects.filter(
-            project=current_project,
-            closed=False,
-            id__in=PM_Task.getForUser(
-                request.user,
-                current_project,
-                {
-                    'closed': False,
-                    'milestone__id__gt': 0
-                })['tasks'].values_list('milestone__id', flat=True)
-        ).order_by('date')
+        # closestMilestone = PM_Milestone.objects.filter(
+        #     project=current_project,
+        #     closed=False,
+        #     id__in=PM_Task.getForUser(
+        #         request.user,
+        #         current_project,
+        #         {
+        #             'closed': False,
+        #             'milestone__id__gt': 0
+        #         })['tasks'].values_list('milestone__id', flat=True)
+        # ).order_by('date')
+
+        kanban = kanbanWidget(request, headerValues)
+        if kanban['projects_data']:
+            currentKanbanProject = kanban['projects_data'][0]
+            if hasattr(currentKanbanProject, 'current_milestone'):
+                closestMilestone = currentKanbanProject.current_milestone
 
         if closestMilestone:
-            closestMilestone = closestMilestone[0]
             if not profile.isManager(current_project) and not profile.isClient(current_project):
                 aResp = [request.user.id]
             else:
@@ -95,16 +104,40 @@ def widget(request, headerValues, ar, qargs):
                         setattr(closestMilestone, 'wouldOverdue', True)
                         break
 
-            setattr(
-                closestMilestone,
-                'taskClosedPercent',
-                closestMilestone.tasks.filter(
-                    closed=True,
-                    resp__in=aResp
-                ).count() * 100 / (closestMilestone.tasks.filter(
-                    resp__in=aResp
-                ).count() or 1)
-            )
+            if closestMilestone.elapsedTimeAllRespsPercent - closestMilestone.closedAndReadyTimeAllRespsPercent > 0:
+                setattr(closestMilestone,
+                        'timeOverClosedTasks',
+                        closestMilestone.elapsedTimeAllRespsPercent - closestMilestone.closedAndReadyTimeAllRespsPercent)
+
+            if closestMilestone.closedAndReadyTimeAllRespsPercent - closestMilestone.closedTaskTimeAllRespsPercent > 0:
+                setattr(closestMilestone,
+                        'readyOverClosedTasks',
+                        closestMilestone.closedAndReadyTimeAllRespsPercent - closestMilestone.closedTaskTimeAllRespsPercent)
+
+            if int(closestMilestone.allTimeAllResps) == closestMilestone.allTimeAllResps:
+                setattr(closestMilestone,
+                        'allTimeAllResps',
+                        int(closestMilestone.allTimeAllResps))
+
+            if int(closestMilestone.taskTimeAllResps) == closestMilestone.taskTimeAllResps:
+                setattr(closestMilestone,
+                        'taskTimeAllResps',
+                        int(closestMilestone.taskTimeAllResps))
+
+            if int(closestMilestone.closedTaskTimeAllResps) == closestMilestone.closedTaskTimeAllResps:
+                setattr(closestMilestone,
+                        'closedTaskTimeAllResps',
+                        int(closestMilestone.closedTaskTimeAllResps))
+            # setattr(
+            #     closestMilestone,
+            #     'taskClosedPercent',
+            #     closestMilestone.tasks.filter(
+            #         closed=True,
+            #         resp__in=aResp
+            #     ).count() * 100 / (closestMilestone.tasks.filter(
+            #         resp__in=aResp
+            #     ).count() or 1)
+            # )
 
         is_client = current_project.payer.id == request.user.id if current_project.payer else False
 
@@ -127,26 +160,49 @@ def widget(request, headerValues, ar, qargs):
         break
 
     closedTaskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'closed': True, 'active': True}))
+    readyTaskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'closed': False, 'status__code': 'ready'}))
     taskQty = int(PM_Task.getQtyForUser(request.user, current_project, {'active': True}))
     allTaskQty = int(PM_Task.getQtyForUser(request.user, None, {'closed': True, 'active': True}))
+    commitsQty = PM_Task_Message.objects.filter(project=current_project).exclude(commit=None).count() if current_project else 0
+    allBugsQty = PM_Task_Message.objects.filter(bug=True, checked=False, project=current_project).count() if current_project else 0
+    allTodoQty = PM_Task_Message.objects.filter(todo=True, checked=False, project=current_project).count() if current_project else 0
+    allMilestoneQty = PM_Milestone.objects.filter(closed=False, project=current_project).count() if current_project else 0
+
+    users = None
+    if current_project:
+        users = User.objects.filter(id__in=current_project.projectRoles.values_list('user__id', flat=True))
+
+    usersQty = users.count() if users else 0
+    achQty = PM_User_Achievement.objects.filter(project=current_project).count() if current_project else 0
+
 
     projectData = {
         'allProjectPrice': totalProject,
         'allPrice': total,
         'closedTasksQty': closedTaskQty,
+        'readyOpenTasks': readyTaskQty,
+        'readyOpenTasksPercent': round(readyTaskQty * 100 / (taskQty or 1), 2),
         'tasksQty': taskQty,
         'allTaskQty': allTaskQty,
+        'allBugsQty': allBugsQty,
+        'allTodoQty': allTodoQty,
+        'commitsQty': commitsQty,
+        'allMilestoneQty': allMilestoneQty,
+        'usersQty': usersQty,
+        'achQty': achQty,
         'taskClosedPercent': int(round(closedTaskQty * 100 / (taskQty or 1))),
         'bPay': bPay,
         'rating': profile.getRating(current_project),
         'fine': profile.getFine(),
         'rate': bet,
         'isClient': is_client,
-        'roles': roles,
+        # 'roles': roles,
+        'project': current_project,
         'isEmployee': isEmployee,
         'premiumTill': profile.premium_till if request.user.is_staff else '',
         'allOpenRealTime': round(realtime/3600.0, 2),
         'allOpenPlanTime': plantime,
+        'allClosedPlanTime': plantimeClosed,
         'taskTagCoefficient': taskTagCoefficient,
         'taskTagPosition': taskTagPosition+100,
         'closestMilestone': closestMilestone,

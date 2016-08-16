@@ -18,28 +18,29 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     unManagedQ = Q(project__in=managedProjects)
     if len(userProjects) != len(managedProjects):
         unManagedQ = unManagedQ | Q(
-                                        Q(
-                                            Q(task__observers=request.user) &
-                                            Q(hidden_from_clients=False) &
-                                            Q(hidden_from_employee=False) |
+            Q(
+                Q(task__observers=request.user) &
+                Q(hidden_from_clients=False) &
+                Q(hidden_from_employee=False) |
 
-                                            Q(task__resp=request.user) |
-                                            Q(task__author=request.user)  #todo: add hidden from clients and hidden from employee
-                                        ) &
-                                        Q(project__in=userProjects)
-                                    )
+                Q(task__resp=request.user) |
+                Q(task__author=request.user)
+                # todo: add hidden from clients and hidden from employee
+            ) &
+            Q(project__in=userProjects)
+        )
 
     activeProjects = PM_Project.objects.exclude(closed=True, locked=True).values_list('id', flat=True)
 
     result = PM_Task_Message.objects.filter(
         project__in=activeProjects
-    )\
+    ) \
         .filter(
         Q(author=request.user) |
         Q(userTo=request.user) |
         hiddenQ &
         Q(
-             unManagedQ
+            unManagedQ
         )
     ).select_related('author', 'project', 'task', 'task__parentTask', 'modifiedBy')
     # result = result.filter(task__active=True)
@@ -49,6 +50,8 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
         'USER_MESSAGES': True,
+        'TODO': True,
+        'BUGS': True,
         'COMMITS': True,
     }
     for k in headerValues['COOKIES']:
@@ -65,16 +68,22 @@ def widget(request, headerValues=None, ar=None, qargs=None):
 
     opt = 'USER_MESSAGES'
     if not options[opt]:
-        result = result.exclude(isSystemLog=False, commit__isnull=True)
+        result = result.exclude(isSystemLog=False, commit__isnull=True, todo=False, bug=False)
 
     opt = 'COMMITS'
     if not options[opt]:
-        result = result.exclude(commit__isnull=False)
+        result = result.exclude(commit__isnull=False, todo=False, bug=False)
+
+    opt = 'TODO'
+    if not options[opt]:
+        result = result.exclude(todo=True)
+
+    opt = 'BUGS'
+    if not options[opt]:
+        result = result.exclude(bug=True)
 
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
-
-
 
     messages = []
     if last_id != 0:

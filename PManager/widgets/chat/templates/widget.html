@@ -5,6 +5,7 @@
         widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
 </script>
 <div class="widget chat" id="chat">
+    <a name="comments"></a>
     <h1>Лента событий</h1>
     <div class="TopPanel">
         <a href="#" class="RollUp"></a>
@@ -14,13 +15,19 @@
     <div class="clearfix chat-nav js-feed-options">
     	<div class="pull-left">
         	<label class="checkbox-inline">
-              <input type="checkbox" name="SYSTEM_MESSAGES" value="Y" {% if chat.options.SYSTEM_MESSAGES %}checked="checked"{% endif %}> Системные сообщения
+              <input type="checkbox" class="js-comments-filter-input" name="SYSTEM_MESSAGES" value="Y" {% if chat.options.SYSTEM_MESSAGES %}checked="checked"{% endif %}> Системные сообщения
             </label>
             <label class="checkbox-inline">
-              <input type="checkbox" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
+              <input type="checkbox" class="js-comments-filter-input" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
             </label>
 	        <label class="checkbox-inline">
-              <input type="checkbox" name="COMMITS" value="Y" {% if chat.options.COMMITS %}checked="checked"{% endif %}> Изменения кода
+              <input type="checkbox" class="js-comments-filter-input" name="COMMITS" value="Y" {% if chat.options.COMMITS %}checked="checked"{% endif %}> Изменения кода
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" class="js-comments-filter-input" name="TODO" value="Y" {% if chat.options.TODO %}checked="checked"{% endif %}> Todo
+            </label>
+            <label class="checkbox-inline">
+              <input type="checkbox" class="js-comments-filter-input" name="BUGS" value="Y" {% if chat.options.BUGS %}checked="checked"{% endif %}> Ошибки
             </label>
         </div>
         {% if main.CURRENT_PROJECT %}
