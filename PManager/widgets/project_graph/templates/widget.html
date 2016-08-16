@@ -13,10 +13,13 @@
         }
     </style>
     <script>
+    $(function() {
         $('.js-toggle-button').click(function(){
             $('.js-icons-inline').toggleClass('icons-inline');
             return false;
         });
+    });
+
     </script>
     <div class="row project_graph">
         <div class="col-sm-{% if project_graph.project %}6{% else %}12{% endif %}">
