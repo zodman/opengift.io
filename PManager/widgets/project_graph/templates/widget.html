@@ -16,13 +16,9 @@
     $(function() {
         $('.js-toggle-button').click(function(){
             $('.js-icons-inline').toggleClass('icons-inline');
+            $('.js-to-show-2').slideToggle('to-show');
             $('.js-to-show').slideToggle('fast');
-            return false;
-        });
-
-
-        $('.js-toggle-button-2').click(function(){
-            $('.js-to-show-2').toggleClass('to-show');
+            $('.js-toggle-button').toggleClass('open');
             return false;
         });
     });
@@ -56,7 +52,7 @@
                         {% endif %}
                     </div>
 
-                    <div class="to-show">
+                    <div class="to-show js-to-show-2">
                         <ul class="progress-primechaniya clearfix">
                             <li class="clearfix"><span class="green-bg"></span> Закрыто:
                                 {{ project_graph.closestMilestone.closedTaskTimeAllRespsPercent|default_if_none:"0" }}%
@@ -123,11 +119,11 @@
                         </ul>
                         <div class="row">
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-circle fa-clock-o orange-bg" aria-hidden="true"></i>В плане:<br><b
+                                <i class="fa fa-clock-o orange-bg" aria-hidden="true"></i>В плане:<br><b
                                     class="orange-color">{{ project_graph.allOpenPlanTime|default_if_none:"0"|stringformat:".2f" }}</b> часов
                             </div>
                             <div class="col-sm-4 clearfix">
-                                <i class="fa fa-circle fa-clock-o green-bg" aria-hidden="true"></i>Закрыто:<br><b
+                                <i class="fa fa-clock-o green-bg" aria-hidden="true"></i>Закрыто:<br><b
                                     class="green-color">{{ project_graph.allClosedPlanTime|default_if_none:"0"|stringformat:".2f" }}</b>
                                 часов
                             </div>
@@ -135,7 +131,7 @@
                     </div>
                 {% endif %}
 
-                <a href="#" class="toggle-button js-toggle-button-2"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
+                <a href="#" class="toggle-button js-toggle-button"><i class="fa fa-chevron-down" aria-hidden="true"></i></a>
             </div>
         </div>
         {% if project_graph.project %}
@@ -144,29 +140,29 @@
                 <h4>Сводка по проекту</h4>
                 <div class="row icons-inline js-icons-inline">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-bug" aria-hidden="true"></i>Ошибок:
+                        <i class="fa fa-bug" aria-hidden="true"></i>Ошибок:
                         <b><a href="#comments" class="js-view-comments" data-type="BUGS">{{ project_graph.allBugsQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-check" aria-hidden="true"></i>ToDo:
+                        <i class="fa fa-check" aria-hidden="true"></i>ToDo:
                         <b><a href="#comments" class="js-view-comments" data-type="TODO">{{ project_graph.allTodoQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-code" aria-hidden="true"></i>Коммитов:
+                        <i class="fa fa-code" aria-hidden="true"></i>Коммитов:
                         <b><a href="#comments" class="js-view-comments" data-type="COMMITS">{{ project_graph.commitsQty }}</a></b>
                     </div>
                 </div>
                 <div class="row to-show js-to-show">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-thumbs-up" aria-hidden="true"></i>Целей:
+                        <i class="fa fa-thumbs-up" aria-hidden="true"></i>Целей:
                         <b><a href="/kanban/">{{ project_graph.allMilestoneQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-users" aria-hidden="true"></i>Сотрудников:
+                        <i class="fa fa-users" aria-hidden="true"></i>Сотрудников:
                         <b><a href="/user_list/">{{ project_graph.usersQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle fa-trophy" aria-hidden="true"></i>Достижений:
+                        <i class="fa fa-trophy" aria-hidden="true"></i>Достижений:
                         <b>{{ project_graph.achQty }}</b>
                     </div>
                 </div>
