@@ -5241,7 +5241,8 @@ ul.colors {
     -moz-border-radius: 0;
     -webkit-border-radius: 0;
     border-left: 3px solid #47a447;
-    min-height: 120px;
+    min-height: 100px;
+    position: relative;
 }
 .project_graph .well h5 {margin-bottom: 5px; line-height: 24px;}
 .project_graph .well .role-titles {color:#47a447;}
@@ -5287,25 +5288,28 @@ ul.colors {
 .project_graph .progress .progress-bar + .progress-bar {border-radius:0px;}
 
 
-.project_graph .col-sm-4.two-line b {
-    display: block;
-}
-
-.project_graph .well {height: 200px; position: relative;}
-
 .toggle-button {
     position: absolute;
-    margin-left: -45px;
+    margin-left: -10px;
     text-align: center;
     bottom: -10px;
-    background: #47a447;
-    border-radius: 4px;
-    color: #fff;
+    background: #dddddd;
+    border-radius: 50%;
+    color: #666;
     text-transform: uppercase;
-    font-size: 10px;
-    width: 90px;
+    font-size: 11px;
+    width: 20px;
     left: 50%;
     box-shadow: 0 2px 2px rgba(1,1,1,0.2);
+    height: 20px;
+}
+
+
+.toggle-button:hover,
+.toggle-button:focus,
+.toggle-button:active {
+    background: #eee;
+    color: #555;
 }
 
 .project_graph h4 {
@@ -5314,7 +5318,8 @@ ul.colors {
 
 .project_graph hr {display: none}
 
-.toggle-button {display: none;}
+
+.to-show {display: none;}
 
 @media (max-width: 1280px) {
     .project_graph .col-sm-6 {
@@ -5403,16 +5408,44 @@ ul.colors {
 .progress-primechaniya li span {display: inline-block; margin-top: 5px; width: 10px; height: 10px; border-radius:50%; float: left; margin-right: 10px;}
 
 
-.project_graph i.fa {font-size: 16px; display: inline-block; height: 40px; width: 40px; color:#47a447; text-align: center;
+.project_graph i.fa.fa-circle {
+    font-size: 16px;
+    display: inline-block;
+    height: 40px;
+    width: 40px;
+    color:#47a447;
+    text-align: center;
     border-radius: 50%;
     background: #47a447;
     color: #fff;
     line-height: 40px;
     margin-right: 10px;
     float: left;
+
+    -webkit-transition: all 0.2s ease-in-out;
+    -moz-transition: all 0.2s ease-in-out;
+    -o-transition: all 0.2s ease-in-out;
+    transition: all 0.2s ease-in-out;
 }
 
-.project_graph .row {margin-top: 25px; white-space: nowrap;}
+.project_graph .icons-inline {margin-top: -7px !important;}
+.project_graph .icons-inline i.fa.fa-circle {
+    background: none;
+    color:#47a447;
+    height: 20px;
+    width: 20px;
+    line-height: 20px;
+    margin-top: 2px;
+    margin-right: 5px;
+}
+
+.project_graph .two-line b {display: block;}
+
+.project_graph .icons-inline .two-line b {display: inline-block;}
+.project_graph .icons-inline {line-height: 20px;}
+
+
+.project_graph .row {margin-top: 20px; white-space: nowrap;}
 
 .mes-qty {
     background: #5cb85c none repeat scroll 0 0;
