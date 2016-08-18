@@ -72,20 +72,20 @@
                         <div class="row">
                             <div class="col-sm-4 clearfix">
                                 <i class="fa fa-circle-css fa-clock-o orange-bg"
-                                    data-toggle="popover" title="Общее плановое время задач текущей цели" data-content="And here's some amazing content. It's very engaging. Right?" data-position="right"
+                                    data-toggle="popover" title="План" data-content="Общее плановое время всех задач текущей цели." data-position="right"
                                     aria-hidden="true"></i>Запланировано:<br><b
                                     class="orange-color">{{ project_graph.closestMilestone.taskTimeAllResps }}</b> часов
                             </div>
                             <div class="col-sm-4 clearfix">
                                 <i class="fa fa-circle-css fa-clock-o green-bg"
-                                   data-toggle="popover" title="Общее плановое время закрытых задач" data-position="right"
+                                   data-toggle="popover" title="Закрытые задачи" data-content="Плановое время всех закрытых задач текущей цели." data-position="right"
                                    aria-hidden="true"></i>Закрыто:<br><b
                                     class="green-color">{{ project_graph.closestMilestone.closedTaskTimeAllResps }}</b>
                                 часов
                             </div>
                             <div class="col-sm-4 clearfix">
                                 <i class="fa fa-circle-css fa-clock-o red-bg"
-                                   data-toggle="popover" title="В ресурс суммируется все рабочее время ответственных по задачам" data-position="right"
+                                   data-toggle="popover" title="Ресурс" data-content="Сумма всех рабочих часов участников цели за весь ее период." data-position="right"
                                    aria-hidden="true"></i>Ресурс:<br><b
                                     class="red-color">{{ project_graph.closestMilestone.allTimeAllResps }}</b> часов
                             </div>
