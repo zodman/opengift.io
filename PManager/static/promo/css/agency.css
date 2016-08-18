@@ -1880,8 +1880,8 @@ ul.hint-steps li.active {background:#4cae4c;}
 .hint-wrapper p {margin:0px 0px 15px;}
 .hint-wrapper p:last-child {margin-bottom:0px;}
 
-.hint-wrapper-1 {left: 100px; top: 100px;}
-.hint-wrapper-2 {left: 400px; top: 300px;}
+.hint-wrapper-1 {left: 100px; top: -50px;}
+.hint-wrapper-2 {left: 400px; top: 150px;}
 
 .hint-wrapper-2 .hint-wrapper-arrow-white,
 .hint-wrapper-4 .hint-wrapper-arrow-white,
@@ -1907,8 +1907,10 @@ ul.hint-steps li.active {background:#4cae4c;}
 }
 
 
-.hint-wrapper-3 {left: 250px; top: 185px;}
-.hint-wrapper-4 {left: 400px; top: 300px;}
-.hint-wrapper-5 {left: 600px; top: 200px;}
-.hint-wrapper-6 {left: 500px; top: 100px;}
-.hint-wrapper-7 {left: 200px; top: 200px;}
+.hint-wrapper-3 {left: 250px; top: 35px;}
+.hint-wrapper-4 {left: 400px; top: 150px;}
+.hint-wrapper-5 {left: 600px; top: 50px;}
+.hint-wrapper-6 {left: 500px; top: -50px;}
+.hint-wrapper-7 {left: 200px; top: 50px;}
+
+#testdrive .container {position: relative;}
