@@ -141,29 +141,29 @@
                 <h4>Сводка по проекту</h4>
                 <div class="row icons-inline js-icons-inline">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-bug" aria-hidden="true" title="Ошибки" data-content="Отмечайте комментарии как ошибки. Без их исправления задачу нельзя закрыть."></i>Ошибок:
+                        <i class="fa fa-circle-css fa-bug" aria-hidden="true"data-toggle="popover" title="Ошибки" data-content="Отмечайте комментарии как ошибки. Без их исправления задачу нельзя закрыть."></i>Ошибок:
                         <b><a href="#comments" class="js-view-comments" data-type="BUGS">{{ project_graph.allBugsQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-check" aria-hidden="true"></i>ToDo:
-                        <b><a href="#comments" class="js-view-comments" data-type="TODO" title="ToDo" data-content="Отмечайте комментарии как Todo, вы всегда сможете вернуться к ним после закрытия задач.">{{ project_graph.allTodoQty }}</a></b>
+                        <i class="fa fa-circle-css fa-check" aria-hidden="true"data-toggle="popover" title="ToDo" data-content="Отмечайте комментарии как Todo, вы всегда сможете вернуться к ним после закрытия задач."></i>ToDo:
+                        <b><a href="#comments" class="js-view-comments" data-type="TODO">{{ project_graph.allTodoQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-code" aria-hidden="true" title="Изменения" data-content="Для отслеживания изменений в коде создайте репозиторий в настройках проекта."></i>Коммитов:
+                        <i class="fa fa-circle-css fa-code" aria-hidden="true"data-toggle="popover" title="Изменения" data-content="Для отслеживания изменений в коде создайте репозиторий в настройках проекта."></i>Коммитов:
                         <b><a href="#comments" class="js-view-comments" data-type="COMMITS">{{ project_graph.commitsQty }}</a></b>
                     </div>
                 </div>
                 <div class="row to-show js-to-show">
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-thumbs-up" title="Цели" data-content="Для создания цели пометьте задачи которые в нее войдут." aria-hidden="true"></i>Целей:
+                        <i class="fa fa-circle-css fa-thumbs-up"data-toggle="popover" title="Цели" data-content="Для создания цели пометьте задачи которые в нее войдут." aria-hidden="true"></i>Целей:
                         <b><a href="/kanban/">{{ project_graph.allMilestoneQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-users" title="Команда" data-content="Вы можете пригласить участника в проект, просто введя его email при выборе ответственного." aria-hidden="true"></i>Сотрудников:
+                        <i class="fa fa-circle-css fa-users"data-toggle="popover" title="Команда" data-content="Вы можете пригласить участника в проект, просто введя его email при выборе ответственного." aria-hidden="true"></i>Сотрудников:
                         <b><a href="/user_list/">{{ project_graph.usersQty }}</a></b>
                     </div>
                     <div class="col-sm-4 clearfix two-line">
-                        <i class="fa fa-circle-css fa-trophy" title="Достижения" data-content="Здесь показано количество достижений вашей команды в текущем проекте." aria-hidden="true"></i>Достижений:
+                        <i class="fa fa-circle-css fa-trophy"data-toggle="popover" title="Достижения" data-content="Здесь показано количество достижений вашей команды в текущем проекте." aria-hidden="true"></i>Достижений:
                         <b>{{ project_graph.achQty }}</b>
                     </div>
                 </div>
