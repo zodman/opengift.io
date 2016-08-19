@@ -464,12 +464,18 @@ def __task_message(request):
             logger = Logger()
             logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
 
+        bFilesExist = False
         for filePost in uploaded_files:
             try:
                 file_obj = PM_Files.objects.get(pk=filePost)
                 message.files.add(file_obj)
+                bFilesExist = True
             except PM_Files.DoesNotExist():
                 pass
+
+        if bFilesExist:
+            message.filesExist = bFilesExist
+            message.save()
 
         if solution:
             from wiking.services.articles import ArticleService
