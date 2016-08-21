@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, render, HttpResponseRedirect
-from PManager.models import PM_Milestone, PM_Project, PM_Task
+from PManager.models import PM_Milestone, PM_Project, PM_Task, PM_MilestoneChanges
 from django.template import RequestContext
 from PManager.viewsExt.tools import templateTools
 from PManager.viewsExt import headers
@@ -62,10 +62,22 @@ def ajaxMilestonesResponder(request):
             except PM_Milestone.DoesNotExist:
                 pass
     elif action == 'add_task_to_milestone':
-        milestone = PM_Milestone.objects.get(pk=id)
+        milestone = None
+        if id:
+            milestone = PM_Milestone.objects.get(pk=id)
+
         task = PM_Task.objects.get(pk=task_id)
+        if task.milestone:
+            change = PM_MilestoneChanges(milestone=task.milestone, value=-(task.planTime or 0))
+            change.save()
+
         task.milestone = milestone
         task.save()
+
+        if milestone:
+            change = PM_MilestoneChanges(milestone=milestone, value=(task.planTime or 0))
+            change.save()
+
         responseText = 'added'
     elif name and date and project:
         if not user.get_profile().isManager(project):
