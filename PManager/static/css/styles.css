@@ -449,7 +449,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 
 /*.sub-menu_line_section-tracker > .navbar-right { float: right; }*/
 .sub-menu_line_section-tracker li { padding-right: 0px; padding-left: 0px; vertical-align: middle; }
-.sub-menu_line_section-tracker .tracker-choose {padding: 4px 5px 4px 0; font-size:13px; display:inline-block; max-width:190px; overflow:hidden; position:relative;font-size: 18px;font-weight: bold;color: #494949;}
+.sub-menu_line_section-tracker .tracker-choose {padding: 7px 5px 4px 0; font-size:13px; display:inline-block; max-width:190px; overflow:hidden; position:relative;font-size: 18px;font-weight: bold;color: #494949;}
 .sub-menu_line_section-tracker .tracker-choose span { border-bottom: 1px dashed #494949; padding: 0;}
 .sub-menu_line_section-tracker .tracker-choose:hover span {border-color: #47a447;}
 .sub-menu_line_section-tracker .tracker-choose:hover {text-decoration: none; color: #47a447;}
@@ -1415,7 +1415,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 
 /*ВИДЖЕТ ОТЧЕТОВ*/
-.stat-widget {width:calc(50% - 20px); float:left; margin-right:20px; background:#fff; border:1px solid #ddd; box-shadow:0px 1px 2px #eee; padding:0px 20px 15px 20px; height:300px; margin-bottom:25px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
+.stat-widget {width:100%; margin-right:20px; background:#fff; border:1px solid #ddd; box-shadow:0px 1px 2px #eee; padding:0px 20px 15px 20px; margin-bottom:25px; border-radius:5px; -moz-border-radius:5px; -webkit-border-radius:5px;}
 .stat-widget:hover {-webkit-transition: all 0.1s linear; -o-transition: all 0.1s linear; -moz-transition: all 0.1s linear;   -ms-transition: all 0.1s linear; -kthtml-transition: all 0.1s linear; transition: all 0.1s linear; box-shadow:0px 0px 10px #ddd; -moz-box-shadow:0px 0px 10px #ddd; -webkit-box-shadow:0px 0px 10px #ddd;}
 .stat-widget h4 { position:relative; border-bottom:1px solid #47a447; color:#fff; font-size:16px; font-weight:bold; margin-bottom:10px; margin:-1px -21px 0; padding:10px 21px; background:#47a447;background-image: -webkit-gradient(
     linear,
@@ -1436,7 +1436,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;}
 .stat-widget h4 .btn {float: right; background: #fff;}
-.stat-widget-text {max-height:228px; overflow-y:auto; margin-top:15px;}
+.stat-widget-text {overflow-y:auto; margin-top:15px;}
 
 .stat-widget-text a {display:inline-block;}
 .stat-widget-text a:hover {color:#47a447;}

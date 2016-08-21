@@ -88,6 +88,7 @@ $(function(){
         'SYSTEM_MESSAGES':true,
         'OTHER_PROJECTS':true,
         'USER_MESSAGES':true,
+        'FILES':true,
         'TODO':true,
         'BUGS':true,
         'COMMITS':true
@@ -96,6 +97,7 @@ $(function(){
         'SYSTEM_MESSAGES':'sm',
         'OTHER_PROJECTS':'op',
         'USER_MESSAGES':'um',
+        'FILES':'fs',
         'TODO':'td',
         'BUGS':'bg',
         'COMMITS':'cm'
@@ -114,8 +116,17 @@ $(function(){
                 if (this.get('system')) {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['SYSTEM_MESSAGES']);
                 }
-	            if (this.get('commit')) {
+	            else if (this.get('commit')) {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['COMMITS']);
+                }
+                else if (this.get('files').length) {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['FILES']);
+                }
+                else if (this.get('bug')) {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['BUGS']);
+                }
+                else if (this.get('todo')) {
+                    this.view.$el.addClass('js-'+widget_chat.optionsClasses['TODO']);
                 }
 	            else {
                     this.view.$el.addClass('js-'+widget_chat.optionsClasses['USER_MESSAGES']);
@@ -132,6 +143,7 @@ $(function(){
                         !widget_chat.options['USER_MESSAGES'] &&
                         !widget_chat.options['TODO'] &&
                         !widget_chat.options['BUGS'] &&
+                        !widget_chat.options['FILES'] &&
                         widget_chat.options['COMMITS']
                     );
             };
@@ -164,7 +176,10 @@ $(function(){
                                 if (data.system) return;
                                 break;
                             case 'USER_MESSAGES':
-                                if (!data.system && !data.commit) return;
+                                if (!data.system && !data.commit && !data.files.length && !data.todo && !data.bug) return;
+                                break;
+                            case 'FILES':
+                                if (data.files.length) return;
                                 break;
                             case 'COMMITS':
                                 if (data.commit) return;

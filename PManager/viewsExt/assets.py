@@ -3,7 +3,7 @@ __author__ = 'Rayleigh'
 
 from django.http import HttpResponseForbidden, HttpResponse
 from PManager.services.access import assets_access
-from PManager.widgets.project_statistic.widget import sumLoanChart
+from PManager.widgets.project_statistic.widget import SumLoanChart
 from PManager.viewsExt.tools import templateTools
 from PManager.models import PM_Project
 import headers
@@ -50,7 +50,7 @@ def stat_excel(request):
         if filter['projects']:
             projects = projects.filter(id__in=filter['projects'])
 
-        loanChart = sumLoanChart(filter['dateFrom'], filter['dateTo'], projects, request.user)
+        loanChart = SumLoanChart(filter['dateFrom'], filter['dateTo'], projects, request.user)
 
         output = StringIO.StringIO()
         workbook = xlsxwriter.Workbook(output)

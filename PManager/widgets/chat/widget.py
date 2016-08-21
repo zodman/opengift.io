@@ -50,6 +50,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
         'OTHER_PROJECTS': True,
         'SYSTEM_MESSAGES': True,
         'USER_MESSAGES': True,
+        'FILES': True,
         'TODO': True,
         'BUGS': True,
         'COMMITS': True,
@@ -68,7 +69,11 @@ def widget(request, headerValues=None, ar=None, qargs=None):
 
     opt = 'USER_MESSAGES'
     if not options[opt]:
-        result = result.exclude(isSystemLog=False, commit__isnull=True, todo=False, bug=False)
+        result = result.exclude(filesExist=False, isSystemLog=False, commit__isnull=True, todo=False, bug=False)
+
+    opt = 'FILES'
+    if not options[opt]:
+        result = result.exclude(filesExist=True)
 
     opt = 'COMMITS'
     if not options[opt]:

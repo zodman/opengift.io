@@ -1512,6 +1512,7 @@ class PM_Task_Message(models.Model):
     commit = models.CharField(max_length=42, null=True, blank=True)
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True, db_index=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
+    filesExist = models.BooleanField(default=False, db_index=True)
     hidden = models.BooleanField(default=False)
     hidden_from_clients = models.BooleanField(default=False)
     hidden_from_employee = models.BooleanField(default=False)
