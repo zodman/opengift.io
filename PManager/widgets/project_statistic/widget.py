@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Credit, PM_Timer, PM_Milestone, PM_Task
+from PManager.models import Credit, PM_Timer, PM_Milestone, PM_Task, PM_MilestoneChanges
 from django.db import connection
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -322,6 +322,57 @@ class TimeChart(Chart):
             except User.DoesNotExist:
                 pass
 
+class Velocity(Chart):
+    title = u'Скорость'
+    type = 'table'
+
+    def getData(self):
+        milestones = PM_Milestone.objects.filter(project__in=self.projects, date__range=(self.dateFrom, self.dateTo))
+
+        self.cols = [
+            {
+                'name': u'Цель'
+            },
+            {
+                'name': u'Запланировано'
+            },
+            {
+                'name': u'Закрыто'
+            }
+        ]
+
+        self.rows = []
+        if milestones:
+            for milestone in milestones:
+                plan = PM_MilestoneChanges.objects.filter(date__range=(milestone.date_create, milestone.date_create + datetime.timedelta(days=1))) \
+                    .values('value').annotate(score=Sum('value'))
+                if plan:
+                    plan = plan[0]['score']
+
+                real = milestone.tasks.filter(closed=True) \
+                    .values('planTime').annotate(score=Sum('planTime'))
+
+                if real:
+                    real = real[0]['score']
+
+
+                self.rows.append({
+                    'cols': [
+                        {
+                            'url': '/kanban/?project='+str(milestone.project.id)+'&milestone=' + str(milestone.id),
+                            'text': milestone.name
+                        },
+                        {
+                            'text': plan or 0
+                        },
+                        {
+                            'text': real or 0
+                        }
+                    ]
+                })
+        else:
+            self.type = 'simple'
+            self.value_desc = 'Нет доступных данных для графика'
 
 def widget(request, headerValues, a, b):
     filt = {}
@@ -351,7 +402,7 @@ def widget(request, headerValues, a, b):
         projects = projects.filter(id__in=filt['projects'])
 
     chartName = request.GET['chart'] if 'chart' in request.GET else 'timeChart'
-    if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown']:
+    if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity']:
         chartName = 'TimeChart'
 
     chart = None

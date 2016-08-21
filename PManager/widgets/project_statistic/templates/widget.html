@@ -10,6 +10,8 @@
                     value="BurnDown">Выгорание задач</option>
             <option {% if request.GET.chart == 'PaymentChart' %}selected{% endif %}
                     value="PaymentChart">Потраченное время</option>
+            <option {% if request.GET.chart == 'Velocity' %}selected{% endif %}
+                    value="Velocity">Скорость</option>
         </select>
     </h3>
     <hr>

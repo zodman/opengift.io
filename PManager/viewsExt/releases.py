@@ -23,4 +23,4 @@ def releasesResponder(request, activeMenuItem=None):
     except Exception:
         pass
 
-    return render(request, 'releases/index.html', {'projects': mprojects, 'pageTitle': u'Релизы', 'activeMenuItem': 'releases'})
+    return render(request, 'releases/index.html', {'projects': mprojects, 'pageTitle': u'Версии', 'activeMenuItem': 'releases'})
