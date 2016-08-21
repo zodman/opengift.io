@@ -101,7 +101,7 @@ class BurnDown(Chart):
 
             allTasksQty = milestone.tasks.filter(active=True).count()
             self.dayGenerator = [milestone.date_create + datetime.timedelta(x + 1) for x in
-                                 xrange((milestone.date - milestone.date_create).days)]
+                                 xrange((milestone.date - milestone.date_create).days + 1)]
 
             self.xAxe = []
             self.yAxes = {}
