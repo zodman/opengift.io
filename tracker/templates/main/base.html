@@ -492,21 +492,21 @@
             <div class="sub-menu_line_section-tracker">
                 <ul class="list-inline navbar-right">
                     {% if main.CURRENT_PROJECT %}
-                        <li class="section-tracker_menu_name h5"><span class="all-projects-link-main"><a
-                                href="/?project=0">Все проекты</a> &nbsp;<i class="fa fa-angle-right"></i>&nbsp; </span>
+                        <li class="section-tracker_menu_name h5"><span class="all-projects-link-main">Проект: &nbsp;
+{#                            <i class="fa fa-angle-right"></i>&nbsp; #}
+                        </span>
                         </li>
                     {% endif %}
                     <li class="projects-list-menu">
                         <div class="dropdown">
-                            <button type="button" class="btn btn-link tracker-choose js-openProjectList"
-                                    data-toggle="modal" data-target="#projects-popup">
-                            <span>
+                            <button type="button" class="btn btn-link tracker-choose ">
+                            <a href="/" style="text-decoration: underline;">
                                 {% if main.CURRENT_PROJECT %}
                                     {{ main.CURRENT_PROJECT.name }}
                                 {% else %}
                                     Все проекты
                                 {% endif %}
-                            </span>
+                            </a>
                             </button>
                             <a data-target="#projects-popup" data-toggle="modal" title="Список проектов" class="fa fa-caret-down js-openProjectList" style="font-size: 15px; color: rgb(73, 73, 73); top: 3px; margin-right: 10px;"></a>
 {#                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>#}
@@ -591,11 +591,10 @@
                     }
                 });
             });
-            $('.js-openProjectList').click(function () {
-                setTimeout(function () {
+            $('#projects-popup').on('shown.bs.modal', function() {
                     $('.js-inputProjectList').focus();
-                }, 200);
-            });
+                });
+
         {% if agreementForApprove %}
             $('.js-agreement-approve').click(function(){
                 var $t = $(this);
