@@ -77,7 +77,7 @@ $(function(){
             'Date':false,
             'Author':false
         }
-    }
+    };
 
     widget_chat.$container = $('#chat');
     widget_chat.lastScrollTop = 0;
@@ -85,13 +85,8 @@ $(function(){
     widget_chat.input = widget_chat.$container.find('#wc_chat_message');
     widget_chat.$chatWindow = widget_chat.$container.find('#chatWindow');
     widget_chat.options = {
-        'SYSTEM_MESSAGES':true,
-        'OTHER_PROJECTS':true,
-        'USER_MESSAGES':true,
-        'FILES':true,
-        'TODO':true,
-        'BUGS':true,
-        'COMMITS':true
+        'MESSAGE_TYPE':'ALL',
+        'OTHER_PROJECTS':true
     };
     widget_chat.optionsClasses = {
         'SYSTEM_MESSAGES':'sm',
@@ -133,22 +128,21 @@ $(function(){
                 }
             });
 
-            var v = function(){
-                widget_chat.options[this.name] = $(this).is(':checked') ? true : false;
-                $.cookie('FEED_OPTION_'+this.name, widget_chat.options[this.name] ? 'Y' : 'N');
+            var v = function() {
+                widget_chat.options['MESSAGE_TYPE'] = $(this).val();
+                $.cookie('FEED_OPTION_MESSAGE_TYPE', $(this).val());
             };
             var setGroupFlag = function() {
-                widget_chat.messageListHelper.bNeedToGroup = !(
-                        !widget_chat.options['SYSTEM_MESSAGES'] &&
-                        !widget_chat.options['USER_MESSAGES'] &&
-                        !widget_chat.options['TODO'] &&
-                        !widget_chat.options['BUGS'] &&
-                        !widget_chat.options['FILES'] &&
-                        widget_chat.options['COMMITS']
-                    );
+                widget_chat.messageListHelper.bNeedToGroup = widget_chat.options['MESSAGE_TYPE'] != 'COMMITS';
             };
             var resetTimeout = false;
-            widget_chat.$options.find('input').each(v).click(v).change(v).click(function(){
+            widget_chat.$options.find('.js-other-projects').click(function() {
+                $.cookie('FEED_OPTION_OTHER_PROJECTS', $(this).is(':checked') ? 'Y' : 'N');
+                widget_chat.reset();
+                $('.toggle-messages.minimize').remove();
+                setGroupFlag();
+            });
+            widget_chat.$options.find(':radio').each(v).click(v).click(function(){
                 if (resetTimeout) clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(function() {
                     widget_chat.reset();
@@ -166,35 +160,32 @@ $(function(){
             widget_chat.setLastId(widget_chat.arStartMessages);
 
             baseConnector.addListener('fs.comment.add', function(data){
-                for (var k in widget_chat.options){
-                    if (!widget_chat.options[k]){
-                        switch (k){
-                            case 'OTHER_PROJECTS':
-                                if (data.project.id != window.currentProject) return;
-                                break;
-                            case 'SYSTEM_MESSAGES':
-                                if (data.system) return;
-                                break;
-                            case 'USER_MESSAGES':
-                                if (!data.system && !data.commit && !data.files.length && !data.todo && !data.bug) return;
-                                break;
-                            case 'FILES':
-                                if (data.files.length) return;
-                                break;
-                            case 'COMMITS':
-                                if (data.commit) return;
-                                break;
-                            case 'TODO':
-                                if (data.todo) return;
-                                break;
-                            case 'BUGS':
-                                if (data.bug) return;
-                                break;
-                            default:
-                                break;
-                        }
-                    }
+                if (widget_chat.options['OTHER_PROJECTS']) {
+                    if (data.project.id != window.currentProject) return;
                 }
+                switch (widget_chat.options['MESSAGE_TYPE']){
+                    case 'SYSTEM_MESSAGES':
+                        if (!data.system) return;
+                        break;
+                    case 'USER_MESSAGES':
+                        if (data.system || data.commit || data.files.length || data.todo || data.bug) return;
+                        break;
+                    case 'FILES':
+                        if (!data.files.length) return;
+                        break;
+                    case 'COMMITS':
+                        if (!data.commit) return;
+                        break;
+                    case 'TODO':
+                        if (!data.todo) return;
+                        break;
+                    case 'BUGS':
+                        if (!data.bug) return;
+                        break;
+                    default:
+                        break;
+                }
+
                 widget_chat.addMessageRow(data);
             });
 
