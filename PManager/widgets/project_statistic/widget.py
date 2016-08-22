@@ -345,15 +345,15 @@ class Velocity(Chart):
         if milestones:
             for milestone in milestones:
                 plan = PM_MilestoneChanges.objects.filter(date__range=(milestone.date_create, milestone.date_create + datetime.timedelta(days=1))) \
-                    .values('value').annotate(score=Sum('value'))
-                if plan:
-                    plan = plan[0]['score']
+                    .aggregate(Sum('value'))
+                if plan and 'value__sum' in plan:
+                    plan = plan['value__sum']
 
                 real = milestone.tasks.filter(closed=True) \
-                    .values('planTime').annotate(score=Sum('planTime'))
+                    .aggregate(Sum('planTime'))
 
-                if real:
-                    real = real[0]['score']
+                if real and 'planTime__sum' in real:
+                    real = real['planTime__sum']
 
 
                 self.rows.append({
