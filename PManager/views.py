@@ -290,15 +290,16 @@ class MainPage:
             else:
                 return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
-        cur_notice = PM_Notice.getForUser(
-            request.user,
-            request.get_full_path()
-        )
-        if cur_notice:
-            # cur_notice.setRead(request.user)
-            c.update({
-                'current_notice': cur_notice
-            })
+        if not headerValues['FIRST_STEP_FORM']:
+            cur_notice = PM_Notice.getForUser(
+                request.user,
+                request.get_full_path()
+            )
+            if cur_notice:
+                # cur_notice.setRead(request.user)
+                c.update({
+                    'current_notice': cur_notice
+                })
 
         c.update({
             'pageTitle': pageTitle,
