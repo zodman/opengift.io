@@ -10,6 +10,1068 @@
 <div id="key-add" class="modal fade" role="dialog" aria-labelledby="keyAdd" aria-hidden="true">
     {% include 'keys/form.html' %}
 </div>
+
+
+<style>
+.user-body {background: #f6f6f6; margin: 0 -20px -15px;}
+.user-header {margin: -15px -20px 0;}
+
+.user-header-info {display: none;}
+.user-header-info-blocks {display: none;}
+
+.user-header-avatar {height: 260px; width: 260px; overflow: hidden; float: left;}
+.user-header-avatar img {width: 260px; min-height: 260px;}
+
+.user-header-stat-employee {background: #5cb85c;}
+.user-header-stat-employer {background: #fa8f10;}
+
+.user-header-stat-employee,
+.user-header-stat-employer {height: 260px; padding: 25px; color: #fff; float: left; width: calc(50% - 130px);}
+
+
+.user-header-stat-line {margin-bottom: 30px;}
+.user-header-stat-line:last-child {margin-bottom: 0px;}
+.user-header-stat-line-icon {float: left; width: 15%; text-align: left;}
+.user-header-stat-line-icon i {font-size: 4vw;}
+.user-header-stat-line-item {float: left; width: 28.333%; white-space: nowrap;}
+.user-header-stat-line-item.two-items {width: 42.5%;}
+.user-header-stat-line-item-title {display: block; font-size: 0.8vw; margin-bottom: 7px; margin-top: -2px; text-transform: uppercase;}
+.user-header-stat-line-item-text {display: inline-block; font-size: 2.8vw;}
+.user-header-stat-line-item-text-desc {font-size: 13px; font-weight: normal;}
+.user-header-stat-line-item-text-separator {font-size: 15px;}
+
+.user-header-stat-line-progress-title {text-transform: uppercase; font-size: 11px; margin-bottom: 5px; font-weight: bold;}
+.user-header-stat-line-progress-title-text {float: left;}
+.user-header-stat-line-progress-title-percent {float: right;}
+.user-header-stat-line-progress-bar {margin: 0px;}
+.user-header-stat-line-progress-bar.progress {background: rgba(255,255,255,0.4); box-shadow: none; border: 0;}
+.user-header-stat-line-progress-bar.progress .progress-bar-success {background: #ffffff; box-shadow: none; border: 0;}
+
+
+.user-body-info-block-name {padding-right: 20px; position: relative;}
+.user-body-info-block-edit-icon {position: absolute; top: 0px; right: 0px; font-size: 14px; color: #ccc;}
+.user-body-info-block-edit-icon:hover,
+.user-body-info-block-edit-icon:active,
+.user-body-info-block-edit-icon:focus {color: #5cb85c;}
+
+.user-body-info {float: left; background: #fff; width: 260px; padding: 25px 0;}
+
+.user-body-info h2 {font-size: 18px; font-weight: bold; margin: 0 0 15px;}
+.user-body-info h3 {font-size: 16px; font-weight: bold; margin: 0 0 15px;}
+
+.user-body-desc {float: right; width: calc(100% - 260px);}
+
+.user-body-info-block {border-bottom: 1px solid #f0f0f0; padding: 0 20px 25px; margin-bottom: 20px;}
+
+.user-body-info-block:last-child {margin-bottom: 0px; border-bottom: 0px; padding-bottom: 0px;}
+
+.user-body-info-block-ul {list-style: none; padding: 0px; margin: 0px;}
+.user-body-info-block-ul li {list-style: none; display: block; margin-bottom: 10px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;}
+.user-body-info-block-ul li:last-child {margin-bottom: 0px;}
+.user-body-info-block-ul-li-with-icon {position: relative; padding-left: 25px;}
+.user-body-info-block-ul-li-with-icon i {width: 20px; font-size: 14px; position: absolute; left: 0px; top: 2px;}
+
+.user-header-stat-line-progress-bar-2 {background: #f0f0f0; margin: 0px; padding: 0px; height: 4px;}
+
+.user-header-stat-line-progress-bar-2 .grey {background-color: #8d9091;}
+.user-header-stat-line-progress-bar-2 .green {background-color: #3dc33d;}
+.user-header-stat-line-progress-bar-2 .blue {background-color: #1dabe6;}
+.user-header-stat-line-progress-bar-2 .red {background-color: #f53838;}
+.user-header-stat-line-progress-bar-2 .yellow {background-color: #eac53d;}
+.user-header-stat-line-progress-bar-2 .purple {background-color: #c666d3;}
+.user-header-stat-line-progress-bar-2 .orange {background-color: #ef9332;}
+
+.button {height: 35px; line-height: 35px; font-size: 14px; font-weight: bold; text-align: center; border-radius: 4px; border: 0; padding: 0px;}
+.button.green-bg {background: #5cb85c; color: #fff;}
+.button.green-bg:hover {background: #47a447 !important;}
+
+.button.red-bg {background: #f53838; color: #fff;}
+.button.red-bg:hover {background: #f53838 !important;}
+
+.block {display: block; width: 100%;}
+
+.user-body-info-block-desc {
+    background: #f6f6f6;
+    color: #999999;
+    font-size: 12px;
+    margin: 20px -20px -20px;
+    padding: 10px 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+
+.user-body-info-block-balance {margin-bottom: 15px; text-transform: uppercase; font-size: 11px; font-weight: bold;}
+.user-body-info-block-balance-sum {}
+.user-body-info-block-balance-sum-active {font-size: 24px; color: #5cb85c; text-decoration: none; border-bottom: 2px dashed #5cb85c;}
+.user-body-info-block-balance-sum-active:hover,
+.user-body-info-block-balance-sum-active:active,
+.user-body-info-block-balance-sum-active:focus {text-decoration: none; color: #47a447; border-bottom: 2px dashed #47a447;}
+.user-body-info-block-balance-bonus {font-size: 24px; color: #ffffff; background: #5cb85c; border-radius: 5px; padding: 3px 8px; margin-left: 5px;}
+.user-body-info-block-balance-bonus-plus-minus {
+    font-size: 14px;
+    position: relative;
+    top: -4px;
+}
+
+
+.user-body-info-block-balance-sum .dropdown-menu {
+    width: 240px;
+    margin-left: -71px;
+    text-transform: none;
+}
+
+.user-body-info-block-balance-sum .dropdown-menu:before {
+    right: 146px;
+    top: -7px;
+    left: auto;
+    content: "";
+    position: absolute;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+}
+
+.user-body-info-block-balance-sum .dropdown-menu:after {
+    right: 147px;
+    top: -6px;
+    left: auto;
+    content: "";
+    position: absolute;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgb(255, 255, 255);
+    border-left: 6px solid transparent;
+}
+
+.user-body-info-block-balance-project-ul {list-style: none; padding: 0px; margin: 0px;}
+.user-body-info-block-balance-project-ul-li {border-bottom: 1px solid #f1f1f1; padding: 15px;}
+.user-body-info-block-balance-project-ul-li:last-child {border: 0;}
+
+.user-body-info-block-balance-project-ul-li-title {margin-bottom: 5px;}
+
+.user-body-info-block-balance-project-ul-li-desc-left {float: left;}
+.user-body-info-block-balance-project-ul-li-desc-right {float: right;}
+
+
+.user-body-info-block-balance-remove {color: #ccc;}
+.user-body-info-block-balance-remove:hover {color: #ed1a15;}
+
+.add-smthng-dropdown .dropdown-menu {
+    width: 240px;
+    margin-right: -10px;
+    text-transform: none;
+    right: 0;
+    left: auto;
+}
+
+.add-smthng-dropdown .dropdown-menu:before {
+    right: 8px;
+    top: -7px;
+    left: auto;
+    content: "";
+    position: absolute;
+    display: inline-block;
+    border-right: 7px solid transparent;
+    border-bottom: 7px solid rgba(0, 0, 0, 0.2);
+    border-left: 7px solid transparent;
+}
+
+.add-smthng-dropdown .dropdown-menu:after {
+    right: 9px;
+    top: -6px;
+    left: auto;
+    content: "";
+    position: absolute;
+    display: inline-block;
+    border-right: 6px solid transparent;
+    border-bottom: 6px solid rgb(255, 255, 255);
+    border-left: 6px solid transparent;
+}
+
+.add-smthng-dropdown-input-wrapper {
+    margin-bottom: 10px;
+    position: relative;
+    background: #f0f0f0;
+    height: 35px;
+    line-height: 35px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 0;
+    padding: 0px 10px;
+}
+.add-smthng-dropdown-input-wrapper.with-icon {
+    padding: 0px 10px 0 40px;
+}
+.add-smthng-dropdown-input-wrapper:last-child {margin-bottom: 0px;}
+.add-smthng-dropdown-input-wrapper i {
+    position: absolute;
+    text-align: center;
+    width: 20px;
+    left: 10px;
+    top: 9px;
+    font-size: 19px;
+    color: #b9b9b9;
+}
+.add-smthng-dropdown-input-wrapper input {
+    background: none;
+    border: 0px;
+    width: 100%;
+    margin: 0;
+    line-height: 35px;
+    float: left;
+    height: 35px;
+}
+
+.add-smthng-dropdown-input-wrapper i.fa-mobile {
+    font-size: 22px;
+    top: 7px;
+}
+.add-smthng-dropdown-input-wrapper i.fa-envelope {font-size: 15px;}
+
+.user-body-desc {padding: 25px;}
+.user-body-desc .tab-content {background: #fff; padding: 20px; border-radius: 5px; margin-bottom: 25px;}
+.user-body-desc .tab-content:last-child {margin-bottom: 0px;}
+
+.user-inner-tabs .nav > li.active > a {background: #fff; color: #000; border: 0px;}
+.user-inner-tabs .nav > li > a {border-radius: 5px 5px 0 0; background: #eee; color: #555; border: 0px; height: 45px; font-weight: bold; line-height: 45px; padding: 0px 15px;}
+
+.user-body-desc .statistic-graph {padding: 0;}
+.user-body-desc h3 {margin-bottom: 20px;}
+
+
+
+
+@media only screen and (max-width: 1280px) {
+    .user-header-avatar {width: 150px;}
+    .user-header-avatar img {margin-left: -55px;}
+    .user-header-stat-employee,
+    .user-header-stat-employer {
+        width: calc(50% - 75px);
+    }
+    .dostizheniya-item {width: calc(33.33% - 20px)}
+}
+
+
+@media only screen and (max-width: 1024px) {
+
+    .user-header-avatar {text-align: center; float: left; border-radius: 50%; height: 100px; width: 100px; margin: 20px 20px 20px 20px; }
+
+    .user-header-avatar img {width: 100px; min-height: 100px; margin: 0px;}
+
+    .user-header-avatar {display: none;}
+    .user-header-info .user-header-avatar {display: block;}
+
+    .user-header-info {border-bottom: 1px solid #f0f0f0; display: block;}
+
+    .user-body-info {display: none;}
+    .user-body-desc {float: none; width: 100%; padding: 20px;}
+
+    .user-header-name {float: left; width: calc(100% - 160px); margin: 20px 20px 20px 0;}
+
+    .user-header-info-blocks {display: block;}
+    .user-body-info-block,
+    .user-body-info-block:last-child {width:50%; margin-bottom: 0px; padding-bottom: 20px; padding-top: 20px; border-bottom: 1px solid #f0f0f0;}
+
+    .user-body-info-block:nth-child(2) {border-left: 1px solid #f0f0f0;}
+
+    .user-header-info-blocks {
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-direction: row;
+        -ms-flex-direction: row;
+        flex-direction: row;
+        -webkit-flex-wrap: nowrap;
+        -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+        -webkit-justify-content: flex-start;
+        -ms-flex-pack: start;
+        justify-content: flex-start;
+        -webkit-align-content: stretch;
+        -ms-flex-line-pack: stretch;
+        align-content: stretch;
+        -webkit-align-items: stretch;
+        -ms-flex-align: stretch;
+        align-items: stretch;
+    }
+
+    .user-body-info-block {
+        -webkit-order: 0;
+        -ms-flex-order: 0;
+        order: 0;
+        -webkit-flex: 1 1 auto;
+        -ms-flex: 1 1 auto;
+        flex: 1 1 auto;
+        -webkit-align-self: auto;
+        -ms-flex-item-align: auto;
+        align-self: auto;
+    }
+
+
+    .user-header-info .user-header-name .button.block {width: auto; display: inline-block; padding-left:20px; padding-right: 20px;}
+
+    .user-header-stat-line-item {width: 33.33%;}
+    .user-header-stat-line-item.two-items {width: 50%;}
+
+    .user-header-stat-line-icon {display: none;}
+    .user-header-stat-employee,
+    .user-header-stat-employer {
+        width: 50%;
+        padding: 20px;
+    }
+
+    .user-header-stat-line-item-title {font-size: 1vw;}
+    .user-header-stat-line-item-text {font-size: 3.2vw;}
+
+
+    .dostizheniya-item {width: calc(50% - 20px)}
+
+
+}
+
+
+@media only screen and (max-width: 768px) {
+
+
+    .user-body-info-block, .user-body-info-block:last-child, .user-header-info-blocks {width:100%; display: block;}
+
+    .user-body-info-block:nth-child(2) {border-left: 0;}
+
+    .user-header-stat-employee,
+    .user-header-stat-employer {
+        width: 100%;
+        height: auto;
+    }
+
+    .user-header-stat-line-item-title {font-size: 1.6vw;}
+    .user-header-stat-line-item-text {font-size: 3.6vw;}
+
+    .dostizheniya-item {width: calc(100% - 20px)}
+}
+
+
+@media only screen and (max-width: 568px) {
+    .user-header-stat-line-item-title {font-size: 2.5vw;}
+    .user-header-stat-line-item-text {font-size: 5vw;}
+
+
+    .user-header-avatar {float: none; margin:20px auto; border-radius: 50%; height: 100px; width: 100px;}
+
+    .user-header-name {float: none; width: auto; margin: 20px;}
+
+
+    .button {font-size: 12px; }
+    h2, .h2 {font-size: 18px; line-height: 24px;}
+
+    h3, .h3 {font-size: 16px; line-height: 20px;}
+
+    .user-header-info .user-header-name .button.block {width: 100%; display: block;}
+    .dostizheniya-item-text h4, .dostizheniya-item-text p {white-space: inherit;}
+    .dostizheniya-item {height: auto;}
+}
+
+</style>
+
+
+<div class="widget inner" id="user_detail">
+    <div class="widget-body">
+        <div class="user-header clearfix">
+            <div class="">
+                <div class="user-header-avatar">
+                    <img src="https://pp.vk.me/c621622/v621622356/2fb43/I5JvhI_hnvI.jpg">
+                </div>
+
+                <div class="user-header-info clearfix">
+                    <div class="user-header-avatar">
+                        <img src="https://pp.vk.me/c621622/v621622356/2fb43/I5JvhI_hnvI.jpg">
+                    </div>
+                    <div class="user-header-name">
+                        <h2 class="user-body-info-block-name">Масловидзе Егорджан Оглы-Сагладырбаевич<a href="" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a></h2>
+
+                        {% if user_detail.current_user_is_admin %}
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <input name="action" type="hidden" value="delete_user" />
+                            <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
+                        {% endif %}
+                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
+
+                    </div>
+                </div>
+
+                <div class="user-header-info-blocks clearfix">
+                    <div class="user-body-info-block">
+                        <h3>Финансы</h3>
+                        <div class="user-body-info-block-balance">
+                            На счету:
+                            <span class="user-body-info-block-balance-sum dropdown">
+                                <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>
+                                <div class="dropdown-menu">
+                                    <ul class="user-body-info-block-balance-project-ul">
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </span> баллов
+                        </div>
+                        <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>
+                        <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>
+                    </div>
+                    <div class="user-body-info-block">
+                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
+                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu">
+                            <ul class="user-body-info-block-balance-project-ul">
+                                <li class="user-body-info-block-balance-project-ul-li">
+                                    <div class="add-smthng-dropdown-input-wrapper clearfix">
+                                        <input type="text" placeholder="Введите навык">
+                                    </div>
+                                    <a href="" class="block button green-bg">Добавить</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </h3>
+                    <ul class="user-body-info-block-ul">
+                        <li>
+                            <div class="user-header-stat-line-progress-title clearfix">
+                                <div class="user-header-stat-line-progress-title-text">верстка</div>
+                                <div class="user-header-stat-line-progress-title-percent">37</div>
+                            </div>
+                            <div class="user-header-stat-line-progress-bar-2 progress">
+                                <div class="progress-bar blue" style="width: 37%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="user-header-stat-line-progress-title clearfix">
+                                <div class="user-header-stat-line-progress-title-text">дизайн</div>
+                                <div class="user-header-stat-line-progress-title-percent">38</div>
+                            </div>
+                            <div class="user-header-stat-line-progress-bar-2 progress">
+                                <div class="progress-bar purple" style="width: 38%"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+                <div class="user-header-info-blocks clearfix">
+                    <div class="user-body-info-block">
+                        <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
+                            <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                            <div class="dropdown-menu">
+                                <ul class="user-body-info-block-balance-project-ul">
+                                    <li class="user-body-info-block-balance-project-ul-li">
+                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                            <i class="fa fa-skype"></i>
+                                            <input type="text" placeholder="Skype">
+                                        </div>
+                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                            <i class="fa fa-envelope"></i>
+                                            <input type="text" placeholder="E-mail">
+                                        </div>
+                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                            <i class="fa fa-mobile"></i>
+                                            <input type="text" placeholder="Телефон">
+                                        </div>
+                                        <a href="" class="block button green-bg">Добавить</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </h3>
+                        <ul class="user-body-info-block-ul">
+                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>kosmicheskiy.zasranec@gmail.com</li>
+                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-phone"></i>+355 29 232-34-43</li>
+                        </ul>
+                    </div>
+                    <div class="user-body-info-block">
+                    <h3>Последняя активность</h3>
+                    <ul class="user-body-info-block-ul">
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>24 июля 2016 г. 2:56:48</li>
+                    </ul>
+                </div>
+                </div>
+
+            </div>
+            <div class="user-header-stat-employee">
+
+                <div class="user-header-stat-line clearfix">
+                    <div class="user-header-stat-line-icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Общий рейтинг</b>
+                        <b class="user-header-stat-line-item-text">+ 5,0</b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Проектов/целей</b>
+                        <b class="user-header-stat-line-item-text">4<span class="user-header-stat-line-item-text-separator">/</span>10</b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Открыто Задач/часов</b>
+                        <b class="user-header-stat-line-item-text">42<span class="user-header-stat-line-item-text-separator">/</span>300</b>
+                    </div>
+                </div>
+
+                <div class="user-header-stat-line">
+                    <div class="user-header-stat-line-progress-title clearfix">
+                        <div class="user-header-stat-line-progress-title-text">рейтинг специалиста, %</div>
+                        <div class="user-header-stat-line-progress-title-percent">43%</div>
+                    </div>
+                    <div class="user-header-stat-line-progress-bar progress">
+                        <div class="progress-bar progress-bar-success" style="width: 35%"></div>
+                    </div>
+                </div>
+
+
+                <div class="user-header-stat-line clearfix">
+                    <div class="user-header-stat-line-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Закрыто задач</b>
+                        <b class="user-header-stat-line-item-text">50<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Закрыто целей</b>
+                        <b class="user-header-stat-line-item-text">50<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Отработано часов</b>
+                        <b class="user-header-stat-line-item-text">200<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
+                    </div>
+                </div>
+
+            </div>
+            <div class="user-header-stat-employer">
+
+                <div class="user-header-stat-line clearfix">
+                    <div class="user-header-stat-line-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                    <div class="user-header-stat-line-item two-items">
+                        <b class="user-header-stat-line-item-title">Выработка часов</b>
+                        <b class="user-header-stat-line-item-text">≈ 5,2 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                    </div>
+                    <div class="user-header-stat-line-item two-items">
+                        <b class="user-header-stat-line-item-title">Решается Задач</b>
+                        <b class="user-header-stat-line-item-text">≈ 2 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                    </div>
+                </div>
+
+                <div class="user-header-stat-line">
+                    <div class="user-header-stat-line-progress-title clearfix">
+                        <div class="user-header-stat-line-progress-title-text">рейтинг специалиста, %</div>
+                        <div class="user-header-stat-line-progress-title-percent">43%</div>
+                    </div>
+                    <div class="user-header-stat-line-progress-bar progress">
+                        <div class="progress-bar progress-bar-success" style="width: 35%"></div>
+                    </div>
+                </div>
+
+
+                <div class="user-header-stat-line clearfix">
+                    <div class="user-header-stat-line-icon"><i class="fa fa-bug" aria-hidden="true"></i></div>
+                    <div class="user-header-stat-line-item two-items">
+                        <b class="user-header-stat-line-item-title">Просрочено дедлайнов</b>
+                        <b class="user-header-stat-line-item-text">
+                            2<span class="user-header-stat-line-item-text-desc">&nbsp;по целям</span>
+                            3<span class="user-header-stat-line-item-text-desc">&nbsp;по задачам</span>
+                        </b>
+                    </div>
+                    <div class="user-header-stat-line-item two-items">
+                        <b class="user-header-stat-line-item-title">Ошибки/изменения в коде</b>
+                        <b class="user-header-stat-line-item-text">22<span class="user-header-stat-line-item-text-separator">/</span>300</b>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="user-body clearfix">
+            <div class="user-body-info">
+                <div class="user-body-info-block">
+                    <h2 class="user-body-info-block-name">Масловидзе Егорджан Оглы-Сагладырбаевич<a href="" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a></h2>
+
+
+                        {% if user_detail.current_user_is_admin %}
+                        <form method="POST" action="">
+                            {% csrf_token %}
+                            <input name="action" type="hidden" value="delete_user" />
+                            <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
+                        {% endif %}
+                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
+
+                </div>
+                <div class="user-body-info-block">
+                    <h3>Финансы</h3>
+                    <div class="user-body-info-block-balance">
+                        На счету:
+                        <span class="user-body-info-block-balance-sum dropdown">
+                            <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>
+                            <div class="dropdown-menu">
+                                    <ul class="user-body-info-block-balance-project-ul">
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                        <li class="user-body-info-block-balance-project-ul-li">
+                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>
+                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
+                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                            </div>
+                        </span> баллов
+                    </div>
+                    <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>
+                    <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>
+                </div>
+                <div class="user-body-info-block">
+                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
+                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu">
+                            <ul class="user-body-info-block-balance-project-ul">
+                                <li class="user-body-info-block-balance-project-ul-li">
+                                    <div class="add-smthng-dropdown-input-wrapper clearfix">
+                                        <input type="text" placeholder="Введите навык">
+                                    </div>
+                                    <a href="" class="block button green-bg">Добавить</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </h3>
+                    <ul class="user-body-info-block-ul">
+                        <li>
+                            <div class="user-header-stat-line-progress-title clearfix">
+                                <div class="user-header-stat-line-progress-title-text">верстка</div>
+                                <div class="user-header-stat-line-progress-title-percent">37</div>
+                            </div>
+                            <div class="user-header-stat-line-progress-bar-2 progress">
+                                <div class="progress-bar blue" style="width: 37%"></div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="user-header-stat-line-progress-title clearfix">
+                                <div class="user-header-stat-line-progress-title-text">дизайн</div>
+                                <div class="user-header-stat-line-progress-title-percent">38</div>
+                            </div>
+                            <div class="user-header-stat-line-progress-bar-2 progress">
+                                <div class="progress-bar purple" style="width: 38%"></div>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="user-body-info-block">
+                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
+                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu">
+                            <ul class="user-body-info-block-balance-project-ul">
+                                <li class="user-body-info-block-balance-project-ul-li">
+                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                        <i class="fa fa-skype"></i>
+                                        <input type="text" placeholder="Skype">
+                                    </div>
+                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                        <i class="fa fa-envelope"></i>
+                                        <input type="text" placeholder="E-mail">
+                                    </div>
+                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
+                                        <i class="fa fa-mobile"></i>
+                                        <input type="text" placeholder="Телефон">
+                                    </div>
+                                    <a href="" class="block button green-bg">Добавить</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </h3>
+                    <ul class="user-body-info-block-ul">
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>kosmicheskiy.zasranec@gmail.com</li>
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-phone"></i>+355 29 232-34-43</li>
+                    </ul>
+                </div>
+
+                <div class="user-body-info-block">
+                    <h3>Последняя активность</h3>
+                    <ul class="user-body-info-block-ul">
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>24 июля 2016 г. 2:56:48</li>
+                    </ul>
+                </div>
+
+            </div>
+            <div class="user-body-desc">
+
+
+
+
+                <div class="row-fluid clearfix user-inner-tabs" id="myTab">
+                        <ul class="nav nav-pills js-tab-menu">
+                            <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Сводка</a></li>
+                            <li><a href="#ychastvyet" role="tab" data-toggle="tab">Участвует в проектах</a></li>
+                            <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab" class="js-current-tasks">Текущие задачи</a></li>
+                            <!--<li><a href="#dostizheniya" role="tab" data-toggle="tab">Достижения</a></li>-->
+                            <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
+                            {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
+                            <li><a href="#keys" role="tab" data-toggle="tab">SSH-ключи</a></li>
+                            {% endif %}
+                            {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin %}
+                            <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>
+                            {% endif %}
+                        </ul>
+                </div><!--ТАБЫ-->
+
+                <div class="tab-content">
+                    <div class="tab-pane active" id="svodka">
+                        <div class="statistic-wrapper clearfix">
+
+                            <div class="statistic-graph-wrapper">
+                                {% if user_detail.bets %}
+                                <div class="statistic-graph js-bonuses" style="display: none"><h3>Бонусы</h3>
+                                    <div class="list-group">
+                                        {% for arBet in user_detail.bets %}
+                                        {% if arBet.price %}
+                                        <span class="list-group-item js-pay-item">
+                                            {{ arBet.project }}: 
+                                            <b>{{ arBet.price }} (ставка: {{ arBet.bet }})</b>
+                                            {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin %}
+                                            <a href="#" class="js-pay"
+                                               style="float: right;"
+                                               data-project="{{ arBet.project_id }}"
+                                               data-role="{{ arBet.role_id }}"
+                                               data-sum="{{ arBet.price }}">Списать</a>
+                                            {% endif %}
+                                            <span class="clr"></span></span>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                {% endif %}
+                                <div class="statistic-graph js-productivity">
+                                    <h3>Продуктивность</h3>
+                                    {#                                    <div id='dashboard'></div>#}
+                                    <div style="width: 100%">
+                                        <canvas id="dashboard" height="150" width="600"></canvas>
+                                    </div>
+                                </div>
+                                <div class="statistic-detail js-user-legend">
+                                    <p style="background-color: rgba(220,220,220,0.5);padding:10px;"><b>Затраченое время, ч</b></p>
+                                    <p style="background-color: rgba(151,205,187,0.5);padding:10px;"><b>Закрытые задачи</b></p>
+                                    <p style="background-color: rgba(215, 185, 180,0.5);padding:10px;"><b>Коммиты</b></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div><!--ВКЛАДКА "СВОДКА" - svodka-->
+                    <div class="tab-pane" id="ychastvyet">
+                        {% for project in user_detail.user_projects %}
+                        <div class="media clearfix">
+                            <a href="/project/{{ project.id }}/#participants_and_rates" class="pull-left project-thumb-link">
+                                <img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"100x100" }}{% else %}/static/images/avatar_red_eye.png{% endif %}" class="img-thumbnail pull-left" width="100" />
+                            </a>
+                            <h3><a href="/project/{{ project.id }}/#participants_and_rates">{{ project.name }}</a></h3>
+                            <ul class="list-inline" >
+                                {% if project.canEdit  or 'guest' in project.roles %}
+                                <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
+                                    {% if project.canEdit %}
+                                    <input class="js-role-check" {% if 'guest' in project.roles %}checked{% endif %}
+                                    data-project="{{ project.id }}"
+                                    data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="guest" value="1" type="radio" />
+                                    {% endif %}
+                                    <span class="fa fa-users"></span>
+                                    Гость</label></div></li>
+                        {% endif %}
+                        {% if project.canEdit or 'manager' in project.roles %}
+                        <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
+                            {% if project.canEdit %}
+                            <input class="js-role-check" {% if 'manager' in project.roles %}checked{% endif %}
+                            data-project="{{ project.id }}"
+                            data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="manager" value="1" type="radio" />
+                            {% endif %}
+                            <span class="fa fa-cogs"></span>
+                            Менеджер</label></div></li>
+                    {% endif %}
+                    {% if project.canEdit  or 'employee' in project.roles %}
+                    <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
+                        {% if project.canEdit %}
+                        <input class="js-role-check" {% if 'employee' in project.roles %}checked{% endif %}
+                        data-project="{{ project.id }}"
+                        data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="employee" value="1" type="radio" />
+                        {% endif %}
+                        <span class="fa fa-user"></span>
+                        Разработчик</label></div></li>
+                {% endif %}
+                </ul>
+            </div>
+
+            <!--ychastvyet-item-->
+            {% if not forloop.last %}<hr />{% endif %}
+            {% endfor %}
+        </div><!--ВКЛАДКА "УЧАСТВУЕТ" ychastvyet-->
+        <div class="js-tasks tab-pane" id="tekyshie_zadachi">
+            <script language="javascript">
+                var aTaskList = [], arTimers = {}, taskRespSummary = {};
+                {% for task in user_detail.task.list.tasks %}
+                    aTaskList.push({{ task|jsonify|safe }});
+                taskRespSummary['{{ task.id }}'] = {{ task.responsibleList|jsonify|safe }}
+                {% if task.time %}
+                    arTimers['{{ task.id }}'] = new PM_Timer({{ task.time|jsonify|safe }});
+                {% if task.startedTimerExist %}
+                    arTimers['{{ task.id }}'].start();
+                    {% endif %}
+                    {% endif %}
+                    {% empty %}
+                    document.write('<div class="empty"><img src="/static/images/no-tasks.png"><br>Нет ни одной задачи</div>');
+                    {% endfor %}
+            </script>
+        </div>
+        <div class="tab-pane" id="dostizheniya">
+            {% if user_detail.achievements %}
+            <div class="dostizheniya-item-wrapper clearfix">
+                {% for c in user_detail.achievements %}
+                <div class="dostizheniya-item">
+                    <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
+                    <div class="dostizheniya-item-text">
+                        <h4>{{ c.achievement.name }}</h4>
+                        <!--<p class="date">{{ c.achievement.date }}</p>-->
+                        <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
+                        {% if c.project %}<hr>
+                        <p>Проект: <b>{{ c.project.name }}</b></p>
+                        {% endif %}
+                    </div>
+                </div>
+                {% if not forloop.last %}
+                {% endif %}
+
+                {% endfor %}
+            </div>
+            {% else %}
+            <div class="empty"><i class="fa fa-rocket"></i><br>У пользователя нет ни одного достижения</div>
+            {% endif %}
+
+            {#                        <hr />#}
+
+        </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
+
+        <div class="tab-pane" id="activity">
+            {% if user_detail.timers %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Время</th>
+                    <th>Задача</th>
+                    <th>Комментарий</th>
+                    <th>Добавлено</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for timer in user_detail.timers %}
+                <tr>
+                    <td>{{ timer.id }}</td>
+                    <td>{{ timer.time }}</td>
+                    <td><a href="{{ timer.task_url }}">{{ timer.task }}</a></td>
+                    <td>{{ timer.comment|safe }}</td>
+                    <td>{{ timer.date }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty"><i class="fa fa-bolt"></i><br>У пользователя нет ни одной активности</div>
+            {% endif %}
+            <div align="center">
+            </div>
+        </div><!--ВКЛАДКА "Активность"-->
+        {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
+        <div class="tab-pane" id="keys">
+            {% if user_detail.keys %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Создан</th>
+                    <th>Имя</th>
+                    <th>Действия</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for key in user_detail.keys %}
+                <tr>
+                    <td>{{ key.id }}</td>
+                    <td>{{ key.created_at }}</td>
+                    <td>{{ key.name }}</td>
+                    <td><a class="btn btn-alert js-deleteKey"><i class="fa fa-remove"></i>&nbsp;Удалить</a></td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            <p align="center" class="button-link">
+                <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a>
+                &nbsp;&nbsp;&nbsp;<a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
+            </p>
+            {% else %}
+            <div class="empty">
+                <img src="/static/images/key.png"><br><p>У вас нет ни одного ключа</p><br>
+                <p align="center" class="button-link">
+                    <a href="#" class="btn btn-success js-openKeyForm" data-toggle='modal' data-target="#key-add"><i class="fa fa-plus"></i>&nbsp;Добавить ключ</a>
+                    &nbsp;&nbsp;&nbsp;<a href="/wiki/how-to-setup-repository#creating-keys">Как создать ключи?</a>
+                </p>
+            </div>
+            {% endif %}
+        </div><!--ВКЛАДКА "Ключи"-->
+        {% endif %}
+        {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+        <div class="tab-pane" id="payments">
+            {% if user_detail.payments %}
+            <table class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Дата</th>
+                    <th>Сумма</th>
+                    <th>Проект</th>
+                    <th>Задача</th>
+                    <th>Комментарий</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for payment in user_detail.payments %}
+                <tr>
+                    <td>{{ forloop.revcounter}}</td>
+                    <td>{{ payment.date }}</td>
+                    <td>{{ payment.value }}</td>
+                    <td>{{ payment.project.name }}</td>
+                    <td><a href="{{ payment.task.url }}">{{ payment.task.name }}</a></td>
+                    <td>{{ payment.comment|default_if_none:'' }}</td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="empty"><img src="/static/images/payments.png"> <br>Нет ни одной оплаты</div>
+
+            {% endif %}
+        </div><!--ВКЛАДКА "Оплаты"-->
+        {% endif %}
+        <div class="tab-pane" id="add-project">
+            <h2>Добавить пользователя в проект</h2>
+            {% if user_detail.projectsForAddUser %}
+            <form name="add_to_project" method="POST" action="" role="form">
+                {% csrf_token %}
+                <input type="hidden" name="action" value="add_to_project" />
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Проект</label>
+                    <select name="project" class="form-control">
+                        <option>Выберите проект</option>
+                        {% for project in user_detail.projectsForAddUser %}
+                        <option value="{{ project.id }}">{{ project.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Права</label>
+                    <select name="role" class="form-control">
+                        <option>Выберите роль</option>
+                        {% for role in user_detail.roles %}
+                        <option value="{{ role.id }}">{{ role.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input type="submit" class="btn-default btn" name="" value="Добавить" />
+            </form>
+            {% else %}
+            <p>Пользователь уже состоит во всех ваших проектах</p>
+            {% endif %}
+        </div> <!--ВКЛАДКА "ДОБАВИТЬ ПРОЕКТ"-->
+    </div>
+    <script type="text/javascript">
+        {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
+        $('.js-deleteKey').click(function(){
+            var row = $(this).parents('tr');
+            var key_name = row.find('td:eq(2)').html();
+            var key_id = row.find('td:eq(0)').html();
+            if(confirm('Вы точно хотите удалить ключ ' + key_name)){
+                $.get('/user_key_handle/remove/' + key_id, function(response){
+                    if(response.errors) {
+                        alert('Не удалось удалить ключ ' + key_name);
+                        return false;
+                    }
+                    row.remove();
+                    if(row.parents('tbody').find('tr').length == 0){
+                        row.parent('table').remove();
+                    }
+                    return false;
+                });
+            }
+            return false;
+        });
+        {% endif %}
+    </script>
+
+
+    <div class="tab-content">
+        <h3>Достижения</h3>
+        {% if user_detail.achievements %}
+        <div class="dostizheniya-item-wrapper clearfix">
+            {% for c in user_detail.achievements %}
+            <div class="dostizheniya-item">
+                <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
+                <div class="dostizheniya-item-text">
+                    <h4>{{ c.achievement.name }}</h4>
+                    <!--<p class="date">{{ c.achievement.date }}</p>-->
+                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
+                    {% if c.project %}<hr>
+                    <p>Проект: <b>{{ c.project.name }}</b></p>
+                    {% endif %}
+                </div>
+            </div>
+            {% if not forloop.last %}
+            {% endif %}
+
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="empty"><i class="fa fa-rocket"></i><br>У пользователя нет ни одного достижения</div>
+        {% endif %}
+
+        {#                        <hr />#}
+
+    </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
+
+
+
+
+            </div>
+        </div>
+   </div>
+</div>
+
+
+
 <div class="widget inner" id="user_detail">
     <div class="widget-title clearfix userInfo">
         <div class="pull-left">
@@ -29,7 +1091,6 @@
                         <span class="user-avatar-bonus">{% if user_detail.profile.rating %}{% if user_detail.profile.rating >= 0 %}+{% endif %}{{ user_detail.profile.rating }}{% else %}0{% endif %}</span>
                     </span>
                 </div>
-
                 <div class="user-info-right-from-avatar">
                     <div class="user-contacts">
                         <ul class="clearfix">
@@ -71,10 +1132,7 @@
                         {% endif %}
                     </ul>
                 </div><!--user-info-right-from-avatar-->
-
             </div>
-
-
             <div class="statistic-list clearfix">
                 <div class="statistic-list-item first-child">
                 <h3>Активность</h3>
@@ -170,7 +1228,8 @@
                                 </div>
                               </div>
                               {% endif %}
-                              <div class="statistic-graph js-productivity"><h3>Продуктивность</h3>
+                              <div class="statistic-graph js-productivity">
+                                  <h3>Продуктивность</h3>
 {#                                    <div id='dashboard'></div>#}
                                   <div style="width: 100%">
                                     <canvas id="dashboard" height="150" width="600"></canvas>
@@ -223,7 +1282,9 @@
                                     Разработчик</label></div></li>
                                 {% endif %}
                             </ul>
-                        </div><!--ychastvyet-item-->
+                        </div>
+
+    <!--ychastvyet-item-->
                         {% if not forloop.last %}<hr />{% endif %}
                     {% endfor %}
                 </div><!--ВКЛАДКА "УЧАСТВУЕТ" ychastvyet-->
@@ -244,7 +1305,7 @@
                     {% endfor %}
                     </script>
                 </div>
-                <div class="tab-pane" id="dostizheniya">
+                <!--<div class="tab-pane" id="dostizheniya">
                     {% if user_detail.achievements %}
                     <div class="dostizheniya-item-wrapper clearfix">
                         {% for c in user_detail.achievements %}
@@ -252,7 +1313,7 @@
                                     <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
                                     <div class="dostizheniya-item-text">
                                     <h4>{{ c.achievement.name }}</h4>
-                                    <!--<p class="date">{{ c.achievement.date }}</p>-->
+                                    <p class="date">{{ c.achievement.date }}</p>
                                     <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
                                     {% if c.project %}<hr>
                                         <p>Проект: <b>{{ c.project.name }}</b></p>
@@ -270,7 +1331,7 @@
 
 {#                        <hr />#}
 
-                </div><!--ВКЛАДКА "ДОСТИЖЕНИЯ"-->
+                </div>-->
 
                 <div class="tab-pane" id="activity">
                     {% if user_detail.timers %}
