@@ -8,7 +8,7 @@ from PManager.models import Credit, Specialty, \
     PM_Properties, PM_Project, PM_Tracker, PM_User, Agreement, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
-    RatingHistory, FineHistory, Release, Integration, SlackIntegration
+    RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -57,6 +57,9 @@ class Reminder(admin.ModelAdmin):
 class AgreementInline(admin.ModelAdmin):
     list_display = ['date', 'resp', 'payer']
 
+class PM_MilestoneChangesInline(admin.ModelAdmin):
+    list_display = ['date', 'value', 'milestone']
+
 admin.site.register(PM_Role)
 admin.site.register(PM_Task, TaskInline)
 admin.site.register(PM_ProjectRoles, UserRoles)
@@ -92,6 +95,7 @@ admin.site.register(FineHistory)
 admin.site.register(Agreement, AgreementInline)
 admin.site.register(SlackIntegration)
 admin.site.register(Release)
+admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin
 

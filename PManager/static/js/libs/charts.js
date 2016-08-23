@@ -853,6 +853,7 @@
 				newWidth = getMaximumWidth(this.chart.canvas),
 				newHeight = this.options.maintainAspectRatio ? newWidth / this.chart.aspectRatio : getMaximumHeight(this.chart.canvas);
 
+			console.log(newHeight);
 			canvas.width = this.chart.width = newWidth;
 			canvas.height = this.chart.height = newHeight;
 

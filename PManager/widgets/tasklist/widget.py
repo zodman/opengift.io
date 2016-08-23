@@ -2,7 +2,7 @@
 __author__ = 'Gvammer'
 import datetime
 from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
-    PM_Milestone, PM_ProjectRoles, PM_Reminder, Release
+    PM_Milestone, PM_ProjectRoles, PM_Reminder, Release, PM_MilestoneChanges
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
 from django.contrib.contenttypes.models import ContentType
@@ -125,8 +125,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         for tId in tasksId:
             if int(tId):
                 task = PM_Task.objects.get(pk=int(tId))
+
+                if task.milestone:
+                    change = PM_MilestoneChanges(milestone=task.milestone, value=-(task.planTime or 0))
+                    change.save()
+
                 task.milestone = milestone
                 task.save()
+
+                if milestone:
+                    change = PM_MilestoneChanges(milestone=milestone, value=(task.planTime or 0))
+                    change.save()
 
         return {'redirect': ''}
 

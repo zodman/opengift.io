@@ -1,11 +1,23 @@
 {% load compressed %}
 {% compressed_js 'project_statistic' %}
+<form method="GET">
 <div class="widget">
-    <h3>Статистика</h3>
+    <h3>Статистика
+        <select name="chart" style="float: right" onchange="$(this).closest('form').submit();console.log($(this).val())">
+            <option {% if request.GET.chart == 'TimeChart' or not request.GET.chart %}selected{% endif %}
+                    value="TimeChart">Эффективность</option>
+            <option {% if request.GET.chart == 'BurnDown' %}selected{% endif %}
+                    value="BurnDown">Выгорание задач</option>
+            <option {% if request.GET.chart == 'PaymentChart' %}selected{% endif %}
+                    value="PaymentChart">Потраченное время</option>
+            <option {% if request.GET.chart == 'Velocity' %}selected{% endif %}
+                    value="Velocity">Скорость</option>
+        </select>
+    </h3>
     <hr>
 
     <div class="stat-widget-choose-date">
-        <form role="form" class="form-inline stat-widget-choose-form">
+        <div class="form-inline stat-widget-choose-form">
             <h5>Выберите диапазон дат </h5>
 
             <div class="start-inline-block">
@@ -16,7 +28,7 @@
                     <label for="StartFromDate1" class="sr-only">Выберите начало</label>
                     <input type="text" placeholder="Выберите начало" name="date_from"
                            id="StartFromDate1" class="form-control datepicker"
-                           value="{{ project_statistic.filt.dateFrom|date:"d.m.Y" }}" >
+                           value="{{ project_statistic.filt.dateFrom|date:"d.m.Y" }}">
                 </div>
             </div>
 
@@ -38,7 +50,7 @@
                 <span><a href="#" class="js-date_week" onclick="return false" rel="{{ project_statistic.before.day }}">Неделя</a></span>
                 <span><a href="#" class="js-date_month" onclick="return false" rel="{{ project_statistic.before.day }}">Месяц</a></span>
             </div>
-        </form>
+        </div>
     </div>
     <hr>
     <div class="stat-widget-list clearfix">
@@ -48,18 +60,27 @@
                 <h4>
                     {{ chart.title }}
                     {% if chart.rows and chart.xls %}
-                    <a type="button" class="btn btn-xs js-excel" href="/ajax/stat_excel/?excel=loan">Выгрузить в Excel&nbsp;&nbsp;<i class="fa fa-share"></i></a>
+                        <a type="button" class="btn btn-xs js-excel" href="/ajax/stat_excel/?excel=loan">Выгрузить в
+                            Excel&nbsp;&nbsp;<i class="fa fa-share"></i></a>
                     {% endif %}
                 </h4>
 
                 <div class="stat-widget-text">
                     {% if chart.type == 'chart' %}
-                        <div class="canvas-left">
-                            <canvas id="chart_1" width="500px" height="220px" class="img-responsive" style="float:left;margin-right: 15px;"></canvas>
+                        <div class="canvas-left" style="height: 500px;">
+                            {% if chart.externalHtml %}
+                            {{ chart.externalHtml|safe }}
+                            <br />
+                            <br />
+                            {% endif %}
+                            <canvas id="chart_1" width="900px" height="300px" class="img-responsive"
+                                    style="margin-right: 15px;"></canvas>
                         </div>
                     {% elif chart.type == 'simple' %}
+                        {% if chart.value %}
                         <div class="chart-value"
                              style="font-size:86px;font-weight:bold;text-align: center;margin-top: 20px;height: 110px;padding-top: 40px;">{{ chart.value }}</div>
+                        {% endif %}
                         <p align="center">{{ chart.value_desc }}</p>
                     {% else %}
                         <table class="table">
@@ -123,18 +144,20 @@
                 var ctx{{ forloop.counter }} = canvas{{ forloop.counter }}.getContext("2d");
                 var chart{{ forloop.counter }} = new Chart(ctx{{ forloop.counter }}).Line(data, {
                     'scaleShowLabels': true,
-                    'bezierCurve': true,
+                    'bezierCurve': false,
+                    'responsive': true,
                     'tooltipEvents': ["mousemove", "touchstart", "touchmove"],
                     'pointDot': false,
                     'showTooltips': true,
                     'datasetFill': false,
+                    'scaleBeginAtZero': true,
                     'legendTemplate': "<div class=\"canvas-right\"><ul class=\"legend\"><%for (var i=0;i<datasets.length;i++){ %><li style=\"color:<%=datasets[i].strokeColor%>\"> <span style=\"color:black;\"><%=datasets[i].label%><% } %></span></li></ul></div>"
                 });
                 $(canvas{{ forloop.counter }}).parent().parent().append(chart{{ forloop.counter }}.generateLegend());
             });
         {% endif %}
     {% endfor %}
-    $('.js-excel').on('click', function(e) {
+    $('.js-excel').on('click', function (e) {
         var url = '/ajax/stat_excel/?excel=',
                 chart = 'loan',
                 date_from = $('#StartFromDate1').val(),
@@ -143,3 +166,4 @@
         this.href = url + chart + '&date_from=' + date_from + '&date_to=' + date_to;
     })
 </script>
+</form>

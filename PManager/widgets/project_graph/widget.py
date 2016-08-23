@@ -67,23 +67,10 @@ def widget(request, headerValues, ar, qargs):
         plantime = tasks['planTime__sum'] or 0
         plantimeClosed = tasksClosed['planTime__sum'] or 0
 
-        # CLOSEST MILESTONE
-        # closestMilestone = PM_Milestone.objects.filter(
-        #     project=current_project,
-        #     closed=False,
-        #     id__in=PM_Task.getForUser(
-        #         request.user,
-        #         current_project,
-        #         {
-        #             'closed': False,
-        #             'milestone__id__gt': 0
-        #         })['tasks'].values_list('milestone__id', flat=True)
-        # ).order_by('date')
-
         kanban = kanbanWidget(request, headerValues)
         if kanban['projects_data']:
             currentKanbanProject = kanban['projects_data'][0]
-            if hasattr(currentKanbanProject, 'current_milestone'):
+            if hasattr(currentKanbanProject, 'current_milestone') and not currentKanbanProject.current_milestone.closed:
                 closestMilestone = currentKanbanProject.current_milestone
 
         if closestMilestone:

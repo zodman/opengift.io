@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools, taskExtensions
-from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User, PM_Task_Status
+from PManager.models import PM_Task, PM_Project, ObjectTags, PM_User, PM_Task_Status, PM_MilestoneChanges
 import time, datetime
 from django.contrib.auth.models import User
 from django.db.models import Count
@@ -33,6 +33,10 @@ def widget(request, headerValues, ar, qargs):
         planTime = post.get('planTime', 0)
         if planTime:
             planTime = planTime.replace(',', '.')
+            if task and task.milestone:
+                oldPlanTime = task.planTime or 0
+                change = PM_MilestoneChanges(milestone=task.milestone, value=float(planTime)-oldPlanTime)
+                change.save()
 
         arSaveFields = {
             'name': name,

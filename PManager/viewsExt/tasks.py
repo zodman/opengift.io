@@ -464,12 +464,18 @@ def __task_message(request):
             logger = Logger()
             logger.log(request.user, 'STATUS_' + status.upper(), 1, task.project.id)
 
+        bFilesExist = False
         for filePost in uploaded_files:
             try:
                 file_obj = PM_Files.objects.get(pk=filePost)
                 message.files.add(file_obj)
+                bFilesExist = True
             except PM_Files.DoesNotExist():
                 pass
+
+        if bFilesExist:
+            message.filesExist = bFilesExist
+            message.save()
 
         if solution:
             from wiking.services.articles import ArticleService
@@ -1082,9 +1088,9 @@ class taskAjaxManagerCreator(object):
 
         if not t.closed:
             profile = user.get_profile()
-            bugsExists = t.messages.filter(Q(Q(bug=True) | Q(todo=True))).filter(checked=False).exists()
+            bugsExists = t.messages.filter(bug=True, checked=False).exists()
             if bugsExists:
-                text = u'Перед тем как закрыть задачу, пометьте все баги и todo в ней как решенные.'
+                text = u'Перед тем как закрыть задачу, вам нужно исправить все ошибки.'
                 message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
                                           userTo=user, code='WARNING', hidden=True)
                 message.save()

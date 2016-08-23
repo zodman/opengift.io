@@ -724,10 +724,18 @@ class PM_Task(models.Model):
         self.save()
 
     def setPlanTime(self, val, request):
+        from PManager.models.scrum import PM_MilestoneChanges
         if request.user.is_authenticated():
             if not self.onPlanning and self.canPMUserSetPlanTime(request.user.get_profile()):
+                oldPlanTime = self.planTime or 0
+
                 self.planTime = float(val)
                 self.save()
+
+                if self.milestone and oldPlanTime != self.planTime:
+                    change = PM_MilestoneChanges(milestone=self.milestone, value=(self.planTime-oldPlanTime))
+                    change.save()
+
             planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
             planTime.time = float(val)
             planTime.save()
@@ -1512,6 +1520,7 @@ class PM_Task_Message(models.Model):
     commit = models.CharField(max_length=42, null=True, blank=True)
     userTo = models.ForeignKey(User, null=True, related_name="incomingMessages", blank=True, db_index=True)
     files = models.ManyToManyField(PM_Files, related_name="msgTasks", null=True, blank=True)
+    filesExist = models.BooleanField(default=False, db_index=True)
     hidden = models.BooleanField(default=False)
     hidden_from_clients = models.BooleanField(default=False)
     hidden_from_employee = models.BooleanField(default=False)

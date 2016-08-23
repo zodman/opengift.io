@@ -56,7 +56,7 @@ function taskFileUpload(complete, errorHandler, completeDelete) {
             qq.log('on' + event.type + ' -  ID: ' + id + ", FILENAME: " + fileName + ", PARTINDEX: " + chunkData.partIndex + ", STARTBYTE: " + chunkData.startByte + ", ENDBYTE: " + chunkData.endByte + ", PARTCOUNT: " + chunkData.totalParts);
         })
         .on("upload", function (event, id, fileame) {
-            $(this).fineUploader('setParams', {"hey": "ho"}, id);
+            $(this).fineUploader('setParams', {"project": window.currentProject}, id);
         })
         .on("complete", complete);
 }
