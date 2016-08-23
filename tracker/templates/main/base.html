@@ -335,9 +335,9 @@
                 <img src="/static/images/logo.png" alt="Heliard"/>
             </a>
         </div>
-        {% if user.is_authenticated %}
-            <nav class="menu">
-                <ul>
+{% if user.is_authenticated %}
+{#          <nav class="menu">#}
+{#                <ul>#}
 {#                    <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">#}
 {#                        <a href="/calendar/">#}
 {#                            <span aria-hidden="true" class="fa fa-calendar-o"></span>#}
@@ -356,14 +356,14 @@
 {#                            <span>Активность</span>#}
 {#                        </a>#}
 {#                    </li>#}
-                    <li>
+{#                    <li>#}
 {#                        <a href="#" onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }">#}
 {#                            <span aria-hidden="true" class="fa fa-user-plus"></span>#}
 {#                            <span>Пригласить разработчиков Heliard</span>#}
 {#                        </a>#}
-                    </li>
-                </ul>
-            </nav>
+{#                    </li>#}
+{#                </ul>#}
+{#          </nav>#}
 
             <div class="timer-wrapper clearfix">
 

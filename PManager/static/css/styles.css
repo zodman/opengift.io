@@ -217,7 +217,6 @@ header .header .timer-wrapper .user-menu a i {display:none;}
 }
 
 @media (max-width:838px) {
-    body {padding-top:110px;}
     header .header .logo {width:40%;}
     header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:60%; line-height:22px; height:22px;}
     header .header .logo img {max-width:100%; display:block;}
@@ -364,9 +363,23 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
 
 
 @media only screen and (max-width: 768px) {
+    .sub-menu_line {padding: 0 13px;}
     .sub-menu_line_section-tracker {float: none; width: 100%;}
-    .sub-menu_line_section-user {float: none; width: 100%; margin-bottom: 20px !important;}
-    .sub-menu_line_section-user a {width: calc(14.285% - 20px); text-align: center; margin-bottom: 0px; margin-right: 10px !important; margin-left: 10px !important;}
+    .sub-menu_line_section-user {
+        float: none; width: 100%;
+        margin-bottom: 20px !important;
+        padding: 0; margin: 0;
+        list-style: none;
+        display: -webkit-box;
+        display: -moz-box;
+        display: -ms-flexbox;
+        display: -webkit-flex;
+        display: flex;
+        -webkit-flex-flow: row wrap;
+        justify-content: space-between;
+        align-items: stretch;
+    }
+    .sub-menu_line_section-user a {text-align: center; margin: 0 !important;}
 }
 
 .sub-menu_line_section-user a {
@@ -2547,7 +2560,7 @@ i.tag-num-icon {
     width: calc(100% - 110px);
 }
 .dostizheniya-item-text h4,
-.dostizheniya-item-text p {margin:0px 0px 5px;}
+.dostizheniya-item-text p {margin:0px 0px 5px; white-space: nowrap;}
 .dostizheniya-item-text > hr {
     margin: 7px 0 5px;
 }
@@ -5216,6 +5229,8 @@ ul.colors {
 .task-status.purple {border-left: 2px solid #c666d3;}
 .task-status.orange {border-left: 2px solid #ef9332;}
 
+.text-green {color: #5cb85c;}
+.font-20 {font-size: 20px;}
 
 .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
 .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
