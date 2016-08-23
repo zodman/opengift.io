@@ -4,24 +4,20 @@
 {% block content %}
     <div class="widgets js-widgets-container">
         {{ widget_header|safe }}
-        <div class="js-widget-tabs">
-            {% for widget in widgets %}
-                <a href="#" class="{% if forloop.first %}active{% endif %} js-widgets-tab"
-                   data-widget="{{ widget.code }}">{{ widget.name }}</a>
-            {% endfor %}
-        </div>
         <div class="js-widget-tabs-container">
             {% for widget in widgets %}
-                <div class="js-widget-tab{% if not forloop.first %} hidden{% endif %}" data-widget="{{ widget.code }}">
+                <div class="js-widget-tab{% if not activeWidget and not forloop.first or activeWidget and activeWidget != widget.code %} hidden{% endif %}" data-widget="{{ widget.code }}">
                     {{ widget.html|safe }}
                 </div>
             {% endfor %}
         </div>
     </div>
-    <script>
+    <script type="text/javascript">
         $(function () {
             $('.js-widgets-tab').click(function () {
+                $.cookie('ACTIVE_WIDGET', $(this).data('widget'));
                 $('.js-widget-tab[data-widget="' + $(this).data('widget') + '"]').removeClass('hidden').siblings().addClass('hidden');
+                return false;
             });
         });
     </script>

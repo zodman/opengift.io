@@ -13,7 +13,14 @@
 <div class="widget tasklist" data-tab-title="Задачи">
     <!--<div class="row">
         <div class="col-xs-12">-->
-    <h1>{{ tasklist.title }}</h1>
+
+    <h1>
+        <a href="#" class="widget-tab active js-widgets-tab btn"
+                   data-widget="tasklist">Список задач</a>
+        <a href="#" onclick="$(this).find('.js-new-messages').text('');" class="widget-tab js-widgets-tab btn"
+                       data-widget="chat">Лента событий <span class="counter-new-messages js-new-messages"></span></a>
+        {{ tasklist.title }}
+    </h1>
     {% if tasklist.project %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">

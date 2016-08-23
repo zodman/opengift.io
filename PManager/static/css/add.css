@@ -218,3 +218,9 @@ rect.selected {
 a, input, button {
     outline: none !important;
 }
+
+.widget-tab {
+            float: left;
+            margin-right: 10px;
+            color: #333;
+        }

@@ -1286,10 +1286,12 @@ var widget_tl, currentGroup;
             return false;
         });
 
-        function onScroll(type, data){
+        function onScroll(){
+            if (!$('.widget.tasklist').is(':visible')) return;
+            var $showMoreBtn = $('.show-more');
             var windowBottom = $(window).height() + $(window).scrollTop();
-            if (windowBottom < $('.show-more').offset().top && !$('.show-more').hasClass('activated')) {
-                $('.show-more').trigger('click');
+            if (windowBottom < $showMoreBtn.offset().top && !$showMoreBtn.hasClass('activated')) {
+                $showMoreBtn.trigger('click');
             }
         }
 

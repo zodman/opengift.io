@@ -82,9 +82,16 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
 
+
     messages = []
     if last_id != 0:
-        result = result.order_by('-id')[:20]
+        if options['MESSAGE_TYPE'] == 'TODO' or options['MESSAGE_TYPE'] == 'BUGS':
+            result = result.order_by('checked', '-id')
+        else:
+            result = result.order_by('-id')
+
+        result = result[:20]
+
         for message in result:
             addParams = {}
             if message.task and request.user.get_profile().isManager(message.task.project):

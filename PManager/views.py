@@ -308,7 +308,8 @@ class MainPage:
             'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
-            'agreementForApprove': agreementForApprove
+            'agreementForApprove': agreementForApprove,
+            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues['COOKIES'] else None
         })
 
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
