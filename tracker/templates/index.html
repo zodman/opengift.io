@@ -2,5 +2,27 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-        {{ widget_results|safe }}
+    <div class="widgets js-widgets-container">
+        {{ widget_header|safe }}
+        <div class="js-widget-tabs">
+            {% for widget in widgets %}
+                <a href="#" class="{% if forloop.first %}active{% endif %} js-widgets-tab"
+                   data-widget="{{ widget.code }}">{{ widget.name }}</a>
+            {% endfor %}
+        </div>
+        <div class="js-widget-tabs-container">
+            {% for widget in widgets %}
+                <div class="js-widget-tab{% if not forloop.first %} hidden{% endif %}" data-widget="{{ widget.code }}">
+                    {{ widget.html|safe }}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script>
+        $(function () {
+            $('.js-widgets-tab').click(function () {
+                $('.js-widget-tab[data-widget="' + $(this).data('widget') + '"]').removeClass('hidden').siblings().addClass('hidden');
+            });
+        });
+    </script>
 {% endblock %}

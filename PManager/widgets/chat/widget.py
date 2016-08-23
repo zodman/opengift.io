@@ -7,6 +7,8 @@ from tracker import settings
 
 
 def widget(request, headerValues=None, ar=None, qargs=None):
+
+
     last_id = request.REQUEST.get('last_id', 0)
     if request.user.is_superuser:
         hiddenQ = Q(author__isnull=False)
@@ -99,5 +101,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     return {
         'messages': messages,
         'templates': templates,
-        'options': options
+        'options': options,
+        'tab': True,
+        'name': u'Лента'
     }

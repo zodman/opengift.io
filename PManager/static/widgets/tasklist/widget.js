@@ -1209,7 +1209,6 @@ var widget_tl, currentGroup;
                                             $taskWrapper.find('.add-task-input').hide();
                                             $('.show-subtasks.add-subtask').removeClass('openSubtask');
                                         }
-                                        ;
                                     });
                                     $('.show-subtasks').click(function () {
                                         if (!$(this).hasClass('openSubtask') && !$taskWrapper.hasClass('visible-items')) {
@@ -1286,6 +1285,17 @@ var widget_tl, currentGroup;
             widget_tl.nextPage++;
             return false;
         });
+
+        function onScroll(type, data){
+            var windowBottom = $(window).height() + $(window).scrollTop();
+            if (windowBottom < $('.show-more').offset().top && !$('.show-more').hasClass('activated')) {
+                $('.show-more').trigger('click');
+            }
+        }
+
+        $(window).scroll(onScroll);
+        $('body').scroll(onScroll);
+
         $('input[name=group]').click(function () {
             widget_tl.TL_Search();
         });

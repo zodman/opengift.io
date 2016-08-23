@@ -4,7 +4,7 @@
     var widget_chat,
         widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
 </script>
-<div class="widget chat" id="chat">
+<div class="widget chat" id="chat" data-tab-title="Лента">
     <a name="comments"></a>
     <h1>Лента событий</h1>
     <div class="TopPanel">
@@ -15,7 +15,7 @@
     <div class="clearfix chat-nav js-feed-options">
     	<div class="pull-left">
             <label class="checkbox-inline">
-              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' %}checked="checked"{% endif %}> Все сообщения
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' or not chat.options.MESSAGE_TYPE %}checked="checked"{% endif %}> Все сообщения
             </label>
         	<label class="checkbox-inline">
               <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="SYSTEM_MESSAGES" {% if chat.options.MESSAGE_TYPE == 'SYSTEM_MESSAGES' %}checked="checked"{% endif %}> Системные сообщения
@@ -102,5 +102,11 @@
             width: 10px;
             height: 10px;
             background: black;
+    }
+    .trans-element-radio.unchecked {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            border: 1px solid black;
     }
 </style>

@@ -129,8 +129,10 @@ $(function(){
             });
 
             var v = function() {
-                widget_chat.options['MESSAGE_TYPE'] = $(this).val();
-                $.cookie('FEED_OPTION_MESSAGE_TYPE', $(this).val());
+                if ($(this).is(':checked')) {
+                    widget_chat.options['MESSAGE_TYPE'] = $(this).val();
+                    $.cookie('FEED_OPTION_MESSAGE_TYPE', $(this).val());
+                }
             };
             var setGroupFlag = function() {
                 widget_chat.messageListHelper.bNeedToGroup = widget_chat.options['MESSAGE_TYPE'] != 'COMMITS';
@@ -142,7 +144,7 @@ $(function(){
                 $('.toggle-messages.minimize').remove();
                 setGroupFlag();
             });
-            widget_chat.$options.find(':radio').each(v).click(v).click(function(){
+            widget_chat.$options.find(':radio').click(v).click(function(){
                 if (resetTimeout) clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(function() {
                     widget_chat.reset();

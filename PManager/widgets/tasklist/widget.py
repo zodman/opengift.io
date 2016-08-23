@@ -72,6 +72,7 @@ def get_task_tag_rel_array(task):
 
 
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, addFields=[]):
+
     widgetManager = TaskWidgetManager()
     filter = {}
 
@@ -462,13 +463,15 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name if project and isinstance(project, PM_Project) else u'Задачи')
+    title = (project.name + u': задачи' if project and isinstance(project, PM_Project) else u'Задачи')
 
     return {
         'title': title,
         'tasks': tasks,
         'project': project,
         'users': aResps,
+        'tab': True,
+        'name': u'Задачи',
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'releases': Release.objects.filter(project=project, status='new'),
