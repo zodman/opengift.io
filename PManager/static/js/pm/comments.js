@@ -680,6 +680,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
             clean: function () {
                 this.messageList.remove(this.messageList.models);
+                $('.SUBCONTAINER').remove();
             },
 
             getById: function (id) {

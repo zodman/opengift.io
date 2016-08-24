@@ -17,8 +17,18 @@
             $('.js-widgets-tab').click(function () {
                 $.cookie('ACTIVE_WIDGET', $(this).data('widget'));
                 $('.js-widget-tab[data-widget="' + $(this).data('widget') + '"]').removeClass('hidden').siblings().addClass('hidden');
+                switch ($(this).data('widget')) {
+                    case "tasklist":
+                        widget_tl.open();
+                        break;
+
+                    case "chat":
+                        widget_chat.open();
+                        break;
+                }
                 return false;
             });
+            $('.js-widget-tab:visible .js-widgets-tab.active').trigger('click');
         });
     </script>
 {% endblock %}
