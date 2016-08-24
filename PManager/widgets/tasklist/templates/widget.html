@@ -13,14 +13,18 @@
 <div class="widget tasklist" data-tab-title="Задачи">
     <!--<div class="row">
         <div class="col-xs-12">-->
-
-    <h1>
-        <a href="#" class="widget-tab active js-widgets-tab btn"
-                   data-widget="tasklist">Список задач</a>
-        <a href="#" onclick="$(this).find('.js-new-messages').text('');" class="widget-tab js-widgets-tab btn"
-                       data-widget="chat">Лента событий <span class="counter-new-messages js-new-messages"></span></a>
-        {{ tasklist.title }}
-    </h1>
+    <div class="widget-tasklist-header">
+        <h1>{{ tasklist.title }}</h1>
+        <ul class="widget-tasklist-functions clearfix">
+            <li>
+                <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist">Список задач</a>
+            </li>
+            <li>
+                <a href="#" onclick="$(this).find('.js-new-messages').text('');" class="widget-tab js-widgets-tab btn"
+                   data-widget="chat">Лента событий <span class="micro-circle-with-number js-new-messages"></span></a>
+            </li>
+        </ul>
+    </div>
     {% if tasklist.project %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
@@ -251,14 +255,14 @@
             <ul class="task-tab-filter list-inline pull-right clearfix">
                 <li class="active"><a>Все</a></li>
                 <li class="hide-on-mobile"><a rel="started">Начатые{% if tasklist.qty.started %}
-                    <span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                 <li><a rel="ready">На проверке{% if tasklist.qty.ready %}
-                    <span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
                 <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}
-                    <span>{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
                 <li class="hide-on-mobile"><a rel="not_ready">Не готовые</a></li>
                 <li class="hide-on-mobile"><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}
-                    <span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
                 <li class="hide-on-mobile"><a rel="arc">Архив</a></li>
             </ul>
         </div>

@@ -889,6 +889,15 @@ div.taskWizard-required .taskWizard-question-title:after {
     line-height: 20px;
 }
 
+.widget-tasklist-header {position: relative;}
+.widget-tasklist-functions {position: absolute; left: 0px; top: -3px;}
+.widget-tasklist-functions li {display: block; float: left; margin-left: 10px;}
+.widget-tasklist-functions li:first-child {margin-left: 0px;}
+.widget-tasklist-functions li .widget-tab {margin-right: 0px;}
+.widget-tasklist-functions li .widget-tab .micro-circle-with-number {margin-left: 5px;}
+
+
+
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
 .task-tab-filter {margin: 0px; margin: 0;}
@@ -908,7 +917,9 @@ div.taskWizard-required .taskWizard-question-title:after {
     /*color: #47a447;*/
 }
 
-.task-tab-filter a span {
+.task-tab-filter a .micro-circle-with-number {margin-left: 5px;}
+
+.micro-circle-with-number {
     background: none repeat scroll 0 0 #4cae4c;
     border-radius: 50%;
     -moz-border-radius: 50%;
@@ -917,13 +928,15 @@ div.taskWizard-required .taskWizard-question-title:after {
     display: inline-block;
     font-size: 10px;
     height: 20px;
-    margin-left: 5px;
     text-align: center;
     vertical-align: top;
     width: 20px;
+    line-height: 20px;
     z-index: 1;
 }
-.task-tab-filter [rel=deadline] span {
+
+
+[rel=deadline] .micro-circle-with-number {
     background: none repeat scroll 0 0 #c00f00;
 }
 .task-tab-filter > .active > a {
@@ -5533,4 +5546,18 @@ ul.colors {
     .project_graph .col-sm-4:last-child {
         margin-bottom: 0px;
     }
+}
+
+
+@media only screen and (max-width: 1024px) {
+    .widget-tasklist-functions {right: 0px; left: auto;}
+    .widget.tasklist h1,
+    .widget.chat h1 {text-align: left;}
+}
+
+
+@media only screen and (max-width: 768px) {
+    .widget-tasklist-functions {position: relative;}
+    .widget.tasklist h1,
+    .widget.chat h1 {text-align: center;}
 }
