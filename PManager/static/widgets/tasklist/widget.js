@@ -246,9 +246,6 @@ var widget_tl, currentGroup;
                     widget_tl.TL_Tasks.each(function (task) {
                         widget_tl.TL_CreateTaskRow(task.toJSON());
                     });
-
-                    historyManager.trigger('taskListSearch');
-                    setTaskCellsHeight();
                 });
                 this.createUserAdditionalTabs();
                 widget_tl.ready();
@@ -415,6 +412,13 @@ var widget_tl, currentGroup;
                     }
                 });
             },
+            'open': function() {
+                if (!this.opened) {
+                    this.opened = true;
+                    historyManager.trigger('taskListSearch');
+                    setTaskCellsHeight();
+                }
+            },
             'taskMove': function (id, parentId) {
                 var parentTask = this.TL_Tasks.get(parentId);
                 var task = this.TL_Tasks.get(id);
@@ -567,10 +571,11 @@ var widget_tl, currentGroup;
                     }
                 }
 
-                if (filter.page) {
-                    filter.startPage = filter.page;
-                    delete filter.page;
-                }
+                //if (filter.page) {
+                //    //filter.startPage = filter.page;
+                //    delete filter.page;
+                //}
+                filter.page = 1;
 
                 this.TL_SilentSearch(filter);
             },
@@ -738,6 +743,7 @@ var widget_tl, currentGroup;
             'TL_SilentSearch': function (params) {
                 if (!params.parent)
                     $('.show-more').hide();
+
                 return this.TL_Search(params, true);
             },
             'TL_Search': function (params, silent, callback) {
@@ -782,7 +788,6 @@ var widget_tl, currentGroup;
                             //startPage генерируется при первом вызове фильтра по хэшу и не должна в нем сохраняться
                             //так как она нужна только для инициации стартового кол-ва задач при загрузке страницы
                         }
-
                         historyManager.addParams({'taskListFilter': paramsForHistory});
                     }
                 }
@@ -790,7 +795,18 @@ var widget_tl, currentGroup;
                 window.backurl = document.location.href;
                 this.checkSearchInput();
                 var obj = this;
-                PM_AjaxPost("/task_handler",
+                if (params.page) {
+                    var idExclude = [];
+                    this.TL_Tasks.each(function (task) {
+                        idExclude.push(task.id);
+                    });
+                    params['idExclude'] = idExclude;
+                }
+                if (!params.parent && !params.page) {
+                    obj.TL_Tasks.reset();
+                }
+                PM_AjaxPost(
+                    '/task_handler',
                     params,
                     (callback ? callback : function (data) {
                         $('.js-new-first-task, .js-search-block').show();
@@ -820,6 +836,7 @@ var widget_tl, currentGroup;
                             if (!$('.js-new-first-task').get(0))
                                 obj.TL_Container.html("<div class='empty_result'>Ничего не найдено</div>");
                         }
+
                         if (!params.parent) {
                             if (paginator.lastPage) {
                                 obj.container.find('.show-more').hide().pullTheButton();
@@ -827,8 +844,11 @@ var widget_tl, currentGroup;
                                 obj.container.find('.show-more').show().pullTheButton();
                             }
                         }
+
                         setTaskCellsHeight()
-                    }));
+                    })
+                );
+
                 return this;
             },
             'addGroupRow': function (group) {

@@ -283,12 +283,18 @@ def __search_filter(header_values, request):
         if start_page:
             page = start_page
 
-        # if page > 2:
-        #     # count = 2 ** (page - 2) * 10
-        #     page = 2
         if start_page:
             count *= page
             page = 1
+
+        if page:
+            idExclude = request.POST.getlist('idExclude[]', [])
+            if len(idExclude):
+                ar_exclude['id__in'] = []
+                for idEx in idExclude:
+                    ar_exclude['id__in'].append(int(idEx))
+
+                page = 1
 
         ar_page_params = {
             'pageCount': count,
@@ -301,7 +307,10 @@ def __search_filter(header_values, request):
     tasks = task_list(
         request,
         header_values,
-        {'filter': ar_filter, 'exclude': ar_exclude},
+        {
+            'filter': ar_filter,
+            'exclude': ar_exclude
+        },
         qArgs,
         ar_page_params
     )

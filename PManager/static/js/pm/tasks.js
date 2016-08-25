@@ -8,7 +8,8 @@ var CRITICALLY_THRESHOLD = 0.7;
 (function ($) {
 	var showError = function(text) {
 		$('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(text).appendTo('body').show();
-	}
+	};
+
 	window.taskClass = Backbone.Model.extend({
 		'url': function () {
 			return '/task/' + this.id + '/';

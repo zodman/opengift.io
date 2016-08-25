@@ -79,6 +79,7 @@ $(function () {
         }
     };
 
+    widget_chat.onScrollRequest = false;
     widget_chat.$container = $('#chat');
     widget_chat.lastScrollTop = 0;
     widget_chat.ajaxUrl = '/messages_ajax/';
@@ -137,6 +138,7 @@ $(function () {
             var setGroupFlag = function () {
                 widget_chat.messageListHelper.bNeedToGroup = widget_chat.options['MESSAGE_TYPE'] != 'COMMITS';
             };
+
             var resetTimeout = false;
             widget_chat.$options.find('.js-other-projects').click(function () {
                 $.cookie('FEED_OPTION_OTHER_PROJECTS', $(this).is(':checked') ? 'Y' : 'N');
@@ -144,6 +146,7 @@ $(function () {
                 $('.toggle-messages.minimize').remove();
                 setGroupFlag();
             });
+
             widget_chat.$options.find(':radio').click(v).click(function () {
                 if (resetTimeout) clearTimeout(resetTimeout);
                 resetTimeout = setTimeout(function () {
@@ -164,7 +167,7 @@ $(function () {
             baseConnector.addListener('fs.comment.add', function (data) {
                 if (!widget_chat.$container.is(':visible')) {
                     var $mContainer = $('.js-new-messages');
-                    $mContainer.text(parseInt($mContainer.text() || 0) + 1);
+                    $mContainer.text(parseInt($mContainer.text() || 0) + 1).show();
                 }
                 if (widget_chat.options['OTHER_PROJECTS']) {
                     if (data.project.id != window.currentProject) return;
@@ -217,16 +220,22 @@ $(function () {
                     }
                 }
                 var windowBottom = $(window).height() + $(window).scrollTop();
-                if (windowBottom > $('.SUBCONTAINER:last').offset().top && $('.widget.chat').is(':visible')) {
-                    widget_chat.getMessagesFromServer(onScroll);
+                if ($('.SUBCONTAINER:last').size() && windowBottom > $('.SUBCONTAINER:last').offset().top && $('.widget.chat').is(':visible')) {
+                    if (!widget_chat.onScrollRequest) {
+                        widget_chat.onScrollRequest = true;
+                        widget_chat.getMessagesFromServer(onScroll);
+                    }
                 }
             }
 
             $(window).bind('scroll.chat', onScroll);
             $('body').bind('scroll.chat', onScroll);
-            setTimeout(function () {
+        },
+        'open': function() {
+            if (!this.opened) {
+                this.opened = true;
                 widget_chat.getMessagesFromServer();
-            }, 500);
+            }
         },
         'reset': function () {
             widget_chat.lastMessageId = -1;
@@ -258,32 +267,32 @@ $(function () {
             return this.lastMessageId;
         },
         'getMessagesFromServer': function (call) {
-            if (!this.bGettingFromServer) {
-                this.bGettingFromServer = true;
-                PM_AjaxPost(
-                    this.ajaxUrl,
-                    {
-                        'action': 'getMessages',
-                        'last_id': this.getLastMessageId()
-                    },
-                    function (data) {
-                        var message;
-                        for (var k in data) {
-                            message = data[k];
-                            widget_chat.messageListHelper.reversed = false;
-                            widget_chat.addMessageRow(message);
-                            widget_chat.messageListHelper.reversed = true;
-                        }
-                        widget_chat.setLastId(data);
-                        widget_chat.bGettingFromServer = false;
+            if (this.bGettingFromServer) this.bGettingFromServer.abort();
 
-                        if (call) {
-                            call('messages', data);
-                        }
-                    },
-                    'json'
-                )
-            }
+            this.bGettingFromServer = PM_AjaxPost(
+                this.ajaxUrl,
+                {
+                    'action': 'getMessages',
+                    'last_id': this.getLastMessageId()
+                },
+                function (data) {
+                    var message;
+                    for (var k in data) {
+                        message = data[k];
+                        widget_chat.messageListHelper.reversed = false;
+                        widget_chat.addMessageRow(message);
+                        widget_chat.messageListHelper.reversed = true;
+                    }
+                    widget_chat.setLastId(data);
+                    widget_chat.bGettingFromServer = false;
+                    widget_chat.onScrollRequest = false;
+
+                    if (call) {
+                        call('messages', data);
+                    }
+                },
+                'json'
+            );
         },
         'sendMessage': function (message) {
             baseConnector.send("chat_message", {
