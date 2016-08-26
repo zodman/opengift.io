@@ -13,26 +13,27 @@
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
                         {% if project.milestones.all %}
-                            <select class="js-select-milestone">
+                        <div class="project-header-select">
+                            <select class="js-select-milestone form-control form-control-mini">
                                 {% for milestone in project.all_milestones %}
                                     <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">
                                         {{ milestone.name }}{% if milestone.date %} до {{ milestone.date|date:"d.m.Y" }}{% endif %}
                                     </option>
                                 {% endfor %}
                             </select>
+                        </div>
                         {% endif %}
+                        <div class="project-header-buttons">
+                            <a href="/project/{{ project.id }}/#additional_settings" class="button green-bg button-mini">Настроить столбцы</a>
+                        {% if project.current_milestone %}
+                        <a href="#" class="js-get-xls-milestone button green-bg button-mini">Отчет (xls)</a>
+                        {% endif %}
+                        </div>
 
-                        <div style="float: right;margin-left: 30px;">
-                            <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
-                            столбцы</a></div>
-                    {% if project.current_milestone %}
-                        <div style="float: right;">
-                            <a href="#" style="color: white;text-decoration: underline;" class="js-get-xls-milestone">Отчет (xls)</a></div>
-                    {% endif %}
                     </div>
                 </div>
                 {% if project.current_milestone and project.current_milestone.taskTimeAllResps %}
-                    <div style="padding: 10px 20px 30px 20px">
+                    <div class="kanban-progress-bars">
                         <div style="float: left;width:150px;">Прошло времени: </div>
                         <div class="progress" style="margin-left: 155px;margin-top: 7px;">
                             <div class="progress-bar progress-bar-info" role="progressbar"

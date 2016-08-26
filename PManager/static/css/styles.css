@@ -637,7 +637,20 @@ div.taskWizard-required .taskWizard-question-title:after {
 .Task_Detail_breadcrumb { padding: 0px; margin: 0px; list-style: none; background-color: transparent; border-radius: 0px; }
 
 .widget.inner {padding:0px;}
-.widget.inner .widget-title { width:100%; background: #555; position:relative; padding:10px 20px; line-height:16px; border-radius:0px;border-top-left-radius: 4px;border-top-right-radius: 4px; color: #fff; }
+.widget.inner .widget-title {
+    width: 100%;
+    background: #f6f6f6;
+    position: relative;
+    padding: 15px 20px;
+    line-height: 16px;
+    border-radius: 0px;
+    border-bottom: 1px solid #eee;
+}
+
+.kanban-progress-bars {
+    padding: 10px 20px 10px 20px;
+    border-bottom: 1px solid #eee;
+}
 
 .widget.inner .widget-title.danger {background: #d43f3a;}
 .widget.inner .widget-title.danger .task-manage > a,
@@ -3730,6 +3743,7 @@ a.js-show-commit-diff {
     .message-desc-left {display:block; padding-bottom:7px; border-bottom:1px solid rgba(1,1,1,0.05);}
     .message-desc-right {display:block;}
     .button {width:100%; text-align:center; display:block; margin-bottom:5px;}
+    .button:last-child {margin-bottom: 0px;}
 }
 
 .cancel-project-select {
@@ -3743,7 +3757,6 @@ a.js-show-commit-diff {
     width: 100%;
     display: table;
     table-layout: fixed;
-
 }
 .kanban .widget.inner {
     position: static;
@@ -3762,15 +3775,45 @@ a.js-show-commit-diff {
 .kanban-cell-width-fix {
     width:100%;
 }
+
+.project-header-select {float: left;}
+
+.project-header-buttons {float: right;}
+.project-header-buttons .button {margin-left: 5px;}
+
+@media only screen and (max-width: 1280px) {
+    .kanban-table {
+        width: 100%;
+        display: block;
+        table-layout: auto;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    .kanban-table-row {
+        min-width: 1160px;
+        width: auto;
+        display: block;
+    }
+    .kanban-table-cell {
+        width: 290px;
+        float: left;
+    }
+}
+
+
+@media only screen and (max-width: 768px) {
+    .project-header-select {margin-bottom: 10px; float: none;}
+    .project-header-buttons {float: none;}
+    .project-header-buttons .button {margin-left: 0px; margin-right: 5px;}
+}
+
 .kanban .task.clearfix {
-    width:90%;
-    margin-left:5%;
-    margin-right: 5%;
+    /*width: 90%;*/
+    margin-right: 5px;
 }
 .kanban-cell-title {
-    width: 90%;
-    margin-left: 5%;
-    margin-right: 5%;
+    /*width: 90%;*/
+    margin-right: 5px;
     text-align: center;
 }
 .kanban .project-row {
@@ -3790,6 +3833,7 @@ a.js-show-commit-diff {
 
 .kanban .tasks-wrapper {
     width:100%;
+    padding: 20px;
     height:100%;
     z-index:1;
 }
@@ -3806,18 +3850,16 @@ a.js-show-commit-diff {
     border: 1px solid transparent;
 }
 .kanban .task.ui-sortable-helper .task-card {
-    box-shadow: rgba(1, 1, 1, 0.10) 3px 4px 1px 0px;
+    /*box-shadow: rgba(1, 1, 1, 0.10) 3px 4px 1px 0px;
     -moz-box-shadow:3px 4px 1px rgba(1, 1, 1, 0.10);
-    -webkit-box-shadow:3px 4px 1px rgba(1, 1, 1, 0.10);
+    -webkit-box-shadow:3px 4px 1px rgba(1, 1, 1, 0.10);*/
 }
 .kanban .project-row-headers {
     overflow: auto;
 }
 .task-kanban-dummy {
-    width: 90%;
+    width: 100%;
     height: 80px;
-    margin-left:5%;
-    margin-right: 5%;
     border: 1px dashed red;
 }
 .kanban .project-row .tasks-column {
@@ -3838,9 +3880,9 @@ a.js-show-commit-diff {
     padding: 0;
     margin:0;
     /*background: #f4f4f4;*/
-    box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
+   /* box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
     -moz-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
-    -webkit-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);
+    -webkit-box-shadow:1px 2px 1px rgba(1, 1, 1, 0.15);*/
 }
 .task-card .name {
     font-size: 12px;
@@ -3862,32 +3904,32 @@ a.js-show-commit-diff {
 .kanban .tasks-header {
     color: #fff;
     font-size: 14px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     text-align: center;
-    padding: 10px;
+    padding: 7px;
 }
 
 .kanban .tasks-header.tasks-not_approved {
     background: none repeat scroll 0 0 #f2f2f2;
-    border-bottom: 2px solid #999;
+    /*border-bottom: 2px solid #999;*/
     color: #999;
 }
 
 .kanban .tasks-header.tasks-closed {
     background: none repeat scroll 0 0 #656163;
-    border-bottom: 2px solid #150f29;
+    /*border-bottom: 2px solid #150f29;*/
     color: #e5e8ea;
 }
 
 .kanban .tasks-header.tasks-revision {
     background: none repeat scroll 0 0 #ffe8fe;
-    border-bottom: 2px solid #ac05a6;
+    /*border-bottom: 2px solid #ac05a6;*/
     color: #ac05a6;
 }
 
 .kanban .tasks-header.tasks-ready {
     background: none repeat scroll 0 0 #e9fde9;
-    border-bottom: 2px solid #47a447;
+    /*border-bottom: 2px solid #47a447;*/
     color: #47a447;
 }
 
@@ -3964,10 +4006,6 @@ a.js-show-commit-diff {
 .kanban .js-user_source {
     display: none;
 }
-.kanban .widget-title {
-    margin-bottom: 15px;
-}
-
 .invite-popup {padding: 15px;}
 .invite-popup ul {list-style: none;}
 
@@ -4145,6 +4183,27 @@ a.js-show-commit-diff {
     -moz-box-shadow: 0 1px 2px rgba(1, 1, 1, 0.3) inset;
     -webkit-box-shadow: 0 1px 2px rgba(1, 1, 1, 0.3) inset;
     border-top: #b1600f;
+}
+
+.button {height: 35px; line-height: 35px; font-size: 14px; font-weight: bold; text-align: center; border-radius: 4px; border: 0; padding: 0px;}
+.button.green-bg {background: #5cb85c; color: #fff;}
+.button.green-bg:hover {background: #47a447 !important;}
+
+.button.red-bg {background: #f53838; color: #fff;}
+.button.red-bg:hover {background: #f53838 !important;}
+
+
+.button.button-mini {
+height: 24px;
+font-size: 11px;
+line-height: 24px;
+padding: 0 12px;
+font-weight: normal;
+}
+
+.form-control-mini {
+    height: 24px;
+    font-size: 11px;
 }
 
 .promo_payment_plan_item {float: left; position: relative; width: 230px; margin:0 15px; padding-left: 25px; color: #a9ffa9; font-size: 16px;}
