@@ -647,6 +647,11 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-bottom: 1px solid #eee;
 }
 
+.widget.inner .widget-title a {
+    text-transform: uppercase;
+    font-size: 13px;
+}
+
 .kanban-progress-bars {
     padding: 10px 20px 10px 20px;
     border-bottom: 1px solid #eee;
@@ -662,8 +667,20 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner .widget-title.danger .pull-left .time {color:#fff;}
 
 .widget.inner.span4 {height:200px;}
-.achievement-ico {background:url(../images/super.png) 0px 0px no-repeat; width:27px; height:32px; position:absolute; top:12px; padding-top:11px; text-align:center; right:20px; color: #555; font-size:13px; font-weight:bold; display:block;}
-.widget.inner .widget-title .pull-left a {color:#fff;}
+.achievement-ico {
+    background:url(../images/super.png) 0px 0px no-repeat;
+    width: 27px;
+    height: 32px;
+    position: absolute;
+    top: 2px;
+    padding-top: 11px;
+    text-align: left;
+    right: 5px;
+    color: #fff;
+    font-size: 11px;
+    display: block;
+    padding-left: 8px;
+}
 .widget.inner .widget-title .pull-left .time {color:#ccc;}
 .widget.inner .widget-title .pull-left .author {display:inline-block;}
 .widget.inner .widget-title .pull-left .author > a {color:#fff;}
@@ -1176,7 +1193,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task {padding:0 15px; position:relative;}
 .task.ready {background:#e8f5e8;}
 
-.task-id {position:absolute; left:7px; top:-3px; font-size:10px; color:rgba(1,1,1,0.5);}
+.task-id {position:absolute; left:7px; top:-2px; font-size:10px; color:rgba(1,1,1,0.5);}
 .task-drag {width:3px; height:0px; position:absolute; left:0px; top:-1px; background:#ffa500; cursor:move}
 
 .closed {opacity:0.5; -moz-opacity:0.5; -webkit-opacity:0.5;}
@@ -1189,18 +1206,18 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 
 
-.task .task-border {padding:10px 0 4px;}
-.task-title {float:left; font-size:14px; width:40%; position:relative; padding-left:35px; padding-right:35px;}
+.task .task-border {padding:15px 0 10px;}
+.task-title {float:left; font-size:14px; width:40%; position:relative; padding-left:30px; padding-right:35px;}
 .task-checkbox {opacity: 0;}
 .task-checkbox + label {
     cursor: pointer;
     display: inline-block;
     height: 20px;
-    left: 5px;
+    left: 0px;
     margin: 0;
     padding: 0;
     position: absolute;
-    top: 1px;
+    top: 0px;
     width: 20px;
 }
 .task-checkbox + label:before {
@@ -1249,7 +1266,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task-title a:hover {color:#333;}
 .task_add-subtask {position: absolute; top:1px; right:0px;}
 .show-subtasks {color:#47a447 !important; text-decoration:none !important; display:inline-block; line-height:22px; cursor:pointer; font-weight:bold; height:20px; position:relative;}
-.task-title input {position:absolute; left:0px; top:2px;}
+.task-title input {position:absolute; left:9px; top:4px;}
 .task-info {float:right; width:60%; text-align:right; padding-left:20px;}
 .task-info > div {display:inline-block; line-height:24px;}
 .task-info .task-info-time {padding:0 85px 0 25px; position:relative; top:-6px; width:340px; text-align:left;}
@@ -2122,7 +2139,13 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list-filer hr {margin:0 0 15px;}
 .user-list-filer .span4 {margin-bottom:15px;}
 .user-list .widget.span4:nth-child(3n+1) {margin-left:0px;}
-.user-list .widget.span4 small {margin:5px 0 0; line-height:14px; display:block; color:#ccc;text-transform: lowercase;}
+.user-list .widget.span4 small {margin: 5px 0 0;
+    line-height: 14px;
+    display: block;
+    color: #666;
+    text-transform: lowercase;
+    font-size: 13px;
+}
 .user-list .user td {vertical-align:top;}
 .user-list .user td.avatar {width:100px;}
 .user-list .user td.avatar a {display:block; line-height:0px;width:102px; overflow:hidden; border: 1px solid #ddd; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; padding: 5px;}

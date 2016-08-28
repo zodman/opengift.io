@@ -133,10 +133,12 @@ div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
 .statusImg {
     display: inline-block;
     width: 12px;
-	position:relative;
-	top:1px;
-    height: 12px;
+	position: absolute;;
+	top:6px;
+    left: 6px;
+    height: 8px;
     background: url('/static/images/icon-grey.png') no-repeat 0 0;
+    background-size: 8px;
 }
 [data-status="online"] .statusImg {
     background: url('/static/images/icon-green.png') no-repeat 0 0;
