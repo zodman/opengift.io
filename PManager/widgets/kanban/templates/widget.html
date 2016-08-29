@@ -3,6 +3,15 @@
     {% compressed_js 'kanban' %}
     {% compressed_css 'kanban' %}
 {% endblock %}
+<script src="/static/js/jquery.fancyform.min.js"></script>
+<script>
+    $(function () {
+        $("select").transformSelect({
+            base: "class" // Can be image or class, if class a span will be added
+        });
+    });
+    window.taskHtml = {{ tasklist.template|jsonify|safe }};
+</script>
 <div class="kanban">
     {% for project in kanban.projects_data %}
         <div class="widget inner">

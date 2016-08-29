@@ -1,12 +1,8 @@
 {% load compressed %}
 {% compressed_js 'user_list' %}
-<div class="widget">
-    <div class="widget-control">
-{#        <a href="#" class="w-close">Закрыть</a>#}
-    </div>
+<div class="widget tasklist">
 
-    <h3>Все пользователи</h3>
-    <hr>
+    <h1>Все пользователи</h1>
 
     <div class="row-fluid user-list-filer" style="display: none;">
     	<div class="span4">
@@ -40,6 +36,7 @@
     </div>
 </div>
 <style>
+
     .user-block.pro {
         border: 2px solid #aa7729;
         border-radius: 6px;

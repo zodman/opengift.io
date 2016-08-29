@@ -1,40 +1,44 @@
 {% load jsonify %}
  <div class="user-block widget inner js-user span4" data-id="{{ user.id }}">
     <div class="widget-title clearfix">
-        <div class="pull-left"><i class="statusImg"></i>
-            <a href="/user_detail/?id={{ user.id }}"><b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b>
-            {% if is_admin and user.profile.account_total%}
-                         <b style="color: #d9534f;">{{ user.profile.account_total }} - {{ user.feeSum }}</b>
-            {% endif %}
-            </a>
-            {% if user.get_profile.is_outsource %}
-            <span class="pro-icon" href="/pro/" style="top:-2px;left: 4px;">
-                <i class="fa fa-star"></i>
-            </span>
-            {% endif %}
-            <small class="small">
-                {% if user.profile.specialties.count %}
-                    {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
-                {% else %}
-                    {% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}
-                {% endif %}
-            </small>
 
-        </div>
-        {% if user.user_achievements.count %}
-        <span class="achievement-ico">{{ user.user_achievements.count }}</span>
-        {% endif %}
+            <div class="user-block-header clearfix">
+                <i class="statusImg"></i>
+                <div class="user-block-header-avatar">
+                    <a href="/user_detail/?id={{ user.id }}" class="user-block">
+                        <div class="avatar_container js-avatar-container" data-size="30" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
+                    </a>
+                </div>
+                <div class="user-block-header-name-spec">
+                    <a href="/user_detail/?id={{ user.id }}">
+                        <b>{% if user.last_name %}{{ user.last_name }} {{ user.first_name }}{% else %}{{ user.username }}{% endif %}</b>
+                        {% if is_admin and user.profile.account_total%}
+                        <b style="color: #d9534f;">{{ user.profile.account_total }} - {{ user.feeSum }}</b>
+                        {% endif %}
+                    </a>
+                    {% if user.get_profile.is_outsource %}
+                    <span class="pro-icon" href="/pro/" style="top:-2px;left: 4px;">
+                        <i class="fa fa-star"></i>
+                    </span>
+                    {% endif %}
+                    <small class="small">
+                        {% if user.profile.specialties.count %}
+                        {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
+                        {% else %}
+                        {% for role in user.roles_in_projects %}{% if forloop.first %}{{ role }}{% endif %}{% endfor %}
+                        {% endif %}
+                    </small>
+                </div>
+
+                {% if user.user_achievements.count %}
+                <span class="achievement-ico">{{ user.user_achievements.count }}</span>
+                {% endif %}
+            </div>
+
+
     </div>
 
     <div class="widget-body user-personal row-fluid clearfix">
-        <table width="100%" cellpadding="0" cellspacing="0" class="user">
-            <tr>
-                <td class="avatar">
-                    <a href="/user_detail/?id={{ user.id }}">
-                        <div class="avatar_container js-avatar-container" data-size="90" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
-                    </a>
-                </td>
-                <td class="about-user">
 
                     <div class="about-user-progress">
                         <b>Открытых задач: <strong>{{ user.allTasksQty|default_if_none:'0' }}</strong></b>
@@ -45,8 +49,11 @@
                         </div>
                     </div>
 
+
+
                     <p>Закрыто задач за месяц: <b>{{ user.tasksQty }}</b></p>
-                    {% if user.last_login %}<p>Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}</p>{% endif %}
+                    {% if user.last_login %}
+                    <p class="font-12 text-grey user-block-footer"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}</p>{% endif %}
                     {% if user.startedTask %}
                     <p><a class="startedTask" rel="tooltip" href="{{ user.startedTask.url }}"
                               {% if user.bHaveAccessToStartedTask %}
@@ -54,11 +61,6 @@
                               {% endif %}>Занят</a></p>
                     {% endif %}
 
-                </td>
-
-
-            </tr>
-        </table>
     </div>
 
 </div>
