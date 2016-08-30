@@ -43,8 +43,8 @@
                 </div>
                 {% if project.current_milestone and project.current_milestone.taskTimeAllResps %}
                     <div class="kanban-progress-bars">
-                        <div style="float: left;width:150px;">Прошло времени: </div>
-                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                        <div class="kanban-progress-bars-left">Прошло времени: </div>
+                        <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.elapsedTimeAllResps }}" aria-valuemin="0"
                                  aria-valuemax="{{ project.current_milestone.allTimeAllResps }}"
@@ -52,9 +52,9 @@
                                 <span class="sr-only"></span>
                             </div>
                         </div>
-                        <div style="clear: both"></div>
-                        <div style="float: left;width:150px;">Закрыто (ч.): </div>
-                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                        <div class="clearfix"></div>
+                        <div class="kanban-progress-bars-left">Закрыто (ч.): </div>
+                        <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-success" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.closedTaskTimeAllResps }}" aria-valuemin="0"
                                  aria-valuemax="{{ project.current_milestone.taskTimeAllResps }}"
