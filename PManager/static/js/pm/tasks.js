@@ -83,14 +83,14 @@ var CRITICALLY_THRESHOLD = 0.7;
 				if (this.get('onPlanning')) {
 					arItems.push({
 						'itemClass': 'ResetPlanning',
-						'itemText': 'Подтвердить оценку',
+						'itemText': 'Выбрать наименьшую оценку',
 						'itemMethod': 'closePlanning',
 						'icon': 'list-alt'
 					});
 				} else {
 					arItems.push({
 						'itemClass': 'BringPlanning',
-						'itemText': 'На оценку исполнителям',
+						'itemText': 'Покер планирования',
 						'itemMethod': 'addToPlaning',
 						'icon': 'users'
 					});

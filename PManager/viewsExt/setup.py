@@ -60,16 +60,16 @@ def register(request):
             prof.premium_till = datetime.datetime.now() + datetime.timedelta(days=(365*10))
             prof.save()
 
-            task = PM_Task.createByString(
-                u'Ознакомиться с сервисом контроля удаленной работы Heliard',
-                user,
-                None,
-                None,
-                project=project
-            )
-            task.resp = user
-            task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
-            task.setStatus('revision')
+            # task = PM_Task.createByString(
+            #     u'Ознакомиться с сервисом контроля удаленной работы Heliard',
+            #     user,
+            #     None,
+            #     None,
+            #     project=project
+            # )
+            # task.resp = user
+            # task.systemMessage(u'Задача создана', user, 'TASK_CREATE')
+            # task.setStatus('revision')
 
             user.backend = 'django.contrib.auth.backends.ModelBackend'
             login(
