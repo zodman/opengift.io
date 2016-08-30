@@ -641,13 +641,17 @@ div.taskWizard-required .taskWizard-question-title:after {
     width: 100%;
     background: #f6f6f6;
     position: relative;
-    padding: 15px 20px;
+    padding: 15px 20px 10px;
     line-height: 16px;
     border-radius: 0px;
     border-bottom: 1px solid #eee;
 }
 
-.widget.inner .widget-title a {
+.user-block.widget.inner .widget-title {height: 66px; background: none;}
+
+.widget.inner .widget-title h3 {margin: 0px; font-size: 20px; }
+
+.widget.inner .widget-title > a {
     text-transform: uppercase;
     font-size: 13px;
 }
@@ -655,6 +659,75 @@ div.taskWizard-required .taskWizard-question-title:after {
 .kanban-progress-bars {
     padding: 10px 20px 10px 20px;
     border-bottom: 1px solid #eee;
+}
+
+.transformSelect {
+    background: #fff;
+    list-style: none;
+    display: block;
+    margin: 0;
+    position: relative;
+    padding: 0px;
+}
+
+.transformSelect > li > span {
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    padding: 0 35px 0 10px;
+    position: relative;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+    border: 1px solid #ddd;
+}
+
+.transformSelect > li > span:hover {
+    color: #000;
+}
+
+.transformSelect > li > span:before {
+    content: "\f078";
+    position: absolute;
+    right: 8px;
+    top: 11px;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #999;
+    font-size: 11px;
+}
+
+.transformSelectDropdown {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 31px;
+    list-style: none;
+    padding: 0px;
+    margin: 0px;
+    background: #fff;
+    box-shadow: 0 5px 20px rgba(1,1,1,0.2);
+    border: 1px solid #ddd;
+}
+
+
+
+.transformSelectDropdown li {
+    list-style: none;
+    display: block;
+}
+.transformSelectDropdown li span {
+    padding: 9px 10px;
+    display: block;
+    cursor: pointer;
+}
+
+.transformSelectDropdown li span:hover {
+    background: #f6f6f6;
 }
 
 .widget.inner .widget-title.danger {background: #d43f3a;}
@@ -666,20 +739,20 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner .widget-title.danger .task-manage > span,
 .widget.inner .widget-title.danger .pull-left .time {color:#fff;}
 
-.widget.inner.span4 {height:200px;}
+.widget.inner.span4 {height:191px;}
 .achievement-ico {
-    background:url(../images/super.png) 0px 0px no-repeat;
+    background:url("../images/super.png") 0px 0px no-repeat;
     width: 27px;
     height: 32px;
     position: absolute;
-    top: 2px;
+    top: 17px;
     padding-top: 11px;
     text-align: left;
-    right: 5px;
+    right: 20px;
     color: #fff;
     font-size: 11px;
     display: block;
-    padding-left: 8px;
+    padding-right: 6px;
 }
 .widget.inner .widget-title .pull-left .time {color:#ccc;}
 .widget.inner .widget-title .pull-left .author {display:inline-block;}
@@ -700,6 +773,13 @@ div.taskWizard-required .taskWizard-question-title:after {
 .empty a {font-size: 14px;}
 
 .button-link .btn {vertical-align: inherit;}
+
+.user-block hr {margin: 10px 0;}
+
+.user-block-footer {
+    background: #f6f6f6;
+    margin: 0 -20px;
+    padding: 8px 20px;}
 
 .widget.draft .widget-title > h3 {
     border-bottom: 2px solid #f6f6f6;
@@ -1402,7 +1482,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     .how-much-time .on-desktop {display: none;}
 }
 
-.task-info .task-info-control {position:absolute; top:10px; right:10px;}
+.task-info .task-info-control {position:absolute; top:16px; right:10px;}
 .task-info .task-info-control > a,
 .task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); padding:0 8px; text-decoration:none;}
 
@@ -2139,23 +2219,23 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list-filer hr {margin:0 0 15px;}
 .user-list-filer .span4 {margin-bottom:15px;}
 .user-list .widget.span4:nth-child(3n+1) {margin-left:0px;}
-.user-list .widget.span4 small {margin: 5px 0 0;
-    line-height: 14px;
+.user-list .widget.span4 small {margin: 1px 0 0;
+    line-height: 18px;
     display: block;
     color: #666;
     text-transform: lowercase;
-    font-size: 13px;
+    font-size: 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
-.user-list .user td {vertical-align:top;}
-.user-list .user td.avatar {width:100px;}
-.user-list .user td.avatar a {display:block; line-height:0px;width:102px; overflow:hidden; border: 1px solid #ddd; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; padding: 5px;}
-.user-list .user td.avatar a span {max-height: 88px; display: block; overflow: hidden;}
-.user-list .user td.avatar a img {max-width: 100%;}
-.user-list .user td.avatar a svg {width:90px;height: 90px;}
-.user-list .user td.about-user {padding-left:15px;}
-.user-list .user td.about-user p {margin-bottom: 3px;}
 
-.about-user-progress b {display: block;}
+.user-block-header-avatar {float: left; width: 30px; margin-top: 2px; margin-right: 10px;}
+.user-block-header-name-spec {float: left; width: calc(100% - 40px);}
+
+
+.about-user-progress  {margin-bottom: 10px;}
+.about-user-progress b {display: block; margin-bottom: 5px;}
 .about-user-progress .progress {margin: 3px 0 5px;}
 
 .invite-developers {
@@ -3801,7 +3881,7 @@ a.js-show-commit-diff {
 
 .project-header-select {float: left;}
 
-.project-header-buttons {float: right;}
+.project-header-buttons {float: right; margin-top: 5px;}
 .project-header-buttons .button {margin-left: 5px;}
 
 @media only screen and (max-width: 1280px) {
@@ -5335,7 +5415,10 @@ ul.colors {
 .task-status.orange {border-left: 2px solid #ef9332;}
 
 .text-green {color: #5cb85c;}
+.text-grey {color: #999;}
+
 .font-20 {font-size: 20px;}
+.font-12 {font-size: 12px;}
 
 .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
 .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
