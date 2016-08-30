@@ -636,16 +636,19 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .Task_Detail_breadcrumb { padding: 0px; margin: 0px; list-style: none; background-color: transparent; border-radius: 0px; }
 
-.widget.inner {padding:0px;}
-.widget.inner .widget-title {
-    width: 100%;
-    background: #f6f6f6;
+.widget-title {
     position: relative;
-    padding: 15px 20px 10px;
-    line-height: 16px;
+    padding: 15px 20px;
+    margin: -20px -20px 20px;
     border-radius: 0px;
-    border-bottom: 1px solid #eee;
+    border-bottom: 2px solid #eee;
+    font-size: 20px;
+    line-height: 32px;
+    font-weight: 500;
 }
+
+.widget-title-left {float: left;}
+.widget-title-right {float: right;}
 
 .user-block.widget.inner .widget-title {height: 66px; background: none;}
 
@@ -657,9 +660,11 @@ div.taskWizard-required .taskWizard-question-title:after {
 }
 
 .kanban-progress-bars {
-    padding: 10px 20px 10px 20px;
-    border-bottom: 1px solid #eee;
+    margin-bottom: 20px;
 }
+
+.kanban-progress-bars-left {float: left; width: 150px;}
+.kanban-progress-bars-right.progress {float: left; width: calc(100% - 150px); margin: 6px 0 0 0;}
 
 .transformSelect {
     background: #fff;
@@ -668,6 +673,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     margin: 0;
     position: relative;
     padding: 0px;
+    line-height: 22px;
 }
 
 .transformSelect > li > span {
@@ -678,6 +684,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     position: relative;
     cursor: pointer;
     font-size: 14px;
+    font-weight: normal;
     color: #333;
     border: 1px solid #ddd;
 }
@@ -724,6 +731,8 @@ div.taskWizard-required .taskWizard-question-title:after {
     padding: 9px 10px;
     display: block;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
 }
 
 .transformSelectDropdown li span:hover {
@@ -740,20 +749,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner .widget-title.danger .pull-left .time {color:#fff;}
 
 .widget.inner.span4 {height:191px;}
-.achievement-ico {
-    background:url("../images/super.png") 0px 0px no-repeat;
-    width: 27px;
-    height: 32px;
-    position: absolute;
-    top: 17px;
-    padding-top: 11px;
-    text-align: left;
-    right: 20px;
-    color: #fff;
-    font-size: 11px;
-    display: block;
-    padding-right: 6px;
-}
+
 .widget.inner .widget-title .pull-left .time {color:#ccc;}
 .widget.inner .widget-title .pull-left .author {display:inline-block;}
 .widget.inner .widget-title .pull-left .author > a {color:#fff;}
@@ -765,7 +761,6 @@ div.taskWizard-required .taskWizard-question-title:after {
 .nav-pills > li > a > .asked,
 .nav-pills > li > a > .no-asked {margin-top:1px; margin-right:5px;}
 
-.widget.inner .widget-body {padding:15px 20px;}
 .widget-body {min-height: 200px;}
 .empty {text-align: center; font-size: 18px; color: #999; padding: 50px 0; min-height: 250px;}
 .empty > i {font-size: 90px; margin-bottom: 20px}
@@ -1000,7 +995,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 }
 
 .widget-tasklist-header {position: relative;}
-.widget-tasklist-functions {position: absolute; left: 0px; top: -3px;}
+.widget-tasklist-functions {position: absolute; top: 15px; right: 0;}
 .widget-tasklist-functions li {display: block; float: left; margin-left: 10px;}
 .widget-tasklist-functions li:first-child {margin-left: 0px;}
 .widget-tasklist-functions li .widget-tab {margin-right: 0px;}
@@ -2230,6 +2225,13 @@ a.message_task_name {color:#555555; text-decoration:underline;}
     white-space: nowrap;
 }
 
+.user-block-header {
+    margin: -20px -20px 20px;
+    padding: 10px 20px 10px;
+    border-bottom: 1px solid #eee;
+    height: 61px;
+}
+
 .user-block-header-avatar {float: left; width: 30px; margin-top: 2px; margin-right: 10px;}
 .user-block-header-name-spec {float: left; width: calc(100% - 40px);}
 
@@ -3193,7 +3195,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
     div.widget {padding-left:15px; padding-right:15px; margin:0 -15px 25px;}
 
-
+    .widget-title {padding: 10px 15px; margin: -15px -15px 15px;}
 
     /**** ДЕТАЛЬНАЯ ЗАДАЧИ ****/
     .widget.inner .widget-title .author {display:block;}
@@ -3236,7 +3238,6 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
 
     /**** ДЕТАЛЬНАЯ ЗАДАЧИ ****/
-    .widget.inner .widget-title {padding:10px 15px;}
     .widget.inner .widget-body {padding:15px 20px;}
     .newMessage .btn {margin-bottom:3px;}
 }
@@ -3881,7 +3882,7 @@ a.js-show-commit-diff {
 
 .project-header-select {float: left;}
 
-.project-header-buttons {float: right; margin-top: 5px;}
+.project-header-buttons {float: right; margin-top: -4px;}
 .project-header-buttons .button {margin-left: 5px;}
 
 @media only screen and (max-width: 1280px) {
@@ -3936,11 +3937,9 @@ a.js-show-commit-diff {
 
 .kanban .tasks-wrapper {
     width:100%;
-    padding: 20px;
     height:100%;
     z-index:1;
 }
-.activity .widget-title {text-align:center; font-size:18px;}
 
 .kanban .project-row:last-child {
     margin-bottom:0px;
@@ -4510,7 +4509,6 @@ font-weight: normal;
 .activity-wrapper .activity-avatar {font-weight: bold;}
 
 
-.activity .row-fluid {padding: 25px 25px 10px;}
 
 @media only screen and (max-width: 960px) {
     .activity-header {
@@ -4557,8 +4555,6 @@ font-weight: normal;
     }
     .activity-wrapper .activity-graph {width: 100%;padding-top: 0px;}
 
-
-    .activity .row-fluid {padding: 15px 15px 10px;}
 }
 
 @media only screen and (max-width: 576px) {
@@ -5688,6 +5684,14 @@ ul.colors {
     .project_graph .well {padding-bottom: 30px;}
 }
 
+
+
+@media (max-width: 768px) {
+
+.to-hide-768 {display: none;}
+
+}
+
 @media (max-width: 568px) {
 
     .project_graph .col-sm-4.two-line {
@@ -5721,18 +5725,11 @@ ul.colors {
     .project_graph .col-sm-4:last-child {
         margin-bottom: 0px;
     }
+
+    .to-hide-568 {display: none;}
+    .widget-tasklist-functions {top: 8px;}
 }
 
 
-@media only screen and (max-width: 1024px) {
-    .widget-tasklist-functions {right: 0px; left: auto;}
-    .widget.tasklist h1,
-    .widget.chat h1 {text-align: left;}
-}
 
 
-@media only screen and (max-width: 768px) {
-    .widget-tasklist-functions {position: relative;}
-    .widget.tasklist h1,
-    .widget.chat h1 {text-align: center;}
-}

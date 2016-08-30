@@ -1,5 +1,5 @@
-.user-body {background: #f6f6f6; margin: 0 -20px -15px;}
-.user-header {margin: -15px -20px 0;}
+.user-body {background: #f6f6f6; margin: 0 -20px -20px;}
+.user-header {margin: -20px -20px 0;}
 
 .user-header-info {display: none;}
 .user-header-info-blocks {display: none;}
@@ -85,7 +85,7 @@
 
 
 .user-body-info-block-balance {margin-bottom: 15px; text-transform: uppercase; font-size: 11px; font-weight: bold;}
-.user-body-info-block-balance-sum {}
+.user-body-info-block-balance-sum {font-size: 24px; color: #5cb85c;}
 .user-body-info-block-balance-sum-active {font-size: 24px; color: #5cb85c; text-decoration: none; border-bottom: 2px dashed #5cb85c;}
 .user-body-info-block-balance-sum-active:hover,
 .user-body-info-block-balance-sum-active:active,

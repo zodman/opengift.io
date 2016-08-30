@@ -1,6 +1,5 @@
 {% load jsonify %}
  <div class="user-block widget inner js-user span4" data-id="{{ user.id }}">
-    <div class="widget-title clearfix">
 
             <div class="user-block-header clearfix">
                 <i class="statusImg"></i>
@@ -29,14 +28,9 @@
                         {% endif %}
                     </small>
                 </div>
-
-                {% if user.user_achievements.count %}
-                <span class="achievement-ico">{{ user.user_achievements.count }}</span>
-                {% endif %}
             </div>
 
 
-    </div>
 
     <div class="widget-body user-personal row-fluid clearfix">
 
