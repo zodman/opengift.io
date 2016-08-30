@@ -286,5 +286,11 @@ PIPELINE_CSS = {
             'css/bootstrap-markdown.css',
         ),
         'output_filename': 'css_compressed/markdown.css'
+    },
+    'user_detail': {
+        'source_filenames': (
+            'widgets/user_detail/style.css',
+        ),
+        'output_filename': 'css_compressed/user_detail.css'
     }
 }

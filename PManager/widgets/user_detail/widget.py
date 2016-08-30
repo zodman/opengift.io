@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import ObjectTags, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, \
+from PManager.models import ObjectTags, PM_Milestone, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, \
     PM_User_Achievement, LogData
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
@@ -14,7 +14,7 @@ from tracker.settings import USE_GIT_MODULE
 from PManager.services.rating import get_user_quality
 import json
 from django.contrib.contenttypes.models import ContentType
-
+from django.db.models import Count
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -127,7 +127,7 @@ def widget(request, headerValues, ar, qargs):
                         'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
                         ' WHERE `user_id`=' + str(int(user.id)) +
                         ' AND task_id in ' +
-                        '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ')'
+                        '(SELECT id FROM PManager_pm_task WHERE `project_id`=' + str(int(project.id)) + ') LIMIT 30'
                     )
 
                     projectBet = profile.getBet(project)
@@ -145,7 +145,7 @@ def widget(request, headerValues, ar, qargs):
                                                                             ' WHERE (`user_id`=' + str(
                                                                     int(user.id)) + ' or `payer_id`=' + str(
                                                     int(user.id)) + ')'
-                                                                    ' AND `project_id`=' + str(int(project.id))
+                                                                    ' AND `project_id`=' + str(int(project.id)) + ' LIMIT 30'
                     ):
                         projPrice += o.summ if o.summ else 0
 
@@ -265,10 +265,19 @@ def widget(request, headerValues, ar, qargs):
                         for tag in quality:
                             tagWeight[tags[tag]] = quality[tag]
 
+                maxTagWeight = 0
                 for sp in specialties:
                     if sp.name in tagWeight:
                         setattr(sp, 'weight', tagWeight[sp.name])
+                        if maxTagWeight < tagWeight[sp.name]:
+                            maxTagWeight = tagWeight[sp.name]
+
                     s.append(sp)
+
+                for sp in s:
+                    if sp.name in tagWeight:
+                        if maxTagWeight and tagWeight[sp.name]:
+                            setattr(sp, 'weightPercent', tagWeight[sp.name] * 100 / maxTagWeight)
 
             taskTagCoefficient = 0
             taskTagPosition = 0
@@ -292,6 +301,9 @@ def widget(request, headerValues, ar, qargs):
                 'profile': profile,
                 'title': user.first_name + ' ' + user.last_name,
                 'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
+                'milestonesClosed': PM_Milestone.objects.filter(closed=True, id__in=[x['milestone__id'] for x in user.todo.filter(closed=True, milestone__isnull=False)
+                                            .exclude(author=user)
+                                                .values('milestone__id').annotate(dcount=Count('milestone__id'))]).count(),
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,
                 'tagWeight': tagWeight,
