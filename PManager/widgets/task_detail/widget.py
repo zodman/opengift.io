@@ -220,7 +220,7 @@ def widget(request, headerValues, arFilter, q):
             'taskTemplate': taskTemplate,
             'users': users,
             'messages': messages,
-            'solutions': similar_solutions(task.id),
+            # 'solutions': similar_solutions(task.id),
             'lamp': lamp,
             'hiddenSubTasksExist': hiddenSubTasksExist,
             'templates': templates,
