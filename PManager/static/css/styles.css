@@ -14,7 +14,7 @@ h2, .h2 {font-size:23px; line-height:26px;}
 h3, .h3 {font-size:20px; line-height:22px;}
 h4, .h4 {font-size:18px; line-height:20px;}
 h5, .h5 {font-size:16px; line-height:20px;}
-h6, .h6 {font-size:13px; line-height:16px; margin:0 0 15px;}
+h6, .h6 {font-size:14px; line-height:20px; margin:0 0 15px; font-weight: bold;}
 
 h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
@@ -297,6 +297,7 @@ header .header .timer-wrapper .user-menu a i {display:none;}
 .projects-list-text h4 {margin:0px; font-size:16px; font-weight:bold; max-height:40px; overflow:hidden; display:block;}
 .projects-list-text h4 a {color:#47a447;}
 
+.dropdown-menu > li > a {text-decoration: none;}
 /*
 header {background:#fff; box-shadow:0px 0px 15px #ccc; margin-bottom:15px; border: 0px; }
 header .navbar-right { float: right; }
@@ -498,7 +499,7 @@ header .nav > li .timer .dropdown-menu>li>a { white-space: normal; }
                              ВИДЖЕТ
     ###############################################################*/
 
-div.widget {background:#fff; box-shadow:0px 0px 5px #ddd;  padding:20px;  -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; margin-bottom:25px; position:relative; z-index:1;}
+div.widget {background:#fff; box-shadow:0px 0px 5px #ddd;  padding:20px;  -webkit-transition: all 0.2s ease-in-out; -moz-transition: all 0.2s ease-in-out; -o-transition: all 0.2s ease-in-out; transition: all 0.2s ease-in-out; margin-bottom:25px; z-index:1;}
 /*div.widget:hover,*/
 /*div.widget:focus {box-shadow:0px 0px 5px #aaa; -webkit-box-shadow:0px 0px 5px #aaa; -o-box-shadow:0px 0px 5px #aaa; -moz-box-shadow:0px 0px 5px #aaa;}*/
 
@@ -634,7 +635,6 @@ div.taskWizard-required .taskWizard-question-title:after {
                              ЗАДАЧА. ВНУТРЕННЯЯ
     ############################################################### */
 
-.Task_Detail_breadcrumb { padding: 0px; margin: 0px; list-style: none; background-color: transparent; border-radius: 0px; }
 
 .widget-title {
     position: relative;
@@ -647,8 +647,27 @@ div.taskWizard-required .taskWizard-question-title:after {
     font-weight: 500;
 }
 
+.widget-title-info {margin-bottom: 15px;}
+.widget-title-info-left {float: left; font-size: 11px; color:#777; line-height: 16px;}
+.widget-title-info-right {float: right; font-size: 11px; line-height: 16px;}
+.widget-title-info a {color: #333; text-decoration: underline;}
+.widget-title-info a:hover,
+.widget-title-info a:active,
+.widget-title-info a:focus {color: #000}
+
+.widget-title-info-left-ul {list-style: none; padding: 0px; margin: 0px;}
+.widget-title-info-left-ul li {display: block; margin: 0 40px 0 0; float: left;}
+
 .widget-title-left {float: left;}
 .widget-title-right {float: right;}
+
+.widget-title-bottom-info {
+    margin: -22px -20px 20px;
+    background: #eee;
+    padding: 10px 20px;
+    font-size: 12px;
+    color: #999;
+}
 
 .user-block.widget.inner .widget-title {height: 66px; background: none;}
 
@@ -678,8 +697,8 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .transformSelect > li > span {
     display: block;
-    height: 32px;
-    line-height: 32px;
+    height: 34px;
+    line-height: 34px;
     padding: 0 35px 0 10px;
     position: relative;
     cursor: pointer;
@@ -687,6 +706,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     font-weight: normal;
     color: #333;
     border: 1px solid #ddd;
+    border-radius: 4px;
 }
 
 .transformSelect > li > span:hover {
@@ -712,7 +732,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     position: absolute;
     left: 0;
     right: 0;
-    top: 31px;
+    top: 32px;
     list-style: none;
     padding: 0px;
     margin: 0px;
@@ -739,20 +759,18 @@ div.taskWizard-required .taskWizard-question-title:after {
     background: #f6f6f6;
 }
 
-.widget.inner .widget-title.danger {background: #d43f3a;}
-.widget.inner .widget-title.danger .task-manage > a,
-.widget.inner .widget-title.danger .task-manage > span > a,
-.widget.inner .widget-title.danger .task-manage > span,
-.widget.inner .widget-title.danger .task-manage > span > span,
-.widget.inner .widget-title.danger .task-manage > a,
-.widget.inner .widget-title.danger .task-manage > span,
-.widget.inner .widget-title.danger .pull-left .time {color:#fff;}
+.widget-title.danger {
+    border-top: 0px solid #d43f3a;
+    color: #d43f3a;
+}
+
+.widget-title.danger + .widget-title-bottom-info {
+    background: #d43f3a;
+    color: #ffffff;
+}
 
 .widget.inner.span4 {height:191px;}
 
-.widget.inner .widget-title .pull-left .time {color:#ccc;}
-.widget.inner .widget-title .pull-left .author {display:inline-block;}
-.widget.inner .widget-title .pull-left .author > a {color:#fff;}
 
 .asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
 .asked {background-position:0px -411px;}
@@ -800,8 +818,6 @@ div.taskWizard-required .taskWizard-question-title:after {
     -webkit-opacity: 1;
 }
 
-.show-closed-task a {display:block; height:25px; line-height:25px; color:#666; background:#ddd; transition:all ease-in-out 0.1s; -moz-transition:all ease-in-out 0.1s; -webkit-transition:all ease-in-out 0.1s;}
-.show-closed-task a:hover {background:#ccc; color:#333;}
 
 /*  ###############################################################
 	#                          ДОБАВИТЬ ЗАДАЧУ,					  #
@@ -820,7 +836,6 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;}
 .tasks-toolbar .search-filter .btn-default {width:40px;}
-.tasks-toolbar .search-filter .btn-success {width:105px;}
 .tasks-toolbar .search-filter .btn-success .name {padding-left:10px;}
 .tasks-toolbar .search-filter .btn-info {width:40px; margin-left:0px;}
 .tasks-toolbar .search-filter .btn {margin-bottom:0px;}
@@ -842,7 +857,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     background-color: #47a447;
 }
 
-.big-input { float:left; width:calc(100% - 135px); position:relative;}
+.big-input { float:left; width:calc(100% - 155px); position:relative;}
 
 .big-input .fa {
     color: #d9d9d9;
@@ -876,7 +891,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .add-task-input ul li:last-child > a { border-radius: 4px; }
 
 /* добавить файл */
-.file-upload {float:left; position: relative; width: 135px;}
+.file-upload {float:left; position: relative; width: 155px;}
 .task-file-upload {}
 .tasklist .task-file-upload .qq-upload-drop-area {
     border-radius: 5px;
@@ -895,12 +910,14 @@ div.taskWizard-required .taskWizard-question-title:after {
 }
 
 .file-upload .btn.btn-default {width:40px; float:left; margin-left:5px; border:1px solid #eee;}
-.file-upload .btn.task-create {width:85px; margin-left:5px; float:left;}
+.file-upload .btn.task-create {width:105px; margin-left:5px; float:left;}
 .file-upload .btn.task-send {
     float: left;
     margin-left: 5px;
     width: 220px;
 }
+
+.file-upload .btn.task-create .to-hide-768 {margin-left: 10px;}
 
 .qq-upload-button,
 .qq-upload-button:hover,
@@ -908,9 +925,10 @@ div.taskWizard-required .taskWizard-question-title:after {
 .qq-upload-button:active {direction: ltr; background: none !important; display: block !important; height: 34px; overflow: hidden; position: absolute; right: 110px; top: 63px; width: 40px;}
 
 @media only screen and (max-width: 768px) {
-    .file-upload {float:none; width: 100%; padding-top: 5px;}
-    .big-input {float:none; width:100%;}
-    .file-upload .btn.btn-default {margin-left: 0px;}
+    .big-input {width: calc(100% - 90px);}
+    .file-upload {width: 90px;}
+    .file-upload .btn.task-create {width: 40px;}
+    .file-upload .btn.btn-default {}
     .file-upload .btn.task-send {margin-left: 5px;}
 
     .qq-upload-button,
@@ -921,7 +939,8 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 
 @media only screen and (max-width: 568px) {
-    .file-upload .btn {padding: 5px 7px !important; font-size: 13px !important; width: auto !important;}
+    .big-input > .fa {display: none;}
+    .big-input .input-block-level {padding: 6px 12px;}
 }
 
 /* ====================== ФИЛЬТРЫ */
@@ -951,6 +970,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .search_items_holder > span {
     display: block;
     float: left;
+    line-height: 30px;
     margin: 5px 15px 5px 0;
 }
 
@@ -1235,33 +1255,21 @@ div.taskWizard-required .taskWizard-question-title:after {
     -webkit-box-shadow: none;
 }
 
-.sub-tasks-button,
-.sub-tasks-button:hover,
-.sub-tasks-button:focus {
-    background: #fff none repeat scroll 0 0;
-    border-radius: 3px;
-    text-decoration: none;
-    display: inline-block;
-    float: right;
-    font-size: 11px;
-    height: 20px;
-    line-height: 18px;
-    margin-top: 2px;
-    padding: 1px 9px;
-}
+.sub-tasks {margin-top: 20px;}
 
-.sub-tasks-button:hover {color:#468847;}
+.sub-tasks-button {
+    float: right;
+}
 
 
 .tasks-title {
-    background: #47a447 none repeat scroll 0 0;
-    border-left: 3px solid #468847;
-    color: #fff;
-    font-size: 14px;
     font-weight: bold;
-    margin: 0;
-    padding: 4px 15px;
+    padding-bottom: 10px;
+    background: #fff;
+    font-size: 14px;
 }
+
+.task-details-text {font-size: 14px;}
 
 .temp_task {border-top: 2px dashed #ddd;  border-bottom: 2px dashed #ddd; background:#f9f9f9;  width: 100%;  height: 45px; margin: 10px 0 10px;}
 
@@ -1484,7 +1492,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task-info .task-info-control > a:hover,
 .task-info .task-info-control .js-options_popup > a:hover {color:rgba(1,1,1,0.5);}
 .task-info .task-info-control .task-menu li a {font-size:14px; padding:5px 10px; margin:0 -1px;}
-.add-task-input {padding:9px 15px 9px 17px; border-left:3px solid rgba(1, 1, 1, 0.15);}
+.add-task-input {padding:15px 15px 15px 17px; border-left:3px solid rgba(1, 1, 1, 0.15);}
 
 .subtasks .task {}
 .subtasks .task .task-border {border-bottom:1px solid rgba(1,1,1,0.1); border-top:1px solid #fff;}
@@ -1916,17 +1924,16 @@ input.combobox {display:inline-block; height:30px; width:auto;}
                              ЗАДАЧА
     ###############################################################*/
 
-/*Управление задачей */
-/*.task-manage > a,
-.task-manage > span > a,
-.task-manage > span,
-.task-manage > span > span { width:16px; height:16px; display:block; float:right; margin-left:3px; background-image:url(../images/sprite.png); background-repeat:no-repeat; }*/
 
 .task-manage > a,
 .task-manage > span > a,
 .task-manage > span,
-.task-manage > span > span {display:block; float:right; font-size:18px; text-decoration:none !important; color:#afd064;}
-.task-manage > a, .task-manage > span {color:#afd064 ; display:block; float:right; font-size:18px; text-decoration:none !important; margin-left:10px;}
+.task-manage > span > span,
+.task-manage > a:hover,
+.task-manage > span > a:hover,
+.task-manage > span:hover,
+.task-manage > span > span:hover  {display:block; float:right; font-size:18px; text-decoration:none !important; color:#47a447;}
+.task-manage > a, .task-manage > span {display:block; float:right; font-size:18px; text-decoration:none !important; margin-left:10px;}
 
 .task-manage > span.dropdown {background:none;}
 .plus {background-position:-16px -266px;}
@@ -1953,9 +1960,6 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 /* показать ещё подазадачи */
 .tasks a.show-more {width:150px; margin:15px auto; display:block; font-size:14px; font-weight:bold; padding:5px 25px;}
 
-.show-closed-task { margin-bottom:5px; text-align: center; }
-.show-closed-task a { font-size: 90%; }
-.show-closed-task a:hover { text-decoration: none; }
 
 
 .project-milestones {
@@ -3483,14 +3487,29 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 .to-do-list button {
     background: none repeat scroll 0 0 rgba(0, 0, 0, 0);
     border: medium none;
-    color: #ccc;
-    font-size: 21px;
-    line-height: 0;
-    margin-left: 0;
+    font-size: 14px;
     position: relative;
-    top: 3px;
-    cursor:pointer;
+    cursor: pointer;
+    padding: 0px;
+    margin: 0 0px 10px 0px;
+    display: block;
+    line-height: 20px;
+    text-align: left;
+    font-weight: normal;
+    padding-left: 35px;
 }
+
+.to-do-list button i {
+    margin-right: 10px;
+    margin-top: 0px;
+    width: 20px;
+    color: #999;
+    font-size: 24px;
+    position: absolute;
+    left: 0;
+    top: -2px;
+}
+
 
 .to-do-list button .fa-check-square-o {color:#57a957;cursor:pointer;}
 
@@ -4030,7 +4049,7 @@ a.js-show-commit-diff {
 }
 
 .kanban .tasks-header.tasks-ready {
-    background: none repeat scroll 0 0 #e9fde9;
+    background: #e8f5e8;
     /*border-bottom: 2px solid #47a447;*/
     color: #47a447;
 }
@@ -5684,11 +5703,12 @@ ul.colors {
     .project_graph .well {padding-bottom: 30px;}
 }
 
-
+.show-on-768 {display: none}
 
 @media (max-width: 768px) {
 
-.to-hide-768 {display: none;}
+    .to-hide-768 {display: none;}
+    .show-on-768 {display: block;}
 
 }
 
@@ -5731,5 +5751,104 @@ ul.colors {
 }
 
 
+.big-filter-wrapper {position: relative;}
 
 
+
+@media only screen and (max-width: 1024px) {
+
+.big-filter-wrapper > .dropdown-menu:before {
+    content: "\f00d";
+    top: 0px;
+    right: 0px;
+    z-index: 1000;
+    position: absolute;
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 17px;
+    width: 25px;
+    height: 25px;
+    text-align: center;
+    color: #333;
+    line-height: 25px;
+    cursor: pointer;
+}
+
+.big-filter-wrapper > .dropdown-menu {
+    display: none;
+    position: fixed !important;
+    top: 0 !important;
+    right: 0 !important;
+    left: 0px !important;
+    bottom: 0 !important;
+    z-index: 100000 !important;
+    background: #fff !important;
+    margin: 0 !important;
+    padding: 15px 30px 15px 15px !important;
+    overflow-y: auto;
+}
+
+.big-filter-wrapper.open > .dropdown-menu {
+    display: block;
+}
+
+.big-filter-wrapper > .dropdown-menu > li > a,
+.big-filter-wrapper > .dropdown-menu > li > a:hover,
+.big-filter-wrapper > .dropdown-menu > li > a:focus,
+.big-filter-wrapper > .dropdown-menu > li > a:active {
+    padding: 7px 0px;
+    color: #333;
+    font-weight: bold;
+    background: none;
+}
+
+,
+.big-filter-wrapper > .dropdown-menu > li > a:hover,
+.big-filter-wrapper > .dropdown-menu > li > a:focus,
+.big-filter-wrapper > .dropdown-menu > li > a:active {
+    color: #47a447;
+}
+
+.big-filter-wrapper > .dropdown-menu > li > a:after {
+    display: none;
+}
+
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a,
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:hover,
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:focus,
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:active {
+    padding: 7px 0px !important;
+    background: none;
+    color: #555;
+}
+
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:hover,
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:focus,
+.big-filter-wrapper .dropdown-menu .dropdown-menu > li > a:active {
+    color:#47a447;
+}
+
+.big-filter-wrapper .dropdown-menu .dropdown-menu {
+    position: relative !important;
+    left: 0;
+    right: 0;
+    width: 100%;
+    box-shadow: none;
+    border: 0;
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+
+    .big-filter-wrapper .dropdown-menu .dropdown-menu > li > a {
+        padding: 7px 0px !important;
+    }
+
+    .big-filter-wrapper .dropdown-submenu > a {
+        padding: 7px 0px !important;
+    }
+
+}

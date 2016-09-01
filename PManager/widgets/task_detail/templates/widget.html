@@ -9,84 +9,109 @@
         {% endif %}
 <div class="widget inner Task_Detail" id="task_detail" >
     <div class="widget-title clearfix">
-{# ---- TASK INFO #}
-        <div class="pull-left">
-            <span class="{{ task_detail.lamp }}">Вы ответили</span>
-            <span class="time">{{ task_detail.task.dateModify }}</span>
-            <span class="author"><!--({{ task_detail.task.author.username }})-->
-            Автор: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></span>
+        <div class="widget-title-info clearfix">
+            <div class="widget-title-info-left">
+                <ul class="widget-title-info-left-ul clearfix">
+                    {% if not request.GET.frame_mode %}
+                    {% if task_detail.task.parentTask %}
+                    {% with task_detail.task.parentTask as parent %}
+                    <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+                    {% endwith %}
+                    {% endif %}
+                    {% endif %}
+
+                    <li><i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Задача №{{ task_detail.task.number }}</li>
+                    <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Создана: {{ task_detail.task.dateModify }}</li>
+                    <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Автор: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></li>
+                </ul>
+
+            </div>
+            <div class="widget-title-info-right task-manage">
+                        {% if task_detail.subtasks|length == 0 %}
+                        <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
+                        <a href="javascript:void(0);" title="Закрыть задачу" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
+                        {% endif %}
+
+                    <span class="dropdown pull-right close-task-wrapper">
+                        <a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>
+                        <div class="dropdown-menu pull-right pause_dialog">
+                            <h3>Введите комментарий</h3>
+                            <textarea name="comment" class="form-control"></textarea>
+                            <label class="checkbox">
+                                <input type="checkbox" name="solution" disabled="disabled" value="Y"> В базу знаний
+                            </label>
+                            <a class="btn btn-success pause_comment_success" >Ок</a>
+                            <a class="btn btn-danger pause_comment_cancel" >Отменить таймер</a>
+                        </div>
+                    </span>
+
+                    <span class="dropdown pull-right js-options_popup">
+                        <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-cog js-task_menu"></a>
+                    </span>
+
+            </div>
         </div>
-{# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
-        <div class="task-manage pull-right">
-        {% if task_detail.subtasks|length == 0 %}
-            <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
-            <a href="javascript:void(0);" title="Закрыть задачу" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
-        {% endif %}
-           
-          	<span class="dropdown pull-right close-task-wrapper">
-            	<a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>
-                <div class="dropdown-menu pull-right pause_dialog">
-                	<h3>Введите комментарий</h3>
-                    <textarea name="comment" class="form-control"></textarea>
-                    <label class="checkbox">
-                        <input type="checkbox" name="solution" disabled="disabled" value="Y"> В базу знаний
-                    </label>
-                    <a class="btn btn-success pause_comment_success" >Ок</a>
-                    <a class="btn btn-danger pause_comment_cancel" >Отменить таймер</a>
-                </div>
-            </span>
-          
-            <span class="dropdown pull-right js-options_popup">
-                <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-cog js-task_menu"></a>
-            </span>
-            
-            
-        </div><!--task-manage-->
+        <span class="{{ task_detail.lamp }}">Вы ответили</span>{{ task_detail.task.name }}
+
+
     </div><!--widget-title-->
+
+    <div class="widget-title-bottom-info clearfix">
+            <ul class="widget-title-info-left-ul clearfix">
+                <li>{% if task_detail.task.planTime %}
+                    Плановое время: <b>{{ task_detail.task.planTime }}</b> ч.
+                    {% endif %}
+                </li>
+                <li>Затраченное время: <b id="js-td_time"></b></li>
+                    {% if task_detail.task.resp %}
+                    <li>
+                    Ответственный: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
+                    </li>
+                    {% endif %}
+
+                    {% if task_detail.task.observersList %}
+                     <li>
+                    Наблюдатели: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
+                    </li>
+                    {% endif %}
+            </ul>
+    </div>
 
     {# ---- TASK BODY #}
     <div class="widget-body">
 
-        <ol class="Task_Detail_breadcrumb breadcrumb">
-            {% if not request.GET.frame_mode %}
-            <li><a href="/">{{ task_detail.task.project.name }}</a></li>
-            {% if task_detail.task.parentTask %}
-                {% with task_detail.task.parentTask as parent %}
-                <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-                {% endwith %}
-            {% endif %}
-            {% endif %}
-            <li class="active">Задача №{{ task_detail.task.number }}</li>
-        </ol>
 
-        <hr>
-        <h2>{{ task_detail.task.name }}</h2>
-        <p>{{ task_detail.task.text_formatted|safe }} </p>
+
+
+        <div class="task-details-text">{{ task_detail.task.text_formatted|safe }}</div>
         {% if task_detail.files %}
-            <p>
                 {% for file in task_detail.files %}
                     {% if file.is_picture %}
+                    <div class="task-details-pictures">
                         <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                    </div>
                     {% endif %}
                 {% endfor %}
-            </p>
 
-            <p>
                 {% for file in task_detail.files %}
                     {% if not file.is_picture %}
+                    <div class="task-details-files">
                         <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}" ></span> {{ file.name }}</a><br />
-                    {% endif %}
+                    </div>
+                {% endif %}
                 {% endfor %}
-            </p>
+
         {% endif %}
 
-        <p class="js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
-            <div Нужно сделать:
+        <h6>Нужно сделать:</h6>
+        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
+
             <span class="js-todo-list todo-list">
             {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
-                <button data-content="{{ todo.text }}" data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
+                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
                     {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
+                    {{ todo.text }}
                 </button>
                 {% endfor %}
             {% endif %}
@@ -94,47 +119,41 @@
             <span class="js-bug-list bug-list">
                 {% if task_detail.task.bug %}
                     {% for bug in task_detail.task.bug %}
-                        <button data-content="{{ bug.text }}" data-placement="top" data-toggle="popover"
+                        <button data-placement="top" data-toggle="popover"
                                 data-container="body" class="js-bug-checkbox" rel="{{ bug.id }}" type="button"
                                 data-original-title="" title="">
                             {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}
                                 <i class="fa fa-square-o"></i>{% endif %}
+                            {{ bug.text }}
                         </button>
                     {% endfor %}
                 {% endif %}
             </span>
-        </p>
-        {% if task_detail.task.planTime %}
-        Плановое время: {{ task_detail.task.planTime }} ч. &nbsp;&nbsp;
-        {% endif %}
-        Затраченное время: <span id="js-td_time"></span>
-        {% if task_detail.task.resp %}
-        <hr />
-        <p class="text-success">
-            Ответственный: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
-        </p>
-        {% endif %}
+
+
+        </div>
+
+
+
+
         {% if task_detail.solutions %}
          <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
         {% endif %}
-        <hr />
-        {% if task_detail.task.observersList %}
-        <p class="text-success">
-            Наблюдатели: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
-        </p>
-        {% endif %}
+
         {% if not task_detail.task.parentTask %}
-            <div class="tasks js-sub-tasks box-shadow-0">
+            <div class="sub-tasks js-sub-tasks box-shadow-0">
                 <div class="task-wrapper">
-                    <div class="tasks-title">Подзадачи<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a></div>
-                    <div class="subtask">
+                    <div class="tasks-title clearfix">
+                        Подзадачи
+                        <!--<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a>-->
                         {% if task_detail.hiddenSubTasksExist %}
-                            <div class="show-closed-task">
-                                <a class="js-ShowClosedSubtasks">Показать закрытые подзадачи</a>
-                            </div>
+                        <a class="js-ShowClosedSubtasks green-bg button button-mini sub-tasks-button">Показать закрытые подзадачи</a>
                         {% endif %}
+                    </div>
+                    <div class="subtask">
+
                         {# ---- ДОБАВИТЬ ПОДЗАДАЧУ #}
-                        <div class="add-task-input js-addTaskInput" style="display: none;">
+                        <div class="add-task-input js-addTaskInput">
                             <input class="input-block-level form-control" data-parent="{{ task.id }}" type="text" placeholder="Добавить подзадачу...">
                         </div>
                     </div>
@@ -142,7 +161,6 @@
             </div>
         {% endif %}
 
-        <hr>
         <a href="#" class="js-show-all" style="display: none;">Показать предыдущие сообщения</a>
         <div class="messages js-commentsContainer"></div>
 

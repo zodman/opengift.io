@@ -189,9 +189,6 @@ a {
 .Task_Detail .widget-title .fa-pause:not(.disabled) {
     color: orange;
 }
-.Task_Detail .widget-title.closed {
-    background-color: grey;
-}
 .disabled .fa {
     color: lightgrey;
 }
