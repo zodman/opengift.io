@@ -1355,7 +1355,6 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .input-with-icon {position: absolute; right: 20px; color: #47a447; font-size: 20px; top: 12px; right: 13px;}
 
-
 @media only screen and (max-width: 768px) {
     .input-with-label,
     .input-with-input {width: 100%; float: none;}

@@ -14,7 +14,7 @@ from tracker.settings import USE_GIT_MODULE
 from PManager.services.rating import get_user_quality
 import json
 from django.contrib.contenttypes.models import ContentType
-from django.db.models import Count
+from django.db.models import Count, Sum
 
 def widget(request, headerValues, ar, qargs):
     get = request.GET
@@ -167,7 +167,7 @@ def widget(request, headerValues, ar, qargs):
                         )
 
                 pAc = Credit.objects.filter(Q(Q(user=user) | Q(payer=user)),
-                                            project__in=projectsForPaymentsId).order_by('-date')
+                                            project__in=projectsForPaymentsId).order_by('-date')[:30]
                 for credit in pAc:
                     setattr(credit, 'value',
                             credit.value if credit.user and credit.user.id == user.id else -credit.value)
@@ -307,6 +307,11 @@ def widget(request, headerValues, ar, qargs):
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,
                 'tagWeight': tagWeight,
+                'allPlanClosed': user.todo.filter(
+                    planTime__gt=0,
+                    closed=True,
+                    dateClose__gt=(datetime.datetime.now() - datetime.timedelta(weeks=4))
+                ).aggregate(Sum('planTime'))['planTime__sum'] or 0,
                 'bugsQty': PM_Task_Message.objects.filter(task__in=user.todo.all(), bug=True).count(),
                 'timers': [
                     {

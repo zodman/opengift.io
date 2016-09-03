@@ -18,12 +18,12 @@
         <div class="user-header clearfix">
             <div class="">
                 <div class="user-header-avatar">
-                    <img src="/static/images/no-photo.png">
+                    <img src="{% if project.imagePath %}{{ project.imagePath }}{% else %}/static/images/no-photo.png{% endif %}">
                 </div>
 
                 <div class="user-header-info clearfix">
                     <div class="user-header-avatar">
-                        <img src="/static/images/no-photo.png">
+                        <img src="{% if project.imagePath %}{{ project.imagePath }}{% else %}/static/images/no-photo.png{% endif %}">
                     </div>
                     <div class="user-header-name">
                         <h2 class="user-body-info-block-name">{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}
@@ -83,36 +83,41 @@
                     <div class="user-body-info-block">
                     <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
                         <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu">
+                        <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
                             <ul class="user-body-info-block-balance-project-ul">
                                 <li class="user-body-info-block-balance-project-ul-li">
-                                    <div class="add-smthng-dropdown-input-wrapper clearfix">
-                                        <input type="text" placeholder="Введите навык">
+                                    <div class="add-smthng-dropdown-input-wrapper clearfix dropdown js-specialties_search_wrapper">
+                                        <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                                               placeholder="Укажите свои навыки" id="skillsDropdown"
+                                               class="form-control js-save_specialty" autocomplete="off" >
+                                        <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                                            aria-labelledby="skillsDropdown">
+                                        </ul>
                                     </div>
-                                    <a href="" class="block button green-bg">Добавить</a>
                                 </li>
                             </ul>
                         </div>
                     </h3>
-                    <ul class="user-body-info-block-ul">
-                        <li>
-                            <div class="user-header-stat-line-progress-title clearfix">
-                                <div class="user-header-stat-line-progress-title-text">верстка<a href="#" class="remove-icon"><i class="fa fa-remove"></i></a> </div>
-                                <div class="user-header-stat-line-progress-title-percent">37</div>
-                            </div>
-                            <div class="user-header-stat-line-progress-bar-2 progress">
-                                <div class="progress-bar blue" style="width: 37%"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="user-header-stat-line-progress-title clearfix">
-                                <div class="user-header-stat-line-progress-title-text">дизайн<a href="#" class="remove-icon"><i class="fa fa-remove"></i></a></div>
-                                <div class="user-header-stat-line-progress-title-percent">38</div>
-                            </div>
-                            <div class="user-header-stat-line-progress-bar-2 progress">
-                                <div class="progress-bar purple" style="width: 38%"></div>
-                            </div>
-                        </li>
+                    <ul class="user-body-info-block-ul js-specialties">
+                        {% if user_detail.specialties %}
+                            {% for specialty in user_detail.specialties %}
+                                <li>
+                                    <div class="user-header-stat-line-progress-title clearfix">
+                                        <div class="user-header-stat-line-progress-title-text">{{ specialty.name }}
+                                            {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                                                    <a href="#" class="remove-icon js-delete_specialty" data-specialty="{{ specialty.id }}"><i class="fa fa-remove"></i></a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="user-header-stat-line-progress-title-percent">
+                                            {% if specialty.weight %}{{ specialty.weight }}{% endif %}
+                                        </div>
+                                    </div>
+                                    <div class="user-header-stat-line-progress-bar-2 progress">
+                                        <div class="progress-bar blue" style="width: {{ specialty.weightPercent }}%"></div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
                 </div>
@@ -120,7 +125,7 @@
                     <div class="user-body-info-block">
                         <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
                             <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                            <div class="dropdown-menu">
+                            <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
                                 <ul class="user-body-info-block-balance-project-ul">
                                     <li class="user-body-info-block-balance-project-ul-li">
                                         <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
@@ -141,14 +146,14 @@
                             </div>
                         </h3>
                         <ul class="user-body-info-block-ul">
-                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>kosmicheskiy.zasranec@gmail.com</li>
-                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-phone"></i>+355 29 232-34-43</li>
+                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
+                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>
                         </ul>
                     </div>
                     <div class="user-body-info-block">
                     <h3>Последняя активность</h3>
                     <ul class="user-body-info-block-ul">
-                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>24 июля 2016 г. 2:56:48</li>
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>{{ user_detail.profile.last_activity_date|default_if_none:'' }}</li>
                     </ul>
                 </div>
                 </div>
@@ -198,8 +203,8 @@
                             <span class="user-header-stat-line-item-text-desc"></span></b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Отработано часов</b>
-                        <b class="user-header-stat-line-item-text">200<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
+                        <b class="user-header-stat-line-item-title">Закрыто часов</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.allPlanClosed|floatformat:".0"|default_if_none:"0" }}<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
                     </div>
                 </div>
 
@@ -208,10 +213,13 @@
 
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+                    {% if user_detail.profile.hoursQtyPerDay %}
                     <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Выработка часов</b>
-                        <b class="user-header-stat-line-item-text">≈ 5,2 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                        <b class="user-header-stat-line-item-title">Ресурс</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.profile.hoursQtyPerDay }}
+                            <span class="user-header-stat-line-item-text-desc">в день</span></b>
                     </div>
+                    {% endif %}
                     <div class="user-header-stat-line-item two-items">
                         <b class="user-header-stat-line-item-title">Решается Задач</b>
                         <b class="user-header-stat-line-item-text">≈ 2 <span class="user-header-stat-line-item-text-desc">в день</span></b>
@@ -250,9 +258,10 @@
         <div class="user-body clearfix">
             <div class="user-body-info">
                 <div class="user-body-info-block">
-                    <h2 class="user-body-info-block-name">{{ user_detail.title }}<a href="" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a></h2>
-
-
+                    <h2 class="user-body-info-block-name">{{ user_detail.title }}
+                        <a href="/profile/edit/?id={{ user_detail.user.id }}"
+                           class="user-body-info-block-edit-icon">
+                            <i class="fa fa-cog" aria-hidden="true"></i></a></h2>
                         {% if user_detail.current_user_is_admin %}
                         <form method="POST" action="">
                             {% csrf_token %}
@@ -300,44 +309,50 @@
                 </div>
                 <div class="user-body-info-block">
                     <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
-                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu">
-                            <ul class="user-body-info-block-balance-project-ul">
+                        <a href="" class="user-body-info-block-edit-icon"
+                           data-toggle="dropdown" data-target="#">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
+                            <ul class="user-body-info-block-balance-project-ul" onclick="return false;">
                                 <li class="user-body-info-block-balance-project-ul-li">
-                                    <div class="add-smthng-dropdown-input-wrapper clearfix">
-                                        <input type="text" placeholder="Введите навык">
+                                    <div class="add-smthng-dropdown-input-wrapper clearfix dropdown js-specialties_search_wrapper">
+                                        <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                                               placeholder="Укажите свои навыки" id="skillsDropdown"
+                                               class="form-control js-save_specialty" autocomplete="off" >
+                                        <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                                            aria-labelledby="skillsDropdown">
+                                        </ul>
                                     </div>
-                                    <a href="" class="block button green-bg">Добавить</a>
                                 </li>
                             </ul>
                         </div>
                     </h3>
-                    <ul class="user-body-info-block-ul">
-                        <li>
-                            <div class="user-header-stat-line-progress-title clearfix">
-                                <div class="user-header-stat-line-progress-title-text">верстка<a href="#" class="remove-icon"><i class="fa fa-remove"></i></a></div>
-                                <div class="user-header-stat-line-progress-title-percent">37</div>
-                            </div>
-                            <div class="user-header-stat-line-progress-bar-2 progress">
-                                <div class="progress-bar blue" style="width: 37%"></div>
-                            </div>
-                        </li>
-                        <li>
-                            <div class="user-header-stat-line-progress-title clearfix">
-                                <div class="user-header-stat-line-progress-title-text">дизайн<a href="#" class="remove-icon"><i class="fa fa-remove"></i></a></div>
-                                <div class="user-header-stat-line-progress-title-percent">38</div>
-                            </div>
-                            <div class="user-header-stat-line-progress-bar-2 progress">
-                                <div class="progress-bar purple" style="width: 38%"></div>
-                            </div>
-                        </li>
+                    <ul class="user-body-info-block-ul js-specialties">
+                        {% if user_detail.specialties %}
+                            {% for specialty in user_detail.specialties %}
+                                <li>
+                                    <div class="user-header-stat-line-progress-title clearfix">
+                                        <div class="user-header-stat-line-progress-title-text">{{ specialty.name }}
+                                            {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                                                    <a href="#" class="remove-icon js-delete_specialty" data-specialty="{{ specialty.id }}"><i class="fa fa-remove"></i></a>
+                                            {% endif %}
+                                        </div>
+                                        <div class="user-header-stat-line-progress-title-percent">{{ specialty.weight|default_if_none:'' }}</div>
+                                    </div>
+                                    <div class="user-header-stat-line-progress-bar-2 progress">
+                                        <div class="progress-bar blue" style="width: {{ specialty.weightPercent }}%"></div>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        {% endif %}
                     </ul>
                 </div>
 
                 <div class="user-body-info-block">
                     <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
-                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu">
+                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#">
+                            <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
+                        <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
                             <ul class="user-body-info-block-balance-project-ul">
                                 <li class="user-body-info-block-balance-project-ul-li">
                                     <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
@@ -358,15 +373,15 @@
                         </div>
                     </h3>
                     <ul class="user-body-info-block-ul">
-                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>kosmicheskiy.zasranec@gmail.com</li>
-                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-phone"></i>+355 29 232-34-43</li>
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>
                     </ul>
                 </div>
 
                 <div class="user-body-info-block">
                     <h3>Последняя активность</h3>
                     <ul class="user-body-info-block-ul">
-                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>24 июля 2016 г. 2:56:48</li>
+                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>{{ user_detail.profile.last_activity_date|default_if_none:'' }}</li>
                     </ul>
                 </div>
 
@@ -501,7 +516,6 @@
                                 <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
                                 <div class="dostizheniya-item-text">
                                     <h4>{{ c.achievement.name }}</h4>
-                                    <!--<p class="date">{{ c.achievement.date }}</p>-->
                                     <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
                                     {% if c.project %}<hr>
                                     <p>Проект: <b>{{ c.project.name }}</b></p>

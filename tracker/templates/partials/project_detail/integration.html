@@ -26,13 +26,13 @@
                         <span class="checkbox-wrapper-item-checkbox"></span>
                         Запретить коммиты не в задачу
                     </label>
-                    <label class="checkbox-wrapper-item">
-                        <input {% if not canEdit or not project.repository %}disabled="disabled" {% endif %}
-                        {% if settings.disable_commits_with_errors %}checked="checked" {% endif %}
-                        type="checkbox" value="1" name="settings_disable_commits_with_errors" >
-                        <span class="checkbox-wrapper-item-checkbox"></span>
-                        Запретить коммиты с ошибками
-                    </label>
+{#                    <label class="checkbox-wrapper-item">#}
+{#                        <input {% if not canEdit or not project.repository %}disabled="disabled" {% endif %}#}
+{#                        {% if settings.disable_commits_with_errors %}checked="checked" {% endif %}#}
+{#                        type="checkbox" value="1" name="settings_disable_commits_with_errors" >#}
+{#                        <span class="checkbox-wrapper-item-checkbox"></span>#}
+{#                        Запретить коммиты с ошибками#}
+{#                    </label>#}
                     {% endif %}
                 </div>
 
@@ -41,7 +41,7 @@
                     <div class="input-with-input">
                         <input {% if not canEdit or project.repository %}disabled="disabled" {% endif %} type="text" name="repository"
                     value="{% if project.repository %}{{ project.repository }}{% endif %}" class="form-control js-repository-value" {% if project.repository %}readonly{% endif %}/>
-                        <i class="fa fa-check input-with-icon"></i>
+                        <i class="fa fa-check input-with-icon input-icon"></i>
                     </div>
                     <div class="input-with-button">
                         <input type="submit" value="Применить" name="integration_settings_save" class="btn btn-success js-integration-save" />
@@ -56,8 +56,8 @@
             <hr>
 
 
-            <h2>Публичный сервер</h2>
-            <p>Облачный сервер с автозагрузкой файлов из GIT будет располагаться на поддомене heliard-platform.ru.</p>
+            <h2>Сервер с автозагрузкой из GIT</h2>
+            <p>Все, что вы публикуете в одну из веток GIT, будет автоматически публиковаться на сервере.</p>
 
             <div class="server-item-wrapper">
                 <div class="server-item-wrapper-left">
@@ -65,29 +65,38 @@
                         <img src="/static/images/server.png">
                     </div>
                     <div class="server-item-wrapper-title">
-                        PHP + Apache Server
+                        PHP + Apache + MySQL
                     </div>
                 </div>
                 <div class="server-item-wrapper-right">
                     <div class="server-item-wrapper-desc clearfix">
-                        <div class="server-item-wrapper-desc-item"><a href="">http://heliard.hlrt.ru</a></div>
-                        <div class="server-item-wrapper-desc-item">5 гигов свободного места</div>
+                        {% if project.repository %}
                         <div class="server-item-wrapper-desc-item">
-                            Сервер выключен
-                            <div class="milestones-btn-wrapper">
-                                <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox">
-                                <label for="mlst-checkbox"><span>Включить</span></label>
+                            <a href="http://{{ project.repository }}.heliard-servers.ru">http://{{ project.repository }}.heliard-servers.ru</a>
+                        </div>
+                        {% endif %}
+                        <div class="server-item-wrapper-desc-item">1 Гб на жестком диске</div>
+                        <div class="server-item-wrapper-desc-item">
+                            Сервер{% if not project.api_key %} выключен{% else %} включен{% endif %}
+                            <div class="milestones-btn-wrapper {% if project.api_key %}active{% endif %}">
+                                <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');"
+                                       disabled
+                                       {% if project.api_key %}checked{% endif %}
+                                       value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox">
+                                <label for="mlst-checkbox"><span>
+                                    {% if not project.api_key %}Включить{% else %}Выключить{% endif %}</span>
+                                </label>
                             </div>
                         </div>
                     </div>
                     <h6>Автосбор данных из ветки</h6>
                     <div class="input-with-label-wrapper clearfix">
                         <div class="input-with-input">
-                            <input type="text"value="dev" class="form-control"/>
+                            <input type="text" value="master" class="form-control" disabled />
                             <i class="fa fa-check input-with-icon"></i>
                         </div>
                         <div class="input-with-button">
-                            <input type="submit" value="Сохранить" class="btn btn-default" />
+                            <input type="submit" value="Сохранить" class="disabled btn btn-default" />
                         </div>
                     </div>
                 </div>
@@ -97,7 +106,7 @@
             {% if project.repository and not project.api_key %}
             <p class="colored-bg bg-info">Вы можете создать тестовый сервер с автоматической выгрузкой из GIT в публичную директорию</p>
             {% elif project.api_key %}
-            <p class="colored-bg bg-success">Сервер создан <b>{{ project.repository }}.heliard-platform.ru</b> <a href="#" class="js-server-status">Проверить статус</a></p>
+{#            <p class="colored-bg bg-success">Сервер создан <b>{{ project.repository }}.heliard-platform.ru</b> <a href="#" class="js-server-status">Проверить статус</a></p>#}
             {% elif not project.repository %}
             <p class="colored-bg bg-warning">Вы можете создать тестовый сервер только с использованием GIT</p>
             {% endif %}

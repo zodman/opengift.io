@@ -93,9 +93,7 @@
         $('.js-repository').click(function (ev) {
             if (!$(this).prop('checked')) {
                 $('.js-repository-value').val('');
-                $('.js-hiddable').hide();
             } else {
-                $('.js-hiddable').show();
                 $('.js-repository-value').val(transliterate($('.js-project-name').val())).focus();
             }
             checkFields();
@@ -114,23 +112,23 @@
             unmarkRepName();
         });
         function unmarkRepName() {
-            $('.js-repository-value').next('i').removeClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'black');
+            $('.js-repository-value').next('i').removeClass('fa-check-circle fa-exclamation-circle fa-spinner fa-spin').css('color', 'black');
         }
 
         function markSuccessRepName() {
-            $('.js-repository-value').next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'green');
+            $('.js-repository-value').parent().removeClass('error').end().next('i').addClass('fa-check-circle').removeClass('fa-exclamation-circle fa-spinner fa-spin').css('color', 'green');
         }
 
         function markErrorRepName() {
-            $('.js-repository-value').next('i').removeClass('fa-check-circle').addClass('fa-exclamation-circle').removeClass('fa-spinner').removeClass('fa-spin').css('color', 'red');
+            $('.js-repository-value').parent().addClass('error').end().next('i').addClass('fa-exclamation-circle').removeClass('fa-check-circle fa-spinner fa-spin').css('color', 'red');
         }
 
         function enableSubmit() {
-            $('.js-submit').removeAttr('disabled');
+            $('.js-integration-save').removeAttr('disabled');
         }
 
         function disableSubmit() {
-            $('.js-submit').attr('disabled', 'disabled');
+            $('.js-integration-save').attr('disabled', 'disabled');
         }
 
         function setCheckFieldsTimer() {
@@ -160,8 +158,7 @@
                 repoName = transliterate($repoNameInput.val());
             }
 
-            $repoNameInput.val(repoName)
-                    .next('i').addClass('fa-spinner').addClass('fa-spin');
+            $repoNameInput.val(repoName).next('i').addClass('fa-spinner fa-spin');
 
             PM_AjaxPost(
                     '/project/edit/check_repository_name',

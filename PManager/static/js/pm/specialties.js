@@ -7,8 +7,21 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
     $specialties = $('.js-specialties');
 
     var appendSkills = function (id, name) {
-        var $specialty = ('<li><input type="hidden" name="tag[]" value="' + name + '" /><span class="tag-name">' + name + '</span><span class="tag-num"><i class="fa fa-times tag-num-icon js-delete_specialty"' +
-        'data-specialty="' + id + '"></i></span></span></li>');
+        var $specialty = (
+            '<li>' +
+            '    <div class="user-header-stat-line-progress-title clearfix">' +
+            '        <div class="user-header-stat-line-progress-title-text">'+name+'' +
+            '                    <a href="#" class="remove-icon js-delete_specialty" data-specialty="'+id+'"><i class="fa fa-remove"></i></a>' +
+            '        </div>' +
+            '        <div class="user-header-stat-line-progress-title-percent">' +
+            '            ' +
+            '        </div>' +
+            '    </div>' +
+            '    <div class="user-header-stat-line-progress-bar-2 progress">' +
+            '        <div class="progress-bar blue" style="width: 0%"></div>' +
+            '    </div>' +
+            '</li>'
+        );
         $specialties.append($specialty);
         if ($specialties.hasClass('hidden')) {
             $specialties.removeClass('hidden')
@@ -60,6 +73,7 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
         e.stopPropagation();
         $specialtyInput.val($(this).text()).focus();
         $searchDropdown.hide();
+        return false;
     });
 
     $searchDropdown.on('mouseover', 'li', (function() {
@@ -101,6 +115,6 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
     });
 
     $(document).on('click', function() {
-        $searchDropdown.hide()
+        $searchDropdown.hide();
     });
 }
