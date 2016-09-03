@@ -215,6 +215,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if not 'parentTask' in filter and \
                 not 'pk' in filter and \
+                not 'isParent' in filter and \
                 not 'all' in filter:
             filter['parentTask__isnull'] = True
         else:

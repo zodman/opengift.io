@@ -278,14 +278,14 @@
                 });
             </script>
             <div class="task-tab-filter-select show-on-768">
-                <select class="select-transform">
-                    <option>Все</option>
-                    <option rel="started">Начатые{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
-                    <option rel="ready">На проверке{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
-                    <option rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
-                    <option rel="not_ready">Не готовые</option>
-                    <option rel="deadline">Просроченные{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
-                    <option rel="arc">Архив</option>
+                <select class="select-transform js-task-tab-mobile">
+                    <option value="">Все</option>
+                    <option value="started">Начатые{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
+                    <option value="ready">На проверке{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
+                    <option value="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
+                    <option value="not_ready">Не готовые</option>
+                    <option value="deadline">Просроченные{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
+                    <option value="arc">Архив</option>
                 </select>
             </div>
         </div>

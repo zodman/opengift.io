@@ -31,6 +31,7 @@ $(function(){
     widget_td.$attachedFileContainer = widget_td.$container.find('.uploaded_file');
     widget_td.$todoList = widget_td.$container.find('.js-todo-list');
     widget_td.$todoContainer = widget_td.$container.find('.js-todo-container');
+    widget_td.$todoTitle = widget_td.$container.find('.js-todo-title');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
     widget_td.subtasks = new window.taskList();
@@ -192,7 +193,7 @@ $(function(){
                 }
             });
 
-            widget_td.$task_holder.on('click','.js-ShowClosedSubtasks', function(){
+            widget_td.$container.on('click','.js-ShowClosedSubtasks', function(){
                 var proc,h='hidden';
                 if ($(this).data('open')){
                     proc = function(view){
@@ -458,6 +459,7 @@ $(function(){
                     'trigger': 'hover'
                 });
                 widget_td.$todoContainer.removeClass('hidden');
+                widget_td.$todoTitle.removeClass('hidden');
             }
         });
 

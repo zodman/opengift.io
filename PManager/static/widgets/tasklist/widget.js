@@ -74,6 +74,7 @@ var widget_tl, currentGroup;
             '$btnSuccess': $('.btn.btn-success'),
             '$btnFilter': $('.btn.js-filter-btn'),
             '$tabContainer': $('.task-tab-filter'),
+            '$tabSelectMobile': $('.js-task-tab-mobile'),
             '$taskCreateBtn': $('.btn.task-create'),
             'TL_Tasks': new window.taskList(),
             'tabsSelector': '.task-tab-filter li > a',
@@ -568,6 +569,9 @@ var widget_tl, currentGroup;
                 } else {
                     if (filter.action) {
                         $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
+                        this.$tabSelectMobile.find('option[value='+filter.action+']')
+                            .attr('selected', 'selected').siblings()
+                            .removeAttr('selected');
                     }
                 }
 
@@ -582,7 +586,9 @@ var widget_tl, currentGroup;
             'checkSearchInput': function () {
                 var h = 'hidden';
                 var br = 'border-r4';
-                var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
+                var $userTabEqualsQuery = $(this.tabsSelector)
+                    .filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
+
                 with (this.TL_SearchTask) {
                     if (val() || this.$searchRulesHolder.children().size()) {
                         if (val()) {
@@ -1330,6 +1336,12 @@ var widget_tl, currentGroup;
             }
 
             return false;
+        });
+
+        widget_tl.$tabSelectMobile.change(function() {
+            $(widget_tl.tabsSelector).filter('[rel=' + $(this).val() + ']').parent()
+                .activateListItem();
+            widget_tl.TL_Search();
         });
 
         document.mainController.widgetsData["taskList"] = widget_tl;

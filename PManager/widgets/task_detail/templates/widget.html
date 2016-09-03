@@ -103,7 +103,7 @@
 
         {% endif %}
 
-        <h6>Нужно сделать:</h6>
+        <h6 class="js-todo-title hidden">Нужно сделать:</h6>
         <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
 
             <span class="js-todo-list todo-list">
@@ -144,7 +144,6 @@
             <div class="sub-tasks js-sub-tasks box-shadow-0">
                 <div class="task-wrapper">
                     <div class="tasks-title clearfix">
-                        Подзадачи
                         <!--<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a>-->
                         {% if task_detail.hiddenSubTasksExist %}
                         <a class="js-ShowClosedSubtasks green-bg button button-mini sub-tasks-button">Показать закрытые подзадачи</a>

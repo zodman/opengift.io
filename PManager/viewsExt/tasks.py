@@ -214,6 +214,9 @@ def __search_filter(header_values, request):
     if kanbanFilter:
         qArgs.append(kanbanFilter)
 
+    if 'withoutParent' in request.POST:
+        if request.POST['withoutParent'] == 'Y':
+            ar_filter['isParent'] = False
 
     if 'responsible[]' in request.POST:
         ar_filter['resp__in'] = request.POST.getlist('responsible[]')
