@@ -463,7 +463,7 @@ class PM_Task(models.Model):
             self.parentTask.save()
 
     def setIsInTime(self):
-        if self.deadline and self.deadline > timezone.make_aware(datetime.datetime.now(),
+        if not self.deadline or self.deadline > timezone.make_aware(datetime.datetime.now(),
                                                                  timezone.get_current_timezone()):
             self.closedInTime = True
         else:

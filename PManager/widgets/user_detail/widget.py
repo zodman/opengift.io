@@ -296,23 +296,42 @@ def widget(request, headerValues, ar, qargs):
                 taskTagCoefficient += (obj1.weight_sum or 0)
                 break
 
+            allPlanClosed = user.todo.filter(
+                    planTime__gt=0,
+                    closed=True,
+                    dateClose__gt=(datetime.datetime.now() - datetime.timedelta(weeks=4))
+                ).aggregate(Sum('planTime'))['planTime__sum'] or 0
+
+            velocity = allPlanClosed * 100 / (22 * (profile.hoursQtyPerDay or 6))
+            if velocity > 100:
+                velocity = 100
+
+            bugsQty = PM_Task_Message.objects.filter(task__in=user.todo.all(), bug=True).count()
+            allTasksClosed = user.todo.filter(closed=True).exclude(author=user).count()
+            overdueTasks = user.todo.exclude(author=user).filter(active=True, closedInTime=False, closed=True).count()
+            quality = allTasksClosed * 100 / (overdueTasks + (bugsQty or 1))
+            if quality > 100:
+                quality = 100
+
             return {
                 'user': user,
                 'profile': profile,
                 'title': user.first_name + ' ' + user.last_name,
-                'allTaskClosed': user.todo.filter(closed=True).exclude(author=user).count(),
+                'allTaskClosed': allTasksClosed,
                 'milestonesClosed': PM_Milestone.objects.filter(closed=True, id__in=[x['milestone__id'] for x in user.todo.filter(closed=True, milestone__isnull=False)
                                             .exclude(author=user)
                                                 .values('milestone__id').annotate(dcount=Count('milestone__id'))]).count(),
                 'achievements': PM_User_Achievement.objects.filter(user=user).select_related('achievement', 'project'),
                 'specialties': s,
                 'tagWeight': tagWeight,
-                'allPlanClosed': user.todo.filter(
-                    planTime__gt=0,
-                    closed=True,
-                    dateClose__gt=(datetime.datetime.now() - datetime.timedelta(weeks=4))
-                ).aggregate(Sum('planTime'))['planTime__sum'] or 0,
-                'bugsQty': PM_Task_Message.objects.filter(task__in=user.todo.all(), bug=True).count(),
+                'overdueTasks': overdueTasks,
+                'overdueMilestones': PM_Milestone.objects.filter(overdue=True, closed=True, id__in=[x['milestone__id'] for x in user.todo.filter(closed=True, milestone__isnull=False)
+                                            .exclude(author=user)
+                                                .values('milestone__id').annotate(dcount=Count('milestone__id'))]).count(),
+                'allPlanClosed': allPlanClosed,
+                'velocity': velocity,
+                'bugsQty': bugsQty,
+                'quality': quality,
                 'timers': [
                     {
                         'id': timer.id,

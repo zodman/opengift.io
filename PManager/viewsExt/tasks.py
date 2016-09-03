@@ -1144,7 +1144,9 @@ class taskAjaxManagerCreator(object):
                                     error = u'Нет принятого с обоих сторон договора c ' + u.last_name + ' ' + u.first_name
 
                     if not error:
-                        t.setIsInTime()
+                        if not t.closedInTime:
+                            t.setIsInTime()
+
                         t.Close(user)
                         t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
 

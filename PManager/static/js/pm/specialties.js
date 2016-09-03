@@ -8,7 +8,7 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
 
     var appendSkills = function (id, name) {
         var $specialty = (
-            '<li>' +
+            '<li class="js-skill-item">' +
             '    <div class="user-header-stat-line-progress-title clearfix">' +
             '        <div class="user-header-stat-line-progress-title-text">'+name+'' +
             '                    <a href="#" class="remove-icon js-delete_specialty" data-specialty="'+id+'"><i class="fa fa-remove"></i></a>' +
