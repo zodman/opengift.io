@@ -192,6 +192,8 @@ def widget(request, headerValues, ar, qargs):
 
             # for task in tasksObserverResult['tasks']:
             #     task['name'] = '<b>' + task['project']['name'] + '</b>: ' + task['name']
+            userProjectsOpenQty = profile.getProjects().filter(closed=False).count()
+            userProjectsClosedQty = profile.getProjects(False, False, False, True).filter(closed=True).count()
 
             userProjects = profile.getProjects().filter(pk__in=currentUserAccessProjects)
             for project in userProjects:
@@ -332,6 +334,8 @@ def widget(request, headerValues, ar, qargs):
                 'velocity': velocity,
                 'bugsQty': bugsQty,
                 'quality': quality,
+                'userProjectsOpenQty': userProjectsOpenQty,
+                'userProjectsClosedQty': userProjectsClosedQty,
                 'timers': [
                     {
                         'id': timer.id,

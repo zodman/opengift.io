@@ -19,12 +19,16 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft',
+                          # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
+                          ]
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay',
+                          # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
+                          ]
 
     uid = request.GET.get('id', None)
     if uid and request.user.is_staff:

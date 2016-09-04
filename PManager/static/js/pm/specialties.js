@@ -83,6 +83,7 @@ function initSpecialtiesFind(addFunc, deleteFunc) {
     $(document).on('click', '.js-delete_specialty', function () {
         var $t = $(this);
         deleteFunc($t);
+        return false;
     });
 
     var search_val = null;

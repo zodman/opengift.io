@@ -18,17 +18,31 @@
         <div class="user-header clearfix">
             <div class="">
                 <div class="user-header-avatar">
-                    <img src="{% if project.imagePath %}{{ project.imagePath }}{% else %}/static/images/no-photo.png{% endif %}">
+                    {% if not project.imagePath %}
+                        <a href="/profile/edit/?id={{ user_detail.user.id }}">
+                    {% endif %}
+                    <img src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/no-photo.png{% endif %}">
+                    {% if not project.imagePath %}
+                        </a>
+                    {% endif %}
                 </div>
 
                 <div class="user-header-info clearfix">
                     <div class="user-header-avatar">
-                        <img src="{% if project.imagePath %}{{ project.imagePath }}{% else %}/static/images/no-photo.png{% endif %}">
+                        {% if not project.imagePath %}
+                            <a href="/profile/edit/?id={{ user_detail.user.id }}">
+                        {% endif %}
+                        <img src="{% if user_detail.profile.avatarSrc %}{{ user_detail.profile.avatarSrc }}{% else %}/static/images/no-photo.png{% endif %}">
+                        {% if not project.imagePath %}
+                            </a>
+                        {% endif %}
                     </div>
                     <div class="user-header-name">
                         <h2 class="user-body-info-block-name">{{ user_detail.user.last_name }} {{ user_detail.user.first_name }}
                             {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
-                            <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon">
+                                <i class="fa fa-cog" aria-hidden="true"></i>
+                            </a>
                             {% endif %}
                         </h2>
 
@@ -82,6 +96,7 @@
                     </div>
                     <div class="user-body-info-block">
                     <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
+                        {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                         <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                         <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
                             <ul class="user-body-info-block-balance-project-ul">
@@ -97,6 +112,7 @@
                                 </li>
                             </ul>
                         </div>
+                        {% endif %}
                     </h3>
                     <ul class="user-body-info-block-ul js-specialties">
                         {% if user_detail.specialties %}
@@ -123,27 +139,10 @@
                 </div>
                 <div class="user-header-info-blocks clearfix">
                     <div class="user-body-info-block">
-                        <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
-                            <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                            <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
-                                <ul class="user-body-info-block-balance-project-ul">
-                                    <li class="user-body-info-block-balance-project-ul-li">
-                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                            <i class="fa fa-skype"></i>
-                                            <input type="text" placeholder="Skype">
-                                        </div>
-                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                            <i class="fa fa-envelope"></i>
-                                            <input type="text" placeholder="E-mail">
-                                        </div>
-                                        <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                            <i class="fa fa-mobile"></i>
-                                            <input type="text" placeholder="Телефон">
-                                        </div>
-                                        <a href="" class="block button green-bg">Добавить</a>
-                                    </li>
-                                </ul>
-                            </div>
+                        <h3 class="user-body-info-block-name add-smthng-dropdown">Контакты
+                            {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
+                            <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            {% endif %}
                         </h3>
                         <ul class="user-body-info-block-ul">
                             <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
@@ -168,8 +167,8 @@
                         <b class="user-header-stat-line-item-text">{% if user_detail.competence > 0 %}+ {% endif %}{{ user_detail.competence }}</b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Проектов/целей</b>
-                        <b class="user-header-stat-line-item-text">{{ user_detail.user_projects.count }}<span class="user-header-stat-line-item-text-separator">/</span>10</b>
+                        <b class="user-header-stat-line-item-title">Проектов / целей</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.userProjectsOpenQty }}<span class="user-header-stat-line-item-text-separator"> / </span>10</b>
                     </div>
                     <div class="user-header-stat-line-item">
                         <b class="user-header-stat-line-item-title">Открыто задач</b>
@@ -191,6 +190,32 @@
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
                     <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Ресурс</b>
+                        <b class="user-header-stat-line-item-text">
+                            {% if user_detail.profile.hoursQtyPerDay %}
+                            {{ user_detail.profile.hoursQtyPerDay }}
+                            <span class="user-header-stat-line-item-text-desc">ч. в день</span>
+                            {% else %}
+                                Не указан
+                            {% endif %}
+                        </b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Решается Задач</b>
+                        <b class="user-header-stat-line-item-text">≈ 1 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                    </div>
+                    <div class="user-header-stat-line-item">
+                        <b class="user-header-stat-line-item-title">Закрыто часов</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.allPlanClosed|floatformat:"0"|default_if_none:"0" }}<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
+                    </div>
+                </div>
+
+            </div>
+            <div class="user-header-stat-employer">
+                <div class="user-header-stat-line clearfix">
+                    <div class="user-header-stat-line-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
+
+                    <div class="user-header-stat-line-item">
                         <b class="user-header-stat-line-item-title">Закрыто задач</b>
                         <b class="user-header-stat-line-item-text">
                             {{ user_detail.allTaskClosed|default_if_none:"0" }}
@@ -203,26 +228,8 @@
                             <span class="user-header-stat-line-item-text-desc"></span></b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Закрыто часов</b>
-                        <b class="user-header-stat-line-item-text">{{ user_detail.allPlanClosed|floatformat:"0"|default_if_none:"0" }}<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
-                    </div>
-                </div>
-
-            </div>
-            <div class="user-header-stat-employer">
-
-                <div class="user-header-stat-line clearfix">
-                    <div class="user-header-stat-line-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
-                    {% if user_detail.profile.hoursQtyPerDay %}
-                    <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Ресурс</b>
-                        <b class="user-header-stat-line-item-text">{{ user_detail.profile.hoursQtyPerDay }}
-                            <span class="user-header-stat-line-item-text-desc">ч. в день</span></b>
-                    </div>
-                    {% endif %}
-                    <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Решается Задач</b>
-                        <b class="user-header-stat-line-item-text">≈ 1 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                        <b class="user-header-stat-line-item-title">Закрыто проектов</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.userProjectsClosedQty }}</b>
                     </div>
                 </div>
 
@@ -240,10 +247,10 @@
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-bug" aria-hidden="true"></i></div>
                     <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Просрочено дедлайнов</b>
+                        <b class="user-header-stat-line-item-title">Просрочено</b>
                         <b class="user-header-stat-line-item-text">
-                            {{ user_detail.overdueMilestones }}<span class="user-header-stat-line-item-text-desc">&nbsp;по целям</span>
-                            {{ user_detail.overdueTasks }}<span class="user-header-stat-line-item-text-desc">&nbsp;по задачам</span>
+                            {{ user_detail.overdueTasks }}<span class="user-header-stat-line-item-text-desc">&nbsp;задач</span>
+                            {{ user_detail.overdueMilestones }}<span class="user-header-stat-line-item-text-desc">&nbsp;целей</span>
                         </b>
                     </div>
                     <div class="user-header-stat-line-item two-items">
@@ -309,23 +316,25 @@
                 </div>
                 <div class="user-body-info-block">
                     <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
-                        <a href="" class="user-body-info-block-edit-icon"
+                        {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
+                            <a href="" class="user-body-info-block-edit-icon"
                            data-toggle="dropdown" data-target="#">
                             <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
-                            <ul class="user-body-info-block-balance-project-ul" onclick="return false;">
-                                <li class="user-body-info-block-balance-project-ul-li ">
-                                    <div class="add-smthng-dropdown-input-wrapper clearfix dropdown js-specialties_search_wrapper">
-                                        <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
-                                               placeholder="Укажите свои навыки" id="skillsDropdown"
-                                               class="form-control js-save_specialty" autocomplete="off" >
-                                        <ul class="dropdown-menu js-search_specialties" role="dropdown"
-                                            aria-labelledby="skillsDropdown">
-                                        </ul>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
+                            <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
+                                <ul class="user-body-info-block-balance-project-ul" onclick="return false;">
+                                    <li class="user-body-info-block-balance-project-ul-li ">
+                                        <div class="add-smthng-dropdown-input-wrapper clearfix dropdown js-specialties_search_wrapper">
+                                            <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
+                                                   placeholder="Укажите свои навыки" id="skillsDropdown"
+                                                   class="form-control js-save_specialty" autocomplete="off" >
+                                            <ul class="dropdown-menu js-search_specialties" role="dropdown"
+                                                aria-labelledby="skillsDropdown">
+                                            </ul>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        {% endif %}
                     </h3>
                     <ul class="user-body-info-block-ul js-specialties">
                         {% if user_detail.specialties %}
@@ -349,28 +358,10 @@
                 </div>
 
                 <div class="user-body-info-block">
-                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Контакты
-                        <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#">
-                            <i class="fa fa-plus-circle" aria-hidden="true"></i></a>
-                        <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
-                            <ul class="user-body-info-block-balance-project-ul">
-                                <li class="user-body-info-block-balance-project-ul-li">
-                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                        <i class="fa fa-skype"></i>
-                                        <input type="text" placeholder="Skype">
-                                    </div>
-                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                        <i class="fa fa-envelope"></i>
-                                        <input type="text" placeholder="E-mail">
-                                    </div>
-                                    <div class="add-smthng-dropdown-input-wrapper with-icon clearfix">
-                                        <i class="fa fa-mobile"></i>
-                                        <input type="text" placeholder="Телефон">
-                                    </div>
-                                    <a href="" class="block button green-bg">Добавить</a>
-                                </li>
-                            </ul>
-                        </div>
+                    <h3 class="user-body-info-block-name add-smthng-dropdown">Контакты
+                        {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
+                            <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
+                            {% endif %}
                     </h3>
                     <ul class="user-body-info-block-ul">
                         <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
@@ -435,7 +426,7 @@
                                     <h3>Последняя активность</h3>
                                     {#                                    <div id='dashboard'></div>#}
                                     <div style="width: 100%">
-                                        <canvas id="dashboard" height="150" width="600"></canvas>
+                                        <canvas id="dashboard" height="350" width="600"></canvas>
                                     </div>
                                 </div>
                                 <div class="statistic-detail js-user-legend">
