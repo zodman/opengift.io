@@ -86,10 +86,12 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         needTaskList = True
 
     pst = lambda n: request.POST.get(n, 0) if hasattr(request, 'POST') else None
+    pSettings = {}
     if 'CURRENT_PROJECT' in headerValues and \
             headerValues['CURRENT_PROJECT'] and \
             not 'allProjects' in filter:
         project = widgetManager.getProject(headerValues['CURRENT_PROJECT'])
+        pSettings = project.getSettings()
         if project.locked:
             return {'redirect': 'payment'}
 
@@ -472,6 +474,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'tasks': tasks,
         'project': project,
         'users': aResps,
+        'projectSettings': pSettings,
         'tab': True,
         'name': u'Задачи',
         'paginator': paginator,

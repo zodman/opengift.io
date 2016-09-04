@@ -236,13 +236,13 @@
                                     <li data-code="color" class="dropdown-toggle dropdown-submenu">
                                         <a data-toggle="dropdown">Цвет</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="red">Красный</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="green">Зеленый</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="blue">Синий</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="grey">Серый</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="purple">Пурпурный</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="yellow">Желтый</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="orange">Оранжевый</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="red">{{ tasklist.projectSettings.color_name_red|default:"Красный" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="green">{{ tasklist.projectSettings.color_name_green|default:"Зеленый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="blue">{{ tasklist.projectSettings.color_name_blue|default:"Синий" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="grey">{{ tasklist.projectSettings.color_name_grey|default:"Серый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="purple">{{ tasklist.projectSettings.color_name_purple|default:"Пурпурный" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="yellow">{{ tasklist.projectSettings.color_name_yellow|default:"Желтый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="orange">{{ tasklist.projectSettings.color_name_orange|default:"Оранжевый" }}</a></li>
                                         </ul>
                                     </li>
                                 </ul>
