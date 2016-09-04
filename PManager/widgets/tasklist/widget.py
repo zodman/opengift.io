@@ -366,6 +366,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'planTimes': [],
                 'viewed': (task.closed or task.isViewed(cur_user)),
                 'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
+                'parentName': task.parentTask.name if task.parentTask and hasattr(task.parentTask, 'name') else '',
                 'subtasksQty': subtasksQty,
                 'subtasksActiveQty': subtasksActiveQty,
                 'observer': True if task.observers.filter(id=cur_user.id) else False,

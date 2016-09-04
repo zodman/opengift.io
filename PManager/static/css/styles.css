@@ -777,9 +777,9 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget.inner.span4 {height:191px;}
 
 
-.asked, .no-asked {height:12px; width:12px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; background-image:url(../images/sprite.png); background-repeat:no-repeat;}
-.asked {background-position:0px -411px;}
-.no-asked {background-position:-12px -411px;}
+.asked, .no-asked {height:30px; width:3px; display:inline-block; text-indent:-99999em; margin-right:10px; margin-top:2px; float:left; }
+.asked {background-color:#5cb85c;}
+.no-asked {background-color:#d43f3a;}
 
 .nav-pills > li > a > .asked,
 .nav-pills > li > a > .no-asked {margin-top:1px; margin-right:5px;}
@@ -1311,9 +1311,9 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task-checkbox + label:before {
     background: #fff none repeat scroll 0 0;
     border: 2px solid #ccc;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
+    border-radius: 10%;
+    -moz-border-radius: 10%;
+    -webkit-border-radius: 10%;
     color: #ccc;
     content: "\f00c";
     display: inline-block;
@@ -4581,7 +4581,6 @@ font-weight: normal;
 }
 .activity-body {
     background: none repeat scroll 0 0 #f6f6f6;
-    border-bottom: 1px solid #dddddd;
     margin-bottom: 15px;
 }
 .activity-body > div {
@@ -4769,8 +4768,8 @@ font-weight: normal;
 }
 .green-popup .modal-header .close,
 .green-popup .modal-header .fa {margin: 0; position: absolute;
-    right: 30px;
-    top: 20px; padding: 0; font-size: 22px; line-height: 26px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
+    right: 25px;
+    top: 15px; padding: 0; font-size: 22px; line-height: 26px; color: #fff; box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
 .green-popup .modal-header h3,
 .green-popup .modal-header h2 {margin: 0px; padding: 0 25px;}
@@ -5566,13 +5565,14 @@ ul.colors {
 .font-20 {font-size: 20px;}
 .font-12 {font-size: 12px;}
 
-.tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
-.tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
-.tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
-.tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
-.tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
-.tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
-.tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
+.color-bg {color: white;}
+.color-bg.grey, .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
+.color-bg.green, .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
+.color-bg.blue, .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+.color-bg.red, .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
+.color-bg.yellow, .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+.color-bg.purple, .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
+.color-bg.orange, .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
 
 .wiking-content__image {
     width: 300px;

@@ -512,7 +512,7 @@ class PM_Task(models.Model):
             if ob.id != self.author.id and (not self.resp or ob.id != self.resp.id):
                 increaseTagsForUser(ob, tagRelArray)
 
-        if self.resp:
+        if self.resp and self.author.id != self.resp.id:
             increaseTagsForUser(self.resp, tagRelArray)
 
         redisSendTaskUpdate({
@@ -1153,7 +1153,7 @@ class PM_Task(models.Model):
         filter['active'] = True
 
         # subtasks search
-        if filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
+        if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True

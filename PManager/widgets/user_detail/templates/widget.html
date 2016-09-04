@@ -52,8 +52,9 @@
                             <input name="action" type="hidden" value="delete_user" />
                             <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
                         {% endif %}
+                        {% if not user_detail.userIsEqualCurrentUser %}
                         <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
-
+                        {% endif %}
                     </div>
                 </div>
 
@@ -146,7 +147,7 @@
                         </h3>
                         <ul class="user-body-info-block-ul">
                             <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
-                            <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>
+                            {% if user_detail.profile.skype %}<li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>{% endif %}
                         </ul>
                     </div>
                     <div class="user-body-info-block">
@@ -168,7 +169,7 @@
                     </div>
                     <div class="user-header-stat-line-item">
                         <b class="user-header-stat-line-item-title">Проектов / целей</b>
-                        <b class="user-header-stat-line-item-text">{{ user_detail.userProjectsOpenQty }}<span class="user-header-stat-line-item-text-separator"> / </span>10</b>
+                        <b class="user-header-stat-line-item-text">{{ user_detail.userProjectsOpenQty }}<span class="user-header-stat-line-item-text-separator"> / </span>{{ user_detail.milestonesOpen }}</b>
                     </div>
                     <div class="user-header-stat-line-item">
                         <b class="user-header-stat-line-item-title">Открыто задач</b>
@@ -194,10 +195,10 @@
                         <b class="user-header-stat-line-item-text">
                             {% if user_detail.profile.hoursQtyPerDay %}
                             {{ user_detail.profile.hoursQtyPerDay }}
-                            <span class="user-header-stat-line-item-text-desc">ч. в день</span>
                             {% else %}
-                                Не указан
+                                6
                             {% endif %}
+                            <span class="user-header-stat-line-item-text-desc">ч. в день</span>
                         </b>
                     </div>
                     <div class="user-header-stat-line-item">
@@ -275,8 +276,9 @@
                             <input name="action" type="hidden" value="delete_user" />
                             <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
                         {% endif %}
+                        {% if not user_detail.userIsEqualCurrentUser %}
                         <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
-
+                        {% endif %}
                 </div>
                 <div class="user-body-info-block hidden">
                     <h3>Финансы</h3>
@@ -365,7 +367,7 @@
                     </h3>
                     <ul class="user-body-info-block-ul">
                         <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-envelope"></i>{{ user_detail.user.email }}</li>
-                        <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>
+                        {% if user_detail.profile.skype %}<li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-skype"></i>{{ user_detail.profile.skype }}</li>{% endif %}
                     </ul>
                 </div>
 

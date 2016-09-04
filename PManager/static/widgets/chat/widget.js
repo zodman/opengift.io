@@ -130,10 +130,8 @@ $(function () {
             });
 
             var v = function () {
-                if ($(this).is(':checked')) {
-                    widget_chat.options['MESSAGE_TYPE'] = $(this).val();
-                    $.cookie('FEED_OPTION_MESSAGE_TYPE', $(this).val());
-                }
+                widget_chat.options['MESSAGE_TYPE'] = $(this).val();
+                $.cookie('FEED_OPTION_MESSAGE_TYPE', $(this).val());
             };
             var setGroupFlag = function () {
                 widget_chat.messageListHelper.bNeedToGroup = widget_chat.options['MESSAGE_TYPE'] != 'COMMITS';
@@ -167,7 +165,9 @@ $(function () {
             baseConnector.addListener('fs.comment.add', function (data) {
                 if (!widget_chat.$container.is(':visible')) {
                     var $mContainer = $('.js-new-messages');
-                    $mContainer.text(parseInt($mContainer.text() || 0) + 1).show();
+                    var newQty = parseInt($mContainer.text() || 0) + 1;
+                    if (newQty > 99) newQty = 99;
+                    $mContainer.text(newQty).show();
                 }
                 if (widget_chat.options['OTHER_PROJECTS']) {
                     if (data.project.id != window.currentProject) return;

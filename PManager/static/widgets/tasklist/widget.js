@@ -549,7 +549,8 @@ var widget_tl, currentGroup;
                     'viewed',
                     'date_modify',
                     'date_create',
-                    'date_close'
+                    'date_close',
+                    'color'
                 ];
                 var field;
                 for (var i in aFilterFields) {

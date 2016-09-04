@@ -44,10 +44,10 @@
         });
 
         $('.js-view-comments').click(function () {
-            var $currentCheckBox = $('[name="' + $(this).data('type') + '"]');
-            $('input.js-comments-filter-input').not($currentCheckBox).attr('checked', false)
-                .each(function() {$(this).trigger('change');});
-            $currentCheckBox.attr('checked', false).trigger('click');
+            var $currentCheckBox = $('.js-comments-filter-input[value="' + $(this).data('type') + '"]');
+            $('.js-widgets-tab[data-widget=chat]').not('.active').trigger('click');
+            $('.js-comments-filter-input').attr('checked', false);
+            setTimeout(function() {$currentCheckBox.attr('checked', 'checked').trigger('click');}, 100);
 
             return true;
         });

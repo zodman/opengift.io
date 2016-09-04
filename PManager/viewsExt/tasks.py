@@ -252,6 +252,10 @@ def __search_filter(header_values, request):
             'date': request.POST.getlist('date_close[]'),
             'key': 'dateClose'
         })
+    if 'color[]' in request.POST:
+        arColors = request.POST.getlist('color[]')
+        ar_filter['color__in'] = arColors
+
     if dates_tmp:
         for dateTmp in dates_tmp:
             if len(dateTmp['date']) == 1:  # only one date

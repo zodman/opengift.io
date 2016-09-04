@@ -320,6 +320,9 @@ def widget(request, headerValues, ar, qargs):
                 'profile': profile,
                 'title': user.first_name + ' ' + user.last_name,
                 'allTaskClosed': allTasksClosed,
+                'milestonesOpen': PM_Milestone.objects.filter(closed=False, id__in=[x['milestone__id'] for x in user.todo.filter(closed=False, milestone__isnull=False)
+                                            .exclude(author=user)
+                                                .values('milestone__id').annotate(dcount=Count('milestone__id'))]).count(),
                 'milestonesClosed': PM_Milestone.objects.filter(closed=True, id__in=[x['milestone__id'] for x in user.todo.filter(closed=True, milestone__isnull=False)
                                             .exclude(author=user)
                                                 .values('milestone__id').annotate(dcount=Count('milestone__id'))]).count(),

@@ -8,10 +8,11 @@
             </div>
         {% endif %}
 <div class="widget inner Task_Detail" id="task_detail" >
-    <div class="widget-title clearfix">
+    <div class="widget-title clearfix" style="border: 0;">
         <div class="widget-title-info clearfix">
             <div class="widget-title-info-left">
                 <ul class="widget-title-info-left-ul clearfix">
+                    <li class="active"><a href="/">Список задач</a></li>
                     {% if not request.GET.frame_mode %}
                     {% if task_detail.task.parentTask %}
                     {% with task_detail.task.parentTask as parent %}
@@ -21,7 +22,7 @@
                     {% endif %}
 
                     <li><i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Задача №{{ task_detail.task.number }}</li>
-                    <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Создана: {{ task_detail.task.dateModify }}</li>
+                    <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Создана: {{ task_detail.task.dateCreate }}</li>
                     <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Автор: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></li>
                 </ul>
 
@@ -56,7 +57,7 @@
 
     </div><!--widget-title-->
 
-    <div class="widget-title-bottom-info clearfix">
+    <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
             <ul class="widget-title-info-left-ul clearfix">
                 <li>{% if task_detail.task.planTime %}
                     Плановое время: <b>{{ task_detail.task.planTime }}</b> ч.
@@ -79,10 +80,6 @@
 
     {# ---- TASK BODY #}
     <div class="widget-body">
-
-
-
-
         <div class="task-details-text">{{ task_detail.task.text_formatted|safe }}</div>
         {% if task_detail.files %}
                 {% for file in task_detail.files %}
@@ -294,6 +291,7 @@
         'startedTimerExist':{{ task_detail.startedTimerExist|jsonify }},
         'startedTimerUserId':'{{ task_detail.task.startedTimerUserId }}',
         'closed':{{ task_detail.task.closed|jsonify }},
+        'color':{{ task_detail.task.color|jsonify|safe }},
         'critically':{{ task_detail.task.critically|jsonify }},
         'onPlanning':{{ task_detail.task.onPlanning|jsonify }},
         'status':'{{ task_detail.task.status.code }}',
@@ -308,12 +306,14 @@
         'resp': {{ task_detail.task.taskResp|jsonify|safe }},
         'name': {{ task_detail.task.name|jsonify|safe }},
         'number': {{ task_detail.task.number|jsonify|safe }}
-    }
+    };
+
     window.taskHtml = {{ task_detail.taskTemplate|jsonify|safe }};
     var arJSParams = {
         'taskId':{{ task_detail.task.id }},
         'messages':[]
-    }
+    };
+
     {% for message in task_detail.messages %}
         arJSParams.messages.push({{ message.json|safe }});
     {% endfor %}
@@ -338,8 +338,9 @@
     $(function(){
         $('.js-solution-set').change(function(){
             if($(this).prop('checked')) {
-                $('.js-personal').prop('checked', false);
-                $('.js-personal').prop('disabled', true);
+                $('.js-personal')
+                        .prop('checked', false)
+                        .prop('disabled', true);
             }else{
                 $('.js-personal').prop('disabled', false);
             }
