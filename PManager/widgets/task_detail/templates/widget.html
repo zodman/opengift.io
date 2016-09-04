@@ -100,15 +100,14 @@
 
         {% endif %}
 
-        <h6 class="js-todo-title hidden">Нужно сделать:</h6>
+        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>
         <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
 
             <span class="js-todo-list todo-list">
             {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
-                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="" title="">
+                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="{{ todo.text }}" title="">
                     {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
-                    {{ todo.text }}
                 </button>
                 {% endfor %}
             {% endif %}
