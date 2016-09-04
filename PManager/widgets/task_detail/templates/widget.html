@@ -231,10 +231,10 @@
                     <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">
                     <label for="checked">не изменять</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="radioded" type="radio" id="ready" name="status" {% if false and task_detail.is_employee %}checked='checked'{% endif %} value="ready">
+                    <input class="radioded" type="radio" id="ready" name="status" value="ready">
                     <label for="ready">на проверку</label>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                    <input class="radioded" type="radio" id="revision" name="status" {% if not task_detail.is_employee %}checked='checked'{% endif %} value="revision">
+                    <input class="radioded" type="radio" id="revision" name="status" value="revision">
                     <label for="revision">на доработку</label>
                     {% endif %}
                 </div>
