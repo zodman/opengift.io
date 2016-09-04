@@ -106,8 +106,9 @@
             <span class="js-todo-list todo-list">
             {% if task_detail.task.todo %}
                 {% for todo in task_detail.task.todo %}
-                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox" rel="{{ todo.id }}" type="button" data-original-title="{{ todo.text }}" title="">
+                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">
                     {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
+                    {{ todo.text }}
                 </button>
                 {% endfor %}
             {% endif %}
@@ -116,7 +117,7 @@
                 {% if task_detail.task.bug %}
                     {% for bug in task_detail.task.bug %}
                         <button data-placement="top" data-toggle="popover"
-                                data-container="body" class="js-bug-checkbox" rel="{{ bug.id }}" type="button"
+                                data-container="body" class="js-bug-checkbox checkbox-bug" rel="{{ bug.id }}" type="button"
                                 data-original-title="" title="">
                             {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}
                                 <i class="fa fa-square-o"></i>{% endif %}
@@ -125,12 +126,7 @@
                     {% endfor %}
                 {% endif %}
             </span>
-
-
         </div>
-
-
-
 
         {% if task_detail.solutions %}
          <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
