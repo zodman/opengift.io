@@ -1037,6 +1037,8 @@ var widget_tl, currentGroup;
                             return $('<input type="hidden" />').attr({'name': name, 'value': value});
                         };
 
+                    $valueItem.addClass('active').closest('ul').closest('li').addClass('active');
+
                     if (bIsDate) {
                         value_title = val;
                         if (bIsRange) {
@@ -1222,12 +1224,12 @@ var widget_tl, currentGroup;
                             if ($(this).text().replace(/(^\s+|\s+$)/g, '') == '') {
                                 $taskWrapper.find('.show-subtasks.add-subtask').addClass('openSubtask');
                             }
-                            ;
+
                             $taskWrapper.find('.add-task-input').find('input').bind('blur.subtask', function () {
                                 if ($taskWrapper.find('.subtask').html()) {
                                     $taskWrapper.addClass('visible-items').removeClass('active');
                                 }
-                                ;
+
                                 if (!$taskWrapper.hasClass('visible-items')) {
                                     $(document).click(function (e) {
                                         if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {
@@ -1372,9 +1374,11 @@ var widget_tl, currentGroup;
                 bLeastBlock = $(this).closest('span.search-group').children('span').length == 1,
                 $search_form = widget_tl.$searchRulesHolder;
 
+            var $menuItem = $('.js-search-menu [data-code='+sFieldName+'] [rel='+value+']').removeClass('active');
             $search_form.find('input[name=' + sFieldName + '][value="' + value + '"]').remove();
 
             if (bLeastBlock) {
+                $menuItem.closest('ul').closest('li').removeClass('active');
                 $(this).closest('span.search-group').remove();
             } else {
                 $(this).closest('span').remove();
