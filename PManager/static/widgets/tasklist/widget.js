@@ -1362,6 +1362,8 @@ var widget_tl, currentGroup;
                 field_name = category.attr('data-code'),
                 value = $(this).attr('rel');
 
+            if ($(this).hasClass('active')) return false;
+
             widget_tl.addVisualSearchElement(field_name, value);
 
             widget_tl.TL_Search();
@@ -1374,7 +1376,7 @@ var widget_tl, currentGroup;
                 bLeastBlock = $(this).closest('span.search-group').children('span').length == 1,
                 $search_form = widget_tl.$searchRulesHolder;
 
-            var $menuItem = $('.js-search-menu [data-code='+sFieldName+'] [rel='+value+']').removeClass('active');
+            var $menuItem = $('.js-search-menu [data-code="'+sFieldName+'"] [rel="'+value+'"]').removeClass('active');
             $search_form.find('input[name=' + sFieldName + '][value="' + value + '"]').remove();
 
             if (bLeastBlock) {
