@@ -1263,15 +1263,15 @@ div.taskWizard-required .taskWizard-question-title:after {
 .sub-tasks {margin-top: 20px;}
 
 .sub-tasks-button {
-    float: right;
+    margin: -10px auto 20px;
+    width: 190px;
+    color: #999;
+    padding: 0;
+    display: block !important;
 }
 
-
-.tasks-title {
-    font-weight: bold;
-    padding-bottom: 10px;
-    background: #fff;
-    font-size: 14px;
+.sub-tasks-button:hover {
+    color: #000;
 }
 
 .task-details-text {font-size: 14px;}
@@ -2294,8 +2294,10 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 
 .user-list-filer hr {margin:0 0 15px;}
 .user-list-filer .span4 {margin-bottom:15px;}
-.user-list .widget.span4:nth-child(3n+1) {margin-left:0px;}
-.user-list .widget.span4 small {margin: 1px 0 0;
+.user-list .user-block:nth-child(4n+1) {margin-left:0px;}
+.user-list .user-block {height: 201px; width: 23.076923076923077%; float: left;}
+
+.user-list .widget small {margin: 1px 0 0;
     line-height: 18px;
     display: block;
     color: #666;
@@ -2308,13 +2310,15 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 
 .user-block-header {
     margin: -20px -20px 20px;
-    padding: 10px 20px 10px;
+    padding: 0px 20px 10px 0;
     border-bottom: 1px solid #eee;
     height: 61px;
 }
 
-.user-block-header-avatar {float: left; width: 30px; margin-top: 2px; margin-right: 10px;}
-.user-block-header-name-spec {float: left; width: calc(100% - 40px);}
+.user-block-header-avatar {float: left; width: 60px; height: 60px; margin-right: 10px; position: relative;}
+.user-block-header-name-spec {float: left; width: calc(100% - 70px); padding-top: 8px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
+
+.user-block-header-avatar .pro-icon {position: absolute; left: 5px; top: 5px; }
 
 
 .about-user-progress  {margin-bottom: 10px;}
@@ -2385,9 +2389,28 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .invite-users-list-item {width: calc(50% - 20px);}
 }
 
-@media screen and (max-width: 992px) {
-    .user-list .widget.span4 {width:100%; margin-left:0px;}
+@media screen and (max-width: 1200px) {
+    .user-list .user-block {width:calc(33.9% - 20px); margin-right: 20px; margin-left: 0px;}
+    .user-list .user-block:nth-child(3n) {margin-right:0px; margin-left: 0px;}
 }
+
+
+@media screen and (max-width: 1024px) {
+    .user-list .user-block {width:calc(51% - 20px);}
+    .user-list .user-block:nth-child(3n) {margin-right: 20px; margin-left: 0px;}
+    .user-list .user-block:nth-child(2n) {margin-right:0px; margin-left: 0px;}
+}
+
+
+@media screen and (max-width: 568px) {
+    .user-block-header, .user-block-footer {margin-left: -15px; margin-right: -15px}
+    .user-list .user-block {width:100%; float: none;}
+    .user-list .user-block:nth-child(3n) {margin-right: 0px; margin-left: 0px;}
+    .user-list .user-block:nth-child(2n) {margin-right:0px; margin-left: 0px;}
+
+}
+
+
 @media only screen and (max-width: 868px) {
     .invite-users-list-item {width: calc(100% - 20px); height: auto;}
 
@@ -3449,10 +3472,59 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 .message-desc-message .well {padding:5px 10px; background:#fff; margin-bottom:10px;}
 
 .message-desc-left {position:relative; padding-right:40px;}
-.message-desc-left .fa.fa-square-o {color:rgba(1, 1, 1, 0.2); font-size:28px; position:absolute; right:0px; cursor:pointer; margin-top: -13px; top: 50%;}
-.message-desc-left .fa.fa-check-square-o {color:#57a957; font-size:28px; position:absolute; right:-4px; cursor:pointer; margin-top: -13px; top: 50%;}
-.message.danger .fa.fa-check-square-o,
-.message.bug-message .fa.fa-check-square-o {color: #BB0500;}
+
+
+.message-desc-left .fa {
+    position:absolute;
+    right: -4px;
+    cursor: pointer;
+    margin-top: -13px;
+    top: 50%;
+    background: #fff none repeat scroll 0 0;
+    border: 2px solid #ccc;
+    border-radius: 10%;
+    -moz-border-radius: 10%;
+    -webkit-border-radius: 10%;
+    color: #ccc;
+    content: "\f00c";
+    display: inline-block;
+    font-family: FontAwesome;
+    font-size: 12px;
+    font-weight: normal;
+    height: 20px;
+    line-height: 17px;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    width: 20px;
+}
+
+.message-desc-left .fa.fa-check-square-o {
+    border: 2px solid #5cb85c;
+    color: #5cb85c;
+}
+
+.message-desc-left .fa.fa-check-square-o:before {
+    content: "\f00c";
+    font-family: FontAwesome;
+    font-size: 12px;
+    color: #5cb85c;
+}
+
+.message-desc-left .fa.fa-square-o:before {
+    content: "";
+}
+
+.message.danger .message-desc-left .fa.fa-check-square-o,
+.message.bug-message .message-desc-left .fa.fa-check-square-o {
+    color: #BB0500;
+    border: 2px solid #BB0500;
+}
+
+.message.danger .message-desc-left .fa.fa-check-square-o:before,
+.message.bug-message .message-desc-left .fa.fa-check-square-o:before {
+    color: #BB0500;
+}
 
 .SUBCONTAINER {position: relative;}
 
@@ -4749,7 +4821,7 @@ font-weight: normal;
     display: inline-block;
     float: left;
     margin-right: 10px;
-    margin-top: 3px;
+    margin-top: 0px;
     width: 15px;
     height: 15px;
     background:url("../images/radiobutton.png") 0px 0px no-repeat;
@@ -4757,7 +4829,7 @@ font-weight: normal;
 }
 
 .green-popup label {cursor: pointer;}
-.green-popup label input {float: left; margin-top: 3px; margin-right: 10px;}
+.green-popup label input {float: left; margin-right: 10px;}
 
 .green-popup .trans-element-radio.unchecked {background-position: 0px 0px;}
 .green-popup .trans-element-radio.checked {background-position: 0px -15px;}
@@ -4866,9 +4938,9 @@ font-weight: normal;
     content: "";
     display: block;
     height: 10px;
-    left: 5px;
+    left: 4px;
     position: absolute;
-    top: 5px;
+    top: 4px;
     width: 10px;
 }
 

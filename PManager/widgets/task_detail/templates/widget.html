@@ -134,21 +134,17 @@
 
         {% if not task_detail.task.parentTask %}
             <div class="sub-tasks js-sub-tasks box-shadow-0">
-                <div class="task-wrapper">
-                    <div class="tasks-title clearfix">
-                        <!--<a class="js-sub-tasks-button sub-tasks-button">Добавить подзадачу</a>-->
-                        {% if task_detail.hiddenSubTasksExist %}
-                        <a class="js-ShowClosedSubtasks green-bg button button-mini sub-tasks-button">Показать закрытые подзадачи</a>
-                        {% endif %}
-                    </div>
+                <div class="task-wrapper clearfix">
                     <div class="subtask">
-
                         {# ---- ДОБАВИТЬ ПОДЗАДАЧУ #}
-                        <div class="add-task-input js-addTaskInput">
+                        <div class="add-task-input js-addTaskInput relative">
                             <input class="input-block-level form-control" data-parent="{{ task.id }}" type="text" placeholder="Добавить подзадачу...">
                         </div>
                     </div>
                 </div>
+                {% if task_detail.hiddenSubTasksExist %}
+                <a class="js-ShowClosedSubtasks grey-bg button button-mini sub-tasks-button">Показать закрытые подзадачи</a>
+                {% endif %}
             </div>
         {% endif %}
 

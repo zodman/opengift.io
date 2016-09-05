@@ -1,12 +1,17 @@
 {% load jsonify %}
- <div class="user-block widget inner js-user span4" data-id="{{ user.id }}">
+ <div class="user-block widget inner js-user span3" data-id="{{ user.id }}">
 
             <div class="user-block-header clearfix">
                 <i class="statusImg"></i>
                 <div class="user-block-header-avatar">
-                    <a href="/user_detail/?id={{ user.id }}" class="user-block">
-                        <div class="avatar_container js-avatar-container" data-size="30" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
+                    <a href="/user_detail/?id={{ user.id }}">
+                        <div class="avatar_container js-avatar-container" data-size="60" rel='{{ user.get_profile.avatar_rel|jsonify|safe }}'></div>
                     </a>
+                    {% if user.get_profile.is_outsource %}
+                    <span class="pro-icon" href="/pro/">
+                        <i class="fa fa-star"></i>
+                    </span>
+                    {% endif %}
                 </div>
                 <div class="user-block-header-name-spec">
                     <a href="/user_detail/?id={{ user.id }}">
@@ -15,11 +20,6 @@
                         <b style="color: #d9534f;">{{ user.profile.account_total }} - {{ user.feeSum }}</b>
                         {% endif %}
                     </a>
-                    {% if user.get_profile.is_outsource %}
-                    <span class="pro-icon" href="/pro/" style="top:-2px;left: 4px;">
-                        <i class="fa fa-star"></i>
-                    </span>
-                    {% endif %}
                     <small class="small">
                         {% if user.profile.specialties.count %}
                         {% for spec in user.profile.specialties.all %}{% if not forloop.first %}, {% endif %}{{ spec.name }}{% endfor %}
