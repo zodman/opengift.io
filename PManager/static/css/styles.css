@@ -6054,4 +6054,11 @@ ul.colors {
         padding: 7px 0px !important;
     }
 
+    .big-filter-wrapper .dropdown-menu > li > a.active {
+        color: #00aa00;
+    }
+
+    .big-filter-wrapper li.active > a {
+        color: #00aa00;
+    }
 }
