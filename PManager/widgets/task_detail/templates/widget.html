@@ -7,6 +7,14 @@
                 {{ task_detail.error|safe }}
             </div>
         {% endif %}
+<script src="/static/js/jquery.fancyform.min.js"></script>
+        <script>
+            $(function () {
+                $("input:radio").transformRadio({
+                    base: "class" // Can be image or class, if class a span will be added
+                });
+            });
+        </script>
 <div class="widget inner Task_Detail" id="task_detail" >
     <div class="widget-title clearfix" style="border: 0;">
         <div class="widget-title-info clearfix">
@@ -52,18 +60,17 @@
 
             </div>
         </div>
-        <span class="{{ task_detail.lamp }}">Вы ответили</span>{{ task_detail.task.name }}
-
-
+        <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}</h2>
     </div><!--widget-title-->
 
     <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
             <ul class="widget-title-info-left-ul clearfix">
-                <li>{% if task_detail.task.planTime %}
-                    Плановое время: <b>{{ task_detail.task.planTime }}</b> ч.
-                    {% endif %}
-                </li>
+                {% if task_detail.task.planTime %}
+                <li>Плановое время: <b>{{ task_detail.task.planTime }}</b> ч.</li>
+                {% endif %}
+
                 <li>Затраченное время: <b id="js-td_time"></b></li>
+
                     {% if task_detail.task.resp %}
                     <li>
                     Ответственный: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
@@ -100,7 +107,7 @@
 
         {% endif %}
 
-        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>
+        <!--<h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>
         <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
 
             <span class="js-todo-list todo-list">
@@ -126,7 +133,7 @@
                     {% endfor %}
                 {% endif %}
             </span>
-        </div>
+        </div>-->
 
         {% if task_detail.solutions %}
          <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
@@ -147,6 +154,20 @@
                 {% endif %}
             </div>
         {% endif %}
+
+        <div class="chat-nav chat-nav-simple">
+            <div class="radio-checkbox-block">
+                <label class="checkbox-inline clearfix">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' or not chat.options.MESSAGE_TYPE %}checked="checked"{% endif %}> Все сообщения <sup class="filter-sup">11</sup>
+                </label>
+                <label class="checkbox-inline clearfix">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" {% if chat.options.MESSAGE_TYPE == 'TODO' %}checked="checked"{% endif %}> Todo <sup class="filter-sup"><span class="green-text">3</span><span class="filter-sup-separator"></span><span class="red-text">10</span></sup>
+                </label>
+                <label class="checkbox-inline clearfix">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" {% if chat.options.MESSAGE_TYPE == 'BUGS' %}checked="checked"{% endif %}> Ошибки <sup class="filter-sup"><span class="green-text">3</span><span class="filter-sup-separator"></span><span class="red-text">10</span></sup>
+                </label>
+            </div>
+        </div>
 
         <a href="#" class="js-show-all" style="display: none;">Показать предыдущие сообщения</a>
         <div class="messages js-commentsContainer"></div>
