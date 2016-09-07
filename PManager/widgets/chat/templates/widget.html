@@ -7,7 +7,7 @@
 <div class="widget chat" id="chat" data-tab-title="Лента">
     <a name="comments"></a>
     <div class="widget-tasklist-header">
-        <div class="widget-title">Лента событий</div>
+        <div class="widget-title"><h2>Лента событий</h2></div>
         <ul class="widget-tasklist-functions clearfix">
             <li>
                 <a href="#" class="widget-tab js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Список задач</span></a>
@@ -24,7 +24,16 @@
     </div>
     
     <div class="clearfix chat-nav js-feed-options">
-    	<div class="pull-left radio-checkbox-block">
+        {% if main.CURRENT_PROJECT %}
+        <div class="pull-left radio-checkbox-block">
+            {% if main.CURRENT_PROJECT %}
+            <label class="checkbox-inline">
+                <input type="checkbox" class="js-other-projects" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
+            </label>
+            {% endif %}
+        </div>
+        {% endif %}
+    	<div class="pull-right radio-checkbox-block">
             <label class="checkbox-inline">
               <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' or not chat.options.MESSAGE_TYPE %}checked="checked"{% endif %}> Все сообщения
             </label>
@@ -47,15 +56,6 @@
               <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" {% if chat.options.MESSAGE_TYPE == 'FILES' %}checked="checked"{% endif %}> Файлы
             </label>
         </div>
-        {% if main.CURRENT_PROJECT %}
-        <div class="pull-right radio-checkbox-block">
-            {% if main.CURRENT_PROJECT %}
-        	<label class="checkbox-inline">
-              <input type="checkbox" class="js-other-projects" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
-            </label>
-            {% endif %}
-        </div>
-        {% endif %}
     </div>
 
     
@@ -107,79 +107,3 @@
         });
     })
 </script>
-<style>
-    .radio-checkbox-block .radio-inline,
-    .radio-checkbox-block .checkbox-inline {
-        margin-left: 0px;
-        padding-left: 0px;
-        margin:5px 20px 5px 0;
-    }
-
-    .trans-element-radio {
-        width: 20px;
-        height: 20px;
-        display: block;
-        float: left;
-        position: relative;
-        margin: 0 10px 0 0;
-        border: 1px solid #ddd;
-        border-radius: 50%;
-        background-color: #fff;
-    }
-
-    .trans-element-radio:before {
-        -webkit-transition: all 0.25s ease-in-out;
-        transition: all 0.25s ease-in-out;
-        width: 16px;
-        height: 16px;
-        -webkit-transform: scale(0);
-        -ms-transform: scale(0);
-        transform: scale(0);
-        display: block;
-        border-radius: 50%;
-        background-color: #5cb85c;
-        opacity: 0;
-        content: "";
-        position: absolute;
-        left: 1px;
-        top: 1px;
-    }
-
-    .trans-element-radio.checked {
-        border: 1px solid #5cb85c;
-    }
-
-    .trans-element-radio:hover:before,
-    .radio-checkbox-block .radio-inline:hover .trans-element-radio:before,
-    .radio-checkbox-block .checkbox-inline:hover .trans-element-radio:before {
-        -webkit-transform: scale(0.5);
-        -ms-transform: scale(0.5);
-        transform: scale(0.5);
-        opacity: .5;
-    }
-
-    .trans-element-radio:focus:before,
-    .radio-checkbox-block .radio-inline:focus .trans-element-radio:before,
-    .radio-checkbox-block .checkbox-inline:focus .trans-element-radio:before {
-        -webkit-transform: scale(1);
-        -ms-transform: scale(1);
-        transform: scale(1);
-        opacity: 1;
-        background-color: #e67012;
-    }
-
-
-    .trans-element-radio.checked:before,
-    .radio-checkbox-block .radio-inline:focus .trans-element-radio.checked:before,
-    .radio-checkbox-block .checkbox-inline:focus .trans-element-radio.checked:before {
-        -webkit-transform: scale(1) !important;
-        -ms-transform: scale(1) !important;
-        transform: scale(1) !important;
-        opacity: 1 !important;
-    }
-
-
-
-
-
-</style>
