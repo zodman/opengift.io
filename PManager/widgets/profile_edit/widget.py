@@ -36,6 +36,9 @@ def widget(request, headerValues, ar, qargs):
     else:
         user = request.user
 
+    if request.user.id != user.id and not request.user.is_superuser:
+        return {}
+
     profile = user.get_profile()
     avatarUrl = profile.avatar
     c = RequestContext(request, processors=[csrf])

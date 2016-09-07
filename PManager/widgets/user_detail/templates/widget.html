@@ -267,9 +267,12 @@
             <div class="user-body-info">
                 <div class="user-body-info-block">
                     <h2 class="user-body-info-block-name">{{ user_detail.title }}
+                        {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                         <a href="/profile/edit/?id={{ user_detail.user.id }}"
                            class="user-body-info-block-edit-icon">
-                            <i class="fa fa-cog" aria-hidden="true"></i></a></h2>
+                            <i class="fa fa-cog" aria-hidden="true"></i></a>
+                        {% endif %}
+                        </h2>
                         {% if user_detail.current_user_is_admin %}
                         <form method="POST" action="">
                             {% csrf_token %}

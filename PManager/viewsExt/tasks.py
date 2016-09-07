@@ -1441,8 +1441,7 @@ class TaskWidgetManager:
             else:
                 try:
                     users = users.filter(
-                        pk__in=PM_ProjectRoles.objects.filter(role=PM_Role.objects.get(code='employee'),
-                                                              project=project).values('user__id'))
+                        pk__in=PM_ProjectRoles.objects.filter(project=project).values('user__id'))
                 except PM_Role.DoesNotExist:
                     pass
 

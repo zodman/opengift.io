@@ -1367,7 +1367,7 @@ var widget_tl, currentGroup;
             widget_tl.addVisualSearchElement(field_name, value);
 
             widget_tl.TL_Search();
-            return false;
+            return true;
         });
 
         widget_tl.$searchRulesHolder.on('click', '.close', function () {

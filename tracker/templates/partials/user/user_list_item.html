@@ -42,10 +42,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
-                    <p>Закрыто задач за месяц: <b>{{ user.tasksQty }}</b></p>
                     {% if user.last_login %}
                     <p class="font-12 text-grey user-block-footer"><i class="fa fa-clock-o" aria-hidden="true"></i>&nbsp;&nbsp;Зашел {{ user.last_login|date:"d.m.Y h:i:s" }}</p>{% endif %}
                     {% if user.startedTask %}

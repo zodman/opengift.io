@@ -872,6 +872,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     top: 8px;
 }
 .big-input .input-block-level {padding:4px 12px 4px 37px;}
+.task-create-wrapper input {border:1px solid #555;}
 
 .task-create-wrapper > ul,
 .add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
@@ -981,7 +982,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .search_buttons {
     float: left;
-    margin: 5px 15px 5px 0;
+    margin: 9px 15px 5px 0;
 }
 
 .btn-xs {
@@ -2295,8 +2296,8 @@ a.message_task_name {color:#555555; text-decoration:underline;}
 .user-list-filer hr {margin:0 0 15px;}
 .user-list-filer .span4 {margin-bottom:15px;}
 .user-list .user-block:nth-child(4n+1) {margin-left:0px;}
-.user-list .user-block {height: 201px; width: 23.076923076923077%; float: left;}
-
+.user-list .user-block {height: 159px; width: 23.076923076923077%; float: left;}
+.user-list .avatar_container {overflow: hidden}
 .user-list .widget small {margin: 1px 0 0;
     line-height: 18px;
     display: block;
@@ -3368,6 +3369,11 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 .qq-upload-button-hover .file_upload_button {opacity:1 !important; border-color:#F5F3EA !important;}
 /* В списке задач
 .tasklist .qq-uploader {background:none repeat scroll 0 0 #F7F7F7; border:2px dashed #E6E6E6; border-radius:5px; -moz-border-radius:5px; -ms-border-radius:5px; -o-border-radius:5px; -webkit-border-radius:5px; left:0px; margin:10px 0 0; padding:5px 0 0; position:relative; top:0px; width:100%;}*/
+.dropdown-menu .color-bg {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+}
 
 .milestones-btn-wrapper {position:relative;top:1px;}
 .milestones-btn {white-space: nowrap; border:1px solid #cccccc;}
@@ -5638,13 +5644,21 @@ ul.colors {
 .font-12 {font-size: 12px;}
 
 .color-bg {color: white;}
-.color-bg.grey, .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
-.color-bg.green, .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
-.color-bg.blue, .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
-.color-bg.red, .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
-.color-bg.yellow, .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
-.color-bg.purple, .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
-.color-bg.orange, .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
+[data-code=grey] [data-field]:before , .color-bg.grey, .tasks-header.tasks-grey, .color-block.grey, .task-drag.grey {background-color: #8d9091;}
+[data-code=green] [data-field]:before , .color-bg.green, .tasks-header.tasks-green, .color-block.green, .task-drag.green {background-color: #3dc33d;}
+[data-code=blue] [data-field]:before , .color-bg.blue, .tasks-header.tasks-blue, .color-block.blue, .task-drag.blue {background-color: #1dabe6;}
+[data-code=red] [data-field]:before , .color-bg.red, .tasks-header.tasks-red, .color-block.red, .task-drag.red {background-color: #f53838;}
+[data-code=yellow] [data-field]:before , .color-bg.yellow, .tasks-header.tasks-yellow, .color-block.yellow, .task-drag.yellow {background-color: #eac53d;}
+[data-code=purple] [data-field]:before , .color-bg.purple, .tasks-header.tasks-purple, .color-block.purple, .task-drag.purple {background-color: #c666d3;}
+[data-code=orange] [data-field]:before , .color-bg.orange, .tasks-header.tasks-orange, .color-block.orange, .task-drag.orange {background-color: #ef9332;}
+
+[data-code=color] [data-code] [data-field]:before {
+    content: " ";
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    margin-right: 5px;
+}
 
 .wiking-content__image {
     width: 300px;
