@@ -45,11 +45,12 @@ hr.no-top-magin-hr {margin-top:0px;}
 .filter-sup {
     background: #f6f6f6;
     color: #444;
-    padding: 3px 5px;
+    padding: 1px 7px 5px 7px;
     border-radius: 3px;
     font-size: 10px;
     margin-left: 2px;
     font-family: tahoma;
+    display: inline-block;
 }
 
 .filter-sup-separator {font-size: 0px; background: #ddd; width: 1px; margin: 0 5px; height: 12px; position: relative; top: 2px; display: inline-block;}
@@ -2212,7 +2213,7 @@ div.statistic-filter_user-list label input[type="checkbox"] {
 
 .Chat {margin-top: 15px;}
 
-.task-message {margin-bottom:10px;}
+.task-message {margin-bottom:20px;}
 .task-message .message > span img {max-width:90px; position:relative; top:2px;}
 .alert-warning, .alert-success, .alert-info, .alert-danger, .message {margin:0px;}
 .alert-apprice {
@@ -2244,6 +2245,7 @@ a.message_task_name {color:#555555; text-decoration:underline;}
     margin-right: 5px;
     padding-right: 10px;
 }
+
 
 .new-message .alert-success {box-shadow:0 0 5px #BEE4AD; border:1px solid #a7e48d;}
 .new-message .alert-warning {box-shadow:0 0 5px #EDD76E; border:1px solid #EDD76E;}
@@ -3286,8 +3288,8 @@ div.about-file > div span {font-weight:bold;}*/
 
 
 
-input.alert-error, textarea.alert-error {border-color:#B94A48; background:#F2DEDE;}
-input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; -moz-box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; -webkit-box-shadow:0 1px 1px #EED3D7 inset, 0 0 8px #EED3D7; }
+input.alert-error, textarea.alert-error {border-color:#B94A48; background:#fff4f4;}
+input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-shadow:0 1px 1px #fde5e5 inset, 0 0 8px #fde5e5; -moz-box-shadow:0 1px 1px #fde5e5 inset, 0 0 8px #fde5e5; -webkit-box-shadow:0 1px 1px #fde5e5 inset, 0 0 8px #fde5e5; }
 
 /*  ###############################################################
                             SOME HELPER CLASS
@@ -3525,7 +3527,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
 /*СООБЩЕНИЯ*/
 
-.message {background:#f2f2f2; line-height:20px; display:table; width:100%; overflow:hidden; height:100%; position: relative;}
+.message {background:#f2f2f2; border-radius: 4px; line-height:20px; display:table; width:100%; overflow:hidden; height:100%; position: relative;}
 
 .message .avatar {display:table-cell; padding:12px 0px 12px 15px; vertical-align:top; width:105px;}
 .message .avatar svg {width:90px;height: 90px;}
@@ -3720,7 +3722,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
     position: relative;
     cursor: pointer;
     padding: 0px;
-    margin: 0 0px 10px 0px;
+    margin: 5px 0px 0px 0px;
     display: block;
     line-height: 20px;
     text-align: left;
@@ -3736,7 +3738,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
     font-size: 24px;
     position: absolute;
     left: 0;
-    top: -2px;
+    top: 0px;
 }
 
 
@@ -3745,7 +3747,11 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
 
 
+.warn-message {padding: 15px 20px; background: #f6f6f6; border:1px solid #eee; margin-bottom: 20px; border-radius: 4px;}
+.warn-message:last-child {margin-bottom: 0px;}
+.warn-message-top {font-size: 11px; color: #999;}
 
+.warn-message-top-date {margin-right: 10px;}
 
 /*ЗЕЛЕНАЯ СООБЩЕНИЕ*/
 .message.success, .todo-message {background:#edf8ed; border-color:#deecd8;}
@@ -3759,22 +3765,22 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 }
 
 /*ЖЕЛТОЕ СООБЩЕНИЕ*/
-.message.warning {background:#fffdf1; border-color:#f5f3ea;}
-.message.warning .message-info {border-color:#f5f3ea;}
-.message.warning .message-desc-status {color:#c09853;}
+.warning, .warning-inside > div  {background:#fffdf1; border-color:#f5f3ea;}
+.warning .message-info {border-color:#f5f3ea;}
+.warning .message-desc-status {color:#c09853;}
 
 /*ГОЛУБОЕ СООБЩЕНИЕ*/
-.message.info {background:#ecf5f9; border-color:#d9edf7;}
-.message.info .message-info {border-color:#d9edf7;}
-.message.info .message-desc-status {color:#3a87ad;}
+.info {background:#ecf5f9; border-color:#d9edf7;}
+.info .message-info {border-color:#d9edf7;}
+.info .message-desc-status {color:#3a87ad;}
 /*КРАСНОЕ СООБЩЕНИЕ*/
-.message.danger, .message.bug-message {background:#f2dede; border-color:#eed3d7;}
-.message.danger .message-info, .message.bug-message .message-info {border-color:#eed3d7;}
-.message.danger .message-desc-status, .message.bug-message .message-desc-status {color:#b94a48;}
+.danger, .bug-message, .danger-inside > div {background:#fff4f4; border-color:#fde5e5;}
+.danger .message-info, .bug-message .message-info {border-color:#fde5e5;}
+.danger .message-desc-status, .bug-message .message-desc-status {color:#b94a48;}
 /*ОРАНЖЕВОЕ СООБЩЕНИЕ*/
-.message.apprice {background:#ffece2; border-color:#f5ded1;}
-.message.apprice .message-info {border-color:#f5ded1;}
-.message.apprice .message-desc-status {color:#b04e19;}
+.apprice {background:#ffece2; border-color:#f5ded1;}
+.apprice .message-info {border-color:#f5ded1;}
+.apprice .message-desc-status {color:#b04e19;}
 /*GIT-КОММИТЫ*/
 .message.git-commit {background:none repeat scroll 0 0 #f5f1e7; border-color:#ede8da;}
 .js-commit-body {
@@ -4001,7 +4007,7 @@ a.js-show-commit-diff {
 
 .green-button-color {box-shadow: none; -moz-box-shadow: none; -webkit-box-shadow: none;}
 
-.red-button {background:#D46765; border:1px solid #a13a38; text-shadow:0px 1px 0px #a13a38; -moz-text-shadow:0px 1px 0px #a13a38; -webkit-text-shadow:0px 1px 0px #a13a38; color:#f2dede !important; background-image: -webkit-gradient(
+.red-button {background:#D46765; border:1px solid #a13a38; text-shadow:0px 1px 0px #a13a38; -moz-text-shadow:0px 1px 0px #a13a38; -webkit-text-shadow:0px 1px 0px #a13a38; color:#fff4f4 !important; background-image: -webkit-gradient(
     linear,
     left top,
     left bottom,
@@ -5408,7 +5414,7 @@ font-weight: normal;
 .bg-success {background: #dff0d8;}
 .bg-info {background: #d9edf7;}
 .bg-warning {background: #fcf8e3;}
-.bg-danger {background: #f2dede;}
+.bg-danger {background: #fff4f4;}
 
 
 .btn-orange {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffd147+0,ffaa00+100 */

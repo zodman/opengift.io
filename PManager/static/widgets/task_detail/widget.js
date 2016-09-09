@@ -36,9 +36,9 @@ $(function () {
     widget_td.$todoTitle = widget_td.$container.find('.js-todo-title');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
-    widget_td.todoTpl = '<button data-placement="top" data-toggle="popover" data-container="body" ' +
+    widget_td.todoTpl = '<div class="warn-message"><div class="warn-message-top"><span class="warn-message-top-date">09.09.2016 12:06</span> <a href="">Васютин Евгений</a></div><button data-placement="top" data-toggle="popover" data-container="body" ' +
         'class="js-todo-checkbox checkbox-todo" rel="#ID#"' +
-        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT#</button>';
+        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT#</button></div>';
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
