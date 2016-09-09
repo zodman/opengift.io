@@ -142,7 +142,7 @@ def widget(request, headerValues, arFilter, q):
             if isinstance(val, datetime.datetime):
                 setattr(task, field, val.strftime('%d.%m.%Y %H:%M'))
 
-        messages = task.messages.order_by('dateCreate').exclude(code="WARNING")
+        messages = task.messages.order_by('-dateCreate').exclude(code="WARNING")
         # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
         if not request.user.is_superuser:
             if prof.isEmployee(task.project) or prof.isManager(task.project):
@@ -204,7 +204,7 @@ def widget(request, headerValues, arFilter, q):
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.get_task_template()
 
-        brain = TaskMind()
+        # brain = TaskMind()
         return {
             'title': task.name,
             'task': task,

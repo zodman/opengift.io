@@ -107,33 +107,33 @@
 
         {% endif %}
 
-        <!--<h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>
-        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">
-
-            <span class="js-todo-list todo-list">
-            {% if task_detail.task.todo %}
-                {% for todo in task_detail.task.todo %}
-                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">
-                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}
-                    {{ todo.text }}
-                </button>
-                {% endfor %}
-            {% endif %}
-            </span>
-            <span class="js-bug-list bug-list">
-                {% if task_detail.task.bug %}
-                    {% for bug in task_detail.task.bug %}
-                        <button data-placement="top" data-toggle="popover"
-                                data-container="body" class="js-bug-checkbox checkbox-bug" rel="{{ bug.id }}" type="button"
-                                data-original-title="" title="">
-                            {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}
-                                <i class="fa fa-square-o"></i>{% endif %}
-                            {{ bug.text }}
-                        </button>
-                    {% endfor %}
-                {% endif %}
-            </span>
-        </div>-->
+{#        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>#}
+{#        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">#}
+{##}
+{#            <span class="js-todo-list todo-list">#}
+{#            {% if task_detail.task.todo %}#}
+{#                {% for todo in task_detail.task.todo %}#}
+{#                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">#}
+{#                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}#}
+{#                    {{ todo.text }}#}
+{#                </button>#}
+{#                {% endfor %}#}
+{#            {% endif %}#}
+{#            </span>#}
+{#            <span class="js-bug-list bug-list">#}
+{#                {% if task_detail.task.bug %}#}
+{#                    {% for bug in task_detail.task.bug %}#}
+{#                        <button data-placement="top" data-toggle="popover"#}
+{#                                data-container="body" class="js-bug-checkbox checkbox-bug" rel="{{ bug.id }}" type="button"#}
+{#                                data-original-title="" title="">#}
+{#                            {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}#}
+{#                                <i class="fa fa-square-o"></i>{% endif %}#}
+{#                            {{ bug.text }}#}
+{#                        </button>#}
+{#                    {% endfor %}#}
+{#                {% endif %}#}
+{#            </span>#}
+{#        </div>#}
 
         {% if task_detail.solutions %}
          <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
@@ -155,25 +155,7 @@
             </div>
         {% endif %}
 
-        <div class="chat-nav chat-nav-simple">
-            <div class="radio-checkbox-block">
-                <label class="checkbox-inline clearfix">
-                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' or not chat.options.MESSAGE_TYPE %}checked="checked"{% endif %}> Все сообщения <sup class="filter-sup">11</sup>
-                </label>
-                <label class="checkbox-inline clearfix">
-                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" {% if chat.options.MESSAGE_TYPE == 'TODO' %}checked="checked"{% endif %}> Todo <sup class="filter-sup"><span class="green-text">3</span><span class="filter-sup-separator"></span><span class="red-text">10</span></sup>
-                </label>
-                <label class="checkbox-inline clearfix">
-                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" {% if chat.options.MESSAGE_TYPE == 'BUGS' %}checked="checked"{% endif %}> Ошибки <sup class="filter-sup"><span class="green-text">3</span><span class="filter-sup-separator"></span><span class="red-text">10</span></sup>
-                </label>
-            </div>
-        </div>
-
-        <a href="#" class="js-show-all" style="display: none;">Показать предыдущие сообщения</a>
-        <div class="messages js-commentsContainer"></div>
-
-        {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
-        <div class="task_add-message">
+    <div class="task_add-message">
             <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <h4>Добавить сообщение</h4>
@@ -262,6 +244,50 @@
                 </div>
             </form>
         </div>
+
+        <div class="chat-nav chat-nav-simple">
+            <div class="radio-checkbox-block">
+                <label class="checkbox-inline clearfix">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" checked="checked"> Все сообщения
+                </label>
+                <label class="checkbox-inline clearfix js-tab">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" > Todo
+                    <sup class="filter-sup">
+                        <span class="green-text js-done">0</span>
+                        <span class="filter-sup-separator"></span>
+                        <span class="red-text js-exist">0</span>
+                    </sup>
+                </label>
+                <label class="checkbox-inline clearfix js-tab">
+                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" > Ошибки
+                    <sup class="filter-sup">
+                        <span class="green-text js-done">0</span>
+                        <span class="filter-sup-separator"></span>
+                        <span class="red-text js-exist">0</span>
+                    </sup>
+                </label>
+{#                <label class="checkbox-inline clearfix">#}
+{#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" > Файлы <sup class="filter-sup"><span class="green-text">3</span></sup>#}
+{#                </label>#}
+            </div>
+        </div>
+
+        <a href="#" class="js-show-all" style="display: none;">Показать предыдущие сообщения</a>
+        <div class="messages js-container js-commentsContainer" data-type="ALL">
+
+        </div>
+        <div class="messages js-container js-todo-list to-do-list" style="display: none" data-type="TODO">
+
+        </div>
+        <div class="messages js-container js-bug-list to-do-list bug-list" style="display: none" data-type="BUGS">
+
+        </div>
+        <div class="messages js-container js-file-list file-list" style="display: none" data-type="FILES">
+
+        </div>
+
+        {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
+
     </div>
 </div>
 {% if task_detail.solutions %}

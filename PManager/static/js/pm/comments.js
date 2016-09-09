@@ -27,7 +27,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         'todo': t.get('todo') ? 1 : 0,
                         'bug': t.get('bug') ? 1 : 0
                     },
-                    function(data) {
+                    function (data) {
                         var i;
                         for (i in data) {
                             t.set(i, data[i]);
@@ -270,7 +270,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
                 return htmlTemplate;
             },
-                'render': function (params) {
+            'render': function (params) {
                 if (!params)
                     params = {};
 
@@ -356,7 +356,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
-                var actTodo  = 'removeClass', actBug = actTodo;
+                var actTodo = 'removeClass', actBug = actTodo;
                 if (this.model.get('todo') || this.model.get('bug')) {
                     var $todoCheckBox = $('<i class="fa js-check-todo"></i>').attr('rel', this.model.id);
 
@@ -542,11 +542,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         isNewSubContainerCreated = false;
 
                     if (
-                        !t.bNeedToGroup ||
-                        !$lastContainer.hasClass(subCode) ||
+                        !t.bNeedToGroup || !$lastContainer.hasClass(subCode) ||
                         isNewMessage ||
                         subCode === 'MESSAGES'
-                        ) { //create new subcontainer
+                    ) { //create new subcontainer
 
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
                         if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
@@ -559,7 +558,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
-
 
 
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
@@ -629,12 +627,12 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     $subContainer.parent().addClass('minimize-messages');
                     var btnMinimizeMsg = $(
-                            '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
-                            '<div style="text-align: center;">Показать все сообщения...</div></div>'
+                        '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
+                        '<div style="text-align: center;">Показать все сообщения...</div></div>'
                     );
 
                     if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(firstItems-1).after(btnMinimizeMsg);
+                        $subContainer.find('.task-message').eq(firstItems - 1).after(btnMinimizeMsg);
                     }
 
                     btnMinimizeMsg.click(function () {
@@ -649,7 +647,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItems + ')').addClass('show-msg');
                 }
 
-                $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
+                $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function () {
                     if ($(this).find('.js-taskMessage').size() <= 1) return;
                     $(this).find('.js-btn-minimize').remove();
 
@@ -685,6 +683,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
             getById: function (id) {
                 return this.messageList.get(parseInt(id));
+            },
+
+            forEach: function (callback) {
+                return this.messageList.each(callback);
             }
         }
     });

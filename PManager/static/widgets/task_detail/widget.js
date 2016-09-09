@@ -5,17 +5,17 @@
  * Time: 14:44
  */
 var widget_td;
-$(function(){
-    widget_td = new widgetObject({id:'task_detail'});
+$(function () {
+    widget_td = new widgetObject({id: 'task_detail'});
 
     widget_td.state = {
-        taskCreate:false,
-        hintOpened:{
-            'Responsible':false,
-            'Date':false,
-            'Author':false
+        taskCreate: false,
+        hintOpened: {
+            'Responsible': false,
+            'Date': false,
+            'Author': false
         }
-    }
+    };
 
     widget_td.task_id = arJSParams['taskId'];
     widget_td.TaskTimers = arTimers;
@@ -31,60 +31,68 @@ $(function(){
     widget_td.$attachedFileContainer = widget_td.$container.find('.uploaded_file');
     widget_td.$todoList = widget_td.$container.find('.js-todo-list');
     widget_td.$todoContainer = widget_td.$container.find('.js-todo-container');
+    widget_td.$filterTabs = widget_td.$container.find('.js-comments-filter-input');
+    widget_td.$filterTabContainers = widget_td.$container.find('.js-container');
     widget_td.$todoTitle = widget_td.$container.find('.js-todo-title');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
+    widget_td.todoTpl = '<button data-placement="top" data-toggle="popover" data-container="body" ' +
+        'class="js-todo-checkbox checkbox-todo" rel="#ID#"' +
+        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT#</button>';
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
     widget_td.messageListHelper = new messageListManager(widget_td.$messageList, widget_td.task_id, task_detail_message_tpl);
 
     widget_td.subtaskTemplate = '<hr /><div id="taskLine_#TASK_ID#" data-taskid="#TASK_ID#" class="task clearfix">' +
-                                    '<div class="span7 task-title">' +
-                                        '<span class="task-name-wrapper"> #TASK_NAME# </span>' +
-                                    '</div>' +
-                                    '<div class="span2 task-responsibles">' +
-                                        '<span class="dropdown">' +
-                                            '<a href="" data-toggle="dropdown"></a>' +
-                                        '</span>' +
-                                    '</div>' +
-                                    '<div class="span2 task-time">' +
-                                        '<div class="inline task-timer">' +
-                                            '<span class="dropdown">' +
-                                                '<a class="Time" href="#" data-toggle="dropdown">#TIMER#</a>' +
-                                            '</span>' +
-                                        '</div>' +
-                                        '<div class="inline task-plantime"> #PLAN_TIME# </div>' +
-                                    '</div>' +
-                                    '<div class="task-manage">' +
+        '<div class="span7 task-title">' +
+        '<span class="task-name-wrapper"> #TASK_NAME# </span>' +
+        '</div>' +
+        '<div class="span2 task-responsibles">' +
+        '<span class="dropdown">' +
+        '<a href="" data-toggle="dropdown"></a>' +
+        '</span>' +
+        '</div>' +
+        '<div class="span2 task-time">' +
+        '<div class="inline task-timer">' +
+        '<span class="dropdown">' +
+        '<a class="Time" href="#" data-toggle="dropdown">#TIMER#</a>' +
+        '</span>' +
+        '</div>' +
+        '<div class="inline task-plantime"> #PLAN_TIME# </div>' +
+        '</div>' +
+        '<div class="task-manage">' +
 
-                                    '</div>' +
-                                '</div>';
+        '</div>' +
+        '</div>';
 
-    $.extend(widget_td,{
-        'init':function(){
+    $.extend(widget_td, {
+        'init': function () {
             var t = this;
+
+
+
             t.model = new window.taskClass(taskDetail);
 
             t.view = new window.taskViewClass({
-                el:widget_td.$container.find('.widget-title').get(0),
-                $el:widget_td.$container.find('.widget-title').eq(0),
-                model:t.model
+                el: widget_td.$container.find('.widget-title').get(0),
+                $el: widget_td.$container.find('.widget-title').eq(0),
+                model: t.model
             });
-            t.view.render = function(){
-                if (this.model.get('closed')){
+            t.view.render = function () {
+                if (this.model.get('closed')) {
                     this.$el.addClass('closed').find('.js-task_done').addClass('closed');
-                }else{
+                } else {
                     this.$el.removeClass('closed').find('.js-task_done').removeClass('closed');
                 }
-                if (this.model.get('critically') > CRITICALLY_THRESHOLD){
+                if (this.model.get('critically') > CRITICALLY_THRESHOLD) {
                     this.$el.addClass('danger');
-                }else{
+                } else {
                     this.$el.removeClass('danger');
                 }
-                if (this.model.get('startedTimerExist')){
+                if (this.model.get('startedTimerExist')) {
                     this.$('.js-task_play').addClass('started').find('.fa').removeClass('fa-play-circle').addClass('fa-pause');
-                }else{
+                } else {
                     this.$('.js-task_play').removeClass('started').find('.fa').addClass('fa-play-circle').removeClass('fa-pause');
                 }
 
@@ -128,7 +136,7 @@ $(function(){
 //
 //            });
 
-            $('.js-need-time').click(function() {
+            $('.js-need-time').click(function () {
                 var $hoursInput = $('.js-need-time-hours');
                 if ($(this).is(':checked')) {
                     $hoursInput.show();
@@ -137,7 +145,7 @@ $(function(){
                 }
             });
 
-            $('.sendTaskMessage').on("click", function(){
+            $('.sendTaskMessage').on("click", function () {
                 var closeTask = $(this).hasClass('btn-close'),
                     btn = this,
                     actions = false,
@@ -147,20 +155,20 @@ $(function(){
                     searchLoadBufPhotos = parForm.find("input[name=files]");
 
 
-                if(getTextarea.val() != '') actions = true; //Проверка Textarea
+                if (getTextarea.val() != '') actions = true; //Проверка Textarea
                 /*getCheckboxs.each(function(){ //Проверка Checkbox'ы
-                    if($(this).prop("checked")) actions = true;
-                });*/
-                if(searchLoadBufPhotos.length) actions = true; //Проверка закрепленных из буфера фотографии
+                 if($(this).prop("checked")) actions = true;
+                 });*/
+                if (searchLoadBufPhotos.length) actions = true; //Проверка закрепленных из буфера фотографии
 
-                if(actions){
-                    if (!$(btn).pushed()){
+                if (actions) {
+                    if (!$(btn).pushed()) {
                         if (closeTask) {
                             $(btn).parent().find('[name=close]').val('Y');
                         }
 
                         $(btn).pushTheButton();
-                        widget_td.newMessage(function(data){
+                        widget_td.newMessage(function (data) {
                             $(btn).pullTheButton();
                         });
                     }
@@ -171,116 +179,124 @@ $(function(){
             });
 
             //Отслеживать ctrl+enter
-            $(document).keydown(function(event) {
-                if (event.which == 13 && (event.ctrlKey || event.metaKey)){
+            $(document).keydown(function (event) {
+                if (event.which == 13 && (event.ctrlKey || event.metaKey)) {
                     $('.sendTaskMessage:not(.btn-close, .js-change_resp)').click();
                     return false;
                 }
             });
 
-            widget_td.$addSubtaskBtn.click(function(){
+            widget_td.$addSubtaskBtn.click(function () {
                 $(".js-addTaskInput").toggle().not(':hidden').focus();
                 return false;
             });
 
-            widget_td.$container.on("keypress", "form.newMessage .combobox-container .combobox", function(e){
-                if(e.which == 13){
+            widget_td.$container.on("keypress", "form.newMessage .combobox-container .combobox", function (e) {
+                if (e.which == 13) {
                     $('.sendTaskMessage:not(.btn-close)').click();
-                    $("form.newMessage").submit(function(){
+                    $("form.newMessage").submit(function () {
                         return false;
                     });
                     return false;
                 }
             });
 
-            widget_td.$container.on('click','.js-ShowClosedSubtasks', function(){
-                var proc,h='hidden';
-                if ($(this).data('open')){
-                    proc = function(view){
+            widget_td.$container.on('click', '.js-ShowClosedSubtasks', function () {
+                var proc, h = 'hidden';
+                if ($(this).data('open')) {
+                    proc = function (view) {
                         return view.$el.addClass(h).prev('hr').addClass(h);
                     };
-                    $(this).data('open',false).text('Показать закрытые задачи');
-                }else{
-                    proc = function(view){
+                    $(this).data('open', false).text('Показать закрытые задачи');
+                } else {
+                    proc = function (view) {
                         return view.$el.removeClass(h).prev('hr').removeClass(h);
                     };
-                    $(this).data('open',true).text('Скрыть закрытые подзадачи');
+                    $(this).data('open', true).text('Скрыть закрытые подзадачи');
                 }
-                for (var i in widget_td.subtaskTemplates){
+                for (var i in widget_td.subtaskTemplates) {
                     var view = widget_td.subtaskTemplates[i];
-                    if (view.model.get('closed')){
+                    if (view.model.get('closed')) {
                         proc(view);
                     }
                 }
                 return false;
             });
 
+            widget_td.$filterTabs.click(function () {
+                var type = $(this).val();
+                widget_td.$filterTabContainers.hide().filter('[data-type=' + $(this).val() + ']').show();
+            });
+
+
             var task;
-            for (var i in aSubTasks){
+            for (var i in aSubTasks) {
                 task = new window.taskClass(aSubTasks[i]);
                 widget_td.subtasks.add(task);
             }
 
-            widget_td.subtasks.each(function(task){
-                var view = new window.taskViewClass({'model':task});
+            widget_td.subtasks.each(function (task) {
+                var view = new window.taskViewClass({'model': task});
                 view.createEl().render();
 
                 widget_td.addTaskElementAndHr(view.$el);
 
-                if (view.model.get('closed')){
+                if (view.model.get('closed')) {
                     view.$el.addClass('hidden').prev('hr').addClass('hidden');
                 }
                 widget_td.subtaskTemplates[task.id] = view;
             });
 
-            this.subtasks.on('add',function(task){
+            this.subtasks.on('add', function (task) {
 
             });
 
             widget_td.messageListHelper.addMessages(arJSParams.messages);
 
-            baseConnector.addListener('fs.comment.add', function(data){
-                if (data && data.task){
-                    if (data.task.id == widget_td.task_id){
+            baseConnector.addListener('fs.comment.add', function (data) {
+                if (data && data.task) {
+                    if (data.task.id == widget_td.task_id) {
                         widget_td.messageListHelper.addMessages([data]);
                     }
                 }
             });
 
             if (arTimers)
-                for (var i in arTimers){
+                for (var i in arTimers) {
                     if (widget_td.subtaskTemplates[i])
-                        arTimers[i].container = $('#taskLine_'+i+' .js-time');
+                        arTimers[i].container = $('#taskLine_' + i + ' .js-time');
                     $(arTimers[i].container).html(arTimers[i].toString());
                 }
 
-            widget_td.$createTaskInput.enterPressed(function(e){
-                    widget_td.CreateSubTask();
-                    return false;
+            widget_td.$createTaskInput.enterPressed(function (e) {
+                widget_td.CreateSubTask();
+                return false;
             });
 
-            widget_td.$messageForm.find('textarea[name=task_message]').addFilePaste(function(data){
+            widget_td.$messageForm.find('textarea[name=task_message]').addFilePaste(function (data) {
                 data = $.parseJSON(data);
 
                 if (data && data.fid)
                     widget_td.$attachedFileContainer
                         .append($attachedFileBlock(data.path, data.fid, data.fid, data.type, data.thumbnail));
             });
+
             widget_td.removeTempScripts();
-            baseConnector.addListener('fs.task.update', function(data){
-                if (data.id == widget_td.model.id){
+            baseConnector.addListener('fs.task.update', function (data) {
+                if (data.id == widget_td.model.id) {
                     widget_td.model.set(data);
                     widget_td.view.render();
                 }
             });
 
-            widget_td.$messageList.on('click', '.js-quote', function(){
+            widget_td.$messageList.on('click', '.js-quote', function () {
                 var model = widget_td.messageListHelper.getById($(this).attr('rel'));
                 var text = model.get('text').replace(new RegExp(/\[Q\]([^]+)\[\/Q\]/mig), '');
                 widget_td.quote(text);
                 return false;
             });
-            widget_td.$messageList.on('click', '.js-reply', function(){
+
+            widget_td.$messageList.on('click', '.js-reply', function () {
                 var selData = widget_td.$userToSelect.data('combobox').map;
                 var isHidden = $(this).data('hidden'), checked;
                 if (isHidden) {
@@ -289,8 +305,8 @@ $(function(){
                     checked = false;
                 }
                 $('input[name=hidden]').attr('checked', checked);
-                for (var i in selData){
-                    if (selData[i] == $(this).attr('rel')){
+                for (var i in selData) {
+                    if (selData[i] == $(this).attr('rel')) {
                         widget_td.$messageForm.find('input:text.combobox').val(i);
                     }
                 }
@@ -299,14 +315,62 @@ $(function(){
                 return false;
             });
 
-           widget_td.$todoContainer.on('click', '.js-todo-checkbox, .js-bug-checkbox', function(){
+            widget_td.$todoContainer.on('click', '.js-todo-checkbox, .js-bug-checkbox', function () {
                 widget_td.messageListHelper.getById($(this).attr('rel')).view.checkTodo();
                 return false;
-           });
-           widget_td.$userToSelect = $('.combobox').combobox();
+            });
+
+            widget_td.$userToSelect = $('.combobox').combobox();
+
+            widget_td.renderTodo();
         },
-        'quote': function(text) {
-            if (text){
+        'renderTodo': function () {
+            var todoQty = 0, bugQty = 0, todoDoneQty = 0, bugDoneQty = 0;
+            widget_td.messageListHelper.forEach(function (model) {
+                if (model.get('todo') || model.get('bug')) {
+                    if (model.get('todo')) {
+                        todoQty++;
+                        if (model.get('checked')) {
+                            todoDoneQty++;
+                        }
+                    }
+                    if (model.get('bug')) {
+                        bugQty++;
+                        if (model.get('checked')) {
+                            bugDoneQty++;
+                        }
+                    }
+                    //var $el = widget_td.$todoList.find('.js-todo-checkbox[rel=' + model.id + ']').eq(0);
+                    if (model.$todoView && model.$todoView.size()) {
+                        model.$todoView.show();
+                    } else {
+                        model.$todoView = $(widget_td.todoTpl.replace('#ID#', model.id)
+                            .replace('#TEXT#', model.get('text')));
+
+                        model.$todoView.appendTo(model.get('todo') ? widget_td.$todoList : widget_td.$bugList);
+                    }
+
+                    model.$todoView.click(function() {
+                        model.view.$el.find('.js-check-todo, .js-check-bug').trigger('click');
+                    });
+
+                    if (model.get('checked')) {
+                        model.$todoView.find('.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
+                    } else {
+                        model.$todoView.find('.fa').addClass('fa-square-o').removeClass('fa-check-square-o');
+                    }
+                }
+            });
+            widget_td.$filterTabs.filter('[value=BUGS]').closest('.js-tab')
+                .find('.js-done').html(bugDoneQty).end()
+                .find('.js-exist').html(bugQty);
+
+            widget_td.$filterTabs.filter('[value=TODO]').closest('.js-tab')
+                .find('.js-done').html(todoDoneQty).end()
+                .find('.js-exist').html(todoQty);
+        },
+        'quote': function (text) {
+            if (text) {
                 var nText = "";
                 text = '[Q]' + text.trim() + '[/Q]';
                 var $txtarea = widget_td.$messageForm.find('textarea[name=task_message]');
@@ -317,16 +381,16 @@ $(function(){
                 $txtarea.val(nText + text + "\r\n").focus();
             }
         },
-        'removeTempScripts': function(){
+        'removeTempScripts': function () {
             $('.temp_scripts').remove();
         },
-        'removeMessage': function(id){
-            return this.removeMessageRequest(id, function(data){
+        'removeMessage': function (id) {
+            return this.removeMessageRequest(id, function (data) {
                 if (data.success == "Y")
-                    $(widget_td.message_selector).filter('[data-id='+id+']').remove();
+                    $(widget_td.message_selector).filter('[data-id=' + id + ']').remove();
             });
         },
-        'removeMessageRequest': function(id, callback){
+        'removeMessageRequest': function (id, callback) {
             return PM_AjaxPost(
                 '/task_handler',
                 {
@@ -337,11 +401,11 @@ $(function(){
                 'json'
             );
         },
-        'newMessage': function(callback){
-            if (widget_td.task_id){
+        'newMessage': function (callback) {
+            if (widget_td.task_id) {
 //                var text = widget_td.$messageForm.find('textarea[name=task_message]').val();
                 widget_td.$messageForm.ajaxSubmit({
-                    'success': function(data){
+                    'success': function (data) {
                         data = $.parseJSON(data);
                         data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
@@ -354,35 +418,35 @@ $(function(){
                 });
             }
         },
-        'CreateTaskRow':function(oTaskData){
+        'CreateTaskRow': function (oTaskData) {
             if (!oTaskData.id) return false;
             var model = new window.taskClass(oTaskData);
-            var view = new window.taskViewClass({model:model});
+            var view = new window.taskViewClass({model: model});
             view.createEl().render();
             this.addTaskElementAndHr(view.$el);
             return view.$el;
         },
-        'addTaskElementAndHr':function($el){
+        'addTaskElementAndHr': function ($el) {
             $($el).insertBefore(this.$blockAfterNewTask);
 //            if ($el.prev().get(0))
 //                $('<hr />').insertBefore($el);TODO: проставлять класс first
         },
-        'CreateSubTask': function(taskname){
+        'CreateSubTask': function (taskname) {
             if (!taskname) taskname = widget_td.$createTaskInput.val();
             if (!taskname) return false;
 
-            taskManager.CreateTask({'taskname':taskname}, widget_td.task_id, function(data){
+            taskManager.CreateTask({'taskname': taskname}, widget_td.task_id, function (data) {
                 var data = $.parseJSON(data);
                 if (data.parent != widget_td.task_id) {
-                    document.location.href = '/task_detail/?id='+data.parent;
+                    document.location.href = '/task_detail/?id=' + data.parent;
                     return;
                 }
 
-                if (data.name){
+                if (data.name) {
                     widget_td.$createTaskInput.val('');
                     var $taskRow = widget_td.CreateTaskRow(data, widget_td.task_id);
 
-                    if ($taskRow){
+                    if ($taskRow) {
                         arTimers[data.id] = new PM_Timer();
                         arTimers[data.id].container = $taskRow.find('.Time').eq(0);
 
@@ -394,82 +458,84 @@ $(function(){
             return this;
         }
     });
-
+    widget_td.messageListHelper.reversed = true;
     widget_td.init();
 
     document.mainController.widgetsData["task_detail"] = widget_td;
 
     $(window)
-        .bind('pmCheckTodo', function(e, model) {
+        .bind('pmCheckTodo', function (e, model) {
             if (model.get('bug')) {
                 var place = "bug"
             }
             if (model.get('todo')) {
                 var place = "todo"
             }
-            var $checkbox = $('.js-' + place + '-checkbox[rel='+model.id+'] .fa');
+            var $checkbox = $('.js-todo-checkbox[rel=' + model.id + '] .fa');
             var rem = 'removeClass', add = 'addClass';
             if (model.get('checked')) {
                 rem = 'addClass';
                 add = 'removeClass';
             }
             $checkbox[rem]('fa-check-square-o')[add]('fa-square-o');
+            widget_td.renderTodo();
         })
-        .bind('pmSetTodo', function(e, model) {
-            function strip(html)
-            {
-               var tmp = document.createElement("DIV");
-               tmp.innerHTML = html;
-               return tmp.textContent || tmp.innerText || "";
-            }
-            if (model.get('bug')) {
-                var place = "bug"
-            }
-            if (model.get('todo')) {
-                var place = "todo"
-            }
-            var $checkbox = $('.js-' + place + '-checkbox[rel='+model.id+']');
-            if (!model.get('todo') && !model.get('bug')) {
-                $checkbox.remove();
-            } else {
-                if ($checkbox.get(0)) {
-                    return false;
-                }
-                $checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-'
-                    + place + '-checkbox" type="button" data-original-title="" title=""></button>')
-                    .attr('rel', model.id)
-                    .attr('data-content', strip(model.get('text')));
-                var $i = $('<i></i>');
-                if (model.get('checked')) {
-                    $i.addClass('fa fa-square-check-o');
-                } else {
-                    $i.addClass('fa fa-square-o');
-                }
-                var list;
-                switch (place) {
-                    case "todo":
-                        list = widget_td.$todoList;
-                        break;
-                    case "bug":
-                        list = widget_td.$bugList;
-                        break;
-                }
+        .bind('pmSetTodo', function (e, model) {
+            //function strip(html) {
+            //    var tmp = document.createElement("DIV");
+            //    tmp.innerHTML = html;
+            //    return tmp.textContent || tmp.innerText || "";
+            //}
 
-                $checkbox.append($i).appendTo(list).popover({
-                    'trigger': 'hover'
-                });
-                widget_td.$todoContainer.removeClass('hidden');
-                widget_td.$todoTitle.removeClass('hidden');
+            //if (model.get('bug')) {
+            //    var place = "bug"
+            //}
+            //if (model.get('todo')) {
+            //    var place = "todo"
+            //}
+            var $checkbox = $('.js-todo-checkbox[rel=' + model.id + ']');
+            if ($checkbox.size()) {
+                $checkbox.hide();
             }
+                widget_td.renderTodo();
+                //if ($checkbox.get(0)) {
+                //    return false;
+                //}
+                //$checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-'
+                //    + place + '-checkbox" type="button" data-original-title="" title=""></button>')
+                //    .attr('rel', model.id)
+                //    .attr('data-content', strip(model.get('text')));
+                //var $i = $('<i></i>');
+                //if (model.get('checked')) {
+                //    $i.addClass('fa fa-square-check-o');
+                //} else {
+                //    $i.addClass('fa fa-square-o');
+                //}
+                //var list;
+                //switch (place) {
+                //    case "todo":
+                //        list = widget_td.$todoList;
+                //        break;
+                //    case "bug":
+                //        list = widget_td.$bugList;
+                //        break;
+                //}
+                //
+                //$checkbox.append($i).appendTo(list).popover({
+                //    'trigger': 'hover'
+                //});
+                //widget_td.$todoContainer.removeClass('hidden');
+                //widget_td.$todoTitle.removeClass('hidden');
+
         });
 
     $('[data-toggle="popover"]').popover({
-            'trigger': 'hover'
-        });
+        'trigger': 'hover'
+    });
 
     taskFileUpload(
-        function(event,id, filename, data){
-            if (data.id){
+        function (event, id, filename, data) {
+            if (data.id) {
                 $attachedFileBlock(data.src, data.name, data.id, data.type, data.thumbnail).appendTo(widget_td.$attachedFileContainer);
                 $(this).fineUploader('setDeleteFileParams', {"file_id": data.id}, id);
             }

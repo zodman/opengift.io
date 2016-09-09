@@ -786,11 +786,6 @@ div.taskWizard-required .taskWizard-question-title:after {
     color: #d43f3a;
 }
 
-.widget-title.danger + .widget-title-bottom-info {
-    background: #d43f3a;
-    color: #ffffff;
-}
-
 .widget.inner.span4 {height:191px;}
 
 
@@ -1852,7 +1847,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== ДОБАВЛЕНИЕ СООБЩЕНИЯ К ЗАДАЧЕ */
 
-.task_add-message { background:#F5F8FA; text-align:left; padding:15px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; }
+.task_add-message { background:#F5F8FA; text-align:left; padding:15px; border-radius: 4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; margin-bottom: 20px }
 .task_add-message_message-detail {}
 .task_add-message_message-detail .col-sm-2 { float: left; }
 .task_add-message_message-detail input[type="file"] { margin-top: 6px; }
@@ -3746,6 +3741,7 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
 
 .to-do-list button .fa-check-square-o {color:#57a957;cursor:pointer;}
+.to-do-list.bug-list button .fa {color:#BB0500;cursor:pointer;}
 
 
 
