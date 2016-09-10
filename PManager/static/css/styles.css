@@ -785,6 +785,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget-title.danger {
     border-top: 0px solid #d43f3a;
     color: #d43f3a;
+    background-color: transparent;
 }
 
 .widget.inner.span4 {height:191px;}
@@ -887,7 +888,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     top: 8px;
 }
 .big-input .input-block-level {padding:4px 12px 4px 37px;}
-.task-create-wrapper input {border:1px solid #555;}
+.task-create-wrapper input {border:1px solid #bbb;}
 
 .task-create-wrapper > ul,
 .add-task-input ul {display:none; line-height:18px; position:absolute; box-shadow:0px 4px 7px #CCCCCC; width:100%; background:#fff; z-index:1000; margin:-3px 0 0 0;}
@@ -2158,7 +2159,7 @@ input.combobox {display:inline-block; height:30px; width:auto;}
 .task-edit_choose-time span a { margin-right: 15px; border-bottom:1px dashed #429C03; color:#429C03; text-decoration:none;}
 
 .progress {overflow:visible; height:8px; position:relative; margin: 15px 0 0 55px;}
-.progress .btn { padding:0px 15px; position:absolute; cursor:ew-resize; margin-top:-10px; border-radius:25px; }
+.progress .btn { padding:0px 15px; position:absolute; cursor:ew-resize; margin-top:-10px; border-radius:25px; margin-left: -25px;}
 .add-tags a { text-decoration: none; }
 
 
@@ -3721,8 +3722,8 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
     font-size: 14px;
     position: relative;
     cursor: pointer;
-    padding: 0px;
-    margin: 5px 0px 0px 0px;
+    padding: 0;
+    margin: 0px 0px 0px 0px;
     display: block;
     line-height: 20px;
     text-align: left;
@@ -4137,7 +4138,7 @@ a.js-show-commit-diff {
 
 .project-header-select {float: left;}
 
-.project-header-buttons {float: right; margin-top: -4px;}
+.project-header-buttons {float: right; margin-top: 4px;}
 .project-header-buttons .button {margin-left: 5px;}
 
 @media only screen and (max-width: 1280px) {
@@ -6235,3 +6236,32 @@ ul.colors {
 .chat-nav-simple .radio-checkbox-block .checkbox-inline  {font-weight: bold;}
 .chat-nav-simple .radio-checkbox-block input[type="checkbox"],
 .chat-nav-simple .radio-checkbox-block input[type="radio"] {float: left; margin: 4px 10px 0 0;}
+.external-link {
+    display: inline-block;
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+footer {
+    width: 100%;
+    height: auto;
+    background-color: white;
+    padding: 20px 10px 10px 10px;
+    bottom: 0;
+    position: absolute;
+    box-shadow: 0px 0px 15px #ccc;
+    -moz-box-shadow: 0px 0px 15px #ccc;
+    -ms-box-shadow: 0px 0px 15px #ccc;
+    -o-box-shadow: 0px 0px 15px #ccc;
+    -webkit-box-shadow: 0px 0px 15px #ccc;
+}
+
+html {
+  height: 100%;
+}
+body {
+  min-height: 100%;
+    position: relative;;
+    padding-bottom: 60px;
+}

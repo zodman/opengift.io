@@ -168,6 +168,11 @@ $(function () {
         getTasksFromServer: function getTasksFromServer() {
             var t = this;
 
+            var extFilter = {};
+            if (!this.options.milestone_id) {
+                extFilter['closed[]'] = 'N';
+            }
+
             PM_AjaxPost(
                 t.requestUrl,
                 $.extend({
@@ -177,7 +182,7 @@ $(function () {
                     'project': this.options.project,
                     'withoutParent': 'Y',
                     'gantt_props': this.ajax.props
-                }, this.ajax.propVals),
+                }, this.ajax.propVals, extFilter),
                 function (data) {
                     var i, taskData;
                     for (i in data.tasks) {

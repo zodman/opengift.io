@@ -277,7 +277,7 @@ $(function () {
                 },
                 function (data) {
                     var message;
-                    for (var k in data) {
+                    for (var k in data) {widget_chat.messageListHelper
                         message = data[k];
                         widget_chat.messageListHelper.reversed = false;
                         widget_chat.addMessageRow(message);
@@ -322,6 +322,7 @@ $(function () {
         }
     });
 
+    widget_chat.messageListHelper.playSound = true;
     widget_chat.init();
 
     var userList = new usersOnline;

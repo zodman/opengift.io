@@ -36,9 +36,9 @@ $(function () {
     widget_td.$todoTitle = widget_td.$container.find('.js-todo-title');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
-    widget_td.todoTpl = '<div class="warn-message"><div class="warn-message-top"><span class="warn-message-top-date">09.09.2016 12:06</span> <a href="">Васютин Евгений</a></div><button data-placement="top" data-toggle="popover" data-container="body" ' +
+    widget_td.todoTpl = '<div class="warn-message"><button data-placement="top" data-toggle="popover" data-container="body" ' +
         'class="js-todo-checkbox checkbox-todo" rel="#ID#"' +
-        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT#</button></div>';
+        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT##FILES_LIST#</button></div>';
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
@@ -69,7 +69,6 @@ $(function () {
     $.extend(widget_td, {
         'init': function () {
             var t = this;
-
 
 
             t.model = new window.taskClass(taskDetail);
@@ -277,7 +276,7 @@ $(function () {
                 data = $.parseJSON(data);
 
                 if (data && data.fid)
-                    widget_td.$attachedFileContainer
+                    widget_td.$attachedFileContainer.show()
                         .append($attachedFileBlock(data.path, data.fid, data.fid, data.type, data.thumbnail));
             });
 
@@ -293,6 +292,13 @@ $(function () {
                 var model = widget_td.messageListHelper.getById($(this).attr('rel'));
                 var text = model.get('text').replace(new RegExp(/\[Q\]([^]+)\[\/Q\]/mig), '');
                 widget_td.quote(text);
+                var selData = widget_td.$userToSelect.data('combobox').map;
+                for (var i in selData) {
+                    if (selData[i] == $(this).data('author')) {
+                        widget_td.$messageForm.find('input:text.combobox').val(i);
+                    }
+                }
+                widget_td.$messageForm.find('[name=to]').val($(this).data('author'));
                 return false;
             });
 
@@ -323,6 +329,37 @@ $(function () {
             widget_td.$userToSelect = $('.combobox').combobox();
 
             widget_td.renderTodo();
+            widget_td.renderFileList();
+        },
+        'renderFileList': function () {
+            var filesQty = 0,
+                fileTpl = '<div class="js-file-row task-file-row"><img class="js-file-icon"><a class="js-file-name"></a><div class="clr"></div></div>';
+            widget_td.messageListHelper.forEach(function (model) {
+                if (model.get('files')) {
+                    model.get('files').forEach(function (file) {
+                        var $el = $(fileTpl);
+                        var $link = $el.find('.js-file-name').text(file.name);
+                        if (file.viewUrl || file.is_picture) {
+                            $link.attr('href', file.is_picture ? file.url : file.viewUrl).addClass(file.is_picture ? 'fnc' : 'fnc_ajax');
+                        } else {
+                            $link.attr('href', file.url).attr('target', '_blank');
+                        }
+
+                        var pictTpl = '';
+                        if (file.is_picture) {
+                            pictTpl = '<a class="fnc" style="margin:0 10px;" href="' + file.url + '"><img class="img-polaroid" width="70px" src="' + file.thumb100pxUrl + '" /></a>';
+                        } else {
+                            var iconClass = getIconForExtension(file.type);
+                            pictTpl = '<a class="uploaded_file-item fnc" style="margin:0 10px;" href="' + file.url + '"><span class="uploaded_file-item-image"><i class="fa fa-file' + (iconClass ? '-' + iconClass : '') + '-o"></i></span></a>';
+                        }
+                        $el.find('.js-file-icon').replaceWith(pictTpl);
+                        $('.js-file-list').append($el);
+                        filesQty++;
+                    });
+                }
+            });
+
+            $('.js-files-exist').text(filesQty);
         },
         'renderTodo': function () {
             var todoQty = 0, bugQty = 0, todoDoneQty = 0, bugDoneQty = 0;
@@ -344,15 +381,46 @@ $(function () {
                     if (model.$todoView && model.$todoView.size()) {
                         model.$todoView.show();
                     } else {
-                        model.$todoView = $(widget_td.todoTpl.replace('#ID#', model.id)
-                            .replace('#TEXT#', model.get('text')));
+                        var tpl = widget_td.todoTpl.replace('#ID#', model.id)
+                            .replace('#TEXT#', model.get('text'));
 
+
+                        var aFiles = model.view.getFilesHtml();
+                        var $pictures = $('<div></div>'),
+                            $otherFiles = $('<div></div>'),
+                            $filesListblock = $('<div></div>'),
+                            exist, i;
+
+                        if (aFiles['pictures']) {
+                            exist = false;
+                            for (i in aFiles['pictures']) {
+                                exist = true;
+                                if (aFiles['pictures'].hasOwnProperty(i))
+                                    $pictures.append(aFiles['pictures'][i]);
+                            }
+                            if (exist)
+                                $filesListblock.append($pictures);
+                        }
+
+                        if (aFiles['other']) {
+                            exist = false;
+                            for (i in aFiles['other']) {
+                                exist = true;
+                                if (aFiles['other'].hasOwnProperty(i))
+                                    $otherFiles.append(aFiles['other'][i]);
+                            }
+                            if (exist)
+                                $filesListblock.append($otherFiles);
+                        }
+                        tpl = tpl.replace('#FILES_LIST#', $filesListblock.get(0).innerHTML);
+
+                        model.$todoView = $(tpl);
                         model.$todoView.appendTo(model.get('todo') ? widget_td.$todoList : widget_td.$bugList);
+                        model.$todoView.click(function () {
+                            model.view.$el.find('.js-check-todo, .js-check-bug').trigger('click');
+                        });
                     }
 
-                    model.$todoView.click(function() {
-                        model.view.$el.find('.js-check-todo, .js-check-bug').trigger('click');
-                    });
 
                     if (model.get('checked')) {
                         model.$todoView.find('.fa').removeClass('fa-square-o').addClass('fa-check-square-o');
@@ -409,7 +477,8 @@ $(function () {
                         data = $.parseJSON(data);
                         data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
-                        widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('');
+                        widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('')
+                            .closest('.newMessage').removeClass('active');
                         widget_td.$messageForm.find('.js-need-time:checked').trigger('click');
                         widget_td.$messageForm.find('.js-solution-set:checked').trigger('click');
                         widget_td.$attachedFileContainer.empty();
@@ -473,10 +542,12 @@ $(function () {
             }
             var $checkbox = $('.js-todo-checkbox[rel=' + model.id + '] .fa');
             var rem = 'removeClass', add = 'addClass';
+
             if (model.get('checked')) {
                 rem = 'addClass';
                 add = 'removeClass';
             }
+
             $checkbox[rem]('fa-check-square-o')[add]('fa-square-o');
             widget_td.renderTodo();
         })
@@ -497,35 +568,35 @@ $(function () {
             if ($checkbox.size()) {
                 $checkbox.hide();
             }
-                widget_td.renderTodo();
-                //if ($checkbox.get(0)) {
-                //    return false;
-                //}
-                //$checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-'
-                //    + place + '-checkbox" type="button" data-original-title="" title=""></button>')
-                //    .attr('rel', model.id)
-                //    .attr('data-content', strip(model.get('text')));
-                //var $i = $('<i></i>');
-                //if (model.get('checked')) {
-                //    $i.addClass('fa fa-square-check-o');
-                //} else {
-                //    $i.addClass('fa fa-square-o');
-                //}
-                //var list;
-                //switch (place) {
-                //    case "todo":
-                //        list = widget_td.$todoList;
-                //        break;
-                //    case "bug":
-                //        list = widget_td.$bugList;
-                //        break;
-                //}
-                //
-                //$checkbox.append($i).appendTo(list).popover({
-                //    'trigger': 'hover'
-                //});
-                //widget_td.$todoContainer.removeClass('hidden');
-                //widget_td.$todoTitle.removeClass('hidden');
+            widget_td.renderTodo();
+            //if ($checkbox.get(0)) {
+            //    return false;
+            //}
+            //$checkbox = $('<button data-placement="top" data-toggle="popover" data-container="body" class="js-'
+            //    + place + '-checkbox" type="button" data-original-title="" title=""></button>')
+            //    .attr('rel', model.id)
+            //    .attr('data-content', strip(model.get('text')));
+            //var $i = $('<i></i>');
+            //if (model.get('checked')) {
+            //    $i.addClass('fa fa-square-check-o');
+            //} else {
+            //    $i.addClass('fa fa-square-o');
+            //}
+            //var list;
+            //switch (place) {
+            //    case "todo":
+            //        list = widget_td.$todoList;
+            //        break;
+            //    case "bug":
+            //        list = widget_td.$bugList;
+            //        break;
+            //}
+            //
+            //$checkbox.append($i).appendTo(list).popover({
+            //    'trigger': 'hover'
+            //});
+            //widget_td.$todoContainer.removeClass('hidden');
+            //widget_td.$todoTitle.removeClass('hidden');
 
         });
 
@@ -533,10 +604,23 @@ $(function () {
         'trigger': 'hover'
     });
 
+    $('textarea[name=task_message]').keyup(function () {
+        if (!$(this).val())
+            $(this).closest('.newMessage').removeClass('active');
+        else
+            $(this).closest('.newMessage').addClass('active');
+    });
+
+    $('.js-add-subtask-helper').click(function () {
+        $('.js-add-subtask-input').removeClass('hidden').focus();
+        $(this).remove();
+        return false;
+    });
+
     taskFileUpload(
         function (event, id, filename, data) {
             if (data.id) {
-                $attachedFileBlock(data.src, data.name, data.id, data.type, data.thumbnail).appendTo(widget_td.$attachedFileContainer);
+                $attachedFileBlock(data.src, data.name, data.id, data.type, data.thumbnail).appendTo(widget_td.$attachedFileContainer.show());
                 $(this).fineUploader('setDeleteFileParams', {"file_id": data.id}, id);
             }
         },

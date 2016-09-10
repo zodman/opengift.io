@@ -11,7 +11,7 @@
 <form method="GET">
 <div class="widget">
     <div class="widget-title clearfix">
-        <div class="widget-title-left">Статистика</div>
+        <div class="widget-title-left"><h2>Статистика</h2></div>
         <div class="widget-title-right">
             <select name="chart" style="float: right" onchange="$(this).closest('form').submit();console.log($(this).val())">
                 <option {% if request.GET.chart == 'TimeChart' or not request.GET.chart %}selected{% endif %}

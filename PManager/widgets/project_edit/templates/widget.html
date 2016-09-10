@@ -1,7 +1,7 @@
 {% load floattags compressed %}
 {% compressed_js 'project_edit' %}
 <div class="widget inner clearfix">
-    <div class="widget-title">Добавление проекта</div><br />
+    <div class="widget-title"><h2>Добавление проекта</h2></div><br />
     <form method="post" class="profile-edit form-horizontal" enctype="multipart/form-data">
         {% csrf_token %}
         {% for field in project_edit.form %}

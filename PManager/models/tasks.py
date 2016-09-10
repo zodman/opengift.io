@@ -165,6 +165,7 @@ class Release(models.Model):
     status = models.CharField(max_length=30, choices=statuses, default='new')
     description = models.CharField(max_length=1000, blank=True, null=True)
     project = models.ForeignKey(PM_Project, related_name='releases')
+    active = models.BooleanField(default=True, blank=True)
 
     class Meta:
         app_label = 'PManager'

@@ -292,5 +292,11 @@ PIPELINE_CSS = {
             'widgets/user_detail/style.css',
         ),
         'output_filename': 'css_compressed/user_detail.css'
+    },
+    'task_detail': {
+        'source_filenames': (
+            'widgets/task_detail/style.css',
+        ),
+        'output_filename': 'css_compressed/task_detail.css'
     }
 }

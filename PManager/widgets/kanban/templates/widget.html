@@ -21,6 +21,7 @@
                  data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
+                        <div class="widget-title-left">
                         {% if project.milestones.all %}
                         <div class="project-header-select">
                             <select class="js-select-milestone form-control form-control-mini">
@@ -31,7 +32,10 @@
                                 {% endfor %}
                             </select>
                         </div>
+                        {% else %}
+                            <h2>Текущие задачи проекта</h2>
                         {% endif %}
+                        </div>
                         <div class="project-header-buttons">
                             <a href="/project/{{ project.id }}/#additional_settings" class="button green-bg button-mini">Настроить столбцы</a>
                         {% if project.current_milestone %}

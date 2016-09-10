@@ -1,22 +1,29 @@
 {% extends 'main/base.html' %}
-{% block stylesheets %}
-<style type="text/css">
-    .new-milestone {
-      background: url(/static/images/new-milestone.png) 0px 0px no-repeat;
-      height: 32px;
-      width: 32px;
-      display: inline-block;
-      text-indent: -99999em;
-      background-size: contain;
-      position: absolute;
-      right: 0px;
-      top: -7px;
-    }
-</style>
+{% block header %}
+    <script>
+    $(function() {
+        $('.js-remove-release').click(function() {
+            var t = this;
+            PM_AjaxPost(
+                    '/releases/',
+                    {
+                        'action': 'remove',
+                        'id': $(t).data('release')
+                    },
+                    function(data) {
+                        if (data =='ok') {
+                            $(t).closest('.js-release').remove();
+                        }
+                    }
+            );
+            return false;
+        });
+    })
+    </script>
 {% endblock %}
 {% block content %}
 <div class="widget milestones_summary">
-    <div class="widget-title">Версии</div>
+    <div class="widget-title"><h2>Версии</h2></div>
     {% for project in projects %}
         <div class="project-milestones">
             <div class="project-milestones-title">
@@ -24,9 +31,9 @@
 
             </div>
 
-            {% for release in project.releases.all %}
-            <div class="project-milestones-item">
-                <a href="#" class="button red-button-color" style="float: right;" data-project-id="{{ project.id }}"><i class="fa fa-close"></i></a>
+            {% for release in project.releaseList %}
+            <div class="project-milestones-item js-release">
+                <a href="#" class="button red-button-color js-remove-release" style="float: right;" data-release="{{ release.id }}" data-project-id="{{ project.id }}"><i class="fa fa-close"></i></a>
                 <h4 class="clearfix">
                     {{ release.name }}
                 </h4>

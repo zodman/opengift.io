@@ -164,11 +164,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             'template': function (messageInfo) {
                 var trimLinks = function (match) {
                     match = match.trim();
-                    if (match.length > 35) {
-                        return "<a target='newtab' href='" + match + "'>" + match.substr(0, 32) + "...</a>";
-                    } else {
-                        return "<a target='newtab' href='" + match + "'>" + match + "</a>";
-                    }
+                    return "<a target='newtab' class='external-link' href='" + match + "'>" + match + "</a>";
                 };
                 var arKeys = {
                     'ID': messageInfo.id,
@@ -298,35 +294,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var aFiles = this.model.get('files');
 
                 if (aFiles) {
-                    var aPictures = [], aOtherFiles = [];
-                    for (var i in aFiles) {
-                        var file = aFiles[i];
-                        var rowTemplate;
 
-                        if (file.is_picture) {
-                            rowTemplate = '<a class="fnc" href="#URL#"><img class="img-polaroid" src="#URL_SMALL#" /></a>';
-                        } else {
-                            rowTemplate = '<a #ADD# href="#VIEW_URL#">#NAME#</a>&nbsp;<a href="#URL#" class="icon-download-alt icon-#EXTENSION#"></a>';
-                        }
-                        if (file.viewUrl) {
-                            rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.viewUrl);
-                            rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, 'class="fnc_ajax"');
-                        } else {
-                            rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.url);
-                            rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, '');
-                        }
-                        rowTemplate = rowTemplate.replace(/\#URL\#/mgi, file.url);
-                        rowTemplate = rowTemplate.replace(/\#NAME\#/mgi, file.name);
-                        rowTemplate = rowTemplate.replace(/\#EXTENSION\#/mgi, file.type);
-                        rowTemplate = rowTemplate.replace(/\#URL_SMALL\#/mgi, file.thumb100pxUrl);
-
-                        if (file.is_picture) {
-                            aPictures.push($(rowTemplate));
-                        } else {
-                            aOtherFiles.push($(rowTemplate))
-                        }
-                    }
-
+                    var aFilesHtml = this.getFilesHtml();
+                    var aPictures = aFilesHtml['pictures'];
+                    var aOtherFiles = aFilesHtml['other'];
                     var $pictures = $('<div></div>'),
                         $otherFiles = $('<div></div>');
 
@@ -389,6 +360,41 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 this.delegateEvents();
 
                 return this;
+            },
+            'getFilesHtml': function() {
+                var aPictures = [], aOtherFiles = [], aFiles = this.model.get('files');
+                for (var i in aFiles) {
+                    var file = aFiles[i];
+                    var rowTemplate;
+
+                    if (file.is_picture) {
+                        rowTemplate = '<a class="fnc" href="#URL#"><img class="img-polaroid" src="#URL_SMALL#" /></a>';
+                    } else {
+                        rowTemplate = '<a #ADD# href="#VIEW_URL#">#NAME#</a>&nbsp;<a href="#URL#" class="icon-download-alt icon-#EXTENSION#"></a>';
+                    }
+                    if (file.viewUrl) {
+                        rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.viewUrl);
+                        rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, 'class="fnc_ajax"');
+                    } else {
+                        rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.url);
+                        rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, '');
+                    }
+                    rowTemplate = rowTemplate.replace(/\#URL\#/mgi, file.url);
+                    rowTemplate = rowTemplate.replace(/\#NAME\#/mgi, file.name);
+                    rowTemplate = rowTemplate.replace(/\#EXTENSION\#/mgi, file.type);
+                    rowTemplate = rowTemplate.replace(/\#URL_SMALL\#/mgi, file.thumb100pxUrl);
+
+                    if (file.is_picture) {
+                        aPictures.push($(rowTemplate));
+                    } else {
+                        aOtherFiles.push($(rowTemplate))
+                    }
+                }
+
+                return {
+                    'pictures': aPictures,
+                    'other': aOtherFiles
+                }
             },
             'removeMessage': function () {
                 var t = this,
@@ -474,6 +480,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
+            this.playSound = false;
             this.bNeedToGroup = !!needToGroup;
             this.init();
         };
@@ -523,7 +530,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             }
                             toastr[mesType](mes);
                         }
-                        knock();
+                        if (t.playSound)
+                            knock();
                     } else {
                         func = 'append';
                     }

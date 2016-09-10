@@ -397,18 +397,12 @@ var fileObject = function(data){
 fileObject.prototype = {
     getTemplateRow:function(tpl){
         var t = this;
-
+        var iconClass = getIconForExtension(t.type);
         var thumb = '';
         if (t.isPicture)
             thumb = '<span style="background:url(' + t.thumbnail + ');"></span>';
-        else if (t.type == 'doc' || t.type == 'docx')
-            thumb = '<i class="fa fa-file-word-o"></i>';
-        else if (t.type == 'xls' || t.type == 'xlsx')
-            thumb = '<i class="fa fa-file-excel-o"></i>';
-        else if (t.type == 'pdf')
-            thumb = '<i class="fa fa-file-pdf-o"></i>';
-        else if (t.type == 'zip' || t.type == 'rar')
-            thumb = '<i class="fa fa-file-archive-o"></i>';
+        else if (iconClass)
+            thumb = '<i class="fa fa-file-'+iconClass+'-o"></i>';
         else
             thumb = '<i class="fa fa-file-o"></i>';
 
