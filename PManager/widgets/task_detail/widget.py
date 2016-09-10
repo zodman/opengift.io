@@ -186,6 +186,7 @@ def widget(request, headerValues, arFilter, q):
             ob = {
                 'canEdit': mes.canEdit(request.user),
                 'canDelete': mes.canDelete(request.user),
+                'init': True
             }
             if cur_user.get_profile().isManager(task.project):
                 ob.update({

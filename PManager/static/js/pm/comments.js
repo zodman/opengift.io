@@ -480,7 +480,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
-            this.playSound = false;
             this.bNeedToGroup = !!needToGroup;
             this.init();
         };
@@ -528,9 +527,11 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             else {
                                 mesType = "info"
                             }
-                            toastr[mesType](mes);
+                            if (!message.get('init'))
+                                toastr[mesType](mes);
                         }
-                        if (t.playSound)
+
+                        if (!message.get('init'))
                             knock();
                     } else {
                         func = 'append';
