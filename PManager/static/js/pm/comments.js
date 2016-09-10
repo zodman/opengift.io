@@ -629,27 +629,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     firstItems = $('.MESSAGES').index('.SUBCONTAINER') + 1
                 }
 
-                if (t.$commentsContainer.length === 1 && //TODO Need to check this value. Was '=== 0'. Can be '> 0'?
-                    $subContainer.length > (firstItems + 6) && // TODO not clear, move outside, how much containers should be visible?
-                    !$subContainer.parent().hasClass('minimize-messages') &&
-                    t.taskId) {
-
-                    $subContainer.parent().addClass('minimize-messages');
-                    var btnMinimizeMsg = $(
-                        '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
-                        '<div style="text-align: center;">Показать все сообщения...</div></div>'
-                    );
-
-                    if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(firstItems - 1).after(btnMinimizeMsg);
-                    }
-
-                    btnMinimizeMsg.click(function () {
-                        $subContainer.parent().removeClass('minimize-messages');
-                        $(this).remove();
-                    });
-                }
-
 
                 //first user message + messages before; last 6 messages stay visible
                 if (t.taskId) {
