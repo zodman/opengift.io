@@ -36,7 +36,7 @@ $(function () {
     widget_td.$todoTitle = widget_td.$container.find('.js-todo-title');
     widget_td.$bugList = widget_td.$container.find('.js-bug-list');
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
-    widget_td.todoTpl = '<div class="warn-message"><button data-placement="top" data-toggle="popover" data-container="body" ' +
+    widget_td.todoTpl = '<div class="warn-message"><button ' +
         'class="js-todo-checkbox checkbox-todo" rel="#ID#"' +
         'type="button" data-original-title="" title=""><i class="js-checkbox fa fa-square-o"></i>#TEXT##FILES_LIST#</button></div>';
     widget_td.subtasks = new window.taskList();
@@ -321,10 +321,10 @@ $(function () {
                 return false;
             });
 
-            widget_td.$todoContainer.on('click', '.js-todo-checkbox .js-checkbox, .js-bug-checkbox .js-checkbox', function () {
-                widget_td.messageListHelper.getById($(this).attr('rel')).view.checkTodo();
-                return false;
-            });
+            //widget_td.$todoContainer.on('click', '.js-todo-checkbox .js-checkbox, .js-bug-checkbox .js-checkbox', function () {
+            //    widget_td.messageListHelper.getById($(this).attr('rel')).view.checkTodo();
+            //    return false;
+            //});
 
             widget_td.$userToSelect = $('.combobox').combobox();
 
@@ -416,7 +416,7 @@ $(function () {
 
                         model.$todoView = $(tpl);
                         model.$todoView.appendTo(model.get('todo') ? widget_td.$todoList : widget_td.$bugList);
-                        model.$todoView.click(function () {
+                        model.$todoView.find('.js-checkbox').click(function () {
                             model.view.$el.find('.js-check-todo, .js-check-bug').trigger('click');
                         });
                     }
@@ -534,12 +534,12 @@ $(function () {
 
     $(window)
         .bind('pmCheckTodo', function (e, model) {
-            if (model.get('bug')) {
-                var place = "bug"
-            }
-            if (model.get('todo')) {
-                var place = "todo"
-            }
+            //if (model.get('bug')) {
+            //    var place = "bug"
+            //}
+            //if (model.get('todo')) {
+            //    var place = "todo"
+            //}
             var $checkbox = $('.js-todo-checkbox[rel=' + model.id + '] .fa');
             var rem = 'removeClass', add = 'addClass';
 
