@@ -214,6 +214,9 @@ def __search_filter(header_values, request):
     if kanbanFilter:
         qArgs.append(kanbanFilter)
 
+    if 'withoutParent' in request.POST:
+        if request.POST['withoutParent'] == 'Y':
+            ar_filter['isParent'] = False
 
     if 'responsible[]' in request.POST:
         ar_filter['resp__in'] = request.POST.getlist('responsible[]')
@@ -249,6 +252,10 @@ def __search_filter(header_values, request):
             'date': request.POST.getlist('date_close[]'),
             'key': 'dateClose'
         })
+    if 'color[]' in request.POST:
+        arColors = request.POST.getlist('color[]')
+        ar_filter['color__in'] = arColors
+
     if dates_tmp:
         for dateTmp in dates_tmp:
             if len(dateTmp['date']) == 1:  # only one date
@@ -283,12 +290,18 @@ def __search_filter(header_values, request):
         if start_page:
             page = start_page
 
-        # if page > 2:
-        #     # count = 2 ** (page - 2) * 10
-        #     page = 2
         if start_page:
             count *= page
             page = 1
+
+        if page:
+            idExclude = request.POST.getlist('idExclude[]', [])
+            if len(idExclude):
+                ar_exclude['id__in'] = []
+                for idEx in idExclude:
+                    ar_exclude['id__in'].append(int(idEx))
+
+                page = 1
 
         ar_page_params = {
             'pageCount': count,
@@ -301,7 +314,10 @@ def __search_filter(header_values, request):
     tasks = task_list(
         request,
         header_values,
-        {'filter': ar_filter, 'exclude': ar_exclude},
+        {
+            'filter': ar_filter,
+            'exclude': ar_exclude
+        },
         qArgs,
         ar_page_params
     )
@@ -1132,7 +1148,9 @@ class taskAjaxManagerCreator(object):
                                     error = u'Нет принятого с обоих сторон договора c ' + u.last_name + ' ' + u.first_name
 
                     if not error:
-                        t.setIsInTime()
+                        if not t.closedInTime:
+                            t.setIsInTime()
+
                         t.Close(user)
                         t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
 
@@ -1423,8 +1441,7 @@ class TaskWidgetManager:
             else:
                 try:
                     users = users.filter(
-                        pk__in=PM_ProjectRoles.objects.filter(role=PM_Role.objects.get(code='employee'),
-                                                              project=project).values('user__id'))
+                        pk__in=PM_ProjectRoles.objects.filter(project=project).values('user__id'))
                 except PM_Role.DoesNotExist:
                     pass
 

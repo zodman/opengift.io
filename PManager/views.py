@@ -159,7 +159,8 @@ class MainPage:
         for timer in PM_Timer.objects.filter(dateStart__lt=leastHours, dateEnd__isnull=True):
             timer.delete()
 
-        results = []
+        headerWidgets = []
+        widgetsInTabs = []
         c = RequestContext(request, {})
         userTimer = None
         userAchievement = None
@@ -243,7 +244,16 @@ class MainPage:
                     else:
                         templateName = 'widget'
 
-                    results.append(loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c))
+                    widgetHtml = loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c)
+
+                    if 'tab' in widget and widget['tab']:
+                        widgetsInTabs.append({
+                            'code': widgetName,
+                            'name': widget['name'],
+                            'html': widgetHtml
+                        })
+                    else:
+                        headerWidgets.append(widgetHtml)
 
             if request.is_ajax():
                 if request.GET.get('modal', None) is not None:
@@ -260,7 +270,8 @@ class MainPage:
                 else:
                     t = loader.get_template('index.html')
 
-            c.update({'widget_results': u" ".join(results)})
+            c.update({'widget_header': u" ".join(headerWidgets)})
+            c.update({'widgets': widgetsInTabs})
 
             uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
             userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
@@ -279,15 +290,16 @@ class MainPage:
             else:
                 return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
-        cur_notice = PM_Notice.getForUser(
-            request.user,
-            request.get_full_path()
-        )
-        if cur_notice:
-            # cur_notice.setRead(request.user)
-            c.update({
-                'current_notice': cur_notice
-            })
+        if not headerValues['FIRST_STEP_FORM']:
+            cur_notice = PM_Notice.getForUser(
+                request.user,
+                request.get_full_path()
+            )
+            if cur_notice:
+                # cur_notice.setRead(request.user)
+                c.update({
+                    'current_notice': cur_notice
+                })
 
         c.update({
             'pageTitle': pageTitle,
@@ -297,7 +309,8 @@ class MainPage:
             'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
-            'agreementForApprove': agreementForApprove
+            'agreementForApprove': agreementForApprove,
+            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues['COOKIES'] else None
         })
 
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)

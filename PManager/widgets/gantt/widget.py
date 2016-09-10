@@ -93,7 +93,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
 
     # if not 'parentTask' in filter:
     #     filter['parentTask__isnull'] = True
-
+    filter['isParent'] = False
     aManagedProjects = [p.id for p in request.user.get_profile().managedProjects]
     tasks = PM_Task.getForUser(
         request.user,
@@ -133,9 +133,6 @@ def widget(request, headerValues, widgetParams={}, qArgs=[]):
     aResp = []
     aRespProfiles = {}
     for task in tasks:
-        if not task['parentTask__name'] and PM_Task.objects.filter(parentTask__id=task['id'], active=True):
-            continue
-
         if task['resp__id'] and task['resp__id'] not in aResp:
             aResp.append(task['resp__id'])
             aRespProfiles[task['resp__id']] = User.objects.get(pk=task['resp__id']).get_profile()

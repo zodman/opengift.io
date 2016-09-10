@@ -74,6 +74,7 @@ var widget_tl, currentGroup;
             '$btnSuccess': $('.btn.btn-success'),
             '$btnFilter': $('.btn.js-filter-btn'),
             '$tabContainer': $('.task-tab-filter'),
+            '$tabSelectMobile': $('.js-task-tab-mobile'),
             '$taskCreateBtn': $('.btn.task-create'),
             'TL_Tasks': new window.taskList(),
             'tabsSelector': '.task-tab-filter li > a',
@@ -246,9 +247,6 @@ var widget_tl, currentGroup;
                     widget_tl.TL_Tasks.each(function (task) {
                         widget_tl.TL_CreateTaskRow(task.toJSON());
                     });
-
-                    historyManager.trigger('taskListSearch');
-                    setTaskCellsHeight();
                 });
                 this.createUserAdditionalTabs();
                 widget_tl.ready();
@@ -400,7 +398,7 @@ var widget_tl, currentGroup;
 
                         bottomPanel.addBlock('addObservers', $block);
 
-                        $block = menuTaskBlock('Назначить релиз', '#add-to-release', function () {
+                        $block = menuTaskBlock('Назначить версию', '#add-to-release', function () {
                             var $taskInputContainer = $('.js-tasks-for-release').empty();
                             $('.js-task-checkbox:checked').each(function () {
                                 $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
@@ -414,6 +412,13 @@ var widget_tl, currentGroup;
                         bottomPanel.removeBlock('addToRelease');
                     }
                 });
+            },
+            'open': function() {
+                if (!this.opened) {
+                    this.opened = true;
+                    historyManager.trigger('taskListSearch');
+                    setTaskCellsHeight();
+                }
             },
             'taskMove': function (id, parentId) {
                 var parentTask = this.TL_Tasks.get(parentId);
@@ -544,7 +549,8 @@ var widget_tl, currentGroup;
                     'viewed',
                     'date_modify',
                     'date_create',
-                    'date_close'
+                    'date_close',
+                    'color'
                 ];
                 var field;
                 for (var i in aFilterFields) {
@@ -564,20 +570,26 @@ var widget_tl, currentGroup;
                 } else {
                     if (filter.action) {
                         $(this.tabsSelector).filter('[rel=' + filter.action + ']').closest('li').activateListItem();
+                        this.$tabSelectMobile.find('option[value='+filter.action+']')
+                            .attr('selected', 'selected').siblings()
+                            .removeAttr('selected');
                     }
                 }
 
-                if (filter.page) {
-                    filter.startPage = filter.page;
-                    delete filter.page;
-                }
+                //if (filter.page) {
+                //    //filter.startPage = filter.page;
+                //    delete filter.page;
+                //}
+                filter.page = 1;
 
                 this.TL_SilentSearch(filter);
             },
             'checkSearchInput': function () {
                 var h = 'hidden';
                 var br = 'border-r4';
-                var $userTabEqualsQuery = $(this.tabsSelector).filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
+                var $userTabEqualsQuery = $(this.tabsSelector)
+                    .filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
+
                 with (this.TL_SearchTask) {
                     if (val() || this.$searchRulesHolder.children().size()) {
                         if (val()) {
@@ -738,6 +750,7 @@ var widget_tl, currentGroup;
             'TL_SilentSearch': function (params) {
                 if (!params.parent)
                     $('.show-more').hide();
+
                 return this.TL_Search(params, true);
             },
             'TL_Search': function (params, silent, callback) {
@@ -782,7 +795,6 @@ var widget_tl, currentGroup;
                             //startPage генерируется при первом вызове фильтра по хэшу и не должна в нем сохраняться
                             //так как она нужна только для инициации стартового кол-ва задач при загрузке страницы
                         }
-
                         historyManager.addParams({'taskListFilter': paramsForHistory});
                     }
                 }
@@ -790,7 +802,18 @@ var widget_tl, currentGroup;
                 window.backurl = document.location.href;
                 this.checkSearchInput();
                 var obj = this;
-                PM_AjaxPost("/task_handler",
+                if (params.page) {
+                    var idExclude = [];
+                    this.TL_Tasks.each(function (task) {
+                        idExclude.push(task.id);
+                    });
+                    params['idExclude'] = idExclude;
+                }
+                if (!params.parent && !params.page) {
+                    obj.TL_Tasks.reset();
+                }
+                PM_AjaxPost(
+                    '/task_handler',
                     params,
                     (callback ? callback : function (data) {
                         $('.js-new-first-task, .js-search-block').show();
@@ -820,6 +843,7 @@ var widget_tl, currentGroup;
                             if (!$('.js-new-first-task').get(0))
                                 obj.TL_Container.html("<div class='empty_result'>Ничего не найдено</div>");
                         }
+
                         if (!params.parent) {
                             if (paginator.lastPage) {
                                 obj.container.find('.show-more').hide().pullTheButton();
@@ -827,8 +851,11 @@ var widget_tl, currentGroup;
                                 obj.container.find('.show-more').show().pullTheButton();
                             }
                         }
+
                         setTaskCellsHeight()
-                    }));
+                    })
+                );
+
                 return this;
             },
             'addGroupRow': function (group) {
@@ -1009,6 +1036,8 @@ var widget_tl, currentGroup;
                         $newInputHidden = function (name, value) {
                             return $('<input type="hidden" />').attr({'name': name, 'value': value});
                         };
+
+                    $valueItem.addClass('active').closest('ul').closest('li').addClass('active');
 
                     if (bIsDate) {
                         value_title = val;
@@ -1195,12 +1224,12 @@ var widget_tl, currentGroup;
                             if ($(this).text().replace(/(^\s+|\s+$)/g, '') == '') {
                                 $taskWrapper.find('.show-subtasks.add-subtask').addClass('openSubtask');
                             }
-                            ;
+
                             $taskWrapper.find('.add-task-input').find('input').bind('blur.subtask', function () {
                                 if ($taskWrapper.find('.subtask').html()) {
                                     $taskWrapper.addClass('visible-items').removeClass('active');
                                 }
-                                ;
+
                                 if (!$taskWrapper.hasClass('visible-items')) {
                                     $(document).click(function (e) {
                                         if (!$('.task-wrapper.active .add-task-input').find('input').is(e.target) && !$taskWrapper.hasClass('visible-items')) {
@@ -1209,7 +1238,6 @@ var widget_tl, currentGroup;
                                             $taskWrapper.find('.add-task-input').hide();
                                             $('.show-subtasks.add-subtask').removeClass('openSubtask');
                                         }
-                                        ;
                                     });
                                     $('.show-subtasks').click(function () {
                                         if (!$(this).hasClass('openSubtask') && !$taskWrapper.hasClass('visible-items')) {
@@ -1286,6 +1314,19 @@ var widget_tl, currentGroup;
             widget_tl.nextPage++;
             return false;
         });
+
+        function onScroll(){
+            if (!$('.widget.tasklist').is(':visible')) return;
+            var $showMoreBtn = $('.show-more');
+            var windowBottom = $(window).height() + $(window).scrollTop();
+            if (windowBottom < $showMoreBtn.offset().top && !$showMoreBtn.hasClass('activated')) {
+                $showMoreBtn.trigger('click');
+            }
+        }
+
+        $(window).scroll(onScroll);
+        $('body').scroll(onScroll);
+
         $('input[name=group]').click(function () {
             widget_tl.TL_Search();
         });
@@ -1298,6 +1339,12 @@ var widget_tl, currentGroup;
             }
 
             return false;
+        });
+
+        widget_tl.$tabSelectMobile.change(function() {
+            $(widget_tl.tabsSelector).filter('[rel=' + $(this).val() + ']').parent()
+                .activateListItem();
+            widget_tl.TL_Search();
         });
 
         document.mainController.widgetsData["taskList"] = widget_tl;
@@ -1315,10 +1362,12 @@ var widget_tl, currentGroup;
                 field_name = category.attr('data-code'),
                 value = $(this).attr('rel');
 
+            if ($(this).hasClass('active')) return false;
+
             widget_tl.addVisualSearchElement(field_name, value);
 
             widget_tl.TL_Search();
-            return false;
+            return true;
         });
 
         widget_tl.$searchRulesHolder.on('click', '.close', function () {
@@ -1327,9 +1376,11 @@ var widget_tl, currentGroup;
                 bLeastBlock = $(this).closest('span.search-group').children('span').length == 1,
                 $search_form = widget_tl.$searchRulesHolder;
 
+            var $menuItem = $('.js-search-menu [data-code="'+sFieldName+'"] [rel="'+value+'"]').removeClass('active');
             $search_form.find('input[name=' + sFieldName + '][value="' + value + '"]').remove();
 
             if (bLeastBlock) {
+                $menuItem.closest('ul').closest('li').removeClass('active');
                 $(this).closest('span.search-group').remove();
             } else {
                 $(this).closest('span').remove();

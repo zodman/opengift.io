@@ -7,6 +7,8 @@ from tracker import settings
 
 
 def widget(request, headerValues=None, ar=None, qargs=None):
+
+
     last_id = request.REQUEST.get('last_id', 0)
     if request.user.is_superuser:
         hiddenQ = Q(author__isnull=False)
@@ -47,52 +49,49 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     result = result.exclude(code="WARNING")
 
     options = {
-        'OTHER_PROJECTS': True,
-        'SYSTEM_MESSAGES': True,
-        'USER_MESSAGES': True,
-        'FILES': True,
-        'TODO': True,
-        'BUGS': True,
-        'COMMITS': True,
+        'MESSAGE_TYPE': 'ALL',
+        'OTHER_PROJECTS': False
     }
-    for k in headerValues['COOKIES']:
-        if k.startswith('FEED_OPTION_'):
-            options[k.replace('FEED_OPTION_', '')] = False if headerValues['COOKIES'][k] == 'N' else True
 
-    opt = 'OTHER_PROJECTS'
-    if not options[opt] and headerValues['CURRENT_PROJECT']:
+    if 'FEED_OPTION_MESSAGE_TYPE' in headerValues['COOKIES']:
+        options['MESSAGE_TYPE'] = headerValues['COOKIES']['FEED_OPTION_MESSAGE_TYPE'] or 'ALL'
+
+    options['OTHER_PROJECTS'] = headerValues['COOKIES']['FEED_OPTION_OTHER_PROJECTS'] == 'Y' if 'FEED_OPTION_OTHER_PROJECTS' in headerValues['COOKIES'] else False
+
+    if not options['OTHER_PROJECTS'] and headerValues['CURRENT_PROJECT']:
         result = result.filter(project=headerValues['CURRENT_PROJECT'])
 
-    opt = 'SYSTEM_MESSAGES'
-    if not options[opt]:
-        result = result.exclude(isSystemLog=True)
+    if options['MESSAGE_TYPE'] == 'SYSTEM_MESSAGES':
+        result = result.filter(isSystemLog=True)
 
-    opt = 'USER_MESSAGES'
-    if not options[opt]:
-        result = result.exclude(filesExist=False, isSystemLog=False, commit__isnull=True, todo=False, bug=False)
+    if options['MESSAGE_TYPE'] == 'USER_MESSAGES':
+        result = result.filter(filesExist=False, isSystemLog=False, commit__isnull=True, todo=False, bug=False)
 
-    opt = 'FILES'
-    if not options[opt]:
-        result = result.exclude(filesExist=True)
+    if options['MESSAGE_TYPE'] == 'FILES':
+        result = result.filter(filesExist=True)
 
-    opt = 'COMMITS'
-    if not options[opt]:
-        result = result.exclude(commit__isnull=False, todo=False, bug=False)
+    if options['MESSAGE_TYPE'] == 'COMMITS':
+        result = result.filter(commit__isnull=False)
 
-    opt = 'TODO'
-    if not options[opt]:
-        result = result.exclude(todo=True)
+    if options['MESSAGE_TYPE'] == 'TODO':
+        result = result.filter(todo=True)
 
-    opt = 'BUGS'
-    if not options[opt]:
-        result = result.exclude(bug=True)
+    if options['MESSAGE_TYPE'] == 'BUGS':
+        result = result.filter(bug=True)
 
     if float(last_id) > 0:
         result = result.filter(id__lt=last_id)
 
+
     messages = []
     if last_id != 0:
-        result = result.order_by('-id')[:20]
+        if options['MESSAGE_TYPE'] == 'TODO' or options['MESSAGE_TYPE'] == 'BUGS':
+            result = result.order_by('checked', '-id')
+        else:
+            result = result.order_by('-id')
+
+        result = result[:20]
+
         for message in result:
             addParams = {}
             if message.task and request.user.get_profile().isManager(message.task.project):
@@ -109,5 +108,7 @@ def widget(request, headerValues=None, ar=None, qargs=None):
     return {
         'messages': messages,
         'templates': templates,
-        'options': options
+        'options': options,
+        'tab': True,
+        'name': u'Лента'
     }

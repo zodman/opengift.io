@@ -332,7 +332,7 @@ class PM_User(models.Model):
 
         return self
 
-    def getProjects(self, only_managed=False, locked=False, exclude_guest=False):
+    def getProjects(self, only_managed=False, locked=False, exclude_guest=False, closed=False):
         userRoles = PM_ProjectRoles.objects.filter(user=self.user)
         if only_managed:
             userRoles = userRoles.filter(role__code='manager')
@@ -340,7 +340,7 @@ class PM_User(models.Model):
             userRoles = userRoles.exclude(role__code='guest')
 
         arId = [role.project.id for role in userRoles]
-        projects = PM_Project.objects.filter(id__in=arId, closed=False)
+        projects = PM_Project.objects.filter(id__in=arId, closed=closed)
         if not locked:
             projects = projects.filter(locked=False)
 

@@ -118,8 +118,8 @@
                                 <div class="checkbox">
                                     <label>
                                         <input class="js-role-check-invite"
-                                               name="roles" value="employee" type="radio">
-                                        <span class="fa fa-user"></span> Участник</label>
+                                               name="roles" value="employee" checked type="radio">
+                                        <span class="fa fa-user"></span> Разработчик</label>
                                 </div>
                             </li>
                         </ul>
@@ -134,14 +134,14 @@
                     </div>
 
                     <hr class="margin-25"/>
-                    <h2>Пригласите в проект разработчиков Heliard</h2>
+                    <h2>Роли полльзователей в проекте</h2>
 
-                    <p>Пригласите в команду компетентных исполнителей Heliard, для этого:</p>
+                    <p>От роли пользователя в проекте зависят доступные ему возможности:</p>
                     <ol>
-                        <li>Поставьте галочки напротив задач, которые вы хотите делегировать</li>
-                        <li>Нажмите "Пригласить разработчиков Heliard" в появившейся панели внизу</li>
+                        <li>Менеджеры могут редактировать и просматривать любые задачи и сообщения.</li>
+                        <li>Разработчики имеют право просматривать только собственные задачи или задачи, в которые их пригласили в качестве наблюдателей.</li>
+                        <li>Гости проектов могет видеть только адресованные им сообщения и задачи, в которые их пригласили.</li>
                     </ol>
-                    <p>Мы выберем подходящих специалистов и пригласим их в ваш проект.</p>
 
                 </div>
                 <!--modal-body-->
@@ -200,15 +200,9 @@
                     <input required maxlength="200" name="last_name" placeholder="Введите фамилию" type="text" class="input-block-level form-control" />
                 </div>
             </div>
-            <div class="modal-body-item clearfix">
-                <div class="modal-body-item-left">Номер телефона</div>
-                <div class="modal-body-item-right">
-                    <input required maxlength="20" name="phone" placeholder="На этот номер вам придет смс для подтверждения" type="text" class="input-block-level form-control js-phone" />
-                </div>
-            </div>
             {% if main.IS_AUTHOR %}
             <div class="modal-body-item clearfix">
-                <div class="modal-body-item-left">Название проекта</div>
+                <div class="modal-body-item-left">Название первого проекта</div>
                 <div class="modal-body-item-right">
                     <input required maxlength="200" name="sitename" placeholder="Мой сайт" type="text" class="input-block-level form-control" />
                 </div>
@@ -335,9 +329,9 @@
                 <img src="/static/images/logo.png" alt="Heliard"/>
             </a>
         </div>
-        {% if user.is_authenticated %}
-            <nav class="menu">
-                <ul>
+{% if user.is_authenticated %}
+{#          <nav class="menu">#}
+{#                <ul>#}
 {#                    <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">#}
 {#                        <a href="/calendar/">#}
 {#                            <span aria-hidden="true" class="fa fa-calendar-o"></span>#}
@@ -356,14 +350,14 @@
 {#                            <span>Активность</span>#}
 {#                        </a>#}
 {#                    </li>#}
-                    <li>
+{#                    <li>#}
 {#                        <a href="#" onclick="if (!$('.js-task-checkbox:checked').get(0)) {alert('Пожалуйста, выделите задачи, по которым хотите найти исполнителя.');event.stopPropagation();return false;} else { $('[data-target=\'#invite-developers\']').trigger('click'); }">#}
 {#                            <span aria-hidden="true" class="fa fa-user-plus"></span>#}
 {#                            <span>Пригласить разработчиков Heliard</span>#}
 {#                        </a>#}
-                    </li>
-                </ul>
-            </nav>
+{#                    </li>#}
+{#                </ul>#}
+{#          </nav>#}
 
             <div class="timer-wrapper clearfix">
 
@@ -463,8 +457,7 @@
 {##}
                 <a href="/gantt/"
                    class="hide-on-mobile {% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">
-                    <i class="fa fa-tasks"></i>
-                    <span>План</span>
+                    <i class="fa fa-tasks"></i><span>План</span>
                 </a>
 {#                <a href="/life/">#}
 {#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
@@ -500,7 +493,9 @@
                     <li class="projects-list-menu">
                         <div class="dropdown">
                             <button type="button" class="btn btn-link tracker-choose ">
-                            <a href="/" style="text-decoration: underline;">
+                            <a data-target="#projects-popup" data-toggle="modal" class="js-openProjectList"
+
+                               href="#" style="text-decoration: none; border-bottom: 1px dashed #47a447;">
                                 {% if main.CURRENT_PROJECT %}
                                     {{ main.CURRENT_PROJECT.name }}
                                 {% else %}
@@ -515,7 +510,9 @@
                                    title="Параметры проекта"></a>
                             {% endif %}
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Пригласить людей"><i class="fa fa-user-plus"></i></a>
-                            <a href="/new_task_wizard/" class="js-taskWizard-opener fa fa-plus" title="Добавить задачу"></a>
+                            {% if main.CURRENT_PROJECT.id and backurl != '/' %}
+                            <a href="/new_task_wizard/" class="js-taskWizard-opener" style="display: inline-block; top: 4px;position: relative;"><span>Новая задача</span></a>
+                            {% endif %}
                         </div>
                     </li>
                     <li class="projects-list-select clearfix">
@@ -556,6 +553,25 @@
         <iframe style="width:100%;" class="js-frame"></iframe>
     </div>
     {% block content %}{% endblock %}
+</div>
+    <footer>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-2">
+                    <span class="copyright">© 2014-2016 Heliard</span>
+
+                </div>
+                <div class="col-md-6">
+                    <ul class="list-inline quicklinks">
+                        <li><a href="mailto:admin@heliard.ru">admin@heliard.ru</a></li>
+                    </ul>
+                </div>
+                <div class="col-md-2">
+
+                </div>
+            </div>
+        </div>
+    </footer>
     <script type="text/javascript">
         $(function () {
             {% if current_notice %}

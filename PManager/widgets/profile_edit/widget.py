@@ -19,18 +19,25 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft',
+                          # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
+                          ]
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay', 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank']
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay',
+                          # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
+                          ]
 
     uid = request.GET.get('id', None)
     if uid and request.user.is_staff:
         user = User.objects.get(pk=uid)
     else:
         user = request.user
+
+    if request.user.id != user.id and not request.user.is_superuser:
+        return {}
 
     profile = user.get_profile()
     avatarUrl = profile.avatar

@@ -72,6 +72,7 @@ def get_task_tag_rel_array(task):
 
 
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, addFields=[]):
+
     widgetManager = TaskWidgetManager()
     filter = {}
 
@@ -85,10 +86,12 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         needTaskList = True
 
     pst = lambda n: request.POST.get(n, 0) if hasattr(request, 'POST') else None
+    pSettings = {}
     if 'CURRENT_PROJECT' in headerValues and \
             headerValues['CURRENT_PROJECT'] and \
             not 'allProjects' in filter:
         project = widgetManager.getProject(headerValues['CURRENT_PROJECT'])
+        pSettings = project.getSettings()
         if project.locked:
             return {'redirect': 'payment'}
 
@@ -214,6 +217,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         if not 'parentTask' in filter and \
                 not 'pk' in filter and \
+                not 'isParent' in filter and \
                 not 'all' in filter:
             filter['parentTask__isnull'] = True
         else:
@@ -364,6 +368,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'planTimes': [],
                 'viewed': (task.closed or task.isViewed(cur_user)),
                 'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
+                'parentName': task.parentTask.name if task.parentTask and hasattr(task.parentTask, 'name') else '',
                 'subtasksQty': subtasksQty,
                 'subtasksActiveQty': subtasksActiveQty,
                 'observer': True if task.observers.filter(id=cur_user.id) else False,
@@ -462,13 +467,16 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name if project and isinstance(project, PM_Project) else u'Задачи')
+    title = (project.name + u': задачи' if project and isinstance(project, PM_Project) else u'Задачи')
 
     return {
         'title': title,
         'tasks': tasks,
         'project': project,
         'users': aResps,
+        'projectSettings': pSettings,
+        'tab': True,
+        'name': u'Задачи',
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'releases': Release.objects.filter(project=project, status='new'),

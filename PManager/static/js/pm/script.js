@@ -222,6 +222,19 @@ function setTaskCellsHeight($object){
     }, 200);
 }
 
+function getIconForExtension(extension) {
+    if (extension == 'doc' || extension == 'docx')
+        return 'word';
+    else if (extension == 'xls' || extension == 'xlsx')
+        return 'excel';
+    else if (extension == 'pdf')
+        return 'pdf';
+    else if (extension == 'zip' || extension == 'rar')
+        return 'archive';
+    else
+        return false;
+}
+
 $(function(){
     $(window).resize(function() {
         setTaskCellsHeight();

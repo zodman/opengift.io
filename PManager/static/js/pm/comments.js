@@ -27,7 +27,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         'todo': t.get('todo') ? 1 : 0,
                         'bug': t.get('bug') ? 1 : 0
                     },
-                    function(data) {
+                    function (data) {
                         var i;
                         for (i in data) {
                             t.set(i, data[i]);
@@ -164,11 +164,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             'template': function (messageInfo) {
                 var trimLinks = function (match) {
                     match = match.trim();
-                    if (match.length > 35) {
-                        return "<a target='newtab' href='" + match + "'>" + match.substr(0, 32) + "...</a>";
-                    } else {
-                        return "<a target='newtab' href='" + match + "'>" + match + "</a>";
-                    }
+                    return "<a target='newtab' class='external-link' href='" + match + "'>" + match + "</a>";
                 };
                 var arKeys = {
                     'ID': messageInfo.id,
@@ -270,7 +266,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
                 return htmlTemplate;
             },
-                'render': function (params) {
+            'render': function (params) {
                 if (!params)
                     params = {};
 
@@ -298,35 +294,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 var aFiles = this.model.get('files');
 
                 if (aFiles) {
-                    var aPictures = [], aOtherFiles = [];
-                    for (var i in aFiles) {
-                        var file = aFiles[i];
-                        var rowTemplate;
 
-                        if (file.is_picture) {
-                            rowTemplate = '<a class="fnc" href="#URL#"><img class="img-polaroid" src="#URL_SMALL#" /></a>';
-                        } else {
-                            rowTemplate = '<a #ADD# href="#VIEW_URL#">#NAME#</a>&nbsp;<a href="#URL#" class="icon-download-alt icon-#EXTENSION#"></a>';
-                        }
-                        if (file.viewUrl) {
-                            rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.viewUrl);
-                            rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, 'class="fnc_ajax"');
-                        } else {
-                            rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.url);
-                            rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, '');
-                        }
-                        rowTemplate = rowTemplate.replace(/\#URL\#/mgi, file.url);
-                        rowTemplate = rowTemplate.replace(/\#NAME\#/mgi, file.name);
-                        rowTemplate = rowTemplate.replace(/\#EXTENSION\#/mgi, file.type);
-                        rowTemplate = rowTemplate.replace(/\#URL_SMALL\#/mgi, file.thumb100pxUrl);
-
-                        if (file.is_picture) {
-                            aPictures.push($(rowTemplate));
-                        } else {
-                            aOtherFiles.push($(rowTemplate))
-                        }
-                    }
-
+                    var aFilesHtml = this.getFilesHtml();
+                    var aPictures = aFilesHtml['pictures'];
+                    var aOtherFiles = aFilesHtml['other'];
                     var $pictures = $('<div></div>'),
                         $otherFiles = $('<div></div>');
 
@@ -356,7 +327,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 this.$el.addClass('row-fluid show-grid js-taskMessage').data('id', this.model.id);
-                var actTodo  = 'removeClass', actBug = actTodo;
+                var actTodo = 'removeClass', actBug = actTodo;
                 if (this.model.get('todo') || this.model.get('bug')) {
                     var $todoCheckBox = $('<i class="fa js-check-todo"></i>').attr('rel', this.model.id);
 
@@ -389,6 +360,41 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 this.delegateEvents();
 
                 return this;
+            },
+            'getFilesHtml': function() {
+                var aPictures = [], aOtherFiles = [], aFiles = this.model.get('files');
+                for (var i in aFiles) {
+                    var file = aFiles[i];
+                    var rowTemplate;
+
+                    if (file.is_picture) {
+                        rowTemplate = '<a class="fnc" href="#URL#"><img class="img-polaroid" src="#URL_SMALL#" /></a>';
+                    } else {
+                        rowTemplate = '<a #ADD# href="#VIEW_URL#">#NAME#</a>&nbsp;<a href="#URL#" class="icon-download-alt icon-#EXTENSION#"></a>';
+                    }
+                    if (file.viewUrl) {
+                        rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.viewUrl);
+                        rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, 'class="fnc_ajax"');
+                    } else {
+                        rowTemplate = rowTemplate.replace(/\#VIEW_URL\#/mgi, file.url);
+                        rowTemplate = rowTemplate.replace(/\#ADD\#/mgi, '');
+                    }
+                    rowTemplate = rowTemplate.replace(/\#URL\#/mgi, file.url);
+                    rowTemplate = rowTemplate.replace(/\#NAME\#/mgi, file.name);
+                    rowTemplate = rowTemplate.replace(/\#EXTENSION\#/mgi, file.type);
+                    rowTemplate = rowTemplate.replace(/\#URL_SMALL\#/mgi, file.thumb100pxUrl);
+
+                    if (file.is_picture) {
+                        aPictures.push($(rowTemplate));
+                    } else {
+                        aOtherFiles.push($(rowTemplate))
+                    }
+                }
+
+                return {
+                    'pictures': aPictures,
+                    'other': aOtherFiles
+                }
             },
             'removeMessage': function () {
                 var t = this,
@@ -474,6 +480,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
             this.showLast = 7;
             this.callbacks = [];
             this.addCallbacks = [];
+            this.playSound = false;
             this.bNeedToGroup = !!needToGroup;
             this.init();
         };
@@ -523,7 +530,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                             }
                             toastr[mesType](mes);
                         }
-                        knock();
+                        if (t.playSound)
+                            knock();
                     } else {
                         func = 'append';
                     }
@@ -542,11 +550,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         isNewSubContainerCreated = false;
 
                     if (
-                        !t.bNeedToGroup ||
-                        !$lastContainer.hasClass(subCode) ||
+                        !t.bNeedToGroup || !$lastContainer.hasClass(subCode) ||
                         isNewMessage ||
                         subCode === 'MESSAGES'
-                        ) { //create new subcontainer
+                    ) { //create new subcontainer
 
                         var $newSubContainer = $('<div class="' + subCode + ' SUBCONTAINER"></div>');
                         if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
@@ -559,7 +566,6 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     var $firstSubContainer = t.$commentsContainer.find('.SUBCONTAINER:first'),
                         $lastSubContainer = t.$commentsContainer.find('.SUBCONTAINER:last');
-
 
 
                     if (isNewMessage && t.$commentsContainer.length > 0 && t.reversed) {
@@ -629,12 +635,12 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     $subContainer.parent().addClass('minimize-messages');
                     var btnMinimizeMsg = $(
-                            '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
-                            '<div style="text-align: center;">Показать все сообщения...</div></div>'
+                        '<div class="btn show-msg-btn" style="margin-bottom: 10px;">' +
+                        '<div style="text-align: center;">Показать все сообщения...</div></div>'
                     );
 
                     if ($subContainer.find('.btn.show-msg-btn').length === 0) {
-                        $subContainer.find('.task-message').eq(firstItems-1).after(btnMinimizeMsg);
+                        $subContainer.find('.task-message').eq(firstItems - 1).after(btnMinimizeMsg);
                     }
 
                     btnMinimizeMsg.click(function () {
@@ -649,7 +655,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     $('.SUBCONTAINER:lt(' + firstItems + '), .SUBCONTAINER:gt(-' + lastItems + ')').addClass('show-msg');
                 }
 
-                $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function(){
+                $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function () {
                     if ($(this).find('.js-taskMessage').size() <= 1) return;
                     $(this).find('.js-btn-minimize').remove();
 
@@ -680,10 +686,15 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
             clean: function () {
                 this.messageList.remove(this.messageList.models);
+                $('.SUBCONTAINER').remove();
             },
 
             getById: function (id) {
                 return this.messageList.get(parseInt(id));
+            },
+
+            forEach: function (callback) {
+                return this.messageList.each(callback);
             }
         }
     });

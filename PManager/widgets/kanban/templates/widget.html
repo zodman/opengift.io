@@ -3,6 +3,15 @@
     {% compressed_js 'kanban' %}
     {% compressed_css 'kanban' %}
 {% endblock %}
+<script src="/static/js/jquery.fancyform.min.js"></script>
+<script>
+    $(function () {
+        $("select").transformSelect({
+            base: "class" // Can be image or class, if class a span will be added
+        });
+    });
+    window.taskHtml = {{ tasklist.template|jsonify|safe }};
+</script>
 <div class="kanban">
     {% for project in kanban.projects_data %}
         <div class="widget inner">
@@ -12,29 +21,34 @@
                  data-use_colors="{% if project.use_colors %}true{%else%}false{%endif%}">
                 <div class="project-header js-project-header">
                     <div class="widget-title clearfix">
+                        <div class="widget-title-left">
                         {% if project.milestones.all %}
-                            <select class="js-select-milestone">
+                        <div class="project-header-select">
+                            <select class="js-select-milestone form-control form-control-mini">
                                 {% for milestone in project.all_milestones %}
                                     <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">
                                         {{ milestone.name }}{% if milestone.date %} до {{ milestone.date|date:"d.m.Y" }}{% endif %}
                                     </option>
                                 {% endfor %}
                             </select>
+                        </div>
+                        {% else %}
+                            <h2>Текущие задачи проекта</h2>
                         {% endif %}
+                        </div>
+                        <div class="project-header-buttons">
+                            <a href="/project/{{ project.id }}/#additional_settings" class="button green-bg button-mini">Настроить столбцы</a>
+                        {% if project.current_milestone %}
+                        <a href="#" class="js-get-xls-milestone button green-bg button-mini">Отчет (xls)</a>
+                        {% endif %}
+                        </div>
 
-                        <div style="float: right;margin-left: 30px;">
-                            <a href="/project/{{ project.id }}/#additional_settings" style="color: white;text-decoration: underline;">Настроить
-                            столбцы</a></div>
-                    {% if project.current_milestone %}
-                        <div style="float: right;">
-                            <a href="#" style="color: white;text-decoration: underline;" class="js-get-xls-milestone">Отчет (xls)</a></div>
-                    {% endif %}
                     </div>
                 </div>
                 {% if project.current_milestone and project.current_milestone.taskTimeAllResps %}
-                    <div style="padding: 10px 20px 30px 20px">
-                        <div style="float: left;width:150px;">Прошло времени: </div>
-                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                    <div class="kanban-progress-bars">
+                        <div class="kanban-progress-bars-left">Прошло времени: </div>
+                        <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.elapsedTimeAllResps }}" aria-valuemin="0"
                                  aria-valuemax="{{ project.current_milestone.allTimeAllResps }}"
@@ -42,9 +56,9 @@
                                 <span class="sr-only"></span>
                             </div>
                         </div>
-                        <div style="clear: both"></div>
-                        <div style="float: left;width:150px;">Закрыто (ч.): </div>
-                        <div class="progress" style="margin-left: 155px;margin-top: 7px;">
+                        <div class="clearfix"></div>
+                        <div class="kanban-progress-bars-left">Закрыто (ч.): </div>
+                        <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-success" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.closedTaskTimeAllResps }}" aria-valuemin="0"
                                  aria-valuemax="{{ project.current_milestone.taskTimeAllResps }}"

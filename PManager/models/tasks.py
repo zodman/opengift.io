@@ -165,6 +165,7 @@ class Release(models.Model):
     status = models.CharField(max_length=30, choices=statuses, default='new')
     description = models.CharField(max_length=1000, blank=True, null=True)
     project = models.ForeignKey(PM_Project, related_name='releases')
+    active = models.BooleanField(default=True, blank=True)
 
     class Meta:
         app_label = 'PManager'
@@ -447,6 +448,8 @@ class PM_Task(models.Model):
 
     release = models.ForeignKey(Release, blank=True, null=True, related_name='tasks')
 
+    isParent = models.BooleanField(default=False, blank=True)
+
     @property
     def url(self):
         return "/task_detail/?" + (
@@ -456,9 +459,12 @@ class PM_Task(models.Model):
     def safeDelete(self):
         self.active = False
         self.save()
+        if self.parentTask and self.parentTask.subTasks.filter(active=True).count() == 0:
+            self.parentTask.isParent = False
+            self.parentTask.save()
 
     def setIsInTime(self):
-        if self.deadline and self.deadline > timezone.make_aware(datetime.datetime.now(),
+        if not self.deadline or self.deadline > timezone.make_aware(datetime.datetime.now(),
                                                                  timezone.get_current_timezone()):
             self.closedInTime = True
         else:
@@ -507,7 +513,7 @@ class PM_Task(models.Model):
             if ob.id != self.author.id and (not self.resp or ob.id != self.resp.id):
                 increaseTagsForUser(ob, tagRelArray)
 
-        if self.resp:
+        if self.resp and self.author.id != self.resp.id:
             increaseTagsForUser(self.resp, tagRelArray)
 
         redisSendTaskUpdate({
@@ -972,6 +978,9 @@ class PM_Task(models.Model):
             if parent:
                 try:
                     parentTask = PM_Task.objects.get(id=parent, active=True)
+                    parentTask.isParent = True
+                    parentTask.save()
+
                     qtySubtasks = parentTask.subTasks.filter(active=True).count()
 
                     if qtySubtasks == 0 and parentTask.realDateStart:
@@ -1145,7 +1154,7 @@ class PM_Task(models.Model):
         filter['active'] = True
 
         # subtasks search
-        if filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
+        if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
             filterSubtasks = filter.copy()
             filterSubtasks['parentTask__isnull'] = False
             filterSubtasks['parentTask__active'] = True
@@ -1311,6 +1320,8 @@ class PM_Task(models.Model):
             if taskId and int(taskId) > 0:
                 parent = PM_Task.objects.get(id=int(taskId), parentTask__isnull=True)
                 lastSubTask = parent.subTasks.order_by('-number')
+                parent.isParent = True
+                parent.save()
             else:
                 lastSubTask = PM_Task.objects.filter(project=self.project, parentTask__isnull=True).order_by('-number')
 

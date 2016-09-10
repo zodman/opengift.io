@@ -121,7 +121,7 @@ $(function () {
                             'user': $('.js-save_specialty').data('user-id')
                         },
                         function () {
-                            $t.parent().parent().remove();
+                            $t.closest('.js-skill-item').remove();
                         }
                     )
                 });

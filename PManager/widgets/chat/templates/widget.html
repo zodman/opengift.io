@@ -4,44 +4,58 @@
     var widget_chat,
         widget_chat_log_item_templates = {{ chat.templates|jsonify|safe }};
 </script>
-<div class="widget chat" id="chat">
+<div class="widget chat" id="chat" data-tab-title="Лента">
     <a name="comments"></a>
-    <h1>Лента событий</h1>
+    <div class="widget-tasklist-header">
+        <div class="widget-title"><h2>Лента событий</h2></div>
+        <ul class="widget-tasklist-functions clearfix">
+            <li>
+                <a href="#" class="widget-tab js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Список задач</span></a>
+            </li>
+            <li>
+                <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="chat"><i class="fa fa-bell" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Лента событий</span></a>
+            </li>
+        </ul>
+    </div>
+
     <div class="TopPanel">
         <a href="#" class="RollUp"></a>
         <a href="#" class="Close"></a>
     </div>
     
     <div class="clearfix chat-nav js-feed-options">
-    	<div class="pull-left">
-        	<label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="SYSTEM_MESSAGES" value="Y" {% if chat.options.SYSTEM_MESSAGES %}checked="checked"{% endif %}> Системные сообщения
-            </label>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="USER_MESSAGES" value="Y" {% if chat.options.USER_MESSAGES %}checked="checked"{% endif %}> Сообщения пользователей
-            </label>
-	        <label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="COMMITS" value="Y" {% if chat.options.COMMITS %}checked="checked"{% endif %}> Изменения кода
-            </label>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="TODO" value="Y" {% if chat.options.TODO %}checked="checked"{% endif %}> Todo
-            </label>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="BUGS" value="Y" {% if chat.options.BUGS %}checked="checked"{% endif %}> Ошибки
-            </label>
-            <label class="checkbox-inline">
-              <input type="checkbox" class="js-comments-filter-input" name="FILES" value="Y" {% if chat.options.BUGS %}checked="checked"{% endif %}> Файлы
-            </label>
-        </div>
         {% if main.CURRENT_PROJECT %}
-        <div class="pull-right">
+        <div class="pull-left radio-checkbox-block">
             {% if main.CURRENT_PROJECT %}
-        	<label class="checkbox-inline">
-              <input type="checkbox" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
+            <label class="checkbox-inline">
+                <input type="checkbox" class="js-other-projects" name="OTHER_PROJECTS" value="Y" {% if chat.options.OTHER_PROJECTS %}checked="checked"{% endif %}> Все проекты
             </label>
             {% endif %}
         </div>
         {% endif %}
+    	<div class="pull-right radio-checkbox-block">
+            <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" {% if chat.options.MESSAGE_TYPE == 'ALL' or not chat.options.MESSAGE_TYPE %}checked="checked"{% endif %}> Все сообщения
+            </label>
+        	<label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="SYSTEM_MESSAGES" {% if chat.options.MESSAGE_TYPE == 'SYSTEM_MESSAGES' %}checked="checked"{% endif %}> Системные сообщения
+            </label>
+            <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="USER_MESSAGES" {% if chat.options.MESSAGE_TYPE == 'USER_MESSAGES' %}checked="checked"{% endif %}> Сообщения пользователей
+            </label>
+	        <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="COMMITS" {% if chat.options.MESSAGE_TYPE == 'COMMITS' %}checked="checked"{% endif %}> Изменения кода
+            </label>
+            <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" {% if chat.options.MESSAGE_TYPE == 'TODO' %}checked="checked"{% endif %}> Todo
+            </label>
+            <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" {% if chat.options.MESSAGE_TYPE == 'BUGS' %}checked="checked"{% endif %}> Ошибки
+            </label>
+            <label class="checkbox-inline">
+              <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" {% if chat.options.MESSAGE_TYPE == 'FILES' %}checked="checked"{% endif %}> Файлы
+            </label>
+        </div>
     </div>
 
     

@@ -1,6 +1,6 @@
 {%load jsonify humanize %}
 <div class="nachislenie-bonusov">
-    <h2>Ставки участников</h2>
+    <h2>Участники проекта</h2>
     <hr>
     <ul class="developer-manager-list clearfix" role="tablist">
         {% for roleName, o in roles.items %}
@@ -31,17 +31,22 @@
                         <div class="col-wrapper">
                             {% if o.role.role.code != 'client' %}
                             <div class="col-3 first">
+                                {% if user.rate %}
                                 <b>Цена часа</b>
+
                                 <div class="bonuses-num">
                                     <span class="bonuses-num-text">
                                     {{ user.rate|default_if_none:"0"|intcomma }}
                                     </span>
                                 </div>
+                                {% endif %}
                             </div>
                             {% endif %}
                             <div class="col-{% if o.role.role.code != 'client' %}3{% else %}6{% endif %}">
+                                {% if user.sum %}
                                 <b>Бонусов:</b>
                                 <div class="bonuses-num"><span class="bonuses-num-text">{{ user.sum|default_if_none:"0"|intcomma }}</span> <span>баллов</span></div>
+                                {% endif %}
                             </div>
                             <div class="col-4">
                                 <b class="pseudo-title-to-hide">&nbsp;</b>

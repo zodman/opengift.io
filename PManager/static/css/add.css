@@ -132,14 +132,16 @@ div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
 
 .statusImg {
     display: inline-block;
-    width: 12px;
-	position:relative;
-	top:1px;
-    height: 12px;
-    background: url('/static/images/icon-grey.png') no-repeat 0 0;
+    width: 8px;
+    height: 8px;
+	position: absolute;;
+	top:6px;
+    left: 6px;
+    background: #eee;
+    border-radius: 50%;
 }
 [data-status="online"] .statusImg {
-    background: url('/static/images/icon-green.png') no-repeat 0 0;
+    background: #47a447;
 }
 .profile-edit-responsible {
     margin-bottom: 10px;
@@ -187,9 +189,6 @@ a {
 .Task_Detail .widget-title .fa-pause:not(.disabled) {
     color: orange;
 }
-.Task_Detail .widget-title.closed {
-    background-color: grey;
-}
 .disabled .fa {
     color: lightgrey;
 }
@@ -218,3 +217,10 @@ rect.selected {
 a, input, button {
     outline: none !important;
 }
+
+.widget-tab {
+            float: left;
+            margin-right: 10px;
+            color: #333;
+        }
+

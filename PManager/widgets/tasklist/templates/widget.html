@@ -10,17 +10,30 @@
     });
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
-<div class="widget tasklist">
+
+
+<div class="widget tasklist" data-tab-title="Задачи">
     <!--<div class="row">
         <div class="col-xs-12">-->
-    <h1>{{ tasklist.title }}</h1>
+    <div class="widget-tasklist-header">
+        <div class="widget-title"><h2>{{ tasklist.title }}</h2></div>
+        <ul class="widget-tasklist-functions clearfix">
+            <li>
+                <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Список задач</span></a>
+            </li>
+            <li>
+                <a href="#" onclick="$(this).find('.js-new-messages').text('').hide();" class="widget-tab js-widgets-tab btn"
+                   data-widget="chat"><i class="fa fa-bell" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Лента событий</span> <span style="display: none" class="micro-circle-with-number js-new-messages"></span></a>
+            </li>
+        </ul>
+    </div>
     {% if tasklist.project %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
                 <div class="big-input task-create-wrapper">
                     <input class="input-block-level task-create form-control" type="text"
-                           placeholder="Что нужно сделать?">
+                           placeholder="Новая задача">
                     <i class="fa fa-plus"></i>
                     <ul id="TL_responsible_list" class="TL_responsible_list SelectBlock">
                         <li>
@@ -97,7 +110,7 @@
 
                 <div class="file-upload">
                     <button class="btn btn-default" type="submit"><span class="fa fa-upload"></span></button>
-                    <button class="btn btn-success task-create" type="submit">Создать</button>
+                    <button class="btn btn-success task-create" type="submit"><i class="fa fa-plus" aria-hidden="true"></i><span class="to-hide-768">Создать</span></button>
                 </div>
             </div>
             <div class="task-file-upload"></div>
@@ -109,8 +122,8 @@
         {% endif %}
     {% endif %}
     {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
-    <hr>
-    <div class="row tasks-toolbar js-search-block" style="display: none;">
+
+    <div class="row tasks-toolbar js-search-block" style="display: none; margin-top: 23px;">
         <div class="col-xs-4">
             <!--<div class="input-group">-->
             <div class="search-filter js-searchFilterBlock">
@@ -124,11 +137,11 @@
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
                         </td>
-                        <td style="vertical-align:top; padding-right: 10px; width: 100px;">
-                            <div style="position:relative;">
+                        <td style="vertical-align:top; padding-right: 10px;">
+                            <div class="big-filter-wrapper">
                                 <button class="btn btn-success border-r4 btn-gray js-filter-btn" type="button"
                                         data-toggle="dropdown">
-                                    <span class="fa fa-filter"></span><span class="name">Фильтр</span>
+                                    <span class="fa fa-filter"></span><span class="name to-hide-768">Фильтр</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu pull-right js-search-menu"
                                     style="position:absolute; top:33px; left:0px;">
@@ -219,7 +232,23 @@
                                             <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
                                         </ul>
                                     </li>
+                                    <li class="divider"></li>
+                                    <li data-code="color" class="dropdown-toggle dropdown-submenu">
+                                        <a data-toggle="dropdown">Цвет</a>
+                                        <ul class="dropdown-menu">
+                                            <li><a data-toggle="dropdown-item" rel="red"><span class="color-bg red"></span> {{ tasklist.projectSettings.color_name_red|default:"Красный" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="green"><span class="color-bg green"></span> {{ tasklist.projectSettings.color_name_green|default:"Зеленый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="blue"><span class="color-bg blue"></span> {{ tasklist.projectSettings.color_name_blue|default:"Синий" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="grey"><span class="color-bg grey"></span> {{ tasklist.projectSettings.color_name_grey|default:"Серый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="purple"><span class="color-bg purple"></span> {{ tasklist.projectSettings.color_name_purple|default:"Пурпурный" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="yellow"><span class="color-bg yellow"></span> {{ tasklist.projectSettings.color_name_yellow|default:"Желтый" }}</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="orange"><span class="color-bg orange"></span> {{ tasklist.projectSettings.color_name_orange|default:"Оранжевый" }}</a></li>
+                                        </ul>
+                                    </li>
                                 </ul>
+
+
+
                             </div>
                         </td>
                         {% if main.CURRENT_PROJECT %}
@@ -240,20 +269,38 @@
             </div>
             <!--</div> /.input-group -->
         </div>
-        <div class="col-xs-8">
-            <ul class="task-tab-filter list-inline pull-right clearfix">
+        <div class="col-xs-8 clearfix">
+            <ul class="task-tab-filter list-inline pull-right to-hide-768 clearfix">
                 <li class="active"><a>Все</a></li>
                 <li class="hide-on-mobile"><a rel="started">Начатые{% if tasklist.qty.started %}
-                    <span>{{ tasklist.qty.started }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                 <li><a rel="ready">На проверке{% if tasklist.qty.ready %}
-                    <span>{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
                 <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}
-                    <span>{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
                 <li class="hide-on-mobile"><a rel="not_ready">Не готовые</a></li>
                 <li class="hide-on-mobile"><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}
-                    <span>{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
+                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
                 <li class="hide-on-mobile"><a rel="arc">Архив</a></li>
             </ul>
+            <script>
+                $(function () {
+                    $(".select-transform").transformSelect({
+                        base: "class" // Can be image or class, if class a span will be added
+                    });
+                });
+            </script>
+            <div class="task-tab-filter-select show-on-768">
+                <select class="select-transform js-task-tab-mobile">
+                    <option value="">Все</option>
+                    <option value="started">Начатые{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
+                    <option value="ready">На проверке{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
+                    <option value="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
+                    <option value="not_ready">Не готовые</option>
+                    <option value="deadline">Просроченные{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
+                    <option value="arc">Архив</option>
+                </select>
+            </div>
         </div>
     </div>
     <div class="search_items_holder_wrapper">

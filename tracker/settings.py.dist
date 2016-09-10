@@ -197,7 +197,7 @@ SERVER_IP = '188.225.74.214'
 # Site default email url
 SITE_EMAIL = 'admin@heliard.ru'
 ADMIN_EMAIL = 'admin@heliard.ru'
-INFO_EMAIL = 'info@heliard.ru'
+INFO_EMAIL = 'admin@heliard.ru'
 NO_REPLY_EMAIL = 'no-reply@heliard.ru'
 FEEDBACK_EMAIL = 'feedback@heliard.ru'
 
@@ -252,7 +252,7 @@ USE_GIT_MODULE = True
 
 #DOCKER
 DOCKER_USER_NAME = 'dockhost'
-DOCKER_HOST = 'heliard-platform.ru'
+DOCKER_HOST = 'heliard-servers.ru:8079'
 DOCKER_APP_KEY = ''
 
 # Gitolite admin repository path
