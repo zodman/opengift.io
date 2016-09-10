@@ -338,7 +338,7 @@ $(function () {
                 filesQty = 0,
                 fileTpl = '<div class="js-file-row task-file--row row"><div class="col-sm-2"><img class="js-file-icon"></div><div class="col-sm-10"><span class="js-date task-file--date"></span><br /><a class="task-file--name js-file-name"></a><div class="clr"></div></div></div>';
 
-            widget_td.messageListHelper.forEach(function (model) {
+            widget_td.messageListHelper.forEachBack(function (model) {
                 if (model.get('files')) {
                     model.get('files').forEach(function (file) {
                         if (!$fileList.find('[rel='+file.id+']').size()) {
@@ -359,7 +359,7 @@ $(function () {
                             }
                             $el.find('.js-file-icon').replaceWith(pictTpl);
                             $el.find('.js-date').text(file.date_create);
-                            $fileList.append($el);
+                            $fileList.prepend($el);
                         }
 
                         filesQty++;
