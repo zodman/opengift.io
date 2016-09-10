@@ -169,6 +169,7 @@ $(function () {
                         $(btn).pushTheButton();
                         widget_td.newMessage(function (data) {
                             $(btn).pullTheButton();
+                            widget_td.renderFileList();
                         });
                     }
                     getTextarea.closest(".form-group.has-error").removeClass("has-error");
@@ -256,6 +257,7 @@ $(function () {
                 if (data && data.task) {
                     if (data.task.id == widget_td.task_id) {
                         widget_td.messageListHelper.addMessages([data]);
+                        widget_td.renderFileList();
                     }
                 }
             });
@@ -332,28 +334,34 @@ $(function () {
             widget_td.renderFileList();
         },
         'renderFileList': function () {
-            var filesQty = 0,
-                fileTpl = '<div class="js-file-row task-file-row"><img class="js-file-icon"><a class="js-file-name"></a><div class="clr"></div></div>';
+            var $fileList = $('.js-file-list'),
+                filesQty = 0,
+                fileTpl = '<div class="js-file-row task-file--row row"><div class="col-sm-2"><img class="js-file-icon"></div><div class="col-sm-10"><span class="js-date task-file--date"></span><br /><a class="task-file--name js-file-name"></a><div class="clr"></div></div></div>';
+
             widget_td.messageListHelper.forEach(function (model) {
                 if (model.get('files')) {
                     model.get('files').forEach(function (file) {
-                        var $el = $(fileTpl);
-                        var $link = $el.find('.js-file-name').text(file.name);
-                        if (file.viewUrl || file.is_picture) {
-                            $link.attr('href', file.is_picture ? file.url : file.viewUrl).addClass(file.is_picture ? 'fnc' : 'fnc_ajax');
-                        } else {
-                            $link.attr('href', file.url).attr('target', '_blank');
+                        if (!$fileList.find('[rel='+file.id+']').size()) {
+                            var $el = $(fileTpl).attr('rel', file.id);
+                            var $link = $el.find('.js-file-name').text(file.name);
+                            if (file.viewUrl || file.is_picture) {
+                                $link.attr('href', file.is_picture ? file.url : file.viewUrl).addClass(file.is_picture ? 'fnc' : 'fnc_ajax');
+                            } else {
+                                $link.attr('href', file.url).attr('target', '_blank');
+                            }
+
+                            var pictTpl = '';
+                            if (file.is_picture) {
+                                pictTpl = '<a class="fnc task-file--thumbnail" style="margin:0 10px;" href="' + file.url + '"><img class="img-polaroid" width="70px" src="' + file.thumb100pxUrl + '" /></a>';
+                            } else {
+                                var iconClass = getIconForExtension(file.type);
+                                pictTpl = '<a class="uploaded_file-item fnc task-file--thumbnail" style="margin:0 10px;" href="' + file.url + '"><span class="uploaded_file-item-image"><i class="fa fa-file' + (iconClass ? '-' + iconClass : '') + '-o"></i></span></a>';
+                            }
+                            $el.find('.js-file-icon').replaceWith(pictTpl);
+                            $el.find('.js-date').text(file.date_create);
+                            $fileList.append($el);
                         }
 
-                        var pictTpl = '';
-                        if (file.is_picture) {
-                            pictTpl = '<a class="fnc" style="margin:0 10px;" href="' + file.url + '"><img class="img-polaroid" width="70px" src="' + file.thumb100pxUrl + '" /></a>';
-                        } else {
-                            var iconClass = getIconForExtension(file.type);
-                            pictTpl = '<a class="uploaded_file-item fnc" style="margin:0 10px;" href="' + file.url + '"><span class="uploaded_file-item-image"><i class="fa fa-file' + (iconClass ? '-' + iconClass : '') + '-o"></i></span></a>';
-                        }
-                        $el.find('.js-file-icon').replaceWith(pictTpl);
-                        $('.js-file-list').append($el);
                         filesQty++;
                     });
                 }

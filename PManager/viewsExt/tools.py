@@ -179,6 +179,7 @@ class taskExtensions:
         from PManager.templatetags.thumbnail import thumbnail, protected
 
         return [{
+                    'id': file.id,
                     'name': file.name,
                     'url': file.src,
                     'viewUrl': '/docx/?f=' + str(file.id) if file.type in ['docx', 'xlsx'] else '',
