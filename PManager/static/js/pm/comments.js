@@ -361,7 +361,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                 return this;
             },
-            'getFilesHtml': function() {
+            'getFilesHtml': function () {
                 var aPictures = [], aOtherFiles = [], aFiles = this.model.get('files');
                 for (var i in aFiles) {
                     var file = aFiles[i];
@@ -696,6 +696,13 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
             forEach: function (callback) {
                 return this.messageList.each(callback);
+            },
+
+            forEachBack: function (callback) {
+                for (var i = this.messageList.length - 1; i >= 0; i--) {
+                    var myModel = this.messageList.models[i];
+                    callback(myModel, i);
+                }
             }
         }
     });

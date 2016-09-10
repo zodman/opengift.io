@@ -22,10 +22,10 @@ textarea[name=task_message] {
     margin-bottom: 15px;
 }
 
-.task-file-row {
+.task-file--row {
     margin: 10px 0;
 }
 
-.task-file-row .img-polaroid {
+.task-file--row .img-polaroid {
     margin: 0;
 }
