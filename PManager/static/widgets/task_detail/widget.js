@@ -371,7 +371,7 @@ $(function () {
         },
         'renderTodo': function () {
             var todoQty = 0, bugQty = 0, todoDoneQty = 0, bugDoneQty = 0;
-            widget_td.messageListHelper.forEach(function (model) {
+            widget_td.messageListHelper.forEachBack(function (model) {
                 if (model.get('todo') || model.get('bug')) {
                     if (model.get('todo')) {
                         todoQty++;
@@ -423,7 +423,7 @@ $(function () {
                         tpl = tpl.replace('#FILES_LIST#', $filesListblock.get(0).innerHTML);
 
                         model.$todoView = $(tpl);
-                        model.$todoView.appendTo(model.get('todo') ? widget_td.$todoList : widget_td.$bugList);
+                        model.$todoView.prependTo(model.get('todo') ? widget_td.$todoList : widget_td.$bugList);
                         model.$todoView.find('.js-checkbox').click(function () {
                             model.view.$el.find('.js-check-todo, .js-check-bug').trigger('click');
                         });
