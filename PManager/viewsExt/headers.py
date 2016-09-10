@@ -109,7 +109,11 @@ def initGlobals(request):
 
                 redirect = "/?project=" + str(project.id)
             except PM_Project.DoesNotExist:
-                redirect = "/"
+                projects = currentUser.getProjects()
+                if projects:
+                    redirect = "/?project=" + str(projects[0].id)
+                else:
+                    redirect = "/"
 
         WhoAreYouForm = False
 
