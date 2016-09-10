@@ -38,7 +38,7 @@ $(function () {
     widget_td.$addSubtaskBtn = widget_td.$container.find('.js-sub-tasks-button');
     widget_td.todoTpl = '<div class="warn-message"><button data-placement="top" data-toggle="popover" data-container="body" ' +
         'class="js-todo-checkbox checkbox-todo" rel="#ID#"' +
-        'type="button" data-original-title="" title=""><i class="fa fa-square-o"></i>#TEXT##FILES_LIST#</button></div>';
+        'type="button" data-original-title="" title=""><i class="js-checkbox fa fa-square-o"></i>#TEXT##FILES_LIST#</button></div>';
     widget_td.subtasks = new window.taskList();
     widget_td.subtaskTemplates = {};
 
@@ -321,7 +321,7 @@ $(function () {
                 return false;
             });
 
-            widget_td.$todoContainer.on('click', '.js-todo-checkbox, .js-bug-checkbox', function () {
+            widget_td.$todoContainer.on('click', '.js-todo-checkbox .js-checkbox, .js-bug-checkbox .js-checkbox', function () {
                 widget_td.messageListHelper.getById($(this).attr('rel')).view.checkTodo();
                 return false;
             });
