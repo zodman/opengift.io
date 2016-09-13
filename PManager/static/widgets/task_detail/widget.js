@@ -336,7 +336,17 @@ $(function () {
         'renderFileList': function () {
             var $fileList = $('.js-file-list'),
                 filesQty = 0,
-                fileTpl = '<div class="js-file-row task-file--row row"><div class="col-sm-2"><img class="js-file-icon"></div><div class="col-sm-10"><span class="js-date task-file--date"></span><br /><a class="task-file--name js-file-name"></a><div class="clr"></div></div></div>';
+                fileTpl = '<div class="js-file-row message margin-bottom-20">' +
+                    '           <div class="avatar"><img class="js-file-icon"></div>' +
+                        '       <div class="message-content">' +
+                        '           <div class="message-info"> ' +
+                        '               <span class="js-date message-info-time"></span>' +
+                        '           </div>' +
+                        '           <div class="message-desc">' +
+                        '               <a class="task-file--name js-file-name"></a>' +
+                        '           </div>' +
+                        '       </div>' +
+                    '       </div>';
 
             widget_td.messageListHelper.forEachBack(function (model) {
                 if (model.get('files')) {
@@ -352,7 +362,7 @@ $(function () {
 
                             var pictTpl = '';
                             if (file.is_picture) {
-                                pictTpl = '<a class="fnc task-file--thumbnail" style="margin:0 10px;" href="' + file.url + '"><img class="img-polaroid" width="70px" src="' + file.thumb100pxUrl + '" /></a>';
+                                pictTpl = '<a class="fnc task-file--thumbnail" href="' + file.url + '"><img class="media-object img-thumbnail" src="' + file.thumb100pxUrl + '" /></a>';
                             } else {
                                 var iconClass = getIconForExtension(file.type);
                                 pictTpl = '<a class="uploaded_file-item fnc task-file--thumbnail" style="margin:0 10px;" href="' + file.url + '"><span class="uploaded_file-item-image"><i class="fa fa-file' + (iconClass ? '-' + iconClass : '') + '-o"></i></span></a>';
@@ -394,9 +404,9 @@ $(function () {
 
 
                         var aFiles = model.view.getFilesHtml();
-                        var $pictures = $('<div></div>'),
-                            $otherFiles = $('<div></div>'),
-                            $filesListblock = $('<div></div>'),
+                        var $pictures = $('<div class="message-pictures clearfix"></div>'),
+                            $otherFiles = $('<div class="message-other-files clearfix"></div>'),
+                            $filesListblock = $('<div class="message-files-list-block clearfix"></div>'),
                             exist, i;
 
                         if (aFiles['pictures']) {
