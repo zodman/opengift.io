@@ -298,8 +298,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var aFilesHtml = this.getFilesHtml();
                     var aPictures = aFilesHtml['pictures'];
                     var aOtherFiles = aFilesHtml['other'];
-                    var $pictures = $('<div></div>'),
-                        $otherFiles = $('<div></div>');
+                    var $pictures = $('<div class="message-pictures clearfix"></div>'),
+                        $otherFiles = $('<div class="message-other-files clearfix"></div>');
 
                     var exist;
                     var $filesListblock = this.$('.js-filesList').eq(0);
@@ -368,7 +368,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     var rowTemplate;
 
                     if (file.is_picture) {
-                        rowTemplate = '<a class="fnc" href="#URL#"><img class="img-polaroid" src="#URL_SMALL#" /></a>';
+                        rowTemplate = '<a class="fnc" href="#URL#"><img src="#URL_SMALL#" /></a>';
                     } else {
                         rowTemplate = '<a #ADD# href="#VIEW_URL#">#NAME#</a>&nbsp;<a href="#URL#" class="icon-download-alt icon-#EXTENSION#"></a>';
                     }

@@ -24,6 +24,7 @@ h4.uppercase {font-size: 13px; font-weight: bold; text-transform: uppercase;}
 
 .width-100 {width: 100%;}
 
+.margin-bottom-20 {margin-bottom: 20px;}
 .margin-bottom-10 {margin-bottom: 10px;}
 .margin-bottom-5 {margin-bottom: 5px;}
 
@@ -51,6 +52,8 @@ hr.no-top-magin-hr {margin-top:0px;}
     margin-left: 2px;
     font-family: tahoma;
     display: inline-block;
+    height: 18px;
+    line-height: 16px;
 }
 
 .filter-sup-separator {font-size: 0px; background: #ddd; width: 1px; margin: 0 5px; height: 12px; position: relative; top: 2px; display: inline-block;}
@@ -1485,7 +1488,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .task-info .task-info-time span.js-time, .tasklist-plan-time {border-bottom: 1px dashed #47a447; color: #47a447 !important; cursor: pointer;}
 .task-info .task-info-time .dropdown .caret {margin-top:13px; vertical-align:top; margin-left:5px; display:inline-block;}
-.task-info .task-info-author {position:relative; top:1px; line-height: 24px; float: left; width:250px; margin-left: 50px text-align:left; white-space:nowrap; overflow: hidden;}
+.task-info .task-info-author {position:relative; text-align: left; top:1px; line-height: 24px; float: left; width:250px; margin-left: 50px text-align:left; white-space:nowrap; overflow: hidden;}
 .task-info .task-info-author .js-select_resp {max-width:148px; white-space:nowrap; overflow:hidden; line-height:22px; height:20px; position:relative;}
 .title-to-hide {width:100px;}
 .tasklist-plan-time:hover {text-decoration: none;}
@@ -1581,7 +1584,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .task-info .task-info-control {position:absolute; top:16px; right:10px;}
 .task-info .task-info-control > a,
-.task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); padding:0 8px; text-decoration:none;}
+.task-info .task-info-control .js-options_popup > a {font-size:18px; color:rgba(1,1,1,0.3); float: right; padding:0 8px; text-decoration:none;}
 
 .task-info .task-info-control > a:hover,
 .task-info .task-info-control .js-options_popup > a:hover {color:rgba(1,1,1,0.5);}
@@ -3556,8 +3559,8 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 
 .message-desc-left {position:relative; padding-right:40px;}
 
-
-.message-desc-left .fa {
+.message-desc-left .fa,
+.checkbox-todo .fa {
     position:absolute;
     right: -4px;
     cursor: pointer;
@@ -3582,30 +3585,38 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
     width: 20px;
 }
 
-.message-desc-left .fa.fa-check-square-o {
+.message-desc-left .fa.fa-check-square-o,
+.checkbox-todo .fa.fa-check-square-o {
     border: 2px solid #5cb85c;
     color: #5cb85c;
 }
 
-.message-desc-left .fa.fa-check-square-o:before {
+.message-desc-left .fa.fa-check-square-o:before,
+.checkbox-todo .fa.fa-check-square-o:before {
     content: "\f00c";
     font-family: FontAwesome;
     font-size: 12px;
     color: #5cb85c;
 }
 
-.message-desc-left .fa.fa-square-o:before {
+.message-desc-left .fa.fa-square-o:before,
+.checkbox-todo .fa.fa-square-o:before {
     content: "";
 }
 
+
 .message.danger .message-desc-left .fa.fa-check-square-o,
-.message.bug-message .message-desc-left .fa.fa-check-square-o {
+.message.bug-message .message-desc-left .fa.fa-check-square-o,
+.message.bug-message .checkbox-todo .fa.fa-square-o:before,
+.message.danger .checkbox-todo .fa.fa-square-o:before {
     color: #BB0500;
     border: 2px solid #BB0500;
 }
 
 .message.danger .message-desc-left .fa.fa-check-square-o:before,
-.message.bug-message .message-desc-left .fa.fa-check-square-o:before {
+.message.bug-message .message-desc-left .fa.fa-check-square-o:before,
+.message.bug-message .checkbox-todo .fa.fa-square-o:before,
+.message.danger .checkbox-todo .fa.fa-square-o:before {
     color: #BB0500;
 }
 
@@ -3722,35 +3733,34 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
     font-size: 14px;
     position: relative;
     cursor: pointer;
-    padding: 0;
-    margin: 0px 0px 0px 0px;
+    padding: 0px 0px 0px 35px;
+    margin: 0px;
     display: block;
     line-height: 20px;
     text-align: left;
     font-weight: normal;
-    padding-left: 35px;
 }
 
-.to-do-list button i {
-    margin-right: 10px;
-    margin-top: 0px;
-    width: 20px;
-    color: #999;
-    font-size: 24px;
-    position: absolute;
-    left: 0;
-    top: 0px;
-}
-
-
-.to-do-list button .fa-check-square-o {color:#57a957;cursor:pointer;}
-.to-do-list.bug-list button .fa {color:#BB0500;cursor:pointer;}
+.to-do-list button i {top: 0px !important; right: auto !important; left: 0px !important;}
 
 
 
 .warn-message {padding: 15px 20px; background: #f6f6f6; border:1px solid #eee; margin-bottom: 20px; border-radius: 4px;}
 .warn-message:last-child {margin-bottom: 0px;}
 .warn-message-top {font-size: 11px; color: #999;}
+
+.message-pictures,
+.message-other-files,
+.message-files-list-block {margin-top: 5px;}
+
+
+.message-pictures > a.fnc,
+.message-other-files > a.fnc,
+.message-files-list-block > a.fnc {float: left; margin-right: 5px; margin-bottom: 5px;}
+
+.message-pictures > a.fnc:last-child,
+.message-other-files > a.fnc:last-child,
+.message-files-list-block > a.fnc:last-child {margin-bottom: 0px;}
 
 .warn-message-top-date {margin-right: 10px;}
 
@@ -4835,6 +4845,8 @@ font-weight: normal;
     padding-right: 12px;
     margin-right: 12px;
 }
+
+.message-info-time:last-child {border:0px; padding: 0; margin: 0px;}
 
 .message-info-title {
     padding-right: 12px;
