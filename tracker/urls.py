@@ -151,6 +151,7 @@ urlpatterns = patterns('',
                        url(r'^payment_info/', paysystems),
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
+                       url(r'^support/', MainPage.support),
                        url(r'^wiki/', include('wiking.urls'))
                        )
 urlpatterns += staticfiles_urlpatterns()
