@@ -30,6 +30,12 @@ class Brains:
 
 class MainPage:
     @staticmethod
+    def support(request):
+        c = RequestContext(request)
+        return HttpResponse(loader.get_template('main/support.html').render(c))
+
+
+    @staticmethod
     def likeAPro(request):
         from robokassa.forms import RobokassaForm
         userFee = Fee.objects.filter(user=request.user).order_by('-id')
