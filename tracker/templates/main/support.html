@@ -1,13 +1,155 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<script type="text/javascript" src="//api.bitrix24.com/api/v1/"></script>
+    <meta charset="UTF-8">
+    <title>B24Support</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+    <script src="https://api.bitrix24.com/api/v1/"></script>
+    <script src="https://heliard.ru/static/support/support.js"></script>
+    <link rel="stylesheet" href="https://heliard.ru/static/support/style.css"/>
 </head>
 <body>
-Битрикс24 сказал серверу, что вас зовут . <a href="javascript:void(0)" onclick="clientCheck();">Проверим?</a>
-</body>
-</html>
+<div class="header">
+    <form action="#" method="GET" id="ticket_f" name="ticket_f">
+        <input type="hidden" name="lamp" value="lamp"/>
+        <input type="hidden" name="ajax" value="Y"/>
+        <div>
+            <ul class="projects">
+                <li style="display: inline;"><a href="#">Project</a>
+            </ul>
+        </div>
+
+        <div class="header-left">Обращения <span>(options)</span></div>
+        <div class="header-right">
+            <ul>
+                <li><select style="width:150px;" onChange="sendAjaxForm($('#ticket_f'), $('#wrapper'));return false;"
+                            name="category" id="category">
+                    <option value="">Все категории</option>
+                    <option value="categoryid">Category</option>
+                </select></li>
+                <li><span style="cursor:pointer;text-decoration:underline;"
+                          onClick="document.ticket_f.lamp.value='';sendAjaxForm($('#ticket_f'),$('#wrapper'));return false;">все рабочие</span>
+                </li>
+                <li class="fast"><span style="cursor:pointer;text-decoration:underline;"
+                                       onClick="document.ticket_f.lamp.value='red';sendAjaxForm($('#ticket_f'),$('#wrapper'));return false;">вы не ответил</span>
+                </li>
+                <li class="week"><span style="cursor:pointer;text-decoration:underline;"
+                                       onClick="document.ticket_f.lamp.value='green';sendAjaxForm($('#ticket_f'),$('#wrapper'));return false;">вы ответили</span>
+                </li>
+                <li class="today"><span style="cursor:pointer;text-decoration:underline;"
+                                        onClick="document.ticket_f.lamp.value='grey';sendAjaxForm($('#ticket_f'),$('#wrapper'));return false;">закрытые</span>
+                </li>
+            </ul>
+        </div>
+    </form>
+</div>
+<div class="items">
+    <div class="item" id="item_ticketid">
+        <div class="item-top">
+            <div style="cursor:pointer;" onClick="return slideTicket('ticketid','#slider_ticketid');"
+                 class="item-top-time lamp">date <b>(owner_login) owner name</b></div>
+            <div class="item-top-icons">
+                <ul>
+
+                    <li><a href="#" title="Решено" onClick="closeTicket('ticketid');return false;" class="app">Назначить
+                        ответственного</a></li>
+
+                    <li><a href="#" title="Ответить" onClick="return slideTicket('ticketid','#slider_ticketid');"
+                           class="ans">Ответить</a></li>
+                    <li><a href="#" title="Скрыть" class="del" onClick="$('#item_ticketid').remove();return false;">Скрыть</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="item-center">
+            <h3 style="cursor:pointer;color:#444;" onClick="return slideTicket('ticketid','#slider_ticketid');">
+                #ticketid title</h3>
+        </div>
+        <div id="slideup_ticketid" style="display:none;">
+            <div id="container_ticketid">
+
+                <div class="item-center">
+                    <div class="textarea" style="width:100%;text-align:center;margin-top:0;">
+                        <a onClick="TP.getMessageList('ticketid');return false;" href="#">Показать все</a>
+                    </div>
+                </div>
+                <div class="item-center">
+                    <div class="textarea" style="margin-top:0;">
+                        <p style="font-size:12px;margin:0;padding:2px;"><b>(owner) owner name</b> <span
+                                style="float:right">date</span>
+                        <div style="clear:both;"></div>
+                        </p>
+                        <p>message</p>
+                        <div class="support-paperclip"></div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="item-center">
+                <div class="textarea">
+                    <div style="color:red;" id="error_ticketid"></div>
+                    <form class="answerform" enctype="multipart/form-data" name="answer_ticketid" method="POST"
+                          action="#ticketid">
+                        <input type="hidden" name="ID" value="ticketid"/>
+
+                        <table>
+                            <tr>
+                                <td class="field-name">Message <span class="starrequired">*</span>:</td>
+                                <td>
+                                </td>
+                            </tr>
+                        </table>
+                        <textarea name='MESSAGE' id="message_ticketid"></textarea>
+                        <div style="display:block;margin-top:10px;">
+                            <label style="float:left;" class="fieldnote">Прикрепить файл: </label><input name="FILE"
+                                                                                                         size="30"
+                                                                                                         type="file"/>
+                            <div style="clear:both"></div>
+                        </div>
+                        <input type="hidden" name="AUTO_CLOSE_DAYS" value="7"/>
+                        <div style="display:block;margin-top:10px;"><label style="float:left;" class="fieldnote">Категория: </label><select
+                                id="CATEGORY_ID" name="CATEGORY_ID">
+                            <option value="">Не выбрано</option>
+                        </select>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div style="display:block;margin-top:10px;">
+                            <label style="float:left;" class="fieldnote">Скрыть сообщение: </label><input name="HIDDEN"
+                                                                                                          value="Y"
+                                                                                                          type="checkbox"/>
+                            <div style="clear:both"></div>
+                        </div>
+                        <div style="display:block;margin-top:10px;">
+
+                            <label style="float:left;" class="fieldnote">Закрыть обращение: </label><input
+                                id="close_ticketid" name="CLOSE" value="Y" type="checkbox"/>
+
+                            <div style="clear:both"></div>
+                        </div>
+
+                        <a href="#" onClick="$('#resp_ticketid').show();$(this).remove();return false;">Сменить
+                            ответственного</a>
+                        <div style="display:none;margin-top:10px;" id="resp_ticketid">
+                            <label class="fieldnote">Ответственный:</label><select id="RESPONSIBLE_ID_ticketid"
+                                                                                   name="RESPONSIBLE_ID">
+                            <option value="">Не менять</option>
+
+                            <option value="">username</option>
+
+                        </select>
+                        </div>
+                        <br/>
+                        <input type="submit" class="send" id="send_ticketid" value="Ответить"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="arr"><a href="#" id='slider_ticketid' class="down" onClick="return slideTicket('ticketid',this);">Развернуть/Свернуть</a>
+        </div>
+        <div class="item-bottom">&nbsp;</div>
+    </div>
+</div>
 <script>
 function clientCheck()
 {
@@ -16,3 +158,5 @@ function clientCheck()
 	});
 }
 </script>
+</body>
+</html>
