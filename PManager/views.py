@@ -32,10 +32,10 @@ class MainPage:
     @staticmethod
     def support(request):
         from bitrix24 import Bitrix24
-        bx24 = Bitrix24(
-            'b24-n58c67058c2ec8', request.GET.get('AUTH_ID') or request.POST.get('AUTH_ID'))
+        # bx24 = Bitrix24(
+        #     'b24-n58c67058c2ec8', request.GET.get('AUTH_ID') or request.POST.get('AUTH_ID'))
 
-        c = RequestContext(request, {'api': bx24.call('app.info'), 'bxtokens': bx24.auth_token})
+        c = RequestContext(request)
         return HttpResponse(loader.get_template('main/support.html').render(c))
 
 

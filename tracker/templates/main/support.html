@@ -19,7 +19,6 @@
                 <li style="display: inline;"><a href="#">Project</a>
             </ul>
         </div>
-        {{ api }} {{ bxtokens }}
         <div class="header-left">Обращения <span>(options)</span></div>
         <div class="header-right">
             <ul>
@@ -153,10 +152,12 @@
 <script>
 function clientCheck()
 {
-	BX24.callMethod('user.current', {}, function(r){
-		alert('Клиенту он сказал, что вас зовут ' + r.data().NAME + ' :-)');
+	BX24.callMethod('task.item.list', {}, function(r){
+		console.log(r);
 	});
 }
+
+clientCheck();
 </script>
 </body>
 </html>
