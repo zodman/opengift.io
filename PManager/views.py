@@ -32,7 +32,7 @@ class MainPage:
     @staticmethod
     def support(request):
         from bitrix24 import Bitrix24
-        bx24 = Bitrix24('b24-n58c67058c2ec8.bitrix24.ru', 'XS65aVmjyeHKTkgLjOyAN7SLve3ABY3794y2IdOQ8IDnwaKmBL')
+        bx24 = Bitrix24('b24-n58c67058c2ec8', 'XS65aVmjyeHKTkgLjOyAN7SLve3ABY3794y2IdOQ8IDnwaKmBL')
 
         c = RequestContext(request, {'api': bx24.call('app.info')})
         return HttpResponse(loader.get_template('main/support.html').render(c))
