@@ -297,7 +297,6 @@ class MyConnection(websocket.WebSocketHandler):
 
     #получениие сообщения от redis
     def on_redis_queue(self, message):
-        print message
         if message.kind == 'message':
             # сообщения у редиса бывают разного типа,
             # много сервисных, нам нужны только эти
@@ -314,6 +313,7 @@ class MyConnection(websocket.WebSocketHandler):
                 if serverMessage and serverMessage.id and (userId != self.id or not userId):
                     if serverMessage.objectName == 'task':
                         if self.user and taskConnector.userHaveAccess(self.user, serverMessage.id):
+                            print serverMessage
                             serverMessage.send()
                     elif serverMessage.objectName == 'comment':
                         try:
