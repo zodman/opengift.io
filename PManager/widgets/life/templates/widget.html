@@ -13,7 +13,7 @@ data['{{ project.id }}'] = {
         datasets : [
             {
                 fillColor : "#0bd145",
-                strokeColor : "rgba(220,220,220,1)",
+                strokeColor : "#0bd145",
                 data : [{% for event in project.events %}{{ event.qty }}{% if not forloop.last %},{% endif %}{% endfor %}]
             }
         ]
@@ -34,7 +34,7 @@ $(function() {
     {% for project in life.projects %}
     var canvas = $('#project_graph_{{ project.id }}').get(0);
     var ctx{{ project.id }} = canvas.getContext("2d");
-    new Chart(ctx{{ project.id }}).Bar(data['{{ project.id }}'],{'scaleShowLabels':false, 'responsive': true});
+    new Chart(ctx{{ project.id }}).Bar(data['{{ project.id }}'],{'responsive': true});
 
     curDS = data['{{ project.id }}']['datasets'][0]['data'];
     if (curDS[curDS.length - 1] == 0 && curDS[curDS.length - 2] == 0) {
