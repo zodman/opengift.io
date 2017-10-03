@@ -297,6 +297,7 @@ class MyConnection(websocket.WebSocketHandler):
 
     #получениие сообщения от redis
     def on_redis_queue(self, message):
+        print message
         if message.kind == 'message':
             # сообщения у редиса бывают разного типа,
             # много сервисных, нам нужны только эти
