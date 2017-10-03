@@ -83,7 +83,7 @@ baseConnectorClass.prototype = {
             this.addListener('connect', function () {
                 t.connected = true;
 
-
+                console.log('connected');
                 this.send('connect', {
                     sessionid: $.cookie("sessionid")
                 });
