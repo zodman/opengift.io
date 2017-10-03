@@ -395,7 +395,7 @@
                             {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
                             <li><a href="#keys" role="tab" data-toggle="tab">SSH-ключи</a></li>
                             {% endif %}
-                            {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin %}
+                            {% if user_detail.current_user_is_admin %}
                             <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>
                             {% endif %}
                         </ul>
@@ -599,7 +599,7 @@
                         {% endif %}
                     </div>
                     {% endif %}
-                    {% if user_detail.userIsEqualCurrentUser or user.is_superuser %}
+                    {% if user_detail.current_user_is_admin %}
                     <div class="tab-pane" id="payments">
                         {% if user_detail.payments %}
                         <table class="table table-bordered table-striped">
