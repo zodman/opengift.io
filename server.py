@@ -312,10 +312,7 @@ class MyConnection(websocket.WebSocketHandler):
 
                 if serverMessage and serverMessage.id and (userId != self.id or not userId):
                     if serverMessage.objectName == 'task':
-                        print serverMessage
-                        print self.user
                         if self.user and taskConnector.userHaveAccess(self.user, serverMessage.id):
-                            print 'sended'
                             serverMessage.send()
                     elif serverMessage.objectName == 'comment':
                         try:
