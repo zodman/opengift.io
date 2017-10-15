@@ -80,9 +80,8 @@
                             Сервер{% if not project.api_key %} выключен{% else %} включен{% endif %}
                             <div class="milestones-btn-wrapper {% if project.api_key %}active{% endif %}">
                                 <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');"
-                                       disabled
                                        {% if project.api_key %}checked{% endif %}
-                                       value="milestones" class="milestones-btn js-milestones-checkbox milestones-checkbox" id="mlst-checkbox">
+                                       value="milestones" class="milestones-btn {% if canEdit %}js-server-create{% else %}disabled{% endif %} milestones-checkbox" id="mlst-checkbox">
                                 <label for="mlst-checkbox"><span>
                                     {% if not project.api_key %}Включить{% else %}Выключить{% endif %}</span>
                                 </label>
