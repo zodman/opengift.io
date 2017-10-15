@@ -197,7 +197,6 @@ var widget_tl, currentGroup;
 
                 var obj = this;
                 baseConnector.addListener('fs.task.update', function (data) {
-                    console.log(data);
                     if (data && data.id) {
                         if (obj.TL_TaskTemplates[data.id]) {
                             var view = obj.TL_TaskTemplates[data.id];
