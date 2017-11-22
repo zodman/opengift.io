@@ -18,4 +18,4 @@ def blockchainAjax(request):
         profile.blockchain_cert = res[1]
         profile.save()
 
-    return HttpResponse()
+    return HttpResponse(result)
