@@ -10,4 +10,4 @@ def blockchainMain(request):
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
 
 def blockchainAjax(request):
-    return HttpResponse(blockchain_user_register_request())
+    return HttpResponse(blockchain_user_register_request(request.user.username))

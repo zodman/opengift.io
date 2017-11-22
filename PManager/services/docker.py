@@ -6,8 +6,8 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
-def blockchain_user_register_request():
-  result = __blockchain_request_raw('/blockchain/register', {'user':'gvammer'})
+def blockchain_user_register_request(username):
+  result = __blockchain_request_raw('/blockchain/register', {'user':username})
   # if not result.find('success'):
   #   raise RuntimeError('Result is not acceptable')
 
