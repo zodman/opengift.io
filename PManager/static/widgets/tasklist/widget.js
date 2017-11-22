@@ -295,10 +295,11 @@ var widget_tl, currentGroup;
                             widget_tl.offsetTaskX = e.clientX - offsetTask.left + offset.left;
                             widget_tl.offsetTaskY = e.clientY + sTop - offsetTask.top + offset.top;
                         }
-
+                        console.log(offsetTask);
+                        console.log('asd');
                         widget_tl.$movedTask.css('position', 'absolute');
                         widget_tl.$movedTask.css('z-index', '9999');
-                        widget_tl.$movedTask.css('top', offsetTask.top - offset.top);
+                        widget_tl.$movedTask.css('top', offsetTask.top);
                         widget_tl.$movedTask.css('left', offsetTask.left - offset.left);
                         $('<div></div>')
                             .addClass('temp_task')
@@ -318,6 +319,7 @@ var widget_tl, currentGroup;
                         if ($temTask.get(0)) {
                             $temTask.replaceWith(widget_tl.$movedTask);
                         }
+
                         widget_tl.$movedTask.css('width', '100%');
                         widget_tl.$movedTask.css('position', 'relative');
                         widget_tl.$movedTask.css('top', '0');

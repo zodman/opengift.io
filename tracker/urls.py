@@ -34,6 +34,7 @@ from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 from PManager.viewsExt.agreements import ajax_handler as agreements_ajax
+from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax
 import datetime
 from django.views.generic import TemplateView
 import logging
@@ -152,6 +153,9 @@ urlpatterns = patterns('',
                        url(r'^payment/', payment),
                        url(r'^promo_tmp/', MainPage.promoTmp),
                        url(r'^support/', MainPage.support),
+
+                       url(r'^blockchain/ajax/', blockchainAjax),
+                       url(r'^blockchain/', blockchainMain),
                        url(r'^wiki/', include('wiking.urls'))
                        )
 urlpatterns += staticfiles_urlpatterns()

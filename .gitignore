@@ -11,5 +11,5 @@ node_modules/*
 tracker/media/*
 tracker/static/*
 tracker/sniffer_files/*
-gunicorn.pid
+gunicornsudo.pid
 npm-debug.log.*
