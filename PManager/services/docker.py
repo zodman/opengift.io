@@ -6,6 +6,15 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
+def blockchain_user_register_request():
+  result = __blockchain_request_raw('/blockchain/register', {'user':'gvammer'})
+  # if not result.find('success'):
+  #   raise RuntimeError('Result is not acceptable')
+
+  result = result.replace('success', '')
+
+  return result
+
 def server_request(project):
   result = __server_request_raw(project, '/container/start')
   if 'status' not in result or result['status'] != "OK":
@@ -28,15 +37,30 @@ def __get_project_api_key(project):
     return api_key
   return project.api_key
 
+def __blockchain_request_raw(service_url, data):
+  d = {'app_key' : DOCKER_APP_KEY}
+  for k in data:
+    d[k] = data[k]
+  data = urllib.urlencode(d)
+  url = "http://" + DOCKER_HOST + service_url
+  req = urllib2.Request(url, data)
+  result = urllib2.urlopen(req)
+  res = str(result)
+  return res
+
 def __server_request_raw(project, service_url):
   if not project.repository:
     raise AttributeError("repository for project is not found")
   api_key = __get_project_api_key(project)
-  data = urllib.urlencode({'app_key' : DOCKER_APP_KEY, 'project': project.repository, 'api_key': api_key})
+  d = {'app_key' : DOCKER_APP_KEY, 'project': project.repository, 'api_key': api_key}
+
+  data = urllib.urlencode(d)
   url = "http://" + DOCKER_HOST + service_url
   req = urllib2.Request(url, data)
-  response = urllib2.urlopen(req)
-  result = json.load(response)
+  result = urllib2.urlopen(req)
+
+  result = json.load(result)
+
   return result
 
 def server_status_request(project):

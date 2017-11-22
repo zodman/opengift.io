@@ -94,6 +94,8 @@ class PM_User(models.Model):
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
     hoursQtyPerDay = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальное кол-во часов в день')
+    blockchain_key = models.CharField(blank=True, null=True, max_length=2000)
+    blockchain_cert = models.CharField(blank=True, null=True, max_length=2000)
 
     @property
     def rating(self):
