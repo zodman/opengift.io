@@ -6,6 +6,15 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
+def blockchain_user_getkey_request(username):
+  result = __blockchain_request_raw('/blockchain/read', {'user':username,'fcn': 'getKey'})
+  if result.find('success') == -1:
+    return 'Fatal Error: Failed to create user ' + username
+
+  result = result.replace('success', '')
+
+  return result
+
 def blockchain_user_register_request(username):
   result = __blockchain_request_raw('/blockchain/register', {'user':username})
   if result.find('success') == -1:

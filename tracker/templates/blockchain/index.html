@@ -3,20 +3,30 @@
 {% endblock %}
 {% block content %}
     {% if not request.user.get_profile.blockchain_cert %}
-    Blockchain main
-    <input type="button" value="Зарегистрироваться" class="js-register"/>
-        <textarea class="js-for-keys">
-
-        </textarea>
-        <script>
+        Blockchain main
+        <input type="button" value="Зарегистрироваться" class="js-register"/>
+    {% else %}
+        <input type="button" value="Получить код кошелька" class="js-get-key"/>
+    {% endif %}
+    <script>
         $(function() {
             $('.js-register').click(function() {
-                $.post('/blockchain/ajax/', {}, function(data) {
+                var t = this;
+                $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
+                    $('.js-for-keys').html(data);
+                    $(t).remove();
+                });
+                return false;
+            });
+            $('.js-get-key').click(function() {
+                $.post('/blockchain/ajax/', {'action':'getKey'}, function(data) {
                     $('.js-for-keys').html(data);
                 });
                 return false;
             })
         })
-        </script>
-    {% endif %}
+    </script>
+    <textarea class="js-for-keys">
+
+    </textarea>
 {%  endblock %}
