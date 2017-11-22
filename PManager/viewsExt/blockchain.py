@@ -12,7 +12,7 @@ def blockchainMain(request):
 def blockchainAjax(request):
     result = blockchain_user_register_request(request.user.username)
     if result.find('Error') == -1:
-        res = "\n\n".split(result)
+        res = result.split("\n\n")
         profile = request.user.get_profile()
         profile.blockchain_key = res[0]
         profile.blockchain_cert = res[1]
