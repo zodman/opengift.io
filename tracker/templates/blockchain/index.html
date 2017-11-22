@@ -2,11 +2,11 @@
 {% block header %}
 {% endblock %}
 {% block content %}
+    <h2>Блокчейн opengift</h2>
     {% if not request.user.get_profile.blockchain_cert %}
-        Blockchain main
-        <input type="button" value="Зарегистрироваться" class="js-register"/>
+        <input type="button" value="Зарегистрироваться" class="js-register btn btn-success"/>
     {% else %}
-        <input type="button" value="Получить код кошелька" class="js-get-key"/>
+        <input type="button" value="Получить код кошелька" class="js-get-key btn btn-success"/>
     {% endif %}
     <script>
         $(function() {
@@ -26,7 +26,7 @@
             })
         })
     </script>
-    <textarea class="js-for-keys">
+    <textarea class="js-for-keys form-control">
 
     </textarea>
 {%  endblock %}
