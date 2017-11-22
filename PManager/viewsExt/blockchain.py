@@ -2,7 +2,7 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_User
 from django.template import loader, RequestContext
-from PManager.services.docker import blockchain_user_register_request
+from PManager.services.docker import blockchain_user_register_request, blockchain_user_getkey_request
 
 def blockchainMain(request):
     c = RequestContext(request, {})
@@ -10,12 +10,17 @@ def blockchainMain(request):
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
 
 def blockchainAjax(request):
-    result = blockchain_user_register_request(request.user.username)
-    if result.find('Error') == -1:
-        res = result.split("\n\n")
-        profile = request.user.get_profile()
-        profile.blockchain_key = res[0]
-        profile.blockchain_cert = res[1]
-        profile.save()
+    action = request.POST.get('action')
+    result = ''
+    if action == 'register':
+        result = blockchain_user_register_request(request.user.username)
+        if result.find('Error') == -1:
+            res = result.split("\n\n")
+            profile = request.user.get_profile()
+            profile.blockchain_key = res[0]
+            profile.blockchain_cert = res[1]
+            profile.save()
+    elif action == 'getKey':
+        result = blockchain_user_getkey_request(request.user.username)
 
     return HttpResponse(result)
