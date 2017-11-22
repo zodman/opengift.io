@@ -10,4 +10,12 @@ def blockchainMain(request):
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
 
 def blockchainAjax(request):
-    return HttpResponse(blockchain_user_register_request(request.user.username))
+    result = blockchain_user_register_request(request.user.username)
+    if not result.find('Error'):
+        res = "\n\n".split(result)
+        profile = request.user.get_profile()
+        profile.blockchain_key = res[0]
+        profile.blockchain_cert = res[1]
+        profile.save()
+
+    return HttpResponse()
