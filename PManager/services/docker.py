@@ -8,8 +8,8 @@ from PManager.models.interfaces import AccessInterface
 
 def blockchain_user_register_request(username):
   result = __blockchain_request_raw('/blockchain/register', {'user':username})
-  # if not result.find('success'):
-  #   raise RuntimeError('Result is not acceptable')
+  if not result.find('success'):
+    return 'Fatal Error: Failed to create user ' + username
 
   result = result.replace('success', '')
 
