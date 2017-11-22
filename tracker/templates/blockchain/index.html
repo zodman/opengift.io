@@ -11,7 +11,7 @@
         <script>
         $(function() {
             $('.js-register').click(function() {
-                $.post('/blockchain/ajax', {}, function(data) {
+                $.post('/blockchain/ajax/', {}, function(data) {
                     $('.js-for-keys').html(data);
                 });
                 return false;
