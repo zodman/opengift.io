@@ -45,7 +45,7 @@ def __blockchain_request_raw(service_url, data):
   url = "http://" + DOCKER_HOST + service_url
   req = urllib2.Request(url, data)
   result = urllib2.urlopen(req)
-  res = str(result)
+  res = result.read()
   return res
 
 def __server_request_raw(project, service_url):
