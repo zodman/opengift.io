@@ -11,7 +11,7 @@ def blockchain_user_getbalance_request(username, wallet):
     if result.find('success') == -1:
         return 'Fatal Error: Failed to get balamce of ' + username
 
-    result = result.replace('success', '').strip()
+    result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     result = json.loads(result)
 
     return result['Balance']
