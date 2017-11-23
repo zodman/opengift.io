@@ -6,6 +6,16 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
+def blockchain_user_newproject_request(username, projectName):
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'addProject', 'arg1': projectName})
+    if result.find('success') == -1:
+        return 'Fatal Error: Failed to get balance of ' + username
+
+    # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
+    # result = json.loads(result)
+
+    return 'ok'
+
 def blockchain_user_getbalance_request(username, wallet):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': wallet})
     if result.find('success') == -1:

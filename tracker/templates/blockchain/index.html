@@ -24,7 +24,8 @@
         <p>Код кошелька: <span class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span></p>
         <p>Баланс: <span class="js-wallet-balance"></span></p>
         <p>Участие в проектах: <span class="js-projects-balance"></span></p>
-        <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> <input type="button" value="ОК" class="js-send-coins" /> </p>
+        <p>Создать проект: <input type="text" name="" class="js-project-name" value=""/> <input type="button" value="ОК" onclick="return addProject();" class="js-create-project" /> </p>
+        <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> <input type="button" value="ОК" class="js-send-coins" disabled /> </p>
         <p>Донейт проекту: <input type="text" name="" class="js-target-project" value=""/> <input type="button" value="ОК" class="js-donate" disabled /> </p>
     </div>
     <script>
@@ -48,9 +49,24 @@
             };
             var getBalance = function() {
                 $.post('/blockchain/ajax/', {'action':'getBalance'}, function(data) {
-                    $('.js-wallet-balance').html(data);
+                    data = $.parseJSON(data);
+                    $('.js-wallet-balance').html(data.Balance);
+                    if (data.Projects) {
+                        var sp = '';
+                        for (var i in data.Projects) {
+                            sp += i + ': ' + data.Projects[i];
+                        }
+                        $('.js-projects-balance').html(sp);
+                    }
                 });
                 return false;
+            };
+            var addProject = function () {
+                var pName = $('.js-create-project').val();
+                $('.js-create-project').val('');
+                $.post('/blockchain/ajax/', {'action':'addProject', 'pName': pName}, function(data) {
+                    getBalance();
+                });
             };
             {% if request.user.get_profile.blockchain_wallet %}
                 getBalance();
