@@ -54,7 +54,7 @@
                     if (data.Projects) {
                         var sp = '';
                         for (var i in data.Projects) {
-                            sp += i + ': <div class="js-project-'+i+'"></div>; ' ;
+                            sp += i + ': <b class="js-project-'+i+'"></b>%; ' ;
                             (function(inner) {
                                 getProjectState(inner, function(sum) {$('.js-project-'+i+'').text(sum);})
                             })(i);
