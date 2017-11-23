@@ -22,7 +22,7 @@
         <h4>Мой кошелек</h4>
         <hr>
         <p>Код кошелька: <span class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span></p>
-        <p>Баланс: <span class="js-wallet-balance"></span></p>
+        <p>Баланс: <span class="js-wallet-balance"></span> OGFT</p>
         <p>Участие в проектах: <span class="js-projects-balance"></span></p>
         <p>Создать проект: <input type="text" name="" class="js-project-name" value=""/> <input type="button" value="ОК" onclick="return addProject();" class="js-create-project" /> </p>
         <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> <input type="button" value="ОК" class="js-send-coins" disabled /> </p>
