@@ -79,7 +79,7 @@
         var getProjectState = function(p, call) {
             $.post('/blockchain/ajax/', {'action':'getProjectVals', 'pName': p}, function(data) {
                 data = $.parseJSON(data);
-                call(data[$('.js-wallet-code').text()]);
+                call(data['Users'][$('.js-wallet-code').text()]);
             });
         }
     </script>
