@@ -67,8 +67,8 @@
             {% endif %}
         });
         var addProject = function () {
-                var pName = $('.js-create-project').val();
-                $('.js-create-project').val('');
+                var pName = $('.js-project-name').val();
+                $('.js-project-name').val('');
                 $.post('/blockchain/ajax/', {'action':'addProject', 'pName': pName}, function(data) {
                     getBalance();
                 });
