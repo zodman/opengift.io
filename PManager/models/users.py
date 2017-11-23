@@ -96,6 +96,7 @@ class PM_User(models.Model):
     hoursQtyPerDay = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальное кол-во часов в день')
     blockchain_key = models.CharField(blank=True, null=True, max_length=2000)
     blockchain_cert = models.CharField(blank=True, null=True, max_length=2000)
+    blockchain_wallet = models.CharField(blank=True, null=True, max_length=100)
 
     @property
     def rating(self):
