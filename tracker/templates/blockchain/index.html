@@ -23,7 +23,7 @@
         <hr>
         <p>Код кошелька: <span class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span></p>
         <p>Баланс: <span class="js-wallet-balance"></span></p>
-        <p>Участие в проектах: <span class="js-wallet-balance"></span></p>
+        <p>Участие в проектах: <span class="js-projects-balance"></span></p>
         <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> <input type="button" value="ОК" class="js-send-coins" /> </p>
         <p>Донейт проекту: <input type="text" name="" class="js-target-project" value=""/> <input type="button" value="ОК" class="js-donate" disabled /> </p>
     </div>

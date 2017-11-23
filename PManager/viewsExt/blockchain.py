@@ -21,6 +21,8 @@ def blockchainAjax(request):
             profile.blockchain_cert = res[1]
             profile.save()
     elif action == 'getKey':
+        import re
+        regex = re.compile('[^a-zA-Z0-9]')
         profile = request.user.get_profile()
 
         if profile.blockchain_wallet:
@@ -28,7 +30,7 @@ def blockchainAjax(request):
         else:
             result = blockchain_user_getkey_request(request.user.username)
 
-            profile.blockchain_wallet = result
+            profile.blockchain_wallet = regex.sub('', result)
             profile.save()
 
     elif action == 'getBalance':
