@@ -31,9 +31,9 @@
         $(function() {
             $('.js-register').click(function() {
                 var t = this;
+                $(t).remove();
                 $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
                     $('.js-registration-result').show().find('textarea').html(data);
-                    $(t).remove();
                     $('.js-get-wallet').show();
                     getKey();
                     getBalance();
