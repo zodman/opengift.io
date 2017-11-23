@@ -18,7 +18,7 @@
             </div>
         </div>
     {% endif %}
-    <div class="well js-get-wallet" {% if false and not request.user.get_profile.blockchain_cert %}style="display: none;" {% endif %}>
+    <div class="well js-get-wallet" {% if not request.user.get_profile.blockchain_cert %}style="display: none;" {% endif %}>
         <h4>Мой кошелек</h4>
         <hr>
         <p>Код кошелька: <span class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span></p>
