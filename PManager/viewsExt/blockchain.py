@@ -38,7 +38,7 @@ def blockchainAjax(request):
         wallet = profile.blockchain_wallet
         result = blockchain_user_getbalance_request(request.user.username, wallet)
 
-    elif action == 'newProject':
+    elif action == 'addProject':
         # profile = request.user.get_profile()
         project = request.POST.get('pName')
         result = blockchain_user_newproject_request(request.user.username, project)
