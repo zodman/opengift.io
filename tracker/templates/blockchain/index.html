@@ -56,7 +56,7 @@
                         for (var i in data.Projects) {
                             sp += i + ': <b class="js-project-'+i+'"></b>%; ' ;
                             (function(inner) {
-                                getProjectState(inner, function(sum) {$('.js-project-'+i+'').text(sum);})
+                                getProjectState(inner, function(sum) {$('.js-project-'+inner+'').text(sum);})
                             })(i);
                         }
                         $('.js-projects-balance').html(sp);
