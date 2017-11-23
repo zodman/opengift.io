@@ -54,7 +54,10 @@
                     if (data.Projects) {
                         var sp = '';
                         for (var i in data.Projects) {
-                            sp += i + '; ' ;
+                            sp += i + ': <div class="js-project-'+i+'"></div>; ' ;
+                            (function(inner) {
+                                getProjectState(inner, function(sum) {$('.js-project-'+i+'').text(sum);})
+                            })(i);
                         }
                         $('.js-projects-balance').html(sp);
                     }
@@ -73,5 +76,11 @@
                     getBalance();
                 });
             };
+        var getProjectState = function(p, call) {
+            $.post('/blockchain/ajax/', {'action':'getProjectVals', 'pName': pName}, function(data) {
+                data = $.parseJSON(data);
+                call(data[$('.js-wallet-code').text()]);
+            });
+        }
     </script>
 {%  endblock %}
