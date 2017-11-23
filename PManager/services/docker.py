@@ -22,9 +22,9 @@ def blockchain_user_getbalance_request(username, wallet):
         return 'Fatal Error: Failed to get balamce of ' + username
 
     result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
-    result = json.loads(result)
+    # result = json.loads(result)
 
-    return result["Balance"]
+    return result
 
 def blockchain_user_getkey_request(username):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'getKey'})
