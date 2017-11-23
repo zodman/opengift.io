@@ -61,16 +61,17 @@
                 });
                 return false;
             };
-            var addProject = function () {
+
+            {% if request.user.get_profile.blockchain_wallet %}
+                getBalance();
+            {% endif %}
+        });
+        var addProject = function () {
                 var pName = $('.js-create-project').val();
                 $('.js-create-project').val('');
                 $.post('/blockchain/ajax/', {'action':'addProject', 'pName': pName}, function(data) {
                     getBalance();
                 });
             };
-            {% if request.user.get_profile.blockchain_wallet %}
-                getBalance();
-            {% endif %}
-        })
     </script>
 {%  endblock %}
