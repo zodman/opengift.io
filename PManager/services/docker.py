@@ -9,7 +9,7 @@ from PManager.models.interfaces import AccessInterface
 def blockchain_user_getbalance_request(username, wallet):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': wallet})
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to create user ' + username
+        return 'Fatal Error: Failed to get balamce of ' + username
 
     result = result.replace('success', '').strip()
     result = json.loads(result)
@@ -19,7 +19,7 @@ def blockchain_user_getbalance_request(username, wallet):
 def blockchain_user_getkey_request(username):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'getKey'})
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to create user ' + username
+        return 'Fatal Error: Failed to get key user ' + username
 
     result = result.replace('success', '')
 
