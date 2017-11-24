@@ -27,7 +27,7 @@
         <p>Создать проект: <input type="text" name="" class="js-project-name" value=""/> <input type="button" value="ОК" onclick="return addProject();" class="js-create-project" /> </p>
         <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> сумму <input type="text" name="" class="js-target-wallet-sum" value=""/> <input type="button" value="ОК" onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());" class="js-send-coins" /> </p>
         <p>Перевести на счет: <input type="text" name="" class="js-target-project-token-wallet" value=""/> <input type="text" name="" class="js-target-project-token-sum" value=""/> токенов проекта <input type="text" name="" class="js-target-project-token" value=""/> <input type="button" value="ОК" onclick="return move($('.js-target-project-token').val(), $('.js-target-project-token-wallet').val(), $('.js-target-project-token-sum').val());" class="js-move-tokens" /> </p>
-        <p>Донейт проекту: <input type="text" name="" class="js-target-project" value=""/> <input type="button" value="ОК" class="js-donate" disabled /> </p>
+        <p>Донейт проекту: <input type="text" name="" class="js-target-project" value=""/> <input type="text" name="" class="js-target-project-sum" value=""/> <input type="button" value="ОК" onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());" class="js-donate" /> </p>
     </div>
     <script>
         $(function() {
@@ -79,12 +79,14 @@
                     getBalance();
                 });
             };
+
         var getProjectState = function(p, call) {
             $.post('/blockchain/ajax/', {'action':'getProjectVals', 'pName': p}, function(data) {
                 data = $.parseJSON(data);
                 call(data['Users'][$('.js-wallet-code').text()]);
             });
         };
+
         var pay = function(wallet, sum) {
             $.post('/blockchain/ajax/', {'action':'pay', 'wallet': wallet, 'sum': sum}, function(data) {
                 getBalance();
@@ -97,6 +99,13 @@
                 getBalance();
             });
             $('.js-target-project-token-sum, .js-target-project-token, .js-target-project-token-wallet').val('');
+        };
+
+        var donate = function(project, qty) {
+            $.post('/blockchain/ajax/', {'action':'donate', 'project': project, 'qty': qty}, function(data) {
+                getBalance();
+            });
+            $('.js-target-project, .js-target-project-sum').val('');
         }
     </script>
 {%  endblock %}
