@@ -6,6 +6,16 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
+def blockchain_token_move_request(username, project, wallet, qty):
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'move', 'arg1': project, 'arg2': wallet, 'arg3': qty})
+    if result.find('success') == -1:
+        return 'Fatal Error: Failed to token move ' + username
+
+    # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
+    # result = json.loads(result)
+
+    return 'ok'
+
 def blockchain_pay_request(username, wallet, sum):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'pay', 'arg1': wallet, 'arg2': sum})
     if result.find('success') == -1:
