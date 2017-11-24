@@ -23,7 +23,7 @@ from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
-from PManager.services.docker import blockchain_user_newproject_request
+
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
@@ -144,6 +144,7 @@ class PM_Project(models.Model):
                                            PM_ProjectRoles.objects.filter(project=self)]).distinct()
 
     def save(self, *args, **kwargs):
+        from PManager.services.docker import blockchain_user_newproject_request
         if not self.id:
             self.payer = self.author
             blockchain_user_newproject_request(self.author.username, self.name.lower())
