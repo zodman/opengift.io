@@ -47,10 +47,16 @@
                 });
                 return false;
             };
-            var getBalance = function() {
+
+
+            {% if request.user.get_profile.blockchain_wallet %}
+                getBalance();
+            {% endif %}
+        });
+        var getBalance = function() {
                 $.post('/blockchain/ajax/', {'action':'getBalance'}, function(data) {
                     data = $.parseJSON(data);
-                    $('.js-wallet-balance').html(data.Balance);
+                    $('.js-wallet-balance').html(Math.round(data.Balance,4));
                     if (data.Projects) {
                         var sp = '';
                         for (var i in data.Projects) {
@@ -65,10 +71,6 @@
                 return false;
             };
 
-            {% if request.user.get_profile.blockchain_wallet %}
-                getBalance();
-            {% endif %}
-        });
         var addProject = function () {
                 var pName = $('.js-project-name').val();
                 $('.js-project-name').val('');
@@ -86,6 +88,7 @@
             $.post('/blockchain/ajax/', {'action':'pay', 'wallet': wallet, 'sum': sum}, function(data) {
                 getBalance();
             });
+            $('.js-target-wallet-sum, .js-target-wallet').val('');
         }
     </script>
 {%  endblock %}
