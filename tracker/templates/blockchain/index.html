@@ -22,10 +22,10 @@
         <h4>Мой кошелек</h4>
         <hr>
         <p>Код кошелька: <span class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span></p>
-        <p>Баланс: <span class="js-wallet-balance"></span> OGFT</p>
+        <p>Баланс: <b class="js-wallet-balance"></b> OGFT</p>
         <p>Участие в проектах: <span class="js-projects-balance"></span></p>
         <p>Создать проект: <input type="text" name="" class="js-project-name" value=""/> <input type="button" value="ОК" onclick="return addProject();" class="js-create-project" /> </p>
-        <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> <input type="button" value="ОК" class="js-send-coins" disabled /> </p>
+        <p>Перевести на счет: <input type="text" name="" class="js-target-wallet" value=""/> сумму <input type="text" name="" class="js-target-wallet-sum" value=""/> <input type="button" value="ОК" onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());" class="js-send-coins" /> </p>
         <p>Донейт проекту: <input type="text" name="" class="js-target-project" value=""/> <input type="button" value="ОК" class="js-donate" disabled /> </p>
     </div>
     <script>
@@ -80,6 +80,11 @@
             $.post('/blockchain/ajax/', {'action':'getProjectVals', 'pName': p}, function(data) {
                 data = $.parseJSON(data);
                 call(data['Users'][$('.js-wallet-code').text()]);
+            });
+        };
+        var pay = function(wallet, sum) {
+            $.post('/blockchain/ajax/', {'action':'pay', 'wallet': wallet, 'sum': sum}, function(data) {
+                getBalance();
             });
         }
     </script>
