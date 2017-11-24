@@ -58,12 +58,13 @@
                     data = $.parseJSON(data);
                     $('.js-wallet-balance').html(Math.round(data.Balance*10000)/10000);
                     if (data.Projects) {
-                        var sp = '';
+                        var sp = '', n = 0;
                         for (var i in data.Projects) {
-                            sp += i + ': <b class="js-project-'+i+'"></b>%; ' ;
-                            (function(inner) {
-                                getProjectState(inner, function(sum) {$('.js-project-'+inner+'').text(sum);})
-                            })(i);
+                            n++;
+                            sp += i + ': <b class="js-project-'+n+'"></b>%; ' ;
+                            (function(inner, number) {
+                                getProjectState(inner, function(sum) {$('.js-project-'+number+'').text(sum);})
+                            })(i, n);
                         }
                         $('.js-projects-balance').html(sp);
                     }
