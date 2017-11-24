@@ -56,7 +56,7 @@
         var getBalance = function() {
                 $.post('/blockchain/ajax/', {'action':'getBalance'}, function(data) {
                     data = $.parseJSON(data);
-                    $('.js-wallet-balance').html(Math.round(data.Balance,4));
+                    $('.js-wallet-balance').html(Math.round(data.Balance*10000)/10000);
                     if (data.Projects) {
                         var sp = '';
                         for (var i in data.Projects) {
