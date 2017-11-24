@@ -2,7 +2,7 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 from PManager.models import PM_User
 from django.template import loader, RequestContext
-from PManager.services.docker import blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
+from PManager.services.docker import blockchain_donate_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
 
 def blockchainMain(request):
     c = RequestContext(request, {})
@@ -55,6 +55,12 @@ def blockchainAjax(request):
         qty = request.POST.get('qty')
         wallet = request.POST.get('wallet')
         result = blockchain_token_move_request(request.user.username, project, wallet, qty)
+
+    elif action == 'donate':
+        # profile = request.user.get_profile()
+        project = request.POST.get('project')
+        qty = request.POST.get('qty')
+        result = blockchain_donate_request(request.user.username, project, qty)
 
     elif action == 'getProjectVals':
         # profile = request.user.get_profile()
