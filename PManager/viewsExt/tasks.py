@@ -1162,6 +1162,14 @@ class taskAjaxManagerCreator(object):
                             if not qtyInMS:
                                 t.milestone.closed = True
                                 t.milestone.save()
+                                if t.milestone.token_price > 0 and t.milestone.author and t.resp and t.resp.get_profile().blockchain_wallet:
+                                    from PManager.services.docker import blockchain_token_move_request
+                                    blockchain_token_move_request(
+                                        t.milestone.author.username,
+                                        t.project.name,
+                                        t.resp.get_profile().blockchain_wallet,
+                                        t.milestone.token_price
+                                    )
 
                         if t.parentTask and not t.parentTask.closed:
                             c = t.parentTask.subTasks.filter(closed=False, active=True).count()
