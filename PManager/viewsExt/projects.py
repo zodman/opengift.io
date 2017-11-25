@@ -20,6 +20,15 @@ class InterfaceForm(forms.ModelForm):
         fields = ["name", "address", "port", "protocol",
                   "username", "password", "access_roles", "project"]
 
+def projectDetailPublic(request, project_id):
+    project = get_object_or_404(PM_Project, id=project_id)
+    c = RequestContext(request, {
+        'project': project
+    })
+
+    t = loader.get_template('details/project_pub.html')
+    return HttpResponse(t.render(c))
+
 def projectDetail(request, project_id):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/')
