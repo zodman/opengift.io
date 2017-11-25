@@ -305,6 +305,8 @@ class PM_Milestone(models.Model):
     critically = models.IntegerField(blank=True, null=True, default=2, choices=crit_choices)
     project = models.ForeignKey(PM_Project, related_name='milestones')
     overdue = models.BooleanField(blank=True)
+    author = models.ForeignKey(User, related_name='createdMilestones', null=True, blank=True)
+    token_price = models.FloatField(blank=True, null=True, default=0)
 
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
