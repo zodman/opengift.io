@@ -37,7 +37,7 @@ def blockchain_pay_request(username, wallet, sum):
     return 'ok'
 
 def blockchain_user_newproject_request(username, projectName):
-    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'addProject', 'arg1': projectName})
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'addProject', 'arg1': projectName.lower()})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to add project ' + username
 
@@ -67,7 +67,7 @@ def blockchain_user_getbalance_request(username, wallet):
     return result
 
 def blockchain_project_status_request(username, pname):
-    result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': pname})
+    result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': pname.lower()})
     if result.find('Error') > -1:
         return 'Fatal Error: Failed to get status for project  ' + pname
 
