@@ -21,7 +21,7 @@
                 if(confirm(MSG_SERVER_NOT_UP_YET)){
                     window.location.reload();
                 }else{
-                    window.location.reload();
+
                 }
             });
             servUp.fail(function(jqXHR, textStatus){
@@ -57,11 +57,13 @@
             $work_progress.hide();
         });
     });
+
     $(JS_SERVER_CREATE).click(function(){
         $work_progress.show();
         requestForServer(true, function(){
             $work_progress.hide();
         });
     });
+
     window.requestForStatus = requestForStatus;
 });
