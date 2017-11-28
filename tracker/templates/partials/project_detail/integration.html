@@ -146,8 +146,9 @@
 <script>
     $(function() {
         {% if project.api_key %}
-            requestForStatus(function() {
-            });
+            setTimeout(function() {
+                window.requestForStatus();
+            }, 100);
         {% endif %}
     });
 </script>
