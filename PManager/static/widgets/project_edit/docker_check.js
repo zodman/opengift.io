@@ -32,7 +32,6 @@
             });
             servStatus.done(function(msg){
                 if (msg === RESPONSE_OK) {
-                    alert(MSG_SERVER_WORKING);
                     $(JS_SERVER_ACTIVE_BTN).addClass('active');
                 }
                 else {
