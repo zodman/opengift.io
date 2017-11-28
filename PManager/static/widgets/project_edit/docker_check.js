@@ -2,6 +2,7 @@
     var JS_WORKING = '.js-working',
         JS_SERVER_STATUS = '.js-server-status',
         JS_SERVER_CREATE = '.js-server-create',
+        JS_SERVER_ACTIVE_BTN = '.js-server-active',
         MSG_SERVER_NOT_UP_YET = 'Сервер запустится в течении 10 минут',
         MSG_SERVER_FAILED = 'Произошла ошибка, пожалуйста свяжитесь с администратором.',
         MSG_SERVER_WORKING = 'Сервер работает',
@@ -36,9 +37,11 @@
             servStatus.done(function(msg){
                 if (msg === RESPONSE_OK) {
                     alert(MSG_SERVER_WORKING);
+                    $(JS_SERVER_ACTIVE_BTN).addClass('active');
                 }
                 else {
                     alert(MSG_SERVER_NOT_WORKING);
+                    $(JS_SERVER_ACTIVE_BTN).removeClass('active');
                 }
             });
             servStatus.fail(function(jqXHR, textStatus){
@@ -60,4 +63,5 @@
             $work_progress.hide();
         });
     });
+    window.requestForStatus = requestForStatus;
 });

@@ -1,0 +1,37 @@
+{% extends "main/base.html" %}
+{% load thumbnail get_settings compressed %}
+{% block content %}
+{% compressed_js 'project_server' %}
+{% compressed_css 'project_detail' %}
+<div class="widget">
+<div class="project-info-area clearfix">
+    <h1>
+        {{ project.name }}
+    </h1>
+    <p class="editable-textarea-wrapper">
+        {{ project.description }}
+    </p>
+</div>
+<div class="tab-content settings-tab">
+    <div class="tab-pane active" role="tabpanel">
+{% include 'partials/project_detail/integration.html' %}
+    </div>
+</div>
+</div>
+<script>
+    var getProjectState = function(p, call) {
+        $.post('/blockchain/ajax/', {'action':'getProjectStatus', 'pName': p}, function(data) {
+            if (data == 'ok')
+                call();
+        });
+    };
+    $(function() {
+        getProjectState('{{ project.name }}', function() {
+            $('.js-donate-cont').append('<input type="button" class="btn btn-success" value="Donate" />');
+        });
+    });
+    window.heliardData = {
+        project: {{ project.id }}
+    };
+</script>
+{% endblock %}

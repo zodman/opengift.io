@@ -400,13 +400,13 @@ var widget_tl, currentGroup;
 
                         bottomPanel.addBlock('addObservers', $block);
 
-                        $block = menuTaskBlock('Назначить релиз', '#add-to-release', function () {
-                            var $taskInputContainer = $('.js-tasks-for-release').empty();
-                            $('.js-task-checkbox:checked').each(function () {
-                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
-                            });
-                        });
-                        bottomPanel.addBlock('addToRelease', $block);
+                        //$block = menuTaskBlock('Назначить релиз', '#add-to-release', function () {
+                        //    var $taskInputContainer = $('.js-tasks-for-release').empty();
+                        //    $('.js-task-checkbox:checked').each(function () {
+                        //        $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                        //    });
+                        //});
+                        //bottomPanel.addBlock('addToRelease', $block);
 
                     } else {
                         bottomPanel.removeBlock('addToMilestone');

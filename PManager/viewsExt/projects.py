@@ -22,11 +22,41 @@ class InterfaceForm(forms.ModelForm):
 
 def projectDetailPublic(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
+    profile = request.user.get_profile()
+    canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
+    canEditProject = request.user.is_superuser or request.user.id == project.author.id
+    bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+    projectSettings = project.getSettings()
+
     c = RequestContext(request, {
-        'project': project
+        'project': project,
+        'canDelete': canDeleteProject,
+        'canEdit': canEditProject,
+        'bCurUserIsAuthor': bCurUserIsAuthor,
+        'settings': projectSettings,
     })
 
     t = loader.get_template('details/project_pub.html')
+    return HttpResponse(t.render(c))
+
+def projectDetailServer(request, project_id):
+    project = get_object_or_404(PM_Project, id=project_id)
+    profile = request.user.get_profile()
+    canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
+    canEditProject = request.user.is_superuser or request.user.id == project.author.id
+    bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+    projectSettings = project.getSettings()
+
+    c = RequestContext(request, {
+        'project': project,
+        'canDelete': canDeleteProject,
+        'canEdit': canEditProject,
+        'bCurUserIsAuthor': bCurUserIsAuthor,
+        'settings': projectSettings,
+        'activeMenuItem': 'server'
+    })
+
+    t = loader.get_template('details/project_server.html')
     return HttpResponse(t.render(c))
 
 def projectDetail(request, project_id):
