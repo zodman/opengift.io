@@ -18,11 +18,7 @@
                 data: { "new" : is_new }
             });
             servUp.done(function(msg){
-                if(confirm(MSG_SERVER_NOT_UP_YET)){
-                    window.location.reload();
-                }else{
 
-                }
             });
             servUp.fail(function(jqXHR, textStatus){
                 alert(MSG_SERVER_FAILED);
