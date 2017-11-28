@@ -464,13 +464,15 @@
 {#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
 {#                            <span>Активность</span>#}
 {#                        </a>#}
-                <a href="/releases/" class="{% if activeMenuItem == 'releases' %} active{% endif %}"><i
-                        class="fa fa-calendar"></i><span>Релизы</span></a>
+{#                <a href="/releases/" class="{% if activeMenuItem == 'releases' %} active{% endif %}"><i#}
+{#                        class="fa fa-calendar"></i><span>Релизы</span></a>#}
                 <a href="/life/" class="{% if activeMenuItem == 'life' %} active{% endif %}"><i
                         class="fa fa-bolt"></i><span>Активность</span></a>
-                <a href="/files/"
-                   class="{% if activeMenuItem == 'files' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i
-                        class="fa fa-folder-open"></i><span>Файлы</span></a>
+
+                <a href="/project/{{ main.CURRENT_PROJECT.id }}/server/"
+                   class="{% if activeMenuItem == 'server' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i
+                        class="fa fa-folder-open"></i><span>Сервер</span></a>
+
                 <a href="/stat/"
                    class="{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
                         class="fa fa-bar-chart-o"></i><span>Отчеты</span></a>
