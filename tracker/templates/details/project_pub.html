@@ -1,14 +1,14 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
-{% compressed_css 'project_detail' %}
+    {% compressed_css 'project_detail' %}
     <style>
-    .small-text-label {
-        padding: 3px 7px;
-        font-size: 11px !important;
-    }
+        .small-text-label {
+            padding: 3px 7px;
+            font-size: 11px !important;
+        }
     </style>
-<section class="u-py-100 u-h-100vh u-flex-center" style="
+    <section class="u-py-100 u-h-100vh u-flex-center" style="
 	background: #8B3AC6;
 	background-image: -webkit-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
 	background-image: -o-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
@@ -17,149 +17,153 @@
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF8B3AC6', endColorstr='#FF4D3399', GradientType=1);
 ">
-  <div class="container">
-    <div class="row">
-      <div class="col-lg-6 u-mt-80">
-        <h1 class="display-4 u-fw-600 text-white u-mb-40">
-          {{ project.name }}
-            <sup class="small-text-label btn-red btn btn-sm btn-rounded">AI</sup>
-            <sup class="small-text-label btn-green btn btn-sm btn-rounded">PMI</sup>
-            <sup class="small-text-label btn-white btn btn-sm btn-rounded">ERP</sup>
-        </h1>
-        <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
-          {{ project.description }}
-        </p>
-        <a href="" class="btn btn btn-rounded btn-green  px-md-5">
-        	Демо
-        </a>
-        <a href="" class="btn btn btn-rounded btn-white ml-3 px-md-5">
-        	Помочь проекту
-        </a>
-      </div> <!-- END col-lg-6-->
-      <div class="col-lg-6 u-mt-80">
-      	<ul class="p-0" data-init="carousel" data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
-      		<li>
-      			<img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
-      		</li>
-      		<li>
-      			<img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
-      		</li>
-      		<li>
-      			<img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
-      		</li>
-      	</ul>
-      </div> <!-- END col-lg-6-->
-    </div> <!-- END row-->
-  </div> <!-- END container-->
-</section> <!-- END intro-hero-->
-<section class="bg-gray-v1 u-py-100">
- 	<div class="container">
- 		<div class="row text-center">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 u-mt-80">
+                    <h1 class="display-4 u-fw-600 text-white u-mb-40">
+                        {{ project.name }}
+                        <sup class="small-text-label btn-red btn btn-sm btn-rounded">AI</sup>
+                        <sup class="small-text-label btn-green btn btn-sm btn-rounded">PMI</sup>
+                        <sup class="small-text-label btn-white btn btn-sm btn-rounded">ERP</sup>
+                    </h1>
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                        {{ project.description }}
+                    </p>
+                    <a href="" class="btn btn btn-rounded btn-green  px-md-5">
+                        Демо
+                    </a>
+                    <a href="" class="btn btn btn-rounded btn-white ml-3 px-md-5">
+                        Помочь проекту
+                    </a>
+                </div> <!-- END col-lg-6-->
+                <div class="col-lg-6 u-mt-80">
+                    <ul class="p-0" data-init="carousel"
+                        data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
+                        <li>
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
+                        </li>
+                        <li>
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
+                        </li>
+                        <li>
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
+                        </li>
+                    </ul>
+                </div> <!-- END col-lg-6-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section> <!-- END intro-hero-->
+    <section class="bg-gray-v1 u-py-100">
+        <div class="container">
+            <div class="row text-center">
 
- 			<div class="col-lg-3 col-md-6 u-my-20">
- 				<div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
- 					<h4 class="mb-0 u-fs-36 u-fw-400">
- 						10M
- 					</h4>
- 					<p class="u-fs-20">
- 						Скачиваний
- 					</p>
- 				</div>
- 			</div> <!-- END col-lg-3 col-md-6-->
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
+                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                            10M
+                        </h4>
+                        <p class="u-fs-20">
+                            Скачиваний
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
 
- 			<div class="col-lg-3 col-md-6 u-my-20">
- 				<div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
- 					<h4 class="mb-0 u-fs-36 u-fw-400">
- 						5000+
- 					</h4>
- 					<p class="u-fs-20">
- 						Оценок
- 					</p>
- 				</div>
- 			</div> <!-- END col-lg-3 col-md-6-->
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
+                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                            5000+
+                        </h4>
+                        <p class="u-fs-20">
+                            Оценок
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
 
- 			<div class="col-lg-3 col-md-6 u-my-20">
- 				<div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
- 					<h4 class="mb-0 u-fs-36 u-fw-400">
- 						265k
- 					</h4>
- 					<p class="u-fs-20">
- 						Подписчиков
- 					</p>
- 				</div>
- 			</div> <!-- END col-lg-3 col-md-6-->
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
+                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                            265k
+                        </h4>
+                        <p class="u-fs-20">
+                            Подписчиков
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
 
- 			<div class="col-lg-3 col-md-6 u-my-20">
- 				<div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
- 					<h4 class="mb-0 u-fs-36 u-fw-400">
- 						128k
- 					</h4>
- 					<p class="u-fs-20">
- 						Донейтов
- 					</p>
- 				</div>
- 			</div> <!-- END col-lg-3 col-md-6-->
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
+                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                            128k
+                        </h4>
+                        <p class="u-fs-20">
+                            Донейтов
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
 
- 		</div> <!-- END row-->
- 	</div> <!-- END container-->
- </section>
-<script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js" ></script>
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
+    <script type="application/javascript"
+            src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
     <div class="container">
-    <div class="row">
+        <div class="row">
 
-   	<div class="col-md-6 mt-6">
-        <div class="u-p-30">
-        <h4>Развитие</h4>
-        <canvas id="myChart" width="400" height="400"></canvas>
+            <div class="col-md-6 mt-6">
+                <div class="card border-0 box-shadow-v1 u-h-100p">
+                    <div class="u-p-30">
+                        <h4>Развитие</h4>
+                        <canvas id="myChart" width="400" height="400"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 mt-6">
+                {#        <canvas id="myChart" width="400" height="400"></canvas>#}
+            </div>
         </div>
     </div>
-    <div class="col-md-6 mt-6">
-{#        <canvas id="myChart" width="400" height="400"></canvas>#}
-    </div>
-    </div>
-    </div>
 
-<script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var mixedChart = new Chart(ctx, {
-  type: 'bar',
+    <script>
+        var ctx = document.getElementById("myChart").getContext('2d');
+        var mixedChart = new Chart(ctx, {
+            type: 'bar',
 
-  data: {
-    labels: [{% for event in chart.xAxe %}'{{ event.date|date:"d.m" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
-    datasets: [
-        {% for y, axis in chart.yAxes.iteritems %}
-            {
-                label: "{{ axis.title }}",
-                {#pointColor: "{{ axis.color }}",#}
-                {#borderColor: "{{ axis.color }}",#}
-                data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
-                {% if forloop.last %},type: 'line'{% endif %}
-            }{% if not forloop.last %},{% endif %}
-        {% endfor %}
-    ]
-  },
-  options: {
-        scales: {
-            yAxes: [{
-                ticks: {
-                    beginAtZero:true
+            data: {
+                labels: [{% for event in chart.xAxe %}'{{ event.date|date:"d.m" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+                datasets: [
+                    {% for y, axis in chart.yAxes.iteritems %}
+                        {
+                            label: "{{ axis.title }}",
+                            {#pointColor: "{{ axis.color }}",#}
+                            {#borderColor: "{{ axis.color }}",#}
+                            data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+                            {% if forloop.last %},type: 'line'{% endif %}
+                        }{% if not forloop.last %},{% endif %}
+                    {% endfor %}
+                ]
+            },
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
                 }
-            }]
-        }
-    }
-});
-</script>
-<script>
-    var getProjectState = function(p, call) {
-        $.post('/blockchain/ajax/', {'action':'getProjectStatus', 'pName': p}, function(data) {
-            if (data == 'ok')
-                call();
+            }
         });
-    };
-    $(function() {
-        getProjectState('{{ project.name }}', function() {
-            $('.js-donate').show();
-        });
-    })
-</script>
+    </script>
+    <script>
+        var getProjectState = function (p, call) {
+            $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
+                if (data == 'ok')
+                    call();
+            });
+        };
+        $(function () {
+            getProjectState('{{ project.name }}', function () {
+                $('.js-donate').show();
+            });
+        })
+    </script>
 {% endblock %}
