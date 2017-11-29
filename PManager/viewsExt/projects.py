@@ -47,8 +47,6 @@ def projectDetailPublic(request, project_id):
     }
 
     for day in dayGenerator:
-        aSums[day] = {}
-
         yAxes[u'Задачи'].values.append(math.random(1,15))
         xAxe.append(day)
 
