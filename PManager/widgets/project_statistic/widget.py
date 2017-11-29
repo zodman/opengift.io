@@ -187,7 +187,7 @@ class ViewDownloadChart(Chart):
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Коммиты'].values.append(random.randint(1, 500))
+            self.yAxes[u'Просмотры'].values.append(random.randint(1, 500))
             self.yAxes[u'Скачивания'].values.append(random.randint(1, 500))
             self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
 
