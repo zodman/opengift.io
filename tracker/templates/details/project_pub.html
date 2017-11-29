@@ -134,7 +134,15 @@ var mixedChart = new Chart(ctx, {
         }],
     labels: ['Январь', 'Февраль', 'Март', 'апрель']
   },
-  options: {}
+  options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
 });
 </script>
 <script>
