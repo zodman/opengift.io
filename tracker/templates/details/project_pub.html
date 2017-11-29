@@ -2,6 +2,79 @@
 {% load thumbnail get_settings compressed %}
 {% block content %}
 {% compressed_css 'project_detail' %}
+    <section class="u-py-100 u-h-100vh u-flex-center" style="
+	background: #8B3AC6;
+	background-image: -webkit-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -o-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#8B3AC6), to(#4D3399));
+	background-image: linear-gradient(to right, #8B3AC6 0%, #4D3399 100%);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF8B3AC6', endColorstr='#FF4D3399', GradientType=1);
+ ">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-12 u-mt-80 text-center">
+        <h1 class="display-4 u-fw-600 text-white u-mb-40">
+          {{ project.name }}
+        </h1>
+        <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+          {{ project.description }}
+        </p>
+        <a href="#" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+        	Демо
+        </a>
+        <a href="" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3" data-scrollto="demo">
+        	Помочь проекту
+        </a>
+      </div> <!-- END col-lg-6-->
+    </div> <!-- END row-->
+
+    <div class="row mt-md-5">
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						{{ project.getUsers.count }}
+					</h2>
+					<p>
+						Человек в команде
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						999+
+					</h2>
+					<p>
+						Просмотров
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						129
+					</h2>
+					<p>
+						Скачиваний
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						50
+					</h2>
+					<p>
+						Отзывов
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    </div> <!-- END row-->
+  </div> <!-- END container-->
+</section> <!-- END intro-hero-->
+
     <header class="major">
         <h1>{{ project.name }}<sup style="background-color: #0D82B8"><small>AI</small></sup>&nbsp;<sup style="background-color: #0cb628"><small>PMI</small></sup></h1>
         <p>
