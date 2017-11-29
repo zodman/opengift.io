@@ -1,442 +1,672 @@
-<!DOCTYPE HTML>
-<!--
-	Landed by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ 
+  <!--Meta-->
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="A complete landing page solution for any business">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!--Favicon-->
+  <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+  
+  <!-- Title-->
+  <title>TheFury - A complete landing solution for any business</title>
+  
+  <!--Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
+  
+	<!--Icon fonts-->
+	<link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+	<link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css">
+  
+  <!-- Stylesheet-->
+  <!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
 -->
-<html>
-	<head>
-		{% block head %}<title>Elements - Landed by HTML5 UP</title>{% endblock %}
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<!--[if lte IE 8]><script src="/static/public/assets/js/ie/html5shiv.js"></script><![endif]-->
-		<link rel="stylesheet" href="/static/public/assets/css/main.css" />
-		<!--[if lte IE 9]><link rel="stylesheet" href="/static/public/assets/css/ie9.css" /><![endif]-->
-		<!--[if lte IE 8]><link rel="stylesheet" href="/static/public/assets/css/ie8.css" /><![endif]-->
-	</head>
-	<body>
-		<div id="page-wrapper">
-                {% block header %}
-			<!-- Header -->
-				<header id="header">
-					<h1 id="logo"><a href="index.html">Landed</a></h1>
-					<nav id="nav">
-						<ul>
-							<li><a href="index.html">Home</a></li>
-							<li>
-								<a href="#">Layouts</a>
-								<ul>
-									<li><a href="left-sidebar.html">Left Sidebar</a></li>
-									<li><a href="right-sidebar.html">Right Sidebar</a></li>
-									<li><a href="no-sidebar.html">No Sidebar</a></li>
-									<li>
-										<a href="#">Submenu</a>
-										<ul>
-											<li><a href="#">Option 1</a></li>
-											<li><a href="#">Option 2</a></li>
-											<li><a href="#">Option 3</a></li>
-											<li><a href="#">Option 4</a></li>
-										</ul>
-									</li>
-								</ul>
-							</li>
-							<li><a href="elements.html">Elements</a></li>
-							<li><a href="#" class="button special">Sign Up</a></li>
-						</ul>
-					</nav>
-				</header>
-{% endblock %}
-			<!-- Main -->
-				<div id="main" class="wrapper style1">
+<!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">  
+  <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+  
+  <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+  <link rel="stylesheet" href="/static/public/assets/css/style.css">
+  
+</head>
 
-					<div class="container">
-                        {% block content %}
-						<header class="major">
-							<h2>Elements</h2>
-							<p>Ipsum dolor feugiat aliquam tempus sed magna lorem consequat accumsan</p>
-						</header>
+ <body id="top">
+ 
+ 
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
 
-						<!-- Text -->
-							<section>
-								<h3>Text</h3>
-								<p>This is <b>bold</b> and this is <strong>strong</strong>. This is <i>italic</i> and this is <em>emphasized</em>.
-								This is <sup>superscript</sup> text and this is <sub>subscript</sub> text.
-								This is <u>underlined</u> and this is code: <code>for (;;) { ... }</code>. Finally, <a href="#">this is a link</a>.</p>
 
-								<hr />
 
-								<header>
-									<h3>Heading with a Subtitle</h3>
-									<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-								</header>
-								<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
-								<header>
-									<h4>Heading with a Subtitle</h4>
-									<p>Lorem ipsum dolor sit amet nullam id egestas urna aliquam</p>
-								</header>
-								<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat eu sed ante lacinia sapien lorem accumsan varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+ <header class="header header-shrink header-inverse fixed-top">
+  <div class="container">
+		<nav class="navbar navbar-expand-lg px-md-0">
+			<a class="navbar-brand" href="index.html">
+				<span class="logo-default">
+					<img src="/static/public/assets/img/logo-default.png" alt="">
+				</span>
+				<span class="logo-inverse">
+					<img src="/static/public/assets/img/logo-inverse.png" alt="">
+				</span>
+			</a>
 
-								<hr />
+			<div class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+				<span class="lnr lnr-text-align-right nav-hamburger"></span>
+				<span class="lnr lnr-cross nav-close"></span>
+			</div>
 
-								<h2>Heading Level 2</h2>
-								<h3>Heading Level 3</h3>
-								<h4>Heading Level 4</h4>
-								<h5>Heading Level 5</h5>
-								<h6>Heading Level 6</h6>
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="index.html">HOME</a>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Demos<i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+						</a>
+						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="app.html">App</a>
+							<a class="dropdown-item" href="software.html">Software</a>
+							<a class="dropdown-item" href="seo.html">SEO</a>
+							<a class="dropdown-item" href="startup.html">Startup</a>
+							<a class="dropdown-item" href="product-launch.html">Product</a>
+							<a class="dropdown-item" href="event.html">Event</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							headers <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+						</a>
+						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="header-gradient.html">Gradient</a>
+							<a class="dropdown-item" href="header-solid.html">Solid Color</a>
+							<a class="dropdown-item" href="header-parallax.html">parallax</a>
+							<a class="dropdown-item" href="header-typing.html">typing</a>
+							<a class="dropdown-item" href="header-background.html">background image</a>
+							<a class="dropdown-item" href="header-video.html">background video</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							pages <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+						</a>
+						<div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="about.html">About</a>
+							<a class="dropdown-item" href="how-work.html">How It Work</a>
+							<a class="dropdown-item" href="portfolio.html">Portfolio</a>
+							<a class="dropdown-item" href="portfolio-details.html">Portfolio Details</a>
+							<a class="dropdown-item" href="blog.html">Blog</a>
+							<a class="dropdown-item" href="blog-details.html">Blog Details</a>
+							<a class="dropdown-item" href="pricing.html">Pricing Table</a>
+							<a class="dropdown-item" href="FAQ.html">FAQs</a>
+							<a class="dropdown-item" href="login.html">Login</a>
+							<a class="dropdown-item" href="sign-up.html">Register</a>
+							<a class="dropdown-item" href="coming-soon.html">Coming soon</a>
+							<a class="dropdown-item" href="contact.html">Contact</a>
+							<a class="dropdown-item" href="terms-and-privacy-policy.html">Terms & Privacy Policy</a>
+							<a class="dropdown-item" href="404.html">404</a>
+						</div>
+					</li>
 
-								<hr />
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							elements <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+						</a>
+						<div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="info-box.html">info box</a>
+							<a class="dropdown-item" href="testimonials.html">testimonial</a>
+							<a class="dropdown-item" href="pricing.html">pricing</a>
+							<a class="dropdown-item" href="gallery.html">gallery</a>
+							<a class="dropdown-item" href="team.html">team</a>
+							<a class="dropdown-item" href="clients.html">client</a>
+							<a class="dropdown-item" href="newsletter.html">subscribe</a>
+							<a class="dropdown-item" href="sign-up.html">signup</a>
+							<a class="dropdown-item" href="form.html">Form</a>
+							<a class="dropdown-item" href="footers.html">footer</a>
+							<a class="dropdown-item" href="map.html">google map</a>
+							<a class="dropdown-item" href="tabs.html">Tab</a>
+							<a class="dropdown-item" href="accordion.html">Accordion</a>
+							<a class="dropdown-item" href="progress-bars.html">Progressbar</a>
+							<a class="dropdown-item" href="call-to-action.html">Call to Action</a>
+							<a class="dropdown-item" href="countdown.html">Countdown</a>
+							<a class="dropdown-item" href="buttons.html">Button</a>
+							<a class="dropdown-item" href="list-style.html">List Style</a>
+							<a class="dropdown-item" href="feature.html">feature</a>
+							<a class="dropdown-item" href="carousel.html">Carousel</a>
+							<a class="dropdown-item" href="video.html">video</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Blog <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+						</a>
+						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							<a class="dropdown-item" href="blog.html">blog single</a>
+							<a class="dropdown-item" href="blog-grid.html">blog grid</a>
+							<a class="dropdown-item" href="blog-details.html">blog details</a>
+						</div>
+					</li>
+					<li class="nav-item dropdown">
+						<a class="nav-link" href="contact.html">
+							Contact
+						</a>
+					</li>
+				</ul>
+			</div>
 
-								<h4>Blockquote</h4>
-								<blockquote>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan faucibus. Vestibulum ante ipsum primis in faucibus lorem ipsum dolor sit amet nullam adipiscing eu felis.</blockquote>
+		</nav>
+  </div> <!-- END container-->
+</header> <!-- END header -->
 
-								<h4>Preformatted</h4>
-								<pre><code>i = 0;
 
-	while (!deck.isInOrder()) {
-	    print 'Iteration ' + i;
-	    deck.shuffle();
-	    i++;
-	}
 
-	print 'It took ' + i + ' iterations to sort the deck.';
-	</code></pre>
-							</section>
 
-						<!-- Lists -->
-							<section>
-								<h3>Lists</h3>
-								<div class="row">
-									<div class="6u 12u(xsmall)">
 
-										<h4>Unordered</h4>
-										<ul>
-											<li>Dolor pulvinar etiam magna etiam.</li>
-											<li>Sagittis adipiscing lorem eleifend.</li>
-											<li>Felis enim feugiat dolore viverra.</li>
-										</ul>
 
-										<h4>Alternate</h4>
-										<ul class="alt">
-											<li>Dolor pulvinar etiam magna etiam.</li>
-											<li>Sagittis adipiscing lorem eleifend.</li>
-											<li>Felis enim feugiat dolore viverra.</li>
-											<li>Lobortis adipiscing condimentum lorem.</li>
-											<li>Integer eleifend erat sed accumsan.</li>
-										</ul>
 
-									</div>
-									<div class="6u 12u(xsmall)">
 
-										<h4>Ordered</h4>
-										<ol>
-											<li>Dolor pulvinar etiam magna etiam.</li>
-											<li>Etiam vel felis at lorem sed viverra.</li>
-											<li>Felis enim feugiat dolore viverra.</li>
-											<li>Dolor pulvinar etiam magna etiam.</li>
-											<li>Etiam vel felis at lorem sed viverra.</li>
-											<li>Felis enim feugiat dolore viverra.</li>
-										</ol>
-
-										<h4>Icons</h4>
-										<ul class="icons">
-											<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon fa-github"><span class="label">Github</span></a></li>
-											<li><a href="#" class="icon fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon fa-tumblr"><span class="label">Tumblr</span></a></li>
-										</ul>
-										<ul class="icons">
-											<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-											<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-											<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-											<li><a href="#" class="icon alt fa-github"><span class="label">Github</span></a></li>
-											<li><a href="#" class="icon alt fa-dribbble"><span class="label">Dribbble</span></a></li>
-											<li><a href="#" class="icon alt fa-tumblr"><span class="label">Tumblr</span></a></li>
-										</ul>
-
-									</div>
-								</div>
-
-								<h4>Actions</h4>
-								<ul class="actions">
-									<li><a href="#" class="button special">Default</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions small">
-									<li><a href="#" class="button special small">Small</a></li>
-									<li><a href="#" class="button small">Small</a></li>
-								</ul>
-								<div class="row">
-									<div class="3u 6u(medium) 12u$(xsmall)">
-										<ul class="actions vertical">
-											<li><a href="#" class="button special">Default</a></li>
-											<li><a href="#" class="button">Default</a></li>
-										</ul>
-									</div>
-									<div class="3u 6u$(medium) 12u$(xsmall)">
-										<ul class="actions vertical small">
-											<li><a href="#" class="button special small">Small</a></li>
-											<li><a href="#" class="button small">Small</a></li>
-										</ul>
-									</div>
-									<div class="3u 6u(medium) 12u$(xsmall)">
-										<ul class="actions vertical">
-											<li><a href="#" class="button special fit">Default</a></li>
-											<li><a href="#" class="button fit">Default</a></li>
-										</ul>
-									</div>
-									<div class="3u$ 6u$(medium) 12u$(xsmall)">
-										<ul class="actions vertical small">
-											<li><a href="#" class="button special small fit">Small</a></li>
-											<li><a href="#" class="button small fit">Small</a></li>
-										</ul>
-									</div>
-								</div>
-							</section>
-
-						<!-- Table -->
-							<section>
-								<h3>Table</h3>
-								<h4>Default</h4>
-								<div class="table-wrapper">
-									<table>
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>Description</th>
-												<th>Price</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Item 1</td>
-												<td>Ante turpis integer aliquet porttitor.</td>
-												<td>29.99</td>
-											</tr>
-											<tr>
-												<td>Item 2</td>
-												<td>Vis ac commodo adipiscing arcu aliquet.</td>
-												<td>19.99</td>
-											</tr>
-											<tr>
-												<td>Item 3</td>
-												<td> Morbi faucibus arcu accumsan lorem.</td>
-												<td>29.99</td>
-											</tr>
-											<tr>
-												<td>Item 4</td>
-												<td>Vitae integer tempus condimentum.</td>
-												<td>19.99</td>
-											</tr>
-											<tr>
-												<td>Item 5</td>
-												<td>Ante turpis integer aliquet porttitor.</td>
-												<td>29.99</td>
-											</tr>
-										</tbody>
-										<tfoot>
-											<tr>
-												<td colspan="2"></td>
-												<td>100.00</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-								<h4>Alternate</h4>
-								<div class="table-wrapper">
-									<table class="alt">
-										<thead>
-											<tr>
-												<th>Name</th>
-												<th>Description</th>
-												<th>Price</th>
-											</tr>
-										</thead>
-										<tbody>
-											<tr>
-												<td>Item 1</td>
-												<td>Ante turpis integer aliquet porttitor.</td>
-												<td>29.99</td>
-											</tr>
-											<tr>
-												<td>Item 2</td>
-												<td>Vis ac commodo adipiscing arcu aliquet.</td>
-												<td>19.99</td>
-											</tr>
-											<tr>
-												<td>Item 3</td>
-												<td> Morbi faucibus arcu accumsan lorem.</td>
-												<td>29.99</td>
-											</tr>
-											<tr>
-												<td>Item 4</td>
-												<td>Vitae integer tempus condimentum.</td>
-												<td>19.99</td>
-											</tr>
-											<tr>
-												<td>Item 5</td>
-												<td>Ante turpis integer aliquet porttitor.</td>
-												<td>29.99</td>
-											</tr>
-										</tbody>
-										<tfoot>
-											<tr>
-												<td colspan="2"></td>
-												<td>100.00</td>
-											</tr>
-										</tfoot>
-									</table>
-								</div>
-							</section>
-
-						<!-- Buttons -->
-							<section>
-								<h3>Buttons</h3>
-								<ul class="actions">
-									<li><a href="#" class="button special">Special</a></li>
-									<li><a href="#" class="button">Default</a></li>
-								</ul>
-								<ul class="actions">
-									<li><a href="#" class="button special big">Big</a></li>
-									<li><a href="#" class="button">Default</a></li>
-									<li><a href="#" class="button small">Default</a></li>
-								</ul>
-								<div class="row">
-									<div class="6u 12u$(xsmall)">
-										<ul class="actions fit">
-											<li><a href="#" class="button special fit">Fit</a></li>
-											<li><a href="#" class="button fit">Fit</a></li>
-										</ul>
-									</div>
-									<div class="6u$ 12u$(xsmall)">
-										<ul class="actions fit small">
-											<li><a href="#" class="button special fit small">Fit + Small</a></li>
-											<li><a href="#" class="button fit small">Fit + Small</a></li>
-										</ul>
-									</div>
-								</div>
-								<ul class="actions">
-									<li><a href="#" class="button special icon fa-download">Icon</a></li>
-									<li><a href="#" class="button icon fa-download">Icon</a></li>
-								</ul>
-								<ul class="actions">
-									<li><span class="button special disabled">Special</span></li>
-									<li><span class="button disabled">Default</span></li>
-								</ul>
-							</section>
-
-						<!-- Form -->
-							<section>
-								<h3>Form</h3>
-								<form method="post" action="#">
-									<div class="row uniform 50%">
-										<div class="6u 12u$(xsmall)">
-											<input type="text" name="name" id="name" value="" placeholder="Name" />
-										</div>
-										<div class="6u$ 12u$(xsmall)">
-											<input type="email" name="email" id="email" value="" placeholder="Email" />
-										</div>
-										<div class="12u$">
-											<div class="select-wrapper">
-												<select name="category" id="category">
-													<option value="">- Category -</option>
-													<option value="1">Manufacturing</option>
-													<option value="1">Shipping</option>
-													<option value="1">Administration</option>
-													<option value="1">Human Resources</option>
-												</select>
-											</div>
-										</div>
-										<div class="4u 12u$(medium)">
-											<input type="radio" id="priority-low" name="priority" checked>
-											<label for="priority-low">Low Priority</label>
-										</div>
-										<div class="4u 12u$(medium)">
-											<input type="radio" id="priority-normal" name="priority">
-											<label for="priority-normal">Normal Priority</label>
-										</div>
-										<div class="4u$ 12u$(medium)">
-											<input type="radio" id="priority-high" name="priority">
-											<label for="priority-high">High Priority</label>
-										</div>
-										<div class="6u 12u$(medium)">
-											<input type="checkbox" id="copy" name="copy">
-											<label for="copy">Email me a copy of this message</label>
-										</div>
-										<div class="6u$ 12u$(medium)">
-											<input type="checkbox" id="human" name="human" checked>
-											<label for="human">I am a human and not a robot</label>
-										</div>
-										<div class="12u$">
-											<textarea name="message" id="message" placeholder="Enter your message" rows="6"></textarea>
-										</div>
-										<div class="12u$">
-											<ul class="actions">
-												<li><input type="submit" value="Send Message" class="special" /></li>
-												<li><input type="reset" value="Reset" /></li>
-											</ul>
-										</div>
-									</div>
-								</form>
-							</section>
-
-						<!-- Image -->
-							<section>
-								<h3>Image</h3>
-								<h4>Fit</h4>
-								<div class="box alt">
-									<div class="row 50% uniform">
-										<div class="12u$"><span class="image fit"><img src="/static/public/images/pic07.jpg" alt="" /></span></div>
-										<div class="4u  6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic02.jpg" alt="" /></span></div>
-										<div class="4u  6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic03.jpg" alt="" /></span></div>
-										<div class="4u$ 6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic04.jpg" alt="" /></span></div>
-										<div class="4u  6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic04.jpg" alt="" /></span></div>
-										<div class="4u  6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic02.jpg" alt="" /></span></div>
-										<div class="4u$ 6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic03.jpg" alt="" /></span></div>
-										<div class="4u  6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic03.jpg" alt="" /></span></div>
-										<div class="4u  6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic04.jpg" alt="" /></span></div>
-										<div class="4u$ 6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic02.jpg" alt="" /></span></div>
-										<div class="4u  6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic02.jpg" alt="" /></span></div>
-										<div class="4u  6u(xsmall)"><span class="image fit"><img src="/static/public/images/pic03.jpg" alt="" /></span></div>
-										<div class="4u$ 6u$(xsmall)"><span class="image fit"><img src="/static/public/images/pic04.jpg" alt="" /></span></div>
-									</div>
-								</div>
-
-								<h4>Left &amp; Right</h4>
-								<p><span class="image left"><img src="/static/public/images/pic08.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Cras aliquet accumsan curae accumsan arcu amet egestas placerat odio morbi mi adipiscing col morbi felis faucibus in gravida sollicitudin interdum commodo. Ante aliquam vis iaculis accumsan lorem ipsum dolor sit amet nullam. Cras aliquet accumsan curae accumsan arcu amet egestas placerat odio morbi mi adipiscing col morbi felis faucibus in gravida sollicitudin interdum commodo. Ante aliquam vis iaculis accumsan lorem ipsum dolor sit amet nullam.</p>
-								<p><span class="image right"><img src="/static/public/images/pic08.jpg" alt="" /></span>Fringilla nisl. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Donec accumsan interdum nisi, quis tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent tincidunt felis sagittis eget. tempus euismod. Vestibulum ante ipsum primis in faucibus vestibulum. Blandit adipiscing eu felis iaculis volutpat ac adipiscing accumsan eu faucibus. Integer ac pellentesque praesent. Cras aliquet accumsan curae accumsan arcu amet egestas placerat odio morbi mi adipiscing col morbi felis faucibus in gravida sollicitudin interdum commodo. Ante aliquam vis iaculis accumsan lorem ipsum dolor sit amet nullam. Cras aliquet accumsan curae accumsan arcu amet egestas placerat odio morbi mi adipiscing col morbi felis faucibus in gravida sollicitudin interdum commodo. Ante aliquam vis iaculis accumsan lorem ipsum dolor sit amet nullam.</p>
-							</section>
-                        {% endblock %}
-					</div>
+<section class="u-py-100 u-h-100vh u-flex-center" style="
+	background: #8B3AC6;
+	background-image: -webkit-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -o-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#8B3AC6), to(#4D3399));
+	background-image: linear-gradient(to right, #8B3AC6 0%, #4D3399 100%);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF8B3AC6', endColorstr='#FF4D3399', GradientType=1);
+ ">
+  <div class="container">
+   
+    <div class="row">
+      <div class="col-12 u-mt-80 text-center">
+        <h1 class="display-4 u-fw-600 text-white u-mb-40">
+          Fury is build for <span class="text-yellow" data-type="App, SEO, Starter, Software, Product Launch, Event"></span>
+          <span class="typed-curcor text-yellow">|</span>
+        </h1>
+        <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+          Fury is an elegant, modern and fully customizable App Landing, SaaS Landing, WebApp, SEO Landing, Startup Landing & Product Landing Multi-Purpose HTML template
+        </p>
+        <a href="#" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+        	Buy Now - $18
+        </a>
+        <a href="" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3" data-scrollto="demo">
+        	Explore Demos
+        </a>
+      </div> <!-- END col-lg-6-->
+    </div> <!-- END row-->
+    
+    <div class="row mt-md-5">
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						6+
+					</h2>
+					<p>
+						Unique Landing Demo
+					</p>
 				</div>
-
-			<!-- Footer -->
-				<footer id="footer">
-					<ul class="icons">
-						<li><a href="#" class="icon alt fa-twitter"><span class="label">Twitter</span></a></li>
-						<li><a href="#" class="icon alt fa-facebook"><span class="label">Facebook</span></a></li>
-						<li><a href="#" class="icon alt fa-linkedin"><span class="label">LinkedIn</span></a></li>
-						<li><a href="#" class="icon alt fa-instagram"><span class="label">Instagram</span></a></li>
-						<li><a href="#" class="icon alt fa-github"><span class="label">GitHub</span></a></li>
-						<li><a href="#" class="icon alt fa-envelope"><span class="label">Email</span></a></li>
-					</ul>
-					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li><li>Design: <a href="http://html5up.net">HTML5 UP</a></li>
-					</ul>
-				</footer>
-
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						16+
+					</h2>
+					<p>
+						Creative Inner Pages
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						100+
+					</h2>
+					<p>
+						Reusable Elements
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						50+
+					</h2>
+					<p>
+						HTML Pages
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    </div> <!-- END row-->
+  </div> <!-- END container-->
+</section> <!-- END intro-hero-->
+   
+     
+            
+                   
+                          
+<section class="u-py-100" id="demo">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-primary u-fs-60">6+</h2>
+				<h4>
+					Unique Landing Page Demos
+				</h4>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+				<p>
+					A great collection of beautiful landing page templates for your need. <br> Choose the best suitable landing pages and start customizing it.
+				</p>
+			</div>
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+     
+            
+                   
+                          
+<section class="u-py-80 bg-gray-v1">
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-md-6 mt-5">
+				<a href="app.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/app.png" alt="">
+				</a>
+				<h4>
+					App Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="software.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/software.png" alt="">
+				</a>
+				<h4>
+					Software Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="seo.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/seo.png" alt="">
+				</a>
+				<h4>
+					SEO Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="startup.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/starter.png" alt="">
+				</a>
+				<h4>
+					Startup Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="product-launch.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/product.png" alt="">
+				</a>
+				<h4>
+					Product Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="event.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/event.png" alt="">
+				</a>
+				<h4>
+					Event Landing
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+     
+            
+                   
+                          
+<section class="u-py-100">
+	<div class="container">
+		<div class="row align-items-center">
+			<div class="col-lg-5 mb-5">
+				<h2 class="text-primary u-fs-60">100+</h2>
+				<h4>
+					Content Blocks
+				</h4>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
+				<p>
+					Develop your pages by copy and pasting ready blocks. You need to build a unique website in minutes with  zero coding.
+				</p>
+			</div>
+			<div class="col-lg-7 mb-5">
+				<img src="/static/public/assets/img/presentation/sc-blocks.png" alt="">
+			</div>
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+   
+   
+   
+    
+<section class="u-py-80 bg-gray-v1">
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-primary u-fs-60">50+</h2>
+				<h4>
+					Creative Inner Pages
+				</h4>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+				<p>
+					With incredible set of pages, make beautiful and customized HTML <br> websites with highly useful features and functionalities without having <br> any design experience.
+				</p>
+			</div>
 		</div>
+		<div class="row text-center">
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="about.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/about.png" alt="">
+				</a>
+				<h4>
+					About
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="how-work.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/how-work.png" alt="">
+				</a>
+				<h4>
+					How It Work
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="portfolio.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/portfolio.png" alt="">
+				</a>
+				<h4>
+					Portfolio
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="portfolio-details.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/portfolio-details.png" alt="">
+				</a>
+				<h4>
+					Portfolio Details
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="blog.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/blog.png" alt="">
+				</a>
+				<h4>
+					Blog
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-lg-4 col-sm-6 mt-5">
+				<a href="contact.html" target="_blank">
+					<img class="box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/contact.png" alt="">
+				</a>
+				<h4>
+					Contact
+				</h4>
+			</div> <!-- END col-lg-4 col-sm-6 mt-5-->
+			<div class="col-12 mt-5">
+				<h4 class="text-primary">& More</h4>
+			</div>
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+   
+   
+   
+    
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h2 class="text-primary u-fs-60">6</h2>
+				<h4>
+					Header Varieties
+				</h4>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+				<p>
+					Develop your pages by copy and pasting ready blocks. <br> You need to build a unique website in minutes with zero coding.
+				</p>
+			</div>
+		</div>
+		<div class="row text-center">
+			<div class="col-md-6 mt-5">
+				<a href="header-gradient.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/gradient.jpg" alt="">
+				</a>
+				<h4>
+					Gradient
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="header-background.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/img_bg.jpg" alt="">
+				</a>
+				<h4>
+					Background Image
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="header-solid.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/solid_color.jpg" alt="">
+				</a>
+				<h4>
+					Solid Color
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="header-typing.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/typing.jpg" alt="">
+				</a>
+				<h4>
+					Typing Text
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="header-parallax.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/parallax.jpg" alt="">
+				</a>
+				<h4>
+					Parallax
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+			<div class="col-md-6 mt-5">
+				<a href="header-video.html" target="_blank">
+					<img class="rounded box-shadow-v1 mb-4" src="/static/public/assets/img/presentation/header/video.jpg" alt="">
+				</a>
+				<h4>
+					Background Video
+				</h4>
+			</div> <!-- END col-md-6 mt-5-->
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+   
+   
+   
 
-		<!-- Scripts -->
-			<script src="/static/public/assets/js/jquery.min.js"></script>
-			<script src="/static/public/assets/js/jquery.scrolly.min.js"></script>
-			<script src="/static/public/assets/js/jquery.dropotron.min.js"></script>
-			<script src="/static/public/assets/js/jquery.scrollex.min.js"></script>
-			<script src="/static/public/assets/js/skel.min.js"></script>
-			<script src="/static/public/assets/js/util.js"></script>
-			<!--[if lte IE 8]><script src="/static/public/assets/js/ie/respond.min.js"></script><![endif]-->
-			<script src="/static/public/assets/js/main.js"></script>
+	 
+	 
+	   
+<section class="bg-gray-v2 u-pb-80">  
+  <div class="container">
+   <div class="row">
+   	<div class="col-12 u-mb-70">
+   		<h2 class="h1 text-primary text-center">
+   			Template Features
+   		</h2>
+   	</div>
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						Fully Responsive
+					</h4>
+					<p>
+						Your website will work on any type device. even in 320px device 
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Web text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						Customizable
+					</h4>
+					<p>
+						You can easily read, edit, and write your own code, or change everything.
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Dollars text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						UI Elements
+					</h4>
+					<p>
+						100+ unique eliments. so you have freedom to make any type of page
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Headset text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						Clean Code
+					</h4>
+					<p>
+						You can find our code well organized, commented and readable.
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Resume text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						24/7 Support
+					</h4>
+					<p>
+						Top notch support team is available 24 hours a day, 7 days a week.
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+		<div class="col-lg-4 col-md-6 u-mb-70">
+		<div class="media">
+			<span class="icon icon-Starship2 text-primary u-fs-42 mr-4"></span>
+				<div class="media-body">
+					<h4 class="mb-4">
+						Free Updates
+					</h4>
+					<p>
+						When you purchase this template, you'll freely receive future updates.
+					</p>
+				</div>
+			</div>
+		</div> <!-- END col-lg-4 col-md-6-->
+		
+   </div> <!--END row-->
+  </div> <!-- END container-->
+</section>
+	
+	  
+	    
+	   
+	      
+	            
+	     
+<section class="u-py-100" style="
+	background: #8B3AC6;
+	background-image: -webkit-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -o-linear-gradient(left, #8B3AC6 0%, #4D3399 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#8B3AC6), to(#4D3399));
+	background-image: linear-gradient(to right, #8B3AC6 0%, #4D3399 100%);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF8B3AC6', endColorstr='#FF4D3399', GradientType=1);
+">
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-lg-6 mx-auto mt-5 text-white">
+				<p class="u-fs-20">
+					You are at the right step now
+				</p>
+				<h2 class="h1 text-white my-4">
+					Purchase The Fury <span class="text-yellow">&</span> Launch Your Beautiful Website Today
+				</h2>
+				<a href="#" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+        	Buy Now - $18
+        </a>
+			</div> <!-- END col-md-6 mt-5-->
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+	
+	          
+<footer>
+	<div class="container text-center p-4">
+		<p class="mb-0">
+			Made with <span class="icon icon-Heart text-primary mx-2"></span> love for you.
+		</p>
+	</div>
+</footer>        
+	          
+		<div class="scroll-top bg-white box-shadow-v1">
+			<i class="fa fa-angle-up" aria-hidden="true"></i>
+		</div> 
+		
 
-	</body>
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+	
+		<script src="/static/public/assets/js/bundle.js"></script>
+		<script src="/static/public/assets/js/fury.js"></script>
+		
+  </body>	
 </html>
