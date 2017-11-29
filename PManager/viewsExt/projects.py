@@ -23,6 +23,8 @@ class InterfaceForm(forms.ModelForm):
 
 def projectDetailPublic(request, project_id):
     import datetime
+    from PManager.widgets.project_statistic import widget
+
     project = get_object_or_404(PM_Project, id=project_id)
     canDeleteProject, canEditProject, bCurUserIsAuthor = False, False, False
     if request.user.is_authenticated():
@@ -61,11 +63,13 @@ def projectDetailPublic(request, project_id):
         yAxes[u'Коммиты']['values'].append(random.randint(1, 27))
         xAxe.append(day)
 
+    statistic = widget(request, {'getAllCharts'}, None, None)
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
             'yAxes': yAxes,
         },
+        'statistic': statistic,
         'project': project,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,

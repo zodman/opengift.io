@@ -405,9 +405,14 @@ def widget(request, headerValues, a, b):
     if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity']:
         chartName = 'TimeChart'
 
-    chart = None
-    exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
-    charts = [chart]
+    chart = []
+    if 'getAllCharts' in headerValues:
+        for chartName in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity']:
+            exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
+            charts.append(chart)
+    else:
+        exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
+        charts = [chart]
 
     return {
         'charts': charts,
