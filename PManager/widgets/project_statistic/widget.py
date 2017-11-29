@@ -143,7 +143,8 @@ class TaskCommitsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Коммиты': Axis(u'Коммиты', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Коммиты': Axis(u'Коммиты', '#%02X%02X%02X' % (r(), r(), r())),
+            u'Задачи': Axis(u'Задачи', '#%02X%02X%02X' % (r(), r(), r()))
         }
 
         for day in self.dayGenerator:
@@ -155,7 +156,14 @@ class TaskCommitsChart(Chart):
                 commit__isnull=False
             ).count()
 
+            tasksQty = PM_Task.objects.filter(
+                dateClose__range=(datetime.datetime.combine(day, datetime.time.min),
+                                datetime.datetime.combine(day, datetime.time.max)),
+                project__in=self.projects
+            ).count()
+
             self.yAxes[u'Коммиты'].values.append(messagesQty or 0)
+            self.yAxes[u'Задачи'].values.append(tasksQty or 0)
 
             self.xAxe.append(day)
 
