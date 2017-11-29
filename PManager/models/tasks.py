@@ -95,14 +95,22 @@ class PM_Tracker(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class PM_Project_Industry(models.Model):
+    name = models.CharField(max_length=255, verbose_name=u'Название')
+    parent_id = models.ForeignKey(PM_Project_Industry, related_name='createdProjects')
+
 
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, verbose_name=u'Описание')
+    problem = models.TextField(null=True, verbose_name=u'Какую проблему решает проект')
+    problem_proof = models.TextField(null=True, verbose_name=u'Почему эта проблема важна?')
+
     author = models.ForeignKey(User, related_name='createdProjects')
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Изображение')
+    files = models.ManyToManyField(PM_Files, related_name="projects", null=True, blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')

@@ -1,28 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
- 
+
   <!--Meta-->
   <meta charset="UTF-8">
   <meta http-equiv="x-ua-compatible" content="ie=edge">
   <meta name="description" content="A complete landing page solution for any business">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  
+
   <!--Favicon-->
-  <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
-  
+  <link rel="icon" href="assets/img/favicon/144x144.png">
+  {% block head %}
   <!-- Title-->
-{% block head %}
-  <title>TheFury - A complete landing solution for any business</title>
-{% endblock %}
-  
+	<title>OpenGift - Первая в мире онлайн-платформа для монетизации Open Source проектов</title>
+  {% endblock %}
   <!--Google fonts-->
   <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
-  
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic" rel="stylesheet">
 	<!--Icon fonts-->
-	<link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
-	<link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css">
+	<link rel="stylesheet" href="assets/vendor/strokegap/style.css">
+	<link rel="stylesheet" href="assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="assets/vendor/linearicons/style.css">
+
+  <!-- Stylesheet-->
+  <!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+// If you wanna add those manually bellow is the sequence
+// ///////////////////////////////////////////////
+-->
+<!--  <link rel="stylesheet" href="assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+  <link rel="stylesheet" href="assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="assets/vendor/animate.css/animate.min.css">-->
+
+  <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+  <link rel="stylesheet" href="/static/public/assets/css/style.css">
+
+	<link rel="stylesheet" href="/static/public/assets/css/dosis.css">
+	<link rel="stylesheet" href="/static/public/assets/css/opensans.css">
+
   <script src="/static/public/assets/js/bundle.js"></script>
   <!-- Stylesheet-->
   <!--
@@ -35,9 +52,7 @@
   <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
   <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
   <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
-  
-  <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
-  <link rel="stylesheet" href="/static/public/assets/css/style.css">
+
   
 </head>
 
@@ -50,15 +65,15 @@
 
 
 {% block header %}
- <header class="header header-shrink header-inverse fixed-top">
+<header class="header header-shrink header-inverse fixed-top">
   <div class="container">
 		<nav class="navbar navbar-expand-lg px-md-0">
-			<a class="navbar-brand" href="/pub/">
+			<a class="navbar-brand" href="index.html">
 				<span class="logo-default">
-					<img src="/static/public/assets/img/logo-default.png" alt="">
+					<img src="assets/img/logo-default.png" alt="">
 				</span>
 				<span class="logo-inverse">
-					<img src="/static/public/assets/img/logo-inverse.png" alt="">
+					<img src="assets/img/logo-inverse.png" alt="">
 				</span>
 			</a>
 
@@ -70,98 +85,16 @@
 			<div class="collapse navbar-collapse" id="navbarNav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active">
-						<a class="nav-link" href="index.html">HOME</a>
+						<a class="nav-link" href="index.html">Разработчикам</a>
 					</li>
-{#					<li class="nav-item dropdown">#}
-{#						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							Demos<i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>#}
-{#						</a>#}
-{#						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">#}
-{#							<a class="dropdown-item" href="app.html">App</a>#}
-{#							<a class="dropdown-item" href="software.html">Software</a>#}
-{#							<a class="dropdown-item" href="seo.html">SEO</a>#}
-{#							<a class="dropdown-item" href="startup.html">Startup</a>#}
-{#							<a class="dropdown-item" href="product-launch.html">Product</a>#}
-{#							<a class="dropdown-item" href="event.html">Event</a>#}
-{#						</div>#}
-{#					</li>#}
-{#					<li class="nav-item dropdown">#}
-{#						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							headers <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>#}
-{#						</a>#}
-{#						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">#}
-{#							<a class="dropdown-item" href="header-gradient.html">Gradient</a>#}
-{#							<a class="dropdown-item" href="header-solid.html">Solid Color</a>#}
-{#							<a class="dropdown-item" href="header-parallax.html">parallax</a>#}
-{#							<a class="dropdown-item" href="header-typing.html">typing</a>#}
-{#							<a class="dropdown-item" href="header-background.html">background image</a>#}
-{#							<a class="dropdown-item" href="header-video.html">background video</a>#}
-{#						</div>#}
-{#					</li>#}
-{#					<li class="nav-item dropdown">#}
-{#						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							pages <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>#}
-{#						</a>#}
-{#						<div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">#}
-{#							<a class="dropdown-item" href="about.html">About</a>#}
-{#							<a class="dropdown-item" href="how-work.html">How It Work</a>#}
-{#							<a class="dropdown-item" href="portfolio.html">Portfolio</a>#}
-{#							<a class="dropdown-item" href="portfolio-details.html">Portfolio Details</a>#}
-{#							<a class="dropdown-item" href="blog.html">Blog</a>#}
-{#							<a class="dropdown-item" href="blog-details.html">Blog Details</a>#}
-{#							<a class="dropdown-item" href="pricing.html">Pricing Table</a>#}
-{#							<a class="dropdown-item" href="FAQ.html">FAQs</a>#}
-{#							<a class="dropdown-item" href="login.html">Login</a>#}
-{#							<a class="dropdown-item" href="sign-up.html">Register</a>#}
-{#							<a class="dropdown-item" href="coming-soon.html">Coming soon</a>#}
-{#							<a class="dropdown-item" href="contact.html">Contact</a>#}
-{#							<a class="dropdown-item" href="terms-and-privacy-policy.html">Terms & Privacy Policy</a>#}
-{#							<a class="dropdown-item" href="404.html">404</a>#}
-{#						</div>#}
-{#					</li>#}
-{##}
-{#					<li class="nav-item dropdown">#}
-{#						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							elements <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>#}
-{#						</a>#}
-{#						<div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">#}
-{#							<a class="dropdown-item" href="info-box.html">info box</a>#}
-{#							<a class="dropdown-item" href="testimonials.html">testimonial</a>#}
-{#							<a class="dropdown-item" href="pricing.html">pricing</a>#}
-{#							<a class="dropdown-item" href="gallery.html">gallery</a>#}
-{#							<a class="dropdown-item" href="team.html">team</a>#}
-{#							<a class="dropdown-item" href="clients.html">client</a>#}
-{#							<a class="dropdown-item" href="newsletter.html">subscribe</a>#}
-{#							<a class="dropdown-item" href="sign-up.html">signup</a>#}
-{#							<a class="dropdown-item" href="form.html">Form</a>#}
-{#							<a class="dropdown-item" href="footers.html">footer</a>#}
-{#							<a class="dropdown-item" href="map.html">google map</a>#}
-{#							<a class="dropdown-item" href="tabs.html">Tab</a>#}
-{#							<a class="dropdown-item" href="accordion.html">Accordion</a>#}
-{#							<a class="dropdown-item" href="progress-bars.html">Progressbar</a>#}
-{#							<a class="dropdown-item" href="call-to-action.html">Call to Action</a>#}
-{#							<a class="dropdown-item" href="countdown.html">Countdown</a>#}
-{#							<a class="dropdown-item" href="buttons.html">Button</a>#}
-{#							<a class="dropdown-item" href="list-style.html">List Style</a>#}
-{#							<a class="dropdown-item" href="feature.html">feature</a>#}
-{#							<a class="dropdown-item" href="carousel.html">Carousel</a>#}
-{#							<a class="dropdown-item" href="video.html">video</a>#}
-{#						</div>#}
-{#					</li>#}
-{#					<li class="nav-item dropdown">#}
-{#						<a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
-{#							Blog <i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>#}
-{#						</a>#}
-{#						<div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">#}
-{#							<a class="dropdown-item" href="blog.html">blog single</a>#}
-{#							<a class="dropdown-item" href="blog-grid.html">blog grid</a>#}
-{#							<a class="dropdown-item" href="blog-details.html">blog details</a>#}
-{#						</div>#}
-{#					</li>#}
-					<li class="nav-item dropdown">
-						<a class="nav-link" href="contact.html">
-							Contact
-						</a>
+					<li class="nav-item">
+						<a class="nav-link" href="index.html">Инвесторам</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="index.html">Проекты</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="login.html">Войти</a>
 					</li>
 				</ul>
 			</div>
@@ -172,12 +105,198 @@
 {% endblock %}
 
 
-{% block content %}{% endblock %}
-	          
+{% block content %}
+    <header class="header header-shrink header-inverse fixed-top">
+  <div class="container">
+		<nav class="navbar navbar-expand-lg px-md-0">
+			<a class="navbar-brand" href="index.html">
+				<span class="logo-default">
+					<img src="assets/img/logo-default.png" alt="">
+				</span>
+				<span class="logo-inverse">
+					<img src="assets/img/logo-inverse.png" alt="">
+				</span>
+			</a>
+
+			<div class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+				<span class="lnr lnr-text-align-right nav-hamburger"></span>
+				<span class="lnr lnr-cross nav-close"></span>
+			</div>
+
+			<div class="collapse navbar-collapse" id="navbarNav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active">
+						<a class="nav-link" href="index.html">Разработчикам</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="index.html">Инвесторам</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="index.html">Проекты</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="login.html">Войти</a>
+					</li>
+				</ul>
+			</div>
+
+		</nav>
+  </div> <!-- END container-->
+</header> <!-- END header -->
+
+
+
+
+
+
+
+
+	<section class="u-py-100 u-h-100vh u-flex-center" data-dark-overlay="6" style="background:url(assets/img/banner.jpg) no-repeat; background-size: cover; background-position: top center;">
+  <div class="container">
+
+    <div class="row">
+      <div class="col-12 u-mt-80 text-center">
+        <h1 class="display-4 u-fw-600 text-white u-mb-40">
+			OPENGIFT.IO
+        </h1>
+
+        <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+			Первая в мире онлайн-платформа<br>
+			для монетизации Open Source проектов
+        </p>
+        <a href="#" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+        	Зарегистрировать проект
+        </a>
+        <a href="" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3" data-scrollto="demo">
+        	Список проектов
+        </a>
+      </div> <!-- END col-lg-6-->
+    </div> <!-- END row-->
+
+    <div class="row mt-md-5">
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						600+
+					</h2>
+					<p>
+						Проектов
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						18 000+
+					</h2>
+					<p>
+						Разработчиков
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						100+
+					</h2>
+					<p>
+						Инвесторов
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    	<div class="col-md-6 col-lg-3 mt-5">
+				<div class="text-center border p-4 rounded text-white">
+					<h2 class="text-white u-fs-48">
+						50 000+
+					</h2>
+					<p>
+						Опенгифтеров
+					</p>
+				</div>
+    	</div> <!-- END col-md-6 col-lg-3 mt-5-->
+    </div> <!-- END row-->
+  </div> <!-- END container-->
+</section> <!-- END intro-hero-->
+
+
+
+<section class="waves-block">
+	<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-1"><title>Wave</title><defs></defs><path id="feel-the-wave" d=""/></svg>
+
+	<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-2"><title>Wave</title><defs></defs><path id="feel-the-wave-two" d=""/></svg>
+
+	<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave rotate wave-3"><title>Wave</title><defs></defs><path id="feel-the-wave-three" d=""/></svg>
+
+</section>
+
+
+
+
+
+
+
+
+<section class="u-py-100 relative quadro-relative" style="
+	background: #38c1d1;
+	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+	background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+	background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+ ">
+	<div class="quadro"></div>
+	<div class="container">
+		<div class="row text-center">
+			<div class="col-lg-12 mx-auto mt-5 text-white relative">
+
+				<h2 class="display-4 u-fw-600 text-white u-mb-40">
+					Push The <span class="text-yellow" data-type="Technology, Science, World"></span>
+					<span class="typed-curcor text-yellow">|</span>
+				</h2>
+				<p><img src="assets/img/map.png"></p>
+				<ul class="list-of-industries">
+					<li class="list-of-industries-1"><span><a href="">Генетика</a></span></li>
+					<li class="list-of-industries-2"><span><a href="">Игры</a></span></li>
+					<li class="list-of-industries-3"><span><a href="">Медицина</a></span></li>
+					<li class="list-of-industries-4"><span><a href="">Автопилоты</a></span></li>
+					<li class="list-of-industries-5"><span><a href="">Искусственный интеллект</a></span></li>
+					<li class="list-of-industries-6"><span><a href="">Интернет вещей</a></span></li>
+					<li class="list-of-industries-7"><span><a href="">Проблемы старения</a></span></li>
+					<li class="list-of-industries-8"><span><a href="">Обучение</a></span></li>
+				</ul>
+				<a href="#" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
+        	Зарегистрировать проект
+        </a>
+			</div> <!-- END col-md-6 mt-5-->
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+
+<section class="u-py-100 relative with-waves" id="demo">
+
+	<svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"><title>Wave</title><defs></defs><path id="feel-the-wave-four" d=""/></svg>
+	<div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h3 align="center" class="text-primary u-fs-48">
+					OpenGift помогает <span class="text-yellow" data-type="Web-разработчикам, Фотографам, Дизайнерам"></span>
+					<span class="typed-curcor text-yellow">|</span> зарабатывать больше
+				</h3>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+				<p>
+					A great collection of beautiful landing page templates for your need. <br> Choose the best suitable landing pages and start customizing it.
+				</p>
+			</div>
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+{% endblock %}
 <footer>
+
 	<div class="container text-center p-4">
 		<p class="mb-0">
-			Made with <span class="icon icon-Heart text-primary mx-2"></span> love for you.
+			OpenGift <span class="icon icon-Heart text-primary mx-2"></span> 2017.
 		</p>
 	</div>
 </footer>        
