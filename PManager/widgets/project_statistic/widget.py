@@ -138,7 +138,7 @@ class TaskCommitsChart(Chart):
         import random
 
         self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
-                             xrange((self.dateTo - self.dateFrom).days)]
+                             xrange((self.dateTo - self.dateFrom).months)]
 
         self.xAxe = []
         r = lambda: random.randint(0, 255)
@@ -444,6 +444,8 @@ def widget(request, headerValues, a, b):
 
     charts = []
     if 'getAllCharts' in headerValues:
+        filt['dateFrom'] = now - datetime.timedelta(months=12)
+        filt['dateTo'] = now
         for chartName in ['TaskCommitsChart', 'TimeChart', 'BurnDown', 'Velocity']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
             charts.append(chart)
