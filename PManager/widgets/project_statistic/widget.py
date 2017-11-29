@@ -150,14 +150,14 @@ class TaskCommitsChart(Chart):
         for day in self.dayGenerator:
 
             messagesQty = PM_Task_Message.objects.filter(
-                dateCreate__range=(datetime.datetime.combine(day, datetime.time.min),
-                                datetime.datetime.combine(day + datetime.timedelta(month=1), datetime.time.max)),
+                dateCreate__range=(datetime.datetime.combine(day - datetime.timedelta(month=1), datetime.time.min),
+                                datetime.datetime.combine(day , datetime.time.max)),
                 task__project__in=self.projects,
                 commit__isnull=False
             ).count()
 
             tasksQty = PM_Task.objects.filter(
-                dateClose__range=(datetime.datetime.combine(day, datetime.time.min),
+                dateClose__range=(datetime.datetime.combine(day- datetime.timedelta(month=1), datetime.time.min),
                                 datetime.datetime.combine(day, datetime.time.max)),
                 project__in=self.projects
             ).count()
