@@ -13,7 +13,7 @@ from PManager.classes.language.translit import transliterate
 from tracker.settings import USE_GIT_MODULE, COMISSION
 from PManager.viewsExt.headers import set_project_in_session
 from PManager.classes.git.gitolite_manager import GitoliteManager
-import json, math
+import json, math, random
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -48,7 +48,7 @@ def projectDetailPublic(request, project_id):
     }
 
     for day in dayGenerator:
-        yAxes[u'Задачи'].append(math.random(1,15))
+        yAxes[u'Задачи'].append(random.randint(1,27))
         xAxe.append(day)
 
     c = RequestContext(request, {
