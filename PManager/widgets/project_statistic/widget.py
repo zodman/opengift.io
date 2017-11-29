@@ -137,7 +137,7 @@ class TaskCommitsChart(Chart):
     def getData(self):
         import random
 
-        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 30) for x in
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x*30 + 1) for x in
                              xrange((self.dateTo - self.dateFrom).days/30)]
 
         self.xAxe = []
