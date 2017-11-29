@@ -48,7 +48,7 @@ def projectDetailPublic(request, project_id):
     }
 
     for day in dayGenerator:
-        yAxes[u'Задачи'].append(random.randint(1,27))
+        yAxes[u'Задачи'].append(math.random.randint(1,27))
         xAxe.append(day)
 
     c = RequestContext(request, {
