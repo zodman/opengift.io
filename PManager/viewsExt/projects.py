@@ -44,7 +44,10 @@ def projectDetailPublic(request, project_id):
 
     xAxe = []
     yAxes = {
-        u'Задачи': []
+        u'Задачи': {
+            'color': '#cecece',
+            'values': []
+        }
     }
 
     for day in dayGenerator:
