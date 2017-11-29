@@ -182,7 +182,7 @@ class ViewDownloadChart(Chart):
         r = lambda: random.randint(0, 255)
         self.yAxes = {
             u'Просмотры': Axis(u'Просмотры', '#%02X%02X%02X' % (r(), r(), r())),
-            u'Скачивания': Axis(u'Скачивания', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Скачивания': Axis(u'Скачивания', '#%02X%02X%02X' % (r(), r(), r())),
             u'Подписчики': Axis(u'Подписчики', '#%02X%02X%02X' % (r(), r(), r()))
         }
 
