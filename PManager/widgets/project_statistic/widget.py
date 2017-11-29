@@ -436,7 +436,7 @@ def widget(request, headerValues, a, b):
 
     charts = []
     if 'getAllCharts' in headerValues:
-        for chartName in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity']:
+        for chartName in ['TaskCommitsChart', 'TimeChart', 'BurnDown', 'Velocity']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
             charts.append(chart)
     else:
