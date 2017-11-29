@@ -106,6 +106,7 @@
     </section>
     <script type="application/javascript"
             src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.1/Chart.bundle.min.js"></script>
+    <section class="u-py-100">
     <div class="container">
     <div class="row">
      <div class="col-lg-6 m-auto text-center">
@@ -161,6 +162,7 @@
             }
         });
     </script>
+    </section>
     <script>
         var getProjectState = function (p, call) {
             $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
