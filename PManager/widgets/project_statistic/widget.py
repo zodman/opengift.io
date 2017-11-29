@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Credit, PM_Timer, PM_Milestone, PM_Task, PM_MilestoneChanges
+from PManager.models import Credit, PM_Timer, PM_Milestone, PM_Task, PM_Task_Message, PM_MilestoneChanges
 from django.db import connection
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -129,6 +129,35 @@ class BurnDown(Chart):
             self.type = 'simple'
             self.value_desc = 'Нет доступных целей для графика'
 
+class TaskCommitsChart(Chart):
+    title = u'Производство'
+    type = 'chart'
+    payQuery = ''
+
+    def getData(self):
+        import random
+
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
+                             xrange((self.dateTo - self.dateFrom).days)]
+
+        self.xAxe = []
+        r = lambda: random.randint(0, 255)
+        self.yAxes = {
+            u'Коммиты': Axis(u'Коммиты', '#%02X%02X%02X' % (r(), r(), r()))
+        }
+
+        for day in self.dayGenerator:
+
+            messagesQty = PM_Task_Message.objects.filter(
+                dateCreate__range=(datetime.datetime.combine(day, datetime.time.min),
+                                datetime.datetime.combine(day, datetime.time.max)),
+                task__project__in=self.projects,
+                commit__isnull=False
+            ).count()
+
+            self.yAxes[u'Коммиты'].values.append(messagesQty or 0)
+
+            self.xAxe.append(day)
 
 class PaymentChart(Chart):
     title = u'Потраченное время'
@@ -402,7 +431,7 @@ def widget(request, headerValues, a, b):
         projects = projects.filter(id__in=filt['projects'])
 
     chartName = request.GET['chart'] if 'chart' in request.GET else 'timeChart'
-    if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity']:
+    if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity', 'TaskCommitsChart']:
         chartName = 'TimeChart'
 
     charts = []
