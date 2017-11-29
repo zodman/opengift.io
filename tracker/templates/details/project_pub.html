@@ -24,7 +24,7 @@
         <a href="#" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
         	Демо
         </a>
-        <a href="" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3" data-scrollto="demo">
+        <a href="" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3 js-donate" data-scrollto="demo">
         	Помочь проекту
         </a>
       </div> <!-- END col-lg-6-->
@@ -74,21 +74,6 @@
     </div> <!-- END row-->
   </div> <!-- END container-->
 </section> <!-- END intro-hero-->
-
-    <header class="major">
-        <h1>{{ project.name }}<sup style="background-color: #0D82B8"><small>AI</small></sup>&nbsp;<sup style="background-color: #0cb628"><small>PMI</small></sup></h1>
-        <p>
-            {{ project.description }}
-        </p>
-        <p>
-            <a class="button fit">Демо</a> <a class="button fit">Помочь проекту</a>
-        </p>
-    </header>
-<div class="widget">
-<div class="project-info-area clearfix">
-
-</div>
-</div>
 <script>
     var getProjectState = function(p, call) {
         $.post('/blockchain/ajax/', {'action':'getProjectStatus', 'pName': p}, function(data) {
@@ -98,7 +83,7 @@
     };
     $(function() {
         getProjectState('{{ project.name }}', function() {
-            $('.js-donate-cont').append('<input type="button" class="btn btn-success" value="Donate" />');
+            $('.js-donate').show();
         });
     })
 </script>
