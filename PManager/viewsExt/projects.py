@@ -22,10 +22,13 @@ class InterfaceForm(forms.ModelForm):
 
 def projectDetailPublic(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
-    profile = request.user.get_profile()
-    canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
-    canEditProject = request.user.is_superuser or request.user.id == project.author.id
-    bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+    canDeleteProject, canEditProject, bCurUserIsAuthor = False, False, False
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
+        canEditProject = request.user.is_superuser or request.user.id == project.author.id
+        bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+
     projectSettings = project.getSettings()
 
     c = RequestContext(request, {
