@@ -121,7 +121,7 @@
                     <div class="card border-0 box-shadow-v1 u-h-100p">
                         <div class="u-p-30">
                             <h4>{{ chart.title }}</h4>
-                            <canvas id="myChart" width="400" height="400"></canvas>
+                            <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
                         </div>
                     </div>
                 </div>
@@ -131,7 +131,8 @@
 
         <script>
         $(function() {
-            var ctx = document.getElementById("myChart").getContext('2d');
+            {% for chart in statistic.charts %}
+            var ctx = document.getElementById("chart_{{ forloop.counter }}").getContext('2d');
             var mixedChart = new Chart(ctx, {
                 type: 'bar',
 
@@ -141,8 +142,8 @@
                         {% for y, axis in chart.yAxes.iteritems %}
                             {
                                 label: "{{ axis.title }}",
-                                {#pointColor: "{{ axis.color }}",#}
-                                {#borderColor: "{{ axis.color }}",#}
+                                backgroundColor: "{{ axis.color }}",
+                                borderColor: "{{ axis.color }}",
                                 data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
                                 {% if forloop.last %},type: 'line'{% endif %}
                             }{% if not forloop.last %},{% endif %}
@@ -159,6 +160,7 @@
                     }
                 }
             });
+            {% endfor %}
         });
         </script>
     </section>
