@@ -48,11 +48,17 @@ def projectDetailPublic(request, project_id):
             'title': u'Задачи',
             'color': '#cecece',
             'values': []
+        },
+        u'Коммиты': {
+            'title': u'Коммиты',
+            'color': '#ef4f30',
+            'values': []
         }
     }
 
     for day in dayGenerator:
         yAxes[u'Задачи']['values'].append(random.randint(1,27))
+        yAxes[u'Коммиты']['values'].append(random.randint(1, 27))
         xAxe.append(day)
 
     c = RequestContext(request, {
