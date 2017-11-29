@@ -45,6 +45,7 @@ def projectDetailPublic(request, project_id):
     xAxe = []
     yAxes = {
         u'Задачи': {
+            'title': u'Задачи',
             'color': '#cecece',
             'values': []
         }
