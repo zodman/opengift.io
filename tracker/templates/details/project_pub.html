@@ -121,18 +121,20 @@
 var ctx = document.getElementById("myChart").getContext('2d');
 var mixedChart = new Chart(ctx, {
   type: 'bar',
-  data: {
-    datasets: [{
-          label: 'Задачи',
-          data: [10, 20, 30, 40]
-        }, {
-          label: 'Коммиты',
-          data: [20, 30, 40, 50],
 
-          // Changes this dataset to become a line
-          type: 'line'
-        }],
-    labels: ['Январь', 'Февраль', 'Март', 'апрель']
+  data: {
+    labels: [{% for event in chart.xAxe %}'{{ event.date|date:"d.m" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+    datasets: [
+        {% for y, axis in chart.yAxes.iteritems %}
+            {
+                label: "{{ axis.title }}",
+                pointColor: "{{ axis.color }}",
+                strokeColor: "{{ axis.color }}",
+                data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+                {% if forloop.last %},type: 'line'{% endif %}
+            }{% if not forloop.last %},{% endif %}
+        {% endfor %}
+    ]
   },
   options: {
         scales: {

@@ -21,6 +21,7 @@ class InterfaceForm(forms.ModelForm):
                   "username", "password", "access_roles", "project"]
 
 def projectDetailPublic(request, project_id):
+    import datetime
     project = get_object_or_404(PM_Project, id=project_id)
     canDeleteProject, canEditProject, bCurUserIsAuthor = False, False, False
     if request.user.is_authenticated():
@@ -30,8 +31,31 @@ def projectDetailPublic(request, project_id):
         bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
 
     projectSettings = project.getSettings()
+    daysBeforeNowForStartFilt = 7
+    now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
+
+    dateFrom = now - datetime.timedelta(days=daysBeforeNowForStartFilt)
+
+    dateTo = now
+        
+    dayGenerator = [dateFrom + datetime.timedelta(x + 1) for x in
+                         xrange((dateTo - dateFrom).days)]
+
+    xAxe = []
+    yAxes = {
+    }
+
+    for day in dayGenerator:
+        aSums[day] = {}
+
+        yAxes[u'Задачи'].values.append(math.random(1,15))
+        xAxe.append(day)
 
     c = RequestContext(request, {
+        'chart': {
+            'xAxe': xAxe,
+            'yAxes': yAxes,
+        },
         'project': project,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
