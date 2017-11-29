@@ -44,13 +44,11 @@ def projectDetailPublic(request, project_id):
 
     xAxe = []
     yAxes = {
-        u'Задачи': {
-            'values':[]
-        }
+        u'Задачи': []
     }
 
     for day in dayGenerator:
-        yAxes[u'Задачи'].values.append(math.random(1,15))
+        yAxes[u'Задачи'].append(math.random(1,15))
         xAxe.append(day)
 
     c = RequestContext(request, {
