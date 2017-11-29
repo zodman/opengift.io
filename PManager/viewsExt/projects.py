@@ -46,12 +46,12 @@ def projectDetailPublic(request, project_id):
     yAxes = {
         u'Задачи': {
             'title': u'Задачи',
-            'color': '#cecece',
+            'color': 'rgba(54, 162, 235, 1)',
             'values': []
         },
         u'Коммиты': {
             'title': u'Коммиты',
-            'color': '#ef4f30',
+            'color': 'rgba(255,99,132,1)',
             'values': []
         }
     }

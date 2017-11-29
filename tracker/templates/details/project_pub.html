@@ -129,7 +129,7 @@ var mixedChart = new Chart(ctx, {
             {
                 label: "{{ axis.title }}",
                 {#pointColor: "{{ axis.color }}",#}
-                strokeColor: "{{ axis.color }}",
+                {#borderColor: "{{ axis.color }}",#}
                 data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
                 {% if forloop.last %},type: 'line'{% endif %}
             }{% if not forloop.last %},{% endif %}
