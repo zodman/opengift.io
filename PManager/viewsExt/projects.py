@@ -63,7 +63,7 @@ def projectDetailPublic(request, project_id):
         yAxes[u'Коммиты']['values'].append(random.randint(1, 27))
         xAxe.append(day)
 
-    statistic = widget(request, {'getAllCharts'}, None, None)
+    statistic = widget(request, {'getAllCharts': 1, 'CURRENT_PROJECT': project}, None, None)
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
