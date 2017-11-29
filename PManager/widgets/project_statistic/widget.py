@@ -167,6 +167,32 @@ class TaskCommitsChart(Chart):
 
             self.xAxe.append(day)
 
+class ViewDownloadChart(Chart):
+    title = u'Интерес'
+    type = 'chart'
+    payQuery = ''
+
+    def getData(self):
+        import random
+
+        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
+                             xrange((self.dateTo - self.dateFrom).days/30)]
+
+        self.xAxe = []
+        r = lambda: random.randint(0, 255)
+        self.yAxes = {
+            u'Просмотры': Axis(u'Просмотры', '#%02X%02X%02X' % (r(), r(), r())),
+            u'Скачивания': Axis(u'Скачивания', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Подписчики': Axis(u'Подписчики', '#%02X%02X%02X' % (r(), r(), r()))
+        }
+
+        for day in self.dayGenerator:
+            self.yAxes[u'Коммиты'].values.append(random.randint(1, 500))
+            self.yAxes[u'Скачивания'].values.append(random.randint(1, 500))
+            self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
+
+            self.xAxe.append(day)
+
 class PaymentChart(Chart):
     title = u'Потраченное время'
     type = 'chart'
@@ -446,7 +472,7 @@ def widget(request, headerValues, a, b):
     if 'getAllCharts' in headerValues:
         filt['dateFrom'] = now - datetime.timedelta(days=365)
         filt['dateTo'] = now
-        for chartName in ['TaskCommitsChart']:
+        for chartName in ['TaskCommitsChart', 'ViewDownloadChart']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
             charts.append(chart)
     else:
