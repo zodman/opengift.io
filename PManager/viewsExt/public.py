@@ -3,6 +3,7 @@ from django.shortcuts import HttpResponse
 from PManager.models import PM_User
 from django.template import loader, RequestContext
 class Public:
+    @staticmethod
     def mainPage(request):
         c = RequestContext(request, {
 
