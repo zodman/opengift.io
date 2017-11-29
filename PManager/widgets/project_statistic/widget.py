@@ -444,7 +444,7 @@ def widget(request, headerValues, a, b):
 
     charts = []
     if 'getAllCharts' in headerValues:
-        filt['dateFrom'] = now - datetime.timedelta(months=12)
+        filt['dateFrom'] = now - datetime.timedelta(days=365)
         filt['dateTo'] = now
         for chartName in ['TaskCommitsChart', 'TimeChart', 'BurnDown', 'Velocity']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
