@@ -152,16 +152,18 @@
 		},
 		
 			typingText: function(){
-				if($('[data-type]').data('type') === undefined){
-					return false;
-				} 
-				var typedTxt = $('[data-type]').data('type').split(',');
-				var typed = new Typed('[data-type]', {
-					strings: typedTxt,
-					typeSpeed: 80,
-					loop:true,
-					backSpeed: 80,
-					showCursor:false
+				$('[data-type]').each(function() {
+					if($(this).data('type') === undefined){
+						return false;
+					}
+					var typedTxt = $(this).data('type').split(',');
+					var typed = new Typed(this, {
+						strings: typedTxt,
+						typeSpeed: 80,
+						loop:true,
+						backSpeed: 80,
+						showCursor:false
+					});
 				});
 			},
 
