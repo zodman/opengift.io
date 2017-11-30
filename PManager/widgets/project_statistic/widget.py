@@ -239,7 +239,7 @@ class DonationsChart(Chart):
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Ошибки'].values.append(random.randint(1, 200))
+            self.yAxes[u'Донейты'].values.append(random.randint(1, 200))
 
             self.xAxe.append(day)
 
