@@ -157,7 +157,7 @@
                                             {{ user.get_profile.specialty.name }}
                                         </p>
                                         <p class="my-4">
-                                            {% for spec in user.get_profile.specialties %}{{ spec.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
+                                            {% for spec in user.get_profile.specialties.items %}{{ spec.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
         {#                                    Nam liber tempor cum soluta nobis eleifend option congue is nihil they imper.#}
                                         </p>
                                         <ul class="list-inline social social-rounded social-default social-sm">
