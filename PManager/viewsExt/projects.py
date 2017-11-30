@@ -9,6 +9,7 @@ from PManager.models import PM_Project_Achievement, PM_ProjectRoles
 from PManager.models import AccessInterface, Credit
 from django import forms
 from django.utils import timezone
+from django.contrib.auth.models import User
 from PManager.classes.language.translit import transliterate
 from tracker.settings import USE_GIT_MODULE, COMISSION
 from PManager.viewsExt.headers import set_project_in_session
