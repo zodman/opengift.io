@@ -12,6 +12,7 @@ from django.utils import timezone
 from PManager.classes.language.translit import transliterate
 from tracker.settings import USE_GIT_MODULE, COMISSION
 from PManager.viewsExt.headers import set_project_in_session
+from django.contrib.contenttypes.models import ContentType
 from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
 
