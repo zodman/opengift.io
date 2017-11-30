@@ -142,7 +142,7 @@
 
                 <div class="row align-items-center">
 
-                    {% for user in project.getUsers %}
+                    {% for user in team %}
                         {% if user.get_profile.avatarSrc %}
                             <div class="col-md-4 text-center mt-4">
                                 <div class="p-5 mb-4 rounded bg-white text-center box-shadow-v3 u-h-100p">
@@ -151,7 +151,7 @@
                                         {{ user.first_name }} {{ user.last_name }}
                                     </h4>
                                     <p class="text-muted">
-                                        {{ user.get_profile.rating|floatformat }}
+                                        {{ user.rating|floatformat }}
                                     </p>
 
                                     <p>

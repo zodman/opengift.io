@@ -64,6 +64,22 @@ def projectDetailPublic(request, project_id):
         xAxe.append(day)
 
     statistic = stat_widget(request, {'getAllCharts': 1, 'CURRENT_PROJECT': project}, None, None)
+
+    team = []
+
+    for user in project.getUsers():
+        taskTagCoefficient = 0
+        for obj1 in ObjectTags.objects.raw(
+                'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
+                    user.id) + ' AND content_type_id=' + str(
+                    ContentType.objects.get_for_model(User).id) + ''):
+
+            taskTagCoefficient += (obj1.weight_sum or 0)
+            break
+
+        setattr(user, 'rating', taskTagCoefficient)
+        team.append(user)
+
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
@@ -71,6 +87,7 @@ def projectDetailPublic(request, project_id):
         },
         'statistic': statistic,
         'project': project,
+        'team': team,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
