@@ -193,6 +193,56 @@ class ViewDownloadChart(Chart):
 
             self.xAxe.append(day)
 
+class BugsChart(Chart):
+    title = u'Ошибки'
+    type = 'chart'
+    payQuery = ''
+
+    def getData(self):
+        import random
+
+        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
+                             xrange((self.dateTo - self.dateFrom).days/30)]
+
+        self.xAxe = []
+        r = lambda: random.randint(0, 255)
+        self.yAxes = {
+            u'Ошибки': Axis(u'Ошибки', '#%02X%02X%02X' % (r(), r(), r()))
+        }
+
+        for day in self.dayGenerator:
+            messagesQty = PM_Task_Message.objects.filter(
+                dateCreate__range=(datetime.datetime.combine(day - datetime.timedelta(days=30), datetime.time.min),
+                                   datetime.datetime.combine(day, datetime.time.max)),
+                task__project__in=self.projects,
+                bug__isnull=False
+            ).count()
+            self.yAxes[u'Ошибки'].values.append(messagesQty)
+
+            self.xAxe.append(day)
+
+class DonationsChart(Chart):
+    title = u'Донейты'
+    type = 'chart'
+    payQuery = ''
+
+    def getData(self):
+        import random
+
+        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
+                             xrange((self.dateTo - self.dateFrom).days/30)]
+
+        self.xAxe = []
+        r = lambda: random.randint(0, 255)
+        self.yAxes = {
+            u'Донейты': Axis(u'Донейты', '#%02X%02X%02X' % (r(), r(), r()))
+        }
+
+        for day in self.dayGenerator:
+            self.yAxes[u'Ошибки'].values.append(random.randint(1, 200))
+
+            self.xAxe.append(day)
+
 class PaymentChart(Chart):
     title = u'Потраченное время'
     type = 'chart'
@@ -476,7 +526,7 @@ def widget(request, headerValues, a, b):
     if 'getAllCharts' in headerValues:
         filt['dateFrom'] = now - datetime.timedelta(days=365)
         filt['dateTo'] = now
-        for chartName in ['TaskCommitsChart', 'ViewDownloadChart']:
+        for chartName in ['TaskCommitsChart', 'ViewDownloadChart', 'BugsChart', 'DonationsChart']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
             charts.append(chart)
     else:
