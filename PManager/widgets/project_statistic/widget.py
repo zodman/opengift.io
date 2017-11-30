@@ -181,9 +181,9 @@ class ViewDownloadChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Просмотры': Axis(u'Просмотры', '#%02X%02X%02X' % (r(), r(), r())),
-            u'Скачивания': Axis(u'Скачивания', '#%02X%02X%02X' % (r(), r(), r())),
-            u'Подписчики': Axis(u'Подписчики', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Просмотры': Axis(u'Просмотры', 'rbga(138, 85, 96, 1)'),
+            u'Скачивания': Axis(u'Скачивания', 'rbga(236, 97, 183, 1)'),
+            u'Подписчики': Axis(u'Подписчики', 'rbga(56, 195, 209, 1)')
         }
 
         for day in self.dayGenerator:
@@ -207,7 +207,7 @@ class BugsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Ошибки': Axis(u'Ошибки', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Ошибки': Axis(u'Ошибки', 'rbga(99, 137, 228, 1)')
         }
 
         for day in self.dayGenerator:
@@ -235,7 +235,7 @@ class DonationsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Донейты': Axis(u'Донейты', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Донейты': Axis(u'Донейты', 'rbga(94, 186, 150, 1)')
         }
 
         for day in self.dayGenerator:
