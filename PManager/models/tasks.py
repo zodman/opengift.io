@@ -110,7 +110,6 @@ class PM_Project(models.Model):
     author = models.ForeignKey(User, related_name='createdProjects')
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Изображение')
-    files = models.ManyToManyField(PM_Files, related_name="projects", null=True, blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')
