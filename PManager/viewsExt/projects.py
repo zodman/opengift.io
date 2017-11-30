@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration
+from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
 from PManager.models import PM_Project_Achievement, PM_ProjectRoles
 from PManager.models import AccessInterface, Credit
 from django import forms
