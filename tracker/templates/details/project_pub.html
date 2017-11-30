@@ -151,7 +151,7 @@
                                         {{ user.first_name }} {{ user.last_name }}
                                     </h4>
                                     <p class="text-muted">
-                                        {{ user.get_profile.rating }}
+                                        {{ user.get_profile.rating|floatformat }}
                                     </p>
 
                                     <p>
