@@ -40,13 +40,13 @@
                     <ul class="p-0" data-init="carousel"
                         data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
                         <li>
-                            <img class="box-shadow-v1" src="{{ project.imagePath }}" alt="">
+                            <img class="box-shadow-v1" src="{{ project.imagePath }}" alt="" />
                         </li>
                         <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="" />
                         </li>
                         <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="">
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="" />
                         </li>
                     </ul>
                 </div> <!-- END col-lg-6-->
@@ -208,8 +208,9 @@
                                 var data = chart.data;
                                 var datasets = data.datasets;
                                 var labels = data.labels;
-                                if (datasets[0].data.length == 1) return '';
+
                                 if (datasets.length) {
+                                    if (datasets[0].data.length == 1) return '';
                                     for (var i = 0; i < datasets[0].data.length; ++i) {
                                         text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
                                         if (labels[i]) {

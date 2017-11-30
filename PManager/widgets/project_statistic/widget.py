@@ -510,10 +510,13 @@ def widget(request, headerValues, a, b):
 
     if request.user.is_authenticated():
         projects = request.user.get_profile().managedProjects
-        if filt['projects']:
-            projects = projects.filter(id__in=filt['projects'])
+
     elif 'getAllCharts' not in headerValues:
         return {}
+
+
+    if filt['projects']:
+        projects = projects.filter(id__in=filt['projects'])
 
 
     chartName = request.GET['chart'] if 'chart' in request.GET else 'timeChart'
