@@ -137,6 +137,7 @@
                 type: 'bar',
 
                 data: {
+                    barPercentage: .5,
                     labels: [{% for event in chart.xAxe %}'{{ event.date|date:"m.Y" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
                     datasets: [
                         {% for y, axis in chart.yAxes.iteritems %}
@@ -151,7 +152,7 @@
                     ]
                 },
                 options: {
-                    barThickness: 3,
+                    barPercentage: .5,
                     scales: {
                         yAxes: [{
                             ticks: {
