@@ -97,7 +97,7 @@ class PM_Tracker(models.Model):
 
 class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
-    parent_id = models.ForeignKey(PM_Project_Industry, related_name='createdProjects')
+    parent_id = models.IntegerField(null=True, blank=True)
 
 
 class PM_Project(models.Model):
