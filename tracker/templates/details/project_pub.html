@@ -144,38 +144,34 @@
 
                     {% for user in project.getUsers %}
                         {% if user.get_profile.avatarSrc %}
-                            <div class="col-lg-6">
-                                <div class="row">
-                                    <div class="col-md-6 my-4">
-                                        <img class="w-100 rounded box-shadow-v1" src="{{ user.get_profile.avatarSrc }}" alt="">
-                                    </div>
-                                    <div class="col-md-6 my-4">
-                                        <h4 class="mb-0">
-                                            {{ user.first_name }} {{ user.last_name }}
-                                        </h4>
-                                        <p class="text-muted mb-0">
-                                            {{ user.get_profile.specialty.name }}
-                                        </p>
-                                        <p class="my-4">
-                                            {% for spec in user.get_profile.specialties.all %}{{ spec.name }}{% if not forloop.last %}, {% endif %}{% endfor %}
-        {#                                    Nam liber tempor cum soluta nobis eleifend option congue is nihil they imper.#}
-                                        </p>
-                                        <ul class="list-inline social social-rounded social-default social-sm">
-                                            <li class="list-inline-item">
-                                                <a href=""><i class="fa fa-facebook"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href=""><i class="fa fa-twitter"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href=""><i class="fa fa-google-plus"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href=""><i class="fa fa-linkedin"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div> <!-- END row-->
+                            <div class="col-md-4 text-center mt-4">
+                                <div class="p-5 mb-4 rounded bg-white text-center box-shadow-v3 u-h-100p">
+                                    <img class="rounded-circle u-w-80 mx-auto u-mt-40 u-mb-20" src="{{ user.get_profile.avatarSrc }}" alt="">
+                                    <h4 class="u-mb-5">
+                                        {{ user.first_name }} {{ user.last_name }}
+                                    </h4>
+                                    <p class="text-muted">
+                                        {{ user.get_profile.rating }}
+                                    </p>
+
+                                    <p>
+                                        {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                    </p>
+                                    <ul class="list-inline social social-rounded social-default social-sm mt-4">
+                                        <li class="list-inline-item">
+                                            <a href=""><i class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href=""><i class="fa fa-twitter"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href=""><i class="fa fa-google-plus"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href=""><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div> <!-- END col-lg-6-->
                         {% endif %}
                     {% endfor %}
