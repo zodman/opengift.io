@@ -135,7 +135,7 @@
             var ctx = document.getElementById("chart_{{ forloop.counter }}").getContext('2d');
             var mixedChart = new Chart(ctx, {
                 type: 'bar',
-
+                maxBarThickness: '3px',
                 data: {
                     labels: [{% for event in chart.xAxe %}'{{ event.date|date:"m.Y" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
                     datasets: [
