@@ -460,9 +460,13 @@ def widget(request, headerValues, a, b):
         if headerValues['CURRENT_PROJECT']:
             filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
-    projects = request.user.get_profile().managedProjects
-    if filt['projects']:
-        projects = projects.filter(id__in=filt['projects'])
+    if request.user.is_authenticated():
+        projects = request.user.get_profile().managedProjects
+        if filt['projects']:
+            projects = projects.filter(id__in=filt['projects'])
+    elif 'getAllCharts' not in headerValues:
+        return {}
+
 
     chartName = request.GET['chart'] if 'chart' in request.GET else 'timeChart'
     if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity', 'TaskCommitsChart']:
