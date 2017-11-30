@@ -524,6 +524,7 @@ def widget(request, headerValues, a, b):
 
     charts = []
     if 'getAllCharts' in headerValues:
+        now = now - datetime.timedelta(days=365)
         filt['dateFrom'] = now - datetime.timedelta(days=365)
         filt['dateTo'] = now
         for chartName in ['TaskCommitsChart', 'ViewDownloadChart', 'BugsChart', 'DonationsChart']:
