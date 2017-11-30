@@ -208,7 +208,7 @@
                                 var data = chart.data;
                                 var datasets = data.datasets;
                                 var labels = data.labels;
-                                if (datasets.length == 1) return '';
+                                if (datasets[0].data.length == 1) return '';
                                 if (datasets.length) {
                                     for (var i = 0; i < datasets[0].data.length; ++i) {
                                         text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
