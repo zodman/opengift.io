@@ -240,6 +240,7 @@ function dashboard(id, fData) {
     }
     var barChartData = {
 		labels : labels,
+        responsive: true,
 		datasets : [
 			{
 				fillColor : "rgba(220,220,220,0.5)",
@@ -267,9 +268,7 @@ function dashboard(id, fData) {
 	};
 
     var ctx = $(id).get(0).getContext("2d");
-    window.myBar = new Chart(ctx).Bar(barChartData, {
-        responsive : true
-    });
+    window.myBar = Chart.Bar(ctx, barChartData);
 
 }
 
