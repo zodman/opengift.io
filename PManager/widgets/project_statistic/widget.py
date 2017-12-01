@@ -181,7 +181,7 @@ class ViewDownloadChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Скачивания': Axis(u'Просмотры', 'rgba(236,97,183,1)'),
+            u'Скачивания': Axis(u'Скачивания', 'rgba(236,97,183,1)'),
             u'Подписчики': Axis(u'Подписчики', 'rgba(56,195,209,1)')
         }
 

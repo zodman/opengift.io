@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
-from PManager.models import PM_Project_Achievement, PM_ProjectRoles
+from PManager.models import PM_Project_Achievement, PM_ProjectRoles, PM_Milestone
 from PManager.models import AccessInterface, Credit
 from django import forms
 from django.utils import timezone
@@ -22,6 +22,14 @@ class InterfaceForm(forms.ModelForm):
         model = AccessInterface
         fields = ["name", "address", "port", "protocol",
                   "username", "password", "access_roles", "project"]
+
+def projectDetailEdit(request, project_id):
+    c = RequestContext(request, {
+
+    })
+
+    t = loader.get_template('details/project_edit.html')
+    return HttpResponse(t.render(c))
 
 def projectDetailPublic(request, project_id):
     import datetime
@@ -82,6 +90,8 @@ def projectDetailPublic(request, project_id):
         setattr(user, 'rating', taskTagCoefficient)
         team.append(user)
 
+    ms = PM_Milestone.objects.filter(project=project).order_by('date')
+
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
@@ -89,6 +99,7 @@ def projectDetailPublic(request, project_id):
         },
         'statistic': statistic,
         'project': project,
+        'milestones':ms,
         'team': team,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,

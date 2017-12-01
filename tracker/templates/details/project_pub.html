@@ -26,6 +26,7 @@
                         <sup class="small-text-label btn-green btn btn-sm btn-rounded">PMI</sup>
                         <sup class="small-text-label btn-white btn btn-sm btn-rounded">ERP</sup>
                     </h1>
+
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
                         {{ project.description }}
                     </p>
@@ -40,13 +41,13 @@
                     <ul class="p-0" data-init="carousel"
                         data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
                         <li>
-                            <img class="box-shadow-v1" src="{{ project.imagePath }}" alt="" />
+                            <img class="box-shadow-v1" src="{{ project.imagePath }}" alt=""/>
                         </li>
                         <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="" />
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt=""/>
                         </li>
                         <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt="" />
+                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt=""/>
                         </li>
                     </ul>
                 </div> <!-- END col-lg-6-->
@@ -62,6 +63,7 @@
                         <h4 class="mb-0 u-fs-36 u-fw-400">
                             10M
                         </h4>
+
                         <p class="u-fs-20">
                             Скачиваний
                         </p>
@@ -73,6 +75,7 @@
                         <h4 class="mb-0 u-fs-36 u-fw-400">
                             5000+
                         </h4>
+
                         <p class="u-fs-20">
                             Оценок
                         </p>
@@ -84,6 +87,7 @@
                         <h4 class="mb-0 u-fs-36 u-fw-400">
                             265k
                         </h4>
+
                         <p class="u-fs-20">
                             Подписчиков
                         </p>
@@ -95,6 +99,7 @@
                         <h4 class="mb-0 u-fs-36 u-fw-400">
                             128k
                         </h4>
+
                         <p class="u-fs-20">
                             Донейтов
                         </p>
@@ -105,13 +110,14 @@
         </div> <!-- END container-->
     </section>
 
-    <section class="u-py-100">
+    <section class="u-py-100" style="padding-bottom: 0 !important;">
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 m-auto text-center">
                     <h2 class="h1">
                         Метрики проекта
                     </h2>
+
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
                 </div>
             </div>
@@ -136,6 +142,7 @@
                         <h2 class="h1">
                             Команда проекта
                         </h2>
+
                         <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                     </div> <!-- END col-12-->
                 </div> <!-- END row-->
@@ -146,16 +153,20 @@
                         {% if user.get_profile.avatarSrc %}
                             <div class="col-md-4 text-center mt-4">
                                 <div class="p-5 mb-4 rounded bg-white text-center box-shadow-v3 u-h-100p">
-                                    <img class="rounded-circle u-w-80 mx-auto u-mt-40 u-mb-20" src="{{ user.get_profile.avatarSrc }}" alt="">
+                                    <img class="rounded-circle u-w-80 mx-auto u-mt-40 u-mb-20"
+                                         src="{{ user.get_profile.avatarSrc }}" alt="">
                                     <h4 class="u-mb-5">
                                         {{ user.first_name }} {{ user.last_name }}
                                     </h4>
-                                    <p class="text-muted">
-                                        {{ user.rating|floatformat }}
-                                    </p>
+
+
 
                                     <p>
-                                        {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>{% if not forloop.last %}, {% endif %}{% endfor %}
+                                        {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
+                                            {% if not forloop.last %}, {% endif %}{% endfor %}
+                                    </p>
+                                    <p class="text-muted">
+                                        Рейтинг: {{ user.rating|floatformat }}
                                     </p>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         <li class="list-inline-item">
@@ -239,6 +250,49 @@
                 {% endfor %}
             });
         </script>
+    </section>
+    <section class="u-py-30" style="background-color: #e9f0f5;">
+        <section style="padding: 0;">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Роадмап проекта
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+        </section>
+        <section id="cd-timeline" class="cd-container">
+
+            {% for milestone in milestones %}
+                <div class="cd-timeline-block">
+                    <div class="cd-timeline-img
+			{% if milestone.status == milestone.STATUS_NORMAL %}
+			cd-picture
+			{% endif %}
+			{% if milestone.status == milestone.STATUS_DANGER %}
+			cd-movie
+			{% endif %}
+			{% if milestone.status == milestone.STATUS_WARNING %}
+			cd-picture
+			{% endif %}">
+                        <img src="/static/public/assets/img/svg/puzzle.svg" alt="Picture">
+                    </div> <!-- cd-timeline-img -->
+
+                    <div class="cd-timeline-content">
+                        <h2>{{ milestone.name }}</h2>
+
+                        <p>{{ milestone.description|default_if_none:'описание описание описание описание описание описание описание описание' }}</p>
+                        {#				<a href="#0" class="cd-read-more">Read more</a>#}
+                        <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
+                        <span>{{ milestone.percent }}%</span>
+                        <span style="background: black; height: 4px; display: block; width: {{ milestone.percent }}%"></span>
+                        <a href="" class="like-link">Like</a>
+                    </div> <!-- cd-timeline-content -->
+                </div> <!-- cd-timeline-block -->
+            {% endfor %}
+        </section> <!-- cd-timeline -->
     </section>
     <script>
         var getProjectState = function (p, call) {

@@ -1,0 +1,50 @@
+{% extends "public/index.html" %}
+{% load thumbnail get_settings compressed %}
+{% block content %}
+<section>
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-6 mx-auto text-center">
+				<h2 class="h1">
+					Создание проекта
+				</h2>
+				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+				<p>
+					Расскажите нам о своем проекте
+				</p>
+			</div>
+		</div> <!-- END row-->
+		<div class="row">
+			<div class="col-lg-7 text-center mt-5 mx-auto">
+				<form action="" method="POST">
+					<div class="row">
+						<div class="col-md-12">
+							<input type="text" class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Название проекта" required="">
+						</div>
+					</div>
+					<textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6" placeholder="Краткое описание проекта" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+					<div class="js-step" data-step="2" style="display: none;">
+                        <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6" placeholder="Опишите основную цель проекта" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+                    </div>
+					<button class="btn btn-rounded btn-primary u-w-170 js-next-btn" type="button">Далее</button>
+					<button class="btn btn-rounded btn-primary u-w-170 js-submit" style="display: none;" type="submit">Отправить</button>
+				</form>
+			</div> <!-- END col-lg-7 -->
+		</div> <!-- END row-->
+	</div> <!-- END container-->
+</section>
+<script>
+$(function () {
+    var step = 1, steps=2;
+    $('.js-next-btn').click(function() {
+        step++;
+        $('.js-step[data-step="'+step+'"]').show();
+        if (steps == step) {
+            $(this).hide();
+            $('.js-submit').show();
+        }
+        return false;
+    });
+});
+</script>
+{% endblock %}

@@ -36,6 +36,8 @@
 
   <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
   <link rel="stylesheet" href="/static/public/assets/css/style.css">
+  <link rel="stylesheet" href="/static/public/assets/css/form.css">
+  <link rel="stylesheet" href="/static/public/assets/css/timeline.css">
 
 	<link rel="stylesheet" href="/static/public/assets/css/dosis.css">
 	<link rel="stylesheet" href="/static/public/assets/css/opensans.css">
@@ -62,7 +64,12 @@
 <!--[if lt IE 8]>
 <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
-
+<div class="top-panel-error animated js-error-container label-danger" style="top: 0px; display: none;">
+    <div class="container js-error-container-text"></div>
+    <a href="#" class="close-btn js-error-container-close">
+        Close
+    </a>
+</div>
 
 {% block header %}
 <header class="header header-shrink header-inverse fixed-top">
@@ -334,6 +341,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 
 		<script src="/static/public/assets/js/jquery.wavify.js"></script>
+		<script src="/static/js/pm/form.js"></script>
 <script>
 	$('#feel-the-wave').wavify({
 		height: 10,

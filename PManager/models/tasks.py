@@ -314,7 +314,7 @@ class PM_Milestone(models.Model):
     overdue = models.BooleanField(blank=True)
     author = models.ForeignKey(User, related_name='createdMilestones', null=True, blank=True)
     token_price = models.FloatField(blank=True, null=True, default=0)
-
+    description = models.TextField(null=True, blank=True)
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
 

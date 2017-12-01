@@ -1,0 +1,36 @@
+
+.label-special {
+    background: #FFBA00;
+    color: #FFF;
+    padding: 3px 7px;
+    position: relative;
+    left: -7px;
+}
+
+.label-default,.label-primary,.label-success,.label-info,.label-warning,.label-danger {
+    color: #F4F7F9;
+}
+
+.label-default {
+    background-color: #818A91;
+}
+
+.label-primary {
+    background-color: #0275D8;
+}
+
+.label-success {
+    background-color: #85B935;
+}
+
+.label-info {
+    background-color: #40C8F4;
+}
+
+.label-warning {
+    background-color: #E87722;
+}
+
+.label-danger {
+    background-color: #E26C60;
+}
