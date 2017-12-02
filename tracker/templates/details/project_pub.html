@@ -126,7 +126,7 @@
                     <div class="col-md-6 mt-6" style="margin-bottom: 30px;">
                         <div class="card border-0 box-shadow-v1 u-h-100p">
                             <div class="u-p-30">
-                                <h4>{{ chart.title }}</h4>
+                                <h4 class="text-center">{{ chart.title }}</h4>
                                 <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
                             </div>
                         </div>
@@ -212,6 +212,9 @@
                             ]
                         },
                         options: {
+                            legend: {
+                                display: false
+                             },
                             legendCallback: function (chart) {
                                 var text = [];
                                 text.push('<ul class="' + chart.id + '-legend">');
@@ -237,11 +240,17 @@
                             scales: {
                                 xAxes: [{
                                     barPercentage: 0.2,
-                                    categoryPercentage: 0.7
+                                    categoryPercentage: 0.7,
+                                    gridLines: {
+                                        display: false
+                                    }
                                 }],
                                 yAxes: [{
                                     ticks: {
                                         beginAtZero: true
+                                    },
+                                    gridLines: {
+                                        display: false
                                     }
                                 }]
                             }
