@@ -40,15 +40,13 @@
                 <div class="col-lg-6 u-mt-80">
                     <ul class="p-0" data-init="carousel"
                         data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
-                        <li>
-                            <img class="box-shadow-v1" src="{{ project.imagePath }}" alt=""/>
-                        </li>
-                        <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt=""/>
-                        </li>
-                        <li>
-                            <img class="box-shadow-v1" src="/static/public/assets/img/seo/s-1.png" alt=""/>
-                        </li>
+                        {% for file in project.files.all %}
+                            {% if file.isPicture %}
+                            <li>
+                                <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                            </li>
+                            {% endif %}
+                        {% endfor %}
                     </ul>
                 </div> <!-- END col-lg-6-->
             </div> <!-- END row-->

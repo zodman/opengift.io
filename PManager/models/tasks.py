@@ -44,6 +44,7 @@ def redisSendLogMessage(fields):
 class Tags(models.Model):
     tagText = models.CharField(max_length=100, db_index=True)
     frequency = models.FloatField(default=0)
+    parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
     weight = 0
 
     def __unicode__(self):
@@ -103,10 +104,10 @@ class PM_Project_Industry(models.Model):
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
-    description = models.TextField(null=True, verbose_name=u'Описание')
-    problem = models.TextField(null=True, verbose_name=u'Какую проблему решает проект')
-    problem_proof = models.TextField(null=True, verbose_name=u'Почему эта проблема важна?')
-
+    description = models.TextField(null=True, blank=True, verbose_name=u'Описание')
+    problem = models.TextField(null=True, blank=True, verbose_name=u'Какую проблему решает проект')
+    problem_proof = models.TextField(null=True, blank=True, verbose_name=u'Почему эта проблема важна?')
+    files = models.ManyToManyField('PM_Files', related_name="fileProjects", null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdProjects')
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Изображение')
@@ -117,6 +118,7 @@ class PM_Project(models.Model):
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
     payer = models.ForeignKey(User)
+    tags = models.ManyToManyField(Tags, null=True, blank=True, related_name="tagProjects")
 
     @property
     def url(self):
