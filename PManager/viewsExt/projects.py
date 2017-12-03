@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
-from PManager.models import PM_Project_Achievement, PM_ProjectRoles, PM_Milestone
+from PManager.models import PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit
 from django import forms
 from django.utils import timezone
@@ -16,6 +16,7 @@ from PManager.viewsExt.headers import set_project_in_session
 from django.contrib.contenttypes.models import ContentType
 from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
+from django.core.context_processors import csrf
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -23,12 +24,66 @@ class InterfaceForm(forms.ModelForm):
         fields = ["name", "address", "port", "protocol",
                   "username", "password", "access_roles", "project"]
 
-def projectDetailEdit(request, project_id):
-    c = RequestContext(request, {
+class ProjectForm(forms.ModelForm):
+    class Meta:
+        model = PM_Project
+        fields = ["name", "description", "files", "author", "tracker"]
+        if USE_GIT_MODULE:
+            fields.append("repository")
 
+    def clean_repository(self):
+        if USE_GIT_MODULE:
+            return self.cleaned_data['repository'].strip()
+
+def projectDetailEdit(request, project_id):
+    project = get_object_or_404(PM_Project, id=project_id)
+
+    c = RequestContext(request, {
+        'project': project
     })
 
     t = loader.get_template('details/project_edit.html')
+    return HttpResponse(t.render(c))
+
+
+def projectDetailAdd(request):
+    post = request.POST if request.method == 'POST' else {}
+    if not request.user.is_authenticated():
+        raise Http404
+
+    post.update({'author': request.user.id})
+    post.update({'tracker': 1})
+    p_form = ProjectForm(
+        data=post,
+        files=request.FILES
+    )
+
+    instance = None
+    if request.method == 'POST':
+        if p_form.is_valid():
+            instance = p_form.save()
+            iter = 0
+            for file in request.FILES.getlist('IMAGES'):
+                iter = iter + 1
+                f = PM_Files(
+                    name=instance.name + str(iter),
+                    file=file,
+                    authorId=request.user,
+                    projectId=instance
+                )
+                f.save()
+                instance.files.add(f)
+
+            instance.save()
+
+            return HttpResponseRedirect('/project/'+str(instance.id)+'/edit/')
+
+    c = RequestContext(request, {
+        'form': p_form,
+        'instance': instance
+    }, processors=[csrf])
+
+    t = loader.get_template('details/project_add.html')
     return HttpResponse(t.render(c))
 
 def projectDetailPublic(request, project_id):

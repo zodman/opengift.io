@@ -110,7 +110,7 @@ class PM_Project(models.Model):
     files = models.ManyToManyField('PM_Files', related_name="fileProjects", null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdProjects')
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
-                              verbose_name=u'Изображение')
+                              verbose_name=u'Изображение', blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
     repository = models.CharField(max_length=255, blank=True, verbose_name=u'Репозиторий')
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')
@@ -118,7 +118,9 @@ class PM_Project(models.Model):
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
     payer = models.ForeignKey(User)
-    tags = models.ManyToManyField(Tags, null=True, blank=True, related_name="tagProjects")
+    # tags = models.ManyToManyField(Tags, null=True, blank=True, related_name="tagProjects")
+    specialties = models.ManyToManyField('Specialty', blank=True, null=True, related_name='projects',
+                                         verbose_name=u'Направления')
 
     @property
     def url(self):
@@ -156,7 +158,8 @@ class PM_Project(models.Model):
         from PManager.services.docker import blockchain_user_newproject_request
         if not self.id:
             self.payer = self.author
-            blockchain_user_newproject_request(self.author.username, self.name.lower())
+            if self.author.get_profile().blockchain_wallet:
+                blockchain_user_newproject_request(self.author.username, self.name.lower())
 
         super(self.__class__, self).save(*args, **kwargs)
 
