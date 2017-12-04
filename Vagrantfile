@@ -9,8 +9,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "heliard_ubuntu1204_x64_git"
-  config.vm.box_url = "https://drive.google.com/uc?export=download&id=1x3RSU0KKXWfsu6aYyixCR19cWSFrDYby"
+  config.vm.box = "opengift_ubuntu1204_x64_git"
+  #config.vm.box_url = "https://drive.google.com/uc?export=download&id=1x3RSU0KKXWfsu6aYyixCR19cWSFrDYby"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
