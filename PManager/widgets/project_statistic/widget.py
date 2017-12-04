@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Credit, PM_Timer, PM_Milestone, PM_Task, PM_Task_Message, PM_MilestoneChanges
+from PManager.models import Credit, PM_Project, PM_Timer, PM_Milestone, PM_Task, PM_Task_Message, PM_MilestoneChanges
 from django.db import connection
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -508,16 +508,20 @@ def widget(request, headerValues, a, b):
         if headerValues['CURRENT_PROJECT']:
             filt['projects'].append(headerValues['CURRENT_PROJECT'].id)
 
+
+
+
+
     if request.user.is_authenticated():
         projects = request.user.get_profile().managedProjects
+        if filt['projects']:
+            projects = projects.filter(id__in=filt['projects'])
+
+    elif filt['projects']:
+        projects = PM_Project.objects.filter(id__in=filt['projects'])
 
     elif 'getAllCharts' not in headerValues:
         return {}
-
-
-    if filt['projects']:
-        projects = projects.filter(id__in=filt['projects'])
-
 
     chartName = request.GET['chart'] if 'chart' in request.GET else 'timeChart'
     if chartName not in ['PaymentChart', 'TimeChart', 'BurnDown', 'Velocity', 'TaskCommitsChart']:

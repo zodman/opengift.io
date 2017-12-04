@@ -1,6 +1,60 @@
 /**
- * Created by emas on 19.05.2016.
+ * Created by gvammer on 19.05.2016.
  */
+(function ($) {
+    $.fn.isWindowScrolledToElement = function (offset) {
+        offset = parseInt(offset) || 0;
+        return $(document).scrollTop() + $(window).height() > $(this).offset().top + offset;
+    };
+
+    $.fn.onScrollToElement = function (callbackOnScroll,
+                                       callbackIfAlreadyScrolled,
+                                       execTriggerEvenIfAlreadyScrolled,
+                                       scrollOutCallback,
+                                       options
+    ) {
+        var t = this;
+
+        if (!t.size()) return;
+        if (!options) options = {};
+
+        $(document).bind('scroll.scrolltoelements', function () {
+            if ($(t).isWindowScrolledToElement(options.offset)) {
+                if (!$(t).data('scrolled-to-element')) {
+                    $(t).data('scrolled-to-element', true);
+                    if (typeof callbackOnScroll == 'function') callbackOnScroll.call(t);
+                }
+            } else {
+                if ($(t).data('scrolled-to-element')) {
+                    if (typeof scrollOutCallback == 'function') {
+                        $(t).data('scrolled-to-element', false);
+                        scrollOutCallback.call(t);
+                    }
+                }
+            }
+        });
+
+        if (!$(t).isWindowScrolledToElement(options.offset)) {
+
+        } else {
+            if (execTriggerEvenIfAlreadyScrolled) {
+                if (typeof callbackOnScroll == 'function') {
+                    $(t).data('scrolled-to-element', true);
+                    callbackOnScroll.call(t);
+                }
+            }
+
+            if (typeof callbackIfAlreadyScrolled == 'function') callbackIfAlreadyScrolled.call(t);
+        }
+    };
+
+    $.fn.scrollToThis = function() {
+        if (this.offset())
+            $('html, body').scrollTop(this.offset().top - ($(window).height() / 3));
+        return this;
+    };
+})(jQuery);
+
 function Form(formSelector) {
     this['lastError'] = false;
     this['errorsExist'] =  false;
@@ -301,14 +355,7 @@ var ERROR_REPORTER = {
         return this.errorStack.length && this.errorStack[this.errorStack.length - 1];
     },
     'log': function(text, stack) {
-        if (typeof AJAX != 'undefined')
-            AJAX.send(
-                '/ajax_new/jsLogger.php',
-                {
-                    'text': text,
-                    'stack': stack
-                }
-            );
+        return true;
     }
 };
 
@@ -328,5 +375,5 @@ alert = function(text) {
 };
 
 alertDefaultError = function () {
-    alert('Возникла ошибка во время добавления товара. Попробуйте еще раз. Если ошибка повториться, пожалуйста, свяжитесь с нами по номеру 8 800 555 55 22 и мы обязательно вам поможем. Спасибо!"');
+    alert('Возникла непредвиденная ошибка, попробуйте еще раз.');
 };

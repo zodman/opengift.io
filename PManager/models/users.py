@@ -14,6 +14,7 @@ from django.db.models import Sum
 
 class Specialty(models.Model):
     name = models.CharField(max_length=500)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='subspecialties')
 
     def __str__(self):
         return self.name or ''

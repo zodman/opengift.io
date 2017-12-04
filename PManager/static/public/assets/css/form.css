@@ -1,10 +1,12 @@
 
-.label-special {
-    background: #FFBA00;
-    color: #FFF;
+.top-panel-error {
     padding: 3px 7px;
-    position: relative;
+    position: fixed;
     left: -7px;
+    bottom: 0;
+    z-index: 100;
+    width: 100%;
+    height: auto;
 }
 
 .label-default,.label-primary,.label-success,.label-info,.label-warning,.label-danger {

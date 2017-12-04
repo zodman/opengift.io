@@ -6,7 +6,7 @@ from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
 from PManager.models import PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
-from PManager.models import AccessInterface, Credit
+from PManager.models import AccessInterface, Credit, Specialty
 from django import forms
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -18,11 +18,13 @@ from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
 from django.core.context_processors import csrf
 
+
 class InterfaceForm(forms.ModelForm):
     class Meta:
         model = AccessInterface
         fields = ["name", "address", "port", "protocol",
                   "username", "password", "access_roles", "project"]
+
 
 class ProjectForm(forms.ModelForm):
     class Meta:
@@ -35,11 +37,91 @@ class ProjectForm(forms.ModelForm):
         if USE_GIT_MODULE:
             return self.cleaned_data['repository'].strip()
 
+
+class ProjectFormEdit(forms.ModelForm):
+    class Meta:
+        model = PM_Project
+        fields = ["name", "description", "files", "specialties", "problem", "link_site", "link_github", "link_demo"]
+        if USE_GIT_MODULE:
+            fields.append("repository")
+
+
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
 
+    if request.method == 'POST':
+        p_form = ProjectFormEdit(
+            data=request.POST,
+            files=request.FILES,
+            instance=project
+        )
+        if p_form.is_valid():
+            p_form.save()
+
+            iter = project.files.count()
+            for file in request.FILES.getlist('IMAGES'):
+                iter = iter + 1
+                f = PM_Files(
+                    name=project.name + str(iter),
+                    file=file,
+                    authorId=request.user,
+                    projectId=project
+                )
+                f.save()
+                project.files.add(f)
+
+            return HttpResponse('ok')
+        else:
+            return HttpResponse(p_form.errors)
+
+    specialties = Specialty.objects.filter()
+    aSpecialties = {}
+
+    for spec in specialties:
+        aSpecialties[spec.id] = {
+            'item': spec,
+            'subitems': []
+        }
+
+    aSpecialtiesTree = []
+
+    for key, spec in aSpecialties.iteritems():
+        s = spec['item']
+        if s.parent:
+            if aSpecialties[s.parent.id] and aSpecialties[s.id]:
+                aSpecialties[s.parent.id]['subitems'].append(aSpecialties[s.id])
+                aSpecialtiesTree.append(s.id)
+
+    for id in aSpecialtiesTree:
+        del aSpecialties[id]
+
+    sprojectSpec = project.specialties.values_list('id', flat=True)
+
+    def recursiveTreeDraw(treeItem):
+        s = ''
+        if 'item' in treeItem:
+            s += '<li><label><input ' + (
+                'checked ' if treeItem['item'].id in sprojectSpec else '') + ' type="checkbox" value="' + str(
+                treeItem['item'].id) + '" name="specialties" class="project-form--specialty" /> '
+            s += treeItem['item'].name
+            s += '</label>'
+
+        if treeItem['subitems']:
+            s += '<ul>'
+            for item in treeItem['subitems']:
+                s += recursiveTreeDraw(item)
+            s += '</ul>'
+
+        if 'item' in treeItem:
+            s += '</li>'
+
+        return s
+
     c = RequestContext(request, {
-        'project': project
+        'project': project,
+        'e': sprojectSpec,
+        'specialties': aSpecialties,
+        'specialtiesList': recursiveTreeDraw({'subitems': aSpecialties.values()})
     })
 
     t = loader.get_template('details/project_edit.html')
@@ -76,7 +158,7 @@ def projectDetailAdd(request):
 
             instance.save()
 
-            return HttpResponseRedirect('/project/'+str(instance.id)+'/edit/')
+            return HttpResponseRedirect('/project/' + str(instance.id) + '/edit/')
 
     c = RequestContext(request, {
         'form': p_form,
@@ -85,6 +167,7 @@ def projectDetailAdd(request):
 
     t = loader.get_template('details/project_add.html')
     return HttpResponse(t.render(c))
+
 
 def projectDetailPublic(request, project_id):
     import datetime
@@ -105,9 +188,9 @@ def projectDetailPublic(request, project_id):
     dateFrom = now - datetime.timedelta(days=daysBeforeNowForStartFilt)
 
     dateTo = now
-        
+
     dayGenerator = [dateFrom + datetime.timedelta(x + 1) for x in
-                         xrange((dateTo - dateFrom).days)]
+                    xrange((dateTo - dateFrom).days)]
 
     xAxe = []
     yAxes = {
@@ -124,7 +207,7 @@ def projectDetailPublic(request, project_id):
     }
 
     for day in dayGenerator:
-        yAxes[u'Задачи']['values'].append(random.randint(1,27))
+        yAxes[u'Задачи']['values'].append(random.randint(1, 27))
         yAxes[u'Коммиты']['values'].append(random.randint(1, 27))
         xAxe.append(day)
 
@@ -135,10 +218,9 @@ def projectDetailPublic(request, project_id):
     for user in project.getUsers():
         taskTagCoefficient = 0
         for obj1 in ObjectTags.objects.raw(
-                'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
-                    user.id) + ' AND content_type_id=' + str(
-                    ContentType.objects.get_for_model(User).id) + ''):
-
+                                                'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
+                                            user.id) + ' AND content_type_id=' + str(
+                            ContentType.objects.get_for_model(User).id) + ''):
             taskTagCoefficient += (obj1.weight_sum or 0)
             break
 
@@ -154,7 +236,7 @@ def projectDetailPublic(request, project_id):
         },
         'statistic': statistic,
         'project': project,
-        'milestones':ms,
+        'milestones': ms,
         'team': team,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
@@ -164,6 +246,7 @@ def projectDetailPublic(request, project_id):
 
     t = loader.get_template('details/project_pub.html')
     return HttpResponse(t.render(c))
+
 
 def projectDetailServer(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
@@ -184,6 +267,7 @@ def projectDetailServer(request, project_id):
 
     t = loader.get_template('details/project_server.html')
     return HttpResponse(t.render(c))
+
 
 def projectDetail(request, project_id):
     if not request.user.is_authenticated():
@@ -355,14 +439,13 @@ def projectDetail(request, project_id):
 
     if 'settings_save' in request.POST and request.POST['settings_save'] and canEditProject:
         if 'is_closed' in request.POST \
-                and (bool(request.POST['is_closed']) != project.closed)\
+                and (bool(request.POST['is_closed']) != project.closed) \
                 and canDeleteProject:
             project.closed = bool(request.POST['is_closed'])
 
         parseSettingsFromPost(project, request)
         project.save()
         return HttpResponseRedirect(request.path)
-
 
     if 'integration_settings_save' in request.POST and request.POST['integration_settings_save'] and canEditProject:
         if 'repository' in request.POST and request.POST['repository'] != project.repository:
@@ -423,21 +506,23 @@ def projectDetail(request, project_id):
         'messages': aMessages,
         'settings': projectSettings,
         'achievements': ar_achievements,
-        'colors': [(code, projectSettings.get('color_name_'+code, '')) for code, color in PM_Task.colors]
+        'colors': [(code, projectSettings.get('color_name_' + code, '')) for code, color in PM_Task.colors]
     })
 
     t = loader.get_template('details/project.html')
     return HttpResponse(t.render(c))
 
+
 def parseSettingsFromPost(project, request):
-        settings = project.getSettings()
+    settings = project.getSettings()
 
-        for k, v in request.POST.iteritems():
-            if k.find('settings_') > -1:
-                k = k.replace('settings_', '')
-                settings[k] = False if v == 'N' else v
+    for k, v in request.POST.iteritems():
+        if k.find('settings_') > -1:
+            k = k.replace('settings_', '')
+            settings[k] = False if v == 'N' else v
 
-        project.setSettings(settings)
+    project.setSettings(settings)
+
 
 def addInterface(request):
     post = request.POST
@@ -457,12 +542,14 @@ def addInterface(request):
 
     return HttpResponse('Invalid form')
 
+
 def removeInterface(request):
     interface = get_object_or_404(AccessInterface, id=int(request.POST['id']))
     if request.user.get_profile().isManager(interface.project):
         interface.delete()
 
     return HttpResponse('ok')
+
 
 def checkUniqRepNameResponder(request):
     if not USE_GIT_MODULE:
@@ -473,12 +560,13 @@ def checkUniqRepNameResponder(request):
         return HttpResponse("ERROR")
     name = transliterate(name)
     proj = PM_Project.objects.filter(repository=name)
-    if(proj):
+    if (proj):
         reponame = GitoliteManager.get_suggested_name(name)
         if not reponame:
             return HttpResponse("ERROR")
         return HttpResponse(reponame)
     return HttpResponse(name)
+
 
 def project_server_setup(request, project_id):
     if not project_id:
@@ -490,6 +578,7 @@ def project_server_setup(request, project_id):
         return HttpResponse("OK")
     except (PM_Project.DoesNotExist, RuntimeError, AttributeError):
         raise Http404
+
 
 def project_server_status(request, project_id):
     if not project_id:

@@ -1,51 +1,155 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
-<section>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 mx-auto text-center">
-				<h2 class="h1">
-					Карточка проекта "{{ project.name }}"
-				</h2>
-				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-				<p>
-					Расскажите о проекте немного подробнее, чтобы инвесторы и пользователи могли быстрее его найти
-				</p>
-			</div>
-		</div> <!-- END row-->
-		<div class="row">
-			<div class="col-lg-7 text-center mt-5 mx-auto">
-				<form action="" method="POST">
-					<div class="row">
-						<div class="col-md-12">
-							<input type="text" value="{{ project.name }}" class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Название проекта" required="">
-						</div>
-					</div>
-					<textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6" placeholder="Краткое описание проекта" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description }}</textarea>
-					<div class="form-step js-form-step">
-					<button class="btn btn-rounded btn-primary u-w-170 js-next-btn" type="button">Далее</button>
-                        <div class="form-step-content js-form-step-content" style="display: none;">
-                            <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6" placeholder="Опишите основную цель проекта" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
-                        </div>
-                    </div>
-					<button class="btn btn-rounded btn-primary u-w-170 js-submit" style="display: none;" type="submit">Отправить</button>
-				</form>
-			</div> <!-- END col-lg-7 -->
-		</div> <!-- END row-->
-	</div> <!-- END container-->
-</section>
-<script>
-$(function () {
-    $('.js-next-btn').click(function() {
+    <script type="application/javascript" src="/static/js/libs/jquery.form.js"></script>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto text-center u-p-25">
+                    <h2 class="h1">
+                        Карточка проекта "{{ project.name }}"
+                    </h2>
 
-        $(this).closest('.js-form-step').find('.js-form-step-content').show();
-        $(this).hide();
-        if (!$('.js-form-step-content:hidden').get(0)) {
-            $('.js-submit').show();
-        }
-        return false;
-    });
-});
-</script>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                    <p>
+                        Расскажите о проекте немного подробнее, чтобы инвесторы и пользователи могли быстрее его найти
+                    </p>
+                </div>
+            </div> <!-- END row-->
+            <div class="row">
+                <div class="col-sm-3">
+                    <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                        <a class="nav-link active" data-toggle="pill" href="#v-pills-home" role="tab"
+                           aria-controls="v-pills-home" aria-selected="true" aria-expanded="false">
+                            <span class="icon icon-Notebook color-primary mr-lg-3"></span>
+                            Основное
+                        </a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab"
+                           aria-controls="v-pills-profile" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-MessageLeft color-primary mr-lg-3"></span>
+                            Проблематика</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab"
+                           aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-Tools color-primary mr-lg-3"></span>
+                            Интеграция</a>
+                    </div>
+                </div>
+                <div class="col-sm-9">
+                    <form novalidate action="" method="POST" enctype="multipart/form-data"
+                          class="js-project-form">
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="tab-pane fade  active show" id="v-pills-home" role="tabpanel"
+                                 aria-labelledby="v-pills-home-tab"
+                                 aria-expanded="true">
+                                <div class="project-edit-form">
+                                    <input type="text" name="name" value="{{ project.name }}"
+                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Название проекта"
+                                           required="">
+
+                                <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
+                                          name="description"
+                                          placeholder="Краткое описание проекта" required=""
+                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description }}</textarea>
+                                    <div class="project-edit-form--files-list">
+                                        {% for file in project.files.all %}
+                                            <div class="project-edit-form--files-list--file js-file-block">
+                                            <span><img width="50px" src="{{ file.src }}" /></span>
+                                            <input type="hidden" name="files" value="{{ file.id }}" />
+                                            <a href="#" class="project-edit-form--files-list--file-remove js-file-remove">X</a>
+                                            </div>
+                                        {% endfor %}
+                                        <div class="project-edit-form--new-files js-file-new-inputs">
+                                            <div class="project-edit-form--file-input js-file-new-block">
+                                                <input name="IMAGES" type="file" accept="image/*" class="project-edit-form--file-input-input js-file-new-block-input" />
+                                            </div>
+                                        </div>
+                                        <a href="#" class="js-add-file">Добавить</a>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
+                                 aria-labelledby="v-pills-profile-tab" aria-expanded="false">
+                                <div class="project-edit-form">
+                                    <div class="project-form--specialties-container" style="text-align: left;">
+                                        {{ specialtiesList|safe }}
+                                    </div>
+                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
+                                          name="problem_proof"
+                                          placeholder="Опишите в двух словах целевую аудиторию проекта" required=""
+                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem }}</textarea>
+                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
+                                          name="problem"
+                                          placeholder="Опишите основную цель проекта" required=""
+                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem }}</textarea>
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
+                                <div class="project-edit-form">
+                                    <input type="text" name="link_site" value=""
+                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Ссылка на Сайт"
+                                           required="">
+                                    <input type="text" name="link_github" value=""
+                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Ссылка на GitHub"
+                                           required="">
+                                    <input type="text" name="link_demo" value=""
+                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Ссылка на Demo"
+                                           required="">
+                                </div>
+                            </div>
+                        </div>
+                        <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
+                                style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i class="fa fa-save"></i> Сохранить
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div> <!-- END container-->
+    </section>
+    <script>
+        $(function () {
+            function enableSubmit() {
+                $('.js-submit').removeAttr('disabled');
+            }
+
+            function disableSubmit() {
+                $('.js-submit').attr('disabled', 'disabled');
+            }
+
+            $('.js-next-btn').click(function () {
+
+                $(this).closest('.js-form-step').find('.js-form-step-content').show();
+                $(this).hide();
+                if (!$('.js-form-step-content:hidden').get(0)) {
+                    $('.js-submit').show();
+                }
+                return false;
+            });
+
+            $('.js-submit').click(function() {
+                var form = new Form('.js-project-form');
+                if (form.validate()) {
+                    form.$form.ajaxSubmit(function() {
+                        disableSubmit();
+                        $('.js-file-new-block').val('').not(':eq(0)').remove().end();
+                    });
+                }
+            });
+
+            $('input, textarea, select').change(enableSubmit).keyup(enableSubmit);
+            $('input:radio, input:checkbox').change(enableSubmit);
+
+            $('.js-file-remove').click(function() {
+                $(this).closest('.js-file-block').remove();
+                enableSubmit();
+                return false;
+            });
+
+            $('.js-add-file').click(function() {
+                $('.js-file-new-block').clone().appendTo('.js-file-new-inputs').val('');
+                return false;
+            });
+        });
+    </script>
 {% endblock %}
