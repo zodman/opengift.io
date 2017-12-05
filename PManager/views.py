@@ -327,7 +327,7 @@ class MainPage:
             import re
             #if is not main page
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
-                t = loader.get_template('main/promo.html')
+                t = loader.get_template('public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
             else:
                 return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
