@@ -31,7 +31,7 @@
                         <div class="col-lg-4 text-center mx-auto">
                             <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
                                 <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                                    <span class="icon icon-Password text-primary"></span>
+                                    <span class="icon icon-ClosedLock text-primary"></span>
                                 </div>
                                 <input type="password" name="password" class="form-control border-0 p-3"
                                        placeholder="Пароль" required="">
@@ -47,6 +47,7 @@
                 </div>
             </form>
         </section>
+        <script>$(function() {$('[name=username]').focus();});</script>
     {% else %}
 
         <div class="container">
