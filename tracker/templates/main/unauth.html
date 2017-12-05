@@ -35,8 +35,13 @@
                     </div>
                     </div>
                 </div>
-                <input class="btn btn-success" type="submit" value="Войти"/>
-                <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
+                <div class="row">
+                    <div class="col-md-4 col-md-offset-4">
+                        <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Войти"/>
+                        <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
+                    </div>
+                </div>
+
             </form>
         </div>
     </section>
