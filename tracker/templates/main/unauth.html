@@ -1,8 +1,7 @@
+{% extends extends %}
 {% load less %}
+   {% block content %}
 {% if is_opengift %}
-    {% extends "public/index.html" %}
-
-    {% block content %}
     <section>
         <div class="container">
             <div class="row">
@@ -41,34 +40,8 @@
             </form>
         </div>
     </section>
-{% endblock %}
-{% endif %}
-{% if not is_opengift %}
-    <!DOCTYPE HTML>
-    <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Heliard</title>
-        <meta name="google-site-verification" content="uddfRxdcRR2NDnfmHExoyIUC2P9v5i2ZrRn3yUiGGjg"/>
-        <meta name="description" content="">
-        <meta name="viewport"
-              content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0"/>
+{% else %}
 
-        <meta name="keywords" content="">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <script type="text/javascript" src="/static/js/libs/jquery.js"></script>
-        <link href="/static/css/reset.css" rel="stylesheet"/>
-        <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap-responsive.css"/>
-        <link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap3.min.css"/>
-        <link href="/static/css/styles.css" rel="stylesheet"/>
-        <!--[if lte IE 7]><link href="/static/css/external/bootstrap.css" rel="stylesheet"><![endif]-->
-        <link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css"/>
-        <script src="/static/js/libs/fancybox.js"></script>
-        {% block header %}{% endblock %}
-        <title>{% block title %}{% endblock %}</title>
-        <link rel="shortcut icon" href="/static/ico/favicon.png"/>
-    </head>
-    <body>
     <div class="container">
         <div class="loginPage">
             <div class="loginPage-logoBig">
@@ -155,6 +128,5 @@
         <div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt=""/></div>
     </noscript>
     <!-- /Yandex.Metrika counter -->
-    </body>
-    </html>
 {% endif %}
+{% endblock %}

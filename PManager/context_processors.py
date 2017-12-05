@@ -23,6 +23,7 @@ def get_head_variables(request):
         'is_detail_page': 'detail' in currentPath or 'wiki' in currentPath or 'project' in currentPath,
         'referrer': request.GET.get('r', None),
         'taskdrafts_cnt': draft_cnt(request.user),
+        'extends': 'public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/base.html',
         'is_opengift': request.META['HTTP_HOST'] == 'opengift.io'
     }
 
