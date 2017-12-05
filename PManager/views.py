@@ -118,7 +118,7 @@ class MainPage:
             from django.contrib.auth import authenticate, login
 
             try:
-                User.objects.get(username=username)
+                u = User.objects.filter(username=username).get()
                 user = authenticate(username=username, password=password)
                 if user is not None:
                     if user.is_active:
