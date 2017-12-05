@@ -218,7 +218,7 @@ class MainPage:
             taskId = int(request.GET.get('id', 0))
             projectId = int(request.GET.get('project', 0))
 
-            if not request.user.get_profile().createdProjects.exists():
+            if not request.user.createdProjects.exists():
                 return HttpResponseRedirect('/project/add/')
 
             if projectId:
