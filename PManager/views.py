@@ -147,7 +147,7 @@ class MainPage:
                         request,
                         user
                     )
-                    userRegisterAndUpdate(user.username)
+                    userRegisterAndUpdate(request)
                     return HttpResponseRedirect(backurl)
 
                 if error:
