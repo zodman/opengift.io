@@ -1,135 +1,135 @@
 {% extends extends %}
 {% load less %}
-   {% block content %}
-{% if is_opengift %}
-    <section>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto text-center">
-                    <h2 class="h1">
-                        Пожалуйста, войдите или зарегистрируйтесь
-                    </h2>
-                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                </div>
-            </div>
+{% block content %}
+    {% if is_opengift %}
+        <section>
             <form name="authform" action="/login/" method="POST">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-                            <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                                <span class="icon icon-Mail text-primary"></span>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-6 mx-auto text-center">
+                            <h2 class="h1">
+                                Пожалуйста, войдите или зарегистрируйтесь
+                            </h2>
+                            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Mail text-primary"></span>
+                                </div>
+                                <input type="text" class="form-control border-0 p-3"
+                                       name="username"
+                                       placeholder="E-mail" required="">
                             </div>
-                            <input type="text" class="form-control border-0 p-3"
-                                   name="username"
-                                   placeholder="E-mail" required="">
+                        </div>
+                        <div class="col-md-6">
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Password text-primary"></span>
+                                </div>
+                                <input type="password" name="password" class="form-control border-0 p-3"
+                                       placeholder="Пароль" required="">
+                            </div>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                    <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                            <span class="icon icon-Password text-primary"></span>
+                    <div class="row">
+                        <div class="col-12 text-center">
+                            <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Войти"/>
+                            <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
                         </div>
-                        <input type="password" name="password" class="form-control border-0 p-3"
-                               placeholder="Пароль" required="">
-                    </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-md-4 col-md-offset-4">
-                        <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Войти"/>
-                        <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                    </div>
-                </div>
-
             </form>
-        </div>
-    </section>
-{% else %}
+        </section>
+    {% else %}
 
-    <div class="container">
-        <div class="loginPage">
-            <div class="loginPage-logoBig">
-                <br><br>
-            </div>
-            <div class="loginPage-helloText">
-                <h3 style="color: #444;margin: 16px 0 0;"></h3>
-                <p align="center">
-                    <br><img src="/static/images/video_small.png" class="img-responsive"
-                             style="margin-left: 40px;"/><br><br>
-                </p>
-            </div>
-
-            <div class="loginPage-loginBlock well text-center clearfix">
-                <form class="form-inline loginPage-loginBlock-form" name="authform" action="/login/" method="POST">
-                    {% csrf_token %}
-                    <input class="input-medium form-control" type="text" name="username" value="Email"
-                           onfocus="if(this.value==this.defaultValue)this.value='';"
-                           onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                    <input class="input-medium form-control" type="password" name="password" value="Пароль"
-                           onfocus="if(this.value==this.defaultValue)this.value='';"
-                           onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                    <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти"/>
-                    <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                </form>
-            </div>
-            {% ifequal error "not_found" %}
-                <div class='alert alert-danger' role="alert">
-                    <strong>Ошибка:</strong>&nbsp;Email или пароль введены неверно.
+        <div class="container">
+            <div class="loginPage">
+                <div class="loginPage-logoBig">
+                    <br><br>
                 </div>
-            {% endifequal %}
-            {% ifequal error "not_active" %}
-                <div class='alert alert-danger' role="alert">
-                    <strong>Ошибка:</strong>&nbsp;Пользователь не активен
+                <div class="loginPage-helloText">
+                    <h3 style="color: #444;margin: 16px 0 0;"></h3>
+                    <p align="center">
+                        <br><img src="/static/images/video_small.png" class="img-responsive"
+                                 style="margin-left: 40px;"/><br><br>
+                    </p>
                 </div>
-            {% endifequal %}
-            <p class="footer-links"><a href="/change_password/">Забыли пароль?</a></p>
+
+                <div class="loginPage-loginBlock well text-center clearfix">
+                    <form class="form-inline loginPage-loginBlock-form" name="authform" action="/login/" method="POST">
+                        {% csrf_token %}
+                        <input class="input-medium form-control" type="text" name="username" value="Email"
+                               onfocus="if(this.value==this.defaultValue)this.value='';"
+                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                        <input class="input-medium form-control" type="password" name="password" value="Пароль"
+                               onfocus="if(this.value==this.defaultValue)this.value='';"
+                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
+                        <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти"/>
+                        <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
+                    </form>
+                </div>
+                {% ifequal error "not_found" %}
+                    <div class='alert alert-danger' role="alert">
+                        <strong>Ошибка:</strong>&nbsp;Email или пароль введены неверно.
+                    </div>
+                {% endifequal %}
+                {% ifequal error "not_active" %}
+                    <div class='alert alert-danger' role="alert">
+                        <strong>Ошибка:</strong>&nbsp;Пользователь не активен
+                    </div>
+                {% endifequal %}
+                <p class="footer-links"><a href="/change_password/">Забыли пароль?</a></p>
+            </div>
         </div>
-    </div>
-    <style type="text/css">
-        body {
-            padding-top: 20px;
-        }
-    </style>
-    <script>
-        $(function () {
-            $('.fancybox-media').fancybox();
-        });
-    </script>
-    <script type="text/javascript">
-        (function (d, w, c) {
-            (w[c] = w[c] || []).push(function () {
-                try {
-                    w.yaCounter26252781 = new Ya.Metrika({
-                        id: 26252781,
-                        webvisor: true,
-                        clickmap: true,
-                        trackLinks: true,
-                        accurateTrackBounce: true
-                    });
-                } catch (e) {
-                }
-            });
-
-            var n = d.getElementsByTagName("script")[0],
-                s = d.createElement("script"),
-                f = function () {
-                    n.parentNode.insertBefore(s, n);
-                };
-            s.type = "text/javascript";
-            s.async = true;
-            s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-            if (w.opera == "[object Opera]") {
-                d.addEventListener("DOMContentLoaded", f, false);
-            } else {
-                f();
+        <style type="text/css">
+            body {
+                padding-top: 20px;
             }
-        })(document, window, "yandex_metrika_callbacks");
-    </script>
-    <noscript>
-        <div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt=""/></div>
-    </noscript>
-    <!-- /Yandex.Metrika counter -->
-{% endif %}
+        </style>
+        <script>
+            $(function () {
+                $('.fancybox-media').fancybox();
+            });
+        </script>
+        <script type="text/javascript">
+            (function (d, w, c) {
+                (w[c] = w[c] || []).push(function () {
+                    try {
+                        w.yaCounter26252781 = new Ya.Metrika({
+                            id: 26252781,
+                            webvisor: true,
+                            clickmap: true,
+                            trackLinks: true,
+                            accurateTrackBounce: true
+                        });
+                    } catch (e) {
+                    }
+                });
+
+                var n = d.getElementsByTagName("script")[0],
+                    s = d.createElement("script"),
+                    f = function () {
+                        n.parentNode.insertBefore(s, n);
+                    };
+                s.type = "text/javascript";
+                s.async = true;
+                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+                if (w.opera == "[object Opera]") {
+                    d.addEventListener("DOMContentLoaded", f, false);
+                } else {
+                    f();
+                }
+            })(document, window, "yandex_metrika_callbacks");
+        </script>
+        <noscript>
+            <div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt=""/></div>
+        </noscript>
+        <!-- /Yandex.Metrika counter -->
+    {% endif %}
 {% endblock %}
