@@ -1,47 +1,49 @@
 {% load less %}
 {% if is_opengift %}
-    {% extends "main/base.html" %}
+    {% extends "public/index.html" %}
+
     {% block content %}
-        <section>
-            <div class="container">
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto text-center">
+                    <h2 class="h1">
+                        Пожалуйста, войдите или зарегистрируйтесь
+                    </h2>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                </div>
+            </div>
+            <form name="authform" action="/login/" method="POST">
+                {% csrf_token %}
                 <div class="row">
-                    <div class="col-lg-6 mx-auto text-center">
-                        <h2 class="h1">
-                            Пожалуйста, войдите или зарегистрируйтесь
-                        </h2>
-                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                    <div class="col-md-6">
+                        <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                            <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                <span class="icon icon-Mail text-primary"></span>
+                            </div>
+                            <input type="text" class="form-control border-0 p-3"
+                                   name="username"
+                                   placeholder="E-mail" required="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                    <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                            <span class="icon icon-Password text-primary"></span>
+                        </div>
+                        <input type="password" name="password" class="form-control border-0 p-3"
+                               placeholder="Пароль" required="">
+                    </div>
                     </div>
                 </div>
-                <form name="authform" action="/login/" method="POST">
-                    {% csrf_token %}
-                    <div class="row">
-						<div class="col-md-6">
-							<div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-								<div class="input-group-addon bg-white border-0 pl-4 pr-0">
-									<span class="icon icon-Mail text-primary"></span>
-								</div>
-								<input type="text" class="form-control border-0 p-3"
-                                       name="username"
-                                       placeholder="E-mail" required="">
-							</div>
-						</div>
-						<div class="col-md-6">
-						<div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-							<div class="input-group-addon bg-white border-0 pl-4 pr-0">
-								<span class="icon icon-Password text-primary"></span>
-							</div>
-							<input type="password" name="password" class="form-control border-0 p-3"
-                                   placeholder="Пароль" required="">
-						</div>
-						</div>
-					</div>
-                    <input class="btn btn-success" type="submit" value="Войти"/>
-                    <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                </form>
-            </div>
-        </section>
-    {% endblock %}
-{% else %}
+                <input class="btn btn-success" type="submit" value="Войти"/>
+                <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+{% endif %}
+{% if not is_opengift %}
     <!DOCTYPE HTML>
     <html>
     <head>
