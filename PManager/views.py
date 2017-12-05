@@ -104,6 +104,9 @@ class MainPage:
     @staticmethod
     def auth(request):
         from PManager.viewsExt.tools import emailMessage
+        if request.user.is_authenticated():
+            return HttpResponseRedirect('/')
+
         if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
             username = request.POST['username']
             password = request.POST['password']
