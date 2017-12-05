@@ -43,7 +43,7 @@
                         {% for file in project.files.all %}
                             {% if file.isPicture %}
                             <li>
-                                <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                                <img class="box-shadow-v1" src="http://heliard.ru{{ file.src }}" alt=""/>
                             </li>
                             {% endif %}
                         {% endfor %}
@@ -145,19 +145,46 @@
                     </div> <!-- END col-12-->
                 </div> <!-- END row-->
 
-                <div class="row align-items-center">
+
+
+                <div class="align-items-center">
+                    <div data-init="carousel" data-slick='{
+				"slidesToShow":3,
+				"slidesToScroll": 1,
+				"arrows":true,
+				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
+				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
+				"responsive": [
+						{
+						 "breakpoint":1024,
+						 "settings":{
+							"slidesToShow": 2,
+							"arrows":true,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						},
+						{
+						 "breakpoint":600,
+						 "settings":{
+							"slidesToShow": 1,
+							"arrows":false,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						}
+					]
+				}'
+                         data-slick-margin="15">
+
 
                     {% for user in team %}
                         {% if user.get_profile.avatarSrc %}
-                            <div class="col-md-4 text-center mt-4">
-                                <div class="p-5 mb-4 rounded bg-white text-center box-shadow-v3 u-h-100p">
-                                    <img class="rounded-circle u-w-80 mx-auto u-mt-40 u-mb-20"
-                                         src="{{ user.get_profile.avatarSrc }}" alt="">
+                            <div class="p-5 rounded bg-white text-center">
+                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('http://heliard.ru/{{ user.get_profile.avatarSrc }}');"></div>
                                     <h4 class="u-mb-5">
                                         {{ user.first_name }} {{ user.last_name }}
                                     </h4>
-
-
 
                                     <p>
                                         {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
@@ -180,10 +207,11 @@
                                             <a href=""><i class="fa fa-linkedin"></i></a>
                                         </li>
                                     </ul>
-                                </div>
-                            </div> <!-- END col-lg-6-->
+                            </div>
                         {% endif %}
                     {% endfor %}
+                        </div>
+
                 </div> <!-- END row-->
             </div> <!-- END container-->
         </section>
@@ -274,17 +302,10 @@
 
             {% for milestone in milestones %}
                 <div class="cd-timeline-block">
-                    <div class="cd-timeline-img
-			{% if milestone.status == milestone.STATUS_NORMAL %}
-			cd-picture
-			{% endif %}
-			{% if milestone.status == milestone.STATUS_DANGER %}
-			cd-movie
-			{% endif %}
-			{% if milestone.status == milestone.STATUS_WARNING %}
-			cd-picture
-			{% endif %}">
-                        <img src="/static/public/assets/img/svg/puzzle.svg" alt="Picture">
+                    <div class="cd-timeline-img">
+                        <div class="second circle"  data-size="68">
+                                <strong></strong>
+                        </div>
                     </div> <!-- cd-timeline-img -->
 
                     <div class="cd-timeline-content">
@@ -293,9 +314,32 @@
                         <p>{{ milestone.description|default_if_none:'описание описание описание описание описание описание описание описание' }}</p>
                         {#				<a href="#0" class="cd-read-more">Read more</a>#}
                         <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
-                        <span>{{ milestone.percent }}%</span>
-                        <span style="background: black; height: 4px; display: block; width: {{ milestone.percent }}%"></span>
-                        <a href="" class="like-link">Like</a>
+
+
+
+                        <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+                        <script>
+                            (function($) {
+                                $('.second.circle').circleProgress({
+                                    fill: {gradient: ['#fd5663', '#f08035']},
+                                    lineCap: 'round',
+                                    emptyFill: '#d7e4ed',
+                                    value: 1
+                                }).on('circle-animation-progress', function(event, progress) {
+                                    $(this).find('strong').html(Math.round(100 * progress) + '<i>%</i>');
+                                });
+                            })(jQuery);
+                        </script>
+
+
+                        <div class="like-buttons">
+                            <button class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;">
+                                <i class="fa fa-heart mr-1"></i> Мне нравится
+                            </button>
+                            <span class="btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;">
+                                <i class="fa fa-heart mr-1"></i> 56
+                            </span>
+                        </div>
                     </div> <!-- cd-timeline-content -->
                 </div> <!-- cd-timeline-block -->
             {% endfor %}
