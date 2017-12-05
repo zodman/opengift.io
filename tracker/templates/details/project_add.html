@@ -41,8 +41,10 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <label>Прикрепите одно или несколько изображений для страницы проекта</label>
-                                <input type="file" name="IMAGES"/>
-                                <input type="file" name="IMAGES"/>
+                                <div class="js-file-input-list">
+                                <input type="file" class="js-file-input" name="IMAGES"/>
+                                </div>
+                                <a href="#" class="js-file-add">Добавить</a>
                             </div>
                         </div>
                         <button class="btn btn-rounded btn-primary u-w-170 js-submit" type="submit">Отправить</button>
@@ -51,4 +53,12 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section>
+    <script>
+    $(function () {
+        $('.js-file-add').click(function () {
+            $('.js-file-input').clone().val('').appendTo('.js-file-input-list');
+            return false;
+        })
+    });
+    </script>
 {% endblock %}

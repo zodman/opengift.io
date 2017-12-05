@@ -326,7 +326,7 @@
     <div class="header clearfix">
         <div class="logo">
             <a href="/">
-                <img src="/static/images/logo.png" alt="Heliard"/>
+                <img src="{% if is_opengift %}/static/public/assets/img/logo-inverse.png{% else %}/static/images/logo.png{% endif %}" alt="Heliard" height="29px"/>
             </a>
         </div>
 {% if user.is_authenticated %}
