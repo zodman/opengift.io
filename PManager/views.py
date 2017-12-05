@@ -12,7 +12,7 @@ from PManager.viewsExt.tools import set_cookie
 from PManager.viewsExt import headers
 from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
-from PManager.viewsExt.blockchain import blockchain_user_register_request
+from PManager.viewsExt.blockchain import userRegisterAndUpdate
 from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
 
@@ -147,7 +147,7 @@ class MainPage:
                         request,
                         user
                     )
-                    blockchain_user_register_request(user.username)
+                    userRegisterAndUpdate(user.username)
                     return HttpResponseRedirect(backurl)
 
                 if error:

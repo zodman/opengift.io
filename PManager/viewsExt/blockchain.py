@@ -9,17 +9,24 @@ def blockchainMain(request):
 
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
 
+def userRegisterAndUpdate(request):
+    result = blockchain_user_register_request(request.user.username)
+    if result.find('Error') == -1:
+        res = result.split("\n\n")
+        profile = request.user.get_profile()
+        profile.blockchain_key = res[0]
+        profile.blockchain_cert = res[1]
+        profile.save()
+
+        return result
+    return False
+
 def blockchainAjax(request):
     action = request.POST.get('action')
     result = ''
     if action == 'register':
-        result = blockchain_user_register_request(request.user.username)
-        if result.find('Error') == -1:
-            res = result.split("\n\n")
-            profile = request.user.get_profile()
-            profile.blockchain_key = res[0]
-            profile.blockchain_cert = res[1]
-            profile.save()
+        result = userRegisterAndUpdate(request)
+
     elif action == 'getKey':
         import re
         regex = re.compile('[^a-zA-Z0-9]')
