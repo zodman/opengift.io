@@ -1249,8 +1249,18 @@ input, textarea {
 .u-w-85 {
   width: 5.3125rem !important; }
 
+.u-w-90-wrapper {
+  width: 5.625rem !important;
+  height: 5.625rem !important;
+  overflow: hidden;
+  margin: 0 auto;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+}
+
 .u-w-90 {
-  width: 5.625rem !important; }
+  width: 5.625rem !important;
+}
 
 .u-w-95 {
   width: 5.9375rem !important; }
@@ -5082,4 +5092,40 @@ footer > *,
 footer > .wave,
 .with-waves > .wave {
   z-index: 4;
+}
+
+.like-buttons {text-align:center;}
+
+.circle {
+  width: 68px;
+  height: 68px;
+  top: -4px;
+  left: -4px;
+  background: #ffffff;
+  border-radius: 50%;
+  margin: 0 auto;
+  display: block;
+  position: relative;
+  text-align: center;
+  line-height: 1.2;
+}
+
+.circle canvas {
+  vertical-align: top;
+}
+
+.circle strong {
+  position: absolute;
+  top: 14px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  line-height: 40px;
+  font-size: 20px;
+}
+
+.circle strong i {
+  font-style: normal;
+  font-size: 0.6em;
+  font-weight: normal;
 }
