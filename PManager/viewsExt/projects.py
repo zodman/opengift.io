@@ -129,12 +129,12 @@ def projectDetailEdit(request, project_id):
 
 
 def projectDetailAdd(request):
-    post = request.POST if request.method == 'POST' else {}
+    import urllib
     if not request.user.is_authenticated():
-        raise Http404
+        return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
-    post.update({'author': request.user.id})
-    post.update({'tracker': 1})
+    post = request.POST if request.method == 'POST' else {}
+
     p_form = ProjectForm(
         data=post,
         files=request.FILES
@@ -142,6 +142,12 @@ def projectDetailAdd(request):
 
     instance = None
     if request.method == 'POST':
+        if not request.user.is_authenticated():
+            raise Http404
+
+        post.update({'author': request.user.id})
+        post.update({'tracker': 1})
+
         if p_form.is_valid():
             instance = p_form.save()
             iter = 0
@@ -162,7 +168,8 @@ def projectDetailAdd(request):
 
     c = RequestContext(request, {
         'form': p_form,
-        'instance': instance
+        'instance': instance,
+        'register': True if request.GET.get('register', None) == 'yes' else False
     }, processors=[csrf])
 
     t = loader.get_template('details/project_add.html')

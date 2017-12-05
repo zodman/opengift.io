@@ -1,54 +1,54 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
-<section>
-	<div class="container">
-		<div class="row">
-			<div class="col-lg-6 mx-auto text-center">
-				<h2 class="h1">
-					Создание проекта {{ instance.id }}
-				</h2>
-				<div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-				<p>
-					Расскажите нам о своем проекте
-				</p>
-			</div>
-		</div> <!-- END row-->
-		<div class="row">
-			<div class="col-lg-7 text-center mt-5 mx-auto">
-				<form action=""  method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    {% for field in form %}
-                        {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' or field.name == 'files' %}
-                        {% else %}
-                            {% if field.name == 'closed' %}
-                                <div class="row show-grid">
-                                    <div class="col-xs-2"></div>
-                                    <div class="col-xs-6"><label class="control-label">{{ field }}&nbsp;<span
-                                            style="top:2px;display:inline-block;position:relative;">{{ field.label_tag }}</span></label>
-                                    </div>
-                                </div>
+    <section>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 mx-auto text-center">
+                    <h2 class="h1">
+                        Создание проекта {{ instance.id }}
+                    </h2>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                    <p>
+                        Расскажите нам о своем проекте
+                    </p>
+                </div>
+            </div> <!-- END row-->
+            <div class="row">
+                <div class="col-lg-7 text-center mt-5 mx-auto">
+                    <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in form %}
+                            {% if field.name == 'author' or field.name == 'tracker' or field.name == 'repository' or field.name == 'files' %}
                             {% else %}
-                                <div class="row">
-                                    <div class="col-md-12">
-                                        <label>{{ field.label_tag }}</label>
-                                        {{ field }}
+                                {% if field.name == 'closed' %}
+                                    <div class="row show-grid">
+                                        <div class="col-xs-2"></div>
+                                        <div class="col-xs-6"><label class="control-label">{{ field }}&nbsp;<span
+                                                style="top:2px;display:inline-block;position:relative;">{{ field.label_tag }}</span></label>
+                                        </div>
                                     </div>
-                                </div>
+                                {% else %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <label>{{ field.label_tag }}</label>
+                                            {{ field }}
+                                        </div>
+                                    </div>
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                    {% endfor %}
-                    <div class="row">
-                        <div class="col-md-12">
-                            <label>Прикрепите одно или несколько изображений для страницы проекта</label>
-                            <input type="file" name="IMAGES" />
-                            <input type="file" name="IMAGES" />
+                        {% endfor %}
+                        <div class="row">
+                            <div class="col-md-12">
+                                <label>Прикрепите одно или несколько изображений для страницы проекта</label>
+                                <input type="file" name="IMAGES"/>
+                                <input type="file" name="IMAGES"/>
+                            </div>
                         </div>
-                    </div>
-					<button class="btn btn-rounded btn-primary u-w-170 js-submit" type="submit">Отправить</button>
-				</form>
-			</div> <!-- END col-lg-7 -->
-		</div> <!-- END row-->
-	</div> <!-- END container-->
-</section>
+                        <button class="btn btn-rounded btn-primary u-w-170 js-submit" type="submit">Отправить</button>
+                    </form>
+                </div> <!-- END col-lg-7 -->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
 {% endblock %}

@@ -2,7 +2,7 @@
 # Create your views here.
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.db.models import Sum
-from PManager.models import PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee, Agreement
+from PManager.models import PM_User, PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee, Agreement
 from PManager import widgets
 from django.template import loader, RequestContext
 from PManager.viewsExt.tools import emailMessage
@@ -103,32 +103,56 @@ class MainPage:
 
     @staticmethod
     def auth(request):
+        from PManager.viewsExt.tools import emailMessage
         if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
             username = request.POST['username']
             password = request.POST['password']
 
+            backurl = request.POST.get('backurl', None)
+            if not backurl:
+                backurl = '/'
+
             from django.contrib.auth import authenticate, login
 
-            user = authenticate(username=username, password=password)
-            if user is not None:
-                if user.is_active:
-                    login(request, user)
-                    if request.GET.get('from', '') == 'mobile':
-                        return HttpResponse('{"unauthorized": false}', content_type='application/json')
+            try:
+                User.objects.get(username=username)
+                user = authenticate(username=username, password=password)
+                if user is not None:
+                    if user.is_active:
+                        login(request, user)
+                        if request.GET.get('from', '') == 'mobile':
+                            return HttpResponse('{"unauthorized": false}', content_type='application/json')
+                        else:
+                            return HttpResponseRedirect(backurl)
                     else:
-                        backurl = request.POST.get('backurl', None)
-                        if not backurl:
-                            backurl = '/'
-
-                        return HttpResponseRedirect(backurl)
+                        return HttpResponse(loader
+                                            .get_template('main/unauth.html')
+                                            .render(RequestContext(request, {"error": "not_active"})))
                 else:
                     return HttpResponse(loader
                                         .get_template('main/unauth.html')
-                                        .render(RequestContext(request, {"error": "not_active"})))
-            elif user is None:
-                return HttpResponse(loader
-                                    .get_template('main/unauth.html')
-                                    .render(RequestContext(request, {"error": "not_found"})))
+                                        .render(RequestContext(request, {"error": "not_found"})))
+
+            except User.DoesNotExist:
+                error = None
+                if not emailMessage.validateEmail(username):
+                    error = u'Введите правильный email'
+                else:
+                    user = PM_User.getOrCreateByEmail(username, None, None, password)
+                    user.backend = 'django.contrib.auth.backends.ModelBackend'
+                    login(
+                        request,
+                        user
+                    )
+                    return HttpResponseRedirect(backurl)
+
+                if error:
+                    return HttpResponse(
+                        loader.get_template('main/unauth.html').render(
+                            RequestContext(request, {"error": "incorrect_email"})
+                        )
+                    )
+
 
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout

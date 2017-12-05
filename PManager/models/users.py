@@ -207,13 +207,14 @@ class PM_User(models.Model):
             return pm_user
 
     @staticmethod
-    def getOrCreateByEmail(email, project, role):
+    def getOrCreateByEmail(email, project, role, password=None):
         try:
             user = User.objects.filter(username=email).get()  #достанем пользователя по логину
             is_new = False
         except User.DoesNotExist:
             is_new = True
-            password = User.objects.make_random_password()
+            if not password:
+                password = User.objects.make_random_password()
             login = email
             if len(login) > 30:
                 login = login[0:login.find('@')]
