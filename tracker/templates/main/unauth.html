@@ -11,7 +11,17 @@
                             <h2 class="h1">
                                 Пожалуйста, войдите или зарегистрируйтесь
                             </h2>
-                            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto">
+                                {% ifequal error "not_found" %}
+                                    <span class="label-danger">Email или пароль введены неверно.</span>
+                                {% endifequal %}
+                                {% ifequal error "not_active" %}
+                                    <span class="label-danger">Пользователь не активен</span>
+                                {% endifequal %}
+                                {% ifequal error "incorrect_email" %}
+                                    <span class="label-danger">Email введен не верно</span>
+                                {% endifequal %}
+                            </div>
                         </div>
                     </div>
 
