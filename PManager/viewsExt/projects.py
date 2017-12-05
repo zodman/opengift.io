@@ -164,6 +164,7 @@ def projectDetailAdd(request):
 
             instance.save()
 
+            request.user.get_profile().setRole('manager', instance)
             return HttpResponseRedirect('/project/' + str(instance.id) + '/edit/')
 
     c = RequestContext(request, {
