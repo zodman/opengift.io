@@ -5130,7 +5130,7 @@ footer > .wave,
 }
 
 .user-rating {
-  position: relative;
+  position: absolute;
   color: #fff;
   background: #38c1d1;
   background-image: -webkit-linear-gradient(left, #62bb94 0%, #38c1d1 100%);
@@ -5143,11 +5143,11 @@ footer > .wave,
   white-space: nowrap;
   display: inline-block;
   margin: 0 auto;
-  font-size: 18px;
+  font-size: 12px;
   /*height: 24px;*/
   line-height: 24px;
   padding: 10px;
-  top: -15px;
+  top: 0;
 }
 
 .project-rate {

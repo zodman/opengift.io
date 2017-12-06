@@ -208,13 +208,14 @@
                     {% for user in team %}
                         {% if user.get_profile.avatarSrc %}
                             <div class="rounded bg-white text-center">
-                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('http://heliard.ru/{{ user.get_profile.avatarSrc }}');">
+                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('{{ user.get_profile.avatarSrc }}');">
                                     </div>
-                                    <div class="user-rating">
-                                        <i class="fa fa-star"></i> {{ user.rating|floatformat }}
-                                    </div>
+
                                     <h4 class="u-mb-5">
                                         {{ user.first_name }} {{ user.last_name }}
+                                        <div class="user-rating">
+                                            <i class="fa fa-star"></i> {{ user.rating|floatformat }}
+                                        </div>
                                     </h4>
 
                                     <p>
