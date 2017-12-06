@@ -29,6 +29,10 @@
                     this.nodes.push(node);
                 },
                 'back': function() {
+                    if (this.nodes.length == 1) {
+                        return this.nodes[0];
+                    }
+
                     this.nodes.pop();
                     if (this.nodes.length)
                         return this.nodes[this.nodes.length-1];
@@ -150,8 +154,10 @@
 
             $('.js-stack-back').click(function() {
                 var node = stack.back();
-                nodes = new vis.DataSet(node.subitems);
-                network.setData({'nodes':nodes, 'edges':edges});
+                if (node) {
+                    nodes = new vis.DataSet(node.subitems);
+                    network.setData({'nodes':nodes, 'edges':edges});
+                }
             });
         });
     </script>
