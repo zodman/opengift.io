@@ -40,7 +40,7 @@
                         {% endif %}
                     </h1>
                     {% if long_specialties_list %}
-                    {% for tags in project.specialties.all1 %}
+                    {% for tags in project.specialties.all %}
                         <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tags.name }}</sup>
                     {% endfor %}
                     {% endif %}
