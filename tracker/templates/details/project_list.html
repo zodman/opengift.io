@@ -2,6 +2,10 @@
 {% load thumbnail get_settings compressed %}
 {% block content %}
     <section>
+    <a href="#" class="js-stack-back">back</a>
+    <div class="js-breadcrumbs">
+
+    </div>
         <div id="bubbles"></div>
     </section>
     <script type="application/javascript" src="/static/js/libs/vis.js?v1"></script>
@@ -12,7 +16,8 @@
             height: 400px;
         }
     </style>
-    <div class="js-breadcrumbs"></div>
+
+
     <script type="application/javascript">
         $(function () {
             var nodeStack = function() {
@@ -125,7 +130,6 @@
                         nodes = new vis.DataSet(node.subitems);
                         network.setData({'nodes':nodes, 'edges':edges});
                         stack.add(node);
-                        console.log(stack);
                         $('.js-breadcrumbs').html(stack.render());
                     }
                 }
@@ -143,6 +147,12 @@
             setTimeout(function() {
                 network.fit();
             }, 1000);
+
+            $('.js-stack-back').click(function() {
+                var node = stack.back();
+                nodes = new vis.DataSet(node.subitems);
+                network.setData({'nodes':nodes, 'edges':edges});
+            });
         });
     </script>
 {% endblock %}
