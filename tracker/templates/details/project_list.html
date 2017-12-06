@@ -12,9 +12,34 @@
             height: 400px;
         }
     </style>
+    <div class="js-breadcrumbs"></div>
     <script type="application/javascript">
         $(function () {
-            var nodes = new vis.DataSet([
+            var nodeStack = function() {
+                this.nodes = [];
+            };
+
+            nodeStack.prototype = {
+                'add': function(node) {
+                    this.nodes.append(node);
+                },
+                'back': function() {
+                    this.nodes.pop();
+                    if (this.nodes.length)
+                        return this.nodes[this.nodes.length-1];
+
+                    return false;
+                },
+                render: function() {
+                    var s = '';
+                    for (var i in this.nodes) {
+                        s += this.nodes[i].label + ' >';
+                    }
+                    return s;
+                }
+            };
+
+            var aNodes = [
                 {% for k, spec in specialties.iteritems %}
                 {
                     value: 20 * ({{ spec.subitems|length }} + 1),
@@ -35,7 +60,13 @@
                     ]
                 },
                 {% endfor %}
-            ]);
+            ];
+            var nodes = new vis.DataSet(aNodes);
+            var stack = new nodeStack();
+            stack.add({
+                'label': 'main',
+                'subitems': aNodes
+            });
             var edges = new vis.DataSet();
 
             var container = document.getElementById('bubbles');
@@ -88,16 +119,13 @@
             var networkCanvas = document.getElementById("bubbles").getElementsByTagName("canvas")[0];
             // Events
             network.on("click", function (e) {
-                console.log(e);
                 if (e.nodes.length) {
                     var node = nodes.get(e.nodes[0]);
-                    console.log(node);
-                    // Do something
-{#                    nodes = node.subitems;#}
-{#                    console.log(node);#}
-                    if (node && node.subitems.length) {
+                    if (node && node.subitems && node.subitems.length) {
                         nodes = new vis.DataSet(node.subitems);
                         network.setData({'nodes':nodes, 'edges':edges});
+                        stack.add(node);
+                        $('.js-breadcrumbs').html(stack.render());
                     }
                 }
             });
