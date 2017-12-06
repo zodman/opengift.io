@@ -72,7 +72,6 @@
                     hover: true
                 },
                 nodes: {
-                    mass: 3,
                     borderWidth: 0,
                     shape: "dot",
                     color: {
@@ -96,14 +95,14 @@
                         }
                     }
                 },
-                {#physics: {#}
-                {#    stabilization: false,#}
-                {#    minVelocity: 0.01,#}
-                {#    solver: "repulsion",#}
-                {#    repulsion: {#}
-                {#        nodeDistance: 60#}
-                {#    }#}
-                {#}#}
+                physics: {
+                    stabilization: true,
+                    minVelocity: 0.01,
+                    solver: "repulsion",
+                    repulsion: {
+                        nodeDistance: 120
+                    }
+                }
             };
             var network = new vis.Network(container, data, options);
 
