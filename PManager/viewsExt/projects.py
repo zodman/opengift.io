@@ -71,8 +71,27 @@ def getSpecialtiesTree():
     return aSpecialties
 
 def projectList(request):
+    aSpec = getSpecialtiesTree()
+
+    def recursiveTreeDraw(treeItem):
+        s = ''
+        if 'item' in treeItem:
+            s += '{value:25, label: "'
+            s += treeItem['item'].name
+            s += '", subitems: ['
+
+        if treeItem['subitems']:
+            for item in treeItem['subitems']:
+                s += recursiveTreeDraw(item)
+
+        if 'item' in treeItem:
+            s += ']}'
+
+        return s
+
     c = RequestContext(request, {
-        'specialties': getSpecialtiesTree()
+        'specialties': aSpec,
+        'spectree': recursiveTreeDraw({'subitems': aSpec.values()})
     })
 
     t = loader.get_template('details/project_list.html')

@@ -49,26 +49,7 @@
             };
 
             var aNodes = [
-                {% for k, spec in specialties.iteritems %}
-                {
-                    value: 20 * ({{ spec.subitems|length }} + 1),
-                    label: "{{ spec.item.name }}",
-                    subitems: [
-                        {% for sub in spec.subitems %}
-                            {
-                                label: "{{ sub.item.name }}",
-                                subitems: [
-                                    {% for sub1 in sub.subitems %}
-                                        {
-                                            label: "{{ sub1.item.name }}"
-                                        },
-                                    {% endfor %}
-                                ]
-                            },
-                        {% endfor %}
-                    ]
-                },
-                {% endfor %}
+                {{ spectree }}
             ];
             var nodes = new vis.DataSet(aNodes);
             var stack = new nodeStack();
