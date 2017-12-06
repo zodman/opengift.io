@@ -33,13 +33,13 @@
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
                         {{ project.name }}
-                        {% if project.specialties.all.count < 4 %}
+                        {% if not long_specialties_list %}
                         {% for tags in project.specialties.all %}
                         <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
                         {% endfor %}
                         {% endif %}
                     </h1>
-                    {% if project.specialties.all.count > 3 %}
+                    {% if long_specialties_list %}
                     {% for tags in project.specialties.all1 %}
                         <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tags.name }}</sup>
                     {% endfor %}

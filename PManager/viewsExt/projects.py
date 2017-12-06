@@ -263,6 +263,7 @@ def projectDetailPublic(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
+        'long_specialties_list': project.specialties.count() > 3
     })
 
     t = loader.get_template('details/project_pub.html')
