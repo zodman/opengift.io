@@ -22,14 +22,62 @@
                 <div class="col-lg-6 u-mt-80">
                     <div class="project-rate clearfix">
                         <div class="project-stars pull-left">
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star"></i>
-                            <i class="fa fa-star-o"></i>
-                            <i class="fa fa-star-o"></i>
+                            <a href="#" data-rating="1" class="js-project-rating-star fa fa-star{% if rating < 1 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="2" class="js-project-rating-star fa fa-star{% if rating < 2 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="3" class="js-project-rating-star fa fa-star{% if rating < 3 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="4" class="js-project-rating-star fa fa-star{% if rating < 4 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="5" class="js-project-rating-star fa fa-star{% if rating < 4.8 %}-o{% endif %}"></a>
                         </div>
+                        {% if not user_voted %}
+                            <script>
+                                $(function() {
+                                    var userVoted = false;
+                                    var star = '.js-project-rating-star';
+                                    $(star).hover(
+                                        function() {
+                                            if (!userVoted) {
+                                                var vote = true, t = this;
+                                                $(star).each(function() {
+                                                    if (vote) {
+                                                        $(this).addClass('fa-star').removeClass('fa-star-o');
+                                                        if ($(t).data('rating') == $(this).data('rating')) {
+                                                            vote = false;
+                                                        }
+                                                    } else {
+                                                        $(this).removeClass('fa-star').addClass('fa-star-o');
+                                                    }
+                                                });
+                                            }
+                                        },
+                                        function() {
+                                            if (!userVoted) {
+                                                $(star).removeClass('fa-star').addClass('fa-star-o');
+                                            }
+                                        }
+                                    ).click(function() {
+                                        if (!userVoted) {
+                                            $.post(
+                                                '/project/{{ project.id }}/ajax/',
+                                                {
+                                                    'action': 'rate',
+                                                    'rating': $(this).data('rating')
+                                                },
+                                                function (data) {
+
+                                                },
+                                                'json'
+                                            );
+                                            userVoted = true;
+                                            var vc = '.js-voters-count';
+                                            $(vc).text(parseInt($(vc).text()) + 1);
+                                        }
+                                        return false;
+                                    });
+                                })
+                            </script>
+                        {% endif %}
                         <div class="pull-left project-rate-separator"><i class="fa fa-circle"></i></div>
-                        <div class="project-voices pull-left">5 голосов</div>
+                        <div class="project-voices pull-left"><span class="js-voters-count">{{ raters_count }}</span> голосов</div>
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
                         {{ project.name }}

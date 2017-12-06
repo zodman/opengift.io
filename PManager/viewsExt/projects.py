@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
-from PManager.models import PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
+from PManager.models import RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, Specialty
 from django import forms
 from django.utils import timezone
@@ -17,7 +17,7 @@ from django.contrib.contenttypes.models import ContentType
 from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
 from django.core.context_processors import csrf
-
+from django.db.models import Sum
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -160,6 +160,25 @@ def projectDetailEdit(request, project_id):
     return HttpResponse(t.render(c))
 
 
+def projectDetailAjax(request, project_id):
+    project = get_object_or_404(PM_Project, id=project_id)
+    canDeleteProject, canEditProject, bCurUserIsAuthor = False, False, False
+    if request.user.is_authenticated():
+        profile = request.user.get_profile()
+        canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
+        canEditProject = request.user.is_superuser or request.user.id == project.author.id
+        bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+
+    action = request.POST.get('action')
+    if action == 'rate':
+        if not RatingHits.userVoted(project, request):
+            rating = int(request.POST.get('rating'))
+            if (rating > 5): rating = 5
+            rateObject = RatingHits(project=project, rating=rating)
+            rateObject.save(request=request)
+
+    return HttpResponse('ok')
+
 def projectDetailAdd(request):
     import urllib
     if not request.user.is_authenticated():
@@ -268,7 +287,7 @@ def projectDetailPublic(request, project_id):
         team.append(user)
 
     ms = PM_Milestone.objects.filter(project=project).order_by('date')
-
+    raters_count = RatingHits.objects.filter(project=project).count()
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
@@ -282,7 +301,12 @@ def projectDetailPublic(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
-        'long_specialties_list': project.specialties.count() > 3
+        'long_specialties_list': project.specialties.count() > 3,
+        'raters_count': raters_count,
+        'user_voted': RatingHits.userVoted(project, request),
+        'rating': (RatingHits.objects.filter(
+                project=project
+            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (raters_count or 1)
     })
 
     t = loader.get_template('details/project_pub.html')

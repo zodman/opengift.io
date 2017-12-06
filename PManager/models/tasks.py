@@ -101,7 +101,6 @@ class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     parent_id = models.IntegerField(null=True, blank=True)
 
-
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
@@ -170,6 +169,36 @@ class PM_Project(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class RatingHits(models.Model):
+    ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
+    project = models.ForeignKey(PM_Project, related_name='ratingHits')
+    rating = models.IntegerField()
+
+    @staticmethod
+    def get_client_ip(request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    @staticmethod
+    def userVoted(project, request):
+        ip = RatingHits.get_client_ip(request)
+        return RatingHits.objects.filter(project=project, ip=ip).exists()
+
+    def save(self, *args, **kwargs):
+        if not 'request' in kwargs:
+            raise Exception('Save rating with request object')
+
+        self.ip = RatingHits.get_client_ip(kwargs['request'])
+        del kwargs['request']
+
+        super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'PManager'
 
 class Release(models.Model):
     statuses = (
