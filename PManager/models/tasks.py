@@ -45,6 +45,7 @@ class Tags(models.Model):
     tagText = models.CharField(max_length=100, db_index=True)
     frequency = models.FloatField(default=0)
     parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
+
     weight = 0
 
     def __unicode__(self):

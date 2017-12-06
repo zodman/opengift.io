@@ -59,10 +59,11 @@ def getSpecialtiesTree():
 
     for key, spec in aSpecialties.iteritems():
         s = spec['item']
-        if s.parent:
-            if aSpecialties[s.parent.id] and aSpecialties[s.id]:
-                aSpecialties[s.parent.id]['subitems'].append(aSpecialties[s.id])
-                aSpecialtiesTree.append(s.id)
+        if s.connected.count():
+            for sub in s.connected.all():
+                if aSpecialties[sub.id] and aSpecialties[s.id]:
+                    aSpecialties[sub.id]['subitems'].append(aSpecialties[s.id])
+                    aSpecialtiesTree.append(s.id)
 
     for id in aSpecialtiesTree:
         del aSpecialties[id]
