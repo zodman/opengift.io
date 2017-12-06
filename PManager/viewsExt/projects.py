@@ -45,6 +45,38 @@ class ProjectFormEdit(forms.ModelForm):
         if USE_GIT_MODULE:
             fields.append("repository")
 
+def getSpecialtiesTree():
+    specialties = Specialty.objects.filter()
+    aSpecialties = {}
+
+    for spec in specialties:
+        aSpecialties[spec.id] = {
+            'item': spec,
+            'subitems': []
+        }
+
+    aSpecialtiesTree = []
+
+    for key, spec in aSpecialties.iteritems():
+        s = spec['item']
+        if s.parent:
+            if aSpecialties[s.parent.id] and aSpecialties[s.id]:
+                aSpecialties[s.parent.id]['subitems'].append(aSpecialties[s.id])
+                aSpecialtiesTree.append(s.id)
+
+    for id in aSpecialtiesTree:
+        del aSpecialties[id]
+
+
+    return aSpecialties
+
+def projectList(request):
+    c = RequestContext(request, {
+        'specialties': getSpecialtiesTree()
+    })
+
+    t = loader.get_template('details/project_list.html')
+    return HttpResponse(t.render(c))
 
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
@@ -74,26 +106,7 @@ def projectDetailEdit(request, project_id):
         else:
             return HttpResponse(p_form.errors)
 
-    specialties = Specialty.objects.filter()
-    aSpecialties = {}
-
-    for spec in specialties:
-        aSpecialties[spec.id] = {
-            'item': spec,
-            'subitems': []
-        }
-
-    aSpecialtiesTree = []
-
-    for key, spec in aSpecialties.iteritems():
-        s = spec['item']
-        if s.parent:
-            if aSpecialties[s.parent.id] and aSpecialties[s.id]:
-                aSpecialties[s.parent.id]['subitems'].append(aSpecialties[s.id])
-                aSpecialtiesTree.append(s.id)
-
-    for id in aSpecialtiesTree:
-        del aSpecialties[id]
+    aSpecialties = getSpecialtiesTree()
 
     sprojectSpec = project.specialties.values_list('id', flat=True)
 

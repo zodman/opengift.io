@@ -13,7 +13,7 @@ from PManager.viewsExt.users import userHandlers
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
     taskdraft_resend_invites, taskdraft_accept_developer
-from PManager.viewsExt.projects import projectDetailAdd, projectDetailEdit, projectDetailServer, projectDetail, projectDetailPublic, addInterface, removeInterface, checkUniqRepNameResponder, \
+from PManager.viewsExt.projects import projectList, projectDetailAdd, projectDetailEdit, projectDetailServer, projectDetail, projectDetailPublic, addInterface, removeInterface, checkUniqRepNameResponder, \
     project_server_setup, project_server_status
 from PManager.viewsExt.file_view import docxView
 from PManager.viewsExt.keys import KeyHandler
@@ -99,6 +99,7 @@ urlpatterns = patterns('',
                        url(r'^project/edit/', MainPage.indexRender,
                            {'widgetList': ["project_edit"], 'activeMenuItem': 'project'}),
                        url(r'^project/add/', projectDetailAdd),
+                       url(r'^project/list/', projectList),
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),
                        url(r'^upload/receiver/(?P<handler_id>[A-z0-9_\-]+)$', DeleteUploadedFile),
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"], 'activeMenuItem': 'files'}),
