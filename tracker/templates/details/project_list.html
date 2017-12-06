@@ -23,13 +23,13 @@
                         {% for sub in spec.subitems %}
                             {
                                 label: "{{ sub.item.name }}",
-                                subitems: {
+                                subitems: [
                                     {% for sub1 in sub.subitems %}
                                         {
                                             label: "{{ sub1.item.name }}"
                                         },
                                     {% endfor %}
-                                }
+                                ]
                             },
                         {% endfor %}
                     ]
