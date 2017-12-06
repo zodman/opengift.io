@@ -8,32 +8,48 @@
             font-size: 11px !important;
         }
     </style>
-    <section class="u-py-100 u-h-100vh u-flex-center" style="
-	background: #00cccc;
-	background-image: -webkit-linear-gradient(left, #00cccc 0%, #39c2d3 100%);
-	background-image: -o-linear-gradient(left, #00cccc 0%, #39c2d3 100%);
-	background-image: -webkit-gradient(linear, left top, right top, from(#00cccc), to(#39c2d3));
-	background-image: linear-gradient(to right, #00cccc 0%, #39c2d3 100%);
+        <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
+	background: #38c1d1;
+	background-image: -webkit-linear-gradient(left, #62bb94 0%, #38c1d1 100%);
+	background-image: -o-linear-gradient(left, #62bb94 0%, #38c1d1 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#62bb94), to(#38c1d1));
+	background-image: linear-gradient(to right, #62bb94 0%, #38c1d1 100%);
 	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF8B3AC6', endColorstr='#FF4D3399', GradientType=1);
-">
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF62bb94', endColorstr='#FF38c1d1', GradientType=1);
+ "><div class="quadro"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 u-mt-80">
+                    <div class="project-rate clearfix">
+                        <div class="project-stars pull-left">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div>
+                        <div class="pull-left project-rate-separator"><i class="fa fa-circle"></i></div>
+                        <div class="project-voices pull-left">5 голосов</div>
+                    </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
                         {{ project.name }}
                         {% for tags in project.specialties.all %}
                         <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
                         {% endfor %}
                     </h1>
+                    <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">Энергетика</sup>
+                    <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">Легкая промышленность</sup>
+                    <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">Нарциссизм</sup>
+                    <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">Эротика и порнография</sup>
+
 
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
                         {{ project.description }}
                     </p>
-                    <a href="" class="btn btn btn-rounded btn-green  px-md-5">
+                    <a href="" class="btn btn btn-rounded btn-white px-md-5">
                         Демо
                     </a>
-                    <a href="" class="btn btn btn-rounded btn-white ml-3 px-md-5">
+                    <a href="" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
                         Помочь проекту
                     </a>
                 </div> <!-- END col-lg-6-->
@@ -52,13 +68,18 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
-    <section class="bg-gray-v1 u-py-100">
+
+
+
+
+    <section class="u-py-100 with-waves" style="padding-bottom: 0 !important; padding-top: 50px !important;">
+        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4" style="position: absolute;"><title>Wave</title><defs></defs><path id="feel-the-wave-four" d=""/></svg>
         <div class="container">
             <div class="row text-center">
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
-                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #a456fd; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             10M
                         </h4>
 
@@ -69,8 +90,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
-                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded" style="background: #5eabff; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             56%
                         </h4>
 
@@ -81,8 +102,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
-                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #ff7298; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             265k
                         </h4>
 
@@ -93,8 +114,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="bg-white box-shadow-v1 u-ff-dosis u-py-40 rounded">
-                        <h4 class="mb-0 u-fs-36 u-fw-400">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #ffb976; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             128k
                         </h4>
 
@@ -109,18 +130,19 @@
     </section>
 
     <section class="u-py-100" style="padding-bottom: 0 !important;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 m-auto text-center">
-                    <h2 class="h1">
-                        Метрики проекта
-                    </h2>
+        <section class="u-py-100 bg-gray-v1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-6 m-auto text-center">
+                        <h2 class="h1">
+                            Метрики проекта
+                        </h2>
 
-                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                    </div>
                 </div>
-            </div>
-            <div class="row">
-                {% for chart in statistic.charts %}
+                <div class="row">
+                    {% for chart in statistic.charts %}
                     <div class="col-md-6 mt-6" style="margin-bottom: 30px;">
                         <div class="card border-0 box-shadow-v1 u-h-100p">
                             <div class="u-p-30">
@@ -129,9 +151,11 @@
                             </div>
                         </div>
                     </div>
-                {% endfor %}
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        </section>
+
         <section>
             <div class="container">
                 <div class="row">
@@ -175,13 +199,17 @@
 						}
 					]
 				}'
-                         data-slick-margin="15">
+                         data-slick-margin="30">
 
 
                     {% for user in team %}
                         {% if user.get_profile.avatarSrc %}
-                            <div class="p-5 rounded bg-white text-center">
-                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('http://heliard.ru/{{ user.get_profile.avatarSrc }}');"></div>
+                            <div class="rounded bg-white text-center">
+                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('http://heliard.ru/{{ user.get_profile.avatarSrc }}');">
+                                    </div>
+                                    <div class="user-rating">
+                                        Рейтинг: {{ user.rating|floatformat }}
+                                    </div>
                                     <h4 class="u-mb-5">
                                         {{ user.first_name }} {{ user.last_name }}
                                     </h4>
@@ -189,9 +217,6 @@
                                     <p>
                                         {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
                                             {% if not forloop.last %}, {% endif %}{% endfor %}
-                                    </p>
-                                    <p class="text-muted">
-                                        Рейтинг: {{ user.rating|floatformat }}
                                     </p>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         <li class="list-inline-item">
@@ -286,7 +311,8 @@
             });
         </script>
     </section>
-    <section class="u-py-30" style="background-color: #e9f0f5;">
+
+    <section class="bg-gray-v1">
         <section style="padding: 0;">
             <div class="row">
                 <div class="col-12 text-center">

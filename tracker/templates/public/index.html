@@ -66,11 +66,19 @@
 <p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
 <![endif]-->
 <div class="top-panel-error animated js-error-container label-danger" style="display: none;">
-    <div class="container js-error-container-text"></div>
-    <a href="#" class="close-btn js-error-container-close">
-        Close
-    </a>
+	<div class="container">
+			<div class="pull-left">
+				<div class="container js-error-container-text"></div>
+			</div>
+
+			<div class="pull-right">
+				<a href="#" class="close-btn js-error-container-close">
+					<i class="fa fa-remove"></i>
+				</a>
+			</div>
+	</div>
 </div>
+
 
 {% block header %}
 <header class="header header-shrink header-inverse fixed-top">
