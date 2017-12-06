@@ -85,7 +85,7 @@ def projectList(request):
                 s += recursiveTreeDraw(item)
 
         if 'item' in treeItem:
-            s += ']}'
+            s += ']},'
 
         return s
 
