@@ -49,7 +49,7 @@
             };
 
             var aNodes = [
-                {{ spectree }}
+                {{ spectree|safe }}
             ];
             var nodes = new vis.DataSet(aNodes);
             var stack = new nodeStack();
