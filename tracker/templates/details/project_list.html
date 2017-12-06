@@ -88,8 +88,10 @@
             var networkCanvas = document.getElementById("bubbles").getElementsByTagName("canvas")[0];
             // Events
             network.on("click", function (e) {
+                console.log(e);
                 if (e.nodes.length) {
                     var node = nodes.get(e.nodes[0]);
+                    console.log(node);
                     // Do something
 {#                    nodes = node.subitems;#}
 {#                    console.log(node);#}
