@@ -125,6 +125,7 @@
                         nodes = new vis.DataSet(node.subitems);
                         network.setData({'nodes':nodes, 'edges':edges});
                         stack.add(node);
+                        console.log(stack);
                         $('.js-breadcrumbs').html(stack.render());
                     }
                 }
@@ -132,7 +133,7 @@
             network.on("hoverNode", function (e) {
                 if (e.node) {
                     var node = nodes.get(e.node);
-                    if (node && node.subitems.length)
+                    if (node && node.subitems && node.subitems.length)
                         networkCanvas.style.cursor = 'pointer';
                 }
             });
