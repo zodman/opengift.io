@@ -95,8 +95,10 @@
                     // Do something
 {#                    nodes = node.subitems;#}
 {#                    console.log(node);#}
-                    if (node && node.subitems.length)
-                        network.setData({'nodes':node.subitems, 'edges':edges});
+                    if (node && node.subitems.length) {
+                        nodes = new vis.DataSet(node.subitems);
+                        network.setData({'nodes':nodes, 'edges':edges});
+                    }
                 }
             });
             network.on("hoverNode", function (e) {
