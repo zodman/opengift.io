@@ -8,7 +8,7 @@
             font-size: 11px !important;
         }
     </style>
-        <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
+    <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
 	background: #38c1d1;
 	background-image: -webkit-linear-gradient(left, #62bb94 0%, #38c1d1 100%);
 	background-image: -o-linear-gradient(left, #62bb94 0%, #38c1d1 100%);
@@ -16,56 +16,62 @@
 	background-image: linear-gradient(to right, #62bb94 0%, #38c1d1 100%);
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF62bb94', endColorstr='#FF38c1d1', GradientType=1);
- "><div class="quadro"></div>
+ ">
+        <div class="quadro"></div>
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 u-mt-80">
                     <div class="project-rate clearfix">
                         <div class="project-stars pull-left">
-                            <a href="#" data-rating="1" class="js-project-rating-star fa fa-star{% if rating < 1 %}-o{% endif %}"></a>
-                            <a href="#" data-rating="2" class="js-project-rating-star fa fa-star{% if rating < 2 %}-o{% endif %}"></a>
-                            <a href="#" data-rating="3" class="js-project-rating-star fa fa-star{% if rating < 3 %}-o{% endif %}"></a>
-                            <a href="#" data-rating="4" class="js-project-rating-star fa fa-star{% if rating < 4 %}-o{% endif %}"></a>
-                            <a href="#" data-rating="5" class="js-project-rating-star fa fa-star{% if rating < 4.8 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="1"
+                               class="js-project-rating-star fa fa-star{% if rating < 1 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="2"
+                               class="js-project-rating-star fa fa-star{% if rating < 2 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="3"
+                               class="js-project-rating-star fa fa-star{% if rating < 3 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="4"
+                               class="js-project-rating-star fa fa-star{% if rating < 4 %}-o{% endif %}"></a>
+                            <a href="#" data-rating="5"
+                               class="js-project-rating-star fa fa-star{% if rating < 4.8 %}-o{% endif %}"></a>
                         </div>
                         {% if not user_voted %}
                             <script>
-                                $(function() {
+                                $(function () {
                                     var userVoted = false;
                                     var star = '.js-project-rating-star';
                                     $(star).hover(
-                                        function() {
-                                            if (!userVoted) {
-                                                var vote = true, t = this;
-                                                $(star).each(function() {
-                                                    if (vote) {
-                                                        $(this).addClass('fa-star').removeClass('fa-star-o');
-                                                        if ($(t).data('rating') == $(this).data('rating')) {
-                                                            vote = false;
+                                            function () {
+                                                if (!userVoted) {
+                                                    var vote = true, t = this;
+                                                    $(star).each(function () {
+                                                        if (vote) {
+                                                            $(this).addClass('fa-star').removeClass('fa-star-o');
+                                                            if ($(t).data('rating') == $(this).data('rating')) {
+                                                                vote = false;
+                                                            }
+                                                        } else {
+                                                            $(this).removeClass('fa-star').addClass('fa-star-o');
                                                         }
-                                                    } else {
-                                                        $(this).removeClass('fa-star').addClass('fa-star-o');
-                                                    }
-                                                });
+                                                    });
+                                                }
+                                            },
+                                            function () {
+                                                if (!userVoted) {
+                                                    $(star).removeClass('fa-star').addClass('fa-star-o');
+                                                }
                                             }
-                                        },
-                                        function() {
-                                            if (!userVoted) {
-                                                $(star).removeClass('fa-star').addClass('fa-star-o');
-                                            }
-                                        }
-                                    ).click(function() {
+                                    ).click(function () {
                                         if (!userVoted) {
                                             $.post(
-                                                '/project/{{ project.id }}/ajax/',
-                                                {
-                                                    'action': 'rate',
-                                                    'rating': $(this).data('rating')
-                                                },
-                                                function (data) {
+                                                    '/project/{{ project.id }}/ajax/',
+                                                    {
+                                                        'action': 'rate',
+                                                        'rating': $(this).data('rating')
+                                                    },
+                                                    function (data) {
 
-                                                },
-                                                'json'
+                                                    },
+                                                    'json'
                                             );
                                             userVoted = true;
                                             var vc = '.js-voters-count';
@@ -77,20 +83,22 @@
                             </script>
                         {% endif %}
                         <div class="pull-left project-rate-separator"><i class="fa fa-circle"></i></div>
-                        <div class="project-voices pull-left"><span class="js-voters-count">{{ raters_count }}</span> голосов</div>
+                        <div class="project-voices pull-left"><span class="js-voters-count">{{ raters_count }}</span>
+                            голосов
+                        </div>
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
                         {{ project.name }}
                         {% if not long_specialties_list %}
-                        {% for tags in project.specialties.all %}
-                        <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
-                        {% endfor %}
+                            {% for tags in project.specialties.all %}
+                                <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
+                            {% endfor %}
                         {% endif %}
                     </h1>
                     {% if long_specialties_list %}
-                    {% for tags in project.specialties.all %}
-                        <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tags.name }}</sup>
-                    {% endfor %}
+                        {% for tags in project.specialties.all %}
+                            <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tags.name }}</sup>
+                        {% endfor %}
                     {% endif %}
 
 
@@ -109,9 +117,9 @@
                         data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
                         {% for file in project.files.all %}
                             {% if file.isPicture %}
-                            <li>
-                                <img class="box-shadow-v1" src="http://heliard.ru{{ file.src }}" alt=""/>
-                            </li>
+                                <li>
+                                    <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                                </li>
                             {% endif %}
                         {% endfor %}
                     </ul>
@@ -124,12 +132,17 @@
 
 
     <section class="u-py-100 with-waves" style="padding-bottom: 0 !important; padding-top: 50px !important;">
-        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4" style="position: absolute;"><title>Wave</title><defs></defs><path id="feel-the-wave-four" d=""/></svg>
+        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
+             style="position: absolute;"><title>Wave</title>
+            <defs></defs>
+            <path id="feel-the-wave-four" d=""/>
+        </svg>
         <div class="container">
             <div class="row text-center">
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #a456fd; color: #fff !important;">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #a456fd; color: #fff !important;">
                         <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             10M
                         </h4>
@@ -141,7 +154,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded" style="background: #5eabff; color: #fff !important;">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"
+                         style="background: #5eabff; color: #fff !important;">
                         <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             56%
                         </h4>
@@ -153,7 +167,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #ff7298; color: #fff !important;">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ff7298; color: #fff !important;">
                         <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             265k
                         </h4>
@@ -165,7 +180,8 @@
                 </div> <!-- END col-lg-3 col-md-6-->
 
                 <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1" style="background: #ffb976; color: #fff !important;">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ffb976; color: #fff !important;">
                         <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
                             128k
                         </h4>
@@ -194,14 +210,14 @@
                 </div>
                 <div class="row">
                     {% for chart in statistic.charts %}
-                    <div class="col-md-6 mt-6" style="margin-bottom: 30px;">
-                        <div class="card border-0 box-shadow-v1 u-h-100p">
-                            <div class="u-p-30">
-                                <h4 class="text-center">{{ chart.title }}</h4>
-                                <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
+                        <div class="col-md-6 mt-6" style="margin-bottom: 30px;">
+                            <div class="card border-0 box-shadow-v1 u-h-100p">
+                                <div class="u-p-30">
+                                    <h4 class="text-center">{{ chart.title }}</h4>
+                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
+                                </div>
                             </div>
                         </div>
-                    </div>
                     {% endfor %}
                 </div>
             </div>
@@ -219,7 +235,6 @@
                         <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                     </div> <!-- END col-12-->
                 </div> <!-- END row-->
-
 
 
                 <div class="align-items-center">
@@ -253,10 +268,11 @@
                          data-slick-margin="30">
 
 
-                    {% for user in team %}
-                        {% if user.get_profile.avatarSrc %}
-                            <div class="rounded bg-white text-center">
-                                    <div class="rounded-circle u-w-90-wrapper mb-4" style="background: url('{{ user.get_profile.avatarSrc }}');">
+                        {% for user in team %}
+                            {% if user.get_profile.avatarSrc %}
+                                <div class="rounded bg-white text-center">
+                                    <div class="rounded-circle u-w-90-wrapper mb-4"
+                                         style="background: url('{{ user.get_profile.avatarSrc }}');">
                                     </div>
 
                                     <h4 class="u-mb-5">
@@ -284,10 +300,10 @@
                                             <a href=""><i class="fa fa-linkedin"></i></a>
                                         </li>
                                     </ul>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                        </div>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+                    </div>
 
                 </div> <!-- END row-->
             </div> <!-- END container-->
@@ -317,7 +333,7 @@
                         options: {
                             legend: {
                                 display: false
-                             },
+                            },
                             legendCallback: function (chart) {
                                 var text = [];
                                 text.push('<ul class="' + chart.id + '-legend">');
@@ -377,16 +393,47 @@
             </div> <!-- END row-->
         </section>
         <section id="cd-timeline" class="cd-container">
-
+            <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+            <script>
+                (function ($) {
+                    $(function () {
+                        $('.second.circle').each(function () {
+                            var t = this;
+                            (function(t){
+                                new Waypoint({
+                                  element: t,
+                                  offset: '95%',
+                                  handler: function(direction) {
+                                      if (!$(t).data('completed')) {
+                                          $(t).data('completed', true);
+                                          $(t).circleProgress({
+                                                fill: {
+                                                    gradient: ['#fd5663', '#f08035']
+                                                },
+                                                lineCap: 'round',
+                                                emptyFill: '#d7e4ed',
+                                                value: parseInt($(t).data('value')) / 100
+                                            }).on('circle-animation-progress', function (event, progress) {
+                                                $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
+                                            });
+                                      }
+                                  }
+                                });
+                            })(t);
+                        });
+                    });
+                })(jQuery);
+            </script>
             {% for milestone in milestones %}
                 <div class="cd-timeline-block">
                     <div class="cd-timeline-img">
-                        <div class="second circle"  data-size="68">
-                                <strong></strong>
+                        <div class="second circle" data-size="68"
+                             data-value="{{ milestone.percent|default_if_none:0 }}">
+                            <strong></strong>
                         </div>
                     </div> <!-- cd-timeline-img -->
 
-                    <div class="cd-timeline-content">
+                    <div class="cd-timeline-content" {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
                         <h2>{{ milestone.name }}</h2>
 
                         <p>{{ milestone.description|default_if_none:'описание описание описание описание описание описание описание описание' }}</p>
@@ -394,28 +441,16 @@
                         <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
 
-
-                        <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
-                        <script>
-                            (function($) {
-                                $('.second.circle').circleProgress({
-                                    fill: {gradient: ['#fd5663', '#f08035']},
-                                    lineCap: 'round',
-                                    emptyFill: '#d7e4ed',
-                                    value: 1
-                                }).on('circle-animation-progress', function(event, progress) {
-                                    $(this).find('strong').html(Math.round(100 * progress) + '<i>%</i>');
-                                });
-                            })(jQuery);
-                        </script>
-
-
                         <div class="like-buttons">
-                            <button class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> Мне нравится
+                            <button data-id="{{ milestone.id }}"
+                                    {% if milestone.liked %}disabled {% endif %}
+                                    class="{% if milestone.liked %}active disabled {% endif %} btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
+                                    style="margin: auto;">
+                                <i class="fa fa-heart mr-1"></i> Нужная вещь!
                             </button>
-                            <span class="btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> 56
+                            <span class="btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;cursor:default;">
+                                <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
+                                                                       class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
                             </span>
                         </div>
                     </div> <!-- cd-timeline-content -->
@@ -433,6 +468,26 @@
         $(function () {
             getProjectState('{{ project.name }}', function () {
                 $('.js-donate').show();
+            });
+            var liked = {}, $mstcnt;
+            $('.js-milestone-like').click(function () {
+                if (!liked[$(this).data('id')]) {
+                    liked[$(this).data('id')] = true;
+                    $(this).addClass('active disabled').attr('disabled', 'disabled');
+                    $mstcnt = $('.js-milestone-likes-count[data-id=' + $(this).data('id') + ']');
+                    $mstcnt.text(parseInt($mstcnt.text()) + 1);
+                    $.post(
+                            '/project/{{ project.id }}/ajax/',
+                            {
+                                'action': 'like',
+                                'mid': $(this).data('id')
+                            },
+                            function (data) {
+
+                            },
+                            'json'
+                    );
+                }
             });
         })
     </script>

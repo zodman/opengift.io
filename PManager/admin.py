@@ -1,7 +1,7 @@
 __author__ = 'Gvammer'
 from django.contrib import admin
 from PManager.models import Credit, Specialty, RatingHits, \
-    LogData, Agent, PM_File_Category, PM_Milestone, \
+    LogData, LikesHits, Agent, PM_File_Category, PM_Milestone, \
     PM_NoticedUsers, PM_Notice, PM_Task_Status, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
     PM_Timer, PM_Role, PM_Task, PM_ProjectRoles, \
@@ -96,6 +96,7 @@ admin.site.register(Agreement, AgreementInline)
 admin.site.register(SlackIntegration)
 admin.site.register(Release)
 admin.site.register(RatingHits)
+admin.site.register(LikesHits)
 admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin

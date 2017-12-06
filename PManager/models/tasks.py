@@ -169,6 +169,37 @@ class PM_Project(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class LikesHits(models.Model):
+    ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
+    milestone = models.ForeignKey('PM_Milestone', related_name='likesHits')
+    datetime = models.DateTimeField(auto_now_add=True, blank=True)
+
+    @staticmethod
+    def get_client_ip(request):
+        x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+        if x_forwarded_for:
+            ip = x_forwarded_for.split(',')[0]
+        else:
+            ip = request.META.get('REMOTE_ADDR')
+        return ip
+
+    @staticmethod
+    def userLiked(milestone, request):
+        ip = LikesHits.get_client_ip(request)
+        return LikesHits.objects.filter(milestone=milestone, ip=ip).exists()
+
+    def save(self, *args, **kwargs):
+        if not 'request' in kwargs:
+            raise Exception('Save rating with request object')
+
+        self.ip = LikesHits.get_client_ip(kwargs['request'])
+        del kwargs['request']
+
+        super(self.__class__, self).save(*args, **kwargs)
+
+    class Meta:
+        app_label = 'PManager'
+
 class RatingHits(models.Model):
     ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
     project = models.ForeignKey(PM_Project, related_name='ratingHits')
@@ -358,6 +389,9 @@ class PM_Milestone(models.Model):
 
     def tasksOrderedByClose(self):
         return self.tasks.order_by('-closed')
+
+    def userLiked(self, request):
+        return LikesHits.userLiked(self, request)
 
     @staticmethod
     def check():

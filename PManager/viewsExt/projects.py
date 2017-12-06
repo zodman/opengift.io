@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
-from PManager.models import RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
+from PManager.models import LikesHits, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, Specialty
 from django import forms
 from django.utils import timezone
@@ -176,6 +176,12 @@ def projectDetailAjax(request, project_id):
             if (rating > 5): rating = 5
             rateObject = RatingHits(project=project, rating=rating)
             rateObject.save(request=request)
+    elif action == 'like':
+        mid = int(request.POST.get('mid'))
+        milestone = get_object_or_404(PM_Milestone, id=mid)
+        if not LikesHits.userLiked(milestone, request):
+            likeObject = LikesHits(milestone=milestone)
+            likeObject.save(request=request)
 
     return HttpResponse('ok')
 
@@ -287,6 +293,11 @@ def projectDetailPublic(request, project_id):
         team.append(user)
 
     ms = PM_Milestone.objects.filter(project=project).order_by('date')
+    ams = []
+    for m in ms:
+        setattr(m, 'liked', m.userLiked(request))
+        ams.append(m)
+
     raters_count = RatingHits.objects.filter(project=project).count()
     c = RequestContext(request, {
         'chart': {
@@ -295,7 +306,7 @@ def projectDetailPublic(request, project_id):
         },
         'statistic': statistic,
         'project': project,
-        'milestones': ms,
+        'milestones': ams,
         'team': team,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
