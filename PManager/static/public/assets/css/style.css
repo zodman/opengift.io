@@ -5230,6 +5230,9 @@ footer > .wave,
   margin-left: 30px;
   padding: 0px;
 }
+.project-form--specialties-container > ul ul {
+  margin-left: 20px;
+}
 
 .project-form--specialties-container ul,
 .project-form--specialties-container li {
