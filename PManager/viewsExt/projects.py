@@ -153,17 +153,17 @@ def projectDetailEdit(request, project_id):
             for item in treeItem['subitems']:
                 s += recursiveTreeDraw(item)
             s += '<li class="project-form--specialties-container-ul-li-ul-li js-add-item">'
-            s += '                                                 <div class="progress-item">'
-            s += '                                                       <div class="row">'
-            s += '                                                           <div class="col-md-6 u-mb-30">'
-            s += '                                                               <input type="text" class="input-sm" placeholder="Добавить свою категорию">'
-            s += '                                                           </div>'
-            s += '                                                           <div class="col-md-6 u-mb-30">'
-            s += '                                                               <button data-id="'+treeItem['item'].id+'" class="js-add-category-btn btn btn-primary btn-sm"> Добавить</button>'
-            s += '                                                           </div>'
-            s += '                                                       </div>'
-            s += '                                                   </div>'
-            s += '                                               </li>'
+            s += '<div class="progress-item">'
+            s += '<div class="row">'
+            s += '<div class="col-md-6 u-mb-30">'
+            s += u'<input type="text" class="input-sm" placeholder="Добавить свою категорию">'
+            s += '</div>'
+            s += '<div class="col-md-6 u-mb-30">'
+            s += u'<button data-id="'+treeItem['item'].id+'" class="js-add-category-btn btn btn-primary btn-sm"> Добавить</button>'
+            s += '</div>'
+            s += '</div>'
+            s += '</div>'
+            s += '</li>'
             s += '</ul>'
 
         if 'item' in treeItem:
