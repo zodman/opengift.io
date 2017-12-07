@@ -150,7 +150,7 @@ def projectDetailEdit(request, project_id):
 
         if treeItem['subitems']:
 
-            s += '<ul class="project-form--specialties-container-ul-li-ul js-subitems-list" style="display:none;">'
+            s += '<ul class="project-form--specialties-container-ul js-subitems-list" '+('style="display:none;"' if 'item' in treeItem else '')+'>'
             for item in treeItem['subitems']:
                 s += recursiveTreeDraw(item)
 
