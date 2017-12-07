@@ -84,7 +84,7 @@
                                         <div class="project-form--specialties-container-select-cats-list">
                                             {% for s in project.specialties.all %}
                                             <span class="small-text-label btn-red btn btn-xs">
-                                                {{ s.name|capitalize }} <a href="#" data-id="{{ s.id }}" class="js-category-remove"><i class="fa fa-remove"></i></a>
+                                                {{ s.name }} <a href="#" data-id="{{ s.id }}" class="js-category-remove"><i class="fa fa-remove"></i></a>
                                             </span>
                                             {% endfor %}
                                         </div>
