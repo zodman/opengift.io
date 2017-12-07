@@ -41,7 +41,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "specialties", "problem", "link_site", "link_github", "link_demo"]
+        fields = ["name", "description", "files", "specialties", "target_group", "problem", "link_site", "link_github", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
