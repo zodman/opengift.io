@@ -139,11 +139,12 @@ def projectDetailEdit(request, project_id):
                 treeItem['item'].id) + '" class="custom-control-input"><span class="custom-control-indicator mt-1"></span>'
             s += '<span class="custom-control-description">'+treeItem['item'].name+'</span>'
             s += '</label>'
+            s += '<div class="js-toggle-section float-right up-down-icon"><i class="fa fa-angle-down"></i></div>'
             s += '<h4 class="float-right text-primary">85%</h4>'
             s += '<div class="progress w-100">'
             s += '<div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>'
             s += '</div>'
-            s += '<div class="js-toggle-section float-right up-down-icon"><i class="fa fa-angle-down"></i></div>'
+
             s += '</div>'
 
         if treeItem['subitems']:
