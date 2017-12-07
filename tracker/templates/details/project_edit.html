@@ -78,115 +78,112 @@
                             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
                                  aria-labelledby="v-pills-profile-tab" aria-expanded="false">
                                 <div class="project-edit-form">
-                                    <p><b>Категории, в которых вы участвуете</b></p>
+                                    <p><b>Категории проектов</b></p>
                                     <div class="project-form--specialties-container-select-cats">
 
                                         <div class="project-form--specialties-container-select-cats-list">
+                                            {% for s in project.specialties.all %}
                                             <span class="small-text-label btn-red btn btn-xs">
-                                                PYTHON <a href="#"><i class="fa fa-remove"></i></a>
+                                                {{ s.name|capitalize }} <a href="#" data-id="{{ s.id }}" class="js-category-remove"><i class="fa fa-remove"></i></a>
                                             </span>
-                                            <span class="small-text-label btn-red btn btn-xs">
-                                                PYTHON <a href="#"><i class="fa fa-remove"></i></a>
-                                            </span>
-                                            <span class="small-text-label btn-red btn btn-xs">
-                                                PYTHON <a href="#"><i class="fa fa-remove"></i></a>
-                                            </span>
+                                            {% endfor %}
                                         </div>
                                         <!--<p>У вас пока что не выбрано ни одной категории</p>-->
-                                        <button class="btn btn-outline-green btn-sm btn-rounded">Выберите категорию</button>
+{#                                        <button class="btn btn-outline-green btn-sm btn-rounded">Выберите категорию</button>#}
                                     </div>
 
 
                                     <div class="project-form--specialties-container clearfix" style="text-align: left;">
                                         <ul class="project-form--specialties-container-ul">
-                                            <li class="project-form--specialties-container-ul-li">
-                                                    <div class="progress-item">
-                                                        <span>Python and Django</span>
-                                                        <div class="float-right up-down-icon"><i class="fa fa-angle-down"></i></div>
-                                                        <h4 class="float-right text-primary">85%</h4>
-                                                        <div class="progress w-100">
-                                                            <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>
-                                                        </div>
-                                                    </div>
-                                                <ul class="project-form--specialties-container-ul-li-ul">
-                                                    <li class="project-form--specialties-container-ul-li-ul-li">
-                                                        <div class="progress-item clearfix">
-
-                                                            <label class="custom-control custom-checkbox text-left">
-                                                                <input type="checkbox" class="custom-control-input">
-                                                                <span class="custom-control-indicator mt-1"></span>
-                                                                <span class="custom-control-description">Python and Django</span>
-                                                            </label>
-                                                            <div class="float-right up-down-icon"><i class="fa fa-angle-down"></i></div>
-                                                            <h4 class="float-right text-primary">85%</h4>
-                                                            <div class="progress w-100">
-                                                                <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>
-                                                            </div>
-                                                        </div>
-                                                        <ul class="project-form--specialties-container-ul-li-ul">
-                                                            <li class="project-form--specialties-container-ul-li-ul-li">
-                                                                <div class="progress-item">
-
-                                                                    <label class="custom-control custom-checkbox text-left">
-                                                                        <input type="checkbox" class="custom-control-input">
-                                                                        <span class="custom-control-indicator mt-1"></span>
-                                                                        <span class="custom-control-description">Python and Django</span>
-                                                                    </label>
-                                                                    <h4 class="float-right text-primary">85%</h4>
-                                                                    <div class="progress w-100">
-                                                                        <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="project-form--specialties-container-ul-li-ul-li">
-                                                                <div class="progress-item">
-                                                                    <label class="custom-control custom-checkbox text-left">
-                                                                        <input type="checkbox" class="custom-control-input">
-                                                                        <span class="custom-control-indicator mt-1"></span>
-                                                                        <span class="custom-control-description">Python and Django</span>
-                                                                    </label>
-                                                                    <h4 class="float-right text-primary">85%</h4>
-                                                                    <div class="progress w-100">
-                                                                        <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="project-form--specialties-container-ul-li-ul-li">
-                                                                <div class="progress-item">
-                                                                    <div class="row">
-                                                                        <div class="col-md-6 u-mb-30">
-                                                                            <input type="text" class="input-sm" placeholder="Добавить свою категори">
-                                                                        </div>
-                                                                        <div class="col-md-6 u-mb-30">
-                                                                            <button class="btn btn-primary btn-sm"> Добавить</button>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </li>
-                                                    <li class="project-form--specialties-container-ul-li-ul-li">
-                                                        <div class="progress-item">
-
-                                                            <label class="custom-control custom-checkbox text-left">
-                                                                <input type="checkbox" class="custom-control-input">
-                                                                <span class="custom-control-indicator mt-1"></span>
-                                                                <span class="custom-control-description">Python and Django</span>
-                                                            </label>
-                                                            <div class="float-right up-down-icon"><i class="fa fa-angle-right"></i></div>
-                                                            <h4 class="float-right text-primary">85%</h4>
-                                                            <div class="progress w-100">
-                                                                <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                            </li>
+                                            {{ specialtiesList|safe }}
+{#                                            <li class="project-form--specialties-container-ul-li">#}
+{#                                                    <div class="progress-item">#}
+{#                                                        <span>Python and Django</span>#}
+{#                                                        <div class="float-right up-down-icon"><i class="fa fa-angle-down"></i></div>#}
+{#                                                        <h4 class="float-right text-primary">85%</h4>#}
+{#                                                        <div class="progress w-100">#}
+{#                                                            <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                <ul class="project-form--specialties-container-ul-li-ul">#}
+{#                                                    <li class="project-form--specialties-container-ul-li-ul-li">#}
+{#                                                        <div class="progress-item clearfix">#}
+{##}
+{#                                                            <label class="custom-control custom-checkbox text-left">#}
+{#                                                                <input type="checkbox" class="custom-control-input">#}
+{#                                                                <span class="custom-control-indicator mt-1"></span>#}
+{#                                                                <span class="custom-control-description">Python and Django</span>#}
+{#                                                            </label>#}
+{#                                                            <div class="float-right up-down-icon"><i class="fa fa-angle-down"></i></div>#}
+{#                                                            <h4 class="float-right text-primary">85%</h4>#}
+{#                                                            <div class="progress w-100">#}
+{#                                                                <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <ul class="project-form--specialties-container-ul-li-ul">#}
+{#                                                            <li class="project-form--specialties-container-ul-li-ul-li">#}
+{#                                                                <div class="progress-item">#}
+{##}
+{#                                                                    <label class="custom-control custom-checkbox text-left">#}
+{#                                                                        <input type="checkbox" class="custom-control-input">#}
+{#                                                                        <span class="custom-control-indicator mt-1"></span>#}
+{#                                                                        <span class="custom-control-description">Python and Django</span>#}
+{#                                                                    </label>#}
+{#                                                                    <h4 class="float-right text-primary">85%</h4>#}
+{#                                                                    <div class="progress w-100">#}
+{#                                                                        <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>#}
+{#                                                                    </div>#}
+{#                                                                </div>#}
+{#                                                            </li>#}
+{#                                                            <li class="project-form--specialties-container-ul-li-ul-li">#}
+{#                                                                <div class="progress-item">#}
+{#                                                                    <label class="custom-control custom-checkbox text-left">#}
+{#                                                                        <input type="checkbox" class="custom-control-input">#}
+{#                                                                        <span class="custom-control-indicator mt-1"></span>#}
+{#                                                                        <span class="custom-control-description">Python and Django</span>#}
+{#                                                                    </label>#}
+{#                                                                    <h4 class="float-right text-primary">85%</h4>#}
+{#                                                                    <div class="progress w-100">#}
+{#                                                                        <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>#}
+{#                                                                    </div>#}
+{#                                                                </div>#}
+{#                                                            </li>#}
+{#                                                            <li class="project-form--specialties-container-ul-li-ul-li">#}
+{#                                                                <div class="progress-item">#}
+{#                                                                    <div class="row">#}
+{#                                                                        <div class="col-md-6 u-mb-30">#}
+{#                                                                            <input type="text" class="input-sm" placeholder="Добавить свою категори">#}
+{#                                                                        </div>#}
+{#                                                                        <div class="col-md-6 u-mb-30">#}
+{#                                                                            <button class="btn btn-primary btn-sm"> Добавить</button>#}
+{#                                                                        </div>#}
+{#                                                                    </div>#}
+{#                                                                </div>#}
+{#                                                            </li>#}
+{#                                                        </ul>#}
+{#                                                    </li>#}
+{#                                                    <li class="project-form--specialties-container-ul-li-ul-li">#}
+{#                                                        <div class="progress-item">#}
+{##}
+{#                                                            <label class="custom-control custom-checkbox text-left">#}
+{#                                                                <input type="checkbox" class="custom-control-input">#}
+{#                                                                <span class="custom-control-indicator mt-1"></span>#}
+{#                                                                <span class="custom-control-description">Python and Django</span>#}
+{#                                                            </label>#}
+{#                                                            <div class="float-right up-down-icon"><i class="fa fa-angle-right"></i></div>#}
+{#                                                            <h4 class="float-right text-primary">85%</h4>#}
+{#                                                            <div class="progress w-100">#}
+{#                                                                <div class="progress-bar" aria-valuenow="85" style="width: 85%;"></div>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </li>#}
+{#                                                </ul>#}
+{#                                            </li>#}
                                         </ul>
                                     </div>
 
                                     <!--<div class="project-form--specialties-container clearfix" style="text-align: left;">
-                                        {{ specialtiesList|safe }}
+
                                     </div>-->
                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
                                           name="target_group"
