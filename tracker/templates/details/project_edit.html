@@ -179,6 +179,15 @@
                 $('.js-file-new-block').clone().appendTo('.js-file-new-inputs').val('');
                 return false;
             });
+
+            $('.js-toggle-section').click(function() {
+                var $subList = $(this).closest('.js-section-item').find('.js-subitems-list');
+                if ($subList.is(':visible')) {
+                    $subList.slideUp();
+                } else {
+                    $subList.slideDown();
+                }
+            });
         });
     </script>
 {% endblock %}
