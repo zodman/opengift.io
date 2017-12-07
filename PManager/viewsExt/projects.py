@@ -149,6 +149,7 @@ def projectDetailEdit(request, project_id):
             s += '</div>'
 
         if treeItem['subitems']:
+            curId = treeItem['item'].id
             s += '<ul class="project-form--specialties-container-ul-li-ul js-subitems-list" style="display:none;">'
             for item in treeItem['subitems']:
                 s += recursiveTreeDraw(item)
@@ -160,7 +161,7 @@ def projectDetailEdit(request, project_id):
             s += u'<input type="text" class="input-sm" placeholder="Добавить свою категорию">'
             s += '</div>'
             s += '<div class="col-md-6 u-mb-30">'
-            s += u'<button data-id="'+str(treeItem['item'].id)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Добавить</button>'
+            s += u'<button data-id="'+str(curId)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Добавить</button>'
             s += '</div>'
             s += '</div>'
             s += '</div>'
