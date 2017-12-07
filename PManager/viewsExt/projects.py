@@ -132,6 +132,7 @@ def projectDetailEdit(request, project_id):
     def recursiveTreeDraw(treeItem):
         s = ''
         if 'item' in treeItem:
+            percent = str(treeItem['item'].getPercent())
             s += '<li class="js-section-item project-form--specialties-container-ul-li">'
             s += '<div class="progress-item">'
             s += '<label class="custom-control custom-checkbox text-left"><input '+(
@@ -141,9 +142,9 @@ def projectDetailEdit(request, project_id):
             s += '</label>'
             if treeItem['subitems']:
                 s += '<div class="js-toggle-section float-right up-down-icon"><i class="fa fa-angle-down"></i></div>'
-            s += '<h4 class="float-right text-primary">'+str(treeItem['item'].getPercent())+'%</h4>'
+            s += '<h4 class="float-right text-primary">'+percent+'%</h4>'
             s += '<div class="progress w-100">'
-            s += '<div class="progress-bar" aria-valuenow="'+str(treeItem['item'].getPercent())+'" style="width: '+str(treeItem['item'].getPercent())+'%;"></div>'
+            s += '<div class="progress-bar" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>'
             s += '</div>'
 
             s += '</div>'
