@@ -181,7 +181,7 @@
             });
 
             $('.js-toggle-section').click(function() {
-                var $subList = $(this).closest('.js-section-item').find('.js-subitems-list');
+                var $subList = $(this).closest('.js-section-item').find('.js-subitems-list').eq(0);
                 if ($subList.is(':visible')) {
                     $subList.slideUp();
                 } else {
