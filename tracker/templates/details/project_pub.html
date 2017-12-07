@@ -325,7 +325,7 @@
                                         {% if forloop.last %}backgroundColor: "{{ axis.color }}",{% endif %}
                                         borderColor: "{{ axis.color }}",
                                         data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
-                                        {% if not forloop.last %},type: 'line'{% endif %}
+                                        {% if not forloop.last %},type: 'line', pointRadius: 0{% endif %}
                                     }{% if not forloop.last %},{% endif %}
                                 {% endfor %}
                             ]
