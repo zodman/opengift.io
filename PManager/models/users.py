@@ -23,6 +23,10 @@ class Specialty(models.Model):
     def __unicode__(self):
         return self.name or ''
 
+    def getPercent(self):
+        import random
+        return random.randint(0, 100)
+
     class Meta:
         app_label = 'PManager'
 
