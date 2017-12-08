@@ -35,8 +35,17 @@
     </section>
     <script>
         $(function() {
-            getBalance();
+            getKey(function() {
+                getBalance();
+            });
         });
+        var getKey = function(callback) {
+                $.post('/blockchain/ajax/', {'action':'getKey'}, function(data) {
+                    $('.js-wallet-code').html(data);
+                    callback();
+                });
+                return false;
+            };
         var getBalance = function() {
                 $.post('/blockchain/ajax/', {'action':'getBalance'}, function(data) {
                     data = $.parseJSON(data);
