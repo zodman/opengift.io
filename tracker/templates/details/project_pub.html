@@ -19,7 +19,7 @@
  ">
          <div class="container">
             <div class="row">
-                <div class="col-lg-6 u-mt-80">
+                <div class="col-lg-{% if project.files.count %}6{% else %}12 text-center{% endif %} u-mt-80">
                     <div class="project-rate clearfix">
                         <div class="project-stars pull-left">
                             <a href="#" data-rating="1"
@@ -111,7 +111,9 @@
                         Помочь проекту
                     </a>
                 </div> <!-- END col-lg-6-->
+                {% if project.files.count %}
                 <div class="col-lg-6 u-mt-80">
+
                     <ul class="p-0" data-init="carousel"
                         data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
                         {% for file in project.files.all %}
@@ -122,7 +124,9 @@
                             {% endif %}
                         {% endfor %}
                     </ul>
+
                 </div> <!-- END col-lg-6-->
+                {% endif %}
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
@@ -357,15 +361,25 @@
                             },
                             scales: {
                                 xAxes: [{
-                                    barPercentage: 0.2,
+                                    display:false,
+                                    barPercentage: 0.6,
                                     categoryPercentage: 0.7,
+                                    ticks: {
+                                        beginAtZero: true,
+                                        display: false
+                                    },
                                     gridLines: {
+                                        display: false
+                                    },
+                                    scaleLabel: {
                                         display: false
                                     }
                                 }],
                                 yAxes: [{
+                                    display:false,
                                     ticks: {
-                                        beginAtZero: true
+                                        beginAtZero: true,
+                                        display: false
                                     },
                                     gridLines: {
                                         display: false
@@ -380,7 +394,7 @@
     </section>
 
     <section class="bg-gray-v1">
-        <section class="container">
+        <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <h2 class="h1">
@@ -390,7 +404,8 @@
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
-        </section>
+        </div>
+        {% if milestones %}
         <section id="cd-timeline" class="cd-container">
             <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
             <script>
@@ -456,6 +471,11 @@
                 </div> <!-- cd-timeline-block -->
             {% endfor %}
         </section> <!-- cd-timeline -->
+        {% else %}
+            <div class="container text-center">
+            <h3>У проекта нет целей :(</h3>
+            </div>
+        {% endif %}
     </section>
     <script>
         var getProjectState = function (p, call) {

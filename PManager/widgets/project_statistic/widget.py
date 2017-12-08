@@ -182,12 +182,12 @@ class ViewDownloadChart(Chart):
         r = lambda: random.randint(0, 255)
         self.yAxes = {
             u'Скачивания': Axis(u'Скачивания', 'rgba(236,97,183,1)'),
-            u'Подписчики': Axis(u'Подписчики', 'rgba(56,195,209,1)')
+            # u'Подписчики': Axis(u'Подписчики', 'rgba(56,195,209,1)')
         }
 
         for day in self.dayGenerator:
             self.yAxes[u'Скачивания'].values.append(random.randint(1, 500))
-            self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
+            # self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
 
             self.xAxe.append(day)
 
