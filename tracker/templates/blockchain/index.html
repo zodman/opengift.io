@@ -1,6 +1,4 @@
 {% extends "public/index.html" %}
-{% block header %}
-{% endblock %}
 {% block content %}
     {% if not request.user.get_profile.blockchain_cert %}
         <section class="text-center">
