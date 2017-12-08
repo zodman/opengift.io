@@ -94,6 +94,7 @@
                             (function(inner, number) {
                                 getProjectState(inner, function(sum) {$('.js-project-'+number+'').text(sum);})
                             })(i, n);
+                            $('.js-target-project-token').append('<option>'+i+'</option>')
                         }
                         $('.js-projects-balance').html(sp);
                     }
