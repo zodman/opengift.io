@@ -91,7 +91,8 @@ def projectList(request):
 
     c = RequestContext(request, {
         'specialties': aSpec,
-        'spectree': recursiveTreeDraw({'subitems': aSpec.values()})
+        'spectree': recursiveTreeDraw({'subitems': aSpec.values()}),
+        'projects': PM_Project.objects.filter(specialties__isnull=False)
     })
 
     t = loader.get_template('details/project_list.html')
