@@ -36,3 +36,7 @@
 .label-danger {
     background-color: #E26C60;
 }
+
+.has-error input, .has-error select {
+    border: 1px solid red;
+}

@@ -98,6 +98,15 @@ def projectList(request):
     t = loader.get_template('details/project_list.html')
     return HttpResponse(t.render(c))
 
+def projectDetailDonate(request, project_id):
+    project = get_object_or_404(PM_Project, id=project_id)
+    c = RequestContext(request, {
+        'project': project
+    })
+
+    t = loader.get_template('details/project_donate.html')
+    return HttpResponse(t.render(c))
+
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
 

@@ -1,0 +1,87 @@
+{% extends "public/index.html" %}
+{% load thumbnail get_settings compressed %}
+{% block header %}
+{% endblock %}
+{% block content %}
+    {% if not request.user.get_profile.blockchain_cert %}
+        <section class="text-center">
+            <h1>Создание кошелька</h1>
+            <script>
+                $(function () {
+                    $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
+                        document.location.reload();
+                    });
+                })
+            </script>
+        </section>
+    {% else %}
+    <section class="u-py-md-250 u-flex-center">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-8 mx-auto">
+                    <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
+                        <h2 class="bg-primary m-0 py-3 text-white">Помощь проекту "{{ project.name }}"</h2>
+
+                        <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
+                            <p>Ваш кошелек: <span
+                                    class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
+                            </p>
+
+                            <p>Ваш баланс: <b class="js-wallet-balance"></b> GIFT</p>
+
+
+                            <div class="row align-items-center">
+                                <div class="col-lg-7 js-form-group">
+                                    <input type="text" name="" data-number-from="0.01" class="js-required js-target-project-sum" value=""
+                                           placeholder="Сумма"/>
+                                    <input type="hidden" name="" class="js-required js-target-project"
+                                           value="{{ project.name }}" />
+                                </div>
+                                <div class="col-lg-5">
+                                    <input type="button" value="Перевести"
+                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());"
+                                           class="js-donate btn btn-success"/>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div> <!-- END col-lg-5-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+        <script>
+            $(function () {
+                getKey(function () {
+                    getBalance();
+                });
+            });
+            var getKey = function (callback) {
+                $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
+                    $('.js-wallet-code').html(data);
+                    callback();
+                });
+                return false;
+            };
+            var getBalance = function () {
+                $.post('/blockchain/ajax/', {'action': 'getBalance'}, function (data) {
+                    data = $.parseJSON(data);
+                    $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
+
+                });
+                return false;
+            };
+
+            var donate = function (project, qty) {
+                var form = new Form('.js-donate-form');
+                if (form.validate()) {
+                    $('.js-donate').attr('disabled', 'disabled');
+                    $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
+                        getBalance();
+                        ERROR_REPORTER.showMessage('Ура, платеж прошел успешно!', MESSAGE_TYPE_SUCCESS);
+                    });
+                    $('.js-target-project, .js-target-project-sum').val('');
+                }
+            }
+        </script>
+    </section>
+    {% endif %}
+{% endblock %}
