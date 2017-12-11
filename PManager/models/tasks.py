@@ -101,6 +101,9 @@ class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     parent_id = models.IntegerField(null=True, blank=True)
 
+    class Meta:
+            app_label = 'PManager'
+
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)

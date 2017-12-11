@@ -5297,3 +5297,38 @@ footer > .wave,
 }
 
 .add-cat-form {float: left;}
+
+.bg-gradient {
+  background: #62bb94;
+  background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+  background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+  background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+  background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+}
+
+.balance {
+  padding: 30px;
+}
+
+.balance b {
+  font-size: 36px;
+  line-height: 48px;
+}
+
+.wallet-title h2 {
+  display: inline-block;
+  color: #ffffff;
+}
+.modal-header,
+.modal-body,
+.modal-footer {
+  padding: 25px 30px;
+}
+
+.project-logo {
+  background-size: 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center center !important;
+}
