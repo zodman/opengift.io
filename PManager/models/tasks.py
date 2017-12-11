@@ -125,6 +125,9 @@ class PM_Project(models.Model):
     specialties = models.ManyToManyField('Specialty', blank=True, null=True, related_name='projects',
                                          verbose_name=u'Направления')
 
+    industries = models.ManyToManyField(PM_Project_Industry, blank=True, null=True, related_name='projects',
+                                         verbose_name=u'Решаемые проблемы')
+
     @property
     def url(self):
         return '/?project=' + str(self.id)

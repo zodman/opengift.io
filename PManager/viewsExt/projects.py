@@ -6,7 +6,7 @@ from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
 from PManager.models import LikesHits, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
-from PManager.models import AccessInterface, Credit, Specialty
+from PManager.models import AccessInterface, Credit, PM_Project_Industry
 from django import forms
 from django.utils import timezone
 from django.contrib.auth.models import User
@@ -45,8 +45,8 @@ class ProjectFormEdit(forms.ModelForm):
         if USE_GIT_MODULE:
             fields.append("repository")
 
-def getSpecialtiesTree():
-    specialties = Specialty.objects.filter()
+def getIndustriesTree():
+    specialties = PM_Project_Industry.objects.filter()
     aSpecialties = {}
 
     for spec in specialties:
@@ -71,7 +71,7 @@ def getSpecialtiesTree():
     return aSpecialties
 
 def projectList(request):
-    aSpec = getSpecialtiesTree()
+    aSpec = getIndustriesTree()
 
     def recursiveTreeDraw(treeItem):
         s = ''
@@ -135,7 +135,7 @@ def projectDetailEdit(request, project_id):
         else:
             return HttpResponse(p_form.errors)
 
-    aSpecialties = getSpecialtiesTree()
+    aSpecialties = getIndustriesTree()
 
     sprojectSpec = project.specialties.values_list('id', flat=True)
 
@@ -189,8 +189,8 @@ def projectDetailEdit(request, project_id):
     c = RequestContext(request, {
         'project': project,
         'e': sprojectSpec,
-        'specialties': aSpecialties,
-        'specialtiesList': recursiveTreeDraw({'subitems': aSpecialties.values()})
+        'industries': aSpecialties,
+        'industriesList': recursiveTreeDraw({'subitems': aSpecialties.values()})
     })
 
     t = loader.get_template('details/project_edit.html')
@@ -349,7 +349,7 @@ def projectDetailPublic(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
-        'long_specialties_list': project.specialties.count() > 3,
+        'long_industries_list': project.industries.count() > 3,
         'raters_count': raters_count,
         'user_voted': RatingHits.userVoted(project, request),
         'rating': (RatingHits.objects.filter(
