@@ -193,31 +193,15 @@ function Form(formSelector) {
                         }
                     }
 
-                    if (!currentFieldError && $(this).data('number-to')) {
+                    if (!currentFieldError && $(this).data('numberTo')) {
                         if (parseFloat(currentVal) > parseFloat($(this).data('number-to'))) {
-                            currentFieldError = $(this).data('field-error') || MangoVars.messages['FIELD_MAX_VAL']
-                                    .replace(
-                                        '#FIELD#',
-                                        $(this).data('fieldname') || $(this).attr('placeholder')
-                                    )
-                                    .replace(
-                                        '#VAL#',
-                                        $(this).data('number-to')
-                                    );
+                            currentFieldError = $(this).data('field-error')  || 'Значение поля должно быть не более '+$(this).data('numberTo');
                         }
                     }
 
-                    if (!currentFieldError && $(this).data('number-from')) {
-                        if (parseFloat(currentVal) < parseFloat($(this).data('number-from'))) {
-                            currentFieldError = $(this).data('field-error')  || MangoVars.messages['FIELD_MIN_VAL']
-                                    .replace(
-                                        '#FIELD#',
-                                        $(this).data('fieldname') || $(this).attr('placeholder')
-                                    )
-                                    .replace(
-                                        '#VAL#',
-                                        $(this).data('number-from')
-                                    );
+                    if (!currentFieldError && $(this).data('numberFrom')) {
+                        if (isNaN(parseFloat(currentVal)) || parseFloat(currentVal) < parseFloat($(this).data('number-from'))) {
+                            currentFieldError = $(this).data('field-error')  || 'Значение поля должно быть не менее '+$(this).data('numberFrom');
                         }
                     }
                 }
