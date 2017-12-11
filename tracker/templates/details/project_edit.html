@@ -54,13 +54,13 @@
                                         <div class="clearfix">
                                         {% for file in project.files.all %}
                                             <div class="project-edit-form--files-list--file js-file-block">
-                                                <!--<span><img width="50px" src="{{ file.src }}" /></span>-->
-                                                <span class="project-edit-form--files-list--file-img" style="background-image: url('https://heliard.ru/protected/media/projects/2/368f3db0bc464a5688e2962c8e2cd867.jpg');"></span>
+                                                <span class="project-edit-form--files-list--file-img"
+                                                      style="background-image: url('{{ file.src }}');"></span>
 
-                                            <input type="hidden" name="files" value="{{ file.id }}" />
-                                            <a href="#" class="project-edit-form--files-list--file-remove js-file-remove">
-                                                <i class="fa fa-remove"></i>
-                                            </a>
+                                                <input type="hidden" name="files" value="{{ file.id }}" />
+                                                <a href="#" class="project-edit-form--files-list--file-remove js-file-remove">
+                                                    <i class="fa fa-remove"></i>
+                                                </a>
                                             </div>
                                         {% endfor %}
                                         </div>
