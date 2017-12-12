@@ -9,7 +9,7 @@
                     <div class="row">
                         <div class="col-lg-6 mx-auto text-center">
                             <h2 class="h1">
-                                Sign In
+                                Sign In / Register
                             </h2>
                             <p>View our privacy policy and use of cookies</p>
                             {% if error %}
@@ -47,13 +47,13 @@
                                     <span class="icon icon-ClosedLock text-primary"></span>
                                 </div>
                                 <input type="password" name="password" class="form-control border-0 p-3"
-                                       placeholder="Пароль" required="">
+                                       placeholder="Password" required="">
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-4 text-center mx-auto">
-                            <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Войти"/>
+                            <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Sign in / Register"/>
                             <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
                         </div>
                     </div>

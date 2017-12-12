@@ -31,7 +31,7 @@ def widget(request, headerValues, ar, qargs):
                           ]
 
     uid = request.GET.get('id', None)
-    if uid and request.user.is_staff:
+    if False and uid and request.user.is_staff:
         user = User.objects.get(pk=uid)
     else:
         user = request.user

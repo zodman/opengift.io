@@ -142,6 +142,7 @@ class MainPage:
                     error = u'Введите правильный email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)
+
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(
                         request,
