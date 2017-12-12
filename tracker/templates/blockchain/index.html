@@ -128,6 +128,7 @@
             getKey(function() {
                 getBalance();
             });
+            $('.header').get(0).className = "header header-shrink bg-gradient non-fixed";
         });
         var getKey = function(callback) {
                 $.post('/blockchain/ajax/', {'action':'getKey'}, function(data) {
