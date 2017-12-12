@@ -159,9 +159,9 @@
 					var typedTxt = $(this).data('type').split(',');
 					var typed = new Typed(this, {
 						strings: typedTxt,
-						typeSpeed: 80,
+						typeSpeed: $(this).data('type-speed') || 80,
 						loop:true,
-						backSpeed: 80,
+						backSpeed: $(this).data('back-speed') || 80,
 						showCursor:false
 					});
 				});
