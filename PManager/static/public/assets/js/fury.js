@@ -159,6 +159,7 @@
 					var typedTxt = $(this).data('type').split(',');
 					var typed = new Typed(this, {
 						strings: typedTxt,
+						backDelay: 2000,
 						typeSpeed: $(this).data('type-speed') || 80,
 						loop:true,
 						backSpeed: $(this).data('back-speed') || 80,
