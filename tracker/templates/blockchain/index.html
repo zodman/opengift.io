@@ -154,7 +154,7 @@
 
 
                             (function(inner, n) {
-                                var $p = $('.js-project-block').clone().show();
+                                var $p = $('.js-project-block.default').clone().removeClass('default').show();
                                 $p.find('.js-project-name').html(inner).end().appendTo('.js-project-list .slick-track');
 
                                 getProjectState(inner, function (sum) {
@@ -298,7 +298,7 @@
         </div>
     </div>
 </div>
-    <div class="rounded text-center p-md-3 js-project-block" style="display: none;">
+    <div class="rounded text-center p-md-3 js-project-block default" style="display: none;">
         <div class="project-balance"><span class="js-project-balance"></span>%</div>
         <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
     </div>
