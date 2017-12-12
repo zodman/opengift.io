@@ -9,19 +9,22 @@
                     <div class="row">
                         <div class="col-lg-6 mx-auto text-center">
                             <h2 class="h1">
-                                Пожалуйста, войдите или зарегистрируйтесь
+                                Sign In
                             </h2>
-                            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto">
+                            <p>View our privacy policy and use of cookies</p>
+                            {% if error %}
+                            <div class="bg-primary rounded u-p-10 u-mb-40 mx-auto">
                                 {% ifequal error "not_found" %}
-                                    <span class="label-danger">Email или пароль введены неверно.</span>
+                                    <div class="label-danger">Email or password is incorrect.</div>
                                 {% endifequal %}
                                 {% ifequal error "not_active" %}
-                                    <span class="label-danger">Пользователь не активен</span>
+                                    <div class="label-danger">User not found</div>
                                 {% endifequal %}
                                 {% ifequal error "incorrect_email" %}
-                                    <span class="label-danger">Email введен не верно</span>
+                                    <div class="label-danger">Email is incorrect</div>
                                 {% endifequal %}
                             </div>
+                            {% endif %}
                         </div>
                     </div>
 

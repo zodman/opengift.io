@@ -5,7 +5,7 @@
 {% block content %}
     {% if not request.user.get_profile.blockchain_cert %}
         <section class="text-center">
-            <h1>Создание кошелька</h1>
+            <h1>Wallet initialization</h1>
             <script>
                 $(function () {
                     $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
@@ -20,25 +20,25 @@
             <div class="row align-items-center">
                 <div class="col-lg-8 mx-auto">
                     <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
-                        <h2 class="bg-primary m-0 py-3 text-white">Помощь проекту "{{ project.name }}"</h2>
+                        <h2 class="bg-primary m-0 py-3 text-white">Donation to "{{ project.name }}"</h2>
 
                         <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
-                            <p>Ваш кошелек: <span
+                            <p>Your wallet: <span
                                     class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
                             </p>
 
-                            <p>Ваш баланс: <b class="js-wallet-balance"></b> GIFT</p>
+                            <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
 
 
                             <div class="row align-items-center">
                                 <div class="col-lg-7 js-form-group">
                                     <input type="text" name="" data-number-from="0.01" class="js-required js-target-project-sum" value=""
-                                           placeholder="Сумма"/>
+                                           placeholder="Sum"/>
                                     <input type="hidden" name="" class="js-required js-target-project"
                                            value="{{ project.name }}" />
                                 </div>
                                 <div class="col-lg-5">
-                                    <input type="button" value="Перевести"
+                                    <input type="button" value="Donate"
                                            onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());"
                                            class="js-donate btn btn-success"/>
                                 </div>
@@ -76,7 +76,7 @@
                     $('.js-donate').attr('disabled', 'disabled');
                     $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
                         getBalance();
-                        ERROR_REPORTER.showMessage('Ура, платеж прошел успешно!', MESSAGE_TYPE_SUCCESS);
+                        ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
                 }
