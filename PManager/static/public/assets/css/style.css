@@ -5332,3 +5332,43 @@ footer > .wave,
   background-repeat: no-repeat !important;
   background-position: center center !important;
 }
+
+.bg-gradient.non-fixed .navbar-nav > .nav-item > .nav-link {
+  color: #fff;
+}
+
+.input-group-input-with-desc {
+  padding-top: 25px !important;
+}
+
+.input-group-input-desc {
+  position: absolute;
+  top: 6px;
+  left: 20px;
+  z-index: 5;
+  font-size: 11px;
+  line-height: 21px;
+  color: #999;
+}
+
+button.close {
+  outline: none;
+  cursor: pointer;
+}
+
+.project-balance {
+  color: #fff;
+  display: inline-block;
+  margin: 0 auto;
+  font-size: 12px;
+  line-height: 20px;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ee8741+0,fe5465+100 */
+  background: rgb(238,135,65); /* Old browsers */
+  background: -moz-linear-gradient(left, rgba(238,135,65,1) 0%, rgba(254,84,101,1) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(238,135,65,1) 0%,rgba(254,84,101,1) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(238,135,65,1) 0%,rgba(254,84,101,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ee8741', endColorstr='#fe5465',GradientType=1 ); /* IE6-9 */
+}
