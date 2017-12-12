@@ -165,7 +165,9 @@
                         }
                         setTimeout(function() {
                             $('.js-project-list').slick('reinit');
-                            $('.js-project-list').slick('reinit');
+                            setTimeout(function() {
+                                $('.js-project-list').slick('reinit');
+                            }, 10);
                         }, 1000);
                     }
                 };
