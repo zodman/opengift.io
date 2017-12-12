@@ -157,14 +157,14 @@
                                 $p.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
                             })($project, i);
 
-                            (function (inner, number) {
+                            (function (inner, number, $projectElem) {
                                 getProjectState(inner, function (sum) {
                                     $('.js-project-' + number + '').text(sum);
                                     $projectElem.find('.js-project-balance').text(sum);
 
 
                                 });
-                            })(i, n);
+                            })(i, n, $project);
                             if (n == data.Projects.length)
                                 $('.js-project-list').slick('reinit');
                             $('.js-target-project-token').append('<option>' + i + '</option>');
