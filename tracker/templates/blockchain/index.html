@@ -160,7 +160,7 @@
                                     $projectElem.find('.js-project-balance').text(sum);
                                     $projectElem.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
 
-                                    if (number == len)
+                                    if (number == len-1)
                                         $('.js-project-list').slick('reinit');
                                 });
                             })(i, n, $project, data.Projects.length);
