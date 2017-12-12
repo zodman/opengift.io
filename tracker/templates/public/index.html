@@ -101,16 +101,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/#developers">Разработчикам</a>
+                            <a class="nav-link" href="/#developers">Developers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/#investment">Инвесторам</a>
+                            <a class="nav-link" href="/#investment">Investors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/project/list/">Проекты</a>
+                            <a class="nav-link" href="/project/list/">Projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/login/">Войти</a>
+                            <a class="nav-link" href="/wallet/">Wallet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#">WhitePaper</a>
                         </li>
                     </ul>
                 </div>
@@ -142,18 +145,19 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/#developers">Разработчикам</a>
+                            <a class="nav-link" href="/#developers">Developers</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/#investment">Инвесторам</a>
+                            <a class="nav-link" href="/#investment">Investors</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/project/list/">Проекты</a>
+                            <a class="nav-link" href="/project/list/">Projects</a>
                         </li>
-
                         <li class="nav-item">
-                            <a class="nav-link"
-                               href="{% if not request.user.is_authenticated %}/login/{% else %}/{% endif %}">Войти</a>
+                            <a class="nav-link" href="/wallet/">Wallet</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/#">WhitePaper</a>
                         </li>
                     </ul>
                 </div>
@@ -173,14 +177,10 @@
                     </h1>
 
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
-                        Первая в мире онлайн-платформа<br>
-                        для монетизации Open Source проектов
+                        First Platform <br>for Open-Source Projects Monetization
                     </p>
                     <a href="/project/add/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
-                        Зарегистрировать проект
-                    </a>
-                    <a href="/project/list/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
-                        Список проектов
+                        ADD YOUR PROJECT
                     </a>
                 </div> <!-- END col-lg-6-->
             </div> <!-- END row-->
@@ -193,40 +193,40 @@
                         </h2>
 
                         <p>
-                            Проектов
+                            Projects
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            18 000+
+                            4 000+
                         </h2>
 
                         <p>
-                            Разработчиков
+                            Developers
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            100+
+                            100 +
                         </h2>
 
                         <p>
-                            Инвесторов
+                            Investors
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            50 000+
+                            52 000+
                         </h2>
 
                         <p>
-                            Опенгифтеров
+                            Opengifters
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
@@ -277,25 +277,24 @@
         <div class="container">
             <div class="row text-center">
                 <div class="col-lg-12 mx-auto mt-5 text-white relative">
-
-                    <h2 class="display-4 u-fw-600 text-white u-mb-40">
+                    <h2 class="u-mb-40 text-white">Looking for a next Big Thing in your industry? Just click on the map to browse projects</h2>
+                    <p><img src="/static/public/assets/img/map.png"></p>
+                    <ul class="list-of-industries">
+                        <li class="list-of-industries-1"><span><a href="">VR/AR</a></span></li>
+                        <li class="list-of-industries-2"><span><a href="">Games</a></span></li>
+                        <li class="list-of-industries-3"><span><a href="">Machine Learning</a></span></li>
+                        <li class="list-of-industries-4"><span><a href="">Informational Security</a></span></li>
+                        <li class="list-of-industries-5"><span><a href="">FinTech</a></span></li>
+                        <li class="list-of-industries-6"><span><a href="">Blockchain</a></span></li>
+                        <li class="list-of-industries-7"><span><a href="">Emotion Recognition</a></span></li>
+                        <li class="list-of-industries-8"><span><a href="">Programmatic Languages</a></span></li>
+                    </ul>
+                     <h2 class="display-4 u-fw-600 text-white u-mb-40">
                         Push The <span class="text-yellow" data-type="Technology, Science, World"></span>
                         <span class="typed-curcor text-yellow">|</span>
                     </h2>
-
-                    <p><img src="/static/public/assets/img/map.png"></p>
-                    <ul class="list-of-industries">
-                        <li class="list-of-industries-1"><span><a href="">Генетика</a></span></li>
-                        <li class="list-of-industries-2"><span><a href="">Игры</a></span></li>
-                        <li class="list-of-industries-3"><span><a href="">Медицина</a></span></li>
-                        <li class="list-of-industries-4"><span><a href="">Автопилоты</a></span></li>
-                        <li class="list-of-industries-5"><span><a href="">Искусственный интеллект</a></span></li>
-                        <li class="list-of-industries-6"><span><a href="">Интернет вещей</a></span></li>
-                        <li class="list-of-industries-7"><span><a href="">Проблемы старения</a></span></li>
-                        <li class="list-of-industries-8"><span><a href="">Обучение</a></span></li>
-                    </ul>
                     <a href="#" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
-                        Зарегистрировать проект
+                        ADD YOUR PROJECT
                     </a>
                 </div> <!-- END col-md-6 mt-5-->
             </div> <!-- END row-->
@@ -313,16 +312,15 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h3 align="center" class="text-primary u-fs-48">
-                        OpenGift помогает
-                        <br/><span class="text-yellow" data-type="PHP, JAVA, Python, HTML, JavaScript">PHP</span><span
-                            class="typed-curcor text-yellow">|</span><span class="text-yellow">-разработчикам</span>
-                        вроде тебя<br/>зарабатывать больше
+                        OpenGift helps
+                        <br/><span class="text-yellow" data-type="PHP, JAVA, Python, HTML, JavaScript, C++, WEB, MOBILE"></span><span
+                            class="typed-curcor text-yellow">|</span><span class="text-yellow">-developers</span>
+                         like you<br/>to make an extra $ from their code
                     </h3>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
                     <p>
-                        Если у вас есть свой проект, который делает мир лучше, мы поможем вам его монетизировать или
-                        привлечь инвестиции.
+                        Have a project that makes the world a better place? Join OpenGift and start earning.
                     </p>
                 </div>
             </div> <!-- END row-->
