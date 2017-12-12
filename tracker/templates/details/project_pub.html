@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;<a href="/project/{{ project.id }}/edit/" class="fa fa-edit text-small"></a>{% endif %}
+                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;<a style="font-size: 30%;" href="/project/{{ project.id }}/edit/" class="fa fa-edit text-small"></a>{% endif %}
                         {% if not long_industries_list %}
                             {% for tags in project.industries.all %}
                                 <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
