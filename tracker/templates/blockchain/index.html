@@ -1,4 +1,5 @@
 {% extends "public/index.html" %}
+
 {% block content %}
     {% if not request.user.get_profile.blockchain_cert %}
         <section class="text-center">
@@ -39,11 +40,9 @@
                     </div>
                     <div class="p-4 p-md-5 bg-gray-v1 u-mb-35">
                         <form class="" action="" method="POST">
-                            <div class="input-group box-shadow-v1 u-rounded-50 bg-white u-of-hidden">
-                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                                    Код кошелька:
-                                </div>
-                                <input type="text" class="form-control border-0 p-3 js-wallet-code"
+                            <div class="input-group u-rounded-50 bg-white u-of-hidden">
+                                <span class="input-group-input-desc">Код кошелька:</span>
+                                <input type="text" class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
                                        value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}" required="">
                                 <button type="submit" class="input-group-btn btn btn-primary">
                                     <span class="icon fa fa-files-o text-white"></span>&nbsp;&nbsp;Скопировать
@@ -52,7 +51,7 @@
                         </form>
                     </div>
 
-                    <div class="p-md-5 u-pb-20 u-pt-5">
+                    <div class="p-md-5 u-pb-20 u-pt-5 u-mb-35">
                     <h5 align="left">Ваши проекты</h5>
                         <p align="left" class="u-mb-50 js-empty-list">У вас пока нет ни одного проекта,
                             <a href="/project/add/">создайте</a> свой первый проект или <a href="/project/list/">найдите</a> уже существующий.</p>
@@ -84,7 +83,7 @@
 						}
 					]
 				}'
-                                 data-slick-margin="15" class="js-project-list">
+                                 data-slick-margin="25" class="js-project-list">
 
 
 
@@ -99,14 +98,17 @@
     <p align="left" class="u-mb-10">Выберите операцию из доступных для вашего баланса</p>
 
     <div class="u-pb-35 u-pt-5" align="left">
-        <button type="button" class="btn btn-sm btn-green js-open-send" disabled data-toggle="modal" data-target="#target-wallet">
+        <button type="button" class="btn btn-outline-green px-4 js-open-send" disabled data-toggle="modal" data-target="#target-wallet">
+            <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
             Перевод
         </button>&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-sm btn-pulple-light js-open-send-token"  data-toggle="modal" data-target="#target-project-token">
+        <button type="button" class="btn btn-outline-pulple-light px-4 js-open-send-token"  data-toggle="modal" data-target="#target-project-token">
+            <i class="fa fa-eercast" aria-hidden="true"></i>&nbsp;
             Перевод токенов
         </button>
         &nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-sm btn-yellow js-open-donate" disabled data-toggle="modal" data-target="#target-project">
+        <button type="button" class="btn btn-outline-yellow px-4 js-open-donate" disabled data-toggle="modal" data-target="#target-project">
+            <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;
             Донейт
         </button>
     </div>
@@ -211,7 +213,7 @@
             <div class="modal-header bg-green">
                 <h5 class="modal-title text-white">Перевести на счет</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
             </div>
             <div class="modal-body">
@@ -238,7 +240,7 @@
             <div class="modal-header bg-purple-light">
                 <h5 class="modal-title text-white">Перевод токенов</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
             </div>
             <div class="modal-body">
@@ -269,7 +271,7 @@
             <div class="modal-header bg-yellow">
                 <h5 class="modal-title text-white">Донейт</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
             </div>
             <div class="modal-body">
@@ -289,9 +291,9 @@
         </div>
     </div>
 </div>
-    <div class="rounded bg-white text-center js-project-block" style="display: none;">
-        <div class="user-rating"><span class="js-project-balance"></span>%</div>
-        <h6 class="u-mb-20"><span class="js-project-name"></span></h6>
+    <div class="rounded text-center p-md-3 js-project-block" style="display: none;">
+        <div class="project-balance"><span class="js-project-balance"></span>%</div>
+        <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
     </div>
     {% endif %}
 {%  endblock %}
