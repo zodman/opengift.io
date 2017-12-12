@@ -153,12 +153,12 @@
                             sp += i + ': <b class="js-project-' + n + '"></b>%; ';
 
 
-                            (function(i, n) {
+                            (function(inner, n) {
                                 var $p = $('.js-project-block').clone().show();
-                                $p.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
+                                $p.find('.js-project-name').html(inner).end().appendTo('.js-project-list .slick-track');
 
                                 getProjectState(inner, function (sum) {
-                                    $('.js-project-' + number + '').text(sum);
+                                    $('.js-project-' + n + '').text(sum);
                                     $p.find('.js-project-balance').text(sum);
                                 });
                             })(i, n);
