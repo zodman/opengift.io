@@ -4862,18 +4862,18 @@ input, textarea {
   animation: float 6s ease-in-out infinite;
 }
 
-.list-of-industries li:after {
-  position: absolute;
-  content: "";
-  left: -5px;
-  right: -5px;
-  top:-5px;
-  bottom:-5px;
-  display: block;
-  border-radius: 25px;
+/*.list-of-industries li:after {*/
+  /*position: absolute;*/
+  /*content: "";*/
+  /*left: -5px;*/
+  /*right: -5px;*/
+  /*top:-5px;*/
+  /*bottom:-5px;*/
+  /*display: block;*/
+  /*border-radius: 25px;*/
 
-  z-index:10;
-}
+  /*z-index:10;*/
+/*}*/
 .list-of-industries li span {
   display: block;
   padding: 0 17px 2px 17px;
