@@ -4857,6 +4857,9 @@ input, textarea {
 .list-of-industries li {
   position: absolute;
   list-style: none;
+  -webkit-animation: float 6s ease-in-out infinite;
+  -moz-animation: float 6s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 .list-of-industries li:after {
@@ -4868,12 +4871,7 @@ input, textarea {
   bottom:-5px;
   display: block;
   border-radius: 25px;
-  -webkit-animation: float 6s ease-in-out infinite;
-  -moz-animation: float 6s ease-in-out infinite;
-  animation: float 6s ease-in-out infinite;
-  -webkit-animation-iteration-count: infinite;
-  -moz-animation-iteration-count: infinite;
-  animation-iteration-count: infinite;
+
   z-index:10;
 }
 .list-of-industries li span {
