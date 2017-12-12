@@ -151,9 +151,10 @@
                             $('.js-open-send-token').removeAttr('disabled');
                             n++;
                             sp += i + ': <b class="js-project-' + n + '"></b>%; ';
-                            var $project = $('.js-project-block').clone().show();
 
-                            (function($p, i) {
+
+                            (function(i) {
+                                var $p = $('.js-project-block').clone().show();
                                 $p.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
                             })($project, i);
 
