@@ -13,6 +13,7 @@ img {
   max-width: 100%; }
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
+  font-family: "Dosis", sans-serif;
   color: #273f5b;
   line-height: 1.37em;
   font-weight: 600; }
@@ -206,6 +207,7 @@ input, textarea {
   .navbar-nav > .nav-item > .nav-link {
     text-transform: uppercase;
     font-weight: 600;
+    font-family: "Dosis", sans-serif;
     font-size: 16px;
   }
 
@@ -402,6 +404,7 @@ input, textarea {
   -webkit-transition: .3s;
   -o-transition: .3s;
   transition: .3s;
+  font-family: "Dosis", sans-serif;
   text-transform: capitalize;
   font-weight: 600;
   font-size: 18px !important;
@@ -523,6 +526,7 @@ input, textarea {
   font-size: 20px;
   color: #273f59;
   font-weight: 600;
+  font-family: "Dosis", sans-serif;
   display: block; }
   .accordion__title > i {
     -webkit-transition: .5s;
@@ -899,7 +903,7 @@ input, textarea {
   left: 0;
   z-index: -1; }
 
-.u-ff-dosis {}
+.u-ff-dosis {font-family: "Dosis", sans-serif;}
 
 .u-of-hidden {
   overflow: hidden; }
@@ -4852,6 +4856,7 @@ input, textarea {
 }
 .list-of-industries li {
   position: absolute;
+  list-style: none;
 }
 
 .list-of-industries li:after {
