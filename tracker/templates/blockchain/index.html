@@ -163,7 +163,7 @@
                     }
                 };
                 if (debug) {
-                    cb(JSON.stringify({'Balance': 30000, 'Projects':{'Heliard':1,'Opengift':1}}));
+                    cb(JSON.stringify({'Balance': 30000, 'Projects':{'Heliard':1,'Opengift':1,'Opengift1':1,'Opengift2':1}}));
                     return;
                 }
                 $.post('/blockchain/ajax/', {'action':'getBalance'}, cb);
