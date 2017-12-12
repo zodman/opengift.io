@@ -153,17 +153,20 @@
                             sp += i + ': <b class="js-project-' + n + '"></b>%; ';
                             var $project = $('.js-project-block').clone().show();
 
+                            (function($p, i) {
+                                $p.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
+                            })($project, i);
 
-                            (function (inner, number, $projectElem, len) {
+                            (function (inner, number) {
                                 getProjectState(inner, function (sum) {
                                     $('.js-project-' + number + '').text(sum);
                                     $projectElem.find('.js-project-balance').text(sum);
-                                    $projectElem.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
 
-                                    if (number == len-1)
-                                        $('.js-project-list').slick('reinit');
+
                                 });
-                            })(i, n, $project, data.Projects.length);
+                            })(i, n);
+                            if (n == data.Projects.length)
+                                $('.js-project-list').slick('reinit');
                             $('.js-target-project-token').append('<option>' + i + '</option>');
                         }
                     }
