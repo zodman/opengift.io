@@ -52,9 +52,9 @@
                     </div>
 
                     <div class="p-md-5 u-pb-20 u-pt-5 u-mb-35">
-                    <h5 align="left">Ваши проекты</h5>
-                        <p align="left" class="u-mb-50 js-empty-list">У вас пока нет ни одного проекта,
-                            <a href="/project/add/">создайте</a> свой первый проект или <a href="/project/list/">найдите</a> уже существующий.</p>
+                    <h5 align="left">Your projects</h5>
+                        <p align="left" class="u-mb-50 js-empty-list">You don't participate in any projects,
+                            <a href="/project/add/">create</a> it by yourself or <a href="/project/list/">find</a> some other one.</p>
                         <div class="js-project-list-block align-items-center u-pl-md-70 u-pr-md-70 ">
                             <div data-init="carousel" data-slick='{
 				"slidesToShow":3,
@@ -95,22 +95,22 @@
 
 
 <div class="p-md-5 u-pb-5 u-pt-5">
-    <h5 align="left">Действия</h5>
-    <p align="left" class="u-mb-10">Выберите операцию из доступных для вашего баланса</p>
+    <h5 align="left">Actions</h5>
+    <p align="left" class="u-mb-10">Actions that is available for your balance.</p>
 
     <div class="u-pb-35 u-pt-5" align="left">
         <button type="button" class="btn btn-outline-green px-4 js-open-send" disabled data-toggle="modal" data-target="#target-wallet">
             <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-            Перевод
+            Gifts transfer
         </button>&nbsp;&nbsp;&nbsp;
         <button type="button" class="btn btn-outline-pulple-light px-4 js-open-send-token"  data-toggle="modal" data-target="#target-project-token">
             <i class="fa fa-eercast" aria-hidden="true"></i>&nbsp;
-            Перевод токенов
+            Tokens transfer
         </button>
         &nbsp;&nbsp;&nbsp;
         <button type="button" class="btn btn-outline-yellow px-4 js-open-donate" disabled data-toggle="modal" data-target="#target-project">
             <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;
-            Донейт
+            Donate
         </button>
     </div>
 </div>
@@ -212,7 +212,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-green">
-                <h5 class="modal-title text-white">Перевести на счет</h5>
+                <h5 class="modal-title text-white">Send GIFTS to an account</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
@@ -220,16 +220,16 @@
             <div class="modal-body">
 
                 <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-wallet" value="" placeholder="Сумма" />
+                    <input type="text" name="" class="js-target-wallet" value="" placeholder="Sum" />
                 </div>
                 <div>
-                    <input type="text" name="" class="js-target-wallet-sum" value="" placeholder="Счет" />
+                    <input type="text" name="" class="js-target-wallet-sum" value="" placeholder="Account number" />
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <input type="button" value="Отправить" onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());" class="js-send-coins btn btn-primary" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" value="Send" onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());" class="js-send-coins btn btn-primary" />
             </div>
         </div>
     </div>
@@ -239,7 +239,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-purple-light">
-                <h5 class="modal-title text-white">Перевод токенов</h5>
+                <h5 class="modal-title text-white">Tokens transfer</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
@@ -247,20 +247,20 @@
             <div class="modal-body">
                 <div class="u-mb-15">
                     <select name="" class="js-target-project-token" value="" >
-                        <option>Выберите проект</option>
+                        <option>Select the project</option>
                     </select>
                 </div>
                 <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-project-token-sum" value="" placeholder="Кол-во токенов" />
+                    <input type="text" name="" class="js-target-project-token-sum" value="" placeholder="Tokens qty" />
                 </div>
                 <div>
-                    <input type="text" name="" class="js-target-project-token-wallet" value="" placeholder="Получатель" />
+                    <input type="text" name="" class="js-target-project-token-wallet" value="" placeholder="Receiver" />
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <input type="button" value="ОК" onclick="return move($('.js-target-project-token').val(), $('.js-target-project-token-wallet').val(), $('.js-target-project-token-sum').val());" class="js-move-tokens  btn btn-primary" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" value="Send" onclick="return move($('.js-target-project-token').val(), $('.js-target-project-token-wallet').val(), $('.js-target-project-token-sum').val());" class="js-move-tokens  btn btn-primary" />
             </div>
         </div>
     </div>
@@ -270,7 +270,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header bg-yellow">
-                <h5 class="modal-title text-white">Донейт</h5>
+                <h5 class="modal-title text-white">Donate</h5>
                 <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
                 </button>
@@ -278,16 +278,16 @@
             <div class="modal-body">
 
                 <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-project-sum" value="" placeholder="Сумма" />
+                    <input type="text" name="" class="js-target-project-sum" value="" placeholder="Sum" />
                 </div>
                 <div>
-                    <input type="text" name="" class="js-target-project" value="" placeholder="Проект" />
+                    <input type="text" name="" class="js-target-project" value="" placeholder="Project code" />
                 </div>
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрыть</button>
-                <input type="button" value="ОК" onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());" class="js-donate btn btn-primary" />
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <input type="button" value="Donate" onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());" class="js-donate btn btn-primary" />
             </div>
         </div>
     </div>
