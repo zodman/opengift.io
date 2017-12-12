@@ -101,6 +101,10 @@ class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Название')
     parent = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
 
+    def getPercent(self):
+        import random
+        return random.randint(0, 100)
+
     class Meta:
             app_label = 'PManager'
 
