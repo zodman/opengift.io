@@ -154,21 +154,18 @@
                             var $project = $('.js-project-block').clone().show();
 
 
-                            (function (inner, number, $projectElem) {
+                            (function (inner, number, $projectElem, len) {
                                 getProjectState(inner, function (sum) {
                                     $('.js-project-' + number + '').text(sum);
                                     $projectElem.find('.js-project-balance').text(sum);
                                     $projectElem.find('.js-project-name').html(i).end().appendTo('.js-project-list .slick-track');
+
+                                    if (number == len)
+                                        $('.js-project-list').slick('reinit');
                                 });
-                            })(i, n, $project);
+                            })(i, n, $project, data.Projects.length);
                             $('.js-target-project-token').append('<option>' + i + '</option>');
                         }
-                        setTimeout(function() {
-                            $('.js-project-list').slick('reinit');
-                            setTimeout(function() {
-                                $('.js-project-list').slick('reinit');
-                            }, 100);
-                        }, 1000);
                     }
                 };
                 if (debug) {
