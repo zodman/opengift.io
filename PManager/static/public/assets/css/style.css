@@ -4857,9 +4857,6 @@ input, textarea {
 .list-of-industries li {
   position: absolute;
   list-style: none;
-  -webkit-animation: float 6s ease-in-out infinite;
-  -moz-animation: float 6s ease-in-out infinite;
-  animation: float 6s ease-in-out infinite;
 }
 
 /*.list-of-industries li:after {*/
@@ -4955,6 +4952,9 @@ input, textarea {
 .list-of-industries-1 {
   left: 26%;
   top: 45%;
+  -webkit-animation: float 6s ease-in-out infinite;
+  -moz-animation: float 6s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 .list-of-industries-1:after,
@@ -4969,6 +4969,9 @@ input, textarea {
 .list-of-industries-2 {
   left: 20%;
   top: 20%;
+  -webkit-animation: float 4s ease-in-out infinite;
+  -moz-animation: float 4s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .list-of-industries-2:after,
@@ -4984,6 +4987,9 @@ input, textarea {
 .list-of-industries-3 {
   left: 48%;
   top: 37%;
+  -webkit-animation: float 5s ease-in-out infinite;
+  -moz-animation: float 5s ease-in-out infinite;
+  animation: float 5s ease-in-out infinite;
 }
 
 .list-of-industries-3:after,
@@ -5001,6 +5007,9 @@ input, textarea {
 .list-of-industries-4 {
   left: 28%;
   top: 17%;
+  -webkit-animation: float 7s ease-in-out infinite;
+  -moz-animation: float 7s ease-in-out infinite;
+  animation: float 7s ease-in-out infinite;
 }
 
 .list-of-industries-4:after,
@@ -5019,6 +5028,9 @@ input, textarea {
 .list-of-industries-5 {
   left: 40%;
   top: 10%;
+  -webkit-animation: float 4s ease-in-out infinite;
+  -moz-animation: float 4s ease-in-out infinite;
+  animation: float 4s ease-in-out infinite;
 }
 
 .list-of-industries-5:after,
@@ -5037,6 +5049,9 @@ input, textarea {
 .list-of-industries-6 {
   left: 65%;
   top: 60%;
+  -webkit-animation: float 6s ease-in-out infinite;
+  -moz-animation: float 6s ease-in-out infinite;
+  animation: float 6s ease-in-out infinite;
 }
 
 .list-of-industries-6:after,
@@ -5054,6 +5069,9 @@ input, textarea {
 .list-of-industries-7 {
   left: 61%;
   top: 21%;
+  -webkit-animation: float 3s ease-in-out infinite;
+  -moz-animation: float 3s ease-in-out infinite;
+  animation: float 3s ease-in-out infinite;
 }
 
 .list-of-industries-7:after,
@@ -5070,6 +5088,9 @@ input, textarea {
 .list-of-industries-8 {
   left: 50%;
   top: 63%;
+  -webkit-animation: float 5.5s ease-in-out infinite;
+  -moz-animation: float 5.5s ease-in-out infinite;
+  animation: float 5.5s ease-in-out infinite;
 }
 .list-of-industries-8:after,
 .list-of-industries-8 span {
