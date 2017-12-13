@@ -13,6 +13,8 @@
             </script>
         </section>
     {% else %}
+
+
 <section class="relative u-flex-center quadro-relative" style="
 	background: #62bb94;
 	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
@@ -30,11 +32,11 @@
             <defs></defs>
             <path id="feel-the-wave-four" d=""/>
         </svg>
-      <div class="container" style="margin-top: -100px;">
+      <div class="container container-to-top">
         <div class="row align-items-center">
           <div class="col-lg-8 mx-auto">
                 <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
-                    <div class="bg-gradient wallet-title m-0 py-3 p-md-5 u-pb-20 u-pt-25 text-white clearfix">
+                    <div class="bg-gradient wallet-title m-0 p-4 p-md-5 u-pb-20 u-pt-25 text-white clearfix">
                         <div class="pull-left"><h2>My wallet</h2></div>
                         <div class="pull-right">Balance: <h2 class="js-wallet-balance"></h2> Gift</div>
                     </div>
@@ -44,14 +46,13 @@
                                 <span class="input-group-input-desc">Код кошелька:</span>
                                 <input type="text" class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
                                        value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}" required="">
-                                <button type="submit" class="input-group-btn btn btn-primary">
-                                    <span class="icon fa fa-files-o text-white"></span>&nbsp;&nbsp;Скопировать
+                                <button type="submit" class="input-group-btn btn btn-primary" style="width: 190px; text-align: center">Скопировать
                                 </button>
                             </div>
                         </form>
                     </div>
 
-                    <div class="p-md-5 u-pb-20 u-pt-5 u-mb-35">
+                    <div class="p-4 p-md-5 u-pb-20 u-pt-5 u-mb-35">
                     <h5 align="left">Your projects</h5>
                         <p align="left" class="u-mb-50 js-empty-list">You don't participate in any projects,
                             <a href="/project/add/">create</a> it by yourself or <a href="/project/list/">find</a> some other one.</p>
@@ -84,7 +85,7 @@
 						}
 					]
 				}'
-                                 data-slick-margin="25" class="js-project-list">
+                                 data-slick-margin="5" class="js-project-list">
 
 
 
@@ -94,21 +95,21 @@
                         </div>
 
 
-<div class="p-md-5 u-pb-5 u-pt-5">
+<div class="p-4 p-md-5 u-pb-5 u-pt-5">
     <h5 align="left">Actions</h5>
     <p align="left" class="u-mb-10">Actions that is available for your balance.</p>
 
     <div class="u-pb-35 u-pt-5" align="left">
-        <button type="button" class="btn btn-outline-green px-4 js-open-send" disabled data-toggle="modal" data-target="#target-wallet">
+        <button type="button" class="btn btn-outline-green px-4 js-open-send u-mb-10" disabled data-toggle="modal" data-target="#target-wallet">
             <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
             Gifts transfer
         </button>&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-outline-pulple-light px-4 js-open-send-token"  data-toggle="modal" data-target="#target-project-token">
+        <button type="button" class="btn btn-outline-pulple-light px-4 js-open-send-token u-mb-10"  data-toggle="modal" data-target="#target-project-token">
             <i class="fa fa-eercast" aria-hidden="true"></i>&nbsp;
             Tokens transfer
         </button>
         &nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-outline-yellow px-4 js-open-donate" disabled data-toggle="modal" data-target="#target-project">
+        <button type="button" class="btn btn-outline-yellow px-4 js-open-donate u-mb-10" disabled data-toggle="modal" data-target="#target-project">
             <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;
             Donate
         </button>
@@ -253,9 +254,24 @@
             </div>
             <div class="modal-body">
                 <div class="u-mb-15">
-                    <select name="" class="js-target-project-token" value="" >
-                        <option>Select the project</option>
+                    <select name="" class="js-target-project-token show-on-768" value="" >
+                        <option value="Select the project">Select the project</option>
+                        <option value="Название проекта 1">Название проекта 1</option>
+                        <option value="Название проекта 2">Название проекта 2</option>
+                        <option value="Название проекта 3">Название проекта 3</option>
                     </select>
+                    <div class="formal-select-wrapper hide-on-768">
+                        <input type="text" name="" value="Select the project"/>
+                        <ul class="formal-select box-shadow-v2">
+                            <li>Select the project</li>
+                            <li>Название проекта 1</li>
+                            <li>Название проекта 2</li>
+                            <li class="active">Название проекта 3</li>
+                            <li>Название проекта 1</li>
+                            <li>Название проекта 2</li>
+                            <li>Название проекта 3</li>
+                        </ul>
+                    </div>
                 </div>
                 <div class="u-mb-15">
                     <input type="text" name="" class="js-target-project-token-sum" value="" placeholder="Tokens qty" />
@@ -299,9 +315,11 @@
         </div>
     </div>
 </div>
-    <div class="rounded text-center p-md-3 js-project-block default" style="display: none;">
-        <div class="project-balance"><span class="js-project-balance"></span>%</div>
-        <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
+    <div class="rounded text-center p-md-2 js-project-block default" style="display: none;">
+        <div class="u-rounded-5 p-2 border">
+            <div class="project-balance"><span class="js-project-balance"></span>%</div>
+            <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
+        </div>
     </div>
     {% endif %}
 {%  endblock %}
