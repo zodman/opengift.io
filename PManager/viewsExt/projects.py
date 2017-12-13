@@ -171,7 +171,7 @@ def projectDetailEdit(request, project_id):
                 s += '<div class="progress-item">'
                 s += '<div class="row">'
                 s += '<div class="col-md-6 u-mb-30">'
-                s += u'<input type="text" class="input-sm" placeholder="Add another problem">'
+                s += u'<input type="text" class="input-sm" placeholder="Add another problem" />'
                 s += '</div>'
                 s += '<div class="col-md-6 u-mb-30">'
                 s += u'<button data-id="'+str(curId)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Add</button>'
