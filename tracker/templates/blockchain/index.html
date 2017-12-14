@@ -43,10 +43,9 @@
                     <div class="p-4 p-md-5 bg-gray-v1 u-mb-35">
                         <form class="" action="" method="POST">
                             <div class="input-group u-rounded-50 bg-white u-of-hidden">
-                                <span class="input-group-input-desc">Код кошелька:</span>
+                                <span class="input-group-input-desc">Wallet number:</span>
                                 <input type="text" class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
                                        value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}" required="">
-                                <button type="submit" class="input-group-btn btn btn-primary" style="width: 190px; text-align: center">Скопировать
                                 </button>
                             </div>
                         </form>
