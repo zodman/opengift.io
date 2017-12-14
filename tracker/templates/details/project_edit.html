@@ -188,7 +188,7 @@
                     $subList.slideDown();
                 }
             });
-
+            {% if not project.blockchain_name %}
             $.post(
                     '/blockchain/ajax/',
                     {
@@ -199,6 +199,7 @@
 
                     }
             );
+            {% endif %}
         });
     </script>
 {% endblock %}

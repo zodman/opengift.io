@@ -110,6 +110,7 @@ class PM_Project_Industry(models.Model):
 
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Name of project')
+    blockchain_name = models.CharField(max_length=255, verbose_name=u'Name of project', null=True, blank=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, blank=True, verbose_name=u'Description')
     problem = models.TextField(null=True, blank=True, verbose_name=u'The problem to solve')

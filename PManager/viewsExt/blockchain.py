@@ -56,6 +56,9 @@ def blockchainAjax(request):
             project = PM_Project.objects.get(pk=project)
             if request.user.get_profile().blockchain_wallet:
                 result = blockchain_user_newproject_request(request.user.username, project.name)
+                if result == 'ok':
+                    project.blockchain_name = project.name
+                    project.save()
         except PM_Project.DoesNotExist:
             result = 'error'
 
