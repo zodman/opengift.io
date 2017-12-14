@@ -46,6 +46,7 @@
                                 <span class="input-group-input-desc">Wallet number:</span>
                                 <input type="text" class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
                                        value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}" required="">
+                                <button type="submit" class="input-group-btn btn btn-primary" style="width: 190px; text-align: center">Copy
                                 </button>
                             </div>
                         </form>
