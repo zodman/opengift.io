@@ -39,7 +39,7 @@ def blockchain_pay_request(username, wallet, sum):
 def blockchain_user_newproject_request(username, projectName):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'addProject', 'arg1': projectName.lower()})
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to add project ' + username
+        return 'Fatal Error: Failed to add project ' + projectName
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
