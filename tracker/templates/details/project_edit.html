@@ -188,6 +188,17 @@
                     $subList.slideDown();
                 }
             });
+
+            $.post(
+                    '/blockchain/ajax/',
+                    {
+                        'action':'addProject',
+                        'id': {{ project.id }}
+                    },
+                    function (data) {
+
+                    }
+            );
         });
     </script>
 {% endblock %}

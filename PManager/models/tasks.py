@@ -171,8 +171,8 @@ class PM_Project(models.Model):
         from PManager.services.docker import blockchain_user_newproject_request
         if not self.id:
             self.payer = self.author
-            if self.author.get_profile().blockchain_wallet:
-                blockchain_user_newproject_request(self.author.username, self.name.lower())
+            # if self.author.get_profile().blockchain_wallet:
+            #     blockchain_user_newproject_request(self.author.username, self.name.lower())
 
         super(self.__class__, self).save(*args, **kwargs)
 

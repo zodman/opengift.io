@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
-from PManager.models import PM_User
+from PManager.models import PM_User, PM_Project
 from django.template import loader, RequestContext
 from PManager.services.docker import blockchain_project_status_request, blockchain_donate_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
 
@@ -51,8 +51,13 @@ def blockchainAjax(request):
 
     elif action == 'addProject':
         # profile = request.user.get_profile()
-        project = request.POST.get('pName')
-        result = blockchain_user_newproject_request(request.user.username, project)
+        project = int(request.POST.get('id'))
+        try:
+            project = PM_Project.objects.get(pk=project)
+            if request.user.get_profile().blockchain_wallet:
+                result = blockchain_user_newproject_request(request.user.username, project.name)
+        except PM_Project.DoesNotExist:
+            result = 'error'
 
     elif action == 'pay':
         # profile = request.user.get_profile()
