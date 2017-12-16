@@ -179,7 +179,8 @@ class MainPage:
         from django.utils.html import escape
         import urllib
 
-        return HttpResponseRedirect('/pub/')
+        if activeMenuItem == 'main':
+            return HttpResponseRedirect('/pub/')
 
         cType = 'text/html'
         mimeType = None
