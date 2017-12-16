@@ -64,11 +64,11 @@ class PM_User(models.Model):
     )
 
     user = models.OneToOneField(User, db_index=True, related_name='profile')
-    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Отчество')
+    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     skype = models.CharField(max_length=70, null=True, blank=True)
-    phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Номер телефона')
+    phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Phone number')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
     documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')

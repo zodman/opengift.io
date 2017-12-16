@@ -19,14 +19,14 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft',
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar'
                           # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
                           ]
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay',
+                fields = ['second_name', 'phoneNumber', 'skype', 'avatar'
                           # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
                           ]
 
@@ -90,5 +90,5 @@ def widget(request, headerValues, ar, qargs):
         'profile': profile,
         'form': form,
         'uform': uform,
-        'title': u'Редактирование профиля'
+        'title': u'Profile edit'
     }

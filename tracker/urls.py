@@ -64,7 +64,7 @@ default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 
 urlpatterns = patterns('',
                        url(r'^$', MainPage.indexRender,
-                           {'widgetList': ["project_graph", "tasklist", "chat"], 'activeMenuItem': 'main'}),
+                           {'widgetList': ["tasklist", "chat"], 'activeMenuItem': 'main'}),
 
                        url(r'^gantt/$', MainPage.indexRender, {'widgetList': ["gantt"], 'activeMenuItem': 'gantt'}),
                        url(r'^widgets/js/(?P<widget_name>[A-z_]+)/(?P<script_name>[A-z_\.]+)\.js',
