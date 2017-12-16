@@ -30,7 +30,9 @@ smmap==0.8.2
 sorl-thumbnail==11.12.1b
 supervisor==3.0a8
 tornado==4.3
-scipy
+numpy==1.8.2
+theano
+scipy==0.13.3
 tornado-redis==2.4.1
 virtualenv==1.11.6
 wsgiref==0.1.2
