@@ -4,14 +4,16 @@
     {% if not request.user.get_profile.blockchain_cert %}
         <section class="text-center">
             <h1>Welcome to Gift Cloud</h1>
+
             <p>Create your first wallet</p>
+
             <p><a href="#" class="btn btn-success js-create">Create</a></p>
             <script>
                 $(function () {
-                    $('.js-create').click(function() {
+                    $('.js-create').click(function () {
                         $(this).addClass('disabled').attr('disabled', 'disabled').text('Registering in blockchain...');
                         var t = this;
-                        $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
+                        $.post('/blockchain/ajax/', {'action': 'register'}, function (data) {
                             if (data == 'ok') {
                                 $(t).text('Creating new wallet...');
                                 document.location.reload();
@@ -26,7 +28,7 @@
     {% else %}
 
 
-<section class="relative u-flex-center quadro-relative" style="
+        <section class="relative u-flex-center quadro-relative" style="
 	background: #62bb94;
 	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
 	background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
@@ -36,39 +38,45 @@
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
  ">
 
-</section>
-    <section class="u-py-md-250 u-flex-center with-waves">
-        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
-             style="position: absolute;"><title>Wave</title>
-            <defs></defs>
-            <path id="feel-the-wave-four" d=""/>
-        </svg>
-      <div class="container container-to-top">
-        <div class="row align-items-center">
-          <div class="col-lg-8 mx-auto">
-                <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
-                    <div class="bg-gradient wallet-title m-0 p-4 p-md-5 u-pb-20 u-pt-25 text-white clearfix">
-                        <div class="pull-left"><h2>My wallet</h2></div>
-                        <div class="pull-right">Balance: <h2 class="js-wallet-balance"></h2> Gift</div>
-                    </div>
-                    <div class="p-4 p-md-5 bg-gray-v1 u-mb-35">
-                        <form class="" action="" method="POST">
-                            <div class="input-group u-rounded-50 bg-white u-of-hidden">
-                                <span class="input-group-input-desc">Wallet number:</span>
-                                <input type="text" class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
-                                       value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}" required="">
-                                <button type="submit" class="input-group-btn btn btn-primary" style="text-align: center">Copy
-                                </button>
+        </section>
+        <section class="u-py-md-250 u-flex-center with-waves">
+            <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
+                 style="position: absolute;"><title>Wave</title>
+                <defs></defs>
+                <path id="feel-the-wave-four" d=""/>
+            </svg>
+            <div class="container container-to-top">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
+                            <div class="bg-gradient wallet-title m-0 p-4 p-md-5 u-pb-20 u-pt-25 text-white clearfix">
+                                <div class="pull-left"><h2>My wallet</h2></div>
+                                <div class="pull-right">Balance: <h2 class="js-wallet-balance"></h2> Gift</div>
                             </div>
-                        </form>
-                    </div>
+                            <div class="p-4 p-md-5 bg-gray-v1 u-mb-35">
+                                <form class="" action="" method="POST">
+                                    <div class="input-group u-rounded-50 bg-white u-of-hidden">
+                                        <span class="input-group-input-desc">Wallet number:</span>
+                                        <input type="text"
+                                               class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
+                                               value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}"
+                                               required="">
+                                        <button type="submit" class="input-group-btn btn btn-primary"
+                                                style="text-align: center">Copy
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
 
-                    <div class="p-4 p-md-5 u-pb-20 u-pt-5 u-mb-35">
-                    <h5 align="left">Your projects</h5>
-                        <p align="left" class="u-mb-50 js-empty-list">You don't participate in any projects,
-                            <a href="/project/add/">create</a> it by yourself or <a href="/project/list/">find</a> some other one.</p>
-                        <div class="js-project-list-block align-items-center u-pl-md-70 u-pr-md-70 ">
-                            <div data-init="carousel" data-slick='{
+                            <div class="p-4 p-md-5 u-pb-20 u-pt-5 u-mb-35">
+                                <h5 align="left">Your projects</h5>
+
+                                <p align="left" class="u-mb-50 js-empty-list">You don't participate in any projects,
+                                    <a href="/project/add/">create</a> it by yourself or <a
+                                            href="/project/list/">find</a> some other one.</p>
+
+                                <div class="js-project-list-block align-items-center u-pl-md-70 u-pr-md-70 ">
+                                    <div data-init="carousel" data-slick='{
 				"slidesToShow":3,
 				"slidesToScroll": 1,
 				"infinite":false,
@@ -96,66 +104,70 @@
 						}
 					]
 				}'
-                                 data-slick-margin="5" class="js-project-list">
+                                         data-slick-margin="5" class="js-project-list">
 
 
+                                    </div>
 
+                                </div> <!-- END row-->
                             </div>
 
-                        </div> <!-- END row-->
+
+                            <div class="p-4 p-md-5 u-pb-5 u-pt-5">
+                                <h5 align="left">Actions</h5>
+
+                                <p align="left" class="u-mb-10">Actions that is available for your balance.</p>
+
+                                <div class="u-pb-35 u-pt-5" align="left">
+                                    <button type="button" class="btn btn-outline-green px-4 js-open-send u-mb-10"
+                                            disabled data-toggle="modal" data-target="#target-wallet">
+                                        <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
+                                        Gifts transfer
+                                    </button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="button"
+                                            class="btn btn-outline-pulple-light px-4 js-open-send-token u-mb-10"
+                                            disabled data-toggle="modal" data-target="#target-project-token">
+                                        <i class="fa fa-eercast" aria-hidden="true"></i>&nbsp;
+                                        Tokens transfer
+                                    </button>
+                                    &nbsp;&nbsp;&nbsp;
+                                    <button type="button" class="btn btn-outline-yellow px-4 js-open-donate u-mb-10"
+                                            disabled data-toggle="modal" data-target="#target-project">
+                                        <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;
+                                        Donate
+                                    </button>
+                                </div>
+                            </div>
+
+
                         </div>
-
-
-<div class="p-4 p-md-5 u-pb-5 u-pt-5">
-    <h5 align="left">Actions</h5>
-    <p align="left" class="u-mb-10">Actions that is available for your balance.</p>
-
-    <div class="u-pb-35 u-pt-5" align="left">
-        <button type="button" class="btn btn-outline-green px-4 js-open-send u-mb-10" disabled data-toggle="modal" data-target="#target-wallet">
-            <i class="fa fa-usd" aria-hidden="true"></i>&nbsp;
-            Gifts transfer
-        </button>&nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-outline-pulple-light px-4 js-open-send-token u-mb-10" disabled data-toggle="modal" data-target="#target-project-token">
-            <i class="fa fa-eercast" aria-hidden="true"></i>&nbsp;
-            Tokens transfer
-        </button>
-        &nbsp;&nbsp;&nbsp;
-        <button type="button" class="btn btn-outline-yellow px-4 js-open-donate u-mb-10" disabled data-toggle="modal" data-target="#target-project">
-            <i class="fa fa-credit-card" aria-hidden="true"></i>&nbsp;
-            Donate
-        </button>
-    </div>
-</div>
-
-
-
-                 </div>
-          </div> <!-- END col-lg-5-->
-        </div> <!-- END row-->
-      </div> <!-- END container-->
-    </section>
-    <script>
-        debug = false;
-        $(function() {
-            getKey(function() {
-                getBalance();
+                    </div> <!-- END col-lg-5-->
+                </div> <!-- END row-->
+            </div> <!-- END container-->
+        </section>
+        <script>
+            debug = false;
+            $(function () {
+                getKey(function () {
+                    getBalance();
+                });
+                $('.header').get(0).className = "header header-shrink bg-gradient non-fixed";
             });
-            $('.header').get(0).className = "header header-shrink bg-gradient non-fixed";
-        });
-        var getKey = function(callback) {
-                $.post('/blockchain/ajax/', {'action':'getKey'}, function(data) {
+            var getKey = function (callback) {
+                $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
                     $('.js-wallet-code').html(data);
                     callback();
                 });
                 return false;
             };
-        var getBalance = function() {
-                var cb = function(data) {
+            var getBalance = function () {
+                var cb = function (data) {
                     data = $.parseJSON(data);
                     if (data.Balance > 0) {
                         $('.js-open-send, .js-open-donate').removeAttr('disabled');
                     }
-                    $('.js-wallet-balance').html(Math.round(data.Balance*10000)/10000);
+                    $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
                     if (data.Projects) {
                         var sp = '', n = 0;
                         for (var i in data.Projects) {
@@ -166,7 +178,7 @@
                             sp += i + ': <b class="js-project-' + n + '"></b>%; ';
 
 
-                            (function(inner, n) {
+                            (function (inner, n) {
                                 var $p = $('.js-project-block.default').clone().removeClass('default').show();
                                 $p.find('.js-project-name').html(inner).end().appendTo('.js-project-list .slick-track');
 
@@ -184,152 +196,167 @@
                     }
                 };
                 if (debug) {
-                    cb(JSON.stringify({'Balance': 30000, 'Projects':{'Heliard':1,'Opengift':1,'Opengift1':1,'Opengift2':1}}));
+                    cb(JSON.stringify({
+                        'Balance': 30000,
+                        'Projects': {'Heliard': 1, 'Opengift': 1, 'Opengift1': 1, 'Opengift2': 1}
+                    }));
                     return;
                 }
-                $.post('/blockchain/ajax/', {'action':'getBalance'}, cb);
+                $.post('/blockchain/ajax/', {'action': 'getBalance'}, cb);
                 return false;
             };
 
-        var getProjectState = function(p, call) {
-            if (debug) {
-                call(20);
-                return;
+            var getProjectState = function (p, call) {
+                if (debug) {
+                    call(20);
+                    return;
+                }
+
+                $.post('/blockchain/ajax/', {'action': 'getProjectVals', 'pName': p}, function (data) {
+                    data = $.parseJSON(data);
+                    call(data['Users'][$('.js-wallet-code').text()]);
+                });
+            };
+
+            var pay = function (wallet, sum) {
+                $.post('/blockchain/ajax/', {'action': 'pay', 'wallet': wallet, 'sum': sum}, function (data) {
+                    getBalance();
+                    $('.modal').modal('close');
+                });
+                $('.js-target-wallet-sum, .js-target-wallet').val('');
+            };
+
+            var move = function (project, wallet, qty) {
+                $.post('/blockchain/ajax/', {
+                    'action': 'move',
+                    'project': project,
+                    'qty': qty,
+                    'wallet': wallet
+                }, function (data) {
+                    getBalance();
+                    $('.modal').modal('close');
+                });
+                $('.js-target-project-token-sum, .js-target-project-token, .js-target-project-token-wallet').val('');
+            };
+
+            var donate = function (project, qty) {
+                $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
+                    getBalance();
+                    $('.modal').modal('close');
+                });
+                $('.js-target-project, .js-target-project-sum').val('');
             }
+        </script>
 
-            $.post('/blockchain/ajax/', {'action':'getProjectVals', 'pName': p}, function(data) {
-                data = $.parseJSON(data);
-                call(data['Users'][$('.js-wallet-code').text()]);
-            });
-        };
+        <!--Перевести на счет-->
+        <div class="modal fade" id="target-wallet" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-green">
+                        <h5 class="modal-title text-white">Send GIFTS to an account</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                          height="20"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
 
-        var pay = function(wallet, sum) {
-            $.post('/blockchain/ajax/', {'action':'pay', 'wallet': wallet, 'sum': sum}, function(data) {
-                getBalance();
-            });
-            $('.js-target-wallet-sum, .js-target-wallet').val('');
-        };
+                        <div class="u-mb-15">
+                            <input type="text" name="" class="js-target-wallet" value="" placeholder="Sum"/>
+                        </div>
+                        <div>
+                            <input type="text" name="" class="js-target-wallet-sum" value=""
+                                   placeholder="Account number"/>
+                        </div>
 
-        var move = function(project, wallet, qty) {
-            $.post('/blockchain/ajax/', {'action':'move', 'project': project, 'qty': qty, 'wallet': wallet}, function(data) {
-                getBalance();
-            });
-            $('.js-target-project-token-sum, .js-target-project-token, .js-target-project-token-wallet').val('');
-        };
-
-        var donate = function(project, qty) {
-            $.post('/blockchain/ajax/', {'action':'donate', 'project': project, 'qty': qty}, function(data) {
-                getBalance();
-            });
-            $('.js-target-project, .js-target-project-sum').val('');
-        }
-    </script>
-
-<!--Перевести на счет-->
-<div class="modal fade" id="target-wallet" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-green">
-                <h5 class="modal-title text-white">Send GIFTS to an account</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
-                </button>
-            </div>
-            <div class="modal-body">
-
-                <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-wallet" value="" placeholder="Sum" />
-                </div>
-                <div>
-                    <input type="text" name="" class="js-target-wallet-sum" value="" placeholder="Account number" />
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="button" value="Send" onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());" class="js-send-coins btn btn-primary" />
-            </div>
-        </div>
-    </div>
-</div>
-<!--Перевод токенов-->
-<div class="modal fade" id="target-project-token" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-purple-light">
-                <h5 class="modal-title text-white">Tokens transfer</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <div class="u-mb-15">
-                    <select name="" class="js-target-project-token show-on-768" value="" >
-                        <option value="Select the project">Select the project</option>
-                        <option value="Название проекта 1">Название проекта 1</option>
-                        <option value="Название проекта 2">Название проекта 2</option>
-                        <option value="Название проекта 3">Название проекта 3</option>
-                    </select>
-                    <div class="formal-select-wrapper hide-on-768">
-                        <input type="text" name="" value="Select the project"/>
-                        <ul class="formal-select box-shadow-v2">
-                            <li>Select the project</li>
-                            <li>Название проекта 1</li>
-                            <li>Название проекта 2</li>
-                            <li class="active">Название проекта 3</li>
-                            <li>Название проекта 1</li>
-                            <li>Название проекта 2</li>
-                            <li>Название проекта 3</li>
-                        </ul>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="button" value="Send"
+                               onclick="return pay($('.js-target-wallet').val(), $('.js-target-wallet-sum').val());"
+                               class="js-send-coins btn btn-primary"/>
                     </div>
                 </div>
-                <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-project-token-sum" value="" placeholder="Tokens qty" />
-                </div>
-                <div>
-                    <input type="text" name="" class="js-target-project-token-wallet" value="" placeholder="Receiver" />
-                </div>
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="button" value="Send" onclick="return move($('.js-target-project-token').val(), $('.js-target-project-token-wallet').val(), $('.js-target-project-token-sum').val());" class="js-move-tokens  btn btn-primary" />
             </div>
         </div>
-    </div>
-</div>
-<!--Донейт-->
-<div class="modal fade" id="target-project" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-yellow">
-                <h5 class="modal-title text-white">Donate</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20" height="20"> </span>
-                </button>
-            </div>
-            <div class="modal-body">
+        <!--Перевод токенов-->
+        <div class="modal fade" id="target-project-token" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-purple-light">
+                        <h5 class="modal-title text-white">Tokens transfer</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                          height="20"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="u-mb-15">
+                            <select name="" class="js-target-project-token">
+                                <option value="Select the project">Select the project</option>
+                            </select>
 
-                <div class="u-mb-15">
-                    <input type="text" name="" class="js-target-project-sum" value="" placeholder="Sum" />
-                </div>
-                <div>
-                    <input type="text" name="" class="js-target-project" value="" placeholder="Project code" />
-                </div>
+                            <div class="formal-select-wrapper hide-on-768 hide">
+                                <input type="text" class="js-target-project-token1" name="" value="Select the project"/>
+                                <ul class="formal-select box-shadow-v2 js-target-project-token-list1" style="dis">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <input type="button" value="Donate" onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());" class="js-donate btn btn-primary" />
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="u-mb-15">
+                            <input type="text" name="" class="js-target-project-token-sum" value=""
+                                   placeholder="Tokens qty"/>
+                        </div>
+                        <div>
+                            <input type="text" name="" class="js-target-project-token-wallet" value=""
+                                   placeholder="Receiver"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="button" value="Send"
+                               onclick="return move($('.js-target-project-token').val(), $('.js-target-project-token-wallet').val(), $('.js-target-project-token-sum').val());"
+                               class="js-move-tokens  btn btn-primary"/>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-    <div class="rounded text-center p-md-2 js-project-block default" style="display: none;">
-        <div class="u-rounded-5 p-2 border">
-            <div class="project-balance"><span class="js-project-balance"></span>%</div>
-            <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
+        <!--Донейт-->
+        <div class="modal fade" id="target-project" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-yellow">
+                        <h5 class="modal-title text-white">Donate</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                          height="20"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="u-mb-15">
+                            <input type="text" name="" class="js-target-project-sum" value="" placeholder="Sum"/>
+                        </div>
+                        <div>
+                            <input type="text" name="" class="js-target-project" value="" placeholder="Project code"/>
+                        </div>
+
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <input type="button" value="Donate"
+                               onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());"
+                               class="js-donate btn btn-primary"/>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        <div class="rounded text-center p-md-2 js-project-block default" style="display: none;">
+            <div class="u-rounded-5 p-2 border">
+                <div class="project-balance"><span class="js-project-balance"></span>%</div>
+                <h6 class="u-mb-1"><span class="js-project-name"></span></h6>
+            </div>
+        </div>
     {% endif %}
-{%  endblock %}
+{% endblock %}
