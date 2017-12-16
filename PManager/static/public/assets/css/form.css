@@ -37,6 +37,6 @@
     background-color: #E26C60;
 }
 
-.has-error input, .has-error select {
+.has-error input, .has-error select, input.has-error , select.has-error {
     border: 1px solid red;
 }

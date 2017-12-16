@@ -22,7 +22,7 @@ def userRegisterAndUpdate(request):
         profile.blockchain_cert = res[1]
         profile.save()
 
-        return result
+        return 'ok'
     return False
 
 def blockchainAjax(request):
@@ -52,15 +52,17 @@ def blockchainAjax(request):
     elif action == 'addProject':
         # profile = request.user.get_profile()
         project = int(request.POST.get('id'))
-        try:
-            project = PM_Project.objects.get(pk=project)
-            if request.user.get_profile().blockchain_wallet:
-                result = blockchain_user_newproject_request(request.user.username, project.name)
-                if result == 'ok':
-                    project.blockchain_name = project.name
-                    project.save()
-        except PM_Project.DoesNotExist:
-            result = 'error'
+        name = request.POST.get('name')
+        if name and project:
+            try:
+                project = PM_Project.objects.get(pk=project)
+                if request.user.get_profile().blockchain_wallet:
+                    result = blockchain_user_newproject_request(request.user.username, name)
+                    if result == 'ok':
+                        project.blockchain_name = name
+                        project.save()
+            except PM_Project.DoesNotExist:
+                result = 'error'
 
     elif action == 'pay':
         # profile = request.user.get_profile()

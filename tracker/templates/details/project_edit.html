@@ -32,6 +32,10 @@
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Tools color-primary mr-lg-3"></span>
                             Integration</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-cloud" role="tab"
+                           aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-Cloud color-primary mr-lg-3"></span>
+                            Gift Cloud</a>
                     </div>
                 </div>
                 <div class="col-sm-9">
@@ -126,6 +130,21 @@
                                            required="">
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
+                                <div class="project-edit-form js-blockchain-form">
+                                    {% if project.blockchain_name %}
+                                        The project is registered in Opengift Cloud with name {{ project.blockchain_name }}
+                                    {% elif not request.user.get_profile.blockchain_wallet %}
+                                        For registering your project in GiftCloud you should create <a href="/wallet/">your wallet</a> firstly.
+                                    {% else %}
+                                        <input type="text" name="blockchain_name" value=""
+                                               data-valmask='[A-z0-9\\_\\.]+'
+                                           class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name" placeholder="Project name in blockchain">
+                                        <button type="button" class="btn btn-success btn-rounded js-register-project-in-blockchain" >Register project in GiftCloud</button>
+                                    {% endif %}
+                                </div>
+                            </div>
                         </div>
                         <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
                                 style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i class="fa fa-save"></i> Save
@@ -189,16 +208,30 @@
                 }
             });
             {% if not project.blockchain_name %}
-            $.post(
-                    '/blockchain/ajax/',
-                    {
-                        'action':'addProject',
-                        'id': {{ project.id }}
-                    },
-                    function (data) {
+                $('.js-register-project-in-blockchain').click(function() {
+                    var $name = $('.js-blockchain-name').addClass('js-required');
+                    var form = new Form('.js-blockchain-form');
+                    var name = $name.val();
 
+                    if (form.validate()) {
+                        $.post(
+                            '/blockchain/ajax/',
+                            {
+                                'action':'addProject',
+                                'id': {{ project.id }},
+                                'name': $name.val()
+                            },
+                            function (data) {
+                                if (data == 'ok') {
+                                    form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name '+name+'</p>');
+                                }
+                            }
+                        );
                     }
-            );
+
+                    $name.removeClass('js-required');
+                    return false;
+                });
             {% endif %}
         });
     </script>

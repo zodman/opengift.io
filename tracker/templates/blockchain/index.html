@@ -3,11 +3,22 @@
 {% block content %}
     {% if not request.user.get_profile.blockchain_cert %}
         <section class="text-center">
-            <h1>Создание кошелька</h1>
+            <h1>Welcome to Gift Cloud</h1>
+            <p>Create your first wallet</p>
+            <p><a href="#" class="btn btn-success js-create">Create</a></p>
             <script>
                 $(function () {
-                    $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
-                        document.location.reload();
+                    $('.js-create').click(function() {
+                        $(this).addClass('disabled').attr('disabled', 'disabled').text('Registering in blockchain...');
+                        var t = this;
+                        $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
+                            if (data == 'ok') {
+                                $(t).text('Creating new wallet...');
+                                document.location.reload();
+                            } else {
+                                $(t).text('Something is wrong:(');
+                            }
+                        });
                     });
                 })
             </script>
@@ -165,7 +176,6 @@
                                 });
                             })(i, n);
 
-                            console.log(i);
                             $('.js-target-project-token').append('<option>' + i + '</option>');
                         }
                         setTimeout(function () {

@@ -60,6 +60,7 @@ function Form(formSelector) {
     this['errorsExist'] =  false;
     this['extValidator'] =  false;
 
+
     this.init = function() {
         this.$form = $(formSelector);
 
@@ -67,14 +68,14 @@ function Form(formSelector) {
 
 
         this.$form.on('change', '.has-error [type="checkbox"], .has-error [type="hidden"]', function () {
-            var fieldGroup = $(this).closest('.js-form-group');
+            var fieldGroup = $($(this).closest('.js-form-group').get(0) || this);
             fieldGroup.removeClass('has-error');
         });
 
         this.$form.on('keyup', '.js-required, [required]', function() {
 
             var input = $(this),
-                fieldGroup = $(this).closest('.js-form-group'),
+                fieldGroup = $($(this).closest('.js-form-group').get(0) || this),
                 currentVal = input.val();
 
             if(currentVal.length > 0)
@@ -88,7 +89,7 @@ function Form(formSelector) {
             e.stopPropagation();
 
             var input = $(this),
-                fieldGroup = input.closest('.js-form-group'),
+                fieldGroup = $($(this).closest('.js-form-group').get(0) || this),
                 minLength = input.attr('data-min-length'),
                 currentVal = input.val();
 
@@ -103,7 +104,7 @@ function Form(formSelector) {
             e.stopPropagation();
 
             var input = $(this),
-                fieldGroup = input.closest('.js-form-group'),
+                fieldGroup = $($(this).closest('.js-form-group').get(0) || this),
                 currentVal = input.val(),
                 re = new RegExp($(this).data('valmask'), 'g');
 
@@ -151,7 +152,7 @@ function Form(formSelector) {
         this.$form.find('input, textarea, select').not(':disabled, [type=checkbox], [type=radio]').filter(':visible').each(function(){
             var currentVal = $(this).val(),
                 currentFieldError = false,
-                fieldGroup = $(this).closest('.js-form-group');
+                fieldGroup = $($(this).closest('.js-form-group').get(0) || this);
 
 
             if ($(this).is('.js-required') || $(this).is('[required]')) {
@@ -189,19 +190,19 @@ function Form(formSelector) {
                     if (!currentFieldError && $(this).data('valmask')) {
                         var re = new RegExp($(this).data('valmask'), 'g');
                         if (!re.test(currentVal)) {
-                            currentFieldError = $(this).data('field-error') || 'Поле заполнено не верно';
+                            currentFieldError = $(this).data('field-error') || 'Incorrect data';
                         }
                     }
 
                     if (!currentFieldError && $(this).data('numberTo')) {
                         if (parseFloat(currentVal) > parseFloat($(this).data('number-to'))) {
-                            currentFieldError = $(this).data('field-error')  || 'Значение поля должно быть не более '+$(this).data('numberTo');
+                            currentFieldError = $(this).data('field-error')  || 'Field value must be more than '+$(this).data('numberTo');
                         }
                     }
 
                     if (!currentFieldError && $(this).data('numberFrom')) {
                         if (isNaN(parseFloat(currentVal)) || parseFloat(currentVal) < parseFloat($(this).data('number-from'))) {
-                            currentFieldError = $(this).data('field-error')  || 'Значение поля должно быть не менее '+$(this).data('numberFrom');
+                            currentFieldError = $(this).data('field-error')  || 'Field value must be lesser than '+$(this).data('numberFrom');
                         }
                     }
                 }
@@ -209,7 +210,7 @@ function Form(formSelector) {
 
             if (currentFieldError) {
                 fieldGroup.addClass('has-error');
-                if (currentFieldError === true) currentFieldError = 'Заполните корректно все необходимые поля';
+                if (currentFieldError === true) currentFieldError = 'The data is incorrect';
 
                 t.showError(currentFieldError);
                 t.errorsExist = true;
@@ -219,7 +220,7 @@ function Form(formSelector) {
         // Валидация чекбоксов
         this.$form.find('input[type="checkbox"], input[type="radio"]').filter(':visible').each(function(){
             var currentFieldError = false,
-                fieldGroup = $(this).closest('.js-form-group');
+                fieldGroup = $($(this).closest('.js-form-group').get(0) || this);
 
 
             if ($(this).is('.js-required') && !$('[name="'+this.name+'"]:checked').length) {
