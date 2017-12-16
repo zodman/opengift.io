@@ -3,16 +3,9 @@
 {% block header %}
 {% endblock %}
 {% block content %}
-    {% if not request.user.get_profile.blockchain_cert %}
+    {% if not request.user.get_profile.blockchain_wallet %}
         <section class="text-center">
-            <h1>Wallet initialization</h1>
-            <script>
-                $(function () {
-                    $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
-                        document.location.reload();
-                    });
-                })
-            </script>
+            <h1>You haven't any wallet</h1>
         </section>
     {% else %}
     <section class="u-py-md-250 u-flex-center">
