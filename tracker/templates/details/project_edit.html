@@ -119,6 +119,9 @@
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
                                 <div class="project-edit-form">
+                                    <input type="text" name="link_video" value="{{ project.link_site|default_if_none:'' }}"
+                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the promo video"
+                                           required="">
                                     <input type="text" name="link_site" value="{{ project.link_site|default_if_none:'' }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the site"
                                            required="">

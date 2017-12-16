@@ -179,6 +179,8 @@ class MainPage:
         from django.utils.html import escape
         import urllib
 
+        return HttpResponseRedirect('/pub/')
+
         cType = 'text/html'
         mimeType = None
         bXls = request.GET.get('xls_output', False)

@@ -29,7 +29,7 @@ class InterfaceForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "author", "tracker"]
+        fields = ["name", "description", "author", "tracker"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -41,7 +41,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "specialties", "target_group", "problem", "link_site", "link_github", "link_demo"]
+        fields = ["name", "description", "files", "specialties", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -256,6 +256,7 @@ def projectDetailAdd(request):
                 f.save()
                 instance.files.add(f)
 
+            instance.public = True
             instance.save()
 
             request.user.get_profile().setRole('manager', instance)
