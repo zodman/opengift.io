@@ -104,9 +104,11 @@
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
                         {{ project.description }}
                     </p>
-                    <a href="" class="btn btn btn-rounded btn-white px-md-5">
+                    {% if project.link_demo %}
+                    <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
                         View Demo
                     </a>
+                    {% endif %}
                     <a href="/project/{{ project.id }}/donate/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
                         Become a Sponsor
                     </a>
