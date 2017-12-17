@@ -130,7 +130,7 @@ class BurnDown(Chart):
             self.value_desc = 'Нет доступных целей для графика'
 
 class TaskCommitsChart(Chart):
-    title = u'Производство'
+    title = u'Commits'
     type = 'chart'
     payQuery = ''
 
@@ -143,8 +143,8 @@ class TaskCommitsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Коммиты': Axis(u'Коммиты', '#%02X%02X%02X' % (r(), r(), r())),
-            u'Задачи': Axis(u'Задачи', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Коммиты': Axis(u'Commits', '#%02X%02X%02X' % (r(), r(), r())),
+            u'Задачи': Axis(u'Tasks', '#%02X%02X%02X' % (r(), r(), r()))
         }
 
         for day in self.dayGenerator:
@@ -162,13 +162,13 @@ class TaskCommitsChart(Chart):
                 project__in=self.projects
             ).count()
 
-            self.yAxes[u'Коммиты'].values.append(messagesQty or 0)
-            self.yAxes[u'Задачи'].values.append(tasksQty or 0)
+            self.yAxes[u'Commits'].values.append(messagesQty or 0)
+            self.yAxes[u'Tasks'].values.append(tasksQty or 0)
 
             self.xAxe.append(day)
 
 class ViewDownloadChart(Chart):
-    title = u'Интерес'
+    title = u'Downloads'
     type = 'chart'
     payQuery = ''
 
@@ -181,18 +181,18 @@ class ViewDownloadChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Скачивания': Axis(u'Скачивания', 'rgba(236,97,183,1)'),
+            u'Downloads': Axis(u'Downloads', 'rgba(236,97,183,1)'),
             # u'Подписчики': Axis(u'Подписчики', 'rgba(56,195,209,1)')
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Скачивания'].values.append(random.randint(1, 500))
+            self.yAxes[u'Downloads'].values.append(random.randint(1, 500))
             # self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
 
             self.xAxe.append(day)
 
 class BugsChart(Chart):
-    title = u'Ошибки'
+    title = u'Bugs'
     type = 'chart'
     payQuery = ''
 
@@ -205,7 +205,7 @@ class BugsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Ошибки': Axis(u'Ошибки', 'rgba(99,137,228,1)')
+            u'Bugs': Axis(u'Bugs', 'rgba(99,137,228,1)')
         }
 
         for day in self.dayGenerator:
@@ -215,12 +215,12 @@ class BugsChart(Chart):
                 task__project__in=self.projects,
                 bug__isnull=False
             ).count()
-            self.yAxes[u'Ошибки'].values.append(messagesQty)
+            self.yAxes[u'Bugs'].values.append(messagesQty)
 
             self.xAxe.append(day)
 
 class DonationsChart(Chart):
-    title = u'Донейты'
+    title = u'Sponsorships'
     type = 'chart'
     payQuery = ''
 
@@ -233,11 +233,11 @@ class DonationsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Донейты': Axis(u'Донейты', 'rgba(94,186,150,1)')
+            u'Sponsorships': Axis(u'Sponsorships', 'rgba(94,186,150,1)')
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Донейты'].values.append(random.randint(1, 200))
+            self.yAxes[u'Sponsorships'].values.append(random.randint(1, 200))
 
             self.xAxe.append(day)
 
