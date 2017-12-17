@@ -143,8 +143,8 @@ class TaskCommitsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Коммиты': Axis(u'Commits', '#%02X%02X%02X' % (r(), r(), r())),
-            u'Задачи': Axis(u'Tasks', '#%02X%02X%02X' % (r(), r(), r()))
+            u'Commits': Axis(u'Commits', '#%02X%02X%02X' % (r(), r(), r())),
+            u'Tasks': Axis(u'Tasks', '#%02X%02X%02X' % (r(), r(), r()))
         }
 
         for day in self.dayGenerator:
