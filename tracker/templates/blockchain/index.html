@@ -221,7 +221,7 @@
             var pay = function (wallet, sum) {
                 $.post('/blockchain/ajax/', {'action': 'pay', 'wallet': wallet, 'sum': sum}, function (data) {
                     getBalance();
-                    $('.modal').modal('close');
+                    $('.modal').modal('hide');
                 });
                 $('.js-target-wallet-sum, .js-target-wallet').val('');
             };
@@ -234,7 +234,7 @@
                     'wallet': wallet
                 }, function (data) {
                     getBalance();
-                    $('.modal').modal('close');
+                    $('.modal').modal('hide');
                 });
                 $('.js-target-project-token-sum, .js-target-project-token, .js-target-project-token-wallet').val('');
             };
@@ -242,7 +242,7 @@
             var donate = function (project, qty) {
                 $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
                     getBalance();
-                    $('.modal').modal('close');
+                    $('.modal').modal('hide');
                 });
                 $('.js-target-project, .js-target-project-sum').val('');
             }
@@ -262,10 +262,10 @@
                     <div class="modal-body">
 
                         <div class="u-mb-15">
-                            <input type="text" name="" class="js-target-wallet" value="" placeholder="Sum"/>
+                            <input type="text" name="" class="" value="js-target-wallet-sum" placeholder="Sum"/>
                         </div>
                         <div>
-                            <input type="text" name="" class="js-target-wallet-sum" value=""
+                            <input type="text" name="" class="js-target-wallet" value=""
                                    placeholder="Account number"/>
                         </div>
 
