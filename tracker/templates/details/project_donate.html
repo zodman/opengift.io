@@ -77,9 +77,10 @@
                         getBalance();
                         ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
                         if (currency == 'btc') {
+                            data = $.parseJSON(data);
                             $('.js-donate-form').replaceWith(
                                     '<br /><p>Please, pay '+qty+' BTC for this account in next 24 hours.</p>' +
-                                    '<h3>'+data+'</h3><br />'
+                                    '<h3><a href="'+data.URI+'">'+data.address+'</a></h3><br />'
                             )
                         }
                     });

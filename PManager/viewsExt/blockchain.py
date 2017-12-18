@@ -87,6 +87,7 @@ def blockchainAjax(request):
         result = blockchain_token_move_request(request.user.username, project, wallet, qty)
 
     elif action == 'donate':
+        import json
         # profile = request.user.get_profile()
         project = request.POST.get('project')
         qty = request.POST.get('qty')
@@ -95,7 +96,7 @@ def blockchainAjax(request):
             result = blockchain_donate_request(request.user.username, project, qty)
         elif currency == 'btc':
             result = bitcoin_set_request(project, qty)
-            result = result['address']
+            result = json.dumps(result)
 
     elif action == 'getProjectVals':
         # profile = request.user.get_profile()
