@@ -25,6 +25,13 @@ def userRegisterAndUpdate(request):
         return result
     return False
 
+def blockchainIncome(request):
+    import json
+    fd = open('logCrypto.log', "w+")
+    fd.write(json.dumps(request.POST))
+    fd.close()
+    return HttpResponse('ok')
+
 def blockchainAjax(request):
     action = request.POST.get('action')
     result = ''

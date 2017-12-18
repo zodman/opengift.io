@@ -34,7 +34,7 @@ from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 from PManager.viewsExt.agreements import ajax_handler as agreements_ajax
-from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax
+from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax, blockchainIncome
 from PManager.viewsExt.public import Public
 import datetime
 from django.views.generic import TemplateView
@@ -165,6 +165,7 @@ urlpatterns = patterns('',
 
                        url(r'^blockchain/ajax/', blockchainAjax),
                        url(r'^wallet/', blockchainMain),
+                       url(r'^crypto/electrum', blockchainIncome),
                        url(r'^pub/', Public.mainPage),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),
                        url(r'^wiki/', include('wiking.urls'))
