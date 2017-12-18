@@ -78,6 +78,10 @@
                         ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
                         if (currency == 'btc') {
                             alert(data);
+                            $('.js-donate-form').replaceWith(
+                                    '<p>Please, pay '+qty+' BTC for this account next 24 hours.</p>' +
+                                    '<h3>'+data+'</h3>'
+                            )
                         }
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
