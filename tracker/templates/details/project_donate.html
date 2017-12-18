@@ -24,15 +24,21 @@
 
 
                             <div class="row align-items-center">
-                                <div class="col-lg-7 js-form-group">
+                                <div class="col-lg-6 js-form-group">
                                     <input type="text" name="" data-number-from="0.01" class="js-required js-target-project-sum" value=""
                                            placeholder="Sum"/>
                                     <input type="hidden" name="" class="js-required js-target-project"
                                            value="{{ project.name }}" />
                                 </div>
-                                <div class="col-lg-5">
+                                <div class="col-lg-3">
+                                    <select class="js-currency">
+                                        <option value="gift">GIFT</option>
+                                        <option value="btc">BTC</option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
                                     <input type="button" value="Donate"
-                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());"
+                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val());"
                                            class="js-donate btn btn-success"/>
                                 </div>
                             </div>
@@ -63,13 +69,16 @@
                 return false;
             };
 
-            var donate = function (project, qty) {
+            var donate = function (project, qty, currency) {
                 var form = new Form('.js-donate-form');
                 if (form.validate()) {
                     $('.js-donate').attr('disabled', 'disabled');
-                    $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
+                    $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty, 'currency': currency}, function (data) {
                         getBalance();
                         ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
+                        if (currency == 'btc') {
+                            alert(data);
+                        }
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
                 }
