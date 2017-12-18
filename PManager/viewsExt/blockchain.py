@@ -27,7 +27,7 @@ def userRegisterAndUpdate(request):
 
 def blockchainIncome(request):
     import json
-    fd = open('logCrypto.log', "w+")
+    fd = open('logCrypto.log', "a")
     fd.write(json.dumps(request.POST))
     fd.close()
     return HttpResponse('ok')
