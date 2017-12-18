@@ -29,6 +29,7 @@ def blockchainIncome(request):
     import json
     fd = open('logCrypto.log', "a")
     fd.write(json.dumps(request.POST))
+    fd.write("\r\n")
     fd.close()
     return HttpResponse('ok')
 
