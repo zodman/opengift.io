@@ -4,7 +4,7 @@ from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
-from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
+from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags, PM_Timer
 from PManager.models import LikesHits, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, PM_Project_Industry
 from django import forms
@@ -336,6 +336,18 @@ def projectDetailPublic(request, project_id):
         setattr(m, 'liked', m.userLiked(request))
         ams.append(m)
 
+    timers = PM_Timer.objects.raw(
+            'SELECT SUM(`seconds`) as summ, id from PManager_pm_timer' +
+            ' WHERE `task_id` IN (select id from PManager_pm_task where datestart is not null and closed=1 and project_id=' + str(project.id) + ')'
+        )
+    time = 0
+    for t in timers:
+        if t.summ:
+            time += float(t.summ)
+
+    time /= 3600
+    time = round(time)
+
     raters_count = RatingHits.objects.filter(project=project).count()
     c = RequestContext(request, {
         'chart': {
@@ -347,6 +359,7 @@ def projectDetailPublic(request, project_id):
         'project': project,
         'milestones': ams,
         'team': team,
+        'hours_spent': time,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,

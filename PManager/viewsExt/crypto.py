@@ -7,6 +7,12 @@ from django.contrib.auth.models import User
 
 CRYPTO_HOST = '188.166.237.19'
 
+def get_rate():
+    fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
+    res = fp.read()
+    coinRateInBtc = float(res)
+    return coinRateInBtc
+
 def bitcoin_set_request(project_name, sum):
     service_url = '/bitcoin/request/create'
 
@@ -19,9 +25,8 @@ def get_paid_btc():
     service_url = '/bitcoin/request/paid'
     service_url_clear = '/bitcoin/request/clear'
 
-    fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
-    res = fp.read()
-    coinRateInBtc = json.loads(res)
+    coinRateInBtc = get_rate()
+
     exchangeName = 'opengift@opengift.io'
 
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)

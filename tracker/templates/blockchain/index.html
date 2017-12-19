@@ -61,7 +61,7 @@
                                                class="form-control border-0 p-3 js-wallet-code input-group-input-with-desc"
                                                value="{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}"
                                                required="">
-                                        <button type="submit" class="input-group-btn btn btn-primary"
+                                        <button type="submit" class="js-copy input-group-btn btn btn-primary"
                                                 style="text-align: center">Copy
                                         </button>
                                     </div>
@@ -153,6 +153,11 @@
                     getBalance();
                 });
                 $('.header').get(0).className = "header header-shrink bg-gradient non-fixed";
+                $('.js-copy').click(function() {
+                    $('.js-wallet-code').get(0).select();
+                    try {document.execCommand('copy');} catch (e) {}
+                    return false;
+                });
             });
             var getKey = function (callback) {
                 $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
@@ -169,6 +174,7 @@
                     }
                     $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
                     if (data.Projects) {
+                        $('.js-project-list .slick-track').empty();
                         var sp = '', n = 0;
                         for (var i in data.Projects) {
                             $('.js-empty-list').hide();

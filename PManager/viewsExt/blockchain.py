@@ -1,7 +1,7 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from PManager.models import PM_User, PM_Project
-from PManager.viewsExt.crypto import bitcoin_set_request
+from PManager.viewsExt.crypto import bitcoin_set_request, get_rate
 from PManager.services.danations import donate
 from django.template import loader, RequestContext
 from PManager.services.docker import blockchain_project_status_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
@@ -103,6 +103,12 @@ def blockchainAjax(request):
         elif currency == 'btc':
             result = bitcoin_set_request(project.blockchain_name, qty)
             result = json.dumps(result)
+    elif action == 'getRate':
+        currency = request.POST.get('currency', None)
+        if currency == 'btc':
+            result = get_rate()
+        else:
+            result = 'Incorrect currency'
 
     elif action == 'getProjectVals':
         # profile = request.user.get_profile()
