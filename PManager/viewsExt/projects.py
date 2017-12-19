@@ -356,7 +356,7 @@ def projectDetailPublic(request, project_id):
 
     timers = PM_Timer.objects.raw(
             'SELECT SUM(`seconds`) as summ, id from PManager_pm_timer' +
-            ' WHERE `task_id` IN (select id from PManager_pm_task where datestart is not null and closed=1 and project_id=' + str(project.id) + ')'
+            ' WHERE `task_id` IN (select id from PManager_pm_task where closed=1 and project_id=' + str(project.id) + ')'
         )
     time = 0
     for t in timers:
@@ -367,12 +367,15 @@ def projectDetailPublic(request, project_id):
     time = round(time)
 
     raters_count = RatingHits.objects.filter(project=project).count()
+    aIndustries = [p for p in project.industries.filter(active=True)]
+
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
             'yAxes': yAxes,
         },
         'statistic': statistic,
+        'tags': aIndustries,
         'donationsCount': project.donations.count(),
         'project': project,
         'milestones': ams,
@@ -382,7 +385,7 @@ def projectDetailPublic(request, project_id):
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
-        'long_industries_list': project.industries.count() > 3,
+        'long_industries_list': len(aIndustries) > 3,
         'raters_count': raters_count,
         'user_voted': RatingHits.userVoted(project, request),
         'rating': (RatingHits.objects.filter(
