@@ -46,6 +46,8 @@ def get_paid_btc(request):
             if donate(coins, project, user, None, exchangeName):
                 # fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
                 pass
+            else:
+                strCode += "<p>failed to donate to "+project.blockchain_name+"</p>"
 
         except PM_Project.DoesNotExist:
             pass
