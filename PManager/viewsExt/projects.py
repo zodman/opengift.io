@@ -41,7 +41,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "specialties", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
+        fields = ["name", "description", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -137,7 +137,7 @@ def projectDetailEdit(request, project_id):
 
     aSpecialties = getIndustriesTree()
 
-    sprojectSpec = project.specialties.values_list('id', flat=True)
+    sprojectSpec = project.industries.values_list('id', flat=True)
 
     def recursiveTreeDraw(treeItem):
         s = ''
@@ -146,7 +146,7 @@ def projectDetailEdit(request, project_id):
             s += '<li class="js-section-item project-form--specialties-container-ul-li">'
             s += '<div class="progress-item">'
             s += '<label class="custom-control custom-checkbox text-left"><input '+(
-                'checked ' if treeItem['item'].id in sprojectSpec else '')+' type="checkbox" name="specialties" value="' + str(
+                'checked ' if treeItem['item'].id in sprojectSpec else '')+' type="checkbox" name="industries" value="' + str(
                 treeItem['item'].id) + '" class="custom-control-input"><span class="custom-control-indicator mt-1"></span>'
             s += '<span class="custom-control-description">'+treeItem['item'].name+'</span>'
             s += '</label>'
