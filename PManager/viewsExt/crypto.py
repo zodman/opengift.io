@@ -27,7 +27,8 @@ def get_paid_btc():
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)
     res = fp.read()
     res = json.loads(res)
-    strCode = ''
+    strCode = 'start '+"\r\n"
+
     for elem in res:
         donateCode = elem['memo'].split(':')
         projectCode = donateCode.pop()
@@ -51,5 +52,8 @@ def get_paid_btc():
         except PM_Project.DoesNotExist:
             pass
 
+    fd = open('log/crypto/btcRead.log', "a")
+    fd.write(strCode)
+    fd.close()
 
     return strCode
