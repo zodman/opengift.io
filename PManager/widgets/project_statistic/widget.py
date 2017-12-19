@@ -223,7 +223,7 @@ class BugsChart(Chart):
 
         for day in self.dayGenerator:
             messagesQty = PM_Task_Message.objects.filter(
-                dateCreate__range=(datetime.datetime.combine(day - datetime.timedelta(days=30), datetime.time.min),
+                dateCreate__range=(datetime.datetime.combine(day, datetime.time.min),
                                    datetime.datetime.combine(day, datetime.time.max)),
                 task__project__in=self.projects,
                 bug__isnull=False
@@ -251,7 +251,7 @@ class DonationsChart(Chart):
 
         for day in self.dayGenerator:
             qty = PM_Project_Donation.objects.filter(
-                    date__range=(datetime.datetime.combine(day - datetime.timedelta(days=30), datetime.time.min),
+                    date__range=(datetime.datetime.combine(day, datetime.time.min),
                                        datetime.datetime.combine(day, datetime.time.max)),
                     project__in=self.projects
                 ).count()
