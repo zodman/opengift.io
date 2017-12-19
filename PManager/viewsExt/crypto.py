@@ -1,5 +1,6 @@
 __author__ = 'Gvammer'
 import urllib, urllib2, json
+from PManager.models import PM_Project
 from django.shortcuts import HttpResponse
 CRYPTO_HOST = '188.166.237.19'
 
@@ -26,7 +27,11 @@ def get_paid_btc(request):
         projectCode = elem['memo'].split(':').pop()
         coins = float(elem['amount (BTC)']) / float(coinRateInBtc)
         coins = round(coins, 4)
-        strCode += '<p>' + projectCode + ': ' + elem['amount (BTC)'] + ' ('+str(coins)+' COIN)</p>'
+        try:
+            project = PM_Project.objects.get(blockchain_name=projectCode)
+            strCode += '<p>' + projectCode + ' ('+project.id+'): ' + elem['amount (BTC)'] + ' ('+str(coins)+' COIN)</p>'
+        except PM_Project.DoesNotExist:
+            pass
 
 
     return HttpResponse(strCode)
