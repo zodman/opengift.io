@@ -115,6 +115,7 @@ class PM_Project_Donation(models.Model):
     sum = models.FloatField()
     milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
     exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
             app_label = 'PManager'

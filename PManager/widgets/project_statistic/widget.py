@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.viewsExt.tools import templateTools
-from PManager.models import Credit, PM_Project, PM_Timer, PM_Milestone, PM_Task, PM_Task_Message, PM_MilestoneChanges
+from PManager.models import Credit, PM_Project, PM_Project_Donation, PM_Timer, PM_Milestone, PM_Task, PM_Task_Message, PM_MilestoneChanges
 from django.db import connection
 from django.contrib.auth.models import User
 from django.db.models import Sum
@@ -137,8 +137,8 @@ class TaskCommitsChart(Chart):
     def getData(self):
         import random
 
-        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
-                             xrange((self.dateTo - self.dateFrom).days/30)]
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
+                             xrange((self.dateTo - self.dateFrom).days)]
 
         self.xAxe = []
         r = lambda: random.randint(0, 255)
@@ -167,26 +167,39 @@ class TaskCommitsChart(Chart):
 
             self.xAxe.append(day)
 
-class ViewDownloadChart(Chart):
-    title = u'Downloads'
+class TimeSpentChart(Chart):
+    title = u'Time'
     type = 'chart'
     payQuery = ''
 
     def getData(self):
         import random
 
-        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
-                             xrange((self.dateTo - self.dateFrom).days/30)]
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
+                             xrange((self.dateTo - self.dateFrom).days)]
 
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Downloads': Axis(u'Downloads', 'rgba(236,97,183,1)'),
+            u'Time': Axis(u'Time', 'rgba(236,97,183,1)'),
             # u'Подписчики': Axis(u'Подписчики', 'rgba(56,195,209,1)')
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Downloads'].values.append(random.randint(1, 500))
+            time = PM_Timer.objects.filter(
+                dateEnd__range=(datetime.datetime.combine(day, datetime.time.min),
+                                datetime.datetime.combine(day, datetime.time.max)),
+                task__project__in=self.projects
+            ).values('user__last_name') \
+                .annotate(sum_seconds=Sum('seconds'))
+            alltime = 0
+            for t in time:
+                alltime += t['sum_seconds']
+
+            alltime /= 3600
+            alltime = round(alltime)
+            
+            self.yAxes[u'Time'].values.append(alltime)
             # self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
 
             self.xAxe.append(day)
@@ -199,8 +212,8 @@ class BugsChart(Chart):
     def getData(self):
         import random
 
-        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
-                             xrange((self.dateTo - self.dateFrom).days/30)]
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
+                             xrange((self.dateTo - self.dateFrom).days)]
 
         self.xAxe = []
         r = lambda: random.randint(0, 255)
@@ -227,8 +240,8 @@ class DonationsChart(Chart):
     def getData(self):
         import random
 
-        self.dayGenerator = [self.dateFrom + datetime.timedelta((x +1)*30) for x in
-                             xrange((self.dateTo - self.dateFrom).days/30)]
+        self.dayGenerator = [self.dateFrom + datetime.timedelta(x + 1) for x in
+                             xrange((self.dateTo - self.dateFrom).days)]
 
         self.xAxe = []
         r = lambda: random.randint(0, 255)
@@ -237,7 +250,12 @@ class DonationsChart(Chart):
         }
 
         for day in self.dayGenerator:
-            self.yAxes[u'Sponsorships'].values.append(random.randint(1, 200))
+            qty = PM_Project_Donation.objects.filter(
+                    date__range=(datetime.datetime.combine(day - datetime.timedelta(days=30), datetime.time.min),
+                                       datetime.datetime.combine(day, datetime.time.max)),
+                    project__in=self.projects
+                ).count()
+            self.yAxes[u'Sponsorships'].values.append(qty)
 
             self.xAxe.append(day)
 
@@ -529,8 +547,7 @@ def widget(request, headerValues, a, b):
 
     charts = []
     if 'getAllCharts' in headerValues:
-        now = now - datetime.timedelta(days=765)
-        filt['dateFrom'] = now - datetime.timedelta(days=365)
+        filt['dateFrom'] = now - datetime.timedelta(days=30)
         filt['dateTo'] = now
         for chartName in ['TaskCommitsChart', 'ViewDownloadChart', 'BugsChart', 'DonationsChart']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
