@@ -110,10 +110,10 @@ class PM_Project_Industry(models.Model):
 
 class PM_Project_Donation(models.Model):
     project = models.ForeignKey('PM_Project', related_name="donations")
-    user = models.ForeignKey('User', related_name="donations", null=True, blank=True)
+    user = models.ForeignKey(User, related_name="donations", null=True, blank=True)
     sum = models.FloatField()
     milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
-    exchange = models.ForeignKey('User', related_name="passedDonations", null=True, blank=True)
+    exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
 
     class Meta:
             app_label = 'PManager'
