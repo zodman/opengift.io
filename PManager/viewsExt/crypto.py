@@ -29,7 +29,7 @@ def get_paid_btc(request):
         coins = round(coins, 4)
         try:
             project = PM_Project.objects.get(blockchain_name=projectCode)
-            strCode += '<p>' + projectCode + ' ('+str(project.id)+'): ' + elem['amount (BTC)'] + ' ('+str(coins)+' COIN)</p>'
+            strCode += '<p>' + projectCode + ' ('+str(project.id)+'): ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)</p>'
         except PM_Project.DoesNotExist:
             pass
 
