@@ -108,6 +108,16 @@ class PM_Project_Industry(models.Model):
     class Meta:
             app_label = 'PManager'
 
+class PM_Project_Donation(models.Model):
+    project = models.ForeignKey('PM_Project', related_name="donations")
+    user = models.ForeignKey('User', related_name="donations", null=True, blank=True)
+    sum = models.FloatField()
+    milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
+    exchange = models.ForeignKey('User', related_name="passedDonations", null=True, blank=True)
+
+    class Meta:
+            app_label = 'PManager'
+
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Name of project')
     blockchain_name = models.CharField(max_length=255, verbose_name=u'Name of project', null=True, blank=True)

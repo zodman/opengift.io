@@ -1,7 +1,10 @@
 __author__ = 'Gvammer'
 import urllib, urllib2, json
 from PManager.models import PM_Project
+from PManager.services.danations import donate
 from django.shortcuts import HttpResponse
+from django.contrib.auth.models import User
+
 CRYPTO_HOST = '188.166.237.19'
 
 def bitcoin_set_request(project_id, sum):
@@ -14,6 +17,7 @@ def bitcoin_set_request(project_id, sum):
 
 def get_paid_btc(request):
     service_url = '/bitcoin/request/paid'
+    service_url_clear = '/bitcoin/request/clear'
 
     fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
     res = fp.read()
@@ -24,12 +28,24 @@ def get_paid_btc(request):
     res = json.loads(res)
     strCode = ''
     for elem in res:
-        projectCode = elem['memo'].split(':').pop()
+        donateCode = elem['memo'].split(':')
+        projectCode = donateCode.pop()
+        userId = donateCode.pop()
+        user = None
+        try:
+            user = User.objects.get(pk=int(userId))
+        except ValueError, User.DoesNotExist:
+            pass
+
         coins = float(elem['amount (BTC)']) / float(coinRateInBtc)
         coins = round(coins, 4)
         try:
             project = PM_Project.objects.get(blockchain_name=projectCode)
             strCode += '<p>' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)</p>'
+            if donate(coins, project, user):
+                # fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
+                pass
+
         except PM_Project.DoesNotExist:
             pass
 

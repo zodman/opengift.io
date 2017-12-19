@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 from django.contrib import admin
-from PManager.models import Credit, Specialty, RatingHits, \
+from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, \
     PM_Project_Industry, LogData, LikesHits, Agent, PM_File_Category, PM_Milestone, \
     PM_NoticedUsers, PM_Notice, PM_Task_Status, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
@@ -77,6 +77,7 @@ admin.site.register(PM_User_PlanTime)
 admin.site.register(PM_Task_Status)
 admin.site.register(PM_Notice)
 admin.site.register(PM_NoticedUsers)
+admin.site.register(PM_Project_Donation)
 admin.site.register(PM_Milestone)
 admin.site.register(PM_File_Category)
 admin.site.register(PM_Reminder, Reminder)
