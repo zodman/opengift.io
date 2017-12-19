@@ -198,7 +198,7 @@ class TimeSpentChart(Chart):
 
             alltime /= 3600
             alltime = round(alltime)
-            
+
             self.yAxes[u'Time'].values.append(alltime)
             # self.yAxes[u'Подписчики'].values.append(random.randint(1, 500))
 
@@ -549,7 +549,7 @@ def widget(request, headerValues, a, b):
     if 'getAllCharts' in headerValues:
         filt['dateFrom'] = now - datetime.timedelta(days=30)
         filt['dateTo'] = now
-        for chartName in ['TaskCommitsChart', 'ViewDownloadChart', 'BugsChart', 'DonationsChart']:
+        for chartName in ['TaskCommitsChart', 'TimeSpentChart', 'BugsChart', 'DonationsChart']:
             exec ("chart = " + chartName + "(filt['dateFrom'], filt['dateTo'], projects, request.user, request.GET)")
             charts.append(chart)
     else:
