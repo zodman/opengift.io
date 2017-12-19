@@ -54,25 +54,28 @@
                                           name="description"
                                           placeholder="Project description" required=""
                                           style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description|default_if_none:'' }}</textarea>
+
                                     <div class="project-edit-form--files-list">
                                         <div class="clearfix">
-                                        {% for file in project.files.all %}
-                                            <div class="project-edit-form--files-list--file js-file-block">
+                                            {% for file in project.files.all %}
+                                                <div class="project-edit-form--files-list--file js-file-block">
                                                 <span class="project-edit-form--files-list--file-img"
                                                       style="background-image: url('{{ file.src }}');"></span>
 
-                                                <input type="hidden" name="files" value="{{ file.id }}" />
-                                                <a href="#" class="project-edit-form--files-list--file-remove js-file-remove">
-                                                    <i class="fa fa-remove"></i>
-                                                </a>
-                                            </div>
-                                        {% endfor %}
+                                                    <input type="hidden" name="files" value="{{ file.id }}"/>
+                                                    <a href="#"
+                                                       class="project-edit-form--files-list--file-remove js-file-remove">
+                                                        <i class="fa fa-remove"></i>
+                                                    </a>
+                                                </div>
+                                            {% endfor %}
                                         </div>
                                         <div class="project-edit-form--new-files js-file-new-inputs">
                                             <div class="js-file-new-block">
                                                 <div class="project-edit-form--file-input btn btn-sm btn-green">
                                                     Chose file
-                                                    <input name="IMAGES" type="file" accept="image/*" class="project-edit-form--file-input-input js-file-new-block-input" />
+                                                    <input name="IMAGES" type="file" accept="image/*"
+                                                           class="project-edit-form--file-input-input js-file-new-block-input"/>
                                                 </div>
                                             </div>
                                         </div>
@@ -83,23 +86,25 @@
                                  aria-labelledby="v-pills-profile-tab" aria-expanded="false">
                                 <div class="project-edit-form">
                                     <p><b>Choose problems that you would solve</b></p>
+
                                     <div class="project-form--specialties-container-select-cats">
 
                                         <div class="project-form--specialties-container-select-cats-list">
                                             {% for s in project.industries.all %}
-                                            <span class="small-text-label btn-red btn btn-xs">
-                                                {{ s.name }} <a href="#" data-id="{{ s.id }}" class="js-category-remove"><i class="fa fa-remove"></i></a>
+                                                <span class="small-text-label btn-red btn btn-xs">
+                                                {{ s.name }} <a href="#" data-id="{{ s.id }}"
+                                                                class="js-category-remove"><i class="fa fa-remove"></i></a>
                                             </span>
                                             {% endfor %}
                                         </div>
                                         <!--<p>У вас пока что не выбрано ни одной категории</p>-->
-{#                                        <button class="btn btn-outline-green btn-sm btn-rounded">Выберите категорию</button>#}
+                                        {#                                        <button class="btn btn-outline-green btn-sm btn-rounded">Выберите категорию</button>#}
                                     </div>
 
 
                                     <div class="project-form--specialties-container clearfix" style="text-align: left;">
 
-                                            {{ industriesList|safe }}
+                                        {{ industriesList|safe }}
 
                                     </div>
 
@@ -107,50 +112,62 @@
 
                                     </div>-->
                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
-                                          name="target_group"
-                                          placeholder="Target group" required=""
-                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.target_group|default_if_none:'' }}</textarea>
+                                              name="target_group"
+                                              placeholder="Target group" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.target_group|default_if_none:'' }}</textarea>
                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
-                                          name="problem"
-                                          placeholder="Mission of project" required=""
-                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem|default_if_none:'' }}</textarea>
+                                              name="problem"
+                                              placeholder="Mission of project" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem|default_if_none:'' }}</textarea>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
                                 <div class="project-edit-form">
-                                    <input type="text" name="link_video" value="{{ project.link_site|default_if_none:'' }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the promo video"
-                                           >
-                                    <input type="text" name="link_site" value="{{ project.link_site|default_if_none:'' }}"
+                                    <input type="text" name="link_video"
+                                           value="{{ project.link_site|default_if_none:'' }}"
+                                           class="form-control u-rounded-50 p-3 u-mb-30"
+                                           placeholder="Link to the promo video"
+                                    >
+                                    <input type="text" name="link_site"
+                                           value="{{ project.link_site|default_if_none:'' }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the site"
-                                           >
-                                    <input type="text" name="link_github" value="{{ project.link_github|default_if_none:'' }}"
+                                    >
+                                    <input type="text" name="link_github"
+                                           value="{{ project.link_github|default_if_none:'' }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to GitHub"
-                                           >
-                                    <input type="text" name="link_demo" value="{{ project.link_demo|default_if_none:'' }}"
+                                    >
+                                    <input type="text" name="link_demo"
+                                           value="{{ project.link_demo|default_if_none:'' }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the Demo"
-                                           >
+                                    >
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
                                 <div class="project-edit-form js-blockchain-form">
                                     {% if project.blockchain_name %}
-                                        The project is registered in Opengift Cloud with name {{ project.blockchain_name }}
+                                        The project is registered in Opengift Cloud with name
+                                        {{ project.blockchain_name }}
                                     {% elif not request.user.get_profile.blockchain_wallet %}
-                                        For registering your project in GiftCloud you should create <a href="/wallet/">your wallet</a> firstly.
+                                        For registering your project in GiftCloud you should create
+                                        <a href="/wallet/">your wallet</a> firstly.
                                     {% else %}
                                         <input type="text" name="blockchain_name" value=""
                                                data-valmask='[A-z0-9\\_\\.]+'
-                                           class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name" placeholder="Project name in blockchain">
-                                        <button type="button" class="btn btn-success btn-rounded js-register-project-in-blockchain" >Register project in GiftCloud</button>
+                                               class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name"
+                                               placeholder="Project name in blockchain">
+                                        <button type="button"
+                                                class="btn btn-success btn-rounded js-register-project-in-blockchain">
+                                            Register project in GiftCloud
+                                        </button>
                                     {% endif %}
                                 </div>
                             </div>
                         </div>
                         <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
-                                style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i class="fa fa-save"></i> Save
+                                style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i
+                                class="fa fa-save"></i> Save
                         </button>
                     </form>
                 </div>
@@ -158,8 +175,11 @@
             </div>
         </div> <!-- END container-->
     </section>
+
     <script>
         $(function () {
+            var ajaxUrl = '/project/{{ project.id }}/ajax/';
+
             function enableSubmit() {
                 $('.js-submit').removeAttr('disabled');
             }
@@ -167,6 +187,36 @@
             function disableSubmit() {
                 $('.js-submit').attr('disabled', 'disabled');
             }
+
+            $('.js-add-category-btn').click(function () {
+                var $curBlock = $(this).closest('.js-add-item');
+                var $curIntput = $curBlock.find('.js-category-name');
+                var name = $curIntput.val();
+                $.post(
+                        ajaxUrl,
+                        {
+                            'action': 'addProblem',
+                            'name': name,
+                            'parent': $(this).data('id')
+                        },
+                        function (data) {
+                            if (parseInt(data) > 0) {
+                                $('<div class="progress-item"><label class="custom-control custom-checkbox text-left"><input type="checkbox" name="specialties" value="'+data+'" class="custom-control-input">'+
+                                        '<span class="custom-control-indicator mt-1"></span><span class="custom-control-description">'+name+'</span></label>' +
+                                        '<h4 class="float-right text-primary">0%</h4>' +
+
+                                        '<div class="progress w-100">' +
+                                            '<div class="progress-bar" aria-valuenow="0" style="width: 0%;"></div>' +
+                                        '</div>' +
+                                    '</div>').insertBefore($curBlock);
+                            } else {
+                                alert(data);
+                            }
+                        }
+                );
+                $curIntput.val('');
+                return false;
+            });
 
             $('.js-next-btn').click(function () {
 
@@ -178,10 +228,10 @@
                 return false;
             });
 
-            $('.js-submit').click(function() {
+            $('.js-submit').click(function () {
                 var form = new Form('.js-project-form');
                 if (form.validate()) {
-                    form.$form.ajaxSubmit(function() {
+                    form.$form.ajaxSubmit(function () {
                         disableSubmit();
                         $('.js-file-new-block').val('').not(':eq(0)').remove().end();
                     });
@@ -191,18 +241,18 @@
             $('input, textarea, select').change(enableSubmit).keyup(enableSubmit);
             $('input:radio, input:checkbox').change(enableSubmit);
 
-            $('.js-file-remove').click(function() {
+            $('.js-file-remove').click(function () {
                 $(this).closest('.js-file-block').remove();
                 enableSubmit();
                 return false;
             });
 
-            $('.js-add-file').click(function() {
+            $('.js-add-file').click(function () {
                 $('.js-file-new-block').clone().appendTo('.js-file-new-inputs').val('');
                 return false;
             });
 
-            $('.js-toggle-section').click(function() {
+            $('.js-toggle-section').click(function () {
                 var $subList = $(this).closest('.js-section-item').find('.js-subitems-list').eq(0);
                 if ($subList.is(':visible')) {
                     $subList.slideUp();
@@ -211,24 +261,24 @@
                 }
             });
             {% if not project.blockchain_name %}
-                $('.js-register-project-in-blockchain').click(function() {
+                $('.js-register-project-in-blockchain').click(function () {
                     var $name = $('.js-blockchain-name').addClass('js-required');
                     var form = new Form('.js-blockchain-form');
                     var name = $name.val();
 
                     if (form.validate()) {
                         $.post(
-                            '/blockchain/ajax/',
-                            {
-                                'action':'addProject',
-                                'id': {{ project.id }},
-                                'name': $name.val()
-                            },
-                            function (data) {
-                                if (data == 'ok') {
-                                    form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name '+name+'</p>');
+                                '/blockchain/ajax/',
+                                {
+                                    'action': 'addProject',
+                                    'id': {{ project.id }},
+                                    'name': $name.val()
+                                },
+                                function (data) {
+                                    if (data == 'ok') {
+                                        form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name ' + name + '</p>');
+                                    }
                                 }
-                            }
                         );
                     }
 

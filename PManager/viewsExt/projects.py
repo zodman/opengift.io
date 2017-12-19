@@ -171,7 +171,7 @@ def projectDetailEdit(request, project_id):
                 s += '<div class="progress-item">'
                 s += '<div class="row">'
                 s += '<div class="col-md-6 u-mb-30">'
-                s += u'<input type="text" class="input-sm" placeholder="Add another problem" />'
+                s += u'<input type="text" class="input-sm js-category-name" placeholder="Add another problem" />'
                 s += '</div>'
                 s += '<div class="col-md-6 u-mb-30">'
                 s += u'<button data-id="'+str(curId)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Add</button>'
@@ -219,6 +219,24 @@ def projectDetailAjax(request, project_id):
         if not LikesHits.userLiked(milestone, request):
             likeObject = LikesHits(milestone=milestone)
             likeObject.save(request=request)
+
+    elif action == 'addProblem':
+        name = request.POST.get('name', '')
+        parent = int(request.POST.get('parent', 0))
+        if not name:
+            return HttpResponse('Insert name')
+
+        try:
+            industry = PM_Project_Industry.objects.get(name=name)
+            return HttpResponse('Industry already exists')
+        except PM_Project_Industry.DoesNotExist:
+            try:
+                parent = PM_Project_Industry.objects.get(pk=parent)
+                industry = PM_Project_Industry(name=name, parent=parent)
+                industry.save()
+                return HttpResponse(industry.id)
+            except PM_Project_Industry.DoesNotExist:
+                return HttpResponse('Empty parent')
 
     return HttpResponse('ok')
 

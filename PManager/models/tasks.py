@@ -99,6 +99,7 @@ class PM_Tracker(models.Model):
 
 class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Title')
+    active = models.BooleanField(default=False, blank=True)
     parent = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
 
     def getPercent(self):
