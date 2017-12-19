@@ -1,9 +1,9 @@
 __author__ = 'rayleigh'
 from PManager.models.tasks import PM_Project_Donation
-from PManager.viewsExt.blockchain import blockchain_donate_request
 from django.contrib.auth.models import User
 
 def donate(sum, project, user=None, milestone=None, exchangeUser=None):
+    from PManager.viewsExt.blockchain import blockchain_donate_request
     if not project.blockchain_name:
         return False
 
