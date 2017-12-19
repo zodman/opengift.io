@@ -9,7 +9,7 @@ from PManager.models.interfaces import AccessInterface
 def blockchain_donate_request(username, project, qty):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'donate', 'arg1': project, 'arg2': qty})
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to token move ' + username
+        return 'Fatal Error: Failed to token move ' + username + '('+result+')'
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
