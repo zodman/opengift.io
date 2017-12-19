@@ -2,8 +2,9 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from PManager.models import PM_User, PM_Project
 from PManager.viewsExt.crypto import bitcoin_set_request
+from PManager.services.danations import donate
 from django.template import loader, RequestContext
-from PManager.services.docker import blockchain_project_status_request, blockchain_donate_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
+from PManager.services.docker import blockchain_project_status_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
 
 def blockchainMain(request):
     import urllib
@@ -90,12 +91,17 @@ def blockchainAjax(request):
         import json
         # profile = request.user.get_profile()
         project = request.POST.get('project')
+        try:
+            project = PM_Project.objects.get(blockchain_name=project)
+        except PM_Project.DoesNotExist:
+            return 'Fatal error: projects does not exist'
+
         qty = request.POST.get('qty')
         currency = request.POST.get('currency', 'gift')
         if currency == 'gift':
-            result = blockchain_donate_request(request.user.username, project, qty)
+            result = donate(qty, project, request.user)
         elif currency == 'btc':
-            result = bitcoin_set_request(project, qty)
+            result = bitcoin_set_request(project.blockchain_name, qty)
             result = json.dumps(result)
 
     elif action == 'getProjectVals':
