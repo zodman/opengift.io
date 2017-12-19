@@ -15,7 +15,7 @@ def bitcoin_set_request(project_name, sum):
 
     return json.loads(res)
 
-def get_paid_btc(request):
+def get_paid_btc():
     service_url = '/bitcoin/request/paid'
     service_url_clear = '/bitcoin/request/clear'
 
@@ -42,14 +42,14 @@ def get_paid_btc(request):
         coins = round(coins, 4)
         try:
             project = PM_Project.objects.get(blockchain_name=projectCode)
-            strCode += '<p>' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)</p>'
+            strCode += '' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)'+"\r\n"
             if donate(coins, project, user, None, exchangeName):
                 urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
             else:
-                strCode += "<p>failed to donate to "+project.blockchain_name+"</p>"
+                strCode += "failed to donate to "+project.blockchain_name+"\r\n"
 
         except PM_Project.DoesNotExist:
             pass
 
 
-    return HttpResponse(strCode)
+    return strCode
