@@ -24,7 +24,7 @@ def get_paid_btc(request):
     strCode = ''
     for elem in res:
         projectCode = elem['memo'].split(':').pop()
-        strCode += '<p>' + projectCode + ': ' + elem['amount (BTC)'] + ' ('+(float(elem['amount (BTC)']) / float(coinRateInBtc))+' COIN)</p>'
+        strCode += '<p>' + projectCode + ': ' + elem['amount (BTC)'] + ' ('+str(float(elem['amount (BTC)']) / float(coinRateInBtc))+' COIN)</p>'
 
 
     return HttpResponse(strCode)
