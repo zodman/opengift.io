@@ -14,12 +14,17 @@ def bitcoin_set_request(project_id, sum):
 def get_paid_btc(request):
     service_url = '/bitcoin/request/paid'
 
+    fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
+    res = fp.read()
+    coinRateInBtc = json.loads(res)
+
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)
     res = fp.read()
     res = json.loads(res)
     strCode = ''
     for elem in res:
         projectCode = elem['memo'].split(':').pop()
-        strCode += '<p>' + projectCode + ': ' + elem['amount (BTC)'] + '</p>'
+        strCode += '<p>' + projectCode + ': ' + elem['amount (BTC)'] + ' ('+(float(elem['amount (BTC)']) / float(coinRateInBtc))+' COIN)</p>'
+
 
     return HttpResponse(strCode)
