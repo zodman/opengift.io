@@ -343,6 +343,7 @@ def projectDetailPublic(request, project_id):
             'yAxes': yAxes,
         },
         'statistic': statistic,
+        'donationsCount': project.donations.count(),
         'project': project,
         'milestones': ams,
         'team': team,
