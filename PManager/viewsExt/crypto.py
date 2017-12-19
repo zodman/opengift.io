@@ -44,8 +44,7 @@ def get_paid_btc(request):
             project = PM_Project.objects.get(blockchain_name=projectCode)
             strCode += '<p>' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)</p>'
             if donate(coins, project, user, None, exchangeName):
-                # fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
-                pass
+                urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
             else:
                 strCode += "<p>failed to donate to "+project.blockchain_name+"</p>"
 
