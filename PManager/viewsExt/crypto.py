@@ -9,3 +9,14 @@ def bitcoin_set_request(project_id, sum):
     res = fp.read()
 
     return json.loads(res)
+
+def get_paid_btc():
+    service_url = '/bitcoin/request/paid'
+
+    fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)
+    res = fp.read()
+    res = json.loads(res)
+    for elem in res:
+        pass
+
+    return 'ok'
