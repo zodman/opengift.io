@@ -89,13 +89,13 @@
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
                         {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;<a style="font-size: 30%;" href="/project/{{ project.id }}/edit/" class="fa fa-edit text-small"></a>{% endif %}
                         {% if not long_industries_list %}
-                            {% for tag in tags %}
+                            {% for tag in tags.items %}
                                 <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tag.name }}</sup>
                             {% endfor %}
                         {% endif %}
                     </h1>
                     {% if long_industries_list %}
-                        {% for tag in tags %}
+                        {% for tag in tags.items %}
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
                         {% endfor %}
                     {% endif %}
