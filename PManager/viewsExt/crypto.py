@@ -22,6 +22,7 @@ def get_paid_btc(request):
     fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
     res = fp.read()
     coinRateInBtc = json.loads(res)
+    exchangeName = 'opengift@opengift.io'
 
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)
     res = fp.read()
@@ -42,7 +43,7 @@ def get_paid_btc(request):
         try:
             project = PM_Project.objects.get(blockchain_name=projectCode)
             strCode += '<p>' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)</p>'
-            if donate(coins, project, user):
+            if donate(coins, project, user, None, exchangeName):
                 # fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
                 pass
 
