@@ -875,7 +875,7 @@ var widget_tl, currentGroup;
                     (group.date ? '<div class="pull-right milestone-icons">' +
                     (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
                     '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
-                    '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '" data-edit-description="\' + group.description.replace(\'"\', \'\') + \'"></a>' +
+                    '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '" data-edit-description="' + group.description.replace('"', '') + '"></a>' +
                     (!group.closed ? closeButton : '') +
                     '</div>' : '') +
                     '</div>' +
