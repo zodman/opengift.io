@@ -417,7 +417,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
                     .attr('rel', taskInfo.recommendedUser.id).insertAfter(restRec);
             } else {
-                $respLink.text('Нет ответственного');
+                $respLink.text('Empty');
             }
             var v, todo;
             for (v in taskInfo.todo) {
