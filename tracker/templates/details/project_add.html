@@ -13,6 +13,9 @@
             </div> <!-- END row-->
             <div class="row">
                 <div class="col-lg-7 text-center mx-auto">
+                    {% if request.user.createdProjects.exists %}
+                        <h2>Unfortunately, you can create only one project yet.</h2>
+                    {% else %}
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% for field in form %}
@@ -38,6 +41,7 @@
 
                         <button class="btn btn-rounded btn-primary u-w-170 js-submit" type="submit">Add project</button>
                     </form>
+                    {% endif %}
                 </div> <!-- END col-lg-7 -->
             </div> <!-- END row-->
         </div> <!-- END container-->
