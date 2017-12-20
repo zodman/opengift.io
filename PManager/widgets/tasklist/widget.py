@@ -378,6 +378,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,
+                    'description': task.milestone.description,
                     'code': 'milestone',
                     'closed': task.milestone.closed,
                     'date': templateTools.dateTime.convertToSite(task.milestone.date, '%d.%m.%Y')
