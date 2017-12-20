@@ -467,7 +467,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name + u': задачи' if project and isinstance(project, PM_Project) else u'Задачи')
+    title = (project.name + u': tasks' if project and isinstance(project, PM_Project) else u'Tasks')
 
     return {
         'title': title,
@@ -476,7 +476,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'users': aResps,
         'projectSettings': pSettings,
         'tab': True,
-        'name': u'Задачи',
+        'name': u'Tasks',
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'releases': Release.objects.filter(project=project, status='new'),

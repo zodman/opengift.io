@@ -50,15 +50,15 @@ var CRITICALLY_THRESHOLD = 0.7;
         'getMenuItems': function () {
             var arItems = [];
             if (this.get('canEdit')) {
-                arItems.push({
-                    'itemClass': 'Edit',
-                    'itemText': 'Изменить',
-                    'itemMethod': 'editTask',
-                    'icon': 'edit'
-                });
+                //arItems.push({
+                //    'itemClass': 'Edit',
+                //    'itemText': 'Change',
+                //    'itemMethod': 'editTask',
+                //    'icon': 'edit'
+                //});
                 arItems.push({
                     'itemClass': 'Deadline',
-                    'itemText': 'Сроки',
+                    'itemText': 'Dates',
                     'itemMethod': 'setDeadline',
                     'icon': 'calendar'
                 });
@@ -67,14 +67,14 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (this.get('observer')) {
                 arItems.push({
                     'itemClass': 'ResetPlanning',
-                    'itemText': 'Не наблюдаю',
+                    'itemText': 'Dont observe',
                     'itemMethod': 'stopObserve',
                     'icon': 'eye-slash'
                 });
             } else {
                 arItems.push({
                     'itemClass': 'BringPlanning',
-                    'itemText': 'Наблюдаю',
+                    'itemText': 'Observe',
                     'itemMethod': 'startObserve',
                     'icon': 'eye'
                 });
@@ -83,14 +83,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                 if (this.get('onPlanning')) {
                     arItems.push({
                         'itemClass': 'ResetPlanning',
-                        'itemText': 'Выбрать наименьшую оценку',
+                        'itemText': 'Choose minimal estimated user',
                         'itemMethod': 'closePlanning',
                         'icon': 'list-alt'
                     });
                 } else {
                     arItems.push({
                         'itemClass': 'BringPlanning',
-                        'itemText': 'Покер планирования',
+                        'itemText': 'Planning poker mode',
                         'itemMethod': 'addToPlaning',
                         'icon': 'users'
                     });
@@ -103,7 +103,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 if (status == 'ready') {
                     arItems.push({
                         'itemClass': 'SetRevision',
-                        'itemText': 'На доработку',
+                        'itemText': 'Todo',
                         'itemMethod': 'setRevision',
                         'icon': 'thumbs-down'
                     });
@@ -111,7 +111,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     if (this.get('canApprove')) {
                         arItems.push({
                             'itemClass': 'SetRevision',
-                            'itemText': 'Подтвердить выполнение',
+                            'itemText': 'Confirm',
                             'itemMethod': 'approveTask',
                             'icon': 'check-square-o'
                         });
@@ -119,7 +119,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 } else {
                     arItems.push({
                         'itemClass': 'SetReady',
-                        'itemText': 'На проверку',
+                        'itemText': 'Ready',
                         'itemMethod': 'setReady',
                         'icon': 'check-square-o'
                     });
@@ -142,17 +142,17 @@ var CRITICALLY_THRESHOLD = 0.7;
                 };
                 if (this.get('critically') > CRITICALLY_THRESHOLD) {
                     criticallyObj['icon'] = 'ban';
-                    criticallyObj['itemText'] = 'Не критичная';
+                    criticallyObj['itemText'] = 'Not critical';
                 } else {
                     criticallyObj['icon'] = 'exclamation-circle';
-                    criticallyObj['itemText'] = 'Критичная';
+                    criticallyObj['itemText'] = 'Critical';
                 }
                 arItems.push(criticallyObj);
             }
 
             arItems.push({
                 'itemClass': 'Color',
-                'itemText': 'Цвет',
+                'itemText': 'Color',
                 'itemMethod': 'setColor',
                 'icon': 'th-large'
             });
@@ -160,7 +160,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (this.get('canRemove')) {
                 arItems.push({
                     'itemClass': 'Remove',
-                    'itemText': 'Удалить',
+                    'itemText': 'Remove',
                     'itemMethod': 'removeTask',
                     'icon': 'times-circle'
                 });
@@ -263,7 +263,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#ACTIVE\_SUBTASK\_QTY\#/ig, taskInfo.subtasksQty);
 
             if (!taskInfo.deadline) taskInfo.deadline = '';
-            if (taskInfo.deadline) taskInfo.deadline = 'до&nbsp;' + taskInfo.deadline;
+            if (taskInfo.deadline) taskInfo.deadline = 'deadline&nbsp;' + taskInfo.deadline;
             html = html.replace(/\#DEADLINE#/ig, taskInfo.deadline);
 
             var sFileList = '';
@@ -381,9 +381,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                         $buttonClose.show();
                         var $closeIcon = $buttonClose.find('.fa');
                         if (taskInfo.canClose) {
-                            $closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Закрыть задачу');
+                            $closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Close task');
                         } else {
-                            $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
+                            $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'Ready');
                             if (taskInfo.status == 'ready') {
                                 $closeIcon.hide();
                             }
@@ -687,7 +687,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                                             '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
                                             '<span class="occupation"></span>' +
                                             '<div class="progress-bar-wrapper clearfix">' +
-                                            '<div class="progress-bar-wrapper-title">Компетентность</div>' +
+                                            '<div class="progress-bar-wrapper-title">Matching</div>' +
                                             '<div class="progress">' +
                                             '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
                                             '</div>' +
@@ -994,7 +994,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         'approveTask': function () {
             var t = this;
             if (!t.model.get('resp') || !t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
-                alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
+                alert('You should choose the responsible before confirmation.');
                 return false;
             }
             this.setRevision();
@@ -1013,7 +1013,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             });
         },
         'removeTask': function () {
-            if (confirm('Вы действительно хотите удалить эту задачу?')) {
+            if (confirm('A you really want to remove it?')) {
                 taskManager.deleteTask(this.model.id, function () {
 
                 });
@@ -1147,9 +1147,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                     $('.js-deadlinedate').data('min-date', date).data('min-time', time);
 
                     if (check > today) {
-                        $(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
+                        $(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Today</s></span>");
                         if (check > tomorrow) {
-                            $(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Завтра</s></span>");
+                            $(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Tomorrow</s></span>");
                         }
                     }
                 }
@@ -1448,10 +1448,10 @@ var CRITICALLY_THRESHOLD = 0.7;
         this.inputText = '';
         //this.tags = tags;
         this.tags = {
-            'Responsible': 'для ',
-            'Date': ' до ',
-            'Author': ' от ',
-            'About': 'примерно '
+            'Responsible': ' for ',
+            'Date': ' deadline ',
+            'Author': ' author ',
+            'About': ' estimate '
         };
         //this.hintBlocks = blocks;
         this.hintBlocks = {
@@ -1600,7 +1600,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         this.addFilePaste(function (data) {
             data = $.parseJSON(data);
             if (data && data.fid)
-                $(this).val($(this).val() + ' файл #' + data.fid + '#').focus();
+                $(this).val($(this).val() + ' file #' + data.fid + '#').focus();
         });
         return this;
     }
