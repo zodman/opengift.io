@@ -24,7 +24,7 @@ var widget_tl, currentGroup;
         });
 
         $('.js-select-milestone').click(function () {
-            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');
+            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date], [name=milestone_description]');
             if ($(this).val()) {
                 $newMilestoneFields.disable();
             } else {

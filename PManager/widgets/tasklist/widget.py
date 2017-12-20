@@ -106,6 +106,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         mId = int(pst('milestone')) if pst('milestone') else 0
         mName = pst('milestone_name')
         mDate = pst('milestone_date')
+        mDesc = pst('milestone_description')
         milestone = None
         if mId:
             milestone = PM_Milestone.objects.get(pk=mId)
@@ -121,7 +122,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 if not mDate:
                     mDate = datetime.datetime.now()
 
-                milestone = PM_Milestone(name=mName, project=project)
+                milestone = PM_Milestone(name=mName, project=project, description=mDesc)
                 milestone.date = mDate
                 milestone.save()
 
