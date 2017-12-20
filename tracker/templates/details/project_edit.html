@@ -285,7 +285,7 @@
                         };
 
                         $(t).attr('disabled', 'disabled').addClass('disabled');
-                        if ($(this).hasClass('.js-register-project-in-blockchain')) {
+                        if ($(this).hasClass('js-create-wallet')) {
                             $(t).text('Creating wallet...');
 
                             $.post('/blockchain/ajax/', {'action': 'register'}, function (d) {
