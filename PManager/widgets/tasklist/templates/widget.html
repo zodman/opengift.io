@@ -12,7 +12,7 @@
 </script>
 
 
-<div class="widget tasklist" data-tab-title="Задачи">
+<div class="widget tasklist" data-tab-title="Task list">
     <!--<div class="row">
         <div class="col-xs-12">-->
     <div class="widget-tasklist-header">
@@ -39,7 +39,7 @@
                         <li>
                             <a rel="new" href="javascript:void(0)"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Responsible',false,$(this).closest('ul').prev());">
-                                Новый пользователь
+                                New user
                             </a>
                         </li>
                         {% for user in tasklist.users %}
@@ -55,7 +55,7 @@
                         <li>
                             <a rel="new" href="javascript:void(0)"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Author',false,$(this).closest('ul').prev());">
-                                Новый пользователь
+                                New user
                             </a>
                         </li>
 
@@ -74,43 +74,43 @@
                         <li>
                             <a href="javascript:void(0)" rel="today"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
-                                Сегодня</a>
+                                Today</a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="tomorrow"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
-                                Завтра</a>
+                                Tomorrow</a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="aftertomorrow"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
-                                Послезавтра</a>
+                                Day after tomorrow</a>
                         </li>
                         <li>
                             <a href="javascript:void(0)" rel="week"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'Date',false,$(this).closest('ul').prev());">
-                                Неделя</a>
+                                Week</a>
                         </li>
                     </ul>
                     <ul id="TL_deadline_select_list" class="TL_deadline_select_list SelectBlock">
                         <li><a href="javascript:void(0)" rel="1"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">1
-                            час</a></li>
+                            hr</a></li>
                         <li><a href="javascript:void(0)" rel="4"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">4
-                            ч</a></li>
+                            hrs</a></li>
                         <li><a href="javascript:void(0)" rel="8"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">8
-                            ч.</a></li>
+                            hrs</a></li>
                         <li><a href="javascript:void(0)" rel="16"
                                onclick="return mainController.widgetsData['taskList'].TL_CreateSelectTag($(this).attr('rel'),'About',false,$(this).closest('ul').prev());">16
-                            ч.</a></li>
+                            hrs</a></li>
                     </ul>
                 </div>
 
                 <div class="file-upload">
                     <button class="btn btn-default" type="submit"><span class="fa fa-upload"></span></button>
-                    <button class="btn btn-success task-create" type="submit"><i class="fa fa-plus" aria-hidden="true"></i><span class="to-hide-768">Создать</span></button>
+                    <button class="btn btn-success task-create" type="submit"><i class="fa fa-plus" aria-hidden="true"></i><span class="to-hide-768">Create</span></button>
                 </div>
             </div>
             <div class="task-file-upload"></div>
@@ -118,7 +118,7 @@
     {% endif %}
     {% if not tasklist.tasks %}
         {% if not tasklist.project %}
-            <p>Чтобы создать задачу, выберите проект в левом верхнем углу экрана.</p>
+            <p>Just type your first task here.</p>
         {% endif %}
     {% endif %}
     {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
@@ -133,7 +133,7 @@
                             <div class="find-container">
                                 <i class="fa fa-search"
                                    style="color: #d9d9d9; font-size: 17px; left: 11px; position: absolute; top: 8px;"></i>
-                                <input type="text" placeholder="Поиск" class="search-input form-control "/>
+                                <input type="text" placeholder="Search" class="search-input form-control "/>
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
                         </td>
@@ -308,10 +308,10 @@
             <span class="search_buttons">
                 <a class="btn btn-info btn-xs add-search-tab js-xls-search-tab hidden"
                    title="Выгрузить результаты в эксель">
-                    Выгрузить Excel&nbsp;&nbsp;<i class="fa fa-file-excel-o"></i>
+                    Export to Excel&nbsp;&nbsp;<i class="fa fa-file-excel-o"></i>
                 </a>
-                <a class="btn btn-info btn-xs add-search-tab js-save-search-tab hidden" title="Сохранить результаты">
-                    Сохранить фильтр&nbsp;&nbsp;<i class="fa fa-save"></i>
+                <a class="btn btn-info btn-xs add-search-tab js-save-search-tab hidden" title="Save results">
+                    Save filter&nbsp;&nbsp;<i class="fa fa-save"></i>
                 </a>
             </span>
     </div>
@@ -331,7 +331,7 @@
     </div>
     <br/>
 
-    <p class="text-center"><a class="btn btn-success show-more">Показать еще</a></p>
+    <p class="text-center"><a class="btn btn-success show-more">Show more</a></p>
 </div>
 <div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
@@ -372,7 +372,7 @@
         <div class="modal-content green-popup">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel">Добавить цель</h2>
+                <h2 class="modal-title" id="myModalLabel">Add goal</h2>
             </div>
             <form role="form" class="js-milestone-form" method="post">
                 {% csrf_token %}
@@ -382,16 +382,20 @@
                                                              class="js-select-milestone js-new" checked value=""></div>
                         <div class="add-aim-body-item">
                             <input type="text" class="form-control" name="milestone_name" maxlength="255"
-                                   placeholder="Название"/>
+                                   placeholder="Title"/>
                         </div>
                         <label class="label-body-item" style="position: relative; z-index:99999999">
                             <input style="position: relative; z-index:100000000" type="text"
                                    class="js-date form-control" maxlength="10" name="milestone_date"
-                                   placeholder="Дата"/>
+                                   placeholder="Date"/>
                             <a class="fa fa-calendar" href="javascript:void(0);"
                                style="position: absolute;right: 10px;top: 10px;z-index: 999999999"
                                onclick="$(this).prev().focus();"></a>
                         </label>
+                        <div>
+                            <textarea name="milestone_description" placeholder="Description" maxlength="1000"
+                                      class="js-description form-control"></textarea>
+                        </div>
                     </div>
                     {% for milestone in tasklist.milestones %}
                         <div class="add-aim-body-wrapper-wrapper clearfix">
@@ -409,7 +413,7 @@
                                                              class="js-select-milestone"
                                                              value="0"/></div>
                         <div class="add-aim-body-wrapper clearfix">
-                            <div class="add-aim-body-wrapper-name">Нет цели</div>
+                            <div class="add-aim-body-wrapper-name">Goal doesn't exists</div>
                             <div class="add-aim-body-wrapper-date"></div>
                         </div>
                     </div>
@@ -417,8 +421,8 @@
                 <div class="modal-footer">
                     <div class="js-tasks-for-milestone"></div>
                     <input type="submit" name="add-to-milestone" class="btn btn-success js-create-milestone"
-                           value="Добавить"/>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
+                           value="Set goal"/>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>
@@ -488,7 +492,7 @@
         <div class="modal-content green-popup">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel2">Изменить цель</h2>
+                <h2 class="modal-title" id="myModalLabel2">Change goal</h2>
             </div>
             <form role="form" class="js-milestone-form" method="post" action="/milestone_ajax/">
                 {% csrf_token %}
@@ -496,21 +500,24 @@
                     <div class="col-wrapper">
                         <div class="col-5">
                             <input type="text" class="form-control" name="ms_name" maxlength="255"
-                                   placeholder="Название"/>
+                                   placeholder="Title"/>
                         </div>
                         <div class="col-5 deadline-input js-calendar-wrapper">
                             <a href="#" class="fa fa-calendar js-date" style="z-index:10001;"
                                onclick="$(this).closest('.js-calendar-wrapper').find('.js-date').focus()"></a>
                             <input type="text" class="js-date form-control" maxlength="10" name="ms_date"
-                                   placeholder="Дата" style="position: relative; z-index: 10000;"/>
+                                   placeholder="Date" style="position: relative; z-index: 10000;"/>
+                        </div>
+                        <div>
+                            <textarea name="ms_description" placeholder="Description" maxlength="1000" class="js-description form-control"></textarea>
                         </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <div class="js-tasks-for-milestone"></div>
                     <input type="submit" name="edit-milestone" class="btn btn-success js-edit-milestone"
-                           value="Сохранить"/>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
+                           value="Save"/>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                 </div>
             </form>
         </div>

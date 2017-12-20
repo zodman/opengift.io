@@ -27,6 +27,7 @@ def ajaxMilestonesResponder(request):
     milestone = None
     responseText = 'bad query'
     name = request.POST.get('name', '')
+    description = request.POST.get('description', '')
     user = request.user
     responsible_id = request.POST.get('responsible', 0)
     date = templateTools.dateTime.convertToDateTime(request.POST.get('date', ''))
@@ -90,11 +91,12 @@ def ajaxMilestonesResponder(request):
                 milestone = PM_Milestone.objects.get(pk=id)
                 milestone.name = name
                 milestone.date = date
+                milestone.description = description
                 milestone.project = project
             except PM_Milestone.DoesNotExist:
                 pass
         else:
-            milestone = PM_Milestone(name=name, date=date, project=project)
+            milestone = PM_Milestone(name=name, date=date, project=project, description=description)
 
         if milestone:
             milestone.save()

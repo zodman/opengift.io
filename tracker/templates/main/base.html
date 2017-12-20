@@ -434,12 +434,12 @@
                    class="{% if activeMenuItem == 'server' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}"><i
                         class="fa fa-folder-open"></i><span>Server</span></a>
 
-                <a href="/stat/"
-                   class="{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i
-                        class="fa fa-bar-chart-o"></i><span>Reports</span></a>
-                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"
-                   class="{% if activeMenuItem == 'wiki' %} active{% endif %}"><i
-                        class="fa fa-file-text"></i><span>Wiki</span></a>
+{#                <a href="/stat/"#}
+{#                   class="{% if activeMenuItem == 'stat' %} active{% endif %} {% if not main.IS_MANAGER %}disabled{% endif %}"><i#}
+{#                        class="fa fa-bar-chart-o"></i><span>Reports</span></a>#}
+{#                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"#}
+{#                   class="{% if activeMenuItem == 'wiki' %} active{% endif %}"><i#}
+{#                        class="fa fa-file-text"></i><span>Wiki</span></a>#}
                 <a href="/user_list/" class="{% if activeMenuItem == 'user_list' %} active{% endif %}"><i
                         class="fa fa-users"></i><span>Team</span></a>
 
