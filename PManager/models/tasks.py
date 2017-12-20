@@ -140,7 +140,7 @@ class PM_Project(models.Model):
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')
     closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
-    public = models.BooleanField(blank=True, verbose_name=u'Public', default=True, db_index=True)
+    public = models.BooleanField(blank=True, verbose_name=u'Public', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
     payer = models.ForeignKey(User)
     # tags = models.ManyToManyField(Tags, null=True, blank=True, related_name="tagProjects")
