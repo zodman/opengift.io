@@ -27,19 +27,19 @@
                             <select class="js-select-milestone form-control form-control-mini">
                                 {% for milestone in project.all_milestones %}
                                     <option {% if project.current_milestone and project.current_milestone.id == milestone.id %}selected{% endif %} value="{{ milestone.id }}">
-                                        {{ milestone.name }}{% if milestone.date %} до {{ milestone.date|date:"d.m.Y" }}{% endif %}
+                                        {{ milestone.name }}{% if milestone.date %} ({{ milestone.date|date:"d.m.Y" }}){% endif %}
                                     </option>
                                 {% endfor %}
                             </select>
                         </div>
                         {% else %}
-                            <h2>Текущие задачи проекта</h2>
+                            <h2>Current tasks</h2>
                         {% endif %}
                         </div>
                         <div class="project-header-buttons">
-                            <a href="/project/{{ project.id }}/#additional_settings" class="button green-bg button-mini">Настроить столбцы</a>
+                            <a href="/project/{{ project.id }}/#additional_settings" class="button green-bg button-mini">Change columns</a>
                         {% if project.current_milestone %}
-                        <a href="#" class="js-get-xls-milestone button green-bg button-mini">Отчет (xls)</a>
+                        <a href="#" class="js-get-xls-milestone button green-bg button-mini">Report (xls)</a>
                         {% endif %}
                         </div>
 
@@ -47,7 +47,7 @@
                 </div>
                 {% if project.current_milestone and project.current_milestone.taskTimeAllResps %}
                     <div class="kanban-progress-bars">
-                        <div class="kanban-progress-bars-left">Прошло времени: </div>
+                        <div class="kanban-progress-bars-left">Time spent: </div>
                         <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-info" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.elapsedTimeAllResps }}" aria-valuemin="0"
@@ -57,7 +57,7 @@
                             </div>
                         </div>
                         <div class="clearfix"></div>
-                        <div class="kanban-progress-bars-left">Закрыто (ч.): </div>
+                        <div class="kanban-progress-bars-left">Closed (hrs.): </div>
                         <div class="kanban-progress-bars-right progress">
                             <div class="progress-bar progress-bar-success" role="progressbar"
                                  aria-valuenow="{{ project.current_milestone.closedTaskTimeAllResps }}" aria-valuemin="0"

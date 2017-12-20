@@ -50,53 +50,53 @@
                         <form method="POST" action="">
                             {% csrf_token %}
                             <input name="action" type="hidden" value="delete_user" />
-                            <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
+                            <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Remove user" /></form>
                         {% endif %}
                         {% if not user_detail.userIsEqualCurrentUser %}
-                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
+                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Add to project</a>
                         {% endif %}
                     </div>
                 </div>
 
                 <div class="user-header-info-blocks clearfix hidden">
+{#                    <div class="user-body-info-block">#}
+{#                        <h3>Финансы</h3>#}
+{#                        <div class="user-body-info-block-balance">#}
+{#                            На счету:#}
+{#                            <span class="user-body-info-block-balance-sum dropdown">#}
+{#                                <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>#}
+{#                                <div class="dropdown-menu">#}
+{#                                    <ul class="user-body-info-block-balance-project-ul">#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                                </div>#}
+{#                            </span> баллов#}
+{#                        </div>#}
+{#                        <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>#}
+{#                        <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>#}
+{#                    </div>#}
                     <div class="user-body-info-block">
-                        <h3>Финансы</h3>
-                        <div class="user-body-info-block-balance">
-                            На счету:
-                            <span class="user-body-info-block-balance-sum dropdown">
-                                <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>
-                                <div class="dropdown-menu">
-                                    <ul class="user-body-info-block-balance-project-ul">
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </span> баллов
-                        </div>
-                        <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>
-                        <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>
-                    </div>
-                    <div class="user-body-info-block">
-                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
+                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Skills
                         {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                         <a href="" class="user-body-info-block-edit-icon" data-toggle="dropdown" data-target="#"><i class="fa fa-plus-circle" aria-hidden="true"></i></a>
                         <div class="dropdown-menu" onclick="event.stopPropagation();return false;">
@@ -140,7 +140,7 @@
                 </div>
                 <div class="user-header-info-blocks clearfix">
                     <div class="user-body-info-block">
-                        <h3 class="user-body-info-block-name add-smthng-dropdown">Контакты
+                        <h3 class="user-body-info-block-name add-smthng-dropdown">Contacts
                             {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                             <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
                             {% endif %}
@@ -151,7 +151,7 @@
                         </ul>
                     </div>
                     <div class="user-body-info-block">
-                    <h3>Последняя активность</h3>
+                    <h3>Last activity</h3>
                     <ul class="user-body-info-block-ul">
                         <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>{{ user_detail.profile.last_activity_date|default_if_none:'' }}</li>
                     </ul>
@@ -164,22 +164,22 @@
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-bar-chart" aria-hidden="true"></i></div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Общий рейтинг</b>
+                        <b class="user-header-stat-line-item-title">Rating</b>
                         <b class="user-header-stat-line-item-text">{% if user_detail.competence > 0 %}+ {% endif %}{{ user_detail.competence }}</b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Проектов / целей</b>
+                        <b class="user-header-stat-line-item-title">Projects / goals</b>
                         <b class="user-header-stat-line-item-text">{{ user_detail.userProjectsOpenQty }}<span class="user-header-stat-line-item-text-separator"> / </span>{{ user_detail.milestonesOpen }}</b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Открыто задач</b>
+                        <b class="user-header-stat-line-item-title">Tasks open</b>
                         <b class="user-header-stat-line-item-text">{{ user_detail.taskSumm }}<span class="user-header-stat-line-item-text-separator"></b>
                     </div>
                 </div>
 
                 <div class="user-header-stat-line">
                     <div class="user-header-stat-line-progress-title clearfix">
-                        <div class="user-header-stat-line-progress-title-text">Производительность</div>
+                        <div class="user-header-stat-line-progress-title-text">Power</div>
                         <div class="user-header-stat-line-progress-title-percent">{{ user_detail.velocity|floatformat:"0" }}%</div>
                     </div>
                     <div class="user-header-stat-line-progress-bar progress">
@@ -191,22 +191,22 @@
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-heart-o" aria-hidden="true"></i></div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Ресурс</b>
+                        <b class="user-header-stat-line-item-title">Capability</b>
                         <b class="user-header-stat-line-item-text">
                             {% if user_detail.profile.hoursQtyPerDay %}
                             {{ user_detail.profile.hoursQtyPerDay }}
                             {% else %}
                                 6
                             {% endif %}
-                            <span class="user-header-stat-line-item-text-desc">ч. в день</span>
+                            <span class="user-header-stat-line-item-text-desc">hrs. per day</span>
                         </b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Решается Задач</b>
-                        <b class="user-header-stat-line-item-text">≈ 1 <span class="user-header-stat-line-item-text-desc">в день</span></b>
+                        <b class="user-header-stat-line-item-title">Task speed</b>
+                        <b class="user-header-stat-line-item-text">≈ 1 <span class="user-header-stat-line-item-text-desc">per day</span></b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Закрыто часов</b>
+                        <b class="user-header-stat-line-item-title">Hours spent</b>
                         <b class="user-header-stat-line-item-text">{{ user_detail.allPlanClosed|floatformat:"0"|default_if_none:"0" }}<span class="user-header-stat-line-item-text-desc">&nbsp;за месяц</span></b>
                     </div>
                 </div>
@@ -217,13 +217,13 @@
                     <div class="user-header-stat-line-icon"><i class="fa fa-pie-chart" aria-hidden="true"></i></div>
 
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Закрыто задач</b>
+                        <b class="user-header-stat-line-item-title">Tasks closed</b>
                         <b class="user-header-stat-line-item-text">
                             {{ user_detail.allTaskClosed|default_if_none:"0" }}
                             <span class="user-header-stat-line-item-text-desc"></span></b>
                     </div>
                     <div class="user-header-stat-line-item">
-                        <b class="user-header-stat-line-item-title">Закрыто целей</b>
+                        <b class="user-header-stat-line-item-title">Goals closed</b>
                         <b class="user-header-stat-line-item-text">
                             {{ user_detail.milestonesClosed|default_if_none:"0" }}
                             <span class="user-header-stat-line-item-text-desc"></span></b>
@@ -236,7 +236,7 @@
 
                 <div class="user-header-stat-line">
                     <div class="user-header-stat-line-progress-title clearfix">
-                        <div class="user-header-stat-line-progress-title-text">Качество</div>
+                        <div class="user-header-stat-line-progress-title-text">Qualtity</div>
                         <div class="user-header-stat-line-progress-title-percent">{{ user_detail.quality|floatformat:"0" }}%</div>
                     </div>
                     <div class="user-header-stat-line-progress-bar progress">
@@ -248,14 +248,14 @@
                 <div class="user-header-stat-line clearfix">
                     <div class="user-header-stat-line-icon"><i class="fa fa-bug" aria-hidden="true"></i></div>
                     <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Просрочено</b>
+                        <b class="user-header-stat-line-item-title">Overdue</b>
                         <b class="user-header-stat-line-item-text">
-                            {{ user_detail.overdueTasks }}<span class="user-header-stat-line-item-text-desc">&nbsp;задач</span>
-                            {{ user_detail.overdueMilestones }}<span class="user-header-stat-line-item-text-desc">&nbsp;целей</span>
+                            {{ user_detail.overdueTasks }}<span class="user-header-stat-line-item-text-desc">&nbsp;tasks</span>
+                            {{ user_detail.overdueMilestones }}<span class="user-header-stat-line-item-text-desc">&nbsp;goals</span>
                         </b>
                     </div>
                     <div class="user-header-stat-line-item two-items">
-                        <b class="user-header-stat-line-item-title">Допущено ошибок</b>
+                        <b class="user-header-stat-line-item-title">Bugs produced</b>
                         <b class="user-header-stat-line-item-text">{{ user_detail.bugsQty|default_if_none:'0' }}</b>
                     </div>
                 </div>
@@ -280,47 +280,47 @@
                             <input type="submit" class="js-delete-user button red-bg block margin-bottom-10" value="Удалить пользователя" /></form>
                         {% endif %}
                         {% if not user_detail.userIsEqualCurrentUser %}
-                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Добавить в проект</a>
+                        <a href="#add-project" class="button green-bg block js-add-project" role="tab" data-toggle="tab">Add to project</a>
                         {% endif %}
                 </div>
-                <div class="user-body-info-block hidden">
-                    <h3>Финансы</h3>
-                    <div class="user-body-info-block-balance">
-                        На счету:
-                        <span class="user-body-info-block-balance-sum dropdown">
-                            <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>
-                            <div class="dropdown-menu">
-                                    <ul class="user-body-info-block-balance-project-ul">
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                        <li class="user-body-info-block-balance-project-ul-li">
-                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>
-                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>
-                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                            </div>
-                        </span> баллов
-                    </div>
-                    <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>
-                    <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>
-                </div>
+{#                <div class="user-body-info-block hidden">#}
+{#                    <h3>Финансы</h3>#}
+{#                    <div class="user-body-info-block-balance">#}
+{#                        На счету:#}
+{#                        <span class="user-body-info-block-balance-sum dropdown">#}
+{#                            <a href="#" class="user-body-info-block-balance-sum-active" data-toggle="dropdown" data-target="#" title="Личные сообщения">82 863</a>#}
+{#                            <div class="dropdown-menu">#}
+{#                                    <ul class="user-body-info-block-balance-project-ul">#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">Heliard</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">finance.kari.com</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                        <li class="user-body-info-block-balance-project-ul-li">#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-title"><a href="">GetCollect</a></div>#}
+{#                                            <div class="user-body-info-block-balance-project-ul-li-desc clearfix">#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-left"><b class="font-20">24794</b>&nbsp;&nbsp;&nbsp;ставка: <b class="text-green font-20">605,0</b></div>#}
+{#                                                <div class="user-body-info-block-balance-project-ul-li-desc-right"><a href="" class="user-body-info-block-balance-remove"><i class="fa fa-times" aria-hidden="true"></i></a></div>#}
+{#                                            </div>#}
+{#                                        </li>#}
+{#                                    </ul>#}
+{#                            </div>#}
+{#                        </span> баллов#}
+{#                    </div>#}
+{#                    <div class="user-body-info-block-balance">Мин. ставка: <span class="user-body-info-block-balance-sum">600</span> <span class="user-body-info-block-balance-bonus"><span class="user-body-info-block-balance-bonus-plus-minus">+</span> 5,0</span></div>#}
+{#                    <div class="user-body-info-block-desc">Цена часа для конкретного проекта может быть переопределена менеджером</div>#}
+{#                </div>#}
                 <div class="user-body-info-block">
-                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Навыки
+                    <h3 class="user-body-info-block-name dropdown add-smthng-dropdown">Skills
                         {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                             <a href="" class="user-body-info-block-edit-icon"
                            data-toggle="dropdown" data-target="#">
@@ -363,7 +363,7 @@
                 </div>
 
                 <div class="user-body-info-block">
-                    <h3 class="user-body-info-block-name add-smthng-dropdown">Контакты
+                    <h3 class="user-body-info-block-name add-smthng-dropdown">Contacts
                         {% if user_detail.userIsEqualCurrentUser or user_detail.current_user_is_admin  %}
                             <a href="/profile/edit/?id={{ user_detail.user.id }}" class="user-body-info-block-edit-icon"><i class="fa fa-cog" aria-hidden="true"></i></a>
                             {% endif %}
@@ -375,7 +375,7 @@
                 </div>
 
                 <div class="user-body-info-block">
-                    <h3>Последняя активность</h3>
+                    <h3>Last activity</h3>
                     <ul class="user-body-info-block-ul">
                         <li class="user-body-info-block-ul-li-with-icon"><i class="fa fa-tasks" aria-hidden="true"></i>{{ user_detail.profile.last_activity_date|default_if_none:'' }}</li>
                     </ul>
@@ -387,17 +387,18 @@
 
                 <div class="row-fluid clearfix user-inner-tabs" id="myTab">
                         <ul class="nav nav-pills js-tab-menu">
-                            <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Сводка</a></li>
-                            <li><a href="#ychastvyet" role="tab" data-toggle="tab">Участвует в проектах</a></li>
-                            <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab" class="js-current-tasks">Текущие задачи</a></li>
-                            <li><a href="#dostizheniya" role="tab" data-toggle="tab">Значки</a></li>
-                            <li><a href="#activity" role="tab" data-toggle="tab">Активность</a></li>
+                            <li class="active"><a href="#svodka" role="tab" data-toggle="tab">Summary</a></li>
+                            <li><a href="#ychastvyet" role="tab" data-toggle="tab">Projects</a></li>
+                            <li><a href="#tekyshie_zadachi" role="tab" data-toggle="tab" class="js-current-tasks">Tasks</a></li>
+{#                            <li><a href="#dostizheniya" role="tab" data-toggle="tab">Значки</a></li>#}
+                            <li><a href="#donations" role="tab" data-toggle="tab">Donations</a></li>
+                            <li><a href="#activity" role="tab" data-toggle="tab">Activity</a></li>
                             {% if user_detail.use_git and user_detail.userIsEqualCurrentUser %}
-                            <li><a href="#keys" role="tab" data-toggle="tab">SSH-ключи</a></li>
+                            <li><a href="#keys" role="tab" data-toggle="tab">SSH-keys</a></li>
                             {% endif %}
-                            {% if user_detail.current_user_is_admin %}
-                            <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>
-                            {% endif %}
+{#                            {% if user_detail.current_user_is_admin %}#}
+{#                            <li><a href="#payments" role="tab" data-toggle="tab">Движения по счету</a></li>#}
+{#                            {% endif %}#}
                         </ul>
                 </div><!--ТАБЫ-->
 
@@ -407,7 +408,7 @@
 
                             <div class="statistic-graph-wrapper">
                                 {% if user_detail.bets %}
-                                <div class="statistic-graph js-bonuses" style="display: none"><h3>Бонусы</h3>
+                                <div class="statistic-graph js-bonuses" style="display: none"><h3>Bonuses</h3>
                                     <div class="list-group">
                                         {% for arBet in user_detail.bets %}
                                         {% if arBet.price %}
@@ -428,7 +429,7 @@
                                 </div>
                                 {% endif %}
                                 <div class="statistic-graph js-productivity">
-                                    <h3>Последняя активность</h3>
+                                    <h3>Last activity</h3>
                                     {#                                    <div id='dashboard'></div>#}
                                     <div style="width: 100%">
                                         <canvas id="dashboard" height="350" width="600"></canvas>
@@ -458,7 +459,7 @@
                                     data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="guest" value="1" type="radio" />
                                     {% endif %}
                                     <span class="fa fa-users"></span>
-                                    Гость</label></div></li>
+                                    Guest</label></div></li>
                         {% endif %}
                         {% if project.canEdit or 'manager' in project.roles %}
                         <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
@@ -468,7 +469,7 @@
                             data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="manager" value="1" type="radio" />
                             {% endif %}
                             <span class="fa fa-cogs"></span>
-                            Менеджер</label></div></li>
+                            Admin</label></div></li>
                     {% endif %}
                     {% if project.canEdit  or 'employee' in project.roles %}
                     <li><div {% if project.canEdit %}class="checkbox"{% endif %}><label>
@@ -478,7 +479,7 @@
                         data-user-id="{{ user_detail.user.id }}" name="role_{{ project.id }}" data-name="employee" value="1" type="radio" />
                         {% endif %}
                         <span class="fa fa-user"></span>
-                        Разработчик</label></div></li>
+                        Developer</label></div></li>
                 {% endif %}
                 </ul>
             </div>
@@ -504,33 +505,29 @@
                                 {% endfor %}
                         </script>
                     </div>
-                    <div class="tab-pane" id="dostizheniya">
-                        {% if user_detail.achievements %}
-                        <div class="dostizheniya-item-wrapper clearfix">
-                            {% for c in user_detail.achievements %}
-                            <div class="dostizheniya-item">
-                                <div class="dostizheniya-item-img"><a href="#"><img width="80" src="{{ c.achievement.smallImageUrl }}" alt="{{ c.name }}" /></a></div>
-                                <div class="dostizheniya-item-text">
-                                    <h4>{{ c.achievement.name }}</h4>
-                                    <p style="white-space: nowrap;overflow: hidden;">{{ c.text|safe|default_if_none:'' }}</p>
-                                    {% if c.project %}<hr>
-                                    <p><b>{{ c.project.name }}</b></p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            {% if not forloop.last %}
-                            {% endif %}
-
+                    <div class="tab-pane" id="donations">
+                        <p>Donations rating: 154 (Comissar)</p>
+                        <table class="table table-bordered table-striped">
+                            <thead>
+                            <tr>
+                                <th>Project</th>
+                                <th>Date</th>
+                                <th>Milestone</th>
+                                <th>Sum</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for donation in user_detail.donations %}
+                            <tr>
+                                <td>{{ donation.project.name }}</td>
+                                <td>{{ donation.date }}</td>
+                                <td>{{ donation.milestone.name }}</td>
+                                <td>{{ donation.sum }} GIFT</td>
+                            </tr>
                             {% endfor %}
-                        </div>
-                        {% else %}
-                        <div class="empty"><i class="fa fa-rocket"></i><br>У пользователя нет ни одного достижения</div>
-                        {% endif %}
-
-                        {#                        <hr />#}
-
+                            </tbody>
+                        </table>
                     </div>
-
                     <div class="tab-pane" id="activity">
                         {% if user_detail.timers %}
                         <table class="table table-bordered table-striped">

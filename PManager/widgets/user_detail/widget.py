@@ -337,6 +337,7 @@ def widget(request, headerValues, ar, qargs):
                 'velocity': velocity,
                 'bugsQty': bugsQty,
                 'quality': quality,
+                'donations': request.user.donations.order_by('-id'),
                 'userProjectsOpenQty': userProjectsOpenQty,
                 'userProjectsClosedQty': userProjectsClosedQty,
                 'timers': [
