@@ -101,17 +101,22 @@
                     {% endif %}
 
 
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-20">
                         {{ project.description }}
+                    </p>
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                        {{ project.problem }}
                     </p>
                     {% if project.link_demo %}
                     <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
                         View Demo
                     </a>
                     {% endif %}
+                    {% if project.blockchain_name %}
                     <a href="/project/{{ project.id }}/donate/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
                         Become a Sponsor
                     </a>
+                    {% endif %}
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count %}
                 <div class="col-lg-6 u-mt-80">
