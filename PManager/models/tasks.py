@@ -1016,11 +1016,11 @@ class PM_Task(models.Model):
         from PManager.models.users import PM_User
 
         arTags = {
-            u'для ': 'responsible',
-            u' до ': 'deadline',
-            u'примерно ': 'about',
-            u' файл ': 'file',
-            u' от ': 'from'
+            u' for ': 'responsible',
+            u' deadline ': 'deadline',
+            u' estimate ': 'about',
+            u' file ': 'file',
+            u' author ': 'from'
         }
 
         # TODO: сделать обработку быстрых тегов
