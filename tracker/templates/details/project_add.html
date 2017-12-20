@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-lg-7 text-center mx-auto">
                     {% if request.user.createdProjects.exists %}
-                        <h2>Unfortunately, you can create only one project yet.</h2>
+                        <h2>Unfortunately, you can create only one project while your balance is 0.</h2>
                     {% else %}
                     <form action="" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
