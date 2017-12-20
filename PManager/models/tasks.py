@@ -498,13 +498,13 @@ class PM_Task(models.Model):
     )
 
     colors = (
-        ('grey', u'Серый'),
-        ('green', u'Зеленый'),
-        ('blue', u'Голубой'),
-        ('red', u'Красный'),
-        ('yellow', u'Желтый'),
-        ('purple', u'Пурпурный'),
-        ('orange', u'Оранжевый')
+        ('grey', u'Grey'),
+        ('green', u'Green'),
+        ('blue', u'Blue'),
+        ('red', u'Red'),
+        ('yellow', u'Yellow'),
+        ('purple', u'Purple'),
+        ('orange', u'Orange')
     )
 
     name = models.CharField(max_length=1000, verbose_name='Заголовок')
@@ -1782,8 +1782,8 @@ class PM_Task_Message(models.Model):
                         'confirmation': (
                             '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(
                                 self.id) + '" ' +
-                            '" class="js-confirm-estimate agree-with-button">Добавить время: ' + str(
-                                self.requested_time) + ' ч.</a></div>'
+                            '" class="js-confirm-estimate agree-with-button">Add time: ' + str(
+                                self.requested_time) + ' hrs.</a></div>'
                         )
                     })
             else:

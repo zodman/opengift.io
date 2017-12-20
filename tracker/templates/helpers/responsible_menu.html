@@ -2,7 +2,7 @@
 <div class="add-user-popup dropdown-menu responsibles js-add-user-popup">
     <div class="add-user-popup-top-arrow"></div>
     <div class="add-user-popup-header">
-        <input type="text" class="form-control js-input-user-name" placeholder="Введите имя человека, которого хотите назначить ответственным" />
+        <input type="text" class="form-control js-input-user-name" placeholder="Type name of person..." />
     </div>
     <div class="add-user-popup-content">
         <div class="add-user-list-of-categories js-categories-list">
@@ -34,7 +34,7 @@
                                     {% if resp_user.openTasksQty %} <b>({{ resp_user.openTasksQty }})</b>{% endif %}
                                 </span>
                                 <div class="progress-bar-wrapper clearfix">
-                                    <div class="progress-bar-wrapper-title">Компетентность</div>
+                                    <div class="progress-bar-wrapper-title">Competence</div>
                                     <div class="progress">
                                         <div class="js-progress-success progress-bar progress-bar-success"></div>
                                     </div>
@@ -56,8 +56,8 @@
             <form role="form" class="js-email-form">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td><input type="text" class="form-control js-email" placeholder="Введите e-mail"></td>
-                        <td width="110px"><button type="submit" class="btn btn-success js-invite">Пригласить</button></td>
+                        <td><input type="text" class="form-control js-email" placeholder="Insert email"></td>
+                        <td width="110px"><button type="submit" class="btn btn-success js-invite">Invite</button></td>
                     </tr>
                 </table>
             </form>

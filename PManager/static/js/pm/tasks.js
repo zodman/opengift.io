@@ -201,16 +201,16 @@ var CRITICALLY_THRESHOLD = 0.7;
                 this.el = this.$el.get(0);
             }
             this.arPlanTimes = [
-                [0.5, '30 мин.'],
-                [1, '1 ч.'],
-                [2, '2 ч.'],
-                [3, '3 ч.'],
-                [5, '5 ч.'],
-                [8, '8 ч.'],
-                [13, '13 ч.'],
-                [21, '21 ч.'],
-                [34, '34 ч.'],
-                [55, '55 ч.']
+                [0.5, '30 min.'],
+                [1, '1 hrs.'],
+                [2, '2 hrs.'],
+                [3, '3 hrs.'],
+                [5, '5 hrs.'],
+                [8, '8 hrs.'],
+                [13, '13 hrs.'],
+                [21, '21 hrs.'],
+                [34, '34 hrs.'],
+                [55, '55 hrs.']
             ];
         },
         'createEl': function () {
@@ -228,7 +228,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         'showModalStart': function () {
             //todo: разработчик нажимает раньше, чем узнает
             $('<div class="modal fade"><div id="previewModal" class="modal fade wiki-modal in" style="display: block;" aria-hidden="false"><div class="modal-dialog"><div class="modal-content ui-resizable"></div></div></div>')
-                .find('modal-content').append('<h3>Сколько примерно времени у вас займет данная задача?</h3>')
+                .find('modal-content').append('<h3>Please, estimate the task time...</h3>')
                 .append('<select></select>').end().modal('show');
         },
         'template': function (taskInfo, params) {
@@ -325,7 +325,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     var planTime = this.arPlanTimes[i];
                     sPlanTime += '<li><a rel="' + planTime[0] + '">' + planTime[1] + '</a></li>';
                 }
-                sPlanTime += '<li><a rel="" >Другое</a></li>';
+                sPlanTime += '<li><a rel="" >Custom</a></li>';
                 sPlanTime += '</ul>';
                 sPlanTime += '</span>';
                 sPlanTime += '<span class="dropdown">]</span>';
@@ -336,7 +336,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     for (i in taskInfo.planTimes) {
                         var oPlanTime = taskInfo.planTimes[i];
 
-                        sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;ч<br />';
+                        sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;hrs<br />';
                     }
                     sPlanTime += '</div>';
                     sPlanTime += '</span>';
