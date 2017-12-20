@@ -41,7 +41,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
+        fields = ["name", "description", "public", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -255,6 +255,9 @@ def projectDetailAdd(request):
     instance = None
     if request.method == 'POST':
         if not request.user.is_authenticated():
+            raise Http404
+
+        if request.user.createdProjects.exists():
             raise Http404
 
         post.update({'author': request.user.id})

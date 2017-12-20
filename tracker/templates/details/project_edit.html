@@ -46,7 +46,10 @@
                                  aria-labelledby="v-pills-home-tab"
                                  aria-expanded="true">
                                 <div class="project-edit-form">
-                                    <input type="text" name="name" value="{{ project.name }}"
+                                <label>
+                                <input type="checkbox" {% if project.public %}checked{% endif %} value="1" name="public" /> Public project's page
+                                </label>
+                                <input type="text" name="name" value="{{ project.name }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
                                            required="">
 
