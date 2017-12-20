@@ -102,6 +102,12 @@ class PM_Project_Industry(models.Model):
     active = models.BooleanField(default=False, blank=True)
     parent = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
 
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
+
     def getPercent(self):
         import random
         return random.randint(0, 100)
