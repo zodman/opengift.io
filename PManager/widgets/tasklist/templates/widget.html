@@ -19,11 +19,11 @@
         <div class="widget-title"><h2>{{ tasklist.title }}</h2></div>
         <ul class="widget-tasklist-functions clearfix">
             <li>
-                <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Список задач</span></a>
+                <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Task list</span></a>
             </li>
             <li>
                 <a href="#" onclick="$(this).find('.js-new-messages').text('').hide();" class="widget-tab js-widgets-tab btn"
-                   data-widget="chat"><i class="fa fa-bell" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Лента событий</span> <span style="display: none" class="micro-circle-with-number js-new-messages"></span></a>
+                   data-widget="chat"><i class="fa fa-bell" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Messages</span> <span style="display: none" class="micro-circle-with-number js-new-messages"></span></a>
             </li>
         </ul>
     </div>
@@ -141,14 +141,14 @@
                             <div class="big-filter-wrapper">
                                 <button class="btn btn-success border-r4 btn-gray js-filter-btn" type="button"
                                         data-toggle="dropdown">
-                                    <span class="fa fa-filter"></span><span class="name to-hide-768">Фильтр</span>
+                                    <span class="fa fa-filter"></span><span class="name to-hide-768">Filter</span>
                                 </button>
                                 <ul role="menu" class="dropdown-menu pull-right js-search-menu"
                                     style="position:absolute; top:33px; left:0px;">
                                     <li data-code="responsible" class="dropdown-toggle dropdown-submenu">
-                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ответственный</a>
+                                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Responsible</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Me</a></li>
                                             {% for resp_user in tasklist.users %}
                                                 <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">
                                                     {% if resp_user.last_name %}{{ resp_user.last_name }}
@@ -158,9 +158,9 @@
                                         </ul>
                                     </li>
                                     <li data-code="author" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Кем назначена</a>
+                                        <a data-toggle="dropdown">Author</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Me</a></li>
                                             {% for resp_user in tasklist.users %}
                                                 <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">
                                                     {% if resp_user.last_name %}{{ resp_user.last_name }}
@@ -170,9 +170,9 @@
                                         </ul>
                                     </li>
                                     <li data-code="observers" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Наблюдатель</a>
+                                        <a data-toggle="dropdown">Observer</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Я</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Me</a></li>
                                             {% for resp_user in tasklist.users %}
                                                 <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">
                                                     {% if resp_user.last_name %}{{ resp_user.last_name }}
@@ -183,58 +183,58 @@
                                     </li>
                                     <li class="divider"></li>
                                     <li data-code="closed" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Закрытые</a>
+                                        <a data-toggle="dropdown">Closed</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="Y">Закрытые</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="N">Открытые</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="Y">Closed</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="N">Open</a></li>
                                         </ul>
                                     </li>
                                     <li class="divider"></li>
                                     <li data-code="viewed" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Новые события</a>
+                                        <a data-toggle="dropdown">New</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="Y">Прочитанные</a></li>
-                                            <li><a data-toggle="dropdown-item" rel="N">Непрочитанные</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="Y">Read</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="N">Unread</a></li>
                                         </ul>
                                     </li>
                                     <li class="divider"></li>
                                     <li data-code="date_create" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Дата создания</a>
+                                        <a data-toggle="dropdown">Date create</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Сегодня</a>
+                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Today</a>
                                             </li>
                                             <li><a data-toggle="dropdown-item"
-                                                   rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                   rel="{{ tasklist.filterDates.yesterday }}">Yesterday</a></li>
                                             <li class="divider"></li>
-                                            <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="range">Range</a></li>
                                         </ul>
                                     </li>
                                     <li data-code="date_close" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Дата закрытия</a>
+                                        <a data-toggle="dropdown">Date close</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Сегодня</a>
+                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Today</a>
                                             </li>
                                             <li><a data-toggle="dropdown-item"
-                                                   rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                   rel="{{ tasklist.filterDates.yesterday }}">Yesterday</a></li>
                                             <li class="divider"></li>
-                                            <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="range">Range</a></li>
                                         </ul>
                                     </li>
                                     <li class="divider"></li>
                                     <li data-code="date_modify" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Дата изменения</a>
+                                        <a data-toggle="dropdown">Date change</a>
                                         <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Сегодня</a>
+                                            <li><a data-toggle="dropdown-item" rel="{{ tasklist.filterDates.today }}">Today</a>
                                             </li>
                                             <li><a data-toggle="dropdown-item"
-                                                   rel="{{ tasklist.filterDates.yesterday }}">Вчера</a></li>
+                                                   rel="{{ tasklist.filterDates.yesterday }}">Yesterday</a></li>
                                             <li class="divider"></li>
-                                            <li><a data-toggle="dropdown-item" rel="range">Диапазон</a></li>
+                                            <li><a data-toggle="dropdown-item" rel="range">Range</a></li>
                                         </ul>
                                     </li>
                                     <li class="divider"></li>
                                     <li data-code="color" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Цвет</a>
+                                        <a data-toggle="dropdown">Color</a>
                                         <ul class="dropdown-menu">
                                             <li><a data-toggle="dropdown-item" rel="red"><span class="color-bg red"></span> {{ tasklist.projectSettings.color_name_red|default:"Красный" }}</a></li>
                                             <li><a data-toggle="dropdown-item" rel="green"><span class="color-bg green"></span> {{ tasklist.projectSettings.color_name_green|default:"Зеленый" }}</a></li>
@@ -258,7 +258,7 @@
                                            onclick="$(this).parent().toggleClass('active');" value="milestones"
                                            class="milestones-btn js-milestones-checkbox milestones-checkbox"
                                            id="mlst-checkbox"/>
-                                    <label for="mlst-checkbox"><span>Цели</span></label>
+                                    <label for="mlst-checkbox"><span>Goals</span></label>
                                     {#                                 <label class="btn milestones-btn" >#}
                                     {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                                 </div>
@@ -271,17 +271,17 @@
         </div>
         <div class="col-xs-8 clearfix">
             <ul class="task-tab-filter list-inline pull-right to-hide-768 clearfix">
-                <li class="active"><a>Все</a></li>
-                <li class="hide-on-mobile"><a rel="started">Начатые{% if tasklist.qty.started %}
+                <li class="active"><a>All</a></li>
+                <li class="hide-on-mobile"><a rel="started">Started{% if tasklist.qty.started %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>
-                <li><a rel="ready">На проверке{% if tasklist.qty.ready %}
+                <li><a rel="ready">Complete{% if tasklist.qty.ready %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
-                <li><a rel="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}
+                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
-                <li class="hide-on-mobile"><a rel="not_ready">Не готовые</a></li>
-                <li class="hide-on-mobile"><a rel="deadline">Просроченные{% if tasklist.qty.deadline %}
+                <li class="hide-on-mobile"><a rel="not_ready">Incomplete</a></li>
+                <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
-                <li class="hide-on-mobile"><a rel="arc">Архив</a></li>
+                <li class="hide-on-mobile"><a rel="arc">Closed</a></li>
             </ul>
             <script>
                 $(function () {
@@ -292,13 +292,13 @@
             </script>
             <div class="task-tab-filter-select show-on-768">
                 <select class="select-transform js-task-tab-mobile">
-                    <option value="">Все</option>
-                    <option value="started">Начатые{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
-                    <option value="ready">На проверке{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
-                    <option value="not_approved">Не подтверждены{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
-                    <option value="not_ready">Не готовые</option>
-                    <option value="deadline">Просроченные{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
-                    <option value="arc">Архив</option>
+                    <option value="">All</option>
+                    <option value="started">Started{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
+                    <option value="ready">Complete{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
+                    <option value="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
+                    <option value="not_ready">Incomplete</option>
+                    <option value="deadline">Overdue{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
+                    <option value="arc">Closed</option>
                 </select>
             </div>
         </div>
