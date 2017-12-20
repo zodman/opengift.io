@@ -891,7 +891,7 @@ var widget_tl, currentGroup;
                     var modal = $(this);
                     modal.find('.modal-body input[name="ms_name"]').val(name);
                     modal.find('.modal-body input[name="ms_date"]').val(date);
-                    modal.find('.modal-body input[name="ms_description"]').val(desc);
+                    modal.find('.modal-body input[name="ms_description"]').text(desc);
                     modal.find('.js-milestone-form').unbind('submit').bind('submit', function (ev) {
                         name = modal.find('.modal-body input[name="ms_name"]').val();
                         date = modal.find('.modal-body input[name="ms_date"]').val();
