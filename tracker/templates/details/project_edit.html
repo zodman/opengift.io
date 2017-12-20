@@ -159,7 +159,7 @@
                                                 class="btn btn-success btn-rounded js-register-project-in-blockchain {% if not request.user.get_profile.blockchain_wallet %}js-create-wallet{% endif %}">
                                             Register project in GiftCloud {% if not request.user.get_profile.blockchain_wallet %}*{% endif %}
                                         </button>
-                                        {% if not request.user.get_profile.blockchain_wallet %}<br /><p>*This action automatically creates your wallet in OpenGiftCloud</p>{% endif %}
+                                        {% if not request.user.get_profile.blockchain_wallet %}<br /><br /><p>*This action automatically creates your wallet in OpenGiftCloud</p>{% endif %}
                                     {% endif %}
                                 </div>
                             </div>
