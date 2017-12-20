@@ -149,19 +149,17 @@
                                 <div class="project-edit-form js-blockchain-form">
                                     {% if project.blockchain_name %}
                                         The project is registered in Opengift Cloud with name
-                                        {{ project.blockchain_name }}
-                                    {% elif not request.user.get_profile.blockchain_wallet %}
-                                        For registering your project in GiftCloud you should create
-                                        <a href="/wallet/">your wallet</a> firstly.
+                                        <b>{{ project.blockchain_name }}</b>
                                     {% else %}
                                         <input type="text" name="blockchain_name" value=""
                                                data-valmask='[A-z0-9\\_\\.]+'
                                                class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name"
                                                placeholder="Project name in blockchain">
                                         <button type="button"
-                                                class="btn btn-success btn-rounded js-register-project-in-blockchain">
-                                            Register project in GiftCloud
+                                                class="btn btn-success btn-rounded js-register-project-in-blockchain {% if not request.user.get_profile.blockchain_wallet %}js-create-wallet{% endif %}">
+                                            Register project in GiftCloud {% if not request.user.get_profile.blockchain_wallet %}*{% endif %}
                                         </button>
+                                        {% if not request.user.get_profile.blockchain_wallet %}*This action automatically creates your wallet in OpenGiftCloud{% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -266,9 +264,12 @@
                     var $name = $('.js-blockchain-name').addClass('js-required');
                     var form = new Form('.js-blockchain-form');
                     var name = $name.val();
-
+                    var t = this;
                     if (form.validate()) {
-                        $.post(
+                        var send = function() {
+                            $(t).text('Sending project to blockchain...');
+
+                            $.post(
                                 '/blockchain/ajax/',
                                 {
                                     'action': 'addProject',
@@ -280,7 +281,23 @@
                                         form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name ' + name + '</p>');
                                     }
                                 }
-                        );
+                            );
+                        };
+
+                        $(t).attr('disabled', 'disabled').addClass('disabled');
+                        if ($(this).hasClass('.js-register-project-in-blockchain')) {
+                            $(t).text('Creating wallet...');
+
+                            $.post('/blockchain/ajax/', {'action': 'register'}, function (d) {
+                                if (d && d == 'ok') {
+                                    send();
+                                } else {
+                                    $(t).text('Something is wrong:(');
+                                }
+                            });
+                        } else {
+                            send();
+                        }
                     }
 
                     $name.removeClass('js-required');
