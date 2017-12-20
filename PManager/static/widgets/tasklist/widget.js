@@ -871,7 +871,7 @@ var widget_tl, currentGroup;
                     '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
                     (group.url ? '<a href="' + group.url + '" class="js-milestone-data">' : '<span class="js-milestone-data">') +
-                    group.name + (group.date ? ' before ' + group.date : '') + (group.url ? '</a>' : '</span>') +
+                    group.name + (group.date ? '  (' + group.date + ')' : '') + (group.url ? '</a>' : '</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
                     (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
                     '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
