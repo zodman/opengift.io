@@ -170,7 +170,7 @@ class MainPage:
         return HttpResponse(loader.get_template('main/unauth.html').render(c))
 
     @staticmethod
-    def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}):
+    def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}, template=None):
         # agents
         from PManager.models import Agent
         from django.db.models import Q
@@ -310,6 +310,8 @@ class MainPage:
                     cType = 'application/xls'
                     mimeType = 'application/xls'
                     t = loader.get_template('index_xls.html')
+                elif template == 'new':
+                    t = loader.get_template('index_new.html')
                 else:
                     t = loader.get_template('index.html')
 
