@@ -23,7 +23,6 @@
             return false;
         });
     });
-
     </script>
     <div class="row project_graph">
         <div class="col-sm-{% if project_graph.project %}6{% else %}12{% endif %}">
@@ -258,7 +257,7 @@
                                                 <td>
                                                     <b style="color:{% if project_graph.allOpenRealTime >= project_graph.allOpenPlanTime %}#47a447{% else %}#5cb85c;{% endif %}">
                                                         {{ project_graph.allOpenRealTime }}
-                                                        ч.
+                                                        hrs.
                                                     </b>
                                                 </td>
                                                 <td><b style="color:#999;">{{ project_graph.allOpenPlanTime }} ч.</b>
@@ -266,13 +265,13 @@
                                             </tr>
                                         </table>
                                     {% elif role.role.code == 'client' %}
-                                        <h5>Счет</h5>
+                                        <h5>Account</h5>
                                         <div class="role-content-tab">
-                                            <span style="display: inline-block;margin-right: 15px;">Баланс: <b>{{ project_graph.allPrice|intcomma }}</b> руб.</span>
+                                            <span style="display: inline-block;margin-right: 15px;">Balance: <b>{{ project_graph.allPrice|intcomma }}</b> GIFT</span>
                                             <a href="#" data-toggle="modal" data-target="#payment-popup"><i
                                                     class="fa fa-credit-card"></i>&nbsp;Пополнить</a>
                                             &nbsp;&nbsp;&nbsp;
-                                            <a href="/stat/"><i class="fa fa-list"></i>&nbsp;Отчет</a>
+                                            <a href="/stat/"><i class="fa fa-list"></i>&nbsp;Report</a>
                                         </div>
                                     {% endif %}
                                 </div>
