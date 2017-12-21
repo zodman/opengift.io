@@ -20,8 +20,10 @@ def userRegisterAndUpdate(request):
     if result.find('Error') == -1:
         res = result.split("\n\n")
         profile = request.user.get_profile()
+
         profile.blockchain_key = res[0]
         profile.blockchain_cert = res[1]
+        profile.wallet = blockchain_user_getkey_request(request.user.username)
         profile.save()
 
         return 'ok'

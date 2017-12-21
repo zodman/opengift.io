@@ -159,6 +159,7 @@
                     return false;
                 });
             });
+
             var getKey = function (callback) {
                 $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
                     if (data)
@@ -169,6 +170,7 @@
                 });
                 return false;
             };
+
             var getBalance = function () {
                 var cb = function (data) {
                     data = $.parseJSON(data);
