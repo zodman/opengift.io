@@ -23,7 +23,7 @@ def userRegisterAndUpdate(request):
 
         profile.blockchain_key = res[0]
         profile.blockchain_cert = res[1]
-        profile.wallet = blockchain_user_getkey_request(request.user.username)
+        profile.blockchain_wallet = blockchain_user_getkey_request(request.user.username)
         profile.save()
 
         return 'ok'
