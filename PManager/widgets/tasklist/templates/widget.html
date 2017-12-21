@@ -276,8 +276,8 @@
                     <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>
                 <li><a rel="ready">Complete{% if tasklist.qty.ready %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
-                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}
-                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>
+{#                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}#}
+{#                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>#}
                 <li class="hide-on-mobile"><a rel="not_ready">Incomplete</a></li>
                 <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
@@ -295,7 +295,7 @@
                     <option value="">All</option>
                     <option value="started">Started{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
                     <option value="ready">Complete{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
-                    <option value="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>
+{#                    <option value="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>#}
                     <option value="not_ready">Incomplete</option>
                     <option value="deadline">Overdue{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
                     <option value="arc">Closed</option>
