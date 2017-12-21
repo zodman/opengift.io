@@ -50,12 +50,12 @@ var CRITICALLY_THRESHOLD = 0.7;
         'getMenuItems': function () {
             var arItems = [];
             if (this.get('canEdit')) {
-                //arItems.push({
-                //    'itemClass': 'Edit',
-                //    'itemText': 'Change',
-                //    'itemMethod': 'editTask',
-                //    'icon': 'edit'
-                //});
+                arItems.push({
+                   'itemClass': 'Edit',
+                   'itemText': 'Change',
+                   'itemMethod': 'editTask',
+                   'icon': 'edit'
+                });
                 arItems.push({
                     'itemClass': 'Deadline',
                     'itemText': 'Dates',
