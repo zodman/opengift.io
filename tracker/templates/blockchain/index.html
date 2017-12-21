@@ -161,7 +161,10 @@
             });
             var getKey = function (callback) {
                 $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
-                    $('.js-wallet-code').html(data);
+                    if (data)
+                        $('.js-wallet-code').html(data);
+                    else getKey();
+
                     callback();
                 });
                 return false;
