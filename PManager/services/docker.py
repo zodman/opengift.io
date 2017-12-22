@@ -59,7 +59,7 @@ def blockchain_project_getbalance_request(username, pName):
 def blockchain_user_getbalance_request(username, wallet):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': wallet})
     if result.find('Error') > -1:
-        return 'Fatal Error: Failed to get balance ' + username
+        return 'Fatal Error: Failed to get balance ' + username + ' - ' + result
 
     result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
