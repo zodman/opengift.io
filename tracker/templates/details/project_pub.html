@@ -99,13 +99,9 @@
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
                         {% endfor %}
                     {% endif %}
-
-
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-20">
-                        {{ project.description|linebreaksbr }}
-                    </p>
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
-                        {{ project.problem|linebreaksbr }}
+                    <div class="u-h-4 u-w-50 bg-white rounded mx-auto my-4"></div>
+                    <p class="lead">
+                        {{ project.description }}
                     </p>
                     {% if project.link_demo %}
                     <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
@@ -205,7 +201,31 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section>
+    <section>
+      <div class="container">
+       <div class="row">
+                <div class="col-md-6 mb-4">
+                    <h2 class="mb-4">
+                        The problem solving
+                    </h2>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
+                    <p>
+                        {{ project.problem|linebreaksbr }}
+                    </p>
+                </div> <!-- END col-md-6 -->
+                <div class="col-md-6 mb-4">
+                    <h2 class="mb-4">
+                        Target group
+                    </h2>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
+                    <p>
+                        {{ project.target_group|linebreaksbr }}
+                    </p>
 
+                </div> <!-- END col-md-6 -->
+       </div> <!-- END row-->
+      </div> <!-- END container-->
+    </section>
     <section class="u-py-100" style="padding-bottom: 0 !important;">
         <section class="u-py-100 bg-gray-v1">
             <div style="padding: 0 6.25rem;">
