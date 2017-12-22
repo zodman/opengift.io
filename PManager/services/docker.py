@@ -74,11 +74,12 @@ def blockchain_project_status_request(username, pname):
     return 'ok'
 
 def blockchain_user_getkey_request(username):
+    import re
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'getKey'})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to get key user ' + username
-
-    result = result.replace('success', '')
+    regex = re.compile('[^a-zA-Z0-9]')
+    result = regex.sub(result.replace('success', ''))
 
     return result
 
