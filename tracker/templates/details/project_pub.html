@@ -99,8 +99,8 @@
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
                         {% endfor %}
                     {% endif %}
-                    <div class="u-h-4 u-w-50 bg-white rounded mx-auto my-4"></div>
-                    <p class="lead">
+                    <div class="u-h-4 u-w-50 bg-white rounded {% if not project.files.count %}mx-auto{% endif %} my-4"></div>
+                    <p class="lead white-text u-mb-40">
                         {{ project.description }}
                     </p>
                     {% if project.link_demo %}
