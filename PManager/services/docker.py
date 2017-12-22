@@ -79,7 +79,7 @@ def blockchain_user_getkey_request(username):
     if result.find('success') == -1:
         return 'Fatal Error: Failed to get key user ' + username
     regex = re.compile('[^a-zA-Z0-9]')
-    result = regex.sub(result.replace('success', ''))
+    result = regex.sub('', result.replace('success', ''))
 
     return result
 
