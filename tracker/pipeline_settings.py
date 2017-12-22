@@ -7,7 +7,7 @@ PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 PIPELINE_JS = {
     'base': {
         'source_filenames': (
-            'js/libs/jquery.min.js',
+            # 'js/libs/jquery.min.js',
             'js/libs/fancybox.js',
             'js/libs/jquery.history.min.js',
             'js/libs/jquery.form.js',
@@ -28,7 +28,7 @@ PIPELINE_JS = {
             'js/libs/jquery.imgareaselect.min.js',
             'js/libs/jquery.cookie.js',
             'js/libs/moment/moment.js',
-            'js/bootstrap/bootstrap.min.js',
+            # 'js/bootstrap/bootstrap.min.js',
             'js/bootstrap/typehead.js',
             'js/bootstrap/bootstrap-combobox.js',
             'js/pm/script.js',

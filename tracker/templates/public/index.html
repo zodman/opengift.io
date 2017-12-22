@@ -21,7 +21,7 @@
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
           rel="stylesheet">
     <!--Icon fonts-->
-    {% compressed_js 'base' %}
+
 {#    {% compressed_css 'base' %}#}
     {% block stylesheets %}{% endblock %}
     <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
@@ -49,6 +49,7 @@
     {#    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">#}
 
     <script src="/static/public/assets/js/bundle.js"></script>
+{% compressed_js 'base' %}
     <script type="text/javascript">
         window.heliardSettings = {
             "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
