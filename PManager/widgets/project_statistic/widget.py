@@ -233,7 +233,7 @@ class BugsChart(Chart):
             self.xAxe.append(day)
 
 class DonationsChart(Chart):
-    title = u'Sponsorships'
+    title = u'Donations'
     type = 'chart'
     payQuery = ''
 
@@ -246,7 +246,7 @@ class DonationsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Sponsorships': Axis(u'Sponsorships', 'rgba(94,186,150,1)')
+            u'Donations': Axis(u'Donations', 'rgba(94,186,150,1)')
         }
 
         for day in self.dayGenerator:
@@ -255,7 +255,7 @@ class DonationsChart(Chart):
                                        datetime.datetime.combine(day, datetime.time.max)),
                     project__in=self.projects
                 ).count()
-            self.yAxes[u'Sponsorships'].values.append(qty)
+            self.yAxes[u'Donations'].values.append(qty)
 
             self.xAxe.append(day)
 
