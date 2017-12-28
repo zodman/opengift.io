@@ -370,10 +370,14 @@
             <script type="text/javascript" src="/static/public/assets/js/howitworks.js" ></script>
             <script>
                 $(function() {
+                    var bInited = false;
                     var waypoint = new Waypoint({
                       element: document.getElementById('howitworks'),
                       handler: function(direction) {
-                        initAnimation();
+                        if (!bInited) {
+                            bInited = true;
+                            initAnimation();
+                        }
                       }
                     })
                 })
