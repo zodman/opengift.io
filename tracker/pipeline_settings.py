@@ -47,6 +47,7 @@ PIPELINE_JS = {
             'js/pm/drowCanvas.js',
             'js/libs/toastr.js',
             'js/pm/csrf_protector.js',
+            'public/js/libs/jquery.waipoints.min.js',
             'js/bootstrap/bootstrap-tooltip.js'
         ),
         'output_filename': 'js_compressed/base.js',
@@ -71,6 +72,13 @@ PIPELINE_JS = {
             'js/fileup/task-file-upload.js',
         ),
         'output_filename': 'js_compressed/file_up.js'
+    },
+    'howitworks': {
+        'source_filenames': (
+            'public/assets/js/createjs-2015.11.26.min.js',
+            'public/assets/js/howitworks.js'
+        ),
+        'output_filename': 'js_compressed/howitworks.js'
     },
     'chat': {
         'source_filenames': (
