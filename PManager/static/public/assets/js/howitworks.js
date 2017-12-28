@@ -1692,7 +1692,7 @@ lib.properties = {
 	opacity: 1.00,
 	webfonts: {},
 	manifest: [
-		{src:"Fill1.png", id:"Fill1"}
+		{src:"/static/public/assets/images/Fill1.png", id:"Fill1"}
 	],
 	preloads: []
 };
