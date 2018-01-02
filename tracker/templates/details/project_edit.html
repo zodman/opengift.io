@@ -50,7 +50,7 @@
                                     <div class="col-sm-1">
                                         <input type="checkbox" {% if project.public %}checked{% endif %} value="1" name="public" />
                                     </div>
-                                    <div class="col-sm-11"> Public project's page</div>
+                                    <div class="col-sm-11"> Make the project's page public</div>
                                 </label>
                                 <input type="text" name="name" value="{{ project.name }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
@@ -62,7 +62,7 @@
                                               style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.target_group|default_if_none:'' }}</textarea>
                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
                                               name="problem"
-                                              placeholder="Problem" required=""
+                                              placeholder="What is the problem you solve" required=""
                                               style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem|default_if_none:'' }}</textarea>
                                 <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
                                           name="description"
