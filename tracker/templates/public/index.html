@@ -1,6 +1,6 @@
 {% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
 
     <!--Meta-->
@@ -760,6 +760,81 @@ Have a look at what makes OpenGift different
                 </div> <!-- END col-lg-6-->
             </div> <!-- END row-->
         </div> <!-- END container-->
+    </section>
+    <section id="faq" class="bg-gray-v1">
+      <div class="container">
+
+       <div class="row">
+         <div class="col-lg-6 m-auto text-center">
+           <h2 class="h1">
+             Frequently Asked Questions from investors in OpenGift
+           </h2>
+           <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+         </div>
+       </div> <!--END row-->
+
+       <div class="row">
+        <div class="col-12 mt-4">
+                <div id="accordion" role="tablist" class="bg-white box-shadow-v3">
+
+                    <div class="accordion__faq">
+                        <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc1" aria-expanded="false">
+                            <i class="fa fa-angle-down mr-3"></i>
+                            What is your go-to-market strategy?
+                        </a>
+                        <div id="acc1" class="collapse" role="tabpanel" data-parent="#accordion" style="">
+                            <div class="accordion__text">
+We plan to implement it in several phases. <br /><br />
+In first phase we shall focus on accumulating on our platform as many good OSS projects as possible. In parallel, we’ll work closely with projects that have highest potential to become fundable by sponsors. This work may include assistance in search of potential contributors, promoters and field experts, preparing case-studies of OSS use, and direct sale of OSS to enterprises and funds. <br /><br />
+The first phase to take 8-10 months; upon completion we expect to have no less than 500 projects and 4-5 OpenGift champions, which raise more than $100K each.   <br /><br />
+Once we have enough projects and several success stories, we can switch the main direction of our activity to attracting sponsors. On initial phases we aim to offer personalized solutions to corporate sponsors and partner with organizations that have an expertise to provide similar services.<br /><br />
+By the end of this phase we expect no less than 100 projects to start earning above $300K on annual basis.<br /><br />
+More projects become sufficiently funded, more interesting the platform become to early investors. So on third step we will make a heavy marketing emphasize on attracting business angels and seed funds. By doing so, we effectively scale up the project: early-stage financing will help a lot of OSS to grow faster, and, as an effect, it will attract more projects and sponsors to our platform. It will also attract system participants that are not directly involved in software development: project and product managers, technical writers, marketers, etc. With their input OSS project teams will be able to provide a level of customization and service close to those of proprietary providers.                            </div>
+                        </div>
+                    </div>	 <!-- END accordion__faq-->
+        </div>
+        </div>
+       </div>
+      <div class="row">
+         <div class="col-lg-6 m-auto text-center">
+           <h2 class="h1">
+             Frequently Asked Questions from developers
+           </h2>
+           <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+         </div>
+       </div> <!--END row-->
+
+       <div class="row">
+        <div class="col-12 mt-4">
+                <div id="accordion" role="tablist" class="bg-white box-shadow-v3">
+
+                    <div class="accordion__faq">
+                        <a class="accordion__title p-4 active" data-toggle="collapse" href="#acc2" aria-expanded="true">
+                            <i class="fa fa-angle-down mr-3"></i>
+                            How are you different from other OSS monetization platforms?
+                        </a>
+                        <div id="acc2" class="collapse show" role="tabpanel" data-parent="#accordion" style="">
+                            <div class="accordion__text">
+<h4>Key differentiators at glance:</h4><br />
+                                <ul>
+<li>you know what type of products the community is likely to support</li>
+<li>if you build a truly interesting solution, it’s easy for backers and investors to find you</li>
+<li>you can find and motivate fellow contributors by offering them a share in future earnings</li>
+<li>you can even recruit a team to create customizable solutions for enterprise clients</li>
+<li>you can outsource marketing and promotion of your project (no need to pay for this now, you pay only from future earnings, no risk involved)</li>
+<li>backers not just give away their money – they donate to get features they need  => more donations</li>
+<li>OpenGift has a strong back-end – you can showcase a lot of data to enhance your project’s credibility  => more donations & investments.                            </li>
+                        </ul>
+                        </div>
+                            </div>
+                    </div>	 <!-- END accordion__faq-->
+
+
+                </div> <!-- END accordion-->
+        </div> <!-- END col-12-->
+       </div> <!-- END row-->
+
+      </div> <!-- END container-->
     </section>
 {% endblock %}
 
