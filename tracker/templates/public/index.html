@@ -22,7 +22,7 @@
           rel="stylesheet">
     <!--Icon fonts-->
 
-{#    {% compressed_css 'base' %}#}
+    {#    {% compressed_css 'base' %}#}
     {% block stylesheets %}{% endblock %}
     <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
     <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
@@ -49,7 +49,7 @@
     {#    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">#}
 
     <script src="/static/public/assets/js/bundle.js"></script>
-{% compressed_js 'base' %}
+    {% compressed_js 'base' %}
     <script type="text/javascript">
         window.heliardSettings = {
             "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
@@ -238,6 +238,7 @@
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
                         First Platform for Open-Source Projects Monetization
                     </p>
+
                     <h2 class="u-mb-40 text-white">Release: 29.01.2018</h2>
                     <a href="/project/add/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
                         ADD YOUR PROJECT
@@ -325,7 +326,7 @@
                         <br/><span class="text-white" data-type-speed="30" data-back-speed="100"
                                    data-type="PHP, JAVA, Python, HTML, JavaScript, C++, WEB, MOBILE"></span><span
                             class="typed-curcor text-white">|</span><span class="text-white">-developers</span>
-                        like you<br/>to make an extra $ from their code
+                        like you<br/>to make an extra $ for their code
                     </h3>
 
                     <div class="u-h-4 u-w-50 bg-white rounded mt-4 u-mb-40 mx-auto"></div>
@@ -337,165 +338,194 @@
         </div> <!-- END container-->
     </section>
     <section class="bg-gray-v2 u-pb-80">
-      <div class="container">
-       <div class="row">
-        <div class="col-12 u-mb-70">
-            <h2 class="h1 text-primary text-center">
-                For whom?
-            </h2>
-        </div>
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-Notebook text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            Developers
-                        </h4>
-                        <p>
-                            Donation buttons simply don’t work unless developers turn into marketers. OpenGift gives you a tool to attract substantial funding without being distracted from coding.
-Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</a>
-                        </p>
-                    </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-12 u-mb-70">
+                    <h2 class="h1 text-primary text-center">
+                        Whom for?
+                    </h2>
                 </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-Notebook text-primary u-fs-42 mr-4"></span>
 
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-User text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            OpenSource software users
-                        </h4>
-                        <p>
-                            You use OSS and need a new feature or a bug fix? Now you can set priorities for projects' workflow and get updates within foreseeable deadlines.
-                        </p>
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                Developers
+                            </h4>
+
+                            <p>
+                                Donation buttons simply don’t work unless developers turn into marketers. OpenGift gives
+                                you a tool to attract substantial funding without being distracted from coding.
+                                Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</a>
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                </div> <!-- END col-lg-4 col-md-6-->
 
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-Wallet text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            Patrons
-                        </h4>
-                        <p>
-                            What if you could ask Google to find a solution for a tech problem you care about? With OpenGift you can. Navigate through OSS projects easily and see how they solve issues you are interested in; see their previous work to make sure they are serious about it.
-                        </p>
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-User text-primary u-fs-42 mr-4"></span>
+
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                OpenSource software users
+                            </h4>
+
+                            <p>
+                                You use OSS and need a new feature or a bug fix? Now you can set priorities for
+                                projects' workflow and get updates within foreseeable deadlines.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                </div> <!-- END col-lg-4 col-md-6-->
 
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-Users text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            Enterprises
-                        </h4>
-                        <p>
-                            Want to cut software development costs? Get rid of the middlemen, work directly with development teams.
-                        </p>
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-Wallet text-primary u-fs-42 mr-4"></span>
+
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                Patrons
+                            </h4>
+
+                            <p>
+                                What if you could ask Google to find a solution for a tech problem you care about? With
+                                OpenGift you can. Navigate through OSS projects easily and see how they solve issues you
+                                are interested in; see their previous work to make sure they are serious about it.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                </div> <!-- END col-lg-4 col-md-6-->
 
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            Investors
-                        </h4>
-                        <p>
-                            You spend too much time searching for potential unicorns? Find promising projects by problems they solve, assess their chances by looking at hard data, and secure a share of their future profits in just a few clicks.
-                        </p>
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-Users text-primary u-fs-42 mr-4"></span>
+
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                Enterprises
+                            </h4>
+
+                            <p>
+                                Want to cut software development costs? Get rid of the middlemen, work directly with
+                                development teams.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                </div> <!-- END col-lg-4 col-md-6-->
 
-            <div class="col-lg-4 col-md-6 u-mb-70">
-            <div class="media">
-                <span class="icon icon-Speedometter text-primary u-fs-42 mr-4"></span>
-                    <div class="media-body">
-                        <h4 class="mb-4">
-                            Marketers
-                        </h4>
-                        <p>
-                            Wish your brand was associated with a project everyone likes? Check out sponsorship opportunities.
-                        </p>
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>
+
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                Investors
+                            </h4>
+
+                            <p>
+                                You spend too much time searching for potential unicorns? Find promising projects by
+                                problems they solve, assess their chances by looking at hard data, and secure a share of
+                                their future profits in just a few clicks.
+                            </p>
+                        </div>
                     </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6-->
+                </div> <!-- END col-lg-4 col-md-6-->
 
-       </div> <!--END row-->
-      </div> <!-- END container-->
+                <div class="col-lg-4 col-md-6 u-mb-70">
+                    <div class="media">
+                        <span class="icon icon-Speedometter text-primary u-fs-42 mr-4"></span>
+
+                        <div class="media-body">
+                            <h4 class="mb-4">
+                                Marketers
+                            </h4>
+
+                            <p>
+                                Wish your brand was associated with a project everyone likes? Check out sponsorship
+                                opportunities.
+                            </p>
+                        </div>
+                    </div>
+                </div> <!-- END col-lg-4 col-md-6-->
+
+            </div> <!--END row-->
+        </div> <!-- END container-->
     </section>
     <section class="u-py-100 relative with-waves" id="howitworks">
         <div class="container u-pt-50">
             {% compressed_js 'howitworks' %}
             <script>
-                $(function() {
+                $(function () {
                     var bInited = false;
                     var waypoint = new Waypoint({
-                      element: document.getElementById('howitworks'),
-                      offset: '35%',
-                      handler: function(direction) {
-                        if (!bInited) {
-                            bInited = true;
-                            initAnimation();
+                        element: document.getElementById('howitworks'),
+                        offset: '35%',
+                        handler: function (direction) {
+                            if (!bInited) {
+                                bInited = true;
+                                initAnimation();
+                            }
                         }
-                      }
                     })
                 })
             </script>
-            <h2 class="h1 u-mt-50 text-center">How it works?</h2>
+            <h2 class="h1 u-mt-50 text-center">How does it work?</h2>
+
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto"></div>
             <div class="row u-py-50">
                 <div class="col-md-7 u-py-100 ">
-                    <div id="animation_container" style="background-color:rgba(255, 255, 255, 1.00); width:283px; height:602px">
-                        <canvas id="canvas" width="283" height="602" style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
-                        <div id="dom_overlay_container" style="pointer-events:none; overflow:hidden; width:283px; height:602px; position: absolute; left: 0px; top: 0px; display: block;">
+                    <div id="animation_container"
+                         style="background-color:rgba(255, 255, 255, 1.00); width:283px; height:602px">
+                        <canvas id="canvas" width="283" height="602"
+                                style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
+                        <div id="dom_overlay_container"
+                             style="pointer-events:none; overflow:hidden; width:283px; height:602px; position: absolute; left: 0px; top: 0px; display: block;">
                         </div>
                     </div>
                 </div>
                 <div class="col-md-5">
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-100" src="/static/public/assets/img/svg/magnifying-glass.svg" alt="">
-                      <h4 class="u-fs-26 u-my-35">
-                        Project searching
-                      </h4>
-                      <p class="mb-0">
-                        Companies and users can rapidly find software their need.
-                      </p>
+                        <h4 class="u-fs-26 u-my-35">
+                            Finding a project made easy
+                        </h4>
+
+                        <p class="mb-0">
+                            Companies and users can find the software their need in just a few clicks.
+                        </p>
                     </div>
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-100" src="/static/public/assets/img/svg/dollar-bag.svg" alt="">
-                      <h4 class="u-fs-26 u-my-35">
-                        Special-purpose financing
-                      </h4>
-                      <p class="mb-0">
-                        Backers support development of new features.
-                      </p>
+                        <h4 class="u-fs-26 u-my-35">
+                            Special-purpose financing
+                        </h4>
+
+                        <p class="mb-0">
+                            Backers support the development of new specific features they are interested in.
+                        </p>
                     </div>
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-100" src="/static/public/assets/img/svg/pie-chart.svg" alt="">
-                      <h4 class="u-fs-26 u-my-35">
-                        Frictionless income distribution.
-                      </h4>
-                      <p class="mb-0">
-                        Each team member receives a share of project earnings exchange their GIFT
-                      </p>
+                        <h4 class="u-fs-26 u-my-35">
+                            Frictionless income distribution
+                        </h4>
+
+                        <p class="mb-0">
+                            Each team member receives a share of project earnings exchange their GIFT.
+                        </p>
                     </div>
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                      <img class="u-w-100" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">
-                      <h4 class="u-fs-26 u-my-35">
-                        Guaranteed liquidity
-                      </h4>
-                      <p class="mb-0">
-                        Users can exchange their GIFT for other currencies on internal 0% comission exchange.
-                      </p>
+                        <img class="u-w-100" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                            Guaranteed liquidity
+                        </h4>
+
+                        <p class="mb-0">
+                            Users can exchange their GIFTs for other currencies with a 0% comission on the Platform's
+                            exchange.
+                        </p>
                     </div>
                 </div>
             </div>
@@ -523,15 +553,18 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
                         <li class="list-of-industries-1"><span><a href="/project/list/">VR/AR</a></span></li>
                         <li class="list-of-industries-2"><span><a href="/project/list/">Games</a></span></li>
                         <li class="list-of-industries-3"><span><a href="/project/list/">Machine Learning</a></span></li>
-                        <li class="list-of-industries-4"><span><a href="/project/list/">Informational Security</a></span></li>
+                        <li class="list-of-industries-4"><span><a href="/project/list/">Informational
+                            Security</a></span></li>
                         <li class="list-of-industries-5"><span><a href="/project/list/">FinTech</a></span></li>
                         <li class="list-of-industries-6"><span><a href="/project/list/">Blockchain</a></span></li>
-                        <li class="list-of-industries-7"><span><a href="/project/list/">Emotion Recognition</a></span></li>
-                        <li class="list-of-industries-8"><span><a href="/project/list/">Programmatic Languages</a></span></li>
+                        <li class="list-of-industries-7"><span><a href="/project/list/">Emotion Recognition</a></span>
+                        </li>
+                        <li class="list-of-industries-8"><span><a href="/project/list/">Programmatic
+                            Languages</a></span></li>
                     </ul>
                     <h2 class="display-4 u-fw-600 text-white u-mb-40">
                         Push <span class="text-purple" data-type-speed="120" data-back-speed="50"
-                                       data-type="Technology, Science, The World!"></span>
+                                   data-type="Technology, Science, The World!"></span>
                         <span class="typed-curcor text-purple">|</span>
                     </h2>
                     <a href="/project/list/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
@@ -579,10 +612,12 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
-                                    <a href="https://www.facebook.com/evgenii.morozov"><i class="fa fa-facebook"></i></a>
+                                    <a href="https://www.facebook.com/evgenii.morozov"><i
+                                            class="fa fa-facebook"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="https://www.linkedin.com/in/evgeny-morozov-13597b26/"><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.linkedin.com/in/evgeny-morozov-13597b26/"><i
+                                            class="fa fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -604,7 +639,8 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
                             </p>
 
                             <p class="my-4">
-                                Hands-on Team Leader and OSSC evangelist. 10 years development experience in complex software projects.
+                                Hands-on Team Leader and OSSC evangelist. 10 years development experience in complex
+                                software projects.
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
@@ -612,7 +648,8 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
                                             class="fa fa-facebook"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="https://www.linkedin.com/in/yegor-maslov/"><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.linkedin.com/in/yegor-maslov/"><i
+                                            class="fa fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -715,7 +752,8 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
                                             class="fa fa-facebook"></i></a>
                                 </li>
                                 <li class="list-inline-item">
-                                    <a href="https://www.linkedin.com/in/nata-poplavskaya/"><i class="fa fa-linkedin"></i></a>
+                                    <a href="https://www.linkedin.com/in/nata-poplavskaya/"><i
+                                            class="fa fa-linkedin"></i></a>
                                 </li>
                             </ul>
                         </div>
@@ -762,80 +800,248 @@ Have a look at what makes OpenGift <a href="#acc2" class="js-anchor">different</
         </div> <!-- END container-->
     </section>
     <section id="faq" class="">
-      <div class="container">
+        <div class="container">
 
-       <div class="row">
-         <div class="col-lg-6 m-auto text-center">
-           <h2 class="h1">
-             Frequently Asked Questions from investors in OpenGift
-           </h2>
-           <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-         </div>
-       </div> <!--END row-->
+            <div class="row">
+                <div class="col-lg-6 m-auto text-center">
+                    <h2 class="h1">
+                        Frequently Asked Questions from investors in OpenGift
+                    </h2>
 
-       <div class="row">
-        <div class="col-12 mt-4">
-                <div id="accordion" role="tablist" class="bg-white box-shadow-v3">
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                </div>
+            </div> <!--END row-->
 
-                    <div class="accordion__faq">
-                        <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc1" aria-expanded="false">
-                            <i class="fa fa-angle-down mr-3"></i>
-                            What is your go-to-market strategy?
-                        </a>
-                        <div id="acc1" class="collapse" role="tabpanel" data-parent="#accordion" style="">
-                            <div class="accordion__text">
-We plan to implement it in several phases. <br /><br />
-In first phase we shall focus on accumulating on our platform as many good OSS projects as possible. In parallel, we’ll work closely with projects that have highest potential to become fundable by sponsors. This work may include assistance in search of potential contributors, promoters and field experts, preparing case-studies of OSS use, and direct sale of OSS to enterprises and funds. <br /><br />
-The first phase to take 8-10 months; upon completion we expect to have no less than 500 projects and 4-5 OpenGift champions, which raise more than $100K each.   <br /><br />
-Once we have enough projects and several success stories, we can switch the main direction of our activity to attracting sponsors. On initial phases we aim to offer personalized solutions to corporate sponsors and partner with organizations that have an expertise to provide similar services.<br /><br />
-By the end of this phase we expect no less than 100 projects to start earning above $300K on annual basis.<br /><br />
-More projects become sufficiently funded, more interesting the platform become to early investors. So on third step we will make a heavy marketing emphasize on attracting business angels and seed funds. By doing so, we effectively scale up the project: early-stage financing will help a lot of OSS to grow faster, and, as an effect, it will attract more projects and sponsors to our platform. It will also attract system participants that are not directly involved in software development: project and product managers, technical writers, marketers, etc. With their input OSS project teams will be able to provide a level of customization and service close to those of proprietary providers.                            </div>
-                        </div>
-                    </div>	 <!-- END accordion__faq-->
-        </div>
-        </div>
-       </div>
-      <div class="row">
-         <div class="col-lg-6 m-auto text-center u-pt-100">
-           <h2 class="h1">
-             Frequently Asked Questions from developers
-           </h2>
-           <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-         </div>
-       </div> <!--END row-->
+            <div class="row">
+                <div class="col-12 mt-4">
+                    <div id="accordion" role="tablist" class="bg-white box-shadow-v3">
 
-       <div class="row">
-        <div class="col-12 mt-4">
-                <div id="accordion1" role="tablist" class="bg-white box-shadow-v3">
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc1"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                What is your go-to-market strategy?
+                            </a>
 
-                    <div class="accordion__faq">
-                        <a name="acc2" ></a>
-                        <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2" aria-expanded="false">
-                            <i class="fa fa-angle-down mr-3"></i>
-                            How are you different from other OSS monetization platforms?
-                        </a>
-                        <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
-                            <div class="accordion__text">
-<h4>Key differentiators at glance:</h4><br />
-                                <ul>
-<li>you know what type of products the community is likely to support</li>
-<li>if you build a truly interesting solution, it’s easy for backers and investors to find you</li>
-<li>you can find and motivate fellow contributors by offering them a share in future earnings</li>
-<li>you can even recruit a team to create customizable solutions for enterprise clients</li>
-<li>you can outsource marketing and promotion of your project (no need to pay for this now, you pay only from future earnings, no risk involved)</li>
-<li>backers not just give away their money – they donate to get features they need  => more donations</li>
-<li>OpenGift has a strong back-end – you can showcase a lot of data to enhance your project’s credibility  => more donations & investments.                            </li>
-                        </ul>
-                        </div>
+                            <div id="acc1" class="collapse" role="tabpanel" data-parent="#accordion" style="">
+                                <div class="accordion__text">
+                                    We plan to implement it in several phases. <br/><br/>
+                                    In first phase we shall focus on accumulating on our platform as many good OSS
+                                    projects as possible. In parallel, we’ll work closely with projects that have
+                                    highest potential to become fundable by sponsors. This work may include assistance
+                                    in search of potential contributors, promoters and field experts, preparing
+                                    case-studies of OSS use, and direct sale of OSS to enterprises and funds. <br/><br/>
+                                    The first phase to take 8-10 months; upon completion we expect to have no less than
+                                    500 projects and 4-5 OpenGift champions, which raise more than $100K each.
+                                    <br/><br/>
+                                    Once we have enough projects and several success stories, we can switch the main
+                                    direction of our activity to attracting sponsors. On initial phases we aim to offer
+                                    personalized solutions to corporate sponsors and partner with organizations that
+                                    have an expertise to provide similar services.<br/><br/>
+                                    By the end of this phase we expect no less than 100 projects to start earning above
+                                    $300K on annual basis.<br/><br/>
+                                    More projects become sufficiently funded, more interesting the platform become to
+                                    early investors. So on third step we will make a heavy marketing emphasize on
+                                    attracting business angels and seed funds. By doing so, we effectively scale up the
+                                    project: early-stage financing will help a lot of OSS to grow faster, and, as an
+                                    effect, it will attract more projects and sponsors to our platform. It will also
+                                    attract system participants that are not directly involved in software development:
+                                    project and product managers, technical writers, marketers, etc. With their input
+                                    OSS project teams will be able to provide a level of customization and service close
+                                    to those of proprietary providers.
+                                </div>
                             </div>
-                    </div>	 <!-- END accordion__faq-->
+                        </div>     <!-- END accordion__faq-->
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-6 m-auto text-center u-pt-100">
+                    <h2 class="h1">
+                        Frequently Asked Questions from developers
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                </div>
+            </div> <!--END row-->
+
+            <div class="row">
+                <div class="col-12 mt-4">
+                    <div id="accordion1" role="tablist" class="bg-white box-shadow-v3">
+
+                        <div class="accordion__faq">
+                            <a name="acc2"></a>
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                How are you different from other OSS monetization platforms?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+                                    <h4>Key differentiators at glance:</h4><br/>
+                                    <ul>
+                                        <li>you know what type of products the community is likely to support</li>
+                                        <li>if you build a truly interesting solution, it’s easy for backers and
+                                            investors to find you
+                                        </li>
+                                        <li>you can find and motivate fellow contributors by offering them a share in
+                                            future earnings
+                                        </li>
+                                        <li>you can even recruit a team to create customizable solutions for enterprise
+                                            clients
+                                        </li>
+                                        <li>you can outsource marketing and promotion of your project (no need to pay
+                                            for this now, you pay only from future earnings, no risk involved)
+                                        </li>
+                                        <li>backers not just give away their money – they donate to get features they
+                                            need => more donations
+                                        </li>
+                                        <li>OpenGift has a strong back-end – you can showcase a lot of data to enhance
+                                            your project’s credibility => more donations & investments.
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+
+                        <div class="accordion__faq">
+                            <a name="acc2"></a>
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Why blockchain?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+                                    <ul>
+                                        <li>Faster adoption. Thanks to decentralization feature you don’t need to trust your money to our platform => no risk to join</li>
+                                        <li>It requires much less management => negligible costs for us => free for you</li>
+                                        <li>It’s very convenient and probably the most trustable technological basis for automatic distribution of project earnings (see Smart-contract section of the WhitePaper)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+
+                        <div class="accordion__faq">
+                            <a name="acc2"></a>
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Who are you competitors?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+They are different depending on what phase of the project development we consider.<br /><br />
+At first stage we obviously be competing with other solutions for OSS monetization like Open Collective, FundRequest, дописать
+Later on, at “grown-up” phase, we believe our main competitors will be traditional software development companies (especially companies that provide offshore development services). <br /><br />
+It’s also important to mark several types of companies that may become our competitors under certain circumstances: <br /><br />
+<ul>
+                                    <li>Freelance platforms (moderate probability;  it will require a substantial changes in platforms functionality and freelance business model)</li>
+<li>Providers of different types of software constructors designed to eliminate coding (coopetition model and market segmentation seem more probable)</li>
+<li>Traditional crowdinvesting platforms (to some extent; most people will probably invest in both opensource and traditional companies for diversification purpose)</li>
+<li>ICO platforms (likely; there is also a scenario OpenGift when become an incubator for ICO platforms)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Hey, opensource is supposed to be free stuff! Why bother with funding at all?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+Actually, this question has a long history of debate in opensource community. Rather than joining any side of it, we just want to provide an option. Surely, we won’t force anybody to accept payments against her/his values :)
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                What is a competitive edge of OpenSource paid development over freelance model?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+OpenSource developers know their software well, so no need to spend extra time studying the code. <br /><br />
+OpenSource project are essentially teams that work together for some time, which helps to save up time usually spent on coordination.<br /><br />
+Needless to say, all these count when working on big projects that are based on OpenSource software. Hence we believe that OpenSource model is better suited for more complex projects that those typical for freelance.
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Why would organization think of paying for opensource software?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+They already do. What we offering is just a model, which redirects most of the funding towards people who create most of the value. See our <a href="/wp/">WP for more details</a>.
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Donations? What’s in it for me?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+Besides, you can help guys who already made something that you probably already use for free? That’s OK, we’ve got to confess - we also rarely donate being given only that reason : )<br /><br />
+With OpenGift you’ll have some extra motivation. First, you can make a OSS project to reconsider their development plans. You may need it when you need a specific feature in software you got used to, or when you haven’t find an existing solution to your software-related problem.<br /><br />
+Second, taken together all the small opensource projects help to overcome major technological barriers and solve problems that seem to be far away from IT. Our technological map make the role of each project more evident. So even if you don’t concern yourself with opensource, you may want to check the map from time to time – may be you’ll find something that you deem really important.                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Donations? What’s in it for me?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+There is at least one strong reason to be early-bird on our platform.<br /><br />
+If you donate to a project at early phase of development, and after that project becomes popular (we measure popularity in amount of donations), you have remarkable rise in your expert rating.<br /><br />
+Users with high expert rating receive benefits we describe <a href="/backers/">here</a>.<br /><br />
+Technically, all the projects that are newly registered on platform are at early stage of development since they receive little or no donations. So you if you spot some a project that is already popular outside of the platform, but just got registered on OpenGift, you may consider this as a chance to level up your expert rating.
+We understand that by some it may be regarded as an unfair trick, but for now we decided to leave the “hole”.
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#acc2"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                Let’s suppose I donate to a project. What if it disappears soon after that?
+                            </a>
+
+                            <div id="acc2" class="collapse" role="tabpanel" data-parent="#accordion1" style="">
+                                <div class="accordion__text">
+                                It may happen. To protect yourself, take a closer look to a project’s profile page.
+                                How many tasks has the project already finished? How large is its community?
+                                How many contributors/commits it has? All those data constitutes a reputation of a project.
+                                More effort a project invested in building reputation, more it has to lose when defrauding its backers.
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
 
 
-                </div> <!-- END accordion-->
-        </div> <!-- END col-12-->
-       </div> <!-- END row-->
+                    </div> <!-- END accordion-->
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
 
-      </div> <!-- END container-->
+        </div> <!-- END container-->
     </section>
 {% endblock %}
 
@@ -914,22 +1120,61 @@ More projects become sufficiently funded, more interesting the platform become t
         speed: .25
     });
 </script>
-<!-- Yandex.Metrika counter --> <script type="text/javascript" > (function (d, w, c) { (w[c] = w[c] || []).push(function() { try { w.yaCounter47053188 = new Ya.Metrika({ id:47053188, clickmap:true, trackLinks:true, accurateTrackBounce:true, webvisor:true, trackHash:true }); } catch(e) { } }); var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () { n.parentNode.insertBefore(s, n); }; s.type = "text/javascript"; s.async = true; s.src = "https://mc.yandex.ru/metrika/watch.js"; if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); } })(document, window, "yandex_metrika_callbacks"); </script> <noscript><div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt="" /></div></noscript> <!-- /Yandex.Metrika counter -->
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter47053188 = new Ya.Metrika({
+                id: 47053188,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
+    }
+})(document, window, "yandex_metrika_callbacks"); </script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript> <!-- /Yandex.Metrika counter -->
 <!-- Facebook Pixel Code -->
 <script>
- !function(f,b,e,v,n,t,s)
- {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
- n.callMethod.apply(n,arguments):n.queue.push(arguments)};
- if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
- n.queue=[];t=b.createElement(e);t.async=!0;
- t.src=v;s=b.getElementsByTagName(e)[0];
- s.parentNode.insertBefore(t,s)}(window, document,'script',
- 'https://connect.facebook.net/en_US/fbevents.js');
- fbq('init', '895148243996073');
- fbq('track', 'PageView');
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq)return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq)f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '895148243996073');
+    fbq('track', 'PageView');
 </script>
 <noscript><img height="1" width="1" style="display:none"
- src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
+               src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Facebook Pixel Code -->
 </body>
