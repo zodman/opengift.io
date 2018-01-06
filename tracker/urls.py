@@ -169,6 +169,7 @@ urlpatterns = patterns('',
                        url(r'^crypto/getpaid', get_paid_btc),
                        url(r'^wallet/', blockchainMain),
                        url(r'^pub/', Public.mainPage),
+                       url(r'^faq/$', TemplateView.as_view(template_name='public/faq.html'), name='faq'),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),
                        url(r'^wiki/', include('wiking.urls'))
                        )
