@@ -314,7 +314,7 @@
         </svg>
 
     </section>
-    <section class="u-py-100 relative bg-purple-opacity text-white" id="demo">
+    <section class="u-py-100 relative bg-purple-opacity text-white hidden-md-down" id="demo">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
@@ -586,6 +586,11 @@
             <style>
                 .images-grey img {
                     filter: grayscale(100%);
+                }
+                @media (max-width: 768px) {
+                    .hidden-md-down {
+                        display: none !important;
+                    }
                 }
             </style>
             <div class="row align-items-center images-grey">
