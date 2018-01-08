@@ -14,10 +14,10 @@ var userDynamics = {
                     toastr.info(
                         "<a href='" + task['url'] + "'>" + task['project__name'] + '/ '
                         + task['name'] + "</a>",
-                        'Вы можете вернуться к задаче'
+                        'You may return to task '
                     );
                 }
             }, 'json');
         }
     }
-}
+};

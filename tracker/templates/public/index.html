@@ -140,7 +140,7 @@
 
 
 {% block head %}
-    <header class="header header-shrink header-inverse fixed-top">
+    <header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
         <div class="container">
             <nav class="navbar navbar-expand-lg px-md-0">
                 <a class="navbar-brand" href="/">
