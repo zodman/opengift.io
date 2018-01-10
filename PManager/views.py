@@ -88,7 +88,7 @@ class MainPage:
                 mess = emailMessage(
                     'hello_new_user',
                     context,
-                    'Heliard: сообщество профессионалов. Ваши регистрационные данные.'
+                    'Welcome to OpenGift!'
                 )
                 mess.send([user.username])
                 mess.send(['gvamm3r@gmail.com'])

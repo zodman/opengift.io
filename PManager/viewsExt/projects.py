@@ -18,6 +18,7 @@ from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
 from django.core.context_processors import csrf
 from django.db.models import Sum
+from PManager.viewsExt.tools import templateTools
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -131,6 +132,34 @@ def projectDetailEdit(request, project_id):
                 f.save()
                 project.files.add(f)
 
+            for m in project.milestones.filter(closed=False):
+                name = request.POST.get('milestone_'+str(m.id)+'_name', None)
+                if name:
+                    m.name = name
+                    m.date = templateTools.dateTime.convertToDateTime(request.POST.get('milestone_'+str(m.id)+'_date', ''))
+                    m.description = request.POST.get('milestone_'+str(m.id)+'_desc', '')
+                    m.save()
+                else:
+                    m.delete()
+
+            new_milestones = request.POST.getlist('milestone_new_name')
+            new_milestones_date = request.POST.getlist('milestone_new_date')
+            new_milestones_desc = request.POST.getlist('milestone_new_desc')
+            i = 0
+            for ms_name in new_milestones:
+                if ms_name:
+                    ms_date = templateTools.dateTime.convertToDateTime(new_milestones_date[i])
+                    ms = PM_Milestone(
+                        name=ms_name,
+                        description=new_milestones_desc[i],
+                        date=ms_date,
+                        project=project,
+                        author=request.user
+                    )
+                    ms.save()
+                i += 1
+
+
             return HttpResponse('ok')
         else:
             return HttpResponse(p_form.errors)
@@ -187,6 +216,7 @@ def projectDetailEdit(request, project_id):
         return s
 
     c = RequestContext(request, {
+        'milestones': project.milestones.filter(closed=False, donated=False),
         'project': project,
         'e': sprojectSpec,
         'industries': aSpecialties,

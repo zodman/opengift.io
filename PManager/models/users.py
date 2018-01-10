@@ -233,7 +233,7 @@ class PM_User(models.Model):
             message = emailMessage(
                 'hello_new_user',
                 context,
-                'Heliard: сообщество профессионалов. Добро пожаловать!'
+                'Welcome to OpenGift!'
             )
 
             message.send([email])

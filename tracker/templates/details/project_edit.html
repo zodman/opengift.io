@@ -12,7 +12,8 @@
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
                     <p>
-                        Please give more information for investors and donators
+                        <a target="_blank" href="https://www.youtube.com/watch?v=Bme1lTX6gQ4">How
+                    to fill out this form?</a>
                     </p>
                 </div>
             </div> <!-- END row-->
@@ -32,6 +33,10 @@
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Tools color-primary mr-lg-3"></span>
                             Integration</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-roadmap" role="tab"
+                           aria-controls="v-pills-roadmap" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-List color-primary mr-lg-3"></span>
+                            Roadmap</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-cloud" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Cloud color-primary mr-lg-3"></span>
@@ -46,13 +51,14 @@
                                  aria-labelledby="v-pills-home-tab"
                                  aria-expanded="true">
                                 <div class="project-edit-form">
-                                <label class="row u-mb-20">
-                                    <div class="col-sm-1">
-                                        <input type="checkbox" {% if project.public %}checked{% endif %} value="1" name="public" />
-                                    </div>
-                                    <div class="col-sm-11"> Make the project's page public</div>
-                                </label>
-                                <input type="text" name="name" value="{{ project.name }}"
+                                    <label class="row u-mb-20">
+                                        <div class="col-sm-1">
+                                            <input type="checkbox" {% if project.public %}checked{% endif %} value="1"
+                                                   name="public"/>
+                                        </div>
+                                        <div class="col-sm-11"> Make the project's page public</div>
+                                    </label>
+                                    <input type="text" name="name" value="{{ project.name }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
                                            required="">
 
@@ -68,6 +74,7 @@
                                           name="description"
                                           placeholder="Solution" required=""
                                           style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description|default_if_none:'' }}</textarea>
+
                                     <div class="project-edit-form--files-list">
                                         <div class="clearfix">
                                             {% for file in project.files.all %}
@@ -107,7 +114,8 @@
                                             {% for s in project.industries.all %}
                                                 <span class="small-text-label btn-red btn btn-xs">
                                                 {{ s.name }} <a href="#" data-id="{{ s.id }}"
-                                                                class="js-category-remove text-white"><i class="fa fa-remove"></i></a>
+                                                                class="js-category-remove text-white"><i
+                                                        class="fa fa-remove"></i></a>
                                             </span>
                                             {% endfor %}
                                         </div>
@@ -150,6 +158,68 @@
                                     >
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="v-pills-roadmap" role="tabpanel"
+                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
+                                <div class="project-edit-form">
+                                    {% for milestone in milestones %}
+                                        <div class="milestone-row js-milestone-row">
+                                            <div class="row">
+                                                <div class="col-md-7">
+                                                    <input type="text" name="milestone_{{ milestone.id }}_name"
+                                                           class="form-control u-rounded-50 p-3 u-mb-30"
+                                                           value="{{ milestone.name }}"
+                                                           placeholder="Milestone title"/>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <input type="text" name="milestone_{{ milestone.id }}_date"
+                                                           class="form-control u-rounded-50 p-3 u-mb-30"
+                                                           value="{{ milestone.date|date:"d.m.Y" }}"
+                                                           placeholder="Milestone date"/>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a href="#" class="fa fa-remove" onclick="$(this).closest('.js-milestone-row').remove();return false;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="milestone_{{ milestone.id }}_desc"
+                                                              placeholder="Milestone description"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row"><div class="col-12">
+                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="milestone-row js-milestone-new">
+                                        <div class="row">
+                                            <div class="col-md-7">
+                                                <input type="text" name="milestone_new_name"
+                                                       class="form-control u-rounded-50 p-3 u-mb-30"
+                                                       value="{{ milestone.name }}"
+                                                       placeholder="Milestone title"/>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <input type="text" name="milestone_new_date"
+                                                       class="form-control u-rounded-50 p-3 u-mb-30"
+                                                       value="{{ milestone.date }}"
+                                                       placeholder="Milestone date DD.MM.YYYY"/>
+                                            </div>
+                                            <div class="col-md-1">
+                                                <a href="#" class="fa fa-remove" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                          name="milestone_new_desc"
+                                                          placeholder="Milestone description"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-dark" onclick="$('.js-milestone-new').clone().insertBefore(this).find('input, textarea').val('');return false;">Add new milestone</button>
+                                </div>
+                            </div>
                             <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
                                 <div class="project-edit-form js-blockchain-form">
@@ -163,9 +233,12 @@
                                                placeholder="Project name in blockchain">
                                         <button type="button"
                                                 class="btn btn-success btn-rounded js-register-project-in-blockchain {% if not request.user.get_profile.blockchain_wallet %}js-create-wallet{% endif %}">
-                                            Register project in GiftCloud {% if not request.user.get_profile.blockchain_wallet %}*{% endif %}
+                                            Register project in GiftCloud
+                                            {% if not request.user.get_profile.blockchain_wallet %}*{% endif %}
                                         </button>
-                                        {% if not request.user.get_profile.blockchain_wallet %}<br /><br /><p>*This action automatically creates your wallet in OpenGiftCloud</p>{% endif %}
+                                        {% if not request.user.get_profile.blockchain_wallet %}<br/><br/>
+                                            <p>*This action automatically creates your wallet in OpenGiftCloud</p>
+                                        {% endif %}
                                     {% endif %}
                                 </div>
                             </div>
@@ -178,9 +251,7 @@
                 </div>
 
             </div>
-            <div class="u-p-25">
-                <p style="text-align: center;"><a target="_blank" href="https://www.youtube.com/watch?v=Bme1lTX6gQ4">How to fill out this form.</a></p>
-            </div>
+
         </div> <!-- END container-->
     </section>
 
@@ -209,14 +280,14 @@
                         },
                         function (data) {
                             if (parseInt(data) > 0) {
-                                $('<div class="progress-item"><label class="custom-control custom-checkbox text-left"><input type="checkbox" name="specialties" value="'+data+'" class="custom-control-input">'+
-                                        '<span class="custom-control-indicator mt-1"></span><span class="custom-control-description">'+name+'</span></label>' +
+                                $('<div class="progress-item"><label class="custom-control custom-checkbox text-left"><input type="checkbox" name="specialties" value="' + data + '" class="custom-control-input">' +
+                                        '<span class="custom-control-indicator mt-1"></span><span class="custom-control-description">' + name + '</span></label>' +
                                         '<h4 class="float-right text-primary">0%</h4>' +
 
                                         '<div class="progress w-100">' +
-                                            '<div class="progress-bar" aria-valuenow="0" style="width: 0%;"></div>' +
+                                        '<div class="progress-bar" aria-valuenow="0" style="width: 0%;"></div>' +
                                         '</div>' +
-                                    '</div>').insertBefore($curBlock);
+                                        '</div>').insertBefore($curBlock);
                             } else {
                                 alert(data);
                             }
@@ -275,21 +346,21 @@
                     var name = $name.val();
                     var t = this;
                     if (form.validate()) {
-                        var send = function() {
+                        var send = function () {
                             $(t).text('Sending project to blockchain...');
 
                             $.post(
-                                '/blockchain/ajax/',
-                                {
-                                    'action': 'addProject',
-                                    'id': {{ project.id }},
-                                    'name': $name.val()
-                                },
-                                function (data) {
-                                    if (data == 'ok') {
-                                        form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name ' + name + '</p>');
+                                    '/blockchain/ajax/',
+                                    {
+                                        'action': 'addProject',
+                                        'id': {{ project.id }},
+                                        'name': $name.val()
+                                    },
+                                    function (data) {
+                                        if (data == 'ok') {
+                                            form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name ' + name + '</p>');
+                                        }
                                     }
-                                }
                             );
                         };
 

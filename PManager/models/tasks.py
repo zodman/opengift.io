@@ -417,6 +417,7 @@ class PM_Milestone(models.Model):
     description = models.TextField(null=True, blank=True)
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
+    donated = models.BooleanField(blank=True, default=False)
 
     def tasksOrderedByClose(self):
         return self.tasks.order_by('-closed')
