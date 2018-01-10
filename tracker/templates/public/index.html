@@ -210,6 +210,9 @@
                     <a href="/project/add/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
                         ADD YOUR PROJECT
                     </a>
+                    <a href="/login/?backurl=/profile/edit/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
+                        REGISTER TO WHITELIST
+                    </a>
                 </div> <!-- END col-lg-6-->
             </div> <!-- END row-->
 
@@ -217,7 +220,7 @@
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            23
+                            {{ projects_qty|default_if_none:"0"|floatformat }}
                         </h2>
 
                         <p>
@@ -228,7 +231,7 @@
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            68
+                            {{ developers_qty|default_if_none:"0"|floatformat }}
                         </h2>
 
                         <p>
