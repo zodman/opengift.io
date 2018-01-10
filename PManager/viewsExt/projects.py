@@ -216,7 +216,7 @@ def projectDetailEdit(request, project_id):
         return s
 
     c = RequestContext(request, {
-        'milestones': project.milestones.filter(closed=False, donated=False),
+        'milestones': project.milestones.filter(closed=False, donated=False).order_by('date'),
         'project': project,
         'e': sprojectSpec,
         'industries': aSpecialties,
