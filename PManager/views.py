@@ -345,7 +345,6 @@ class MainPage:
                 c.update({
                     'current_notice': cur_notice
                 })
-        from PManager.models.tasks import PM_Project
         c.update({
             'pageTitle': pageTitle,
             'activeMenuItem': activeMenuItem,
@@ -354,8 +353,7 @@ class MainPage:
             'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
-            'projects_qty': PM_Project.objects.filter(public=True).count(),
-            'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
+
             'agreementForApprove': agreementForApprove,
             'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues['COOKIES'] else None
         })
