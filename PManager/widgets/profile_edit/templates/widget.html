@@ -1,58 +1,111 @@
 {% load floattags compressed %}
 {% compressed_js 'profile_edit' %}
+<section class="relative u-flex-center quadro-relative" style="
+	background: #62bb94;
+	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+	background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+	background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+	background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+	background-repeat: repeat-x;
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+ ">
 
-    <div class="widget clearfix">
-        <div class="widget-control">
-{#            <a href="#" class="w-collapse">Свернуть</a>#}
-{#            <a href="#" class="w-close">Закрыть</a>#}
-        </div>
+        </section>
+<section class="u-py-md-250 u-flex-center with-waves">
+            <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4" style="position: absolute;"><title>Wave</title>
+                <defs></defs>
+                <path id="feel-the-wave-four" d="M 0 17.555438311521584 C 144 35.30965768559282 144 35.30965768559282 288 26.4325479985572 C 432 17.555438311521584 432 17.555438311521584 576 29.395602720934306 C 720 41.23576713034703 720 41.23576713034703 864 23.720383631726342 C 1008 6.205000133105664 1008 6.205000133105664 1152 14.62466098893735 C 1296 23.044321844769033 1296 23.044321844769033 1440 27.472793399864237 L 1440 944.5 L 0 944.5 Z" fill="#ffffff"></path>
+            </svg>
+            <div class="container container-to-top u-pt-100">
 
-        <h3>Мои данные</h3>
-        <hr>
-        {{ c }}
-
-        <div class="col-xs-8">
-            <form method="post" action="" class="profile-edit form-horizontal" enctype="multipart/form-data">
-                {% csrf_token %}
-                {% for field in profile_edit.uform %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        <label class="col-xs-2 control-label">{{ field.label_tag }}</label>
-                        <div class="col-xs-10">
-                            {{ field }}
+    <div class="row">
+    	<div class="col-lg-5 m-auto text-center">
+			 <div class="card box-shadow-v2 bg-white u-of-hidden">
+			 	<h2 class="bg-gradient m-0 py-3 text-white">MY PROFILE</h2>
+			 		<div class="p-4 p-md-5">
+                        {% if not profile_edit.profile.avatar %}
+                        <small>Upload your photo to enable your profile's block in the project team section.</small>
+                        {% elif not profile_edit.profile.linkedin and not profile_edit.profile.skype and not profile_edit.profile.telegram %}
+                        <small>Investors will trust you much better if you fill the social networks information.</small>
+                        {% endif %}
+                        <form method="post" action="" class="profile-edit form-horizontal" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        {% for field in profile_edit.uform %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                <label class="col-xs-2 control-label">{{ field.label_tag }}</label>
+                                <div class="col-xs-10">
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        {% for field in profile_edit.form %}
+                            <div class="form-group">
+                                {{ field.errors }}
+                                <label class="col-xs-2 control-label">{{ field.label_tag }}</label>
+                                <div class="col-xs-10">
+                                    {{ field }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">New password</label>
+                            <div class="col-xs-10">
+                                <input type="password" value="" class="form-control" name="new_password" maxlength="30" >
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                {% for field in profile_edit.form %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        <label class="col-xs-2 control-label">{{ field.label_tag }}</label>
-                        <div class="col-xs-10">
-                            {{ field }}
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label">Repeat password</label>
+                            <div class="col-xs-10">
+                                <input type="password" value="" class="form-control" name="new_password_confirm" maxlength="30" >
+                            </div>
                         </div>
-                    </div>
-                {% endfor %}
-                <div class="form-group">
-                    <label class="col-xs-2 control-label">Новый пароль</label>
-                    <div class="col-xs-10">
-                        <input type="password" value="" class="form-control" name="new_password" maxlength="30" >
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2 control-label">Повторите пароль</label>
-                    <div class="col-xs-10">
-                        <input type="password" value="" class="form-control" name="new_password_confirm" maxlength="30" >
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2 control-label"></label>
-                    <div class="col-xs-10">
-                        <input type="submit" value="Сохранить" class="btn badge-success">
-                    </div>
-                </div>
-            </form>
-        </div>
+                        <div class="form-group">
+                            <label class="col-xs-2 control-label"></label>
+                            <div class="col-xs-10">
+                                <input type="submit" value="Save" class="btn badge-success">
+                            </div>
+                        </div>
+                    </form>
+{#					<form action="" method="POST">#}
+{##}
+{#						<div class="input-group u-rounded-50 border u-of-hidden u-mb-20">#}
+{#							<div class="input-group-addon bg-white border-0 pl-4 pr-0">#}
+{#								<span class="icon icon-User text-primary"></span>#}
+{#							</div>#}
+{#							<input class="form-control border-0 p-3" placeholder="Your fullname" type="text">#}
+{#						</div>#}
+{##}
+{#						<div class="input-group u-rounded-50 border u-of-hidden u-mb-20">#}
+{#							<div class="input-group-addon bg-white border-0 pl-4 pr-0">#}
+{#								<span class="icon icon-Mail text-primary"></span>#}
+{#							</div>#}
+{#							<input class="form-control border-0 p-3" placeholder="Your email" type="text">#}
+{#						</div>#}
+{##}
+{#						<div class="input-group u-rounded-50 border u-of-hidden u-mb-20">#}
+{#							<div class="input-group-addon bg-white border-0 pl-4 pr-0">#}
+{#								<span class="icon icon-ClosedLock  text-primary"></span>#}
+{#							</div>#}
+{#							<input class="form-control border-0 p-3" placeholder="Password" type="password">#}
+{#						</div>#}
+{#						<div class="text-left">#}
+{#							<label class="custom-control custom-checkbox text-left">#}
+{#								<input class="custom-control-input" type="checkbox">#}
+{#								<span class="custom-control-indicator mt-1"></span>#}
+{#								<span class="custom-control-description">I agree to the <a class="text-primary" href="terms-and-privacy-policy.html" target="_blank">terms</a> and conditions.</span>#}
+{#							</label>#}
+{#						</div>#}
+{##}
+{#							<button class="btn btn-primary btn-rounded u-mt-20 u-w-170">#}
+{#								Register Now#}
+{#							</button>#}
+{#					</form>#}
 
-        <div class="col-xs-4"></div>
+			 		</div> <!-- END p-4 p-md-5-->
+			 </div>  <!-- END card-->
+     </div> <!-- END col-lg-5-->
+    </div> <!-- END row-->
+  </div> <!-- END container-->
 
-    </div>
+</section>
