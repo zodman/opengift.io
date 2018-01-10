@@ -320,12 +320,12 @@
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         {% if user.get_profile.skype %}
                                         <li class="list-inline-item">
-                                            <a href="{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
+                                            <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
                                         </li>
                                         {% endif %}
                                         {% if user.get_profile.telegram %}
                                         <li class="list-inline-item">
-                                            <a href="{{ user.get_profile.telegram }}"><i class="fa fa-telegram"></i></a>
+                                            <a href="https://t.me/@{{ user.get_profile.telegram }}"><i class="fa fa-telegram"></i></a>
                                         </li>
                                         {% endif %}
                                         {% if user.get_profile.linkedin %}
