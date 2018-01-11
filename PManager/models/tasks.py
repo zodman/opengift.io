@@ -123,6 +123,9 @@ class PM_Project_Donation(models.Model):
     exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, blank=True)
 
+    def __str__(self):
+        return self.project + ' : ' + self.sum
+
     class Meta:
             app_label = 'PManager'
 
