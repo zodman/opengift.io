@@ -226,7 +226,7 @@ class BugsChart(Chart):
                 dateCreate__range=(datetime.datetime.combine(day, datetime.time.min),
                                    datetime.datetime.combine(day, datetime.time.max)),
                 task__project__in=self.projects,
-                bug__isnull=False
+                bug=True
             ).count()
             self.yAxes[u'Bugs'].values.append(messagesQty)
 
