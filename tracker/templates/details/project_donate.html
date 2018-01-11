@@ -17,7 +17,7 @@
 
                         <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
                             {% if milestone %}
-                                <input type="hidden" name="milestone" value="{{ milestone.id }}" />
+                                <input type="hidden" name="milestone" class="js-milestone" value="{{ milestone.id }}" />
                                 <h4>Milestone</h4>
                                 <p class="text-muted">
                                     <span><i class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <input type="button" value="Donate"
-                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val());"
+                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val(), $('.js-milestone').val());"
                                            class="js-donate btn btn-success"/>
                                 </div>
                             </div>
@@ -82,11 +82,17 @@
                 return false;
             };
 
-            var donate = function (project, qty, currency) {
+            var donate = function (project, qty, currency, milestone) {
                 var form = new Form('.js-donate-form');
                 if (form.validate()) {
                     $('.js-donate').attr('disabled', 'disabled');
-                    $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty, 'currency': currency}, function (data) {
+                    $.post('/blockchain/ajax/', {
+                        'action': 'donate',
+                        'project': project,
+                        'qty': qty,
+                        'currency': currency,
+                        'milestone': milestone
+                    }, function (data) {
                         getBalance();
                         ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
                         if (currency == 'btc') {

@@ -15,7 +15,13 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None):
             except User.DoesNotExist:
                 pass
 
-        donation = PM_Project_Donation(user=user, project=project, sum=sum, milestone=milestone, exchange=exchangeUser)
+        donation = PM_Project_Donation(
+            user=user,
+            project=project,
+            sum=sum,
+            milestone=milestone,
+            exchange=exchangeUser
+        )
         donation.save()
         return True
 
