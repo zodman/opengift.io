@@ -184,7 +184,7 @@
                                                 <div class="col-md-12">
                                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30"
                                                               name="milestone_{{ milestone.id }}_desc"
-                                                              placeholder="Milestone description"></textarea>
+                                                              placeholder="Milestone description">{{ milestone.description }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="row"><div class="col-12">
@@ -196,13 +196,13 @@
                                             <div class="col-md-7">
                                                 <input type="text" name="milestone_new_name"
                                                        class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value="{{ milestone.name }}"
+                                                       value=""
                                                        placeholder="Milestone title"/>
                                             </div>
                                             <div class="col-md-4">
                                                 <input type="text" name="milestone_new_date"
                                                        class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value="{{ milestone.date }}"
+                                                       value=""
                                                        placeholder="Milestone date DD.MM.YYYY"/>
                                             </div>
                                             <div class="col-md-1">
@@ -213,7 +213,7 @@
                                             <div class="col-md-12">
                                                 <textarea class="form-control u-rounded-15 p-3 u-mb-30"
                                                           name="milestone_new_desc"
-                                                          placeholder="Milestone description">{{ milestone.description }}</textarea>
+                                                          placeholder="Milestone description"></textarea>
                                             </div>
                                         </div>
                                     </div>
