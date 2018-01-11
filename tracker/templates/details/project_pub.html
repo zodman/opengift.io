@@ -479,7 +479,7 @@
                     </div> <!-- cd-timeline-img -->
 
                     <div class="cd-timeline-content" {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
-                        <h2>{{ milestone.name }} {% if milestone.donations.count %}<small>{{ milestone.donations.count }} donations</small>{% endif %}</h2>
+                        <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;<small>({{ milestone.donations.count }} donations)</small>{% endif %}</h2>
 
                         <p>{{ milestone.description|default_if_none:'' }}</p>
                         {#				<a href="#0" class="cd-read-more">Read more</a>#}
