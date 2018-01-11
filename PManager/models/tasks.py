@@ -124,7 +124,7 @@ class PM_Project_Donation(models.Model):
     date = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
-        return self.project + ' : ' + self.sum
+        return self.project.name + ' : ' + str(self.sum)
 
     class Meta:
             app_label = 'PManager'
