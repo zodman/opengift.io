@@ -9,7 +9,7 @@
                     <div class="col-lg-4 col-md-6 u-mb-30">
                         <div class="p-4 py-5 u-h-100p border rounded box-shadow-v2--onHover">
                             <div class="row ">
-                                <span class="col-md-6 {% if project.rating > 0 %}text-warning{% else %}text-muted{% endif %}">
+                                <span class="col-md-6 text-left {% if project.rating > 0 %}text-warning{% else %}text-muted{% endif %}">
                                     <b><i class="fa fa-star"></i>&nbsp;{{ project.rating|default_if_none:'0'|floatformat:"2" }}</b>
                                     {% if project.votersQty %}&nbsp; ({{ project.votersQty }}){% endif %}
                                 </span>
