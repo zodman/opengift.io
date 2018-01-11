@@ -210,7 +210,7 @@
                     </h2>
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
                     <p>
-                        {{ project.target_group|linebreaksbr }}
+                        {{ project.target_group|default_if_none:''|linebreaksbr }}
                     </p>
 
                 </div> <!-- END col-md-6 -->
@@ -220,7 +220,7 @@
                     </h2>
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
                     <p>
-                        {{ project.problem|linebreaksbr }}
+                        {{ project.problem|default_if_none:''|linebreaksbr }}
                     </p>
                 </div> <!-- END col-md-6 -->
 
