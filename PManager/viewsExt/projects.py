@@ -409,7 +409,6 @@ def projectDetailPublic(request, project_id):
     time /= 3600
     time = round(time)
 
-    raters_count = RatingHits.objects.filter(project=project).count()
     aIndustries = [p for p in project.industries.filter(active=True)]
 
     c = RequestContext(request, {
@@ -429,11 +428,9 @@ def projectDetailPublic(request, project_id):
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
         'long_industries_list': len(aIndustries) > 3,
-        'raters_count': raters_count,
+        'raters_count': project.votersQty,
         'user_voted': RatingHits.userVoted(project, request),
-        'rating': (RatingHits.objects.filter(
-                project=project
-            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (raters_count or 1)
+        'rating': project.rating
     })
 
     t = loader.get_template('details/project_pub.html')

@@ -8,7 +8,17 @@
                 {% for project in project_list %}
                     <div class="col-lg-4 col-md-6 u-mb-30">
                         <div class="p-4 py-5 u-h-100p border rounded box-shadow-v2--onHover">
+                            <div class="row ">
+                                <span class="col-md-6 {% if project.rating > 0 %}text-warning{% else %}text-muted{% endif %}">
+                                    <b><i class="fa fa-star"></i>&nbsp;{{ project.rating|default_if_none:'0'|floatformat:"2" }}</b>
+                                    {% if project.votersQty %}&nbsp; ({{ project.votersQty }}){% endif %}
+                                </span>
+                                <span class="col-md-6 text-right text-muted">
+                                    {{ project.dateCreate|date:"d.m.Y" }}
+                                </span>
+                            </div>
                             <h4 class="u-fs-26 u-pt-30 u-pb-20">
+
                                 <a href="/project/{{ project.id }}/public/">{{ project.name }}</a>
                             </h4>
 

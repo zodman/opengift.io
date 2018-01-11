@@ -164,6 +164,16 @@ class PM_Project(models.Model):
     def imagePath(self):
         return unicode(self.image).replace('PManager', '')
 
+    @property
+    def votersQty(self):
+        return RatingHits.objects.filter(project=self).count()
+
+    @property
+    def rating(self):
+        return (RatingHits.objects.filter(
+                project=self
+            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (self.votersQty or 1)
+
     def setSettings(self, settings):
         self.settings = json.dumps(settings)
 
