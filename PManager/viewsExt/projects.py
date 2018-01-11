@@ -71,7 +71,7 @@ def getIndustriesTree():
 
     return aSpecialties
 
-def projectList(request):
+def projectList(request, **kwargs):
     aSpec = getIndustriesTree()
 
     def recursiveTreeDraw(treeItem):
@@ -95,7 +95,7 @@ def projectList(request):
         'spectree': recursiveTreeDraw({'subitems': aSpec.values()}),
         'project_list': PM_Project.objects.filter(public=True).order_by('-id')
     })
-
+    c.update(kwargs)
     t = loader.get_template('details/project_list.html')
     return HttpResponse(t.render(c))
 
