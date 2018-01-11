@@ -8,6 +8,7 @@ class Public:
         c = RequestContext(request, {
             'projects_qty': PM_Project.objects.filter(public=True).count(),
             'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
+            'w': request.GET.get('w', '')
         })
 
         return HttpResponse(loader.get_template('public/index.html').render(c))

@@ -100,9 +100,19 @@ def projectList(request):
     return HttpResponse(t.render(c))
 
 def projectDetailDonate(request, project_id):
+
     project = get_object_or_404(PM_Project, id=project_id)
+    milestoneId = request.GET.get('m', None)
+    milestone = None
+    if milestoneId:
+        try:
+            milestone = project.milestones.get(pk=int(milestoneId))
+        except PM_Milestone.DoesNotExist:
+            pass
+
     c = RequestContext(request, {
-        'project': project
+        'project': project,
+        'milestone': milestone
     })
 
     t = loader.get_template('details/project_donate.html')

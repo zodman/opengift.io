@@ -487,13 +487,12 @@
 
 
                         <div class="like-buttons">
-                            <button data-id="{{ milestone.id }}"
-                                    {% if milestone.liked %}disabled {% endif %}
-                                    class="{% if milestone.liked %}active disabled {% endif %} btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
+                            <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
+                               class="btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
                                     style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> Do it!
-                            </button>
-                            <span class="btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;cursor:default;">
+                                Do it!
+                            </a>
+                            <span data-id="{{ milestone.id }}" class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like" style="margin: auto;cursor:default;">
                                 <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
                                                                        class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
                             </span>

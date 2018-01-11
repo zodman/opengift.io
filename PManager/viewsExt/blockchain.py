@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
-from PManager.models import PM_User, PM_Project
+from PManager.models import PM_User, PM_Project, PM_Milestone
 from PManager.viewsExt.crypto import bitcoin_set_request, get_rate
 from PManager.services.danations import donate
 from django.template import loader, RequestContext
@@ -89,15 +89,22 @@ def blockchainAjax(request):
         import json
         # profile = request.user.get_profile()
         project = request.POST.get('project')
+        milestone = request.POST.get('milestone', None)
         try:
             project = PM_Project.objects.get(blockchain_name=project)
         except PM_Project.DoesNotExist:
             return 'Fatal error: projects does not exist'
 
+        if milestone:
+            try:
+                milestone = PM_Milestone.objects.get(pk=int(milestone))
+            except PM_Milestone.DoesNotExist:
+                pass
+
         qty = request.POST.get('qty')
         currency = request.POST.get('currency', 'gift')
         if currency == 'gift':
-            result = donate(qty, project, request.user)
+            result = donate(qty, project, request.user, milestone)
         elif currency == 'btc':
             result = bitcoin_set_request(project.blockchain_name, qty)
             result = json.dumps(result)

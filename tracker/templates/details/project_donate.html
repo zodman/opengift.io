@@ -16,6 +16,19 @@
                         <h2 class="bg-primary m-0 py-3 text-white">Donation to "{{ project.name }}"</h2>
 
                         <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
+                            {% if milestone %}
+                                <input type="hidden" name="milestone" value="{{ milestone.id }}" />
+                                <h4>Milestone</h4>
+                                <p class="text-muted">
+                                    <span><i class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
+                                    &nbsp;&nbsp;{{ milestone.name }}
+                                </p>
+                                {% if milestone.description %}
+                                <p class="d-flex text-muted">
+                                {{ milestone.description }}
+                                </p>
+                                {% endif %}
+                            {% endif %}
                             <p>Your wallet: <span
                                     class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
                             </p>
