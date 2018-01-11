@@ -205,7 +205,7 @@ class TimeSpentChart(Chart):
             self.xAxe.append(day)
 
 class BugsChart(Chart):
-    title = u'Bugs'
+    title = u'Activity'
     type = 'chart'
     payQuery = ''
 
@@ -218,17 +218,16 @@ class BugsChart(Chart):
         self.xAxe = []
         r = lambda: random.randint(0, 255)
         self.yAxes = {
-            u'Bugs': Axis(u'Bugs', 'rgba(99,137,228,1)')
+            u'Activity': Axis(u'Activity', 'rgba(99,137,228,1)')
         }
 
         for day in self.dayGenerator:
             messagesQty = PM_Task_Message.objects.filter(
                 dateCreate__range=(datetime.datetime.combine(day, datetime.time.min),
                                    datetime.datetime.combine(day, datetime.time.max)),
-                task__project__in=self.projects,
-                bug=True
+                task__project__in=self.projects
             ).count()
-            self.yAxes[u'Bugs'].values.append(messagesQty)
+            self.yAxes[u'Activity'].values.append(messagesQty)
 
             self.xAxe.append(day)
 
