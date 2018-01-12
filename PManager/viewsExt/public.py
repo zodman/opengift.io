@@ -7,7 +7,7 @@ class Public:
     @staticmethod
     def mainPage(request):
         try:
-            project = PM_Project.objects.get(pk=365)
+            project = PM_Project.objects.get(pk=465)
         except PM_Project.DoesNotExist:
             project = PM_Project.objects.all()[0]
 
