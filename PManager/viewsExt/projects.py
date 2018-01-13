@@ -120,6 +120,8 @@ def projectDetailDonate(request, project_id):
 
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
+    if not request.user.is_authenticated or not request.user.get_profile().isManager(project):
+        return Http404
 
     if request.method == 'POST':
         p_form = ProjectFormEdit(
