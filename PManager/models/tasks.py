@@ -97,10 +97,25 @@ class PM_Tracker(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class PM_Project_Problem(models.Model):
+    problem = models.CharField(max_length=255, verbose_name=u'Problem')
+    target_group = models.CharField(max_length=1000, verbose_name=u'Target group')
+    solution = models.CharField(max_length=1000, verbose_name=u'Solution')
+    industry = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
+
+    def __unicode__(self):
+        return self.problem
+
+    def __str__(self):
+        return self.problem
+
+    class Meta:
+            app_label = 'PManager'
+
 class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Title')
     active = models.BooleanField(default=False, blank=True)
-    parent = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
+    parent = models.ForeignKey('PM_Project_Industry', related_name="categories", null=True, blank=True)
 
     def __unicode__(self):
         return self.name
@@ -157,6 +172,9 @@ class PM_Project(models.Model):
                                          verbose_name=u'Направления')
 
     industries = models.ManyToManyField(PM_Project_Industry, blank=True, null=True, related_name='projects',
+                                         verbose_name=u'Категории')
+
+    problems = models.ManyToManyField(PM_Project_Problem, blank=True, null=True, related_name='projects',
                                          verbose_name=u'Решаемые проблемы')
 
     @property

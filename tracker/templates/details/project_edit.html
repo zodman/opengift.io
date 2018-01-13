@@ -28,11 +28,15 @@
                         <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab"
                            aria-controls="v-pills-profile" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-MessageLeft color-primary mr-lg-3"></span>
-                            Problem/solve</a>
+                            Categories</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-problems" role="tab"
+                           aria-controls="v-pills-problems" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-MessageLeft color-primary mr-lg-3"></span>
+                            Problem/solution</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Tools color-primary mr-lg-3"></span>
-                            Integration</a>
+                            Links</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-roadmap" role="tab"
                            aria-controls="v-pills-roadmap" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-List color-primary mr-lg-3"></span>
@@ -40,7 +44,7 @@
                         <a class="nav-link" data-toggle="pill" href="#v-pills-cloud" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Cloud color-primary mr-lg-3"></span>
-                            Gift Cloud</a>
+                            Blockchain</a>
                     </div>
                 </div>
                 <div class="col-sm-9">
@@ -61,19 +65,11 @@
                                     <input type="text" name="name" value="{{ project.name }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
                                            required="">
-
                                     <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
                                               name="target_group"
-                                              placeholder="Target group" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.target_group|default_if_none:'' }}</textarea>
-                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
-                                              name="problem"
-                                              placeholder="What is the problem you solve" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.problem|default_if_none:'' }}</textarea>
-                                <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
-                                          name="description"
-                                          placeholder="Solution" required=""
-                                          style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description|default_if_none:'' }}</textarea>
+                                              placeholder="Short description" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description|default_if_none:'' }}</textarea>
+
 
                                     <div class="project-edit-form--files-list">
                                         <div class="clearfix">
@@ -136,6 +132,70 @@
 
                                 </div>
                             </div>
+                            <div class="tab-pane fade" id="v-pills-problems" role="tabpanel"
+                                 aria-labelledby="v-pills-problems-tab" aria-expanded="false">
+                                <div class="project-edit-form">
+                                    {% for problem in project.problems.all %}
+                                        <div class="milestone-row js-problem-row">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_{{ problem.id }}_target_group"
+                                                              placeholder="Target group">{{ problem.target_group }}</textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-problem-row').remove();return false;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_{{ problem.id }}_problem"
+                                                              placeholder="Problem">{{ problem.problem }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_{{ problem.id }}_solution"
+                                                              placeholder="Solution">{{ problem.solution }}</textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row"><div class="col-12">
+                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
+                                        </div>
+                                    {% endfor %}
+                                    <div class="milestone-row js-problem-new">
+                                            <div class="row">
+                                                <div class="col-md-11">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_new_target_group"
+                                                              placeholder="Target group"></textarea>
+                                                </div>
+                                                <div class="col-md-1">
+                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_new_problem"
+                                                              placeholder="Problem"></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                              name="problem_new_solution"
+                                                              placeholder="Solution"></textarea>
+                                                </div>
+                                            </div>
+                                        <div class="row"><div class="col-12">
+                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
+                                        </div>
+                                        <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('input, textarea').val('');return false;">Add solution</button>
+                                </div>
+                            </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
                                 <div class="project-edit-form">
@@ -177,7 +237,7 @@
                                                            placeholder="Milestone date"/>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <a href="#" class="fa fa-remove" onclick="$(this).closest('.js-milestone-row').remove();return false;"></a>
+                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-milestone-row').remove();return false;"></a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -206,7 +266,7 @@
                                                        placeholder="Milestone date DD.MM.YYYY"/>
                                             </div>
                                             <div class="col-md-1">
-                                                <a href="#" class="fa fa-remove" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
+                                                <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -320,7 +380,7 @@
             $('input, textarea, select').change(enableSubmit).keyup(enableSubmit);
             $('input:radio, input:checkbox').change(enableSubmit);
 
-            $('.js-file-remove').click(function () {
+            $('.js-file-remove, .js-remove').click(function () {
                 $(this).closest('.js-file-block').remove();
                 enableSubmit();
                 return false;

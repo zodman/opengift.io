@@ -5,7 +5,7 @@ from django.shortcuts import get_object_or_404, render
 from django.http import Http404
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags, PM_Timer
-from PManager.models import LikesHits, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
+from PManager.models import LikesHits, PM_Project_Problem, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, PM_Project_Industry
 from django import forms
 from django.utils import timezone
@@ -167,6 +167,39 @@ def projectDetailEdit(request, project_id):
                         author=request.user
                     )
                     ms.save()
+                i += 1
+
+            for m in project.problems.all():
+                name = request.POST.get('problem_'+str(m.id)+'_problem', None)
+                if name:
+                    m.problem = name
+                    m.target_group = request.POST.get('problem_'+str(m.id)+'_target_group', '')
+                    m.solution = request.POST.get('problem_'+str(m.id)+'_solution', '')
+                    m.save()
+                else:
+                    project.problems.remove(m)
+
+            new_problems = request.POST.getlist('problem_new_problem')
+            new_problems_target_group = request.POST.getlist('problem_new_target_group')
+            new_problems_solution = request.POST.getlist('problem_new_solution')
+            i = 0
+            for ms_name in new_problems:
+                if ms_name:
+                    try:
+                        ms = PM_Project_Problem.objects.get(
+                            problem=ms_name,
+                            target_group=new_problems_target_group[i],
+                        )
+                    except PM_Project_Problem.DoesNotExist:
+                        ms = PM_Project_Problem(
+                            problem=ms_name,
+                            target_group=new_problems_target_group[i],
+                            solution=new_problems_solution[i]
+                        )
+
+                    ms.save()
+                    project.problems.add(ms)
+
                 i += 1
 
 
