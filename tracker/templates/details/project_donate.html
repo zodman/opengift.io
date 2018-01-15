@@ -3,11 +3,6 @@
 {% block head %}
 {% endblock %}
 {% block content %}
-    {% if not request.user.get_profile.blockchain_wallet %}
-        <section class="text-center">
-            <h1>You haven't any wallet</h1>
-        </section>
-    {% else %}
         <section class="u-py-md-250 u-flex-center">
             <div class="container">
                 <div class="row align-items-center">
@@ -31,12 +26,13 @@
                                         </p>
                                     {% endif %}
                                 {% endif %}
+                                {% if request.user.get_profile.blockchain_wallet %}
                                 <p>Your wallet: <span
                                         class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
                                 </p>
 
                                 <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
-
+                                {% endif %}
 
                                 <div class="row align-items-center">
                                     <div class="col-lg-6 js-form-group">
@@ -49,7 +45,9 @@
                                     <div class="col-lg-3">
                                         <select class="js-currency">
                                             <option value="btc" selected>BTC</option>
+                                            {% if request.user.get_profile.blockchain_wallet %}
                                             <option value="gift">GIFT</option>
+                                            {% endif %}
                                         </select>
                                     </div>
                                     <div class="col-lg-3">
@@ -64,6 +62,7 @@
                 </div> <!-- END row-->
             </div> <!-- END container-->
             <script>
+                {% if request.user.get_profile.blockchain_wallet %}
                 $(function () {
                     getKey(function () {
                         getBalance();
@@ -84,6 +83,8 @@
                     });
                     return false;
                 };
+                {% endif %}
+
 
                 var donate = function (project, qty, currency, milestone) {
                     var form = new Form('.js-donate-form');
@@ -96,7 +97,9 @@
                             'currency': currency,
                             'milestone': milestone
                         }, function (data) {
+                            {% if request.user.get_profile.blockchain_wallet %}
                             getBalance();
+                            {% endif %}
                             ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
                             if (currency == 'btc') {
                                 data = $.parseJSON(data);
