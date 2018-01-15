@@ -160,7 +160,7 @@
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active">
-                            <a class="nav-link" href="/ico/">ICO</a>
+                            <a class="nav-link active" href="/ico/">ICO</a>
                         </li>
                         <li class="nav-item active">
                             <a class="nav-link" href="/faq/">FAQ</a>
@@ -201,7 +201,7 @@
             <div class="row">
                 <div class="col-12 u-mt-80 text-center">
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        OPENGIFT.IO
+                        OPENGIFT Token Sale
                     </h1>
 
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
@@ -213,64 +213,20 @@
                         <a target="_blank" href="mailto:info@opengift.io" class="icon fa fa-envelope"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://medium.com/@opengift" class="icon fa fa-medium"></a>
                     </p>
-                    <h2 class="u-mb-40 text-white">Release: 29.01.2018</h2>
-                    <a href="/project/add/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
-                        ADD YOUR PROJECT
-                    </a>
-                    {% if w %}
+                    <h2 class="text-white ">GIFT Token PreSale starts in 29.01.2018</h2>
+                    <div class="progress-item mb-5" style="position: relative;">
+                        <div class="u-fs-32 text-primary" style="position:absolute;left:10%;font-weight:bold;top:26px;">|</div>
+                        <h4 class="float-right text-primary">0 out of 5 000 000 GIFT</h4>
+                        <div class="progress w-100">
+                            <div class="progress-bar" aria-valuenow="0" style="width: 0%;"></div>
+                        </div>
+                    </div>
+
                     <a href="/login/?backurl=/profile/edit/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
                         REGISTER TO WHITELIST
                     </a>
-                    {% endif %}
-                    <p><small><a href="https://www.youtube.com/watch?v=Bme1lTX6gQ4" target="_blank">Step-by-step video demonstration</a></small></p>
+                    <p><small><a href="https://www.youtube.com/watch?v=Bme1lTX6gQ4" target="_blank">Proof of MVP</a></small></p>
                 </div> <!-- END col-lg-6-->
-            </div> <!-- END row-->
-
-            <div class="row mt-md-3">
-                <div class="col-md-6 col-lg-3 mt-5">
-                    <div class="text-center border p-4 rounded text-white">
-                        <h2 class="text-white u-fs-48">
-                            {{ projects_qty|default_if_none:"0"|floatformat }}
-                        </h2>
-
-                        <p>
-                            Projects
-                        </p>
-                    </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
-                <div class="col-md-6 col-lg-3 mt-5">
-                    <div class="text-center border p-4 rounded text-white">
-                        <h2 class="text-white u-fs-48">
-                            {{ developers_qty|default_if_none:"0"|floatformat }}
-                        </h2>
-
-                        <p>
-                            Developers
-                        </p>
-                    </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
-                <div class="col-md-6 col-lg-3 mt-5">
-                    <div class="text-center border p-4 rounded text-white">
-                        <h2 class="text-white u-fs-48">
-                            5
-                        </h2>
-
-                        <p>
-                            Investors
-                        </p>
-                    </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
-                <div class="col-md-6 col-lg-3 mt-5">
-                    <div class="text-center border p-4 rounded text-white">
-                        <h2 class="text-white u-fs-48">
-                            {{ donations_qty }}
-                        </h2>
-
-                        <p>
-                            Donations
-                        </p>
-                    </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
@@ -297,221 +253,119 @@
         </svg>
 
     </section>
-    <section class="u-py-100 relative bg-purple-opacity text-white hidden-md-down" id="demo">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h3 align="center" class="text-white u-fs-48">
-                        OpenGift helps
-                        <br/><span class="text-white" data-type-speed="30" data-back-speed="100"
-                                   data-type="PHP, JAVA, Python, HTML, JavaScript, C++, WEB, MOBILE"></span><span
-                            class="typed-curcor text-white">|</span><span class="text-white">-developers</span>
-                        like you<br/>to make an extra $ for their code
-                    </h3>
-
-                    <div class="u-h-4 u-w-50 bg-white rounded mt-4 u-mb-40 mx-auto"></div>
-                    <p>
-                        Have a project that makes the world a better place? Join OpenGift and start earning.
-                    </p>
-                </div>
-            </div> <!-- END row-->
-        </div> <!-- END container-->
-    </section>
-    <section class="bg-gray-v2 u-pb-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 u-mb-70">
-                    <h2 class="h1 text-primary text-center">
-                        Whom for?
-                    </h2>
-                </div>
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Notebook text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Developers
-                            </h4>
-
-                            <p>
-                                Donation buttons simply don’t work unless developers turn into marketers. OpenGift gives
-                                you a tool to attract substantial funding without being distracted from coding.
-                                <a href="/faq/" class="js-anchor">Have a look at what makes OpenGift different</a>
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-User text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                OpenSource software users
-                            </h4>
-
-                            <p>
-                                You use OSS and need a new feature or a bug fix? Now you can set priorities for
-                                projects' workflow and get updates within foreseeable deadlines.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Wallet text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Patrons
-                            </h4>
-
-                            <p>
-                                What if you could ask Google to find a solution for a tech problem you care about? With
-                                OpenGift you can. Navigate through OSS projects easily and see how they solve issues you
-                                are interested in; see their previous work to make sure they are serious about it.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Users text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Enterprises
-                            </h4>
-
-                            <p>
-                                Want to cut software development costs? Get rid of the middlemen, work directly with
-                                development teams.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Investors
-                            </h4>
-
-                            <p>
-                                You spend too much time searching for potential unicorns? Find promising projects by
-                                problems they solve, assess their chances by looking at hard data, and secure a share of
-                                their future profits in just a few clicks.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Speedometter text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Marketers
-                            </h4>
-
-                            <p>
-                                Wish your brand was associated with a project everyone likes? Check out sponsorship
-                                opportunities.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-            </div> <!--END row-->
-        </div> <!-- END container-->
-    </section>
-    <section class="u-py-100 relative with-waves" id="howitworks">
+    <section class="u-py-100 relative with-waves bg-blue-opacity-0_4" id="howitworks">
         <div class="container u-pt-50">
-            {% compressed_js 'howitworks' %}
-            <script>
-                $(function () {
-                    var bInited = false;
-                    var waypoint = new Waypoint({
-                        element: document.getElementById('howitworks'),
-                        offset: '35%',
-                        handler: function (direction) {
-                            if (!bInited) {
-                                bInited = true;
-                                initAnimation();
-                            }
-                        }
-                    })
-                })
-            </script>
-            <h2 class="h1 u-mt-50 text-center">How does it work?</h2>
 
-            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto"></div>
+            <h2 class="h1 u-mt-50 text-center text-white">Платформа готова и запущена.</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
             <div class="row u-py-50">
-                <div class="col-md-7 u-py-100 hidden-md-down">
-                    <div id="animation_container"
-                         style="background-color:rgba(255, 255, 255, 1.00); width:283px; height:602px">
-                        <canvas id="canvas" width="283" height="602"
-                                style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
-                        <div id="dom_overlay_container"
-                             style="pointer-events:none; overflow:hidden; width:283px; height:602px; position: absolute; left: 0px; top: 0px; display: block;">
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-5">
-                    <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                        <img class="u-w-100" src="/static/public/assets/img/svg/magnifying-glass.svg" alt="">
-                        <h4 class="u-fs-26 u-my-35">
-                            Finding a project made easy
-                        </h4>
-
-                        <p class="mb-0">
-                            Companies and users can find the software their need in just a few clicks.
-                        </p>
-                    </div>
+                <div class="col-md-4">
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-100" src="/static/public/assets/img/svg/dollar-bag.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
-                            Special-purpose financing
+                            Все GIFT выпущены
                         </h4>
 
                         <p class="mb-0">
-                            Backers support the development of new specific features they are interested in.
+                            Выпущено <strong>160 000 000 GIFT</strong>, дополнительного выпуска в системе не предусмотрено.
                         </p>
                     </div>
+                </div>
+                <div class="col-md-4">
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                        <img class="u-w-100" src="/static/public/assets/img/svg/pie-chart.svg" alt="">
+                        <img class="u-w-100" src="/static/public/assets/img/svg/magnifying-glass.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
-                            Frictionless income distribution
+                            Реализован обменник
                         </h4>
 
                         <p class="mb-0">
-                            Each team member receives a share of project earnings exchange their GIFT.
+                            Реализован обменник BTC и фиатной валюты на GIFT для донейтов проектам.
                         </p>
                     </div>
+                </div>
+                <div class="col-md-4">
                     <div class="bg-white px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-100" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
-                            Guaranteed liquidity
+                            Гарантирована ликвидность
                         </h4>
 
                         <p class="mb-0">
-                            Users can exchange their GIFTs for other currencies with a 0% comission on the Platform's
-                            exchange.
+                            Донейты проектам наращивают фонды обменников, которые затем выкупают GIFT у пользователей сети.
                         </p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <section class="with-waves" style="padding-bottom: 0 !important; padding-top: 50px !important;">
+        <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
+             style="position: absolute;"><title>Wave</title>
+            <defs></defs>
+            <path id="feel-the-wave-four" d=""/>
+        </svg>
+        <div class="container">
+            <h2 class="h1 u-mt-50 text-center text-primary">Live data feed</h2>
 
+            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto"></div>
+            <div class="row text-center">
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #a456fd; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ projects_qty|default_if_none:"0"|floatformat }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Projects on platform
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ff7298; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            276453445
+                        </h4>
+
+                        <p class="u-fs-20">
+                            GIFTS Transferred
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ffb976; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ donations_qty }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Donates recieved
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"
+                         style="background: #5eabff; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ tasksQty }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Issues closed
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
     <section class="u-py-100 relative quadro-relative hidden-md-down" style="
 	background: #38c1d1;
 	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
@@ -695,8 +549,7 @@
                             </p>
 
                             <p class="my-4">
-                                Hands-on Team Leader and OSSC evangelist. 10 years development experience in complex
-                                software projects.
+                                "Get sh*t done" Master. +10 years in software development; +5 years in running software business.
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
@@ -727,7 +580,7 @@
                             </p>
 
                             <p class="my-4">
-                                Experienced Biz Dev and Communications Manager. 9+ years in Finance and Technology
+                                A guy, who occasionally finds a right word. Ex corpcomm at Visa.
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
@@ -758,7 +611,7 @@
                             </p>
 
                             <p class="my-4">
-                                Market Analyst & Strategist with strong experience in crypto.
+                                Our home crypto wikipedia. Unstoppable at stealing cool ideas.
                             </p>
 
                             <ul class="list-inline social social-rounded social-default social-sm">
@@ -795,7 +648,7 @@
                             </p>
 
                             <p class="my-4">
-                                Quality Assurance engineer, guru of Information Security
+                                "F*ck your agile!" QA Machine
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
@@ -827,11 +680,11 @@
                             </h4>
 
                             <p class="text-muted mb-0">
-                                Scientific Expert
+                                Scientific Expert &amp; Data Analyst
                             </p>
 
                             <p class="my-4">
-                                Experienced researcher, PhD, technology &amp; science analyst.
+                                Lovely girl on-page as design solution.
                             </p>
                             <ul class="list-inline social social-rounded social-default social-sm">
                                 <li class="list-inline-item">
@@ -862,7 +715,7 @@
                             </p>
 
                             <p class="my-4">
-                                9 years development of extra stable government software.
+                                The most powerful software developer in the world (258 lbs of muscules)
                             </p>
 
                             <ul class="list-inline social social-rounded social-default social-sm">
@@ -899,7 +752,7 @@
                             </p>
 
                             <p class="my-4">
-                                Genius of design.
+                                OpenGift's right hemisphere.
                             </p>
 {#                            <ul class="list-inline social social-rounded social-default social-sm">#}
 {#                                <li class="list-inline-item">#}
@@ -930,7 +783,7 @@
                             </p>
 
                             <p class="my-4">
-                                Master of Economics, Experienced Linguist
+                                Empathy 80 lvl
                             </p>
                         </div>
                     </div> <!-- END row-->

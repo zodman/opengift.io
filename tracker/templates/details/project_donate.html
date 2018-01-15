@@ -8,105 +8,108 @@
             <h1>You haven't any wallet</h1>
         </section>
     {% else %}
-    <section class="u-py-md-250 u-flex-center">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-8 mx-auto">
-                    <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
-                        <h2 class="bg-primary m-0 py-3 text-white">Donation to "{{ project.name }}"</h2>
+        <section class="u-py-md-250 u-flex-center">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-8 mx-auto">
+                        <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
+                            <h2 class="bg-primary m-0 py-3 text-white">Donation to "{{ project.name }}"</h2>
 
-                        <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
-                            {% if milestone %}
-                                <input type="hidden" name="milestone" class="js-milestone" value="{{ milestone.id }}" />
-                                <h4>Milestone</h4>
-                                <p class="text-muted">
-                                    <span><i class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
-                                    &nbsp;&nbsp;{{ milestone.name }}
-                                </p>
-                                {% if milestone.description %}
-                                <p class="d-flex text-muted">
-                                {{ milestone.description }}
-                                </p>
+                            <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
+                                {% if milestone %}
+                                    <input type="hidden" name="milestone" class="js-milestone"
+                                           value="{{ milestone.id }}"/>
+                                    <h4>Milestone</h4>
+                                    <p class="text-muted">
+                                        <span><i
+                                                class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
+                                        &nbsp;&nbsp;{{ milestone.name }}
+                                    </p>
+                                    {% if milestone.description %}
+                                        <p class="d-flex text-muted">
+                                            {{ milestone.description }}
+                                        </p>
+                                    {% endif %}
                                 {% endif %}
-                            {% endif %}
-                            <p>Your wallet: <span
-                                    class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
-                            </p>
+                                <p>Your wallet: <span
+                                        class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
+                                </p>
 
-                            <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
+                                <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
 
 
-                            <div class="row align-items-center">
-                                <div class="col-lg-6 js-form-group">
-                                    <input type="text" name="" data-number-from="0.00001" class="js-required js-target-project-sum" value=""
-                                           placeholder="Sum"/>
-                                    <input type="hidden" name="" class="js-required js-target-project"
-                                           value="{{ project.blockchain_name }}" />
+                                <div class="row align-items-center">
+                                    <div class="col-lg-6 js-form-group">
+                                        <input type="text" name="" data-number-from="0.00001"
+                                               class="js-required js-target-project-sum" value=""
+                                               placeholder="Sum"/>
+                                        <input type="hidden" name="" class="js-required js-target-project"
+                                               value="{{ project.blockchain_name }}"/>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <select class="js-currency">
+                                            <option value="btc" selected>BTC</option>
+                                            <option value="gift">GIFT</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-lg-3">
+                                        <input type="button" value="Donate"
+                                               onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val(), $('.js-milestone').val());"
+                                               class="js-donate btn btn-success"/>
+                                    </div>
                                 </div>
-                                <div class="col-lg-3">
-                                    <select class="js-currency">
-                                        <option value="gift">GIFT</option>
-                                        <option value="btc">BTC</option>
-                                    </select>
-                                </div>
-                                <div class="col-lg-3">
-                                    <input type="button" value="Donate"
-                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val(), $('.js-milestone').val());"
-                                           class="js-donate btn btn-success"/>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div> <!-- END col-lg-5-->
-            </div> <!-- END row-->
-        </div> <!-- END container-->
-        <script>
-            $(function () {
-                getKey(function () {
-                    getBalance();
-                });
-            });
-            var getKey = function (callback) {
-                $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
-                    $('.js-wallet-code').html(data);
-                    callback();
-                });
-                return false;
-            };
-            var getBalance = function () {
-                $.post('/blockchain/ajax/', {'action': 'getBalance'}, function (data) {
-                    data = $.parseJSON(data);
-                    $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
-
-                });
-                return false;
-            };
-
-            var donate = function (project, qty, currency, milestone) {
-                var form = new Form('.js-donate-form');
-                if (form.validate()) {
-                    $('.js-donate').attr('disabled', 'disabled');
-                    $.post('/blockchain/ajax/', {
-                        'action': 'donate',
-                        'project': project,
-                        'qty': qty,
-                        'currency': currency,
-                        'milestone': milestone
-                    }, function (data) {
+                            </form>
+                        </div>
+                    </div> <!-- END col-lg-5-->
+                </div> <!-- END row-->
+            </div> <!-- END container-->
+            <script>
+                $(function () {
+                    getKey(function () {
                         getBalance();
-                        ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
-                        if (currency == 'btc') {
-                            data = $.parseJSON(data);
-                            $('.js-donate-form').replaceWith(
-                                    '<br /><p>Please, pay '+qty+' BTC for this account in next 24 hours.</p>' +
-                                    '<h3><a href="'+data.URI+'">'+data.address+'</a></h3><br />'
-                            )
-                        }
                     });
-                    $('.js-target-project, .js-target-project-sum').val('');
+                });
+                var getKey = function (callback) {
+                    $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
+                        $('.js-wallet-code').html(data);
+                        callback();
+                    });
+                    return false;
+                };
+                var getBalance = function () {
+                    $.post('/blockchain/ajax/', {'action': 'getBalance'}, function (data) {
+                        data = $.parseJSON(data);
+                        $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
+
+                    });
+                    return false;
+                };
+
+                var donate = function (project, qty, currency, milestone) {
+                    var form = new Form('.js-donate-form');
+                    if (form.validate()) {
+                        $('.js-donate').attr('disabled', 'disabled');
+                        $.post('/blockchain/ajax/', {
+                            'action': 'donate',
+                            'project': project,
+                            'qty': qty,
+                            'currency': currency,
+                            'milestone': milestone
+                        }, function (data) {
+                            getBalance();
+                            ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
+                            if (currency == 'btc') {
+                                data = $.parseJSON(data);
+                                $('.js-donate-form').replaceWith(
+                                        '<br /><p>Please, pay ' + qty + ' BTC for this account in next 24 hours.</p>' +
+                                        '<h3><a href="' + data.URI + '">' + data.address + '</a></h3><br />'
+                                )
+                            }
+                        });
+                        $('.js-target-project, .js-target-project-sum').val('');
+                    }
                 }
-            }
-        </script>
-    </section>
+            </script>
+        </section>
     {% endif %}
 {% endblock %}
