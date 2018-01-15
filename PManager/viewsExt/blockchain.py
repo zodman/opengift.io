@@ -103,7 +103,7 @@ def blockchainAjax(request):
 
         qty = request.POST.get('qty')
         currency = request.POST.get('currency', 'gift')
-        uid = request.user.id if request.user.is_authenticated else '-1'
+        uid = request.user.id if request.user.is_authenticated() else '-1'
         if currency == 'gift':
             result = donate(qty, project, request.user, milestone)
         elif currency == 'btc':
