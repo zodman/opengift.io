@@ -366,150 +366,35 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section>
-    <section class="u-py-100 relative quadro-relative hidden-md-down" style="
-	background: #38c1d1;
-	background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-	background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-	background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
-	background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
-	background-repeat: repeat-x;
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
- ">
-        <div class="quadro"></div>
+    <section class="bg-gray-v1">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-lg-12 mx-auto mt-5 text-white relative">
-                    <h2 class="u-mb-40 text-white">Looking for a next Big Thing in your industry? Just click on the map
-                        to browse projects</h2>
-
-                    <p><img src="/static/public/assets/img/map.png"></p>
-                    <ul class="list-of-industries">
-                        <li class="list-of-industries-1"><span><a href="/project/list/">VR/AR</a></span></li>
-                        <li class="list-of-industries-2"><span><a href="/project/list/">Games</a></span></li>
-                        <li class="list-of-industries-3"><span><a href="/project/list/">Machine Learning</a></span></li>
-                        <li class="list-of-industries-4"><span><a href="/project/list/">Informational
-                            Security</a></span></li>
-                        <li class="list-of-industries-5"><span><a href="/project/list/">FinTech</a></span></li>
-                        <li class="list-of-industries-6"><span><a href="/project/list/">Blockchain</a></span></li>
-                        <li class="list-of-industries-7"><span><a href="/project/list/">Emotion Recognition</a></span>
-                        </li>
-                        <li class="list-of-industries-8"><span><a href="/project/list/">Programmatic
-                            Languages</a></span></li>
-                    </ul>
-                    <h2 class="display-4 u-fw-600 text-white u-mb-40">
-                        Push <span class="text-purple" data-type-speed="120" data-back-speed="50"
-                                   data-type="Technology, Science, The World!"></span>
-                        <span class="typed-curcor text-purple">|</span>
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        PreSale Placeholder Process
                     </h2>
-                    <a href="/project/list/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
-                        Become a Sponsor
-                    </a>
-                </div> <!-- END col-md-6 mt-5-->
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+
+                </div> <!-- END col-12-->
             </div> <!-- END row-->
-        </div> <!-- END container-->
+        </div>
     </section>
     <section class="bg-gray-v1">
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
                     <h2 class="h1">
-                        Opengift Roadmap
+                        OpenGift Roadmap
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
         </div>
-
-        <section id="cd-timeline" class="cd-container">
-            <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
-            <script>
-                (function ($) {
-                    $(function () {
-                        $('.second.circle').each(function () {
-                            var t = this;
-                            (function(t){
-                                new Waypoint({
-                                  element: t,
-                                  offset: '95%',
-                                  handler: function(direction) {
-                                      if (!$(t).data('completed')) {
-                                          $(t).data('completed', true);
-                                          $(t).circleProgress({
-                                                fill: {
-                                                    gradient: ['#fd5663', '#f08035']
-                                                },
-                                                lineCap: 'round',
-                                                emptyFill: '#d7e4ed',
-                                                value: parseInt($(t).data('value')) / 100
-                                            }).on('circle-animation-progress', function (event, progress) {
-                                                $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
-                                            });
-                                      }
-                                  }
-                                });
-                            })(t);
-                        });
-                    });
-                })(jQuery);
-            </script>
-            {% for milestone in milestones %}
-                <div class="cd-timeline-block">
-                    <div class="cd-timeline-img">
-                        <div class="second circle" data-size="68"
-                             data-value="{{ milestone.percent|default_if_none:0 }}">
-                            <strong></strong>
-                        </div>
-                    </div> <!-- cd-timeline-img -->
-
-                    <div class="cd-timeline-content" {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
-                        <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;<small>({{ milestone.donations.count }} donations)</small>{% endif %}</h2>
-
-                        <p>{{ milestone.description|default_if_none:'' }}</p>
-                        {#				<a href="#0" class="cd-read-more">Read more</a>#}
-                        <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
-
-
-                        <div class="like-buttons">
-                            <a href="/project/{{ milestone.project.id }}/donate/?m={{ milestone.id }}"
-                               class="btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
-                                    style="margin: auto;">
-                                Do it!
-                            </a>
-                            <span data-id="{{ milestone.id }}" class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like" style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
-                                                                       class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
-                            </span>
-                        </div>
-                    </div> <!-- cd-timeline-content -->
-                </div> <!-- cd-timeline-block -->
-            {% endfor %}
-        </section>
     </section>
-    <script>
-        $(function () {
-            var liked = {}, $mstcnt;
-            $('.js-milestone-like').click(function () {
-                if (!liked[$(this).data('id')]) {
-                    liked[$(this).data('id')] = true;
-                    $(this).addClass('active disabled').attr('disabled', 'disabled');
-                    $mstcnt = $('.js-milestone-likes-count[data-id=' + $(this).data('id') + ']');
-                    $mstcnt.text(parseInt($mstcnt.text()) + 1);
-                    $.post(
-                            '/project/365/ajax/',
-                            {
-                                'action': 'like',
-                                'mid': $(this).data('id')
-                            },
-                            function (data) {
 
-                            },
-                            'json'
-                    );
-                }
-            });
-        })
-    </script>
     <section class="bg-gray-v2">
         <div class="container">
             <div class="row">
