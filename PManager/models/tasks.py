@@ -99,8 +99,8 @@ class PM_Tracker(models.Model):
 
 class PM_Project_Problem(models.Model):
     problem = models.CharField(max_length=255, verbose_name=u'Problem')
-    target_group = models.CharField(max_length=1000, verbose_name=u'Target group')
-    solution = models.CharField(max_length=1000, verbose_name=u'Solution')
+    target_group = models.CharField(max_length=1500, verbose_name=u'Target group')
+    solution = models.CharField(max_length=1500, verbose_name=u'Solution')
     industry = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
 
     def __unicode__(self):

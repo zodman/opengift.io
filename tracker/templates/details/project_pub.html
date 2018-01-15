@@ -17,7 +17,7 @@
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
  ">
-         <div class="container">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-{% if project.files.count %}6{% else %}12 text-center{% endif %} u-mt-80">
                     <div class="project-rate clearfix">
@@ -87,7 +87,9 @@
                         </div>
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;<a style="font-size: 30%;" href="/project/{{ project.id }}/edit/" class="fa fa-edit text-small text-white"></a>{% endif %}
+                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;
+                            <a style="font-size: 30%;" href="/project/{{ project.id }}/edit/"
+                               class="fa fa-edit text-small text-white"></a>{% endif %}
                         {% if not long_industries_list %}
                             {% for tag in tagList %}
                                 <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tag.name }}</sup>
@@ -104,31 +106,32 @@
                         {{ project.description }}
                     </p>
                     {% if project.link_demo %}
-                    <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
-                        View Demo
-                    </a>
+                        <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
+                            View Demo
+                        </a>
                     {% endif %}
                     {% if project.blockchain_name %}
-                    <a href="/project/{{ project.id }}/donate/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
-                        Become a Sponsor
-                    </a>
+                        <a href="/project/{{ project.id }}/donate/"
+                           class="btn btn btn-rounded btn-primary ml-3 px-md-5">
+                            Become a Sponsor
+                        </a>
                     {% endif %}
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count %}
-                <div class="col-lg-6 u-mt-80">
+                    <div class="col-lg-6 u-mt-80">
 
-                    <ul class="p-0" data-init="carousel"
-                        data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
-                        {% for file in project.files.all %}
-                            {% if file.isPicture %}
-                                <li>
-                                    <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
+                        <ul class="p-0" data-init="carousel"
+                            data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
+                            {% for file in project.files.all %}
+                                {% if file.isPicture %}
+                                    <li>
+                                        <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
 
-                </div> <!-- END col-lg-6-->
+                    </div> <!-- END col-lg-6-->
                 {% endif %}
             </div> <!-- END row-->
         </div> <!-- END container-->
@@ -202,30 +205,53 @@
         </div> <!-- END container-->
     </section>
     <section>
-      <div class="container">
-       <div class="row">
-                <div class="col-md-6 mb-4">
-                    <h2 class="mb-4">
-                        Target groups
-                    </h2>
-                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
-                    <p>
-                        {{ project.target_group|default_if_none:''|linebreaksbr }}
-                    </p>
+        <div class="container">
+            <h2 class="h1 mb-4 text-primary text-center">
+                Problem/solve
+            </h2>
 
-                </div> <!-- END col-md-6 -->
-                <div class="col-md-6 mb-4">
+            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+            <div class="row text-center">
+                <div class="col-md-4 mb-4">
                     <h2 class="mb-4">
-                        Solutions
+                        Target group
                     </h2>
-                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40"></div>
-                    <p>
-                        {{ project.problem|default_if_none:''|linebreaksbr }}
-                    </p>
-                </div> <!-- END col-md-6 -->
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h2 class="mb-4">
+                        Problem
+                    </h2>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <h2 class="mb-4">
+                        Solution
+                    </h2>
+                </div>
+            </div>
+            {% for problem in project.problems.all %}
+                <div class="row text-center">
+                    <div class="col-md-4 mb-4">
+                        <p>
+                            {{ problem.target_group|default_if_none:''|linebreaksbr }}
+                        </p>
 
-       </div> <!-- END row-->
-      </div> <!-- END container-->
+                    </div> <!-- END col-md-6 -->
+                    <div class="col-md-4 mb-4">
+                        <p>
+                            {{ problem.problem|default_if_none:''|linebreaksbr }}
+                        </p>
+                    </div> <!-- END col-md-6 -->
+                    <div class="col-md-4 mb-4">
+                        <p>
+                            {{ problem.solution|default_if_none:''|linebreaksbr }}
+                        </p>
+                    </div> <!-- END col-md-6 -->
+
+                </div> <!-- END row-->
+                {% if not forloop.last %}
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>{% endif %}
+            {% endfor %}
+        </div> <!-- END container-->
     </section>
     <section class="u-py-100" style="padding-bottom: 0 !important;">
         <section class="u-py-100 bg-gray-v1">
@@ -319,19 +345,20 @@
                                     </p>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         {% if user.get_profile.skype %}
-                                        <li class="list-inline-item">
-                                            <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
-                                        </li>
+                                            <li class="list-inline-item">
+                                                <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
+                                            </li>
                                         {% endif %}
                                         {% if user.get_profile.telegram %}
-                                        <li class="list-inline-item">
-                                            <a href="https://t.me/@{{ user.get_profile.telegram }}"><i class="fa fa-telegram"></i></a>
-                                        </li>
+                                            <li class="list-inline-item">
+                                                <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
+                                                        class="fa fa-telegram"></i></a>
+                                            </li>
                                         {% endif %}
                                         {% if user.get_profile.linkedin %}
-                                        <li class="list-inline-item">
-                                            <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
-                                        </li>
+                                            <li class="list-inline-item">
+                                                <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
+                                            </li>
                                         {% endif %}
                                     </ul>
                                 </div>
@@ -392,7 +419,7 @@
                             },
                             scales: {
                                 xAxes: [{
-                                    display:false,
+                                    display: false,
                                     barPercentage: 0.6,
                                     categoryPercentage: 0.7,
                                     ticks: {
@@ -407,7 +434,7 @@
                                     }
                                 }],
                                 yAxes: [{
-                                    display:false,
+                                    display: false,
                                     ticks: {
                                         beginAtZero: true,
                                         display: false
@@ -437,73 +464,77 @@
             </div> <!-- END row-->
         </div>
         {% if milestones %}
-        <section id="cd-timeline" class="cd-container">
-            <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
-            <script>
-                (function ($) {
-                    $(function () {
-                        $('.second.circle').each(function () {
-                            var t = this;
-                            (function(t){
-                                new Waypoint({
-                                  element: t,
-                                  offset: '95%',
-                                  handler: function(direction) {
-                                      if (!$(t).data('completed')) {
-                                          $(t).data('completed', true);
-                                          $(t).circleProgress({
-                                                fill: {
-                                                    gradient: ['#fd5663', '#f08035']
-                                                },
-                                                lineCap: 'round',
-                                                emptyFill: '#d7e4ed',
-                                                value: parseInt($(t).data('value')) / 100
-                                            }).on('circle-animation-progress', function (event, progress) {
-                                                $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
-                                            });
-                                      }
-                                  }
-                                });
-                            })(t);
+            <section id="cd-timeline" class="cd-container">
+                <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+                <script>
+                    (function ($) {
+                        $(function () {
+                            $('.second.circle').each(function () {
+                                var t = this;
+                                (function (t) {
+                                    new Waypoint({
+                                        element: t,
+                                        offset: '95%',
+                                        handler: function (direction) {
+                                            if (!$(t).data('completed')) {
+                                                $(t).data('completed', true);
+                                                $(t).circleProgress({
+                                                    fill: {
+                                                        gradient: ['#fd5663', '#f08035']
+                                                    },
+                                                    lineCap: 'round',
+                                                    emptyFill: '#d7e4ed',
+                                                    value: parseInt($(t).data('value')) / 100
+                                                }).on('circle-animation-progress', function (event, progress) {
+                                                    $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
+                                                });
+                                            }
+                                        }
+                                    });
+                                })(t);
+                            });
                         });
-                    });
-                })(jQuery);
-            </script>
-            {% for milestone in milestones %}
-                <div class="cd-timeline-block">
-                    <div class="cd-timeline-img">
-                        <div class="second circle" data-size="68"
-                             data-value="{{ milestone.percent|default_if_none:0 }}">
-                            <strong></strong>
-                        </div>
-                    </div> <!-- cd-timeline-img -->
+                    })(jQuery);
+                </script>
+                {% for milestone in milestones %}
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img">
+                            <div class="second circle" data-size="68"
+                                 data-value="{{ milestone.percent|default_if_none:0 }}">
+                                <strong></strong>
+                            </div>
+                        </div> <!-- cd-timeline-img -->
 
-                    <div class="cd-timeline-content" {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
-                        <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;<small>({{ milestone.donations.count }} donations)</small>{% endif %}</h2>
+                        <div class="cd-timeline-content"
+                             {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
+                            <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;
+                                <small>({{ milestone.donations.count }} donations)</small>{% endif %}</h2>
 
-                        <p>{{ milestone.description|default_if_none:'' }}</p>
-                        {#				<a href="#0" class="cd-read-more">Read more</a>#}
-                        <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
+                            <p>{{ milestone.description|default_if_none:'' }}</p>
+                            {#				<a href="#0" class="cd-read-more">Read more</a>#}
+                            <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
 
-                        <div class="like-buttons">
-                            <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
-                               class="btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
-                                    style="margin: auto;">
-                                Do it!
-                            </a>
-                            <span data-id="{{ milestone.id }}" class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like" style="margin: auto;">
+                            <div class="like-buttons">
+                                <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
+                                   class="btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
+                                   style="margin: auto;">
+                                    Do it!
+                                </a>
+                            <span data-id="{{ milestone.id }}"
+                                  class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
+                                  style="margin: auto;">
                                 <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
                                                                        class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
                             </span>
-                        </div>
-                    </div> <!-- cd-timeline-content -->
-                </div> <!-- cd-timeline-block -->
-            {% endfor %}
-        </section> <!-- cd-timeline -->
+                            </div>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+                {% endfor %}
+            </section> <!-- cd-timeline -->
         {% else %}
             <div class="container text-center">
-            <h3>This project hasn't any goals :(</h3>
+                <h3>This project hasn't any goals :(</h3>
             </div>
         {% endif %}
     </section>

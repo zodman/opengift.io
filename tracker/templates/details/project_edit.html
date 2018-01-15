@@ -173,7 +173,7 @@
                                                               placeholder="Target group"></textarea>
                                                 </div>
                                                 <div class="col-md-1">
-                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
+                                                    <a href="#" class="fa fa-remove js-remove"  style="display: none;" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -193,7 +193,7 @@
                                         <div class="row"><div class="col-12">
                                                 <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
                                         </div>
-                                        <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('input, textarea').val('');return false;">Add solution</button>
+                                        <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add solution</button>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
@@ -266,7 +266,7 @@
                                                        placeholder="Milestone date DD.MM.YYYY"/>
                                             </div>
                                             <div class="col-md-1">
-                                                <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
+                                                <a href="#" class="fa fa-remove js-remove" style="display: none" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -277,7 +277,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <button class="btn btn-dark" onclick="$('.js-milestone-new').clone().insertBefore(this).find('input, textarea').val('');return false;">Add new milestone</button>
+                                    <button class="btn btn-dark" onclick="$('.js-milestone-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add new milestone</button>
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
