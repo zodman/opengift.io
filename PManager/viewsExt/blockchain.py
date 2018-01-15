@@ -103,10 +103,14 @@ def blockchainAjax(request):
 
         qty = request.POST.get('qty')
         currency = request.POST.get('currency', 'gift')
+        uid = request.user.id if request.user.is_authenticated else '-1'
         if currency == 'gift':
             result = donate(qty, project, request.user, milestone)
         elif currency == 'btc':
-            result = bitcoin_set_request(project.blockchain_name, qty)
+            result = bitcoin_set_request(
+                ':'.join([project.blockchain_name, uid, (milestone.id if milestone else '-1')]),
+                qty
+            )
             result = json.dumps(result)
     elif action == 'getRate':
         currency = request.POST.get('currency', None)

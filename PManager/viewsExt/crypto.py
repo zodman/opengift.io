@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 import urllib, urllib2, json
-from PManager.models import PM_Project
+from PManager.models import PM_Project, PM_Milestone
 from PManager.services.danations import donate
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
@@ -13,7 +13,7 @@ def get_rate():
     coinRateInBtc = float(res)
     return coinRateInBtc
 
-def bitcoin_set_request(project_name, sum):
+def bitcoin_set_request(project_name, sum, milestone=None):
     service_url = '/bitcoin/request/create'
 
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url + '?project='+str(project_name)+'&sum='+str(sum))
@@ -36,11 +36,19 @@ def get_paid_btc():
 
     for elem in res:
         donateCode = elem['memo'].split(':')
-        projectCode = donateCode.pop()
+        milestoneId = donateCode.pop()
         userId = donateCode.pop()
+        projectCode = donateCode.pop()
+
         user = None
         try:
             user = User.objects.get(pk=int(userId))
+        except ValueError, User.DoesNotExist:
+            pass
+
+        milestone = None
+        try:
+            milestone = PM_Milestone.objects.get(pk=int(milestoneId))
         except ValueError, User.DoesNotExist:
             pass
 
@@ -49,7 +57,7 @@ def get_paid_btc():
         try:
             project = PM_Project.objects.get(blockchain_name=projectCode)
             strCode += '' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)'+"\r\n"
-            if donate(coins, project, user, None, exchangeName):
+            if donate(coins, project, user, milestone, exchangeName):
                 urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
             else:
                 strCode += "failed to donate to "+project.blockchain_name+"\r\n"
