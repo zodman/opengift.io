@@ -23,6 +23,7 @@ def bitcoin_set_request(project_name, sum, milestone=None):
 
 def get_paid_btc():
     service_url = '/bitcoin/request/paid'
+    all_url = '/bitcoin/request/list.json'
     service_url_clear = '/bitcoin/request/clear'
 
     coinRateInBtc = get_rate()
@@ -64,6 +65,14 @@ def get_paid_btc():
 
         except PM_Project.DoesNotExist:
             pass
+
+    fp = urllib.urlopen("http://" + CRYPTO_HOST + all_url)
+    res = fp.read()
+    res = json.loads(res)
+    for elem in res:
+        if elem['status'] == 'Expired':
+            urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
+            strCode += "Cleared expired "+elem['address']+"\r\n"
 
     fd = open('log/crypto/btcRead.log', "a")
     fd.write(strCode)
