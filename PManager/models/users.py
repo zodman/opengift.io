@@ -69,9 +69,11 @@ class PM_User(models.Model):
         ('opengifter', 'OpenGifter'),
     )
 
-    DONATOR_SUM = 1000
-    BACKER_SUM = 10000
-    OPENGIFTER_SUM = 50000
+    level_sum = {
+        'donator': 1000,
+        'backer': 10000,
+        'opengifter': 50000,
+    }
 
     user = models.OneToOneField(User, db_index=True, related_name='profile')
     second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
@@ -156,10 +158,15 @@ class PM_User(models.Model):
     def is_opengifter(self):
         return self.opengifter_level == 'opengifter'
 
-    def update_opengifter_level(self):
+    def get_donation_sum(self):
         sum = 0
         for d in self.user.donations.all():
             sum += d.sum
+
+        return sum
+
+    def update_opengifter_level(self):
+        sum = self.get_donation_sum()
 
         dl = None
         if sum > self.OPENGIFTER_SUM:

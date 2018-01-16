@@ -146,6 +146,52 @@
                 </div> <!-- END row-->
             </div> <!-- END container-->
         </section>
+        <section>
+            <div class="container">
+                <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Donator <span class="text-primary">profile</span>
+                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto mb-5"></div>
+                    </h2>
+                </div>
+                    <div class="col-lg-10 mt-4 mx-auto">
+                        <div class="progress-item mb-5">
+                            <h4 class="float-left text-primary"><b>Expert points:</b> 0</h4>
+                        </div>
+                    </div> <!-- END col-lg-10-->
+                    <div class="col-lg-10 mt-4 mx-auto">
+                        <div class="progress-item mb-5">
+                            <span>
+                                <b>Current Level:</b> {{ donator_level|default_if_none:'Base' }} &nbsp;&nbsp;
+                                {% if donator_next_level %}
+                                <b>Next Level:</b> {{ donator_next_level }}
+                                {% endif %}
+                            </span>
+                            <h4 class="float-right text-primary">{{ donator_level_percent }}%</h4>
+                            <div class="progress w-100">
+                                <div class="progress-bar" aria-valuenow="{{ donator_level_percent }}"
+                                     style="width: {{ donator_level_percent }}%;"></div>
+                            </div>
+                        </div>
+                    </div> <!-- END col-lg-10-->
+                    <div class="col-lg-10 mt-4 mx-auto">
+                        {% if not donator_level %}
+                            <p>On next level you will get the possibility to rate project's goals.</p>
+                        {% elif donator_level == 'donator' %}
+                            <p>Now you can rate project's goals.</p>
+                            <p>On next level you will get the possibility to make review of projects and project goals</p>
+                        {% elif donator_level == 'backer' %}
+                            <p>Now you can rate project's goals and make reviews.</p>
+                            <p>On next level you will get all OpenOpengifter privelegies.</p>
+                        {% elif donator_level == 'opengifter' %}
+                            Congratulations! You have all opengifter privilegies.
+                        {% endif %}
+                    <div>
+                </div> <!-- END row-->
+            </div> <!-- END container-->
+        </section>
+
         <script>
             debug = false;
             $(function () {

@@ -11,7 +11,24 @@ def blockchainMain(request):
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
 
-    c = RequestContext(request, {})
+    sum = request.user.get_profile().get_donation_sum()
+    next_level_sum = 1000
+    next_level = None
+
+    for k, v in PM_User.level_sum.iteritems():
+        if sum > v:
+            sum -= v
+        else:
+            next_level_sum = v
+            next_level = k
+            break
+
+
+    c = RequestContext(request, {
+        'donator_level': request.user.get_profile().opengifter_level,
+        'donator_level_percent': sum * 100 / next_level_sum,
+        'donator_next_level': next_level
+    })
 
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
 
