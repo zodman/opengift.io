@@ -63,6 +63,16 @@ class PM_User(models.Model):
         ('#ab82ff', '#ab82ff'),
     )
 
+    level_choices =(
+        ('donator', 'Donator'),
+        ('backer', 'Backer'),
+        ('opengifter', 'OpenGifter'),
+    )
+
+    DONATOR_SUM = 1000
+    BACKER_SUM = 10000
+    OPENGIFTER_SUM = 50000
+
     user = models.OneToOneField(User, db_index=True, related_name='profile')
     second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
@@ -105,6 +115,7 @@ class PM_User(models.Model):
     blockchain_key = models.CharField(blank=True, null=True, max_length=2000)
     blockchain_cert = models.CharField(blank=True, null=True, max_length=2000)
     blockchain_wallet = models.CharField(blank=True, null=True, max_length=100)
+    opengifter_level = models.CharField(blank=True, null=True, max_length=100, choices=level_choices)
 
     @property
     def rating(self):
@@ -134,6 +145,33 @@ class PM_User(models.Model):
     @property
     def allTasksQty(self):
         return self.user.todo.filter(active=True, closed=False).exclude(project__closed=True, project__locked=True, status__code='ready').count()
+
+
+    def is_donator(self):
+        return self.opengifter_level == 'donator'
+
+    def is_backer(self):
+        return self.opengifter_level == 'backer'
+
+    def is_opengifter(self):
+        return self.opengifter_level == 'opengifter'
+
+    def update_opengifter_level(self):
+        sum = 0
+        for d in self.user.donations.all():
+            sum += d.sum
+
+        dl = None
+        if sum > self.OPENGIFTER_SUM:
+            dl = 'opengifter'
+        elif sum > self.BACKER_SUM:
+            dl = 'backer'
+        elif sum > self.DONATOR_SUM:
+            dl = 'donator'
+
+        if self.opengifter_level != dl:
+            self.opengifter_level = dl
+            self.save()
 
     def account_total_project(self, project):
         if not project:

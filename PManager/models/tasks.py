@@ -141,6 +141,16 @@ class PM_Project_Donation(models.Model):
     def __str__(self):
         return self.project.name + ' : ' + str(self.sum)
 
+    def save(self, *args, **kwargs):
+        is_new = False
+        if not self.id and self.user:
+            is_new = True
+
+        super(self.__class__, self).save(*args, **kwargs)
+
+        if is_new:
+            self.user.get_profile().update_opengifter_level()
+
     class Meta:
             app_label = 'PManager'
 
