@@ -63,16 +63,20 @@ class PM_User(models.Model):
         ('#ab82ff', '#ab82ff'),
     )
 
+    OPENGIFTER = 'opengifter'
+    DONATOR = 'donator'
+    BACKER = 'backer'
+
     level_choices =(
-        ('donator', 'Donator'),
-        ('backer', 'Backer'),
-        ('opengifter', 'OpenGifter'),
+        (DONATOR, 'Donator'),
+        (BACKER, 'Backer'),
+        (OPENGIFTER, 'OpenGifter'),
     )
 
     level_sum = {
-        'donator': 1000,
-        'backer': 10000,
-        'opengifter': 50000,
+        DONATOR: 1000,
+        BACKER: 10000,
+        OPENGIFTER: 50000,
     }
 
     user = models.OneToOneField(User, db_index=True, related_name='profile')
@@ -150,13 +154,13 @@ class PM_User(models.Model):
 
 
     def is_donator(self):
-        return self.opengifter_level == 'donator'
+        return self.opengifter_level in [self.DONATOR, self.BACKER, self.OPENGIFTER]
 
     def is_backer(self):
-        return self.opengifter_level == 'backer'
+        return self.opengifter_level in [self.BACKER, self.OPENGIFTER]
 
     def is_opengifter(self):
-        return self.opengifter_level == 'opengifter'
+        return self.opengifter_level == self.OPENGIFTER
 
     def get_donation_sum(self):
         sum = 0
@@ -170,11 +174,11 @@ class PM_User(models.Model):
 
         dl = None
         if sum > self.OPENGIFTER_SUM:
-            dl = 'opengifter'
+            dl = self.OPENGIFTER
         elif sum > self.BACKER_SUM:
-            dl = 'backer'
+            dl = self.BACKER
         elif sum > self.DONATOR_SUM:
-            dl = 'donator'
+            dl = self.DONATOR
 
         if self.opengifter_level != dl:
             self.opengifter_level = dl

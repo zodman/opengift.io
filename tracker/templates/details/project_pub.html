@@ -21,7 +21,7 @@
             <div class="row">
                 <div class="col-lg-{% if project.files.count %}6{% else %}12 text-center{% endif %} u-mt-80">
                     <div class="project-rate clearfix">
-                        <div class="project-stars pull-left">
+                        <div class="js-project-rating-stars-container project-stars{% if user_voted %} voted{% endif %} pull-left">
                             <a href="#" data-rating="1"
                                class="js-project-rating-star fa fa-star{% if rating < 1 %}-o{% endif %}"></a>
                             <a href="#" data-rating="2"
@@ -68,7 +68,7 @@
                                                         'rating': $(this).data('rating')
                                                     },
                                                     function (data) {
-
+                                                        $('.js-project-rating-stars-container').addClass('voted');
                                                     },
                                                     'json'
                                             );
@@ -516,17 +516,22 @@
 
 
                             <div class="like-buttons">
+                                {% if project.blockchain_name %}
                                 <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
-                                   class="btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
+                                   class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4"
                                    style="margin: auto;">
                                     Do it!
                                 </a>
-                            <span data-id="{{ milestone.id }}"
-                                  class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
-                                  style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
-                                                                       class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
-                            </span>
+                                {% endif %}
+                                <span data-id="{{ milestone.id }}"
+                                      {% if not request.user.is_authenticated or not request.user.get_profile.is_donator %}
+                                       data-lowlevel="1"
+                                      {% endif %}
+                                      class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
+                                      style="margin: auto;">
+                                    <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
+                                                                           class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
+                                </span>
                             </div>
                         </div> <!-- cd-timeline-content -->
                     </div> <!-- cd-timeline-block -->
@@ -552,6 +557,14 @@
             var liked = {}, $mstcnt;
             $('.js-milestone-like').click(function () {
                 if (!liked[$(this).data('id')]) {
+                    if ($(this).data('lowlevel')) {
+                        alert('Only users with level Donator can rate the goals');
+                        return;
+                    }
+                    if ($(this).hasClass('disabled')) {
+                        return false;
+                    }
+
                     liked[$(this).data('id')] = true;
                     $(this).addClass('active disabled').attr('disabled', 'disabled');
                     $mstcnt = $('.js-milestone-likes-count[data-id=' + $(this).data('id') + ']');

@@ -5202,6 +5202,10 @@ footer > .wave,
   color: #ffd200;
 }
 
+.project-stars.voted a {
+  color: white;
+}
+
 .project-rate-separator {
   margin: 0 15px;
   font-size: 7px;
