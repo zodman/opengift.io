@@ -558,7 +558,7 @@
             $('.js-milestone-like').click(function () {
                 if (!liked[$(this).data('id')]) {
                     if ($(this).data('lowlevel')) {
-                        alert('Only users with level Donator can rate the goals');
+                        alert('Only users with level <a href="/backers/">Donator</a> can rate the goals');
                         return;
                     }
                     if ($(this).hasClass('disabled')) {
