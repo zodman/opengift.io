@@ -125,7 +125,7 @@ def blockchainAjax(request):
             result = donate(qty, project, request.user, milestone)
         elif currency == 'btc':
             result = bitcoin_set_request(
-                ':'.join([project.blockchain_name, uid, (str(milestone.id) if milestone else '-1')]),
+                ':'.join([project.blockchain_name, str(uid), (str(milestone.id) if milestone else '-1')]),
                 qty
             )
             result = json.dumps(result)
