@@ -204,7 +204,7 @@ mainControllerClass.prototype = {
                 });
 
                 if (!roles[$(t).val()] || roles[$(t).val()].length <= 0) {
-                    alert('Выберите хоть одну роль в проекте.');
+                    alert('Please choose mim. one role in the project.');
                     return false;
                 }
 
@@ -213,7 +213,7 @@ mainControllerClass.prototype = {
         });
 
         if (arEmail.length <= 0) {
-                alert('Введите корректный email');
+                alert('Enter the correct email');
                 return false;
         } else {
             PM_AjaxPost(
@@ -226,7 +226,7 @@ mainControllerClass.prototype = {
                 function(data){
                     $email.val('');
                     if (data == 'ok') {
-                        alert('Пользователи успешно приглашены!');
+                        ERROR_REPORTER.showMessage('Users are successfully invited!', MESSAGE_TYPE_SUCCESS);
                     } else {
                         alert(data);
                     }

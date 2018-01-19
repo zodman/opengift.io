@@ -31,7 +31,7 @@
                             Categories</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-problems" role="tab"
                            aria-controls="v-pills-problems" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-MessageLeft color-primary mr-lg-3"></span>
+                            <span class="icon icon-List color-primary mr-lg-3"></span>
                             Problem/solution</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
@@ -39,8 +39,12 @@
                             Links</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-roadmap" role="tab"
                            aria-controls="v-pills-roadmap" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-List color-primary mr-lg-3"></span>
+                            <span class="icon icon-Agenda color-primary mr-lg-3"></span>
                             Roadmap</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-team" role="tab"
+                           aria-controls="v-pills-team" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-Users color-primary mr-lg-3"></span>
+                            Team</a>
                         <a class="nav-link" data-toggle="pill" href="#v-pills-cloud" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Cloud color-primary mr-lg-3"></span>
@@ -279,6 +283,30 @@
                                     </div>
                                     <button class="btn btn-dark" onclick="$('.js-milestone-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add new milestone</button>
                                 </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-team" role="tabpanel"
+                                 aria-labelledby="v-pills-team-tab" aria-expanded="false">
+                                <div class="project-edit-form js-invite-cont">
+                                    <div class="row">
+                                        <div class="col-md-8">
+                                            <input type="text"
+                                                   value=""
+                                                   class="js-invite-email form-control u-rounded-50 p-3 u-mb-30 js-required"
+                                                   placeholder="User email" >
+                                            <input name="role" type="radio" checked="checked" style="display: none" value="manager" />
+                                        </div>
+                                        <div class="col-md-4">
+                                            <a href="#" class="btn btn-dark btn-rounded" onclick="document.mainController.inviteUser(this, $('.js-invite-email'));return false;">Invite User</a>
+                                        </div>
+                                    </div>
+                                    <h2 class="u-py-25 text-primary">Current team</h2>
+                                    {% for user in project.getUsers %}
+                                        <div class="u-pb-25 user-row">
+                                            <strong class="user-name">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</strong>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+
                             </div>
                             <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
