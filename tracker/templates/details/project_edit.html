@@ -303,6 +303,10 @@
                                     {% for user in project.getUsers %}
                                         <div class="u-pb-25 user-row">
                                             <strong class="user-name">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</strong>
+                                            {% if user.get_profile.blockchain_wallet %}
+                                            <br/>
+                                            <span>Wallet: {{ user.get_profile.blockchain_wallet }}</span>
+                                            {% endif %}
                                         </div>
                                     {% endfor %}
                                 </div>
