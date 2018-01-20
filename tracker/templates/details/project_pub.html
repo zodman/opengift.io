@@ -1,5 +1,10 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
+{% block header %}
+    <meta name="description" content="{{ project.description }}">
+        <!-- Title-->
+    <title>OpenGift.io - {{ project.name }}</title>
+{% endblock %}
 {% block content %}
     {% compressed_css 'project_detail' %}
     <style>
