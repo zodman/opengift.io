@@ -269,7 +269,10 @@ class PM_User(models.Model):
             is_new = False
         except User.DoesNotExist:
             is_new = True
+            generated_password = False
+
             if not password:
+                generated_password = True
                 password = User.objects.make_random_password()
             login = email
             if len(login) > 30:
@@ -277,9 +280,11 @@ class PM_User(models.Model):
             user = User.objects.create_user(login, email, password)
             context = {
                 'user_name': ' '.join([user.first_name, user.last_name]),
-                'user_login': login,
-                'user_password': password
+                'user_login': login
             }
+
+            if generated_password:
+                context['user_password'] = password
 
             message = emailMessage(
                 'hello_new_user',

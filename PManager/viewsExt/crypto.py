@@ -4,14 +4,15 @@ from PManager.models import PM_Project, PM_Milestone
 from PManager.services.danations import donate
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
+from tracker.settings import GIFT_USD_RATE
 
 CRYPTO_HOST = '188.166.237.19'
 
 def get_rate():
-    fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=0.2")
+    fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=1")
     res = fp.read()
     coinRateInBtc = float(res)
-    return coinRateInBtc
+    return "{0:.8f}".format(coinRateInBtc)
 
 def bitcoin_set_request(project_name, sum, milestone=None):
     service_url = '/bitcoin/request/create'
@@ -26,7 +27,7 @@ def get_paid_btc():
     all_url = '/bitcoin/request/list.json'
     service_url_clear = '/bitcoin/request/clear'
 
-    coinRateInBtc = get_rate()
+    coinRateInBtc = get_rate() * GIFT_USD_RATE
 
     exchangeName = 'opengift@opengift.io'
 
