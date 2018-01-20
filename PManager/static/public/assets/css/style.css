@@ -369,11 +369,12 @@ input, textarea {
   border-radius: 50%; }
 
 .social-default a {
-  background: #ecf5fe;
-  color: #92b7db; }
+  background: #fff;
+  color: #92b7db;
+}
   .social-default a:hover {
-    color: #39c2d3;
-    background: #ecf5fe; }
+    color: #fff;
+    background: #39c2d3; }
 
 .social-sm a {
   width: 35px;
@@ -1756,6 +1757,12 @@ input, textarea {
 
 .u-pt-100 {
   padding-top: 6.25rem !important; }
+
+.u-pb-0 {
+  padding-bottom: 0.3125rem !important; }
+
+.u-pt-0 {
+  padding-top: 0.3125rem !important; }
 
 .u-pb-5 {
   padding-bottom: 0.3125rem !important; }
@@ -3686,10 +3693,10 @@ input, textarea {
   color: #111 !important; }
 
 .text-blue {
-  color: #39c2d3 !important; }
+  color: #4492c3 !important; }
 
 .text-purple {
-  color: #8C47E2 !important; }
+  color: #793ee4 !important; }
 
 .text-purple-light {
   color: #a282e3 !important; }
@@ -3698,10 +3705,10 @@ input, textarea {
   color: #ffa940 !important; }
 
 .text-green {
-  color: #2CD44A !important; }
+  color: #51bcab !important; }
 
 .text-red {
-  color: #F64D62 !important; }
+  color: #fd5c60 !important; }
 
 .text-indigo {
   color: #5D51F6 !important; }
@@ -3775,7 +3782,9 @@ input, textarea {
   font-size: 0.75rem !important; }
 
 .u-fs-13 {
-  font-size: 0.8125rem !important; }
+  font-size: 0.8125rem !important;
+  line-height: 1.6rem !important;
+}
 
 .u-fs-14 {
   font-size: 0.875rem !important; }
@@ -4732,7 +4741,7 @@ input, textarea {
   background: #d6ebff; }
   .progress-bar {
     height: 8px;
-    background: #39c2d3 !important; }
+    background: #39c2d3; }
 
 .slick-arrow {
   width: 45px;
@@ -5497,6 +5506,12 @@ border-radius: 4px;
   }
 }
 
+@media (max-width: 991px) {
+  .hide-on-992 {
+    display: none;
+  }
+}
+
 .container-to-top {
   margin-top: -190px;
 }
@@ -5504,4 +5519,545 @@ border-radius: 4px;
   .container-to-top {
     margin-top: -100px;
   }
+}
+
+.purple-gr {
+
+  background: #6751ef; /* Old browsers */
+  background: -moz-linear-gradient(left, #6751ef 0%, #9626db 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #6751ef 0%,#9626db 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #6751ef 0%,#9626db 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#6751ef', endColorstr='#9626db',GradientType=1 ); /* IE6-9 */
+}
+.orange-gr {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ff5466+0,f3784c+100 */
+  background: #ff5466; /* Old browsers */
+  background: -moz-linear-gradient(left, #ff5466 0%, #f3784c 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #ff5466 0%,#f3784c 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #ff5466 0%,#f3784c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ff5466', endColorstr='#f3784c',GradientType=1 ); /* IE6-9 */}
+
+.blue-gr
+{/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3b7bc2+0,50b1c4+100 */
+  background: #3b7bc2; /* Old browsers */
+  background: -moz-linear-gradient(left, #3b7bc2 0%, #50b1c4 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, #3b7bc2 0%,#50b1c4 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, #3b7bc2 0%,#50b1c4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3b7bc2', endColorstr='#50b1c4',GradientType=1 ); /* IE6-9 */}
+
+.green-gr {
+  background: #62bb94;
+  background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+  background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+  background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+  background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+  background-repeat: repeat-x;
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);}
+
+.timeline {
+  list-style-type: none;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+
+@media (min-width: 992px) {
+  .timeline:before {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    top: 115px;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background: -moz-linear-gradient(left, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d1a22', endColorstr='#00000000', GradientType=1); /* IE6-9 */
+  }
+
+  .timeline:after {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    top: 115px;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#0d1a22', GradientType=1); /* IE6-9 */
+  }
+}
+
+.timeline .li {
+  width: 25%;
+  opacity: 0.5;
+}
+
+@media (max-width: 991px) {
+  .timeline {
+    display: block ;
+  }
+  .timeline .li {
+    width: 100%;
+    position: relative;
+  }
+  .timeline li:before {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    top: 100px;
+    left: 0;
+    bottom: 0;
+    z-index: 10;
+    background: -moz-linear-gradient(left, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(13, 26, 34, 1) 0%, rgba(0, 0, 0, 0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#0d1a22', endColorstr='#00000000', GradientType=1); /* IE6-9 */
+  }
+
+  .timeline li:after {
+    display: block;
+    content: "";
+    width: 20px;
+    height: 30px;
+    position: absolute;
+    top: 100px;
+    left: auto;
+    right: 0;
+    bottom: 0;
+    z-index: 10;
+    background: -moz-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0) 1%, rgba(13, 26, 34, 1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#00000000', endColorstr='#0d1a22', GradientType=1); /* IE6-9 */
+  }
+}
+
+
+.timestamp {
+  align-items: center;
+  margin-bottom: 35px;
+  padding: 0px 20px;
+  font-size: 57px;
+  line-height: 60px;
+  display: flex;
+  flex-direction: column;
+  font-weight: 100;
+  position: relative;
+}
+
+.timestamp .date {
+  color: #fff;
+}
+
+.status {
+  padding: 50px 20px 20px 20px;
+  margin-top: 35px;
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  background: url('/static/public/assets/img/timeline-gradient.png') repeat-x;
+  position: relative;
+  transition: all 200ms ease-in;
+}
+.status h4 {
+  font-size: 18px;
+  font-weight: normal;
+  line-height: 30px;
+}
+
+.status:before {
+  background: url('/static/public/assets/img/checkbox.png') repeat;
+  content: "";
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  margin-left: -32px;
+}
+
+.li.complete .status:before {
+  background: url('/static/public/assets/img/checkbox-checked.png') repeat;
+}
+
+.li.complete {
+  opacity: 1;
+}
+
+.li .status h4 {
+  color: #ffffff;
+}
+
+@media (min-device-width: 320px) and (max-device-width: 700px) {
+
+}
+
+.stars-bg {
+  background: url('/static/public/assets/img/stars-bg.jpg') repeat;
+  background-position:fixed;
+}
+
+
+.blue-gradient-title > * {
+  background:0 0;
+  background:-webkit-linear-gradient(left,#37becb 0,#5eb794 100%);
+  -webkit-background-clip:text;
+  -moz-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  -moz-text-fill-color:transparent;
+  background-clip:text;
+  color:#37becb;
+  display:inline-block;
+}
+
+
+
+
+.roadmap-container {
+  position: relative;
+}
+
+.roadmap-container-block {
+  position: relative;
+  margin: 50px 0;
+  opacity: 0.5;
+  min-height: 162px;
+}
+
+.roadmap-container-block.complete:before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 50%;
+  height: calc(100% + 45px);
+  width: 1px;
+  background: #46b4ac;
+  box-shadow: 0 0 15px 2px #46b4ac;
+}
+
+.roadmap-container-block.complete.last:before {
+  display: none;
+}
+
+.roadmap-container-block.complete {
+  opacity: 1;
+}
+
+
+.roadmap-container-content > p:last-child {
+  margin-bottom: 0;
+}
+
+.roadmap-container-block:first-child {
+  margin-top: 0px;
+}
+.roadmap-container-block:last-child {
+  margin-top: -30px;
+}
+
+.roadmap-container-block:last-child .roadmap-container-date {
+  margin-top: 15px;
+}
+.roadmap-container-block:last-child .roadmap-container-content {
+  margin-top: 50px;
+}
+
+.roadmap-container-content {
+  width: calc(50% - 166px);
+  float: left;
+  position: relative;
+  border-radius: 5px;
+  padding: 20px;
+  margin-top: 20px;
+  border:1px solid #37becb;
+  box-shadow: 0 0 15px -3px #37becb, 0 0 15px -4px #37becb inset;
+}
+
+.roadmap-container-block:nth-child(even) .roadmap-container-content {
+  border:1px solid #5eb794;
+  box-shadow: 0 0 15px -3px #5eb794, 0 0 15px -4px #5eb794 inset;
+  float: right;
+}
+
+
+.roadmap-container-content p {
+  position: relative;
+  z-index: 11;
+  color: #fff;
+}
+
+.roadmap-container-block .roadmap-container-content:before {
+  display: block;
+  content: "";
+  width: 150px;
+  position: absolute;
+  top: -15px;
+  left: -15px;
+  bottom: -15px;
+  z-index: 10;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0d1a21+32,7db9e8+100&1+31,1+31,0+100 */
+  background: -moz-linear-gradient(left, rgba(13,26,33,1) 31%, rgba(13,26,33,0.99) 32%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(13,26,33,1) 31%,rgba(13,26,33,0.99) 32%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(13,26,33,1) 31%,rgba(13,26,33,0.99) 32%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d1a21', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+}
+
+.roadmap-container-block:nth-child(even) .roadmap-container-content:before {
+  display: block;
+  content: "";
+  width: 150px;
+  position: absolute;
+  top: -15px;
+  left: inherit;
+  right: -15px;
+  bottom: -15px;
+  z-index: 10;
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+0,0d1a21+70&0+0,1+70 */
+  background: -moz-linear-gradient(left, rgba(125,185,232,0) 0%, rgba(13,26,33,1) 70%); /* FF3.6-15 */
+  background: -webkit-linear-gradient(left, rgba(125,185,232,0) 0%,rgba(13,26,33,1) 70%); /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to right, rgba(125,185,232,0) 0%,rgba(13,26,33,1) 70%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#0d1a21',GradientType=1 ); /* IE6-9 */
+}
+
+
+
+.roadmap-container-date {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -78px;
+  width: 156px;
+  height: 162px;
+  text-align: center;
+  padding-top: 67px;
+  line-height: 10px;
+  font-size: 36px;
+  color: #fff;
+  margin-top: -15px;
+  background: url('/static/public/assets/img/date-left.png') repeat;
+}
+
+.roadmap-container-date.two-line {
+  padding-top: 55px;
+}
+
+.roadmap-container-date .date {
+  line-height: 30px;
+}
+.roadmap-container-date .date-desc {
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.roadmap-container-block:nth-child(even) .roadmap-container-date {
+  background: url('/static/public/assets/img/date-right.png') repeat;
+}
+
+
+
+.roadmap-line {
+  position: absolute;
+  height: 1px;
+  background: #37becb;
+  box-shadow: 0 0 15px 2px #37becb;
+  width: 97px;
+  top: 82px;
+  left: -89px;
+}
+
+.roadmap-line:before,
+.roadmap-line:after {
+  border-radius: 50%;
+  position: absolute;
+  display: block;
+  top: 50%;
+  content: "";
+  background: #37becb;
+  box-shadow: 0 0 15px 2px #37becb;
+}
+
+.roadmap-line:before {
+  left: -5px;
+  right: auto;
+  width: 11px;
+  height: 11px;
+  top: -5px;
+}
+.roadmap-line:after {
+  left: auto;
+  width: 15px;
+  height: 15px;
+  top: -7px;
+  right: -7px;
+}
+
+
+.roadmap-container-block:nth-child(even) .roadmap-line {
+  background: #5eb794;
+  box-shadow: 0 0 15px 2px #5eb794;
+  left: auto;
+  right: -89px;
+}
+
+.roadmap-container-block:nth-child(even) .roadmap-line:before,
+.roadmap-container-block:nth-child(even) .roadmap-line:after {
+  background: #5eb794;
+  box-shadow: 0 0 15px 2px #5eb794;
+}
+
+.roadmap-container-block:nth-child(even) .roadmap-line:before {
+  left: auto;
+  width: 11px;
+  height: 11px;
+  top: -5px;
+  right: -5px;
+}
+.roadmap-container-block:nth-child(even) .roadmap-line:after {
+  left: -7px;
+  right: auto;
+  width: 15px;
+  height: 15px;
+  top: -7px;
+}
+
+.roadmap-line-checkbox {
+  background: url('/static/public/assets/img/checkbox.png') repeat;
+  content: "";
+  width: 64px;
+  height: 64px;
+  position: absolute;
+  top: -32px;
+  left: 50%;
+  margin-left: -32px;
+}
+
+.complete .roadmap-line-checkbox {
+  background: url('/static/public/assets/img/checkbox.png') repeat;
+  background-position: 0 -64px;
+}
+
+
+
+.roadmap-container-block:nth-child(even)  .roadmap-line-checkbox {
+  background: url('/static/public/assets/img/checkbox.png') repeat;
+  background-position: -64px 0;
+}
+
+.roadmap-container-block.complete:nth-child(even) .roadmap-line-checkbox {
+  background: url('/static/public/assets/img/checkbox.png') repeat;
+  background-position: -64px -64px;
+}
+
+
+@media only screen and (max-width: 991px) {
+  .roadmap-container-content {
+    text-align: center;
+    width: 100%;
+    float: none;
+    background: url('/static/public/assets/img/stars-bg.jpg') repeat;
+  }
+
+  .roadmap-container-date {
+    position: relative;
+    top:-15px;
+    left: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  .roadmap-container-block .roadmap-container-content:before,
+  .roadmap-container-block:nth-child(even) .roadmap-container-content:after {
+    display: block;
+    content: "";
+    width: 150px;
+    position: absolute;
+    top: -15px;
+    left: -15px;
+    bottom: -15px;
+    z-index: 10;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#0d1a21+32,7db9e8+100&1+31,1+31,0+100 */
+    background: -moz-linear-gradient(left, rgba(13,26,33,1) 31%, rgba(13,26,33,0.99) 32%, rgba(125,185,232,0) 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(13,26,33,1) 31%,rgba(13,26,33,0.99) 32%,rgba(125,185,232,0) 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(13,26,33,1) 31%,rgba(13,26,33,0.99) 32%,rgba(125,185,232,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#0d1a21', endColorstr='#007db9e8',GradientType=1 ); /* IE6-9 */
+  }
+
+  .roadmap-container-block:nth-child(even) .roadmap-container-content:before,
+  .roadmap-container-block .roadmap-container-content:after {
+    display: block;
+    content: "";
+    width: 150px;
+    position: absolute;
+    top: -15px;
+    left: inherit;
+    right: -15px;
+    bottom: -15px;
+    z-index: 10;
+    /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#7db9e8+0,0d1a21+70&0+0,1+70 */
+    background: -moz-linear-gradient(left, rgba(125,185,232,0) 0%, rgba(13,26,33,1) 70%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(left, rgba(125,185,232,0) 0%,rgba(13,26,33,1) 70%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to right, rgba(125,185,232,0) 0%,rgba(13,26,33,1) 70%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#007db9e8', endColorstr='#0d1a21',GradientType=1 ); /* IE6-9 */
+  }
+
+  .roadmap-container-block.complete.last::before {
+    display: block;
+    height: 100%;
+  }
+  .roadmap-line,
+  .roadmap-container-block:nth-child(2n) .roadmap-line {
+    position: absolute;
+    height: 0;
+    background: none;
+    box-shadow: none;
+    width: 0;
+    top: 197px;
+    left: 78px;
+    z-index: 1;
+  }
+
+  .roadmap-line:before, .roadmap-line:after {
+    display: none;
+  }
+
+}
+
+#chartdiv a {
+  display: none !important;
+}
+
+#chartdiv {
+  height: 600px;
+}
+
+@media only screen and (max-width: 991px) {
+  #chartdiv {
+    height: 400px;
+  }
+}
+
+.user-img-wrapper {
+  position: relative;
+}
+.user-logo {
+  text-align: center;
+  margin-top: 15px;
+}
+.user-logo img {
+  height: 25px;
+  margin: 0 auto;
+  display: block;
 }
