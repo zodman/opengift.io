@@ -467,8 +467,10 @@ def projectDetailPublic(request, project_id):
         'user_voted': RatingHits.userVoted(project, request),
         'rating': project.rating
     })
-
-    t = loader.get_template('details/project_pub.html')
+    if request.GET.get('frame'):
+        t = loader.get_template('details/project_widget.html')
+    else:
+        t = loader.get_template('details/project_pub.html')
     return HttpResponse(t.render(c))
 
 

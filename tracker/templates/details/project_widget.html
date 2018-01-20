@@ -1,0 +1,116 @@
+{% extends "public/index.html" %}
+{% load thumbnail get_settings compressed %}
+{% block head %}
+{% endblock %}
+{% block content %}
+{% compressed_css 'project_detail' %}
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-{% if project.files.count %}6{% else %}12 text-center{% endif %} u-mt-80">
+                {% if project.blockchain_name %}
+                    <a href="/project/{{ project.id }}/donate/"
+                       class="btn btn btn-rounded btn-primary ml-3 px-md-5">
+                        BECOME A SPONSOR
+                    </a>
+                {% endif %}
+            </div> <!-- END col-lg-6-->
+
+        </div> <!-- END row-->
+    </div> <!-- END container-->
+
+    <section class="bg-gray-v1">
+        {% if milestones %}
+            <section id="cd-timeline" class="cd-container">
+
+                {% for milestone in milestones %}
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img">
+                            <div class="second circle" data-size="68"
+                                 data-value="{{ milestone.percent|default_if_none:0 }}">
+                                <strong></strong>
+                            </div>
+                        </div> <!-- cd-timeline-img -->
+
+                        <div class="cd-timeline-content"
+                             {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
+                            <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;
+                                <small>({{ milestone.donations.count }} donations)</small>{% endif %}</h2>
+
+                            <p>{{ milestone.description|default_if_none:'' }}</p>
+                            {#				<a href="#0" class="cd-read-more">Read more</a>#}
+                            <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
+
+
+                            <div class="like-buttons">
+                                {% if project.blockchain_name %}
+                                <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
+                                   class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4"
+                                   style="margin: auto;">
+                                    Do it!
+                                </a>
+                                {% endif %}
+                                <span data-id="{{ milestone.id }}"
+                                      {% if not request.user.is_authenticated or not request.user.get_profile.is_donator %}
+                                       data-lowlevel="1"
+                                      {% endif %}
+                                      class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
+                                      style="margin: auto;">
+                                    <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
+                                                                           class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
+                                </span>
+                            </div>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+                {% endfor %}
+            </section> <!-- cd-timeline -->
+        {% else %}
+            <div class="container text-center">
+                <h3>This project hasn't any goals :(</h3>
+            </div>
+        {% endif %}
+    </section>
+    <script>
+        var getProjectState = function (p, call) {
+            $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
+                if (data == 'ok')
+                    call();
+            });
+        };
+        $(function () {
+            getProjectState('{{ project.name }}', function () {
+                $('.js-donate').show();
+            });
+            var liked = {}, $mstcnt;
+            $('.js-milestone-like').click(function () {
+                if (!liked[$(this).data('id')]) {
+                    if ($(this).data('lowlevel')) {
+                        alert('Only users with level <a href="/backers/">Donator</a> can rate the goals');
+                        return;
+                    }
+                    if ($(this).hasClass('disabled')) {
+                        return false;
+                    }
+
+                    liked[$(this).data('id')] = true;
+                    $(this).addClass('active disabled').attr('disabled', 'disabled');
+                    $mstcnt = $('.js-milestone-likes-count[data-id=' + $(this).data('id') + ']');
+                    $mstcnt.text(parseInt($mstcnt.text()) + 1);
+                    $.post(
+                            '/project/{{ project.id }}/ajax/',
+                            {
+                                'action': 'like',
+                                'mid': $(this).data('id')
+                            },
+                            function (data) {
+
+                            },
+                            'json'
+                    );
+                }
+            });
+        })
+    </script>
+    <script type="application/javascript" src="/static/js/libs/charts.2.7.1.js"></script>
+{% endblock %}
+{% block footer %}
+{% endblock %}
