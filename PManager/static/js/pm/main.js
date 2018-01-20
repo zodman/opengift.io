@@ -200,7 +200,6 @@ mainControllerClass.prototype = {
                 $roleChecks.filter(':checked').each(function(){
                     if (!roles[$(t).val()]) roles[$(t).val()] = [];
                     roles[$(t).val()].push($(this).val());
-                    $(this).attr('checked', false);
                 });
 
                 if (!roles[$(t).val()] || roles[$(t).val()].length <= 0) {
