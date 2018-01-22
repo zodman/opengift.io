@@ -380,6 +380,25 @@ def projectDetailPublic(request, project_id):
         canEditProject = request.user.is_superuser or request.user.id == project.author.id
         bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
 
+    if request.POST.get('invest_offer', None):
+        from PManager.viewsExt.tools import emailMessage
+        data = {
+            'name': request.POST.get('name'),
+            'email': request.POST.get('email'),
+            'tokens': request.POST.get('tokens'),
+            'project': project.name,
+        }
+
+        sendMes = emailMessage(
+            'new_investment_request', data, 'New investment request')
+
+        try:
+            sendMes.send(['gvamm3r@gmail.com'])
+        except Exception:
+            print 'Message is not sent'
+
+        return HttpResponseRedirect(request.get_full_path())
+
     projectSettings = project.getSettings()
     daysBeforeNowForStartFilt = 7
     now = timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())

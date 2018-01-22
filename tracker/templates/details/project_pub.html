@@ -548,6 +548,51 @@
             </div>
         {% endif %}
     </section>
+    <section class="u-py-md-250 u-flex-center" style="background:#ECF5FE url(/static/public/assets/img/startup/hero-banner.png) no-repeat; background-size:cover; background-position: top center;">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-7 mb-5 mb-lg-0">
+            <h1 class="display-4 u-fw-600">
+              <span class="text-primary">Investment</span> offer
+            </h1>
+            <p class="u-fs-22 u-lh-1_8 my-4">
+              This project is looking for investment. You can send the offer to the team.
+            </p>
+          </div> <!-- END col-lg-7-->
+
+          <div class="col-lg-5">
+                <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
+                    <h2 class="bg-primary m-0 py-3 text-white">Get project tokens</h2>
+                    <form action="" method="POST" class="p-4 p-md-5">
+                    <input type="hidden" name="invest_offer" value="1" />
+                    <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                            <span class="icon icon-User text-primary"></span>
+                        </div>
+                        <input type="text" name="name" class="form-control border-0 p-3" placeholder="Your fullname">
+                    </div>
+
+                    <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                            <span class="icon icon-Mail text-primary"></span>
+                        </div>
+                        <input type="text" name="email" class="form-control border-0 p-3" placeholder="Your email">
+                    </div>
+                    <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                            <span class="icon icon-Share text-primary"></span>
+                        </div>
+                        <input type="text" name="tokens" class="form-control border-0 p-3" placeholder="How many tokens you want to buy">
+                    </div>
+                        <button class="btn btn-primary btn-rounded">
+                            Send offer
+                        </button>
+                    </form>
+                 </div>
+          </div> <!-- END col-lg-5-->
+        </div> <!-- END row-->
+      </div> <!-- END container-->
+    </section>
     <script>
         var getProjectState = function (p, call) {
             $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
