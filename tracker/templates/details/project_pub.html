@@ -127,6 +127,11 @@
 
                         <ul class="p-0" data-init="carousel"
                             data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
+                            {% if project.link_video %}
+                                <li>
+                                        <iframe width="560" height="315" src="{{ project.link_video }}" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                </li>
+                            {% endif %}
                             {% for file in project.files.all %}
                                 {% if file.isPicture %}
                                     <li>
@@ -134,11 +139,6 @@
                                     </li>
                                 {% endif %}
                             {% endfor %}
-                            {% if project.link_video %}
-                                <li>
-                                        <iframe width="560" height="315" src="{{ project.link_video }}" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
-                                </li>
-                            {% endif %}
                         </ul>
 
                     </div> <!-- END col-lg-6-->
