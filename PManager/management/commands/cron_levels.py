@@ -14,3 +14,4 @@ class Command(NoArgsCommand):
         """
         for u in PM_User.objects.filter(blockchain_wallet__isnull=False):
             u.update_opengifter_level()
+            print u.opengifter_level
