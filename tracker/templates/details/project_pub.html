@@ -136,7 +136,7 @@
                             {% endfor %}
                             {% if project.link_video %}
                                 <li>
-                                        <iframe width="560" height="315" src="{{ project.link_video }}" frameborder="0" allow="encrypted-media" allowfullscreen></iframe>
+                                <video id="video" width="560" height="315" src="{{ project.link_video }}"></video>
                                 </li>
                             {% endif %}
                         </ul>
