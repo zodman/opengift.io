@@ -220,9 +220,6 @@ class MainPage:
             taskId = int(request.GET.get('id', 0))
             projectId = int(request.GET.get('project', 0))
 
-            if not request.user.get_profile().getProjects().exists():
-                return HttpResponseRedirect('/project/add/')
-
             if projectId:
                 if taskId:
                     messages = messages.exclude(
