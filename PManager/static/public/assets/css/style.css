@@ -4747,14 +4747,14 @@ input, textarea {
   width: 45px;
   height: 45px;
   border-radius: 50%;
-  text-align: center;
   background: #fff;
-  top: 50%;
+  top: 64px;
   position: absolute;
   -webkit-transform: translateY(-50%);
   -ms-transform: translateY(-50%);
   transform: translateY(-50%);
   font-size: 24px;
+  line-height: 34px;
   padding: 5px;
   cursor: pointer;
   -webkit-transition: .3s;
@@ -4765,9 +4765,11 @@ input, textarea {
     color: #fff; }
 
 .slick-prev {
-  left: -70px; }
+  padding-left: 17px;
+  left: -70px;}
 
 .slick-next {
+  padding-left: 20px;
   right: -70px; }
 
 .slick-dots {
@@ -6050,14 +6052,25 @@ border-radius: 4px;
 }
 
 .user-img-wrapper {
+  text-align: center;
   position: relative;
+}
+.user-logo-wrapper {
+  margin-top: -25px;
+  display: block;
 }
 .user-logo {
   text-align: center;
   margin-top: 15px;
+  position: relative;
+  background: #fff;
+  border-radius: 25px;
+  padding: 7px 15px;
+  margin: 0 auto;
+  display: inline-block;
 }
 .user-logo img {
-  height: 25px;
-  margin: 0 auto;
-  display: block;
-}
+   height: 15px;
+   margin: 0 auto;
+   display: block;
+ }

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="499px" height="114px" viewBox="0 0 499 114" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>logo-white</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="1.41638472e-14%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#3CC6D7" offset="0%"></stop>
+            <stop stop-color="#63BB91" offset="100%"></stop>
+        </linearGradient>
+        <path d="M87.0022695,64.773296 C84.0351493,71.415224 79.5495499,77.222161 73.9784675,81.749111 C66.0917543,88.156042 56.0490401,92.001 45.1064126,92.001 C34.1637851,92.001 24.1220686,88.156042 16.2343577,81.749111 C10.6592845,77.219161 6.17069213,71.405224 3.20357194,64.7572961 C3.20357194,64.7572961 1.5504051,61.2093347 0.800144719,58.1023685 L45.1064126,37.5465919 L45.1064126,54.5464071 L23.0615277,64.7742959 C28.3682231,71.029228 36.2708993,75.002185 45.1064126,75.002185 C53.9409282,75.002185 61.8436044,71.029228 67.1502999,64.7742959 C71.0821831,60.1413463 73.5843813,54.2574103 73.9784675,47.7984805 C74.0153819,47.2024869 74.0393264,46.6054934 74.0393264,46.0005 C74.0393264,29.9856741 61.0853625,17.0008152 45.1064126,17.0008152 C32.0616592,17.0008152 21.0372214,25.6557211 17.4265933,37.5465919 L0,37.5465919 C3.96181382,16.1818241 22.6415016,0.001 45.1064126,0.001 C70.4526428,0.001 91,20.5967761 91,46.0005 C91,52.6904273 89.5643289,59.0393583 87.0022695,64.773296 L87.0022695,64.773296 Z" id="path-2"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="logo-white" transform="translate(0.000000, -31.000000)">
+            <g id="Page-1">
+                <g id="Group-2">
+                    <g id="penGift" transform="translate(91.000000, 0.000000)" font-size="120" font-family="CenturyGothic-Bold, Century Gothic" fill="#FFFFFF" font-weight="bold">
+                        <text id="pe">
+                            <tspan x="0" y="121">pe</tspan>
+                        </text>
+                        <text id="n">
+                            <tspan x="146.035156" y="121">n</tspan>
+                        </text>
+                        <text id="G">
+                            <tspan x="211.346875" y="121">G</tspan>
+                        </text>
+                        <text id="i">
+                            <tspan x="307.128125" y="121">i</tspan>
+                        </text>
+                        <text id="f">
+                            <tspan x="334.697656" y="121">f</tspan>
+                        </text>
+                        <text id="t">
+                            <tspan x="372.271875" y="121">t</tspan>
+                        </text>
+                    </g>
+                    <g id="Rectangle-path-Clipped" transform="translate(0.000000, 31.000000)">
+                        <mask id="mask-3" fill="white">
+                            <use xlink:href="#path-2"></use>
+                        </mask>
+                        <g id="path-2"></g>
+                        <polyline id="Rectangle-path" fill="#FFFFFF" mask="url(#mask-3)" points="576 -4 -26 -4 -26 107 576 107 576 -4 275.088309 -24.2104654 450.797266 -30.1254088"></polyline>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

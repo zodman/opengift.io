@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="499px" height="114px" viewBox="0 0 499 114" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="1.41638472e-14%" y1="50%" x2="100%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#3CC6D7" offset="0%"></stop>
+            <stop stop-color="#63BB91" offset="100%"></stop>
+        </linearGradient>
+        <path d="M87.0022695,95.773296 C84.0351493,102.415224 79.5495499,108.222161 73.9784675,112.749111 C66.0917543,119.156042 56.0490401,123.001 45.1064126,123.001 C34.1637851,123.001 24.1220686,119.156042 16.2343577,112.749111 C10.6592845,108.219161 6.17069213,102.405224 3.20357194,95.7572961 C3.20357194,95.7572961 1.5504051,92.2093347 0.800144719,89.1023685 L45.1064126,68.5465919 L45.1064126,85.5464071 L23.0615277,95.7742959 C28.3682231,102.029228 36.2708993,106.002185 45.1064126,106.002185 C53.9409282,106.002185 61.8436044,102.029228 67.1502999,95.7742959 C71.0821831,91.1413463 73.5843813,85.2574103 73.9784675,78.7984805 C74.0153819,78.2024869 74.0393264,77.6054934 74.0393264,77.0005 C74.0393264,60.9856741 61.0853625,48.0008152 45.1064126,48.0008152 C32.0616592,48.0008152 21.0372214,56.6557211 17.4265933,68.5465919 L0,68.5465919 C3.96181382,47.1818241 22.6415016,31.001 45.1064126,31.001 C70.4526428,31.001 91,51.5967761 91,77.0005 C91,83.6904273 89.5643289,90.0393583 87.0022695,95.773296 Z" id="path-2"></path>
+        <linearGradient x1="-0.00560949885%" y1="49.9464001%" x2="99.9946098%" y2="49.9464001%" id="linearGradient-4">
+            <stop stop-color="#3AC7DA" offset="0%"></stop>
+            <stop stop-color="#43C2CA" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2" transform="translate(0.000000, -31.000000)">
+            <g id="Group" transform="translate(91.000000, 0.000000)"></g>
+            <g id="penGift" transform="translate(0.000000, 31.000000)"></g>
+            <text id="penGift" fill="url(#linearGradient-1)" font-family="CenturyGothic-Bold, Century Gothic" font-size="120" font-weight="bold" letter-spacing="-5">
+                <tspan x="91" y="121">pe</tspan>
+                <tspan x="237.035156" y="121" letter-spacing="-6.7">n</tspan>
+                <tspan x="302.346875" y="121">G</tspan>
+                <tspan x="398.128125" y="121" letter-spacing="-1.20000005">i</tspan>
+                <tspan x="425.697656" y="121" letter-spacing="4">f</tspan>
+                <tspan x="463.271875" y="121">t</tspan>
+            </text>
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <g id="Mask"></g>
+            <polyline id="Rectangle-path" fill="url(#linearGradient-4)" mask="url(#mask-3)" points="576 27 -26 27 -26 138 576 138 576 27 275.088309 6.7895346 450.797266 0.874591225"></polyline>
+        </g>
+    </g>
+</svg>
