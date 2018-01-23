@@ -174,11 +174,11 @@ class PM_User(models.Model):
         sum = self.get_donation_sum()
 
         dl = None
-        if sum > self.OPENGIFTER_SUM:
+        if sum > self.level_sum[self.OPENGIFTER]:
             dl = self.OPENGIFTER
-        elif sum > self.BACKER_SUM:
+        elif sum > self.level_sum[self.BACKER]:
             dl = self.BACKER
-        elif sum > self.DONATOR_SUM:
+        elif sum > self.level_sum[self.DONATOR]:
             dl = self.DONATOR
 
         if self.opengifter_level != dl:
