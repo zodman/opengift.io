@@ -83,6 +83,7 @@ class PM_User(models.Model):
     second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
+    paypal = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'Paypal account (for money transfer from OpenGift Exchange)')
     skype = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Skype')
     telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
     linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
