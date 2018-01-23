@@ -464,7 +464,7 @@ def projectDetailPublic(request, project_id):
     time = round(time)
 
     aIndustries = [p for p in project.industries.filter(active=True)]
-
+    project.link_video = project.link_video.replace("watch?v=", "embed/")
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
