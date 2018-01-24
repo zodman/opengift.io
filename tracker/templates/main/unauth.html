@@ -23,6 +23,9 @@
                                 {% ifequal error "incorrect_email" %}
                                     <div class="label-danger">Email is incorrect</div>
                                 {% endifequal %}
+                                {% ifequal error "incorrect_captcha" %}
+                                    <div class="label-danger">Please sure that you are not robot</div>
+                                {% endifequal %}
                             </div>
                             {% endif %}
                         </div>
