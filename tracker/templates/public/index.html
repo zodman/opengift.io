@@ -171,11 +171,11 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">WhitePaper</a>
-                            <div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">
-							    <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a><br />
-							    <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a><br />
-							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a><br />
-							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a><br />
+                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							    <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a>
                             </div>
                         </li>
                         <li class="nav-item">
@@ -186,11 +186,11 @@
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="/wallet/">Wallet</a>
-                            <div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">
-							    <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a><br />
-							    <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a><br />
+                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							    <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
+							    <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a>
                                 {% if request.user.is_authenticated %}
-                                    <a class="dropdown-item u-d-block" href="/login/?logout=yes">Logout</a><br />
+                                    <a class="dropdown-item u-d-block" href="/login/?logout=yes">Logout</a>
                                 {% endif %}
                             </div>
                         </li>
