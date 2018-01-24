@@ -1,5 +1,5 @@
 __author__ = 'Gvammer'
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect
 from PManager.models import PM_User, PM_Project, PM_Project_Donation, PM_Task
 from django.template import loader, RequestContext
 
@@ -10,6 +10,11 @@ class Public:
             project = PM_Project.objects.get(pk=495)
         except PM_Project.DoesNotExist:
             project = PM_Project.objects.all()[0]
+
+        if request.GET.get('logout', None) == 'yes':
+            from django.contrib.auth import logout
+            logout(request)
+            return HttpResponseRedirect('/pub/')
 
         c = RequestContext(request, {
             'projects_qty': PM_Project.objects.filter(public=True).count(),
