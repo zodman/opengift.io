@@ -8,72 +8,76 @@ from tracker.settings import GIFT_USD_RATE
 
 CRYPTO_HOST = '188.166.237.19'
 
+
 def get_rate():
     fp = urllib.urlopen("https://blockchain.info/tobtc?currency=USD&value=1")
     res = fp.read()
     coinRateInBtc = float(res)
     return "{0:.8f}".format(coinRateInBtc)
 
+
 def bitcoin_set_request(project_name, sum, milestone=None):
     service_url = '/bitcoin/request/create'
 
-    fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url + '?project='+str(project_name)+'&sum='+str(sum))
+    fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url + '?project=' + str(project_name) + '&sum=' + str(sum))
     res = fp.read()
 
     return json.loads(res)
+
 
 def get_paid_btc():
     service_url = '/bitcoin/request/paid'
     all_url = '/bitcoin/request/list.json'
     service_url_clear = '/bitcoin/request/clear'
 
-    coinRateInBtc = get_rate() * GIFT_USD_RATE
+    coinRateInBtc = float(get_rate()) * GIFT_USD_RATE
 
     exchangeName = 'opengift@opengift.io'
 
     fp = urllib.urlopen("http://" + CRYPTO_HOST + service_url)
     res = fp.read()
     res = json.loads(res)
-    strCode = 'start '+"\r\n"
+    strCode = 'start ' + "\r\n"
+    if res:
+        for elem in res:
+            donateCode = elem['memo'].split(':')
+            milestoneId = donateCode.pop()
+            userId = donateCode.pop()
+            projectCode = donateCode.pop()
 
-    for elem in res:
-        donateCode = elem['memo'].split(':')
-        milestoneId = donateCode.pop()
-        userId = donateCode.pop()
-        projectCode = donateCode.pop()
+            user = None
+            try:
+                user = User.objects.get(pk=int(userId))
+            except ValueError, User.DoesNotExist:
+                pass
 
-        user = None
-        try:
-            user = User.objects.get(pk=int(userId))
-        except ValueError, User.DoesNotExist:
-            pass
+            milestone = None
+            try:
+                milestone = PM_Milestone.objects.get(pk=int(milestoneId))
+            except ValueError, User.DoesNotExist:
+                pass
 
-        milestone = None
-        try:
-            milestone = PM_Milestone.objects.get(pk=int(milestoneId))
-        except ValueError, User.DoesNotExist:
-            pass
+            coins = float(elem['amount (BTC)']) / float(coinRateInBtc)
+            coins = round(coins, 4)
+            try:
+                project = PM_Project.objects.get(blockchain_name=projectCode)
+                strCode += '' + projectCode + ' [' + str(project.id) + ']: ' + elem['amount (BTC)'] + ' BTC (' + str(
+                    coins) + ' COIN)' + "\r\n"
+                if donate(coins, project, user, milestone, exchangeName):
+                    urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address=' + elem['address'])
+                else:
+                    strCode += "failed to donate to " + project.blockchain_name + "\r\n"
 
-        coins = float(elem['amount (BTC)']) / float(coinRateInBtc)
-        coins = round(coins, 4)
-        try:
-            project = PM_Project.objects.get(blockchain_name=projectCode)
-            strCode += '' + projectCode + ' ['+str(project.id)+']: ' + elem['amount (BTC)'] + ' BTC ('+str(coins)+' COIN)'+"\r\n"
-            if donate(coins, project, user, milestone, exchangeName):
-                urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
-            else:
-                strCode += "failed to donate to "+project.blockchain_name+"\r\n"
-
-        except PM_Project.DoesNotExist:
-            pass
+            except PM_Project.DoesNotExist:
+                pass
 
     fp = urllib.urlopen("http://" + CRYPTO_HOST + all_url)
     res = fp.read()
     res = json.loads(res)
     for elem in res:
         if elem['status'] == 'Expired':
-            urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address='+elem['address'])
-            strCode += "Cleared expired "+elem['address']+"\r\n"
+            urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address=' + elem['address'])
+            strCode += "Cleared expired " + elem['address'] + "\r\n"
 
     fd = open('log/crypto/btcRead.log', "a")
     fd.write(strCode)
