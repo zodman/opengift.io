@@ -159,33 +159,41 @@
 
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
+                        <li class="nav-item active">
                             <a class="nav-link" href="/pub/">Main</a>
                         </li>
-                        <li class="nav-item active">
-                            <a class="nav-link active" href="/ico/">ICO</a>
+                        <li class="nav-item">
+                            <a class="nav-link" href="/ico/">ICO</a>
                         </li>
+
                         <li class="nav-item">
                             <a class="nav-link" href="/faq/">FAQ</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">WhitePaper</a>
-                            <div class="dropdown-menu box-shadow-v2 dropdown__col-2" aria-labelledby="navbarDropdown">
-							    <a class="dropdown-item" href="/static/documents/wp.eng.pdf">EN</a>
-							    <a class="dropdown-item" href="/static/documents/wp.ru.pdf">RU</a>
+                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							    <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a>
+							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a>
                             </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/project/list/">Projects</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="/wallet/">Online Wallet</a>
+                            <a class="nav-link" href="/backers/">OpenGifters</a>
                         </li>
-                        {% if request.user.is_authenticated %}
-                        <li class="nav-item">
-                            <a class="nav-link" href="/profile/edit/">My Profile</a>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="/wallet/">Wallet</a>
+                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+							    <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
+							    <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a>
+                                {% if request.user.is_authenticated %}
+                                    <a class="dropdown-item u-d-block" href="/pub/?logout=yes">Logout</a>
+                                {% endif %}
+                            </div>
                         </li>
-                        {% endif %}
                     </ul>
                 </div>
 
