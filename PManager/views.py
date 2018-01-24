@@ -109,6 +109,21 @@ class MainPage:
         if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
             username = request.POST['username']
             password = request.POST['password']
+            recaptcha = request.POST['g-recaptcha-response']
+
+            import requests, json
+            r = requests.post("https://www.google.com/recaptcha/api/siteverify",
+                              data={
+                                  'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
+                                  'response':recaptcha
+                              })
+            r = json.loads(r.text)
+            if not r['success']:
+                return HttpResponse(
+                        loader.get_template('main/unauth.html').render(
+                            RequestContext(request, {"error": "incorrect_captcha"})
+                        )
+                    )
 
             backurl = request.POST.get('backurl', None)
             if not backurl:
