@@ -122,11 +122,6 @@ def initGlobals(request):
     else:
         WhoAreYouForm = False
 
-    if 'logout' in request.GET and bIsAuthenticated:
-        if request.GET['logout'] == 'Y':
-            logout(request)
-            redirect = "/"
-
     can_invite = False
     is_manager = False
     if CURRENT_PROJECT and bIsAuthenticated:
@@ -135,6 +130,11 @@ def initGlobals(request):
         is_manager = request.user.get_profile().isManager(CURRENT_PROJECT)
 
     is_author = bIsAuthenticated and request.user.createdProjects.exists()
+
+    if 'logout' in request.GET and bIsAuthenticated:
+        if request.GET['logout'] == 'Y':
+            logout(request)
+            redirect = "/"
 
     return {
         'SET_COOKIE': SET_COOKIE,
