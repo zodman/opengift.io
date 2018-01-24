@@ -153,7 +153,7 @@ class MainPage:
             except User.DoesNotExist:
                 error = None
                 if not emailMessage.validateEmail(username):
-                    error = u'Введите правильный email'
+                    error = u'Enter correct email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)
 
