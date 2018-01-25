@@ -62,10 +62,10 @@
                                            class="js-donate btn btn-success"/>
                                 </div>
                             </div>
-                            <p>
-                                <small>1 BTC = $<span data-currency="btc" class="js-currency-rate"></span></small>
+                            <p class>
+                                <small>1 BTC = $<span data-currency="btc" class="js-currency-rate">...</span></small>
                                 &nbsp;&nbsp;&nbsp;
-                                <small>1 GIFT = $<span data-currency="gift" class="js-currency-rate"></span></small>
+                                <small>1 GIFT = $<span data-currency="gift" class="js-currency-rate">...</span></small>
                             </p>
                         </form>
                     </div>
@@ -73,11 +73,8 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
         <script>
-            {% if request.user.get_profile.blockchain_wallet %}
+
                 $(function () {
-                    getKey(function () {
-                        getBalance();
-                    });
                     $('.js-currency-rate').each(function () {
                         var t = this;
                         $.post('/blockchain/ajax/', {
@@ -87,6 +84,11 @@
                             $(t).html(Math.round(100 / parseFloat(data)) / 100);
                         });
                     });
+                    {% if request.user.get_profile.blockchain_wallet %}
+                    getKey(function () {
+                        getBalance();
+                    });
+                    {% endif %}
                     $('.js-fast-donate').click(function () {
                         var val = parseFloat($(this).data('value')),
                             rate = parseFloat($('.js-currency-rate[data-currency=' + $('.js-currency').val() + ']').text());
@@ -104,6 +106,7 @@
                         $('.js-target-project-sum').val(val);
                         return false;
                     });
+
                 });
                 var getKey = function (callback) {
                     $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
@@ -120,7 +123,7 @@
                     });
                     return false;
                 };
-            {% endif %}
+
 
 
             var donate = function (project, qty, currency, milestone) {
