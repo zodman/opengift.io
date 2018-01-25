@@ -101,6 +101,7 @@
                             {% endfor %}
                         {% endif %}
                     </h1>
+                    {% if project.blockchain_name %}<div><small>Blockchain name: <b>{{ project.blockchain_name }}</b></small></div>{% endif %}
                     {% if long_industries_list %}
                         {% for tag in tagList %}
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
@@ -337,7 +338,7 @@
 
                         {% for user in team %}
                             {% if user.get_profile.avatarSrc %}
-                                <div class="rounded bg-white text-center">
+                                <div class="rounded bg-white text-center js-team-member" data-wallet="{{ user.get_profile.blockchain_wallet }}">
                                     <div class="rounded-circle u-w-90-wrapper mb-4"
                                          style="background: url('{{ user.get_profile.avatarSrc }}');">
                                     </div>
@@ -352,6 +353,7 @@
                                     <p>
                                         {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
                                             {% if not forloop.last %}, {% endif %}{% endfor %}
+                                        <div style="display: none;" class="u-bg-primary text-white rounded user-share js-share"><span class="js-share-percent">20</span>%</div>
                                     </p>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         {% if user.get_profile.skype %}
@@ -599,6 +601,12 @@
       </div> <!-- END container-->
     </section>
     <script>
+        var getProjectVals = function (p, call) {
+            $.post('/blockchain/ajax/', {'action': 'getProjectVals', 'pName': p}, function (data) {
+                data = $.parseJSON(data);
+                call(data);
+            });
+        };
         var getProjectState = function (p, call) {
             $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
                 if (data == 'ok')
@@ -606,8 +614,18 @@
             });
         };
         $(function () {
-            getProjectState('{{ project.name }}', function () {
+            getProjectState('{{ project.blockchain_name }}', function () {
                 $('.js-donate').show();
+            });
+            getProjectVals('{{ project.blockchain_name }}', function(data) {
+                $('.js-team-member').each(function() {
+                    if ($(this).data('wallet')) {
+                        var share = data['Users'][$(this).data('wallet')];
+                        if (share) {
+                            $(this).find('.js-share').show().find('.js-share-percent').text(share)
+                        }
+                    }
+                });
             });
             var liked = {}, $mstcnt;
             $('.js-milestone-like').click(function () {
