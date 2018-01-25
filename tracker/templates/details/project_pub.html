@@ -356,31 +356,7 @@
                 </div> <!-- END row-->
             </div> <!-- END container-->
         </section>
-        <section class="u-py-100 bg-gray-v1">
-            <div style="padding: 0 6.25rem;">
-                <div class="row">
-                    <div class="col-lg-6 m-auto text-center">
-                        <h2 class="h1">
-                            Project's pulse
-                        </h2>
 
-                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    {% for chart in statistic.charts %}
-                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">
-                            <div class="card border-0 box-shadow-v1 u-h-100p">
-                                <div class="u-p-30">
-                                    <h4 class="text-center">{{ chart.title }}</h4>
-                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
         <script>
             $(function () {
                 {% for chart in statistic.charts %}
@@ -553,6 +529,31 @@
             </div>
         {% endif %}
     </section>
+    <section class="u-py-100">
+            <div style="padding: 0 6.25rem;">
+                <div class="row">
+                    <div class="col-lg-6 m-auto text-center">
+                        <h2 class="h1">
+                            Project's pulse
+                        </h2>
+
+                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for chart in statistic.charts %}
+                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">
+                            <div class="card border-0 box-shadow-v1 u-h-100p">
+                                <div class="u-p-30">
+                                    <h4 class="text-center">{{ chart.title }}</h4>
+                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
     <section class="u-py-md-250 u-flex-center" >
       <div class="container">
         <div class="row align-items-center">
