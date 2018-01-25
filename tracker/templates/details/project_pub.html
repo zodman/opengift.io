@@ -619,18 +619,18 @@
             getProjectState('{{ project.blockchain_name }}', function () {
                 $('.js-donate').show();
             });
-            getProjectVals('{{ project.blockchain_name }}', function(data) {
-                $('.js-team-member[data-wallet]').each(function() {
-                    if ($(this).data('wallet')) {
-                        var share = data['Users'][$(this).data('wallet')];
-                        (function(s, t) {
-                            if (s) {
-                                $(t).find('.js-share').show().find('.js-share-percent').text(s)
-                            }
-                        })(share, this);
-                    }
-                });
-            });
+{#            getProjectVals('{{ project.blockchain_name }}', function(data) {#}
+{#                $('.js-team-member[data-wallet]').each(function() {#}
+{#                    if ($(this).data('wallet')) {#}
+{#                        var share = data['Users'][$(this).data('wallet')];#}
+{#                        (function(s, t) {#}
+{#                            if (s) {#}
+{#                                $(t).find('.js-share').show().find('.js-share-percent').text(s)#}
+{#                            }#}
+{#                        })(share, this);#}
+{#                    }#}
+{#                });#}
+{#            });#}
             var liked = {}, $mstcnt;
             $('.js-milestone-like').click(function () {
                 if (!liked[$(this).data('id')]) {
