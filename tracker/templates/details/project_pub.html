@@ -354,7 +354,7 @@
                                     <div>
                                         {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
                                             {% if not forloop.last %}, {% endif %}{% endfor %}
-                                        <div style="width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;" class="bg-primary text-white text-center rounded user-share js-share"><span class="js-share-percent">28</span>%</div>
+                                        <div style="display: none;width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;" class="bg-primary text-white text-center rounded user-share js-share" sty><span class="js-share-percent"></span>%</div>
 
                                     </div>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
