@@ -338,7 +338,8 @@
 
                         {% for user in team %}
                             {% if user.get_profile.avatarSrc %}
-                                <div class="rounded bg-white text-center js-team-member" data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                                <div class="rounded bg-white text-center js-team-member"
+                                     data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
                                     <div class="rounded-circle u-w-90-wrapper mb-4"
                                          style="background: url('{{ user.get_profile.avatarSrc }}');">
                                     </div>
@@ -622,9 +623,11 @@
                 $('.js-team-member').each(function() {
                     if ($(this).data('wallet')) {
                         var share = data['Users'][$(this).data('wallet')];
-                        if (share) {
-                            $(this).find('.js-share').show().find('.js-share-percent').text(share)
-                        }
+                        (function(s, t) {
+                            if (s) {
+                                $(t).find('.js-share').show().find('.js-share-percent').text(s)
+                            }
+                        })(share, this);
                     }
                 });
             });
