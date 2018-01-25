@@ -101,7 +101,7 @@
                             {% endfor %}
                         {% endif %}
                     </h1>
-                    {% if project.blockchain_name %}<div><small>Blockchain name: <b>{{ project.blockchain_name }}</b></small></div>{% endif %}
+                    {% if project.blockchain_name %}<div class="text-white"><small>Blockchain name: <b>{{ project.blockchain_name }}</b></small></div>{% endif %}
                     {% if long_industries_list %}
                         {% for tag in tagList %}
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
