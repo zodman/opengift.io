@@ -620,7 +620,7 @@
                 $('.js-donate').show();
             });
             getProjectVals('{{ project.blockchain_name }}', function(data) {
-                $('.js-team-member').each(function() {
+                $('.js-team-member[data-wallet]').each(function() {
                     if ($(this).data('wallet')) {
                         var share = data['Users'][$(this).data('wallet')];
                         (function(s, t) {
