@@ -1,7 +1,6 @@
 {% extends extends %}
 {% load less %}
 {% block content %}
-    {% if is_opengift %}
         <section>
             <form name="authform" action="/login/" method="POST">
                 {% csrf_token %}
@@ -75,92 +74,4 @@
             </form>
         </section>
         <script>$(function() {$('[name=username]').focus();});</script>
-    {% else %}
-
-        <div class="container">
-            <div class="loginPage">
-                <div class="loginPage-logoBig">
-                    <br><br>
-                </div>
-                <div class="loginPage-helloText">
-                    <h3 style="color: #444;margin: 16px 0 0;"></h3>
-                    <p align="center">
-                        <br><img src="/static/images/video_small.png" class="img-responsive"
-                                 style="margin-left: 40px;"/><br><br>
-                    </p>
-                </div>
-
-                <div class="loginPage-loginBlock well text-center clearfix">
-                    <form class="form-inline loginPage-loginBlock-form" name="authform" action="/login/" method="POST">
-                        {% csrf_token %}
-                        <input class="input-medium form-control" type="text" name="username" value="Email"
-                               onfocus="if(this.value==this.defaultValue)this.value='';"
-                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                        <input class="input-medium form-control" type="password" name="password" value="Пароль"
-                               onfocus="if(this.value==this.defaultValue)this.value='';"
-                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                        <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти"/>
-                        <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                        <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}"/>
-                    </form>
-                </div>
-                {% ifequal error "not_found" %}
-                    <div class='alert alert-danger' role="alert">
-                        <strong>Ошибка:</strong>&nbsp;Email или пароль введены неверно.
-                    </div>
-                {% endifequal %}
-                {% ifequal error "not_active" %}
-                    <div class='alert alert-danger' role="alert">
-                        <strong>Ошибка:</strong>&nbsp;Пользователь не активен
-                    </div>
-                {% endifequal %}
-                <p class="footer-links"><a href="/change_password/">Забыли пароль?</a></p>
-            </div>
-        </div>
-        <style type="text/css">
-            body {
-                padding-top: 20px;
-            }
-        </style>
-        <script>
-            $(function () {
-                $('.fancybox-media').fancybox();
-            });
-        </script>
-        <script type="text/javascript">
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function () {
-                    try {
-                        w.yaCounter26252781 = new Ya.Metrika({
-                            id: 26252781,
-                            webvisor: true,
-                            clickmap: true,
-                            trackLinks: true,
-                            accurateTrackBounce: true
-                        });
-                    } catch (e) {
-                    }
-                });
-
-                var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () {
-                        n.parentNode.insertBefore(s, n);
-                    };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "yandex_metrika_callbacks");
-        </script>
-        <noscript>
-            <div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt=""/></div>
-        </noscript>
-        <!-- /Yandex.Metrika counter -->
-    {% endif %}
 {% endblock %}
