@@ -117,7 +117,7 @@ class MainPage:
             except User.DoesNotExist:
                 message = 'not_found'
 
-        c = RequestContext(request, {"message": message})
+        c = RequestContext(request, {"message": message, 'is_confirmation': not not request.GET.get('code')})
         return HttpResponse(loader.get_template('main/change_password.html').render(c))
 
     @staticmethod
