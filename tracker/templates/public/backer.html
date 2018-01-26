@@ -1,0 +1,367 @@
+{% extends "public/index.html" %}
+{% load thumbnail get_settings compressed %}
+{% block header %}
+    <meta name="description" content="Donators profile on OpenGift" />
+    <title>OpenGift.io - {{ user.last_name }} {{ user.first_name }}</title>
+{% endblock %}
+{% block content %}
+<section class="o-hidden">
+    <div class="user-header-blur" style="background-image: url('http://heliard.dev/static/img/team/emor.jpg');"></div>
+    <div class="u-pt-50 user-wrapper">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-9 col-12 u-mb-30">
+
+                        <div class="user-header bg-white box-shadow-v2 rounded">
+                            <div class="list-inline social social-rounded rounded-circle share-block">
+                                <a href="" class="bg-blue">
+                                    <i class="fa fa-sign-out" aria-hidden="true" style="transform: rotate(-90deg);"></i>
+                                </a>
+                                <ul class="list-inline social social-rounded social-white">
+                                    <li class="mt-2">
+                                        <a href="" class="bg-gray-v2"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="" class="bg-gray-v2"><i class="fa fa-twitter"></i></a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="" class="bg-gray-v2"><i class="fa fa-google-plus"></i></a>
+                                    </li>
+                                    <li class="mt-2">
+                                        <a href="" class="bg-gray-v2"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="user-header-desc">
+                                <div class="container">
+                                    <div class="row">
+                                        <div class="col-md-4 user-img-wrapper u-p-35 rounded-left">
+
+                                            <div class="user-img-wrapper-blur" style="background-image: url('/static/img/team/ktru.jpg');"></div>
+
+                                            <div class="user-img-desc">
+                                                {% if user.get_profile.avatarSrc %}
+                                                <div class="user-img u-mb-10 rounded-circle">
+                                                    <!--<div class="user-status yellow-gr rounded-circle"><img src="/static/public/assets/img/crown.svg"></div>-->
+                                                    <img src="{{ user.get_profile.avatarSrc }}" class="rounded-circle">
+                                                </div>
+                                                {% endif %}
+                                                <ul class="user-socials-links list-unstyled social-rounded social-white">
+                                                    {% if user.get_profile.facebook %}
+                                                    <li class="mb-3 list-inline-item">
+                                                        <a href="{{ user.get_profile.facebook }}" class="text-black">
+                                                            <span class="u-flex-center u-w-30 u-h-30 bg-facebook text-white rounded-circle">
+                                                                <i class="fa fa-facebook"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    {% endif %}
+                                                    {% if user.get_profile.twitter %}
+                                                    <li class="mb-3 list-inline-item">
+                                                        <a href="{{ user.get_profile.twitter }}" class="text-black">
+                                                            <span class="u-flex-center u-w-30 u-h-30 bg-twitter text-white rounded-circle">
+                                                                <i class="fa fa-twitter"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    {% endif %}
+                                                    {% if user.get_profile.linkedin %}
+                                                    <li class="mb-3 list-inline-item">
+                                                        <a href="{{ user.get_profile.linkedin }}" class="text-black">
+                                                            <span class="u-flex-center u-w-30 u-h-30 bg-linkedin text-white rounded-circle">
+                                                                <i class="fa fa-linkedin"></i>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                    {% endif %}
+                                                </ul>
+
+
+                                            </div>
+                                        </div>
+                                        <div class="col-md-8 u-p-35">
+
+                                            <h2 class="u-mb-5">
+                                                {{ user.first_name }} {{ user.last_name }}
+                                            </h2>
+                                            <div class="text-muted u-fs-13 u-mb-20">Registered: {{ user.date_joined|date:'d.m.Y' }}</div>
+                                            <div class="u-mb-25">
+                                                <span class="small-text-label bg-blue btn btn-xs btn-rounded text-white">IoT</span>
+                                                <span class="small-text-label bg-blue btn btn-xs btn-rounded text-white">System Software</span>
+                                                <span class="small-text-label bg-blue btn btn-xs btn-rounded text-white">System Utilities</span>
+                                            </div>
+
+                                            <ul class="list-unstyled rounded">
+{#                                                <li class="mb-2">#}
+{#                                                    <i class="fa fa-envelope text-black mr-2"></i>#}
+{#                                                    <a href="mailto:support@echotheme.com" class="text-black">support@echotheme.com</a>#}
+{#                                                </li>#}
+                                                {% if user.get_profile.skype %}
+                                                <li class="mb-2">
+                                                    <i class="fa u-fs-18 fa-skype text-black mr-2"></i>
+                                                    {{ user.get_profile.skype }}
+                                                </li>
+                                                {% endif %}
+                                            </ul>
+
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-12 u-mb-30 flex-centered">
+                        <div class="bg-white box-shadow-v2 rounded flex-centered">
+                            {% if user.get_profile.is_opengifter %}
+                            <div class="u-p-35 margin-auto">
+                                <div class="user-status-big">
+                                    <div class="yellow-gr rounded-circle"><img src="/static/public/assets/img/crown.svg"></div>
+                                </div>
+                                <h1 align="center" class="nowrap">{{ user.get_profile.get_donation_sum }}</h1>
+                            </div>
+                            {% else %}
+                            <!--Батарейка-->
+                            <div class="u-pt-60 u-p-35" style="margin-left: -65px;">
+
+                                <div class="vertical-progress-bar-wrapper">
+                                    <div class="vertical-progress-bar-inner">
+                                        <h6 class="vertical-progress-bar-wrapper-desc">LEVEL</h6>
+
+                                        <div class="vertical-progress-bar" style="height: {{ percent|floatformat }}%">
+                                            <div class="vertical-progress-bar-sum bg-blue btn btn-sm btn-rounded">{{ percent|floatformat }}%</div>
+                                        </div>
+
+                                        <div class="vertical-progress-bar-borders"></div>
+                                        <div class="vertical-progress-bar-texts">
+                                            <div class="vertical-progress-bar-item-og"><span class="yellow-gr text-white rounded btn-xs yellow-shadow">Opengifter</span></div>
+                                            <div class="vertical-progress-bar-item-b"><span class="orange-gr text-white rounded btn-xs orange-shadow">Baker</span></div>
+                                            <div class="vertical-progress-bar-item-d"><span class="purple-gr text-white  rounded btn-xs purple-shadow">Donator</span></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+<div class="container u-mb-30 user-block-detailed">
+
+        <div class="bg-white box-shadow-v2 rounded">
+            <h4 class="blue-gr u-p-35 m-0 u-pt-10 u-pb-10 text-white rounded-top">Donations</h4>
+
+            <div class="project-list u-p-35">
+                <div class="list-group u-mb-25">
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-xl-1 col-lg-12 flex-centered">
+                                <small class="text-muted margin-auto width-100">03.02.2013</small>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 flex-centered">
+                                <h4 class="margin-auto width-100"><a href="#">CMV-React</a></h4>
+                            </div>
+                            <div class="col-xl-6 col-lg-7 flex-centered">
+                                <h6 class="margin-auto width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </h6>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 flex-centered">
+                                <ul class="list-unstyled mb-0 width-100">
+                                    <li class="list-inline-item mr-3">
+                                        <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                        <span data-id="271" class="js-milestone-likes-count">100000</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-xl-1 col-lg-12 flex-centered">
+                                <small class="text-muted margin-auto width-100">03.02.2013</small>
+                            </div>
+                            <div class="col-xl-3 col-lg-3 flex-centered">
+                                <h4 class="margin-auto width-100"><a href="#">CMV-React</a></h4>
+                            </div>
+                            <div class="col-xl-6 col-lg-7 flex-centered">
+                                <h6 class="margin-auto width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </h6>
+                            </div>
+                            <div class="col-xl-2 col-lg-2 flex-centered">
+                                <ul class="list-unstyled mb-0 width-100">
+                                    <li class="list-inline-item mr-3">
+                                        <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                        <span data-id="271" class="js-milestone-likes-count">100000</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p align="center"><a href="" class="btn btn-sm btn-blue">Show all</a> </p>
+            </div>
+        </div>
+    </div>
+        <div class="container u-mb-30 user-block-detailed">
+
+        <div class="bg-white box-shadow-v2 rounded">
+            <h4 class="green-gr u-p-35 m-0 u-pt-10 u-pb-10 text-white rounded-top">Created Goals</h4>
+
+            <div class="project-list u-p-35">
+                <h4 class="u-mb-25" align="center">Project 1</h4>
+                <div class="list-group u-mb-25">
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-md-6 flex-centered">
+                                <h6 class="margin-auto width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </h6>
+                            </div>
+                            <div class="col-md-4 flex-centered">
+                                <div class="progress-item margin-auto width-100">
+                                    <h6 class="pull-left">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="list-inline-item mr-3">
+                                                <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                                <span data-id="271" class="js-milestone-likes-count">0</span>
+                                            </li>
+                                            <li class="list-inline-item"><i class="fa fa-heart text-red mr-1"></i> <span data-id="271" class="js-milestone-likes-count">0</span></li>
+                                        </ul>
+                                    </h6>
+                                    <h6 class="pull-right">90%</h6>
+                                    <div class="clearfix"></div>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar green-gr" aria-valuenow="90" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 flex-centered">
+                                <small class="text-muted margin-auto">03.02.2013</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-md-6 flex-centered">
+                                <h6 class="margin-auto width-100">New core CMV modules and widgets using React/Redux </h6>
+                            </div>
+                            <div class="col-md-4 flex-centered">
+                                <div class="progress-item margin-auto width-100">
+                                    <h6 class="pull-left">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="list-inline-item mr-3">
+                                                <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                                <span data-id="271" class="js-milestone-likes-count">0</span>
+                                            </li>
+                                            <li class="list-inline-item"><i class="fa fa-heart text-red mr-1"></i> <span data-id="271" class="js-milestone-likes-count">0</span></li>
+                                        </ul>
+                                    </h6>
+                                    <h6 class="pull-right">90%</h6>
+                                    <div class="clearfix"></div>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar green-gr" aria-valuenow="90" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 flex-centered">
+                                <small class="text-muted margin-auto">03.02.2013</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <h4 class="u-mb-25" align="center">Project 1</h4>
+                <div class="list-group u-mb-25">
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-md-6 flex-centered">
+                                <h6 class="margin-auto width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </h6>
+                            </div>
+                            <div class="col-md-4 flex-centered">
+                                <div class="progress-item margin-auto width-100">
+                                    <h6 class="pull-left">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="list-inline-item mr-3">
+                                                <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                                <span data-id="271" class="js-milestone-likes-count">0</span>
+                                            </li>
+                                            <li class="list-inline-item"><i class="fa fa-heart text-red mr-1"></i> <span data-id="271" class="js-milestone-likes-count">0</span></li>
+                                        </ul>
+                                    </h6>
+                                    <h6 class="pull-right">90%</h6>
+                                    <div class="clearfix"></div>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar green-gr" aria-valuenow="90" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 flex-centered">
+                                <small class="text-muted margin-auto">03.02.2013</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-md-6 flex-centered">
+                                <h6 class="margin-auto width-100">New core CMV modules and widgets using React/Redux </h6>
+                            </div>
+                            <div class="col-md-4 flex-centered">
+                                <div class="progress-item margin-auto width-100">
+                                    <h6 class="pull-left">
+                                        <ul class="list-unstyled mb-0">
+                                            <li class="list-inline-item mr-3">
+                                                <img src="/static/public/assets/img/gift-ico.svg" class="svg-ico mr-1">
+                                                <span data-id="271" class="js-milestone-likes-count">0</span>
+                                            </li>
+                                            <li class="list-inline-item"><i class="fa fa-heart text-red mr-1"></i> <span data-id="271" class="js-milestone-likes-count">0</span></li>
+                                        </ul>
+                                    </h6>
+                                    <h6 class="pull-right">90%</h6>
+                                    <div class="clearfix"></div>
+                                    <div class="progress w-100">
+                                        <div class="progress-bar green-gr" aria-valuenow="90" style="width: 90%;"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-2 flex-centered">
+                                <small class="text-muted margin-auto">03.02.2013</small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="container u-mb-30 user-block-detailed">
+
+        <div class="bg-white box-shadow-v2 rounded">
+            <h4 class="orange-gr u-p-35 m-0 u-pt-10 u-pb-10 text-white rounded-top clearfix">
+                <div class="float-md-left">Reviews</div>
+                <div class="float-md-right">Expert rating: 10000</div>
+            </h4>
+
+            <div class="project-list u-p-35">
+                <div class="list-group u-mb-25">
+                    <div class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="row">
+                            <div class="col-lg-2 flex-centered">
+                                <h4 class="margin-auto width-100"><a href="#">CMV-React</a></h4>
+                            </div>
+                            <div class="col-lg-4 flex-centered">
+                                <h6 class="margin-auto u-lh-1_6 width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </h6>
+                            </div>
+                            <div class="col-lg-4 flex-centered">
+                                <p class="margin-auto u-fs-14 u-lh-1_8 width-100">Update core CMV framework and widgets for use with Esri JavaScript API version 4.x </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <p align="center"><a href="" class="btn btn-sm btn-orange">Show all</a> </p>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+{% endblock %}

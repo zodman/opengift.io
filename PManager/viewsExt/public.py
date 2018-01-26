@@ -1,9 +1,26 @@
 __author__ = 'Gvammer'
-from django.shortcuts import HttpResponse, HttpResponseRedirect
+from django.shortcuts import HttpResponse, HttpResponseRedirect, Http404
 from PManager.models import PM_User, PM_Project, PM_Project_Donation, PM_Task
 from django.template import loader, RequestContext
+from django.contrib.auth.models import User
 
 class Public:
+
+    @staticmethod
+    def backerProfile(request, user_id):
+        try:
+            user = User.objects.get(pk=user_id)
+        except User.DoesNotExist:
+            raise Http404
+
+        c = RequestContext(request, {
+            'need_inverse': True,
+            'user': user,
+            'percent': float(user.get_profile().get_donation_sum() * 100) / PM_User.level_sum[PM_User.OPENGIFTER]
+        })
+
+        return HttpResponse(loader.get_template('public/backer.html').render(c))
+
     @staticmethod
     def mainPage(request):
         try:

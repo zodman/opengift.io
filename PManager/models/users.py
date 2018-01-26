@@ -88,6 +88,7 @@ class PM_User(models.Model):
     skype = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Skype')
     telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
     linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
+    facebook = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Facebook account')
     phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Phone number')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
