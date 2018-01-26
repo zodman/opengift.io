@@ -10,6 +10,7 @@ from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
 from PManager.viewsExt.releases import releasesResponder
 from PManager.viewsExt.users import userHandlers
+from PManager.viewsExt.faq import list as faq_list
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
     taskdraft_resend_invites, taskdraft_accept_developer
@@ -171,7 +172,7 @@ urlpatterns = patterns('',
                        url(r'^pub/', Public.mainPage),
                        url(r'^ico/', Public.icoPage),
                        url(r'^backers/$', TemplateView.as_view(template_name='public/backers.html'), {'need_inverse': True}),
-                       url(r'^faq/$', TemplateView.as_view(template_name='public/faq.html'), {'need_inverse': True}),
+                       url(r'^faq/$', faq_list),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),
                        url(r'^wiki/', include('wiking.urls'))
                        )

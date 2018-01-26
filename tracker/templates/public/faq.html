@@ -8,6 +8,42 @@
 {% block content %}
     <section id="faq" class="">
         <div class="container u-pt-50">
+            {% for ar_cat in categories %}
+            <div class="row">
+                <div class="col-lg-6 m-auto text-center">
+                    <h2 class="h1">
+                        {{ ar_cat.category.name }}
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                </div>
+            </div> <!--END row-->
+            <div class="row">
+                <div class="col-12 mt-4">
+                    <div id="accordion{{ ar_cat.category.id }}" role="tablist" class="bg-white box-shadow-v3">
+                        {% for question in ar_cat.questions %}
+                        <div class="accordion__faq">
+                            <a class="accordion__title p-4 collapsed" data-toggle="collapse" href="#question{{ question.id }}"
+                               aria-expanded="false">
+                                <i class="fa fa-angle-down mr-3"></i>
+                                {{ question.question }}
+                            </a>
+
+                            <div id="question{{ question.id }}" class="collapse" role="tabpanel" data-parent="#accordion{{ ar_cat.category.id }}" style="">
+                                <div class="accordion__text">
+                                    {{ question.answer|safe }}
+                                </div>
+                            </div>
+                        </div>     <!-- END accordion__faq-->
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section id="faq" class="">
+        <div class="container u-pt-50">
 
             <div class="row">
                 <div class="col-lg-6 m-auto text-center">

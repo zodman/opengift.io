@@ -8,7 +8,8 @@ from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, 
     PM_Properties, PM_Project, PM_Tracker, PM_User, Agreement, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
-    RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges
+    RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges, \
+    FaqQuestions, FaqQuestionsCategory
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -100,6 +101,8 @@ admin.site.register(RatingHits)
 admin.site.register(PM_Project_Industry)
 admin.site.register(LikesHits)
 admin.site.register(PM_Project_Problem)
+admin.site.register(FaqQuestionsCategory)
+admin.site.register(FaqQuestions)
 admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin

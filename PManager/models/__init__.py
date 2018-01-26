@@ -16,3 +16,4 @@ from PManager.models.tests import *
 from PManager.models.agreements import *
 from PManager.models.integration import *
 from PManager.models.scrum import *
+from PManager.models.faq import *
