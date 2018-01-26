@@ -74,17 +74,9 @@ class MainPage:
         message = ''
         uname = request.POST.get('username', None)
         vcode = request.POST.get('code', None)
-
         if uname:
-            recaptcha = request.POST['g-recaptcha-response']
-            import requests, json
-            r = requests.post("https://www.google.com/recaptcha/api/siteverify",
-                              data={
-                                  'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
-                                  'response':recaptcha
-                              })
-            r = json.loads(r.text)
-            if not r['success']:
+            from PManager.services.recaptcha import validate as validate_recaptcha
+            if not validate_recaptcha(request.POST['g-recaptcha-response']):
                 return HttpResponse(
                         loader.get_template('main/change_password.html').render(
                             RequestContext(request, {"message": "incorrect_captcha"})
@@ -97,8 +89,7 @@ class MainPage:
                     if vcode == user.get_profile().verification_code:
                         new_password = request.POST.get('password', None)
                         if new_password:
-                            password = User.objects.make_random_password()
-                            user.set_password(password)
+                            user.set_password(new_password)
                             user.save()
 
                             prof = user.get_profile()
@@ -140,23 +131,14 @@ class MainPage:
         if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
             username = request.POST['username']
             password = request.POST['password']
-            if not hasattr(settings, 'CAPTCHA_DISABLED'):
-                recaptcha = request.POST['g-recaptcha-response']
 
-
-                import requests, json
-                r = requests.post("https://www.google.com/recaptcha/api/siteverify",
-                                  data={
-                                      'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
-                                      'response':recaptcha
-                                  })
-                r = json.loads(r.text)
-                if not r['success']:
-                    return HttpResponse(
-                            loader.get_template('main/unauth.html').render(
-                                RequestContext(request, {"error": "incorrect_captcha"})
-                            )
+            from PManager.services.recaptcha import validate as validate_recaptcha
+            if not validate_recaptcha(request.POST['g-recaptcha-response']):
+                return HttpResponse(
+                        loader.get_template('main/unauth.html').render(
+                            RequestContext(request, {"error": "incorrect_captcha"})
                         )
+                    )
 
             backurl = request.POST.get('backurl', None)
             if not backurl:
