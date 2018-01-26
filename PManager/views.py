@@ -87,24 +87,25 @@ class MainPage:
             if not r['success']:
                 return HttpResponse(
                         loader.get_template('main/change_password.html').render(
-                            RequestContext(request, {"error": "incorrect_captcha"})
+                            RequestContext(request, {"message": "incorrect_captcha"})
                         )
                     )
 
             try:
                 user = User.objects.get(username=uname)
-                if vcode and vcode == user.get_profile().verification_code:
-                    new_password = request.POST.get('password', None)
-                    if new_password:
-                        password = User.objects.make_random_password()
-                        user.set_password(password)
-                        user.save()
+                if vcode:
+                    if vcode == user.get_profile().verification_code:
+                        new_password = request.POST.get('password', None)
+                        if new_password:
+                            password = User.objects.make_random_password()
+                            user.set_password(password)
+                            user.save()
 
-                        prof = user.get_profile()
-                        prof.verification_code = ''
-                        prof.save()
+                            prof = user.get_profile()
+                            prof.verification_code = ''
+                            prof.save()
 
-                        message = 'success'
+                            message = 'success'
                 else:
                     prof = user.get_profile()
                     prof.verification_code = User.objects.make_random_password()
