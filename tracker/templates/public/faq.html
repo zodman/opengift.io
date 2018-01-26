@@ -6,6 +6,7 @@
         <title>OpenGift.io - FAQ</title>
 {% endblock %}
 {% block content %}
+    {% if categories %}
     <section id="faq" class="">
         <div class="container u-pt-50">
             {% for ar_cat in categories %}
@@ -42,6 +43,7 @@
             {% endfor %}
         </div>
     </section>
+    {% endif %}
     <section id="faq" class="">
         <div class="container u-pt-50">
 
