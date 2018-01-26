@@ -1,3 +1,13 @@
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<script>
+    $(document).ready(function(){
+
+        $( ".ogwidget-open" ).click(function() {
+            $('.ogwidget-open').toggleClass( "ogwidget-opened" );
+            $('.ogwidget-wrapper-body').toggleClass( "ogwidget-wrapper-body-hidden" );
+        });
+    })
+</script>
 <style>
     .ogwidget * {
         box-sizing: border-box;
@@ -93,10 +103,11 @@
     .ogwidget-wrapper-body-list-group-item {
         padding: 30px;
         border-bottom: 1px solid #ddd;
+        background: #f9f9f9;
     }
 
     .ogwidget-wrapper-body-list-group-item:hover {
-        background: #f9f9f9;
+        background: #fff;
     }
 
     .ogwidget-wrapper-body-list-group-item:last-child {
@@ -233,16 +244,19 @@
         position: relative;
         z-index: 3;
     }
+    .ogwidget-wrapper-body-hidden {
+        display: none;
+    }
 </style>
 <div class="ogwidget">
     <div class="ogwidget-top">
         <div class="ogwidget-title"> Fund me on Opengift</div>
         <div class="ogwidget-desc">and get bonuses</div>
         <a href="" class="ogwidget-button ogwidget-button-big"><span>Fund Me</span></a>
-        <div class="ogwidget-open ogwidget-opened"><img src="https://opengift.io/static/public/assets/img/down-arrow.svg" height="20px"></div>
+        <div class="ogwidget-open"><img src="https://opengift.io/static/public/assets/img/down-arrow.svg" height="20px"></div>
     </div>
 
-    <div class="ogwidget-wrapper-body">
+    <div class="ogwidget-wrapper-body ogwidget-wrapper-body-hidden">
         <div class="ogwidget-wrapper-body-list-group">
             <div class="ogwidget-wrapper-body-list-group-item">
                 <div class="ogwidget-wrapper-body-list-group-item-date">
