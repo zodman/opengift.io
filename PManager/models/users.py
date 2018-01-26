@@ -84,6 +84,7 @@ class PM_User(models.Model):
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
     paypal = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'Paypal account (for money receiving from OpenGift Exchange)')
+    btc_wallet = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'BTC wallet')
     skype = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Skype')
     telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
     linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
@@ -101,6 +102,7 @@ class PM_User(models.Model):
     sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name=u'Желаемая ставка')
 
     premium_till = models.DateTimeField(blank=True, null=True, verbose_name=u'Оплачен до')
+    verification_code = models.CharField(max_length=100, blank=True, null=True)
     paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
@@ -115,6 +117,7 @@ class PM_User(models.Model):
 
     is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
     is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
+    in_whitelist = models.BooleanField(blank=True, verbose_name=u'In whitelist', default=False)
     heliard_manager_rate = models.FloatField(blank=True, null=True, verbose_name=u'Ставка менеджера')
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 

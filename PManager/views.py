@@ -6,6 +6,7 @@ from PManager.models import PM_User, PM_Task, PM_Notice, PM_Timer, PM_User_Achie
 from PManager import widgets
 from django.template import loader, RequestContext
 from PManager.viewsExt.tools import emailMessage
+from tracker import settings
 
 import os
 from PManager.viewsExt.tools import set_cookie
@@ -72,27 +73,56 @@ class MainPage:
     def changePassword(request):
         message = ''
         uname = request.POST.get('username', None)
+        vcode = request.POST.get('code', None)
+
         if uname:
+            recaptcha = request.POST['g-recaptcha-response']
+            import requests, json
+            r = requests.post("https://www.google.com/recaptcha/api/siteverify",
+                              data={
+                                  'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
+                                  'response':recaptcha
+                              })
+            r = json.loads(r.text)
+            if not r['success']:
+                return HttpResponse(
+                        loader.get_template('main/change_password.html').render(
+                            RequestContext(request, {"error": "incorrect_captcha"})
+                        )
+                    )
+
             try:
                 user = User.objects.get(username=uname)
-                password = User.objects.make_random_password()
-                user.set_password(password)
-                user.save()
+                if vcode and vcode == user.get_profile().verification_code:
+                    new_password = request.POST.get('password', None)
+                    if new_password:
+                        password = User.objects.make_random_password()
+                        user.set_password(password)
+                        user.save()
 
-                context = {
-                    'user_name': ' '.join([user.first_name, user.last_name]),
-                    'user_login': user.username,
-                    'user_password': password
-                }
+                        prof = user.get_profile()
+                        prof.verification_code = ''
+                        prof.save()
 
-                mess = emailMessage(
-                    'hello_new_user',
-                    context,
-                    'Welcome to OpenGift!'
-                )
-                mess.send([user.username])
-                mess.send(['gvamm3r@gmail.com'])
-                message = 'success'
+                        message = 'success'
+                else:
+                    prof = user.get_profile()
+                    prof.verification_code = User.objects.make_random_password()
+                    prof.save()
+                    message = 'success_code_sent'
+                    context = {
+                        'user_name': ' '.join([user.first_name, user.last_name]),
+                        'user_login': user.username,
+                        'link': 'https://opengift.io/change_password/?code=' + prof.verification_code + '&uname=' + user.username
+                    }
+
+                    mess = emailMessage(
+                        'hello_new_user',
+                        context,
+                        'OpenGift - Password changing.'
+                    )
+                    mess.send([user.username])
+                    mess.send(['gvamm3r@gmail.com'])
 
             except User.DoesNotExist:
                 message = 'not_found'
@@ -109,21 +139,23 @@ class MainPage:
         if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
             username = request.POST['username']
             password = request.POST['password']
-            recaptcha = request.POST['g-recaptcha-response']
+            if not hasattr(settings, 'CAPTCHA_DISABLED'):
+                recaptcha = request.POST['g-recaptcha-response']
 
-            import requests, json
-            r = requests.post("https://www.google.com/recaptcha/api/siteverify",
-                              data={
-                                  'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
-                                  'response':recaptcha
-                              })
-            r = json.loads(r.text)
-            if not r['success']:
-                return HttpResponse(
-                        loader.get_template('main/unauth.html').render(
-                            RequestContext(request, {"error": "incorrect_captcha"})
+
+                import requests, json
+                r = requests.post("https://www.google.com/recaptcha/api/siteverify",
+                                  data={
+                                      'secret':'6LdiPUIUAAAAABNMYT_2RZaxrsllqyTbIHwS5Kol',
+                                      'response':recaptcha
+                                  })
+                r = json.loads(r.text)
+                if not r['success']:
+                    return HttpResponse(
+                            loader.get_template('main/unauth.html').render(
+                                RequestContext(request, {"error": "incorrect_captcha"})
+                            )
                         )
-                    )
 
             backurl = request.POST.get('backurl', None)
             if not backurl:
@@ -156,6 +188,11 @@ class MainPage:
                     error = u'Enter correct email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)
+                    white_list_registraton = request.POST.get('whitelist', None)
+                    if white_list_registraton:
+                        prof = user.get_profile()
+                        prof.in_whitelist = True
+                        prof.save()
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(

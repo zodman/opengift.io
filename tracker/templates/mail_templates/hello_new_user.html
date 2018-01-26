@@ -11,6 +11,9 @@
 {% block content %}
     <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;">We have created new account for you.</p>
     <p><b>Your login:</b> {{ user_login }}</p>
+    {% if link %}
+    <p>Follow the <a href="{{ link }}">link</a> to change your password.</p>
+    {% endif %}
     {% if user_password %}
         <p><b>Your password:</b> {{ user_password }}</p>
     {% endif %}

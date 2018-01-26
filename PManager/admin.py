@@ -61,13 +61,16 @@ class AgreementInline(admin.ModelAdmin):
 class PM_MilestoneChangesInline(admin.ModelAdmin):
     list_display = ['date', 'value', 'milestone']
 
+class PM_UserInline(admin.ModelAdmin):
+    list_display = ['user', 'id', 'in_whitelist']
+
 admin.site.register(PM_Role)
 admin.site.register(PM_Task, TaskInline)
 admin.site.register(PM_ProjectRoles, UserRoles)
 admin.site.register(PM_Properties)
 admin.site.register(PM_Project)
 admin.site.register(PM_Tracker)
-admin.site.register(PM_User)
+admin.site.register(PM_User, PM_UserInline)
 admin.site.register(PM_Files)
 admin.site.register(PM_Task_Message)
 admin.site.register(PM_Timer, Timers)
