@@ -7,7 +7,6 @@ from PManager import widgets
 from django.template import loader, RequestContext
 from PManager.viewsExt.tools import emailMessage
 from tracker import settings
-
 import os
 from PManager.viewsExt.tools import set_cookie
 from PManager.viewsExt import headers
@@ -38,7 +37,6 @@ class MainPage:
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/support.html').render(c))
 
-
     @staticmethod
     def likeAPro(request):
         from robokassa.forms import RobokassaForm
@@ -48,12 +46,12 @@ class MainPage:
         feeLatId = userFee[0].id if userFee else None
         if feeLatId:
             form = RobokassaForm(initial={
-               'OutSum': fee,#order.total,
-               'InvId': feeLatId,#order.id,
-               'Desc': 'Пополнение счета Heliard',#order.name,
-               'Email': request.user.email,
-               'user': request.user.id,
-               'request': ''
+                'OutSum': fee,  # order.total,
+                'InvId': feeLatId,  # order.id,
+                'Desc': 'Пополнение счета Heliard',  # order.name,
+                'Email': request.user.email,
+                'user': request.user.id,
+                'request': ''
             })
             c.update(
                 {
@@ -78,10 +76,10 @@ class MainPage:
             from PManager.services.recaptcha import validate as validate_recaptcha
             if not validate_recaptcha(request.POST['g-recaptcha-response']):
                 return HttpResponse(
-                        loader.get_template('main/change_password.html').render(
-                            RequestContext(request, {"message": "incorrect_captcha"})
-                        )
+                    loader.get_template('main/change_password.html').render(
+                        RequestContext(request, {"message": "incorrect_captcha"})
                     )
+                )
 
             try:
                 user = User.objects.get(username=uname)
@@ -135,10 +133,10 @@ class MainPage:
             from PManager.services.recaptcha import validate as validate_recaptcha
             if not validate_recaptcha(request.POST['g-recaptcha-response']):
                 return HttpResponse(
-                        loader.get_template('main/unauth.html').render(
-                            RequestContext(request, {"error": "incorrect_captcha"})
-                        )
+                    loader.get_template('main/unauth.html').render(
+                        RequestContext(request, {"error": "incorrect_captcha"})
                     )
+                )
 
             backurl = request.POST.get('backurl', None)
             if not backurl:
@@ -229,7 +227,7 @@ class MainPage:
         if headerValues['REDIRECT']:
             return redirect(headerValues['REDIRECT'])
 
-        #stop timers
+        # stop timers
         leastHours = datetime.datetime.now() - datetime.timedelta(hours=9)
         for timer in PM_Timer.objects.filter(dateStart__lt=leastHours, dateEnd__isnull=True):
             timer.delete()
@@ -266,7 +264,7 @@ class MainPage:
                         task__number=taskNumber,
                         project=projectId
                     )
-                    
+
             messages = messages.exclude(code="WARNING")
             messages_qty = messages.count()
 
@@ -280,7 +278,6 @@ class MainPage:
 
             unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
             unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)
-
 
             if unapprovedAgreements:
                 agreementForApprove = unapprovedAgreements[0]
@@ -361,11 +358,12 @@ class MainPage:
                     userAchievement.save()
         else:
             import re
-            #if is not main page
+            # if is not main page
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
-                t = loader.get_template('public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
+                t = loader.get_template(
+                    'public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
             else:
-                return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
+                return HttpResponseRedirect('/login/?backurl=' + urllib.quote(request.get_full_path()))
 
         if not headerValues['FIRST_STEP_FORM']:
             cur_notice = PM_Notice.getForUser(
@@ -387,7 +385,8 @@ class MainPage:
             'messages_qty': messages_qty,
 
             'agreementForApprove': agreementForApprove,
-            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues['COOKIES'] else None
+            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
+                'COOKIES'] else None
         })
 
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
@@ -564,8 +563,8 @@ class MainPage:
 
         c = RequestContext(request, {})
 
-        payed = sum(p.value for p in Credit.objects.filter(value__lt = 0, project=p, payer__isnull=False))
-        total = sum(d.value for d in Credit.objects.filter(value__gt = 0, project=p, payer__isnull=False))
+        payed = sum(p.value for p in Credit.objects.filter(value__lt=0, project=p, payer__isnull=False))
+        total = sum(d.value for d in Credit.objects.filter(value__gt=0, project=p, payer__isnull=False))
 
         c.update({
             'is_manager': request.user.get_profile().isManager(p),
@@ -613,8 +612,8 @@ class MainPage:
             sIn += sum(c.value for c in creditIn)
 
             payments = Credit.objects.filter(date__range=(datetime.datetime.combine(date, datetime.time.min),
-                                                           datetime.datetime.combine(date, datetime.time.max)),
-                                              project__in=projects, value__lt=0)
+                                                          datetime.datetime.combine(date, datetime.time.max)),
+                                             project__in=projects, value__lt=0)
 
             paymentsOut = payments.filter(user__isnull=False)
             paymentsIn = payments.filter(payer__isnull=False)
@@ -669,10 +668,11 @@ def add_timer(request):
                     task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
                     hidden_from_clients=True)
                 comment.save()
-                #add user log
+                # add user log
                 logger = Logger()
                 logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-                return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+                return redirect(
+                    '/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
             else:
                 return HttpResponse('Operation not permitted')
 
@@ -688,4 +688,3 @@ def add_timer(request):
     t = loader.get_template('report/add_timer.html')
 
     return HttpResponse(t.render(c))
-
