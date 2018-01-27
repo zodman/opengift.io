@@ -9,6 +9,17 @@
     })
 </script>
 <style>
+    .ogwidget-gradient > * {
+        background:0 0;
+        background:-webkit-linear-gradient(left,#37becb 0,#5eb794 100%);
+        -webkit-background-clip:text;
+        -moz-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        -moz-text-fill-color:transparent;
+        background-clip:text;
+        color:#37becb;
+        display:inline-block;
+    }
     .ogwidget * {
         box-sizing: border-box;
         -webkit-box-sizing: border-box;
@@ -16,70 +27,30 @@
     }
 
     /*TOP*/
-.ogwidget {
-    -webkit-font-smoothing:subpixel-antialiased;
-    -moz-osx-font-smoothing:auto;
-    font-size: 14px;
-    line-height: 30px;
-    font-family:-apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
-    margin: 0 auto;
-    width: 400px;
-}
-.ogwidget-top {
-    position: relative;
-    z-index: 1;
-    box-shadow: 0 3px 40px rgba(1,1,1,0.2);
-    -moz-box-shadow: 0 3px 40px rgba(1,1,1,0.2);
-    -webkit-box-shadow: 0 3px 40px rgba(1,1,1,0.2);
-    -o-box-shadow:0 3px 40px rgba(1,1,1,0.2);
-    padding: 30px 30px 40px;
-    background: #62bb94;
-    background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-    background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-    background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
-    background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
-    background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
-    color: #ffffff;
-    text-align: center;
-}
-    .ogwidget-title {
-        font-size: 36px;
-        font-weight: 700;
-        line-height: 40px;
-        margin-bottom: 15px;
-    }
-    .ogwidget-desc {
-        font-size: 18px;
-        font-weight: 400;
+    .ogwidget {
+        -webkit-font-smoothing:subpixel-antialiased;
+        -moz-osx-font-smoothing:auto;
+        font-size: 14px;
         line-height: 30px;
-        margin-bottom: 15px;
+        font-family:-apple-system,BlinkMacSystemFont,Roboto,Open Sans,Helvetica Neue,sans-serif;
+        margin: 0 auto;
+        width: 255px;
+        position: relative;
     }
-
-    .ogwidget-open {
-        background: #fff;
-        box-shadow: 0 1px 1px rgba(1,1,1,0.2);
-        -moz-box-shadow: 0 1px 1px rgba(1,1,1,0.2);
-        -webkit-box-shadow: 0 1px 1px rgba(1,1,1,0.2);
-        -o-box-shadow: 0 1px 1px rgba(1,1,1,0.2);
-        width: 100px;
-        height: 36px;
-        display: block;
-        left: 50%;
-        position: absolute;
-        bottom: -16px;
-        border-radius: 25px;
-        -moz-border-radius: 25px;
-        -webkit-border-radius: 25px;
-        -ms-border-radius: 25px;
-        margin-left: -50px;
-        padding-top: 4px;
+    .ogwidget-top {
+        display: flex;
+        position: relative;
+        z-index: 1;
     }
-    .ogwidget-opened {
-        padding-top: 2px;
-    }
-    .ogwidget-opened img {
-        transform: rotate(-180deg);
+    .ogwidget-title {
+        font-size: 16px;
+        font-weight: 700;
+        line-height: 1.8;
+ }
+    .ogwidget-desc {
+        font-size: 14px;
+        font-weight: 300;
+        line-height: 1;
     }
 
 
@@ -93,6 +64,27 @@
         -webkit-box-shadow: 0 3px 40px rgba(1,1,1,0.2);
         -o-box-shadow:0 3px 40px rgba(1,1,1,0.2);
         padding: 0px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
+        position: absolute;
+        top: 65px;
+    }
+
+    .ogwidget-wrapper-body:after {
+        bottom: 100%;
+        left: 50%;
+        border: solid transparent;
+        content: " ";
+        height: 0;
+        width: 0;
+        position: absolute;
+        pointer-events: none;
+        border-color: rgba(255, 255, 255, 0);
+        border-bottom-color: #ffffff;
+        border-width: 10px;
+        margin-left: -27px;
     }
 
     .ogwidget-wrapper-body-list-group {
@@ -101,9 +93,23 @@
     }
 
     .ogwidget-wrapper-body-list-group-item {
-        padding: 30px;
+        padding: 20px;
         border-bottom: 1px solid #ddd;
         background: #f9f9f9;
+    }
+
+
+    .ogwidget-wrapper-body-list-group-item:first-child {
+        -webkit-border-radius: 5px 5px 0 0;
+        -moz-border-radius: 5px 5px 0 0;
+        -ms-border-radius: 5px 5px 0 0;
+        border-radius: 5px 5px 0 0;
+    }
+    .ogwidget-wrapper-body-list-group-item:last-child {
+        -webkit-border-radius: 0 0 5px 5px;
+        -moz-border-radius: 0 0 5px 5px;
+        -ms-border-radius: 0 0 5px 5px;
+        border-radius: 0 0 5px 5px;
     }
 
     .ogwidget-wrapper-body-list-group-item:hover {
@@ -116,20 +122,24 @@
 
     .ogwidget-wrapper-body-list-group-item-date {
         font-size: 13px;
+        line-height: 1.5;
         color: #ccc;
         display: inline-block;
     }
     .ogwidget-wrapper-body-list-group-item-title {
-        font-size: 18px;
-        line-height: 30px;
+        font-size: 14px;
+        line-height: 1.7;
+        margin-bottom: 10px;
     }
 
     .ogwidget-wrapper-body-list-group-item-progress-wrapper {
         margin-bottom: 15px;
+        font-size: 13px;
+        color: #555;
     }
 
     .ogwidget-wrapper-body-list-group-item-progress-wrapper-bar {
-        height: 8px;
+        height: 5px;
         background: #d0f0f4;
         border-radius: 25px;
         -moz-border-radius: 25px;
@@ -137,7 +147,7 @@
         -ms-border-radius: 25px;
     }
     .ogwidget-wrapper-body-list-group-item-progress-wrapper-bar-inner {
-        height: 8px;
+        height: 5px;
         background: #62bb94;
         background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
         background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
@@ -178,6 +188,7 @@
 
 
 
+
     .ogwidget-button  {
         text-decoration: none;
         background: #ff5466; /* Old browsers */
@@ -204,6 +215,15 @@
         -webkit-backface-visibility: hidden;
         z-index: 1;
     }
+    .ogwidget-button-green {
+        background: #62bb94;
+        background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+        background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+        background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+        background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+        background-repeat: repeat-x;
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+    }
 
     .ogwidget-button:hover,
     .ogwidget-button.active,
@@ -213,47 +233,134 @@
 
     .ogwidget-button-big {
         padding: 10px 35px;
-        font-size: 16px;
-    }
-    .ogwidget-button-middle {
-        padding: 3px 25px;
         font-size: 15px;
     }
-
+    .ogwidget-button-middle {
+        padding: 1px 30px;
+        font-size: 14px;
+        border-radius: 25px;
+    }
+    .ogwidget-open.ogwidget-opened:after,
+    .ogwidget-button-green.ogwidget-opened:after,
     .ogwidget-button:after {
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        -ms-border-radius: 5px;
+        border-radius: 5px;
         position: absolute;
         content: '';
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
-        border-radius: 0.3em;
-        background: #f3784c; /* Old browsers */
+        background: #f3784c /* Old browsers */
         background: -moz-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* FF3.6-15 */
         background: -webkit-linear-gradient(left, #f3784c 0%,#ff5466 100%); /* Chrome10-25,Safari5.1-6 */
         background: linear-gradient(to right, #f3784c 0%,#ff5466 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
         filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3784c', endColorstr='#ff5466',GradientType=1 ); /* IE6-9 */
-        transition: opacity 0.5s ease-out;
+        transition: opacity 0.2s ease-out;
         z-index: 2;
         opacity: 0;
     }
-    .ogwidget-button:hover:after {
+
+    .ogwidget-button-green:hover,
+    .ogwidget-button-green:focus,
+    .ogwidget-button-green:active,
+    .ogwidget-button-green.ogwidget-opened {
+        background: #f3784c /* Old browsers */
+        background: -moz-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(left, #f3784c 0%,#ff5466 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to right, #f3784c 0%,#ff5466 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3784c', endColorstr='#ff5466',GradientType=1 ); /* IE6-9 */
+    }
+    .ogwidget-button:hover:after,
+    .ogwidget-open.ogwidget-opened:after {
         opacity: 1;
     }
     .ogwidget-button span {
         position: relative;
         z-index: 3;
     }
+
+    .ogwidget-open {cursor: pointer;}
+    .ogwidget-open span {
+        margin-top: 18px;
+        display: block;
+    }
+
     .ogwidget-wrapper-body-hidden {
         display: none;
+    }
+
+    .ogwidget-button-group {
+        display: -webkit-inline-box;
+        display: -ms-inline-flexbox;
+        display: inline-flex;
+        vertical-align: middle;
+    }
+    .ogwidget-button-group .ogwidget-button {
+        position: relative;
+        -webkit-box-flex: 0;
+        -ms-flex: 0 1 auto;
+        flex: 0 1 auto;
+        padding: 0 15px;
+        height: 50px;
+        line-height: 50px;
+    }
+
+    .ogwidget-button-group .ogwidget-button:first-child,
+    .ogwidget-button-group .ogwidget-button:first-child:hover:after,
+    .ogwidget-button-group .ogwidget-button:first-child:active:after,
+    .ogwidget-button-group .ogwidget-button:first-child:focus:after {
+        -webkit-border-radius: 5px 0 0 5px;
+        -moz-border-radius: 5px 0 0 5px;
+        -ms-border-radius: 5px 0 0 5px;
+        border-radius: 5px 0 0 5px;
+    }
+    .ogwidget-button-group .ogwidget-button:last-child,
+    .ogwidget-button-group .ogwidget-button:last-child:hover:after,
+    .ogwidget-button-group .ogwidget-button:last-child:active:after,
+    .ogwidget-button-group .ogwidget-button:last-child:focus:after,
+    .ogwidget-open.ogwidget-opened:after {
+        -webkit-border-radius: 0 5px 5px 0;
+        -moz-border-radius: 0 5px 5px 0;
+        -ms-border-radius: 0 5px 5px 0;
+        border-radius: 0 5px 5px 0;
+    }
+
+
+    .ogwidget-top-left {
+        white-space: nowrap;
+    }
+    .ogwidget-top-right {
+        padding-left: 15px;
+        white-space: nowrap;
+    }
+
+    .ogwidget-link {
+        color: #38c1d1;
+    }
+    .ogwidget-link:hover {
+        color: #62bb94;
     }
 </style>
 <div class="ogwidget">
     <div class="ogwidget-top">
-        <div class="ogwidget-title"> Fund me on Opengift</div>
-        <div class="ogwidget-desc">and get bonuses</div>
-        <a href="" class="ogwidget-button ogwidget-button-big"><span>Fund Me</span></a>
-        <div class="ogwidget-open"><img src="https://opengift.io/static/public/assets/img/down-arrow.svg" height="20px"></div>
+        <div class="ogwidget-top-left">
+            <div class="ogwidget-button-group ogwidget-clearfix">
+                <a href="Fund me" class="ogwidget-button ogwidget-button-big ogwidget-button-green"><span>Fund me</span></a>
+                <a class="ogwidget-open ogwidget-button ogwidget-button-big ogwidget-button-green">
+                    <span>
+                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Capa_1" x="0px" y="0px" width="12px" height="12px" viewBox="0 0 292.362 292.362" style="enable-background:new 0 0 292.362 292.362;" xml:space="preserve"><g><path d="M286.935,69.377c-3.614-3.617-7.898-5.424-12.848-5.424H18.274c-4.952,0-9.233,1.807-12.85,5.424   C1.807,72.998,0,77.279,0,82.228c0,4.948,1.807,9.229,5.424,12.847l127.907,127.907c3.621,3.617,7.902,5.428,12.85,5.428   s9.233-1.811,12.847-5.428L286.935,95.074c3.613-3.617,5.427-7.898,5.427-12.847C292.362,77.279,290.548,72.998,286.935,69.377z" style="fill: rgb(255, 255, 255);"></path></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                    </span>
+
+                </a>
+            </div>
+        </div>
+        <div class="ogwidget-top-right">
+            <div class="ogwidget-title ogwidget-gradient">on <a href="" class="ogwidget-link">OpenGift</a></div>
+            <div class="ogwidget-desc ogwidget-gradient">and get <a href="" class="ogwidget-link"><span></span>bonuses</a></div>
+        </div>
     </div>
 
     <div class="ogwidget-wrapper-body ogwidget-wrapper-body-hidden">
@@ -273,7 +380,9 @@
                                 <span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">0</span>
                             </li>
                             <li class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li">
-                                <img src="https://opengift.io/static/public/assets/img/heart-ico.svg" class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-ico"><span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">10</span>
+
+                                <svg class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-ico" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 57.947 57.947" style="enable-background:new 0 0 57.947 57.947;" xml:space="preserve"><g><path style="fill:#E64C3C;" d="M28.947,56.486c15.685-11.277,23.532-21.592,27.222-29.46c4.311-9.193,0.561-20.589-8.845-24.413	C36.268-1.88,28.947,8.486,28.947,8.486S21.678-1.907,10.623,2.588C1.217,6.412-2.533,17.808,1.778,27.001 C5.468,34.868,13.262,45.21,28.947,56.486z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg>
+                                <span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">10</span>
                             </li>
                         </ul>
                     </div>
@@ -302,7 +411,7 @@
                                 <span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">0</span>
                             </li>
                             <li class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li">
-                                <img src="https://opengift.io/static/public/assets/img/heart-ico.svg" class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-ico"><span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">10</span>
+                                <svg class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-ico" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px" height="16px" viewBox="0 0 57.947 57.947" style="enable-background:new 0 0 57.947 57.947;" xml:space="preserve"><g><path style="fill:#E64C3C;" d="M28.947,56.486c15.685-11.277,23.532-21.592,27.222-29.46c4.311-9.193,0.561-20.589-8.845-24.413	C36.268-1.88,28.947,8.486,28.947,8.486S21.678-1.907,10.623,2.588C1.217,6.412-2.533,17.808,1.778,27.001 C5.468,34.868,13.262,45.21,28.947,56.486z"/></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg><span class="ogwidget-wrapper-body-list-group-item-progress-wrapper-list-li-desc">10</span>
                             </li>
                         </ul>
                     </div>
