@@ -120,7 +120,7 @@ def projectDetailDonate(request, project_id):
 
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
-    if not request.user.is_authenticated or not request.user.get_profile().isManager(project):
+    if not request.user.is_authenticated() or not request.user.get_profile().isManager(project):
         raise Http404
 
     if request.method == 'POST':
@@ -312,6 +312,22 @@ def projectDetailAjax(request, project_id):
                 return HttpResponse(industry.id)
             except PM_Project_Industry.DoesNotExist:
                 return HttpResponse('Empty parent')
+
+    elif action == 'milestones':
+        milestones = PM_Milestone.objects.filter(project=project, closed=False).order_by('date')
+        a = []
+        for milestone in milestones:
+            a.append({
+                'id': milestone.id,
+                'name': milestone.name,
+                'description': milestone.description,
+                'date': milestone.date.strftime('%d.%m.%Y'),
+                'likesQty': milestone.likesHits.count(),
+                'donationsQty': milestone.donations.count(),
+                'percent': milestone.percent()
+            })
+
+        return HttpResponse(json.dumps(a))
 
     return HttpResponse('ok')
 

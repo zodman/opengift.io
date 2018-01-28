@@ -49,6 +49,10 @@
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Cloud color-primary mr-lg-3"></span>
                             Blockchain</a>
+                        <a class="nav-link" data-toggle="pill" href="#v-pills-donation-tools" role="tab"
+                           aria-controls="v-pills-donation-tools" aria-selected="false" aria-expanded="false">
+                            <span class="icon icon-Cloud color-primary mr-lg-3"></span>
+                            Donation tools</a>
                     </div>
                 </div>
                 <div class="col-sm-9">
@@ -332,6 +336,19 @@
                                             <p>*This action automatically creates your wallet in OpenGiftCloud</p>
                                         {% endif %}
                                     {% endif %}
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="v-pills-donation-tools" role="tabpanel"
+                                 aria-labelledby="v-pills-donation-tools-tab" aria-expanded="false">
+                                <div class="project-edit-form js-blockchain-form">
+                                    <h4>Donation tools</h4>
+                                    <p>Donation widget code</p>
+                                    <p><input type="checkbox" /> Enable partners donation</p>
+                                    <p><button type="button">Start boost program</button> </p>
+                                    <textarea type="text"
+                                           class="form-control u-rounded-15 p-3 u-mb-30 js-blockchain-name">&lt;script src="/static/public/assets/js/og.widget.js"&gt;&lt;/script&gt;&lt;div class="ogwidget js-og-widget" data-project="{{ project.id }}"&gt;&lt;/div&gt;</textarea>
+                                    <script src="/static/public/assets/js/og.widget.js"></script>
+                                    <div class="ogwidget js-og-widget" data-project="{{ project.id }}"></div>
                                 </div>
                             </div>
                         </div>

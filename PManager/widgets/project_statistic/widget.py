@@ -130,7 +130,7 @@ class BurnDown(Chart):
             self.value_desc = 'Нет доступных целей для графика'
 
 class TaskCommitsChart(Chart):
-    title = u'Commits'
+    title = u'Issues'
     type = 'chart'
     payQuery = ''
 
