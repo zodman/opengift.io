@@ -302,6 +302,7 @@
 .ogwidget-open span {
     margin-top: 18px;
     display: block;
+    line-height: 1;
 }
 
 .ogwidget-wrapper-body-hidden {
