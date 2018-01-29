@@ -8,7 +8,7 @@
     {% endif %}
         <!-- Title-->
     {% if request.GET.ref %}
-        <title>I recently supported "{{ project.name }}" on OpenGift</title>
+        <title>I recently supported "{{ project.name }}" on OpenGift.io</title>
     {% else %}
         <title>OpenGift.io - {{ project.name }}</title>
     {% endif %}
@@ -701,7 +701,7 @@
                     <div class="modal-body">
 
                         <div class="u-mb-15">
-                            <p>You will get 20% of all donations from users who follow this link.</p>
+                            <p>You will <a href="/ref/">get 20% of all donations</a> from users who follow this link.</p>
                         </div>
                         <div>
                             <input type="text" name="" class="js-target-wallet" value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}" />
