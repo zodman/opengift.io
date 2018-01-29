@@ -109,7 +109,18 @@
                             {% endfor %}
                         {% endif %}
                     </h1>
-                    {% if project.blockchain_name %}<div class="text-white u-mb-25"><small>Blockchain name: <b>{{ project.blockchain_name }}</b></small></div>{% endif %}
+                    {% if project.blockchain_name %}
+                        <div class="text-white u-mb-25">
+                            Blockchain name: <b>{{ project.blockchain_name }}</b>
+                            {% if project.share_link_enabled %}
+                            <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
+                               class="u-px-15 text-white" {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal" data-target="#partners-link" {% endif %}>
+                                Get partners link
+                            </a>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
                     {% if long_industries_list %}
                         {% for tag in tagList %}
                             <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
@@ -130,12 +141,7 @@
                             BECOME A SPONSOR
                         </a>
                     {% endif %}
-                    {% if project.share_link_enabled %}
-                        <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
-                           class="btn btn btn-dark ml-3 px-md-5" {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal" data-target="#partners-link" {% endif %}>
-                            Partners link
-                        </a>
-                    {% endif %}
+
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count or project.link_video %}
                     <div class="col-lg-6 u-mt-80">
