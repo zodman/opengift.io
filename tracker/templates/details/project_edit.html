@@ -347,6 +347,18 @@
                                            class="form-control u-rounded-15 p-3 u-mb-30 js-blockchain-name">&lt;script src="https://opengift.io/static/public/assets/js/og.widget.js"&gt;&lt;/script&gt;&lt;div class="ogwidget js-og-widget" data-project="{{ project.id }}"&gt;&lt;/div&gt;</textarea>
                                     <script src="/static/public/assets/js/og.widget.js"></script>
                                     <div class="ogwidget js-og-widget" data-project="{{ project.id }}"></div>
+
+                                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+
+                                    <div class="row">
+                                        <div class="col-1">
+                                        <input type="checkbox" class="checkbox" name="share_link_enabled"
+                                               {% if project.share_link_enabled %}checked{% endif %} />
+                                        </div>
+                                        <div class="col-11">
+                                        <label>Enable partners referral program</label>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

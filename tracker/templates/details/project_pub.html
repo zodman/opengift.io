@@ -1,9 +1,17 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block header %}
-    <meta name="description" content="{{ project.description }}">
+    {% if request.GET.ref %}
+        <meta name="description" content="{{ project.description }}">
+    {% else %}
+        <meta name="description" content="{{ project.description }}">
+    {% endif %}
         <!-- Title-->
-    <title>OpenGift.io - {{ project.name }}</title>
+    {% if request.GET.ref %}
+        <title>I recently supported "{{ project.name }}" on OpenGift</title>
+    {% else %}
+        <title>OpenGift.io - {{ project.name }}</title>
+    {% endif %}
 {% endblock %}
 {% block content %}
     {% compressed_css 'project_detail' %}
@@ -120,6 +128,12 @@
                         <a href="/project/{{ project.id }}/donate/"
                            class="btn btn btn-rounded btn-primary ml-3 px-md-5">
                             BECOME A SPONSOR
+                        </a>
+                    {% endif %}
+                    {% if project.share_link_enabled %}
+                        <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
+                           class="btn btn btn-dark ml-3 px-md-5" {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal" data-target="#partners-link" {% endif %}>
+                            Partners link
                         </a>
                     {% endif %}
                 </div> <!-- END col-lg-6-->
@@ -616,6 +630,11 @@
             });
         };
         $(function () {
+            $('.js-show-partner-link').click(function() {
+                $('.js-partner-link').toggle();
+                return false;
+            });
+
             getProjectState('{{ project.blockchain_name }}', function () {
                 $('.js-donate').show();
             });
@@ -662,4 +681,31 @@
         })
     </script>
     <script type="application/javascript" src="/static/js/libs/charts.2.7.1.js"></script>
+    {% if request.user.get_profile.blockchain_wallet %}
+    <div class="modal fade" id="partners-link" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-green">
+                        <h5 class="modal-title text-white">Your partners link</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                          height="20"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+
+                        <div class="u-mb-15">
+                            <p>You will get 20% of all donations from users who follow this link.</p>
+                        </div>
+                        <div>
+                            <input type="text" name="" class="js-target-wallet" value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

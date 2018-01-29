@@ -1,7 +1,8 @@
 __author__ = 'Gvammer'
 import urllib, urllib2, json
-from PManager.models import PM_Project, PM_Milestone
+from PManager.models import PM_Project, PM_Milestone, PM_User
 from PManager.services.danations import donate
+from PManager.services.docker import blockchain_pay_request
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 from tracker.settings import GIFT_USD_RATE
@@ -41,6 +42,7 @@ def get_paid_btc():
     if res:
         for elem in res:
             donateCode = elem['memo'].split(':')
+            refUserId = donateCode.pop()
             milestoneId = donateCode.pop()
             userId = donateCode.pop()
             projectCode = donateCode.pop()
@@ -63,6 +65,17 @@ def get_paid_btc():
                 project = PM_Project.objects.get(blockchain_name=projectCode)
                 strCode += '' + projectCode + ' [' + str(project.id) + ']: ' + elem['amount (BTC)'] + ' BTC (' + str(
                     coins) + ' COIN)' + "\r\n"
+
+                if refUserId:
+                    try:
+                        refUser = PM_User.objects.get(pk=refUserId)
+                        qtyRef = coins * 0.2
+                        blockchain_pay_request(exchangeName, refUser.blockchain_wallet, qtyRef)
+                        coins -= qtyRef
+
+                    except PM_User.DoesNotExist:
+                        pass
+
                 if donate(coins, project, user, milestone, exchangeName):
                     urllib.urlopen("http://" + CRYPTO_HOST + service_url_clear + '?address=' + elem['address'])
                 else:

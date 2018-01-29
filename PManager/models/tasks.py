@@ -133,6 +133,7 @@ class PM_Project_Industry(models.Model):
 class PM_Project_Donation(models.Model):
     project = models.ForeignKey('PM_Project', related_name="donations")
     user = models.ForeignKey(User, related_name="donations", null=True, blank=True)
+    ref = models.ForeignKey(User, related_name="partner_donations", null=True, blank=True)
     sum = models.FloatField()
     milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
     exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
@@ -161,6 +162,7 @@ class PM_Project(models.Model):
     link_github = models.CharField(max_length=255, blank=True, verbose_name=u'Link to GitHub')
     link_demo = models.CharField(max_length=255, blank=True, verbose_name=u'Link to the Demo')
     link_video = models.CharField(max_length=255, blank=True, verbose_name=u'Link to the video')
+    share_link_enabled = models.BooleanField(default=False, blank=True, verbose_name=u'Enable shares link')
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')
     closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)

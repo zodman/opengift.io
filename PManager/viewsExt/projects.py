@@ -42,7 +42,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "public", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
+        fields = ["name", "share_link_enabled", "description", "public", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -402,6 +402,7 @@ def projectDetailPublic(request, project_id):
             'name': request.POST.get('name'),
             'email': request.POST.get('email'),
             'tokens': request.POST.get('tokens'),
+            'offer': request.POST.get('offer'),
             'project': project.name,
         }
 
@@ -506,7 +507,13 @@ def projectDetailPublic(request, project_id):
         t = loader.get_template('details/project_widget.html')
     else:
         t = loader.get_template('details/project_pub.html')
-    return HttpResponse(t.render(c))
+    response = HttpResponse(t.render(c))
+
+    from PManager.viewsExt.tools import set_cookie
+    if request.GET.get('ref'):
+        set_cookie(response, 'ref', request.GET.get('ref'))
+
+    return response
 
 
 def projectDetailServer(request, project_id):

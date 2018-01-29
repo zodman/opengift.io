@@ -119,14 +119,45 @@ def blockchainAjax(request):
             except PM_Milestone.DoesNotExist:
                 pass
 
-        qty = request.POST.get('qty')
+        ref = request.COOKIES.get('ref')
+        refUser = None
+        if ref:
+            try:
+                refUser = PM_User.objects.get(blockchain_wallet=ref)
+            except PM_User.DoesNotExist:
+                pass
+
+        qty = request.POST.get('qty', 0)
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
         if currency == 'gift':
-            result = donate(qty, project, request.user, milestone)
+            if refUser:
+                qtyRef = qty * 0.2
+                blockchain_pay_request(
+                    request.user.username,
+                    refUser.blockchain_wallet,
+                    qtyRef
+                )
+                qty -= qtyRef
+
+            result = donate(
+                qty,
+                project,
+                request.user,
+                milestone,
+                refUser
+            )
+
         elif currency == 'btc':
             result = bitcoin_set_request(
-                ':'.join([project.blockchain_name, str(uid), (str(milestone.id) if milestone else '-1')]),
+                ':'.join(
+                    [
+                        project.blockchain_name,
+                        str(uid),
+                        (str(milestone.id) if milestone else '-1'),
+                        (refUser.id if refUser else '0')
+                    ]
+                ),
                 qty
             )
             result = json.dumps(result)

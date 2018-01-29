@@ -3,7 +3,7 @@ from PManager.models.tasks import PM_Project_Donation
 from django.contrib.auth.models import User
 
 
-def donate(sum, project, user=None, milestone=None, exchangeUser=None):
+def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=None):
     from PManager.services.docker import blockchain_donate_request
     if not project.blockchain_name:
         return False
@@ -24,7 +24,8 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None):
             project=project,
             sum=sum,
             milestone=milestone,
-            exchange=exchangeUser
+            exchange=exchangeUser,
+            ref=refUser
         )
         donation.save()
         return True
