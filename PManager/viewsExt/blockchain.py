@@ -127,7 +127,7 @@ def blockchainAjax(request):
             except PM_User.DoesNotExist:
                 pass
 
-        qty = request.POST.get('qty', 0)
+        qty = float(request.POST.get('qty', 0))
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
         if currency == 'gift':
