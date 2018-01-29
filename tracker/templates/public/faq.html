@@ -8,10 +8,10 @@
 {% block content %}
     {% if categories %}
     <section id="faq" class="">
-        <div class="container u-pt-50">
+        <div class="container">
             {% for ar_cat in categories %}
             <div class="row">
-                <div class="col-lg-6 m-auto text-center">
+                <div class="col-lg-6 m-auto text-center u-pt-50">
                     <h2 class="h1">
                         {{ ar_cat.category.name }}
                     </h2>
