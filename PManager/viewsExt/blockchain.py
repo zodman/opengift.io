@@ -145,7 +145,7 @@ def blockchainAjax(request):
                 project,
                 request.user,
                 milestone,
-                refUser
+                refUser.username
             )
 
         elif currency == 'btc':
