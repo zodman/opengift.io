@@ -319,9 +319,9 @@ def projectDetailAjax(request, project_id):
         for milestone in milestones:
             a.append({
                 'id': milestone.id,
-                'name': milestone.name,
-                'description': milestone.description,
-                'date': milestone.date.strftime('%d.%m.%Y'),
+                'name': milestone.name.replace('script', 'sc ript'),
+                'description': milestone.description.replace('script', 'sc ript'),
+                'date': milestone.date.strftime('%d.%m.%Y') if milestone.date else '',
                 'likesQty': milestone.likesHits.count(),
                 'donationsQty': milestone.donations.count(),
                 'percent': milestone.percent()

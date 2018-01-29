@@ -42,7 +42,9 @@ var widgetFunc = function() {
                         },
                         function (data) {
                             var i;
+                            var empty = true;
                             for (i in data) {
+                                empty = false;
                                 oMilestone = data[i];
                                 $milestone = $milestoneTpl.clone();
                                 $milestone.milestoneElement('name').html(
@@ -59,6 +61,9 @@ var widgetFunc = function() {
                                 );
 
                                 $milestone.appendTo($tplContainer);
+                            }
+                            if (empty) {
+                                $('.js-og-widget-dropdown-link').hide();
                             }
                         },
                         'json'
