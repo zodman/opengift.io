@@ -321,7 +321,7 @@ def projectDetailAjax(request, project_id):
                 'id': milestone.id,
                 'name': milestone.name,
                 'description': milestone.description,
-                'date': milestone.date.strftime('%d.%m.%Y'),
+                'date': milestone.date.strftime('%d.%m.%Y') if milestone.date else '',
                 'likesQty': milestone.likesHits.count(),
                 'donationsQty': milestone.donations.count(),
                 'percent': milestone.percent()
