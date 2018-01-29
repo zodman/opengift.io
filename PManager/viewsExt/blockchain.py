@@ -155,7 +155,7 @@ def blockchainAjax(request):
                         project.blockchain_name,
                         str(uid),
                         (str(milestone.id) if milestone else '-1'),
-                        (refUser.id if refUser else '0')
+                        (str(refUser.id) if refUser else '0')
                     ]
                 ),
                 qty
