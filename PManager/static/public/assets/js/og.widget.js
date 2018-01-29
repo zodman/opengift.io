@@ -22,10 +22,10 @@ var widgetFunc = function() {
                   .attr({
                       type: 'text/css',
                       rel: 'stylesheet',
-                      href: '/static/public/assets/css/og.widget.css'
+                      href: 'https://opengift.io/static/public/assets/css/og.widget.css'
                   });
 
-                $.get('/static/public/assets/img/widget_template.html', function (data) {
+                $.get('https://opengift.io/static/public/assets/img/widget_template.html', function (data) {
                     var $widget = $(data),
                             $tplContainer = $widget.find('.js-og-widget-milestone-tpl-container');
                     var $milestoneTpl = $($tplContainer.get(0).innerHTML);
@@ -36,7 +36,7 @@ var widgetFunc = function() {
 
                     $widget.find('.js-og-widget-fundme-link').attr('href', 'https://opengift.io/project/'+ w.project+'/donate/');
                     $.post(
-                        '/project/' + w.project + '/ajax/',
+                        'https://opengift.io/project/' + w.project + '/ajax/',
                         {
                             'action': 'milestones'
                         },
