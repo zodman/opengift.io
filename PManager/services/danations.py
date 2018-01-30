@@ -8,8 +8,8 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
     if not project.blockchain_name:
         return False
 
-    if user and user.is_authenticated():# and user.get_profile().hasRole(project):
-        return False
+    # if user and user.is_authenticated() and user.get_profile().hasRole(project):
+    #     return False
 
     milestoneCode = None
     if milestone:
