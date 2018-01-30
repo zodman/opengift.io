@@ -696,7 +696,7 @@
 
             $('.js-confirm-donation').click(function() {
                 $.post(
-                        '/project/{{ project.id }}/ajax/',
+                        '/blockchain/ajax/',
                         {
                             'action': 'confirmGoal',
                             'projectId': {{ project.id }},
