@@ -6,7 +6,7 @@
 {% endblock %}
 {% block content %}
 <section class="o-hidden">
-    <div class="user-header-blur" style="background-image: url('http://heliard.dev/static/img/team/emor.jpg');"></div>
+    <div class="user-header-blur" style="background-image: url('{{ request.user.get_profile.avatarSrc }}');"></div>
     <div class="u-pt-50 user-wrapper">
             <div class="container">
                 <div class="row">
@@ -37,13 +37,15 @@
                                     <div class="row">
                                         <div class="col-md-4 user-img-wrapper u-p-35 rounded-left">
 
-                                            <div class="user-img-wrapper-blur" style="background-image: url('/static/img/team/ktru.jpg');"></div>
+                                            <div class="user-img-wrapper-blur" style="background-image: url('{{ request.user.get_profile.avatarSrc }}');"></div>
 
                                             <div class="user-img-desc">
                                                 {% if user.get_profile.avatarSrc %}
-                                                <div class="user-img u-mb-10 rounded-circle">
-                                                    <!--<div class="user-status yellow-gr rounded-circle"><img src="/static/public/assets/img/crown.svg"></div>-->
-                                                    <img src="{{ user.get_profile.avatarSrc }}" class="rounded-circle">
+                                                <div class="user-img u-mb-10 rounded-circle" style="background-image: url('{{ request.user.get_profile.avatarSrc }}');">
+                                                    <div class="user-status">
+                                                        <span class="yellow-gr text-white rounded btn-xs yellow-shadow">Opengifter</span>
+                                                    </div>
+                                                    <!--<img src="https://opengift.io/media/users/126.jpg" class="rounded-circle">-->
                                                 </div>
                                                 {% endif %}
                                                 <ul class="user-socials-links list-unstyled social-rounded social-white">
@@ -84,7 +86,8 @@
                                             <h2 class="u-mb-5">
                                                 {{ user.first_name }} {{ user.last_name }}
                                             </h2>
-                                            <div class="text-muted u-fs-13 u-mb-20">Registered: {{ user.date_joined|date:'d.m.Y' }}</div>
+                                            <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Crown color-primary mr-2"></i>Rating: 200</div>
+                                            <div class="text-muted u-fs-15 u-mb-20 mr-2"><i class="icon icon-Time color-primary mr-2"></i>Registered: {{ user.date_joined|date:'d.m.Y' }}</div>
                                             <div class="u-mb-25">
                                                 <span class="small-text-label bg-blue btn btn-xs btn-rounded text-white">IoT</span>
                                                 <span class="small-text-label bg-blue btn btn-xs btn-rounded text-white">System Software</span>

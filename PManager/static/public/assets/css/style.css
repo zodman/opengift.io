@@ -194,6 +194,10 @@ input, textarea {
   max-width: 200px;
 }
 
+.navbar {
+  padding: 0px;
+}
+
 .logo-inverse {
   position: absolute;
   top: 0;
@@ -6160,7 +6164,24 @@ border-radius: 4px;
 }
 .user-header {
   position: relative;
+  display: flex;
+  height: 100%;
 }
+
+.user-header-desc {
+  width: 100%;
+  display: flex;
+  height: 100%;
+}
+
+.user-header .container {
+  width: 100%;
+}
+
+.user-header .container .row {
+  height: 100%;
+}
+
 .user-header-desc {
   position: relative;
   z-index:2;
@@ -6181,7 +6202,18 @@ border-radius: 4px;
   background-position: center;
   background-size: cover;
   margin: 0 auto;
+  height: 200px;
+  width: 200px;
 }
+
+
+@media (max-width: 1199px) {
+  .user-img {
+    height: 150px;
+    width: 150px;
+  }
+}
+
 
 .user-img-desc {
   position: relative;
@@ -6305,15 +6337,14 @@ color: #4abeb8;
 
 .user-status {
   position: absolute;
-  top: 0px;
-  right: 0;
-  width: 48px;
-  height: 48px;
+  bottom: -10px;
   z-index: 7;
-  line-height: 48px;
+  left: auto;
+  right: auto;
+  text-align: center;
+  width: 100%;
 }
 
-.user-status img {width: 24px;}
 
 
 .user-status-big {
