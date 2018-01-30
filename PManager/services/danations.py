@@ -40,4 +40,4 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
         donation.save()
         return True
 
-    return False
+    return res
