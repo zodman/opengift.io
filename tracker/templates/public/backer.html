@@ -42,6 +42,12 @@
                                             <div class="user-img-desc">
                                                 {% if user.get_profile.avatarSrc %}
                                                 <div class="user-img u-mb-10 rounded-circle" style="background-image: url('{{ request.user.get_profile.avatarSrc }}');">
+
+                                                    <div class="user-profile-edit social social-rounded">
+                                                        <a href="" class="bg-blue">
+                                                            <i class="icon icon-Pencil"></i>
+                                                        </a>
+                                                    </div>
                                                     <div class="user-status">
                                                         <span class="yellow-gr text-white rounded btn-xs yellow-shadow">Opengifter</span>
                                                     </div>

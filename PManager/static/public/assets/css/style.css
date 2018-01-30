@@ -6345,7 +6345,18 @@ color: #4abeb8;
   width: 100%;
 }
 
+.user-profile-edit {
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
 
+.user-profile-edit a {
+  height: 36px;
+  width: 36px;
+  line-height: 36px;
+  font-size: 16px;
+}
 
 .user-status-big {
   text-align: center;
