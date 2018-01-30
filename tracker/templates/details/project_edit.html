@@ -255,9 +255,20 @@
                                                               placeholder="Milestone description">{{ milestone.description }}</textarea>
                                                 </div>
                                             </div>
-                                            <div class="row"><div class="col-12">
-                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
-                                        </div>
+                                            <div class="row">
+                                                <div class="col-1">
+                                                    <input type="checkbox" name="milestone_{{ milestone.id }}_closed" />
+                                                </div>
+                                                <div class="col-11">
+                                                    Mark as done (you'll get the payment after confirmation of 50% backers who donate for it)
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                            <div class="col-12 u-pt-20">
+                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div>
+                                            </div>
+                                            </div>
+                                            </div>
                                     {% endfor %}
                                     <div class="milestone-row js-milestone-new">
                                         <div class="row">
