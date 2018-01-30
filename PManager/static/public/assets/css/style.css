@@ -215,7 +215,15 @@ input, textarea {
     text-transform: uppercase;
     font-weight: 600;
     font-size: 16px;
+    color: #333;
   }
+
+.navbar-nav > .nav-item > .nav-link:hover {
+  color:#60bb98;
+}
+.navbar-nav > .nav-item.active > .nav-link{
+  color:#39c2d3;
+}
 
 .navbar-toggler {
   font-size: 2.25rem;
@@ -595,7 +603,12 @@ input, textarea {
       color: #fff; }
 
 .tabs-v3 .nav-link {
-  background: #ecf5fe; }
+  background: #ecf5fe;
+  color: #333;
+}
+.tabs-v3 .nav-link:hover {
+  color: #60bb98;
+}
   @media (min-width: 600px) {
     .tabs-v3 .nav-link {
       width: 200px; } }
