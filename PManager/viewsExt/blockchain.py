@@ -88,7 +88,7 @@ def blockchainAjax(request):
             goal = int(request.POST.get('goalId'))
             result = blockchain_goal_confirmation_request(
                 request.user.username,
-                project.name,
+                project.blockchain_name,
                 'opengift.io:' + str(goal)
             )
 
@@ -151,7 +151,7 @@ def blockchainAjax(request):
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
         if currency == 'gift':
-            if refUser:
+            if refUser and refUser.id != uid:
                 qtyRef = qty * 0.2
                 blockchain_pay_request(
                     request.user.username,
@@ -165,7 +165,8 @@ def blockchainAjax(request):
                 project,
                 request.user,
                 milestone,
-                refUser.user.username if refUser else None
+                None,
+                refUser.user if refUser else None
             )
 
         elif currency == 'btc':

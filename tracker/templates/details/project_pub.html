@@ -525,6 +525,7 @@
                                 {% if project.blockchain_name %}
                                     {% if milestone.closed and milestone.canConfirm %}
                                         <a href="#"
+                                           data-id="{{ milestone.id }}"
                                            class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4 js-confirm-donation"
                                            style="margin: auto;">
                                             <i class="fa fa-heart mr-1"></i> &nbsp;
@@ -696,7 +697,7 @@
 
             $('.js-confirm-donation').click(function() {
                 $.post(
-                        '/project/{{ project.id }}/ajax/',
+                        '/blockchain/ajax/',
                         {
                             'action': 'confirmGoal',
                             'projectId': {{ project.id }},
