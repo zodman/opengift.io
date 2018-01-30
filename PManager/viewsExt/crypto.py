@@ -66,6 +66,7 @@ def get_paid_btc():
                 strCode += '' + projectCode + ' [' + str(project.id) + ']: ' + elem['amount (BTC)'] + ' BTC (' + str(
                     coins) + ' COIN)' + "\r\n"
 
+                refUser = None
                 if refUserId:
                     try:
                         refUser = PM_User.objects.get(pk=refUserId)
