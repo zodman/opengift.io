@@ -88,7 +88,7 @@ def blockchainAjax(request):
             goal = int(request.POST.get('goalId'))
             result = blockchain_goal_confirmation_request(
                 request.user.username,
-                project.name,
+                project.blockchain_name,
                 'opengift.io:' + str(goal)
             )
 
@@ -165,6 +165,7 @@ def blockchainAjax(request):
                 project,
                 request.user,
                 milestone,
+                None,
                 refUser.user.username if refUser else None
             )
 
