@@ -35,6 +35,7 @@ var widgetFunc = function() {
                     $(w.$object).replaceWith($widget);
 
                     $widget.find('.js-og-widget-fundme-link').attr('href', 'https://opengift.io/project/'+ w.project+'/donate/?utm_source=widget');
+                    $widget.find('.js-og-widget-project-link').attr('href', 'https://opengift.io/project/'+ w.project+'/public/?utm_source=widget');
                     $.post(
                         'https://opengift.io/project/' + w.project + '/ajax/',
                         {
