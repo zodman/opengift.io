@@ -188,7 +188,11 @@ input, textarea {
   transition: .3s; }
 
 .navbar-brand {
-  position: relative; }
+  position: relative;
+  margin: 0;
+  padding: 0;
+  max-width: 200px;
+}
 
 .logo-inverse {
   position: absolute;
@@ -5582,8 +5586,8 @@ border-radius: 4px;
 }
 
 .blue-gr
-{/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#3b7bc2+0,50b1c4+100 */
-  background: #3b7bc2; /* Old browsers */
+{
+  background: #3b7bc2;
   background: -moz-linear-gradient(left, #3b7bc2 0%, #50b1c4 100%); /* FF3.6-15 */
   background: -webkit-linear-gradient(left, #3b7bc2 0%,#50b1c4 100%); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to right, #3b7bc2 0%,#50b1c4 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -6350,3 +6354,18 @@ color: #4abeb8;
 }
 
 .width-100 {width: 100%;}
+
+
+.tabs-v3 .nav-link:hover .color-primary,
+.tabs-v3 .nav-link:active .color-primary,
+.tabs-v3 .nav-link:focus .color-primary {
+  color:#60bb98 !important;
+}
+
+.nav-pills .nav-link.active .color-primary,
+.tabs-v3 .nav-link.active .color-primary,
+.tabs-v3 .nav-link.active:hover .color-primary,
+.tabs-v3 .nav-link.active:active .color-primary,
+.tabs-v3 .nav-link.active:focus .color-primary {
+  color: #fff !important;
+}
