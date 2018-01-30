@@ -34,7 +34,7 @@ var widgetFunc = function() {
                     $tplContainer.empty();
                     $(w.$object).replaceWith($widget);
 
-                    $widget.find('.js-og-widget-fundme-link').attr('href', 'https://opengift.io/project/'+ w.project+'/donate/');
+                    $widget.find('.js-og-widget-fundme-link').attr('href', 'https://opengift.io/project/'+ w.project+'/donate/?utm_source=widget');
                     $.post(
                         'https://opengift.io/project/' + w.project + '/ajax/',
                         {
@@ -57,7 +57,7 @@ var widgetFunc = function() {
                                 $milestone.milestoneElement('progress').text(oMilestone.percent + '%');
                                 $milestone.milestoneElement('doit-link').attr(
                                     'href',
-                                    'https://opengift.io/project/' + w.project + '/donate/?m=' + oMilestone.id
+                                    'https://opengift.io/project/' + w.project + '/donate/?m=' + oMilestone.id + '&utm_source=widget'
                                 );
 
                                 $milestone.appendTo($tplContainer);
