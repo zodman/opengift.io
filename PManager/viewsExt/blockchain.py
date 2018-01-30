@@ -151,7 +151,7 @@ def blockchainAjax(request):
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
         if currency == 'gift':
-            if refUser:
+            if refUser and refUser.id != uid:
                 qtyRef = qty * 0.2
                 blockchain_pay_request(
                     request.user.username,
