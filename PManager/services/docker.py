@@ -6,8 +6,12 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
-def blockchain_donate_request(username, project, qty):
-    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'donate', 'arg1': project.lower(), 'arg2': qty})
+def blockchain_donate_request(username, project, qty, milestoneCode = None):
+    args = {'user': username, 'fcn': 'donate', 'arg1': project.lower(), 'arg2': qty}
+    if milestoneCode:
+        args['arg3'] = milestoneCode
+
+    result = __blockchain_request_raw('/blockchain/write', args)
     if result.find('success') == -1:
         return 'Fatal Error: Failed to token move ' + username + '('+result+')'
 
@@ -20,6 +24,16 @@ def blockchain_token_move_request(username, project, wallet, qty):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'move', 'arg1': project, 'arg2': wallet, 'arg3': qty})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to token move ' + username
+
+    # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
+    # result = json.loads(result)
+
+    return 'ok'
+
+def blockchain_goal_confirmation_request(username, project, goal):
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal})
+    if result.find('success') == -1:
+        return 'Fatal Error: Failed to confirm the goal ' + goal
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)

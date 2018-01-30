@@ -450,6 +450,7 @@ class PM_Milestone(models.Model):
     description = models.TextField(null=True, blank=True)
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
+    confirmed = models.BooleanField(blank=True, default=False)
     donated = models.BooleanField(blank=True, default=False)
 
     def tasksOrderedByClose(self):
@@ -457,6 +458,9 @@ class PM_Milestone(models.Model):
 
     def userLiked(self, request):
         return LikesHits.userLiked(self, request)
+
+    def canConfirm(self, user):
+        return user.is_authenticated() and self.donations.filter(user=user).count()
 
     @staticmethod
     def check():
@@ -479,6 +483,13 @@ class PM_Milestone(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_donation_sum(self):
+        sum = 0
+        for d in self.donations.all():
+            sum += d.sum
+
+        return sum
 
     def status(self):
         from PManager.classes.datetime.work_time import WorkTime

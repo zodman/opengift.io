@@ -4,13 +4,17 @@ from PManager.models import PM_User, PM_Project, PM_Milestone
 from PManager.viewsExt.crypto import bitcoin_set_request, get_rate
 from PManager.services.danations import donate
 from django.template import loader, RequestContext
-from PManager.services.docker import blockchain_project_status_request, blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, blockchain_user_getbalance_request
+from PManager.services.docker import blockchain_project_status_request, blockchain_goal_confirmation_request, \
+    blockchain_token_move_request, blockchain_pay_request, blockchain_project_getbalance_request, \
+    blockchain_user_newproject_request, blockchain_user_register_request, blockchain_user_getkey_request, \
+    blockchain_user_getbalance_request
 from tracker.settings import GIFT_USD_RATE
+
 
 def blockchainMain(request):
     import urllib
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
+        return HttpResponseRedirect('/login/?backurl=' + urllib.quote(request.get_full_path()))
 
     sum = request.user.get_profile().get_donation_sum()
     next_level_sum = 1000
@@ -24,7 +28,6 @@ def blockchainMain(request):
             next_level = k
             break
 
-
     c = RequestContext(request, {
         'donator_level': request.user.get_profile().opengifter_level,
         'donator_level_percent': sum * 100 / next_level_sum,
@@ -32,6 +35,7 @@ def blockchainMain(request):
     })
 
     return HttpResponse(loader.get_template('blockchain/index.html').render(c))
+
 
 def userRegisterAndUpdate(request):
     result = blockchain_user_register_request(request.user.username)
@@ -47,6 +51,7 @@ def userRegisterAndUpdate(request):
         return 'ok'
     return False
 
+
 def blockchainIncome(request):
     import json
     fd = open('logCrypto.log', "a")
@@ -54,6 +59,7 @@ def blockchainIncome(request):
     fd.write("\r\n")
     fd.close()
     return HttpResponse('ok')
+
 
 def blockchainAjax(request):
     action = request.POST.get('action')
@@ -74,6 +80,20 @@ def blockchainAjax(request):
         profile = request.user.get_profile()
         wallet = profile.blockchain_wallet
         result = blockchain_user_getbalance_request(request.user.username, wallet)
+
+    elif action == 'confirmGoal':
+        project = int(request.POST.get('projectId'))
+        try:
+            project = PM_Project.objects.get(pk=project)
+            goal = int(request.POST.get('goalId'))
+            result = blockchain_goal_confirmation_request(
+                request.user.username,
+                project.name,
+                'opengift.io:' + str(goal)
+            )
+
+        except PM_Project.DoesNotExist:
+            result = 'Error: Project  does not exists'
 
     elif action == 'addProject':
         # profile = request.user.get_profile()

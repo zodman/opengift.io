@@ -150,6 +150,7 @@ def projectDetailEdit(request, project_id):
                     m.name = name
                     m.date = templateTools.dateTime.convertToDateTime(request.POST.get('milestone_'+str(m.id)+'_date', ''))
                     m.description = request.POST.get('milestone_'+str(m.id)+'_desc', '')
+                    m.closed = request.POST.get('milestone_'+str(m.id)+'_closed', False)
                     m.save()
                 else:
                     m.delete()
@@ -466,6 +467,8 @@ def projectDetailPublic(request, project_id):
     ams = []
     for m in ms:
         setattr(m, 'liked', m.userLiked(request))
+        setattr(m, 'canConfirm', m.canConfirm(request.user))
+
         ams.append(m)
 
     timers = PM_Timer.objects.raw(
@@ -507,6 +510,7 @@ def projectDetailPublic(request, project_id):
         t = loader.get_template('details/project_widget.html')
     else:
         t = loader.get_template('details/project_pub.html')
+
     response = HttpResponse(t.render(c))
 
     from PManager.viewsExt.tools import set_cookie
