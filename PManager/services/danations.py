@@ -15,6 +15,7 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
     if milestone:
         milestoneCode = 'opengift.io:' + str(milestone.id)
         milestone.is_request = False
+        milestone.save()
 
     res = blockchain_donate_request(
         exchangeUser if exchangeUser else user.username,
