@@ -199,7 +199,7 @@
     background: -webkit-linear-gradient(left, #ff5466 0%, #f3784c 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #ff5466 0%, #f3784c 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
     filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff5466', endColorstr='#f3784c', GradientType=1); /* IE6-9 */
-    color: #fff;
+    color: #fff !important;
     text-align: center;
     display: inline-block;
     padding: 0px;
@@ -232,7 +232,7 @@
 .ogwidget-button:hover,
 .ogwidget-button.active,
 .ogwidget-button.focus {
-    color: #fff;
+    color: #fff !important;
 }
 
 .ogwidget-button-big {

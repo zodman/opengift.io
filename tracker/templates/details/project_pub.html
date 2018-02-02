@@ -461,7 +461,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
-                    <a href="#" data-toggle="modal" data-target="#add-milestone">Create task</a>
                     <h2 class="h1">
                         Roadmap
                     </h2>
@@ -559,6 +558,13 @@
                 <h3>This project hasn't any goals :(</h3>
             </div>
         {% endif %}
+        <div align="center">
+            <h1 class="text-green blue-gradient-title"><span class="icon icon-Starship"></span></h1>
+            <a href="#" data-toggle="modal" data-target="#add-milestone" class="btn btn-lg btn-rounded green-gr">
+                &nbsp;&nbsp;&nbsp;&nbsp;Create task&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+        </div>
+
     </section>
 {#    <section class="u-py-100">#}
 {#            <div style="padding: 0 6.25rem;">#}
@@ -743,7 +749,7 @@
     <div class="modal fade" id="add-milestone" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header bg-green">
+                <div class="modal-header green-gr">
                     <h5 class="modal-title text-white">Set task to project team</h5>
                     <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
@@ -754,15 +760,15 @@
                     <div class="u-mb-15">
                         <p>The task will be open to project team only after you donate for it.</p>
                     </div>
-                    <div>
+                    <div class="u-mb-15">
                         <input type="text" name="" class="js-new-milestone-title" placeholder="Task title" value="" />
                     </div>
                     <div>
-                        <input type="text" name="" class="js-new-milestone-desc" placeholder="Description" value="" />
+                        <textarea name="" class="js-new-milestone-desc" placeholder="Description" value=""></textarea>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-primary js-send-milestone-form" data-dismiss="modal">Add task</button>
+                    <button type="button" class="btn green-gr js-send-milestone-form" data-dismiss="modal">Add task</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
