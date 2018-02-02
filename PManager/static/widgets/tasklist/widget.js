@@ -902,7 +902,7 @@ var widget_tl, currentGroup;
                             'date': date,
                             'description': desc
                         }, function (response) {
-                            if (response === 'saved') {
+                            if (response) {
                                 button.data('edit-name', name);
                                 button.data('edit-date', date);
                                 if (date) {

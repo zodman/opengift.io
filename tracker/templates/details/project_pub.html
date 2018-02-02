@@ -461,10 +461,11 @@
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
+                    <a href="#" data-toggle="modal" data-target="#add-milestone">Create task</a>
                     <h2 class="h1">
                         Roadmap
                     </h2>
-
+                    <p>You can donate to project tasks. Money will be automatically sent to project team after they complete the task.</p>
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
@@ -559,31 +560,31 @@
             </div>
         {% endif %}
     </section>
-    <section class="u-py-100">
-            <div style="padding: 0 6.25rem;">
-                <div class="row">
-                    <div class="col-lg-6 m-auto text-center">
-                        <h2 class="h1">
-                            Project's pulse
-                        </h2>
-
-                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                    </div>
-                </div>
-                <div class="row">
-                    {% for chart in statistic.charts %}
-                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">
-                            <div class="card border-0 box-shadow-v1 u-h-100p">
-                                <div class="u-p-30">
-                                    <h4 class="text-center">{{ chart.title }}</h4>
-                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
-                                </div>
-                            </div>
-                        </div>
-                    {% endfor %}
-                </div>
-            </div>
-        </section>
+{#    <section class="u-py-100">#}
+{#            <div style="padding: 0 6.25rem;">#}
+{#                <div class="row">#}
+{#                    <div class="col-lg-6 m-auto text-center">#}
+{#                        <h2 class="h1">#}
+{#                            Project's pulse#}
+{#                        </h2>#}
+{##}
+{#                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="row">#}
+{#                    {% for chart in statistic.charts %}#}
+{#                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">#}
+{#                            <div class="card border-0 box-shadow-v1 u-h-100p">#}
+{#                                <div class="u-p-30">#}
+{#                                    <h4 class="text-center">{{ chart.title }}</h4>#}
+{#                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>#}
+{#                                </div>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                </div>#}
+{#            </div>#}
+{#        </section>#}
     <section class="u-py-md-250 u-flex-center" >
       <div class="container">
         <div class="row align-items-center">
@@ -716,28 +717,77 @@
     <script type="application/javascript" src="/static/js/libs/charts.2.7.1.js"></script>
     {% if request.user.get_profile.blockchain_wallet %}
     <div class="modal fade" id="partners-link" tabindex="-1" role="dialog" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header bg-green">
-                        <h5 class="modal-title text-white">Your promo link</h5>
-                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
-                                                          height="20"> </span>
-                        </button>
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-green">
+                    <h5 class="modal-title text-white">Your promo link</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                      height="20"> </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="u-mb-15">
+                        <p>You will <a href="/ref/">get 20% of all donations</a> of all projects from users who come to the platform through this link.</p>
                     </div>
-                    <div class="modal-body">
-                        <div class="u-mb-15">
-                            <p>You will <a href="/ref/">get 20% of all donations</a> of all projects from users who come to the platform through this link.</p>
-                        </div>
-                        <div>
-                            <input type="text" name="" class="js-target-wallet" value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}" />
-                        </div>
+                    <div>
+                        <input type="text" name="" class="js-target-wallet" value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}" />
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>
+    </div>
+    <div class="modal fade" id="add-milestone" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-green">
+                    <h5 class="modal-title text-white">Set task to project team</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                      height="20"> </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="u-mb-15">
+                        <p>The task will be open to project team only after you donate for it.</p>
+                    </div>
+                    <div>
+                        <input type="text" name="" class="js-new-milestone-title" placeholder="Task title" value="" />
+                    </div>
+                    <div>
+                        <input type="text" name="" class="js-new-milestone-desc" placeholder="Description" value="" />
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary js-send-milestone-form" data-dismiss="modal">Add task</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
     {% endif %}
+    <script>
+        $('.js-send-milestone-form').click(function() {
+            $(this).addClass('disabled').attr('disabled', 'disabled');
+            $.post(
+                    '/milestone_ajax/',
+                    {
+                        'name': $('.js-new-milestone-title').val(),
+                        'description': $('.js-new-milestone-desc').val(),
+                        'project': {{ project.id }}
+                    },
+                    function(data) {
+                        if (parseInt(data)) {
+                            document.location.href = '/project/{{ project.id }}/donate/?m='+data;
+                        } else {
+                            alert('Something is wrong.')
+                        }
+                    }
+            );
+            return false;
+        });
+    </script>
 {% endblock %}

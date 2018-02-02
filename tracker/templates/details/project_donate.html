@@ -15,16 +15,12 @@
                                 <input type="hidden" name="milestone" class="js-milestone"
                                        value="{{ milestone.id }}"/>
                                 <h4>Milestone</h4>
+                                <p><small>By donating on a goal, you motivate a team to complete a specific task. The donation amount will be automatically released once the goal is achieved.</small></p>
                                 <p class="text-muted">
                                         <span><i
                                                 class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
                                     &nbsp;&nbsp;{{ milestone.name }}
                                 </p>
-                                {% if milestone.description %}
-                                    <p class="d-flex text-muted text-center">
-                                        {{ milestone.description }}
-                                    </p>
-                                {% endif %}
                             {% endif %}
                             {% if request.user.get_profile.blockchain_wallet %}
                                 <p>Your wallet: <span

@@ -463,7 +463,7 @@ def projectDetailPublic(request, project_id):
         setattr(user, 'rating', taskTagCoefficient)
         team.append(user)
 
-    ms = PM_Milestone.objects.filter(project=project).order_by('date')
+    ms = PM_Milestone.objects.filter(project=project, is_request=False).order_by('date')
     ams = []
     for m in ms:
         setattr(m, 'liked', m.userLiked(request))

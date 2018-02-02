@@ -30,7 +30,8 @@ def ajaxMilestonesResponder(request):
     description = request.POST.get('description', '')
     user = request.user
     responsible_id = request.POST.get('responsible', 0)
-    date = templateTools.dateTime.convertToDateTime(request.POST.get('date', ''))
+    date = request.POST.get('date', None)
+    date = templateTools.dateTime.convertToDateTime(date) if date else None
     id = request.POST.get('id', None)
     task_id = int(request.POST.get('task_id', 0))
     critically = request.POST.get('critically', 2)
@@ -80,10 +81,7 @@ def ajaxMilestonesResponder(request):
             change.save()
 
         responseText = 'added'
-    elif name and date and project:
-        if not user.get_profile().isManager(project):
-            return HttpResponse('user is not manager of project')
-
+    elif name and project:
         if not milestone:
             milestone = None
         if id:
@@ -98,14 +96,18 @@ def ajaxMilestonesResponder(request):
         else:
             milestone = PM_Milestone(name=name, date=date, project=project, description=description)
 
+
         if milestone:
+            if not user.get_profile().isManager(project):
+                milestone.is_request = True
+
             milestone.save()
             if responsible_id:
                 milestone.responsible.clear()
                 milestone.responsible.add(responsible_id)
             else:
                 milestone.responsible.add(user)
-            responseText = 'saved'
+            responseText = milestone.id
 
     return HttpResponse(responseText)
 
