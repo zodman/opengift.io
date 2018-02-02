@@ -152,14 +152,14 @@
 				</span>
                 </a>
 
-                <div class="navbar-toggler" data-toggle="collapse" data-target="#navbarNav">
+                <div class="navbar-toggler js-navbar-toggler">
                     <span class="lnr lnr-text-align-right nav-hamburger"></span>
                     <span class="lnr lnr-cross nav-close"></span>
                 </div>
 
-                <div class="collapse navbar-collapse" id="navbarNav">
+                <div class="collapse navbar-collapse js-navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
+                        <li class="nav-item">
                             <a class="nav-link" href="/pub/">Main</a>
                         </li>
                         <li class="nav-item">
@@ -188,6 +188,11 @@
                             <a class="nav-link" href="/wallet/">Wallet</a>
                             <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
 							    <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
+                                {% if request.user.is_authenticated %}
+                                    {% for p in request.user.createdProjects.all %}
+                                    <a class="dropdown-item u-d-block" href="/project/{{ p.id }}/edit/">My project</a>
+                                    {% endfor %}
+                                {% endif %}
 							    <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a>
                                 {% if request.user.is_authenticated %}
                                     <a class="dropdown-item u-d-block" href="/pub/?logout=yes">Logout</a>
@@ -1217,6 +1222,7 @@
 
 <script src="/static/js/libs/jquery.waipoints.min.js"></script>
 <script src="/static/public/assets/js/fury.js"></script>
+<script src="/static/public/assets/js/custom.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 
 <script src="/static/public/assets/js/jquery.wavify.js"></script>
