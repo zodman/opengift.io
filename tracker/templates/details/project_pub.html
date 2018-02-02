@@ -719,16 +719,15 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header bg-green">
-                        <h5 class="modal-title text-white">Your partners link</h5>
+                        <h5 class="modal-title text-white">Your promo link</h5>
                         <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
                                                           height="20"> </span>
                         </button>
                     </div>
                     <div class="modal-body">
-
                         <div class="u-mb-15">
-                            <p>You will <a href="/ref/">get 20% of all donations</a> from users who follow this link.</p>
+                            <p>You will <a href="/ref/">get 20% of all donations</a> of all projects from users who come to the platform through this link.</p>
                         </div>
                         <div>
                             <input type="text" name="" class="js-target-wallet" value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}" />

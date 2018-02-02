@@ -6424,3 +6424,21 @@ color: #4abeb8;
 .tabs-v3 .nav-link.active:focus .color-primary {
   color: #fff !important;
 }
+
+
+.images-grey img {
+    filter: grayscale(100%);
+}
+
+@media (max-width: 768px) {
+    .hidden-md-down {
+        display: none !important;
+    }
+}
+
+.roadmap-container-date .date-desc {
+    display: block;
+}
+
+.navbar-toggler {z-index:11;}
+.navbar-brand  {z-index:1;}
