@@ -6440,5 +6440,5 @@ color: #4abeb8;
     display: block;
 }
 
-.navbar-toggler {z-index:11;}
-.navbar-brand  {z-index:1;}
+.navbar-toggler {z-index:11 !important;}
+.navbar-brand  {z-index:1 !important;}
