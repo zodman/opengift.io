@@ -36,7 +36,7 @@ def ajaxMilestonesResponder(request):
     task_id = int(request.POST.get('task_id', 0))
     critically = request.POST.get('critically', 2)
     action = request.POST.get('action', None)
-    if not user.is_authenticated():
+    if action and not user.is_authenticated():
         return HttpResponse('not authorized')
 
     project = None
@@ -98,7 +98,7 @@ def ajaxMilestonesResponder(request):
 
 
         if milestone:
-            if not user.get_profile().isManager(project):
+            if not user.is_authenticated() or not user.get_profile().isManager(project):
                 milestone.is_request = True
 
             milestone.save()
