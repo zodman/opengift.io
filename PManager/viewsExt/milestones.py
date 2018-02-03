@@ -106,7 +106,8 @@ def ajaxMilestonesResponder(request):
                 milestone.responsible.clear()
                 milestone.responsible.add(responsible_id)
             else:
-                milestone.responsible.add(user)
+                if user.is_authenticated():
+                    milestone.responsible.add(user)
             responseText = milestone.id
 
     return HttpResponse(responseText)
