@@ -193,7 +193,7 @@ class PM_Project(models.Model):
 
     @property
     def rating(self):
-        return (RatingHits.objects.filter(
+        return 1.0 * (RatingHits.objects.filter(
                 project=self
             ).aggregate(Sum('rating'))['rating__sum'] or 0) / (self.votersQty or 1)
 
