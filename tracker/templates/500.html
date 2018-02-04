@@ -1,71 +1,97 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="description" content="">
-<meta name="keywords" content="">
-<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=0" />
-
-<link type="text/css" rel="stylesheet" href="/static/css/reset.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/imgareaselect-animated.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/fancybox.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/carousel.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap-responsive.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/bootstrap3.min.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/linecons/linecons.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/external/font-awesome.min.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/styles.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/add.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/panel.css" />
-<link type="text/css" rel="stylesheet" href="/static/css/drowCanvas.css" />
-<title></title>
-
-<link rel="shortcut icon" href="/static/ico/favicon.ico" />
-</head>
-<body>
-<header>
-  <div class="header clearfix">
-    <div class="logo"> <a href="/"> <img src="/static/images/logo.png" alt="Heliard" /> </a> </div>
-    <nav class="menu">
-
-    </nav>
-    <div class="timer-wrapper clearfix">
-      <div class="timer js-currentTask"> <span>
-
-        </span> </div>
-      <div class="user-menu"> </div>
-    </div>
-    <!--timer--> 
-    
-  </div>
-  <!--header--> 
-</header>
-<div class="container sub-menu">
-  <div class="row sub-menu_line">
-    <div class="sub-menu_line_section-user col-xs-8">
-      
-      <a href="/new_task_wizard/" class="js-taskWizard-opener btn btn-default"><i class="fa fa-file"></i><span>&nbsp;Создать задачу</span></a>&nbsp;&nbsp; <a href="/user_list/" class="btn btn-default"><i class="fa fa-users"></i><span>&nbsp;Команда</span></a>&nbsp;&nbsp; <a href="/files/" class="btn btn-default"><i class="fa fa-folder-open"></i><span>&nbsp;Файлы</span></a> </div>
-    <div class="sub-menu_line_section-tracker col-xs-4">
-
-    </div>
-  </div>
-</div>
-<!-- /container -->
-
-<hr style="margin-top:0px;" />
-<div class="container">
-<script type="text/javascript" src="/widgets/js/user_list/script.js"></script> 
-<script type="text/javascript" src="/static/js/bootstrap/bootstrap-tooltip.js"></script> 
-
-<div class="errorpage">
- <h2>500</h2>
- <h3>Что-то пошло не так</h3>
- <p>Наши специалисты уже занимаются этим вопросом. В ближайшее время мы всё починим.</p>
- <p><a href="/" class="btn btn-lg btn-success">Перейти на главную</a><br><br>или&nbsp;<a href="mailto:admin@heliard.ru">обратиться в Службу поддержки</a></p>
-</div>
  
-      
-</div><!--container-->
+  <!--Meta-->
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="description" content="A complete landing page solution for any business">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+  <!--Favicon-->
+  <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+  
+  <!-- Title-->
+  <title>TheFury - A complete landing solution for any business</title>
+  
+  <!--Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
+  
+	<!--Icon fonts-->
+	<link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+	<link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css">
+  
+  <!-- Stylesheet-->
+  <!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in /static/public/assets/css/bundle.css
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">  
+  <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+  <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+  <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+  
+  <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+  <link rel="stylesheet" href="/static/public/assets/css/style.css">
+  
+</head>
 
-</body>
+ <body id="top">
+ 
+ 
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+
+
+<section class="u-h-100vh u-flex-center">
+  <div class="container">
+		<div class="row">
+			<div class="col-12 text-center">
+				<h1 class="text-primary u-fs-60 u-fs-md-150 ">500</h1>
+				<h2 class="mb-4">
+					Sorry! Something is wrong <i class="fa fa-frown-o text-yellow" aria-hidden="true"></i>
+				</h2>
+				<p>
+					We will fix it in several minutes.
+				</p>
+			</div>
+    </div> <!-- END row-->
+  </div> <!-- END container-->
+
+</section> <!-- END intro-hero-->
+
+
+
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in bundle.js
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+	
+		<script src="/static/public/assets/js/bundle.js"></script>
+		<script src="/static/public/assets/js/fury.js"></script>
+
+    </body>
 </html>
