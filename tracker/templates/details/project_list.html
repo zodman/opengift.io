@@ -15,7 +15,7 @@
                         <div class="p-4 py-5 u-h-100p border rounded box-shadow-v2--onHover">
                             <div class="row ">
                                 <span class="col-md-6 text-left {% if project.milestones.count > 0 %}text-warning{% else %}text-muted{% endif %}">
-                                    <b><i class="fa fa-star"></i>&nbsp;{{ project.milestones.count|default_if_none:'0'|floatformat:"2" }} goals</b>
+                                    <b><i class="fa fa-star"></i>&nbsp;{{ project.milestones.count|default_if_none:'0'|floatformat }} goals</b>
                                 </span>
                                 <span class="col-md-6 text-right text-muted">
                                     {{ project.dateCreate|date:"d.m.Y" }}
