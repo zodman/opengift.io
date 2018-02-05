@@ -417,7 +417,7 @@ input, textarea {
   line-height: 40px;
   right: -100px; }
   .scroll-top.active {
-    right: 20px; }
+    right: 120px; }
 
 .btn {
   cursor: pointer;
