@@ -3,12 +3,16 @@
 {% block header %}
     {% if request.GET.ref %}
         <meta name="description" content="Give the fuel to Open Source projects and get non-commercial bonuses. --- {{ project.description }}">
+    {% elif request.GET.share %}
+        <meta name="description" content="Support this project or any other from hundreds on OpenGift and get the possibility to change it. --- {{ project.description }}">
     {% else %}
         <meta name="description" content="{{ project.description }}">
     {% endif %}
         <!-- Title-->
     {% if request.GET.ref %}
         <title>"{{ project.name }}" needs your support in smth nightmare complicated but really cool</title>
+    {% elif request.GET.share %}
+        <title>Help "{{ project.name }}" to make the software world extremely better.</title>
     {% else %}
         <title>OpenGift.io - {{ project.name }}</title>
     {% endif %}
@@ -19,6 +23,17 @@
         .small-text-label {
             padding: 3px 7px;
             font-size: 11px !important;
+        }
+        #share-buttons img {
+        width: 35px;
+        padding: 5px;
+        border: 0;
+        box-shadow: 0;
+        display: inline;
+        opacity: 0.3;
+        }
+        #share-buttons a:hover img {
+            opacity: 1;
         }
     </style>
     <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
@@ -141,7 +156,40 @@
                             Donate
                         </a>
                     {% endif %}
+                    <div id="share-buttons" >
 
+
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook" />
+                        </a>
+
+                        <!-- Google+ -->
+                        <a href="https://plus.google.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=gplus" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google" />
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://opengift.io/project/{{ project.id }}/public/?share=li" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn" />
+                        </a>
+
+                        <!-- Reddit -->
+                        <a href="http://reddit.com/submit?url=https://opengift.io/project/{{ project.id }}/public/?share=reddit&amp;title=Help {{ project.name }} to make the software world extremely better." target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit" />
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=twitter&amp;text=Help {{ project.name }} to make the software world extremely better.&amp;hashtags=opengift" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter" />
+                        </a>
+
+                        <!-- VK -->
+                        <a href="http://vkontakte.ru/share.php?url=https://opengift.io/project/{{ project.id }}/public/?share=vk" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/vk.png" alt="VK" />
+                        </a>
+
+                    </div>
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count or project.link_video %}
                     <div class="col-lg-6 u-mt-80">
