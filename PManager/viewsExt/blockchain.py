@@ -268,6 +268,6 @@ def paypalExecute(request):
 
         # Execute payment using payer_id obtained when creating the payment (following redirect)
         if payment.execute({"payer_id": payerId}):
-          return HttpResponse("Payment[%s] execute successfully" % (payment.id))
+          return HttpResponse("Payment[%s] execute successfully [%s]" % (payment.id, payment.__dict__))
         else:
           return HttpResponse(payment.error)
