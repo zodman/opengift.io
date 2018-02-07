@@ -181,6 +181,9 @@ class PM_Project(models.Model):
 
     @property
     def color(self):
+        if not self.milestones.exists():
+            return 'grey'
+
         for s in self.industries.all():
             if s.name == 'Blockchain':
                 return 'blue'
