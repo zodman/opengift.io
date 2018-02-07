@@ -144,7 +144,7 @@
                                     '<h3><a href="' + data.URI + '">' + data.address + '</a></h3><br />'
                             )
                         } else if (currency == 'usd') {
-{#                            document.location.href = data;#}
+                            document.location.href = $.parseJSON(data);
                         }
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
