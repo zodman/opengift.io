@@ -195,8 +195,8 @@ def blockchainAjax(request):
                 "payer": {
                     "payment_method": "paypal"},
                 "redirect_urls": {
-                    "return_url": "http://opengift.dev/paypal/",
-                    "cancel_url": "http://opengift.dev/"
+                    "return_url": "https://opengift.io/paypal/",
+                    "cancel_url": "https://opengift.io/"
                 },
                 "transactions": [{
                     "item_list": {
