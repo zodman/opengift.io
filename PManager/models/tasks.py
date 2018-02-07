@@ -180,6 +180,24 @@ class PM_Project(models.Model):
                                          verbose_name=u'Решаемые проблемы')
 
     @property
+    def color(self):
+        for s in self.industries.all():
+            if s.name == 'Blockchain':
+                return 'blue'
+            elif s.name == 'Applications':
+                return 'orange'
+            elif s.name == 'API':
+                return 'green'
+            elif s.name == 'IoT':
+                return 'yellow'
+
+        return 'purple'
+
+    @property
+    def firstLetter(self):
+        return self.name[0]
+
+    @property
     def url(self):
         return '/?project=' + str(self.id)
 

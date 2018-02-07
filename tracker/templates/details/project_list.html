@@ -9,195 +9,70 @@
         <div class="container u-pt-50">
             <h1 class="text-center">Projects</h1>
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-            <div class="row text-center">
+
+{#            <div class="row">#}
+{#                <div class="col-lg-8">#}
+{#                    <div class="input-group u-rounded-4 border u-of-hidden u-mb-20">#}
+{#                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">#}
+{#                            <span class="icon icon-Search text-primary"></span>#}
+{#                        </div>#}
+{#                        <input type="text" class="form-control border-0 p-3" placeholder="Type &amp; hit enter">#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="col-lg-4">#}
+{#                    <select>#}
+{#                        <option>Target Group</option>#}
+{#                    </select>#}
+{#                </div>#}
+{#            </div>#}
+{#            <div class="mb-5 sorting-block bg-gray-v1 p-2 border rounded">#}
+{#                    <ul class="list-inline mb-0">#}
+{#                        <li class="list-inline-item">#}
+{#                            <a class="nav-link mr-3 active" href="#">#}
+{#                                по популярности<i class="lnr lnr-chevron-down u-fs-12 ml-2"></i>#}
+{#                            </a>#}
+{#                        </li>#}
+{#                        <li class="list-inline-item">#}
+{#                        <a class="nav-link mr-3" href="#">#}
+{#                            по кол-ву целей<i class="lnr lnr-chevron-right u-fs-12 ml-2"></i>#}
+{#                        </a>#}
+{#                        </li>#}
+{#                        <li class="list-inline-item">#}
+{#                        <a class="nav-link mr-3" href="#">#}
+{#                            по рейтингу<i class="lnr lnr-chevron-right u-fs-12 ml-2"></i>#}
+{#                        </a>#}
+{#                        </li>#}
+{#                    </ul>#}
+{#            </div>#}
+            <div class="row">
                 {% for project in project_list %}
-                    <div class="col-lg-4 col-md-6 u-mb-30">
-                        <div class="p-4 py-5 u-h-100p border rounded box-shadow-v2--onHover">
-                            <div class="row ">
-                                <span class="col-md-6 text-left {% if project.milestones.count > 0 %}text-warning{% else %}text-muted{% endif %}">
-                                    <b><i class="fa fa-star"></i>&nbsp;{{ project.milestones.count|default_if_none:'0'|floatformat }} goals</b>
-                                <br />({{ project.donations.count }} donations)
-                                </span>
-                                <span class="col-md-6 text-right text-muted">
-                                    {{ project.getUsers.count }} contributors
-                                </span>
-                            </div>
-                            <h4 class="u-fs-26 u-pt-30 u-pb-20">
+                    <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
+                    <div class="project-item-wrapper relative">
+                        <h4 class="d-flex u-w-100 u-h-100 {{ project.color }}-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
+                            {{ project.firstLetter|capfirst }}
+                        </h4>
+                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
+                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
                                 <a href="/project/{{ project.id }}/public/">{{ project.name }}</a>
                             </h4>
-                            <p>
-                                {{ project.description }}
+                            <div class="clearfix u-mb-15">
+                                <div class="float-left">
+                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star color-primary mr-2"></i>Goals: {{ project.milestones.count|default_if_none:'0'|floatformat }}</div>
+                                </div>
+                                <div class="float-left">
+                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card color-primary mr-2" aria-hidden="true"></i>Donations: {{ project.donations.count }}</div>
+                                </div>
+                                <div class="float-left">
+                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users color-primary mr-2"></i>Contributors: {{ project.getUsers.count }}</div>
+                                </div>
+                            </div>
+                            <p class="project-hidden-desc">
+                            {{ project.description }}
                             </p>
                         </div>
                     </div>
+                </div>
                 {% endfor %}
-            </div>
-
-            <div class="row">
-                <div class="col-lg-8">
-                    <div class="input-group u-rounded-4 border u-of-hidden u-mb-20">
-                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                            <span class="icon icon-Search text-primary"></span>
-                        </div>
-                        <input type="text" class="form-control border-0 p-3" placeholder="Type &amp; hit enter">
-                    </div>
-                </div>
-                <div class="col-lg-4">
-                    <select>
-                        <option>Target Group</option>
-                    </select>
-                </div>
-            </div>
-            <div class="mb-5 sorting-block bg-gray-v1 p-2 border rounded">
-                    <ul class="list-inline mb-0">
-                        <li class="list-inline-item">
-                            <a class="nav-link mr-3 active" href="#">
-                                по популярности<i class="lnr lnr-chevron-down u-fs-12 ml-2"></i>
-                            </a>
-                        </li>
-                        <li class="list-inline-item">
-                        <a class="nav-link mr-3" href="#">
-                            по кол-ву целей<i class="lnr lnr-chevron-right u-fs-12 ml-2"></i>
-                        </a>
-                        </li>
-                        <li class="list-inline-item">
-                        <a class="nav-link mr-3" href="#">
-                            по рейтингу<i class="lnr lnr-chevron-right u-fs-12 ml-2"></i>
-                        </a>
-                        </li>
-                    </ul>
-            </div>
-            <div class="row">
-                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
-                    <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 green-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            L
-                        </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
-                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/656/public/">LocationManager</a>
-                            </h4>
-                            <div class="clearfix u-mb-15">
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star color-primary mr-2"></i>Goals: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card color-primary mr-2" aria-hidden="true"></i>Donations: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users color-primary mr-2"></i>Contributors: 1</div>
-                                </div>
-                            </div>
-                            <p class="project-hidden-desc">
-                                CLLocationManager wrapper in Swift, performs location update, geocoding and reverse geocoding using Apple and Google service.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
-                    <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 purple-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            J
-                        </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
-                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/656/public/">Jasper RPI Tools</a>
-                            </h4>
-                            <div class="clearfix u-mb-15">
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star text-purple mr-2"></i>Goals: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card text-purple mr-2" aria-hidden="true"></i>Donations: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users text-purple mr-2"></i>Contributors: 1</div>
-                                </div>
-                            </div>
-                            <p class="project-hidden-desc">
-                                Tools and Installer for Jasper. Updating them soon.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
-                    <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 orange-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            P
-                        </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
-                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/656/public/">ProcMonX</a>
-                            </h4>
-                            <div class="clearfix u-mb-15">
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star text-red mr-2"></i>Goals: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card text-red mr-2" aria-hidden="true"></i>Donations: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users text-red mr-2"></i>Contributors: 1</div>
-                                </div>
-                            </div>
-                            <p class="project-hidden-desc">
-                                Process Monitor X is a tool that shows various types of activities on a Windows system, based on Event Tracing for Windows.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
-                    <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 yellow-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            C
-                        </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
-                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/656/public/">Caffeine for Laravel</a>
-                            </h4>
-                            <div class="clearfix u-mb-15">
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star text-yellow mr-2"></i>Goals: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card text-yellow mr-2" aria-hidden="true"></i>Donations: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users text-yellow mr-2"></i>Contributors: 1</div>
-                                </div>
-                            </div>
-                            <p class="project-hidden-desc">
-                                Prevent forms from timing out when submitting them after leaving them on-screen for a considerable amount of time.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
-                    <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 blue-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            T
-                        </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
-                            <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/656/public/">TaskScheduler</a>
-                            </h4>
-                            <div class="clearfix u-mb-15">
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star text-blue mr-2"></i>Goals: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card text-blue mr-2" aria-hidden="true"></i>Donations: 0</div>
-                                </div>
-                                <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users text-blue mr-2"></i>Contributors: 1</div>
-                                </div>
-                            </div>
-                            <p class="project-hidden-desc">
-                                A concise , powerful async library for Android project，already was used in million devices
-                            </p>
-                        </div>
-                    </div>
-                </div>
 
             </div>
         </div>
