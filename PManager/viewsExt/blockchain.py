@@ -289,7 +289,7 @@ def paypalExecute(request):
                     project = PM_Project.objects.get(blockchain_name=projectName)
                 except PM_Project.DoesNotExist:
                     raise Http404
-
+                return HttpResponse(str(payment.transactions[0]))
                 qty = float(payment.transactions[0].amount.details.subtotal)
                 giftQty = qty * 0.06
                 donate(
