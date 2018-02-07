@@ -255,11 +255,16 @@ def blockchainAjax(request):
 
 def paypalExecute(request):
     from paypalrestsdk import Payment
+    my_api = paypalrestsdk.Api({
+                'mode': 'sandbox',
+                'client_id': 'ARKZ_toXISzJ4LOFQ095nMuPqlRloVI1WNwDMfTEUL-YQzDOif9V6AhgMlQ-SKGT1l7VAGUu0clfT4oR',
+                'client_secret': 'EHJ-uDfarrQjQukYceH7HEX-bNWe0GBrvKWpvnX9EF4JJeSyoC_K3UQdukDRBbilJXT3FHnX7asSQ2Z5'
+            })
     paymentId = request.GET.get('paymentId')
     payerId = request.GET.get('PayerID')
     if paymentId and payerId:
         # Payment id obtained when creating the payment (following redirect)
-        payment = Payment.find(paymentId)
+        payment = Payment.find(paymentId, api=my_api)
 
         # Execute payment using payer_id obtained when creating the payment (following redirect)
         if payment.execute({"payer_id": payerId}):
