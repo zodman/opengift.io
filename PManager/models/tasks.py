@@ -190,8 +190,8 @@ class PM_Project(models.Model):
                 return 'green'
             elif s.name == 'IoT':
                 return 'yellow'
-
-        return 'purple'
+        import random
+        return random.choice(['yellow', 'green', 'orange', 'blue', 'purple'])
 
     @property
     def firstLetter(self):
