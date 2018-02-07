@@ -131,7 +131,7 @@ def blockchainAjax(request):
         try:
             project = PM_Project.objects.get(blockchain_name=project)
         except PM_Project.DoesNotExist:
-            return 'Fatal error: projects does not exist'
+            return HttpResponse('Fatal error: projects does not exist')
 
         if milestone:
             try:
@@ -182,6 +182,55 @@ def blockchainAjax(request):
                 qty
             )
             result = json.dumps(result)
+
+        elif currency == 'usd':
+            import paypalrestsdk
+            my_api = paypalrestsdk.Api({
+                'mode': 'sandbox',
+                'client_id': 'ARKZ_toXISzJ4LOFQ095nMuPqlRloVI1WNwDMfTEUL-YQzDOif9V6AhgMlQ-SKGT1l7VAGUu0clfT4oR',
+                'client_secret': 'EHJ-uDfarrQjQukYceH7HEX-bNWe0GBrvKWpvnX9EF4JJeSyoC_K3UQdukDRBbilJXT3FHnX7asSQ2Z5'
+            })
+            payment = paypalrestsdk.Payment({
+                "intent": "sale",
+                "payer": {
+                    "payment_method": "paypal"},
+                "redirect_urls": {
+                    "return_url": "http://opengift.dev/paypal/",
+                    "cancel_url": "http://opengift.dev/"
+                },
+                "transactions": [{
+                    "item_list": {
+                        "items": [{
+                            "name": project.name + " donation",
+                            "sku": (str(milestone.id) if milestone else '-1'),
+                            "price": str(qty),
+                            "currency": "USD",
+                            "quantity": 1
+                        }]},
+                    "amount": {
+                        "total": str(qty),
+                        "currency": "USD"},
+                    "description": "This is the payment transaction description."}
+                ]}, api=my_api)
+            approval_url = ''
+            if payment.create():
+                for link in payment.links:
+                    if link.rel == "approval_url":
+                        # Convert to str to avoid Google App Engine Unicode issue
+                        # https://github.com/paypal/rest-api-sdk-python/pull/58
+                        approval_url = str(link.href)
+            # result = bitcoin_set_request(
+            #     ':'.join(
+            #         [
+            #             project.blockchain_name,
+            #             str(uid),
+            #             (str(milestone.id) if milestone else '-1'),
+            #             (str(refUser.id) if refUser else '0')
+            #         ]
+            #     ),
+            #     qty
+            # )
+            result = json.dumps(approval_url)
 
     elif action == 'getRate':
         currency = request.POST.get('currency', None)

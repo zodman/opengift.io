@@ -46,6 +46,7 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <select class="js-currency">
+                                        <option value="usd" selected>USD</option>
                                         <option value="btc" selected>BTC</option>
                                         {% if request.user.get_profile.blockchain_wallet %}
                                             <option value="gift">GIFT</option>
@@ -142,6 +143,8 @@
                                     '<br /><p>Please, pay ' + qty + ' BTC for this account in next 24 hours.</p>' +
                                     '<h3><a href="' + data.URI + '">' + data.address + '</a></h3><br />'
                             )
+                        } else if (currency == 'usd') {
+                            document.location.href = data;
                         }
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
