@@ -265,7 +265,7 @@ def paypalExecute(request):
     if paymentId and payerId:
         # Payment id obtained when creating the payment (following redirect)
         payment = paypalrestsdk.Payment.find(paymentId, api=my_api)
-        return HttpResponse(str(payment.transactions[0].item_list.items[0]))
+        return HttpResponse(str(payment.transactions[0].item_list.items[0].name))
         # Execute payment using payer_id obtained when creating the payment (following redirect)
         if payment.execute({"payer_id": payerId}):
           return HttpResponse("Payment[%s] execute successfully [%s]" % (payment.id, payment.item_list.items[0]))
