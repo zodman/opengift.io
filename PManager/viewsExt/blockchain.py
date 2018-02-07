@@ -201,7 +201,7 @@ def blockchainAjax(request):
                 "transactions": [{
                     "item_list": {
                         "items": [{
-                            "name": project.name + " donation",
+                            "name": project.blockchain_name,
                             "sku": (str(milestone.id) if milestone else '-1'),
                             "price": str(qty),
                             "currency": "USD",
@@ -268,6 +268,6 @@ def paypalExecute(request):
 
         # Execute payment using payer_id obtained when creating the payment (following redirect)
         if payment.execute({"payer_id": payerId}):
-          return HttpResponse("Payment[%s] execute successfully [%s]" % (payment.id, payment.__dict__))
+          return HttpResponse("Payment[%s] execute successfully [%s]" % (payment.id, payment.item_list.items[0]))
         else:
           return HttpResponse(payment.error)
