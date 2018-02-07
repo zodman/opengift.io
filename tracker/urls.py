@@ -35,7 +35,7 @@ from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 from PManager.viewsExt.agreements import ajax_handler as agreements_ajax
-from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax, blockchainIncome
+from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax, blockchainIncome, paypalExecute
 from PManager.viewsExt.public import Public
 from PManager.viewsExt.crypto import get_paid_btc
 import datetime
@@ -175,6 +175,7 @@ urlpatterns = patterns('',
                        url(r'^backers/$', TemplateView.as_view(template_name='public/backers.html'), {'need_inverse': True}),
                        url(r'^ref/$', TemplateView.as_view(template_name='public/ref.html'), {'need_inverse': True}),
                        url(r'^faq/$', faq_list),
+                       url(r'^paypal/$', paypalExecute),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),
                        url(r'^wiki/', include('wiking.urls'))
                        )

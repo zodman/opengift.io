@@ -252,3 +252,17 @@ def blockchainAjax(request):
         result = blockchain_project_status_request(request.user.username, project)
 
     return HttpResponse(result)
+
+def paypalExecute(request):
+    from paypalrestsdk import Payment
+    paymentId = request.GET.get('payentId')
+    payerId = request.GET.get('PayerID')
+    if paymentId and payerId:
+        # Payment id obtained when creating the payment (following redirect)
+        payment = Payment.find(paymentId)
+
+        # Execute payment using payer_id obtained when creating the payment (following redirect)
+        if payment.execute({"payer_id": payerId}):
+          return HttpResponse("Payment[%s] execute successfully" % (payment.id))
+        else:
+          return HttpResponse(payment.error)
