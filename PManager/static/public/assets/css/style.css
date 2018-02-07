@@ -5498,11 +5498,11 @@ button.close {
 }
 
 select {
-  border: 1px solid #e9eff5;
+  border: 1px solid #e9ecef !important;
   padding: 9px 20px;
   border-radius: 4px;
   width: 100%;
-  height:50px;
+  height:54px;
 }
 
 .formal-select-wrapper {
@@ -6534,4 +6534,8 @@ color: #4abeb8;
 .project-item-inner a:focus,
 .project-item-inner a:active {
   color: #60bb98;
+}
+
+.sorting-block .active {
+  color: #333;
 }
