@@ -1,5 +1,5 @@
 __author__ = 'Gvammer'
-from django.shortcuts import HttpResponse, HttpResponseRedirect
+from django.shortcuts import HttpResponse, HttpResponseRedirect, Http404
 from PManager.models import PM_User, PM_Project, PM_Milestone
 from PManager.viewsExt.crypto import bitcoin_set_request, get_rate
 from PManager.services.danations import donate
@@ -265,9 +265,41 @@ def paypalExecute(request):
     if paymentId and payerId:
         # Payment id obtained when creating the payment (following redirect)
         payment = paypalrestsdk.Payment.find(paymentId, api=my_api)
-        return HttpResponse(str(payment.transactions[0].item_list.items[0].name))
-        # Execute payment using payer_id obtained when creating the payment (following redirect)
-        if payment.execute({"payer_id": payerId}):
-          return HttpResponse("Payment[%s] execute successfully [%s]" % (payment.id, payment.item_list.items[0]))
-        else:
-          return HttpResponse(payment.error)
+        projectName = str(payment.transactions[0].item_list.items[0].name)
+        if projectName:
+            if payment.execute({"payer_id": payerId}):
+                goalId = str(payment.transactions[0].item_list.items[0].sku)
+                milestone = None
+                if goalId != '-1':
+                    goalId = int(goalId)
+                    try:
+                        milestone = PM_Milestone.objects.get(pk=goalId)
+                    except PM_Milestone.DoesNotExist:
+                        pass
+
+                ref = request.COOKIES.get('ref')
+                refUser = None
+                if ref:
+                    try:
+                        refUser = PM_User.objects.get(blockchain_wallet=ref)
+                    except PM_User.DoesNotExist:
+                        pass
+
+                try:
+                    project = PM_Project.objects.get(blockchain_name=projectName)
+                except PM_Project.DoesNotExist:
+                    raise Http404
+
+                qty = float(payment.transactions[0].amount.details.subtotal)
+                giftQty = qty * 0.06
+                donate(
+                    giftQty,
+                    project,
+                    request.user,
+                    milestone,
+                    'opengift@opengift.io',
+                    refUser
+                )
+                return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
+            else:
+                return HttpResponse(payment.error)
