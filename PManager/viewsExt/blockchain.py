@@ -255,7 +255,7 @@ def blockchainAjax(request):
 
 def paypalExecute(request):
     from paypalrestsdk import Payment
-    paymentId = request.GET.get('payentId')
+    paymentId = request.GET.get('paymentId')
     payerId = request.GET.get('PayerID')
     if paymentId and payerId:
         # Payment id obtained when creating the payment (following redirect)
