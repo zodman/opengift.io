@@ -150,6 +150,9 @@ def blockchainAjax(request):
         qty = float(request.POST.get('qty', 0))
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
+        if request.user.is_authenticated() and request.user.get_profile().hasRole(project):
+            return HttpResponse('error')
+
         if currency == 'gift':
             if refUser and refUser.id != uid:
                 qtyRef = qty * 0.2
@@ -291,22 +294,17 @@ def paypalExecute(request):
                     raise Http404
 
                 qty = float(payment.transactions[0].amount.total) * 0.95
-                giftQty = qty * 0.06
+                giftQty = qty / 0.06
                 if donate(
                     giftQty,
                     project,
-                    request.user,
+                    request.user if request.user.is_authenticated() else None,
                     milestone,
                     'opengift@opengift.io',
                     refUser
                 ):
                     return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
                 else:
-                    return HttpResponse('error ' + str([giftQty,
-                    project,
-                    request.user,
-                    milestone,
-                    'opengift@opengift.io',
-                    refUser]))
+                    return HttpResponse('error')
             else:
                 return HttpResponse(payment.error)
