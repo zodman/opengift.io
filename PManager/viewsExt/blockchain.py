@@ -292,14 +292,21 @@ def paypalExecute(request):
 
                 qty = float(payment.transactions[0].amount.total) * 0.95
                 giftQty = qty * 0.06
-                donate(
+                if donate(
                     giftQty,
                     project,
                     request.user,
                     milestone,
                     'opengift@opengift.io',
                     refUser
-                )
-                return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
+                ):
+                    return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
+                else:
+                    return HttpResponse('error ' + str([giftQty,
+                    project,
+                    request.user,
+                    milestone,
+                    'opengift@opengift.io',
+                    refUser]))
             else:
                 return HttpResponse(payment.error)
