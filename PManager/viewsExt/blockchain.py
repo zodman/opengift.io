@@ -189,9 +189,9 @@ def blockchainAjax(request):
         elif currency == 'usd':
             import paypalrestsdk
             my_api = paypalrestsdk.Api({
-                'mode': 'sandbox',
-                'client_id': 'ARKZ_toXISzJ4LOFQ095nMuPqlRloVI1WNwDMfTEUL-YQzDOif9V6AhgMlQ-SKGT1l7VAGUu0clfT4oR',
-                'client_secret': 'EHJ-uDfarrQjQukYceH7HEX-bNWe0GBrvKWpvnX9EF4JJeSyoC_K3UQdukDRBbilJXT3FHnX7asSQ2Z5'
+                'mode': 'live',
+                'client_id': 'AezKr6fqe61vrxIFf9rIaNkT4KGl0aLsZ3G-YP1ynYpfKH4v3h7uQGhZNiDZQtKMjRRlC21SxjOxbcXk',
+                'client_secret': 'EBgfY1Nzzml7ziuyYCIY5DJOeQ7J90N0ucPK7xyYWo-zk3TNENwRaRWePOh5fV9AXAFSrYWVq2UOttXD'
             })
             payment = paypalrestsdk.Payment({
                 "intent": "sale",
@@ -259,9 +259,9 @@ def blockchainAjax(request):
 def paypalExecute(request):
     import paypalrestsdk
     my_api = paypalrestsdk.Api({
-                'mode': 'sandbox',
-                'client_id': 'ARKZ_toXISzJ4LOFQ095nMuPqlRloVI1WNwDMfTEUL-YQzDOif9V6AhgMlQ-SKGT1l7VAGUu0clfT4oR',
-                'client_secret': 'EHJ-uDfarrQjQukYceH7HEX-bNWe0GBrvKWpvnX9EF4JJeSyoC_K3UQdukDRBbilJXT3FHnX7asSQ2Z5'
+                'mode': 'live',
+                'client_id': 'AezKr6fqe61vrxIFf9rIaNkT4KGl0aLsZ3G-YP1ynYpfKH4v3h7uQGhZNiDZQtKMjRRlC21SxjOxbcXk',
+                'client_secret': 'EBgfY1Nzzml7ziuyYCIY5DJOeQ7J90N0ucPK7xyYWo-zk3TNENwRaRWePOh5fV9AXAFSrYWVq2UOttXD'
             })
     paymentId = request.GET.get('paymentId')
     payerId = request.GET.get('PayerID')
