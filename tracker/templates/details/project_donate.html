@@ -63,6 +63,7 @@
                                 <small>1 BTC = $<span data-currency="btc" class="js-currency-rate">...</span></small>
                                 &nbsp;&nbsp;&nbsp;
                                 <small>1 GIFT = $<span data-currency="gift" class="js-currency-rate">...</span></small>
+                                <span data-currency="usd" style="display: none;" class="js-currency-rate">1</span>
                             </p>
                         </form>
                     </div>
@@ -73,6 +74,7 @@
                 $(function () {
                     $('.js-currency-rate').each(function () {
                         var t = this;
+                        if ($(this).data('currency') == 'usd') return true;
                         $.post('/blockchain/ajax/', {
                             'action': 'getRate',
                             'currency': $(this).data('currency')
@@ -124,6 +126,7 @@
 
             var donate = function (project, qty, currency, milestone) {
                 var form = new Form('.js-donate-form');
+
                 if (form.validate()) {
                     $('.js-donate').attr('disabled', 'disabled');
                     $.post('/blockchain/ajax/', {
@@ -146,6 +149,7 @@
                         } else if (currency == 'usd') {
                             document.location.href = $.parseJSON(data);
                         }
+                        yaCounter47053188.reachGoal('donate');
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
                 }
