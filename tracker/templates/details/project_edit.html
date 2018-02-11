@@ -255,12 +255,18 @@
                                                               placeholder="Milestone description">{{ milestone.description }}</textarea>
                                                 </div>
                                             </div>
-                                            <div>
+                                            <div class="row">
                                                 <div class="col-md-6">
-
+                                                        <input type="text" name="milestone_{{ milestone.id }}_min_donate"
+                                                           class="form-control u-rounded-50 p-3 u-mb-30"
+                                                           value="{{ milestone.min_donate }}"
+                                                           placeholder="Minimal donation sum"/>
                                                 </div>
                                                 <div class="col-md-6">
-
+                                                        <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
+                                                           class="form-control u-rounded-50 p-3 u-mb-30"
+                                                           value="{{ milestone.conditioned_time }}"
+                                                           placeholder="Days to complete if minimal donations collected"/>
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -301,6 +307,20 @@
                                                 <textarea class="form-control u-rounded-15 p-3 u-mb-30"
                                                           name="milestone_new_desc"
                                                           placeholder="Milestone description"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                    <input type="text" name="milestone_{{ milestone.id }}_min_donate"
+                                                       class="form-control u-rounded-50 p-3 u-mb-30"
+                                                       value="{{ milestone.min_donate }}"
+                                                       placeholder="Minimal donation sum"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                    <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
+                                                       class="form-control u-rounded-50 p-3 u-mb-30"
+                                                       value="{{ milestone.conditioned_time }}"
+                                                       placeholder="Days to complete if minimal donations collected"/>
                                             </div>
                                         </div>
                                     </div>

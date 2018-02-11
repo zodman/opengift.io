@@ -564,7 +564,7 @@
                             <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;
                                 <small>({{ milestone.get_donation_sum|floatformat:"2" }} GIFT)</small>{% endif %}</h2>
 
-                            <p>{{ milestone.description|default_if_none:'' }}</p>
+                            <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
                             {#				<a href="#0" class="cd-read-more">Read more</a>#}
                             <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 

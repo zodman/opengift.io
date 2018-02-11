@@ -474,8 +474,8 @@ class PM_Milestone(models.Model):
     confirmed = models.BooleanField(blank=True, default=False)
     is_request = models.BooleanField(blank=True, default=False)
     donated = models.BooleanField(blank=True, default=False)
-    min_donation = models.FloatField(blank=True, null=True)
-    min_donation_conditioned_days = models.IntegerField(blank=True, null=True)
+    min_donate = models.FloatField(blank=True, null=True)
+    conditioned_time = models.IntegerField(blank=True, null=True)
 
     def tasksOrderedByClose(self):
         return self.tasks.order_by('-closed')
