@@ -18,8 +18,8 @@
                 </div>
             </div> <!-- END row-->
             <div class="row">
-                <div class="col-sm-3">
-                    <div class="nav flex-column nav-pills" role="tablist" aria-orientation="vertical">
+                <div class="col-md-4 col-lg-3">
+                    <div class="nav flex-column nav-pills nav-vertical" role="tablist" aria-orientation="vertical">
                         <a class="nav-link active" data-toggle="pill" href="#v-pills-home" role="tab"
                            aria-controls="v-pills-home" aria-selected="true" aria-expanded="false">
                             <span class="icon icon-Notebook color-primary mr-lg-3"></span>
@@ -49,15 +49,16 @@
                            data-toggle="pill" href="#v-pills-cloud" role="tab"
                            aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Cloud color-primary mr-lg-3"></span>
-                            Donation wallet</a>
+                            Donation wallet
+                            Donation tools {% if not project.share_link_enabled %}<i class="fa fa-exclamation-triangle"></i>{% endif %}</a>
                         <a class="nav-link {% if not project.share_link_enabled %}alert-tab{% endif %}"
                            data-toggle="pill" href="#v-pills-donation-tools" role="tab"
                            aria-controls="v-pills-donation-tools" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Heart color-primary mr-lg-3"></span>
-                            Donation tools</a>
+                            Donation tools {% if not project.share_link_enabled %}<i class="fa fa-exclamation-triangle"></i>{% endif %}</a>
                     </div>
                 </div>
-                <div class="col-sm-9">
+                <div class="col-md-8 col-lg-9">
                     <form novalidate action="" method="POST" enctype="multipart/form-data"
                           class="js-project-form">
                         <div class="tab-content" id="v-pills-tabContent">
@@ -65,13 +66,15 @@
                                  aria-labelledby="v-pills-home-tab"
                                  aria-expanded="true">
                                 <div class="project-edit-form">
-                                    <label class="row u-mb-20">
-                                        <div class="col-sm-1">
+
+                                    <div class="text-left u-mb-20">
+                                        <label class="custom-control custom-checkbox text-left">
                                             <input type="checkbox" {% if project.public %}checked{% endif %} value="1"
-                                                   name="public"/>
-                                        </div>
-                                        <div class="col-sm-11"> Make the project's page public</div>
-                                    </label>
+                                                   name="public" class="custom-control-input"/>
+                                            <span class="custom-control-indicator mt-1"></span>
+                                            <span class="custom-control-description">Make the project's page public</span>
+                                        </label>
+                                    </div>
                                     <input type="text" name="name" value="{{ project.name }}"
                                            class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
                                            required="">
@@ -271,14 +274,16 @@
                                                            placeholder="Days to complete if minimal donations collected"/>
                                                 </div>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-1">
-                                                    <input type="checkbox" name="milestone_{{ milestone.id }}_closed" />
-                                                </div>
-                                                <div class="col-11">
-                                                    Mark as done (you'll get the payment after confirmation of 50% backers who donate for it)
-                                                </div>
+
+                                            <div class="text-left u-mb-20">
+                                                <label class="custom-control custom-checkbox text-left">
+                                                    <input type="checkbox"
+                                                           name="milestone_{{ milestone.id }}_closed" class="custom-control-input"/>
+                                                    <span class="custom-control-indicator mt-1"></span>
+                                                    <span class="custom-control-description">                                                  Mark as done (you'll get the payment after confirmation of 50% backers who donate for it)</span>
+                                                </label>
                                             </div>
+
                                             <div class="row">
                                             <div class="col-12 u-pt-20">
                                                 <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div>
@@ -386,27 +391,29 @@
                             <div class="tab-pane fade" id="v-pills-donation-tools" role="tabpanel"
                                  aria-labelledby="v-pills-donation-tools-tab" aria-expanded="false">
                                 <div class="project-edit-form js-blockchain-form">
-                                    <h4>Donation tools</h4>
+                                    <h2>Donation tools</h2>
                                     <p><b>3 simple steps to improve your donations with OpenGift</b></p>
 
-                                    <p>1. Get your personal donation widget</p>
+                                    <h3>1. Get your personal donation widget</h3>
                                     <textarea type="text"
                                            class="form-control u-rounded-15 p-3 u-mb-30 js-blockchain-name">&lt;script src="https://opengift.io/static/public/assets/js/og.widget.js"&gt;&lt;/script&gt;&lt;div class="ogwidget js-og-widget" data-project="{{ project.id }}"&gt;&lt;/div&gt;</textarea>
                                     <script src="/static/public/assets/js/og.widget.js"></script>
                                     <div class="ogwidget js-og-widget" data-project="{{ project.id }}"></div>
 
                                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                                    <p>2. Enable partners program for your potential marketers</p>
-                                    <div class="row">
-                                        <div class="col-1">
-                                        <input type="checkbox" class="checkbox" name="share_link_enabled"
-                                               {% if project.share_link_enabled %}checked{% endif %} />
-                                        </div>
-                                        <div class="col-11">
-                                        <label>Enable partners <a href="/ref/">referral program</a></label>
-                                        </div>
+                                    <h3>2. Enable partners program for your potential marketers</h3>
+
+
+                                    <div class="text-left u-mb-20">
+                                        <label class="custom-control custom-checkbox text-left">
+                                            <input type="checkbox" name="share_link_enabled"
+                                                   {% if project.share_link_enabled %}checked{% endif %} class="custom-control-input"/>
+                                            <span class="custom-control-indicator mt-1"></span>
+                                            <span class="custom-control-description">Enable partners <a href="/ref/">referral program</a></span>
+                                        </label>
                                     </div>
-                                    <p>3. <a href="/project/{{ project.id }}/public/">Share</a> new abilities of your <a href="/project/{{ project.id }}/public/">project</a> in social media.</p>
+
+                                    <h3>3. <a href="/project/{{ project.id }}/public/">Share</a> new abilities of your <a href="/project/{{ project.id }}/public/">project</a> in social media.</h3>
                                 </div>
                             </div>
                         </div>
@@ -557,6 +564,44 @@
     <style>
     .alert-tab {
         color: darkred !important;
+    }
+        .alert-tab {
+            position: relative;
+            background: #ffe5e5;
+        }
+
+    .alert-tab .fa.fa-exclamation-triangle {
+             float: right;
+             position: absolute;
+             right: 11px;
+             top: 50%;
+             margin-top: -7px;
+         }
+
+    .alert-tab .color-primary {
+        color: darkred !important;
+    }
+
+        .nav-vertical .nav-link {
+            margin: 5px 0;
+            position: relative;
+            padding: 5px 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+    .nav-vertical .nav-link .icon {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        margin-top: -7px;
+    }
+        .nav-vertical {display: block; margin-bottom: 30px;}
+
+    .nav-pills.nav-vertical .nav-link.alert-tab.active {
+        background:darkred !important;
+        color: #fff !important;
     }
     </style>
 {% endblock %}
