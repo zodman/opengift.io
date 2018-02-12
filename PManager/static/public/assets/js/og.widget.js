@@ -36,6 +36,7 @@ var widgetFunc = function() {
 
                     $widget.find('.js-og-widget-fundme-link').attr('href', 'https://opengift.io/project/'+ w.project+'/donate/?utm_source=widget');
                     $widget.find('.js-og-widget-project-link').attr('href', 'https://opengift.io/project/'+ w.project+'/public/?utm_source=widget');
+                    $widget.find('.js-og-widget-new-milestone').attr('href', 'https://opengift.io/project/'+ w.project+'/public/?utm_source=widget#milestones');
                     $.post(
                         'https://opengift.io/project/' + w.project + '/ajax/',
                         {
