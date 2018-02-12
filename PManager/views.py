@@ -74,7 +74,7 @@ class MainPage:
         vcode = request.POST.get('code', None)
         if uname:
             from PManager.services.recaptcha import validate as validate_recaptcha
-            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST['skip_recaptcha']):
+            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST.get('skip_recaptcha', None)):
                 return HttpResponse(
                     loader.get_template('main/change_password.html').render(
                         RequestContext(request, {"message": "incorrect_captcha"})
@@ -131,7 +131,7 @@ class MainPage:
             password = request.POST['password']
 
             from PManager.services.recaptcha import validate as validate_recaptcha
-            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST['skip_recaptcha']):
+            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST.get('skip_recaptcha', None)):
                 return HttpResponse(
                     loader.get_template('main/unauth.html').render(
                         RequestContext(request, {"error": "incorrect_captcha"})
