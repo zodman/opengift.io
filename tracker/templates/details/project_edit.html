@@ -259,13 +259,13 @@
                                                 <div class="col-md-6">
                                                         <input type="text" name="milestone_{{ milestone.id }}_min_donate"
                                                            class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.min_donate }}"
+                                                           value="{{ milestone.min_donate|default_if_none:'' }}"
                                                            placeholder="Minimal donation sum"/>
                                                 </div>
                                                 <div class="col-md-6">
                                                         <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
                                                            class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.conditioned_time }}"
+                                                           value="{{ milestone.conditioned_time|default_if_none:'' }}"
                                                            placeholder="Days to complete if minimal donations collected"/>
                                                 </div>
                                             </div>
@@ -299,7 +299,8 @@
                                                        placeholder="Milestone date DD.MM.YYYY"/>
                                             </div>
                                             <div class="col-md-1">
-                                                <a href="#" class="fa fa-remove js-remove" style="display: none" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
+                                                <a href="#" class="fa fa-remove js-remove"
+                                                   style="display: none" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -310,16 +311,16 @@
                                             </div>
                                         </div>
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                    <input type="text" name="milestone_{{ milestone.id }}_min_donate"
+                                            <div class="col-md-5">
+                                                    <input type="text" name="milestone_new_min_donate"
                                                        class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value="{{ milestone.min_donate }}"
+                                                       value=""
                                                        placeholder="Minimal donation sum"/>
                                             </div>
-                                            <div class="col-md-6">
-                                                    <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
+                                            <div class="col-md-7">
+                                                    <input type="text" name="milestone_new_conditioned_time"
                                                        class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value="{{ milestone.conditioned_time }}"
+                                                       value=""
                                                        placeholder="Days to complete if minimal donations collected"/>
                                             </div>
                                         </div>

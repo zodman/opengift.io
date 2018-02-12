@@ -565,7 +565,9 @@
                                 <small>({{ milestone.get_donation_sum|floatformat:"2" }} GIFT)</small>{% endif %}</h2>
 
                             <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
-                            {#				<a href="#0" class="cd-read-more">Read more</a>#}
+                            {% if milestone.conditioned_time and milestone.min_donate %}
+                            <p><small>This task should be complete in {{ milestone.conditioned_time }} days if ${{ milestone.min_donate }} is earned.</small></p>
+                            {% endif %}
                             <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
 

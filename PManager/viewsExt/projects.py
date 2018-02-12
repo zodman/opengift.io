@@ -151,6 +151,13 @@ def projectDetailEdit(request, project_id):
                     m.date = templateTools.dateTime.convertToDateTime(request.POST.get('milestone_'+str(m.id)+'_date', ''))
                     m.description = request.POST.get('milestone_'+str(m.id)+'_desc', '')
                     m.closed = request.POST.get('milestone_'+str(m.id)+'_closed', False)
+
+                    try:
+                        m.min_donate=float(request.POST.get('milestone_'+str(m.id)+'_min_donate', 0))
+                        m.conditioned_time=int(request.POST.get('milestone_'+str(m.id)+'_conditioned_time', 0))
+                    except ValueError:
+                        pass
+
                     m.save()
                 else:
                     m.delete()
@@ -158,13 +165,25 @@ def projectDetailEdit(request, project_id):
             new_milestones = request.POST.getlist('milestone_new_name')
             new_milestones_date = request.POST.getlist('milestone_new_date')
             new_milestones_desc = request.POST.getlist('milestone_new_desc')
+            new_milestones_min_donate = request.POST.getlist('milestone_new_min_donate')
+            new_milestones_conditioned_time = request.POST.getlist('milestone_new_conditioned_time')
             i = 0
             for ms_name in new_milestones:
                 if ms_name:
                     ms_date = templateTools.dateTime.convertToDateTime(new_milestones_date[i])
+                    ct = None
+                    md = None
+                    try:
+                        md = float(new_milestones_min_donate[i])
+                        ct = int(new_milestones_conditioned_time[i])
+                    except ValueError:
+                        pass
+
                     ms = PM_Milestone(
                         name=ms_name,
                         description=new_milestones_desc[i],
+                        min_donate=md,
+                        conditioned_time=ct,
                         date=ms_date,
                         project=project,
                         author=request.user
