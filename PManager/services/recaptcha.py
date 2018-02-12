@@ -1,7 +1,10 @@
 __author__ = 'gvammer'
 
 
-def validate(code):
+def validate(code, skip_recaptcha=None):
+    if skip_recaptcha:
+        return True
+
     import requests, json
     from tracker import settings
     if hasattr(settings, 'CAPTCHA_DISABLED'):
