@@ -266,7 +266,7 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background: #f3784c /* Old browsers */
+    background: #f3784c; /* Old browsers */
     background: -moz-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #f3784c 0%, #ff5466 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
