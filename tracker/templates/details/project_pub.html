@@ -567,7 +567,7 @@
 
                             <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
                             {% if milestone.conditioned_time and milestone.min_donate %}
-                            <p><small>This task should be completed in {{ milestone.conditioned_time }} days if ${{ milestone.min_donate }} is earned. Otherwise money will be sent back.</small></p>
+                            <p><small>This task should be completed within {{ milestone.conditioned_time }} day after ${{ milestone.min_donate }} raised. Otherwise the money will be returned.</small></p>
                             {% endif %}
                             <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
