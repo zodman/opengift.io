@@ -265,13 +265,13 @@
                                                         <input type="text" name="milestone_{{ milestone.id }}_min_donate"
                                                            class="form-control u-rounded-50 p-3 u-mb-30"
                                                            value="{{ milestone.min_donate|default_if_none:'' }}"
-                                                           placeholder="Minimal donation sum"/>
+                                                           placeholder="Minimal donation sum (USD)"/>
                                                 </div>
                                                 <div class="col-md-6">
                                                         <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
                                                            class="form-control u-rounded-50 p-3 u-mb-30"
                                                            value="{{ milestone.conditioned_time|default_if_none:'' }}"
-                                                           placeholder="Days to complete if minimal donations collected"/>
+                                                           placeholder="Conditional deadline (days)"/>
                                                 </div>
                                             </div>
 
@@ -413,7 +413,7 @@
                                         </label>
                                     </div>
 
-                                    <h3>3. <a href="/project/{{ project.id }}/public/">Share</a> new abilities of your <a href="/project/{{ project.id }}/public/">project</a> in social media.</h3>
+                                    <h3>3. <a href="/project/{{ project.id }}/public/">Tell</a> about new abilities of your <a href="/project/{{ project.id }}/public/">project</a> in social media.</h3>
                                 </div>
                             </div>
                         </div>
