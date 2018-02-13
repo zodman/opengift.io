@@ -64,6 +64,7 @@
     border-radius: 5px;
     position: absolute;
     top: 65px;
+    overflow: hidden;
 }
 
 .ogwidget-wrapper-body:after {
@@ -279,7 +280,7 @@
 .ogwidget-button-green:focus,
 .ogwidget-button-green:active,
 .ogwidget-button-green.ogwidget-opened {
-    background: #f3784c /* Old browsers */
+    background: #f3784c; /* Old browsers */
     background: -moz-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* FF3.6-15 */
     background: -webkit-linear-gradient(left, #f3784c 0%, #ff5466 100%); /* Chrome10-25,Safari5.1-6 */
     background: linear-gradient(to right, #f3784c 0%, #ff5466 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
@@ -365,4 +366,21 @@
 
 .ogwidget-link:hover {
     color: #62bb94;
+}
+
+.og-widget-footer {
+    padding: 15px 10px;
+    margin: 0px;
+    text-align: center;
+    box-shadow: 0px 0 40px rgba(1,1,1,0.1);
+   -moz-box-shadow: 0px 0 40px rgba(1,1,1,0.1);
+   -webkit-box-shadow: 0px 0 40px rgba(1,1,1,0.1);
+    box-shadow: 0px 0 40px rgba(1,1,1,0.1);
+    position: relative;
+    z-index: 5;
+}
+.og-widget-button-icon {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 5px;
 }
