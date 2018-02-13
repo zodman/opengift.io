@@ -93,7 +93,7 @@ def projectList(request, **kwargs):
     c = RequestContext(request, {
         'specialties': aSpec,
         'spectree': recursiveTreeDraw({'subitems': aSpec.values()}),
-        'project_list': PM_Project.objects.filter(public=True).order_by('-opengift_rating', '-id')
+        'project_list': PM_Project.objects.filter(public=True).order_by('-opengift_rating')
     })
     c.update(kwargs)
     t = loader.get_template('details/project_list.html')
