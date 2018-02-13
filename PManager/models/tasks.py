@@ -154,6 +154,7 @@ class PM_Project(models.Model):
     target_group = models.TextField(null=True, blank=True, verbose_name=u'Target groups')
     files = models.ManyToManyField('PM_Files', related_name="fileProjects", null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdProjects')
+    opengift_rating = models.IntegerField(null=True, blank=True)
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Picture', blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
