@@ -190,7 +190,7 @@ class PM_Project(models.Model):
                 return 'blue'
             elif s.name == 'Applications':
                 return 'orange'
-            elif s.name == 'API':
+            elif s.name == 'API' or s.name == 'Databases' or s.name == 'Web Service':
                 return 'green'
             elif s.name == 'IoT':
                 return 'yellow'
