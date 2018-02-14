@@ -216,77 +216,15 @@
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
 
-
-
-
-    <section class="u-py-100 with-waves" style="padding-bottom: 50px !important; padding-top: 50px !important;">
+    <section class="bg-gray-v1  with-waves">
         <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
              style="position: absolute;"><title>Wave</title>
             <defs></defs>
             <path id="feel-the-wave-four" d=""/>
         </svg>
         <div class="container">
-            <div class="row text-center">
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #a456fd; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            {{ hours_spent|floatformat }}
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Hours spent
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #ff7298; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            {{ project.projectTasks.count }}
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Things done
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"
-                         style="background: #5eabff; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            0
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Registrations/Downloads
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #ffb976; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            {{ donationsCount }}
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Donates recd
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-            </div> <!-- END row-->
-        </div> <!-- END container-->
-    </section>
-    <section class="bg-gray-v1">
-        <div class="container">
-            <h2 class="h1 mb-4 text-primary text-center">
-                Problem/solve
+            <h2 class="h1 mb-4 text-primary text-center u-pt-50">
+                Details
             </h2>
 
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
@@ -330,8 +268,15 @@
                 {% if not forloop.last %}
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>{% endif %}
             {% endfor %}
-            <a href="#" class="btn btn-green disabled">Help me with integration</a>
-            <p><small>The team can't provide this service at now.</small></p>
+            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+            <div class="text-center">
+                <a href="#" class="btn btn-success{% if not project.integration_price %} disabled{% endif %}">Help me with integration</a>
+                {% if project.integration_price %}
+                    <p><small>Project team can help you with integration of this project for ${{ project.integration_price }}</small></p>
+                {% else %}
+                    <p><small class="text-muted">The team can't provide this service at now.</small></p>
+                {% endif %}
+            </div>
         </div> <!-- END container-->
     </section>
     <section class="">
@@ -619,6 +564,67 @@
         </div>
 
     </section>
+    <section class="u-py-100" style="padding-bottom: 50px !important; padding-top: 50px !important;">
+
+        <div class="container">
+            <h2 class="h1 text-center u-py-40">For investors / new contributors</h2>
+            <div class="row text-center">
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #a456fd; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ hours_spent|floatformat }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Hours spent
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ff7298; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ project.projectTasks.count }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Things done
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"
+                         style="background: #5eabff; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            0
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Registrations/Downloads
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
+                         style="background: #ffb976; color: #fff !important;">
+                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
+                            {{ donationsCount }}
+                        </h4>
+
+                        <p class="u-fs-20">
+                            Donates recd
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
 {#    <section class="u-py-100">#}
 {#            <div style="padding: 0 6.25rem;">#}
 {#                <div class="row">#}
@@ -695,6 +701,9 @@
                         </div>
                         <div class="input-group">
                             <label><input type="radio" style="display: inline-block; width: 30px;" name="invest_model" value="integration" /> Do integration tasks</label>
+                        </div>
+                        <div class="input-group">
+                            <label><input type="radio" style="display: inline-block; width: 30px;" name="invest_model" value="translate" /> Localization</label>
                         </div>
                     </div>
                         <button class="btn btn-primary btn-rounded">

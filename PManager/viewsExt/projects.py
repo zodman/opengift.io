@@ -490,14 +490,14 @@ def projectDetailPublic(request, project_id):
 
         ams.append(m)
 
-    timers = PM_Timer.objects.raw(
-            'SELECT SUM(`seconds`) as summ, id from PManager_pm_timer' +
-            ' WHERE `task_id` IN (select id from PManager_pm_task where closed=1 and project_id=' + str(project.id) + ')'
-        )
+    # timers = PM_Timer.objects.raw(
+    #         'SELECT SUM(`seconds`) as summ, id from PManager_pm_timer' +
+    #         ' WHERE `task_id` IN (select id from PManager_pm_task where closed=1 and project_id=' + str(project.id) + ')'
+    #     )
     time = 0
-    for t in timers:
-        if t.summ:
-            time += float(t.summ)
+    # for t in timers:
+    #     if t.summ:
+    #         time += float(t.summ)
 
     time /= 3600
     time = round(time)
