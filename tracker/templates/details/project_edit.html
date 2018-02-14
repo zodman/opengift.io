@@ -400,8 +400,8 @@
                                     <script src="/static/public/assets/js/og.widget.js"></script>
                                     <div class="ogwidget js-og-widget" data-project="{{ project.id }}"></div>
 
-                                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                                    <h3>2. Enable partners program for your potential marketers</h3>
+
+                                    <h3 class="u-pt-25">2. Enable Partner Program for your potential marketers</h3>
 
 
                                     <div class="text-left u-mb-20">
@@ -409,11 +409,16 @@
                                             <input type="checkbox" name="share_link_enabled"
                                                    {% if project.share_link_enabled %}checked{% endif %} class="custom-control-input"/>
                                             <span class="custom-control-indicator mt-1"></span>
-                                            <span class="custom-control-description">Enable partners <a href="/ref/">referral program</a></span>
+                                            <span class="custom-control-description">Enable <a href="/ref/">Referral Partner Program</a></span>
                                         </label>
                                     </div>
-
-                                    <h3>3. <a href="/project/{{ project.id }}/public/">Tell</a> about new abilities of your <a href="/project/{{ project.id }}/public/">project</a> in social media</h3>
+                                    <h3 class="u-pt-25">3. <a href="/project/{{ project.id }}/public/">Share</a> new features of your <a href="/project/{{ project.id }}/public/">project</a> on social media</h3>
+                                    <h3 class="u-pt-25">4. Want to integrate you project for some companies? Set minimal integration price.</h3>
+                                    <div class="field-group">
+                                        <input type="text" name="integration_price"
+                                               value="{{ project.integration_price|default_if_none:'' }}"
+                                               class="form-field" placeholder="Minimal price ($)" />
+                                    </div>
                                 </div>
                             </div>
                         </div>

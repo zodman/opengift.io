@@ -42,7 +42,7 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "share_link_enabled", "description", "public", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
+        fields = ["name", "share_link_enabled", "description", "integration_price", "public", "files", "industries", "target_group", "problem", "link_site", "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -121,7 +121,7 @@ def projectDetailDonate(request, project_id):
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
     if not request.user.is_authenticated() or not request.user.get_profile().isManager(project):
-        raise Http404
+        return HttpResponseRedirect('/login/')
 
     if request.method == 'POST':
         p_form = ProjectFormEdit(

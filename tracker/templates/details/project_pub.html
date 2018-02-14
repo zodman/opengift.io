@@ -25,12 +25,12 @@
             font-size: 11px !important;
         }
         #share-buttons img {
-        width: 35px;
-        padding: 5px;
-        border: 0;
-        box-shadow: 0;
-        display: inline;
-        opacity: 0.3;
+            width: 35px;
+            padding: 5px;
+            border: 0;
+            box-shadow: 0;
+            display: inline;
+            opacity: 0.3;
         }
         #share-buttons a:hover img {
             opacity: 1;
@@ -330,6 +330,8 @@
                 {% if not forloop.last %}
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>{% endif %}
             {% endfor %}
+            <a href="#" class="btn btn-green disabled">Help me with integration</a>
+            <p><small>The team can't provide this service at now.</small></p>
         </div> <!-- END container-->
     </section>
     <section class="">
@@ -567,7 +569,7 @@
 
                             <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
                             {% if milestone.conditioned_time and milestone.min_donate %}
-                            <p><small>This task should be completed within {{ milestone.conditioned_time }} day after ${{ milestone.min_donate }} raised. Otherwise the money will be returned.</small></p>
+                            <p><small>This task should be completed within {{ milestone.conditioned_time }} day after ${{ milestone.min_donate }} raised. Otherwise your donation will be refunded.</small></p>
                             {% endif %}
                             <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
