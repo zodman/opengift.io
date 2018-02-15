@@ -272,9 +272,9 @@
             <div class="text-center">
                 <a href="#" class="btn btn-success{% if not project.integration_price %} disabled{% endif %}">Help me with integration</a>
                 {% if project.integration_price %}
-                    <p><small>Project team can help you with integration of this project for ${{ project.integration_price }}</small></p>
+                    <p><small>Project team will help you integrate this project for ${{ project.integration_price }}</small></p>
                 {% else %}
-                    <p><small class="text-muted">The team can't provide this service at now.</small></p>
+                    <p><small class="text-muted">The team doesn't provide this service at the moment.</small></p>
                 {% endif %}
             </div>
         </div> <!-- END container-->
