@@ -79,7 +79,7 @@ def projectList(request, **kwargs):
         s = ''
         if 'item' in treeItem:
             s += '<option value="'
-            s += treeItem['item'].id
+            s += str(treeItem['item'].id)
             s += '">'
             i = 0
             while i < depth:
