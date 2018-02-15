@@ -74,19 +74,23 @@ def getIndustriesTree():
 def projectList(request, **kwargs):
     aSpec = getIndustriesTree()
 
-    def recursiveTreeDraw(treeItem):
+
+    def recursiveTreeDraw(treeItem, depth=1):
         s = ''
         if 'item' in treeItem:
-            s += '{value:25, label: "'
-            s += treeItem['item'].name
-            s += '", subitems: ['
+            s += '<option value="'
+            s += treeItem['item'].id
+            s += '">'
+            i = 0
+            while i < depth:
+                i += 1
+                s += '.'
+
+            s += treeItem['item'].name + '</option>'
 
         if treeItem['subitems']:
             for item in treeItem['subitems']:
-                s += recursiveTreeDraw(item)
-
-        if 'item' in treeItem:
-            s += ']},'
+                s += recursiveTreeDraw(item, depth+1)
 
         return s
 

@@ -6,25 +6,52 @@
 {% endblock %}
 {% block content %}
     <section>
+    <script>
+        $(function () {
+            var search = function() {
+                var val = $('.js-search').val(), $projects = $('.js-project-item');
+                if (val == '') {
+                    $projects.show();
+                } else {
+                    val = val.toLowerCase();
+                    $projects.each(function() {
+                        var text = $(this).find('.js-project-name').text() + ' ' + $(this).find('.js-project-desc').text();
+                        text = text.toLowerCase();
+                        if (text.indexOf(val) > -1) {
+                            $(this).show();
+                        } else {
+                            $(this).hide();
+                        }
+                    });
+                }
+            };
+            var searchTimeout = false;
+            $('.js-search').keyup(function() {
+                if (searchTimeout) clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(search, 300);
+            });
+        })
+    </script>
         <div class="container u-pt-50">
             <h1 class="text-center">Projects</h1>
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
 
-{#            <div class="row">#}
-{#                <div class="col-lg-8">#}
-{#                    <div class="input-group u-rounded-4 border u-of-hidden u-mb-20">#}
-{#                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">#}
-{#                            <span class="icon icon-Search text-primary"></span>#}
-{#                        </div>#}
-{#                        <input type="text" class="form-control border-0 p-3" placeholder="Type &amp; hit enter">#}
-{#                    </div>#}
-{#                </div>#}
-{#                <div class="col-lg-4">#}
-{#                    <select>#}
-{#                        <option>Target Group</option>#}
-{#                    </select>#}
-{#                </div>#}
-{#            </div>#}
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="input-group u-rounded-4 border u-of-hidden u-mb-20">
+                        <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                            <span class="icon icon-Search text-primary"></span>
+                        </div>
+                        <input type="text" class="form-control border-0 p-3 js-search" placeholder="Type the name of project">
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <select class="js-search-category">
+                        <option value="">Category</option>
+                        {{ spectree }}
+                    </select>
+                </div>
+            </div>
 {#            <div class="mb-5 sorting-block bg-gray-v1 p-2 border rounded">#}
 {#                    <ul class="list-inline mb-0">#}
 {#                        <li class="list-inline-item">#}
@@ -46,14 +73,14 @@
 {#            </div>#}
             <div class="row">
                 {% for project in project_list %}
-                    <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper">
+                <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper js-project-item">
                     <div class="project-item-wrapper relative">
                         <h4 class="d-flex u-w-100 u-h-100 {{ project.color }}-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
                             {{ project.firstLetter|capfirst }}
                         </h4>
                         <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
                             <h4 class="u-fs-26 u-mb-10 u-mt-20">
-                                <a href="/project/{{ project.id }}/public/">{{ project.name }}</a>
+                                <a href="/project/{{ project.id }}/public/" class="js-project-name">{{ project.name }}</a>
                             </h4>
                             <div class="clearfix u-mb-15">
                                 <div class="float-left">
@@ -66,7 +93,7 @@
                                     <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users color-primary mr-2"></i>Contributors: {{ project.getUsers.count }}</div>
                                 </div>
                             </div>
-                            <p class="project-hidden-desc">
+                            <p class="project-hidden-desc js-project-desc">
                             {{ project.description }}
                             </p>
                         </div>
