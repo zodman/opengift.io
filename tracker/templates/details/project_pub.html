@@ -149,6 +149,10 @@
                         <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
                             View Demo
                         </a>
+                    {% elif project.link_github %}
+                        <a href="{{ project.link_github }}" class="btn btn btn-rounded btn-white px-md-5">
+                            <i class="fa fa-github"></i> GitHub
+                        </a>
                     {% endif %}
                     {% if project.blockchain_name %}
                         <a href="/project/{{ project.id }}/donate/"
