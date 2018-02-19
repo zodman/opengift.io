@@ -156,6 +156,7 @@ class PM_Project(models.Model):
     author = models.ForeignKey(User, related_name='createdProjects')
     opengift_rating = models.IntegerField(null=True, blank=True)
     integration_price = models.FloatField(null=True, blank=True)
+    commercial_analogs = models.CharField(max_length=500, null=True, blank=True)
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Picture', blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')

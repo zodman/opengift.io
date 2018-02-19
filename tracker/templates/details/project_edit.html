@@ -56,6 +56,10 @@
                            aria-controls="v-pills-donation-tools" aria-selected="false" aria-expanded="false">
                             <span class="icon icon-Heart color-primary mr-lg-3"></span>
                             Donation tools {% if not project.share_link_enabled %}<i class="fa fa-exclamation-triangle"></i>{% endif %}</a>
+{#                        <a class="nav-link" data-toggle="pill" href="#v-pills-coworkers" role="tab"#}
+{#                           aria-controls="v-pills-team" aria-selected="false" aria-expanded="false">#}
+{#                            <span class="icon icon-Users color-primary mr-lg-3"></span>#}
+{#                            Co-workers</a>#}
                     </div>
                 </div>
                 <div class="col-md-8 col-lg-9">
@@ -179,34 +183,41 @@
                                         </div>
                                     {% endfor %}
                                     <div class="milestone-row js-problem-new">
-                                            <div class="row">
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_new_target_group"
-                                                              placeholder="Target group"></textarea>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <a href="#" class="fa fa-remove js-remove"  style="display: none;" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
-                                                </div>
+                                        <div class="row">
+                                            <div class="col-md-11">
+                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                          name="problem_new_target_group"
+                                                          placeholder="Target group"></textarea>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_new_problem"
-                                                              placeholder="Problem"></textarea>
-                                                </div>
+                                            <div class="col-md-1">
+                                                <a href="#" class="fa fa-remove js-remove"  style="display: none;" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
                                             </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_new_solution"
-                                                              placeholder="Solution"></textarea>
-                                                </div>
-                                            </div>
-                                        <div class="row"><div class="col-12">
-                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
                                         </div>
-                                        <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add solution</button>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                          name="problem_new_problem"
+                                                          placeholder="Problem"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
+                                                          name="problem_new_solution"
+                                                          placeholder="Solution"></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-12">
+                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add solution</button>
+{#                                    <div class="row">#}
+{#                                        <div class="col-12">#}
+{#                                            <input type="text" name="commercial_analogs" placeholder="Commercial analogs of your project" />#}
+{#                                        </div>#}
+{#                                    </div>#}
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
@@ -364,7 +375,6 @@
                                         </div>
                                     {% endfor %}
                                 </div>
-
                             </div>
                             <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
                                  aria-labelledby="v-pills-messages-tab" aria-expanded="false">
