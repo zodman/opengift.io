@@ -489,28 +489,46 @@
         <div class="container js-presale">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h2 class="h1 u-mt-50 text-center">
+                    <h2 class="h1 u-mt-50 u-mb-50 text-center">
                         PreSale Placeholder Process
                     </h2>
 
 
-                    <div id="chartdiv" style="width: 100%;" ></div>
+                    <div id="chartdiv" style="width: 100%; margin-bottom: -100px; margin-top: -100px;"  class="hide-on-992"></div>
                     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
                     <script type="text/javascript" src="https://cdn.amcharts.com/lib/3/pie.js"></script>
                     <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/chalk.js"></script>
+                    <script type="text/javascript" src="https://www.amcharts.com/lib/3/plugins/responsive/responsive.min.js"></script>
+
                     <script type="text/javascript">
                         $(function() {
+
                             new Waypoint({
                               element: $('.js-presale').get(0),
                               offset: '95%',
                               handler: function(direction) {
                                   AmCharts.makeChart("chartdiv",
                                     {
+
                                         "type": "pie",
                                         "angle": 36.9,
-                                        "balloonText": "[[title]]<br><span style='font-size:14px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                        "balloonText": "[[title]]<br><span style='font-size:13px'><b>[[value]]</b> ([[percents]]%)</span>",
                                         "depth3D": 8,
                                         "innerRadius": 0,
+                                        "responsive": {
+                                            "enabled": true,
+                                            "addDefaultRules": false,
+                                            "rules": [
+                                                {
+                                                    "maxWidth": 1200,
+                                                    "overrides": {
+                                                        "legend": {
+                                                            "enabled": false
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
                                         "colors": [
                                             "#3bc1cd",
                                             "#60ba95",
@@ -572,7 +590,7 @@
                             });
                         });
                     </script>
-                    <div class="row u-mb-50" style="margin-top: -100px;">
+                    <div class="row u-mb-50">
                         <div class="col-md-8">
 
                             <table class="table table-responsive text-center text-md-left">
@@ -926,21 +944,7 @@
                             <div class="col-md-5 user-img-wrapper">
                                 <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/npav.jpg"
                                      alt="">
-                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-                                    <li class="list-inline-item">
-                                        <a href="https://www.facebook.com/slava.belykh"><i class="fa fa-facebook"></i></a>
-                                    </li>
-                                    {#							<li class="list-inline-item">#}
-                                    {#								<a href="" target="_blank"><i class="fa fa-twitter"></i></a>#}
-                                    {#							</li>#}
-                                    {#							<li class="list-inline-item">#}
-                                    {#								<a href="" target="_blank"><i class="fa fa-google-plus"></i></a>#}
-                                    {#							</li>#}
-                                    <li class="list-inline-item">
-                                        <a href="https://www.linkedin.com/in/slava-belykh-2356263b/"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    </li>
-                                </ul>
+
 
                             </div>
                             <div class="col-md-7">

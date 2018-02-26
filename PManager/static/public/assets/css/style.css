@@ -230,9 +230,11 @@ input, textarea {
 
 .navbar-toggler {
   font-size: 2.25rem;
-  color: #fff;
   position: relative; }
-  .navbar-toggler * {
+.header-inverse .navbar-toggler {
+  color: #fff;
+}
+.navbar-toggler * {
     -webkit-transition: .5s;
     -o-transition: .5s;
     transition: .5s; }
