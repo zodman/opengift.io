@@ -213,7 +213,7 @@ class MainPage:
         import urllib
 
         if activeMenuItem == 'main' and not request.user.is_superuser:
-            return HttpResponseRedirect('/pub/')
+            return HttpResponseRedirect('/ico/')
 
         cType = 'text/html'
         mimeType = None
