@@ -300,6 +300,54 @@
         </div>
     </section>
 
+
+<section class="bg-gray-v2 u-pt-50 u-pb-50">
+    <div class="container">
+
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <img src="/static/img/blockchain.png" alt="">
+            </div> <!-- END col-md-6 -->
+            <div class="col-md-6">
+                <h5 class="mb-4 u-fw-500 u-lh-1_6">
+                    OpenGift позволяет организациям и пользователям заказывать изменения в бесплатных программных продуктах.</h5>
+
+                    <h5 class="mb-4 u-fw-500 u-lh-1_6">              А командам проектов продуктов создавать виртуальные организации для справедливого разделения получаемых оплат.
+
+                </h5>
+            </div> <!-- END col-md-6 -->
+        </div>
+
+
+    </div>
+</section>
+
+<section class="u-pt-60 u-pb-60">
+    <div class="container">
+
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-5 color-heading">
+                <h2 class="h1 u-mb-30">
+                    Open Source at glance
+                </h2>
+                <p class="u-fs-18 u-fw-500 u-lh-1_5">Amount OpenSource licenses overgrew those of proprietary software in 2017  *</p>
+                <p class="u-fs-18 u-fw-500 u-lh-1_5">Proprietary software market:</b></p>
+                <p class="u-fs-60 u-fw-600 u-lh-1_5 u-mb-5 u-mt-5 blue-gradient-title"><span>$357 billion</span></p>
+                <p class="u-fs-10 u-lh-3_6">* TopTal, 2016</p>
+
+
+            </div> <!-- END col-md-6 -->
+            <div class="col-md-6">
+                <div id="chartdiv2" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+
+            </div> <!-- END col-md-6 -->
+        </div>
+
+
+    </div>
+</section>
+
+
 <section class="bg-gray-v2 u-pt-30 u-pb-80">
     <div class="container">
 
@@ -496,10 +544,87 @@
 
                     <div id="chartdiv" style="width: 100%; margin-bottom: -100px; margin-top: -100px;"  class="hide-on-992"></div>
                     <script type="text/javascript" src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+                    <script type="text/javascript" src="https://www.amcharts.com/lib/3/serial.js"></script>
                     <script type="text/javascript" src="https://cdn.amcharts.com/lib/3/pie.js"></script>
                     <script type="text/javascript" src="https://www.amcharts.com/lib/3/themes/chalk.js"></script>
                     <script type="text/javascript" src="https://www.amcharts.com/lib/3/plugins/responsive/responsive.min.js"></script>
 
+
+                    <script type="text/javascript">
+                        AmCharts.makeChart("chartdiv2",
+                                {
+                                    "type": "serial",
+                                    "categoryField": "category",
+                                    "startDuration": 1,
+                                    "color": "#333",
+                                    "fontFamily": "Dosis, Open Sans, sans-serif",
+                                    "fontSize": 16,
+                                    "categoryAxis": {
+                                        "gridPosition": "start"
+                                    },
+                                    "trendLines": [],
+                                    "graphs": [
+                                        {
+                                            "balloonText": "[[value]]",
+                                            "bullet": "round",
+                                            "id": "AmGraph-1",
+                                            "bulletBorderColor": "#f3784c",
+                                            "bulletColor": "#f3784c",
+                                            "title": "Vendors",
+                                            "valueField": "Vendors"
+                                        },
+                                        {
+                                            "balloonText": "[[value]]",
+                                            "bullet": "round",
+                                            "id": "AmGraph-2",
+                                            "bulletBorderColor": "#f3784c",
+                                            "bulletColor": "#f3784c",
+                                            "title": "Open Source",
+                                            "valueField": "Open Source"
+                                        }
+                                    ],
+                                    "guides": [],
+                                    "allLabels": [],
+                                    "balloon": {},
+                                    "legend": {
+                                        "enabled": true,
+                                        "useGraphSettings": true
+                                    },
+                                    "dataProvider": [
+                                        {
+                                            "category": "2013",
+                                            "Vendors": 6000,
+                                            "Open Source": 3000
+                                        },
+                                        {
+                                            "category": "2014",
+                                            "Vendors": 5500,
+                                            "Open Source": 4000
+                                        },
+                                        {
+                                            "category": "2015",
+                                            "Vendors": 5000,
+                                            "Open Source": 4500
+                                        },
+                                        {
+                                            "category": "2016",
+                                            "Vendors": 5000,
+                                            "Open Source": 4800
+                                        },
+                                        {
+                                            "category": "2017",
+                                            "Vendors": 4800,
+                                            "Open Source": 5000
+                                        },
+                                        {
+                                            "category": "2018",
+                                            "Vendors": 4800,
+                                            "Open Source": 5500
+                                        }
+                                    ]
+                                }
+                        );
+                    </script>
                     <script type="text/javascript">
                         $(function() {
 
