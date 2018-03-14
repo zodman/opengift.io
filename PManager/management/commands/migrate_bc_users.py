@@ -20,12 +20,10 @@ class Command(NoArgsCommand):
                 us.blockchain_wallet = blockchain_user_getkey_request(us.user.username)
                 us.save()
                 print us.blockchain_wallet
-                try:
-                    p = PM_Project.objects.get(author=us.user, blockchain_name__isnull=False)
-                    blockchain_user_newproject_request(us.user.username, p.blockchain_name)
-                    print p.blockchain_name
-                except PM_Project.DoesNotExist:
-                    pass
+                p = PM_Project.objects.filter(author=us.user, blockchain_name__isnull=False)
+                for pr in p:
+                    blockchain_user_newproject_request(us.user.username, pr.blockchain_name)
+                    print pr.blockchain_name
 
 
 
