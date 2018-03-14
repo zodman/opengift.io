@@ -23,6 +23,7 @@ class Command(NoArgsCommand):
                 try:
                     p = PM_Project.objects.get(author=us.user, blockchain_name__isnull=False)
                     blockchain_user_newproject_request(us.user.username, p.blockchain_name)
+                    print p.blockchain_name
                 except PM_Project.DoesNotExist:
                     pass
 
