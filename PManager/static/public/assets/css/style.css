@@ -6571,7 +6571,7 @@ color: #4abeb8;
   box-shadow:1px 1px 70px rgba(0,0,0,.1);
 }
 
-.with-hidden-text-wrapper-inner:before{
+.with-hidden-text-wrapper-inner:before {
   content:"";
   display:block;
   position:absolute;
@@ -6588,5 +6588,5 @@ color: #4abeb8;
 }
 
 .with-hidden-text-wrapper:hover .with-hidden-text-wrapper-inner:before{
-  bottom:-100%;
+  display: none;
 }
