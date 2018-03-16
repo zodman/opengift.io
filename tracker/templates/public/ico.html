@@ -28,6 +28,10 @@
     <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css?v1">
 
+
+    <link rel="stylesheet" href="/static/public/assets/css/flipclock.css">
+
+
     <!-- Stylesheet-->
     <!--
   // ////////////////////////////////////////////////
@@ -216,7 +220,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-12 u-mt-80 text-center">
+                <div class="col-lg-8 u-mt-80 text-center">
 
                     <p class="u-fs-18 text-white u-lh-1_8 u-mb-20">
                         First Platform for OPEN-SOURCE Projects Monetization
@@ -245,6 +249,33 @@
                         REGISTER TO WHITELIST
                     </a>
                 </div> <!-- END col-lg-6-->
+                <div class="col-lg-4 u-mt-80">
+                    <div class="clock" style="margin:2em;"></div>
+                    <div class="message"></div>
+
+                    <script type="text/javascript">
+                        var clock;
+
+                        $(document).ready(function() {
+                            var clock;
+
+                            clock = $('.clock').FlipClock({
+                                clockFace: 'DailyCounter',
+                                autoStart: false,
+                                callbacks: {
+                                    stop: function() {
+                                        $('.message').html('The clock has stopped!')
+                                    }
+                                }
+                            });
+
+                            clock.setTime(220880);
+                            clock.setCountdown(true);
+                            clock.start();
+
+                        });
+                    </script>
+                </div>
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
@@ -254,7 +285,7 @@
     <div class="container">
 
         <div class="row align-items-center">
-            <div class="col-md-4">
+            <div class="col-md-4 mb-5">
                 <img src="/static/img/blockchain.png" alt="">
             </div> <!-- END col-md-6 -->
             <div class="col-md-8 u-pl-50">
@@ -294,7 +325,7 @@
 
             <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-lg-4 ">
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/public/assets/img/guarantee.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
@@ -308,7 +339,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/public/assets/img/bank.svg" alt="">
                         <h4 class="u-fs-26 u-mt-35 u-mb-15">
@@ -322,7 +353,7 @@
                         </p>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-lg-4">
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/public/assets/img/investment.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
@@ -1613,6 +1644,8 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
 
 <script src="/static/public/assets/js/jquery.wavify.js"></script>
 <script src="/static/js/pm/form.js?v4"></script>
+
+<script src="/static/public/assets/js/flipclock.js"></script>
 <script>
     $('#feel-the-wave').wavify({
         height: 10,
