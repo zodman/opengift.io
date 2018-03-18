@@ -220,7 +220,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-lg-12 u-mt-80 text-center">
+                <div class="col-lg-8 u-mt-80 text-center">
 
                     <p class="u-fs-18 text-white u-lh-1_8 u-mb-20">
                         First Platform for OPEN-SOURCE Projects Monetization
@@ -248,37 +248,36 @@
                     </div>
 
                 </div> <!-- END col-lg-6-->
-{#                <div class="col-lg-4 u-mt-80" align="center">#}
-{#                    <h3 class="u-fw-600 text-white u-mb-40">Token PreSale ends in</h3>#}
-{#                    <div class="clock u-mb-40"></div>#}
-{##}
-{#                    <a href="/login/?wl=1&backurl=/profile/edit/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">#}
-{#                        Buy GIFT Token#}
-{#                    </a>#}
-{##}
-{#                    <script type="text/javascript">#}
-{#                        var clock;#}
-{##}
-{#                        $(document).ready(function() {#}
-{#                            var clock;#}
-{##}
-{#                            clock = $('.clock').FlipClock({#}
-{#                                clockFace: 'DailyCounter',#}
-{#                                autoStart: false,#}
-{#                                callbacks: {#}
-{#                                    stop: function() {#}
-{#                                        $('.message').html('The clock has stopped!')#}
-{#                                    }#}
-{#                                }#}
-{#                            });#}
-{##}
-{#                            clock.setTime(220880);#}
-{#                            clock.setCountdown(true);#}
-{#                            clock.start();#}
-{##}
-{#                        });#}
-{#                    </script>#}
-{#                </div>#}
+                <div class="col-lg-4 u-mt-80" align="center">
+                    <h3 class="u-fw-600 text-white u-mb-40">Token PreSale ends in</h3>
+                    <div class="clock u-mb-40"></div>
+
+                    <a href="/login/?wl=1&backurl=/profile/edit/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+                        Buy GIFT Token
+                    </a>
+
+                    <script type="text/javascript">
+                        var clock;
+
+                        $(document).ready(function() {
+                            var clock;
+                            clock = $('.clock').FlipClock({
+                                clockFace: 'DailyCounter',
+                                autoStart: false,
+                                callbacks: {
+                                    stop: function() {
+                                        $('.message').html('The clock has stopped!')
+                                    }
+                                }
+                           });
+
+                            clock.setTime(220880);
+                            clock.setCountdown(true);
+                            clock.start();
+
+                        });
+                    </script>
+                </div>
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
