@@ -42,6 +42,11 @@ def ajaxNewTaskWizardResponder(request):
     return render(request, 'task/new_task_wizard.html', {})
 
 
+def taskDetail(request):
+    from django.shortcuts import render
+    return render(request, 'details/task_edit.html', {})
+
+
 def microTaskAjax(request, task_id):
     try:
         task = PM_Task.objects.get(id=task_id)
