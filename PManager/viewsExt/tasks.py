@@ -439,9 +439,9 @@ def __task_message(request):
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
-    vote = (request.POST.get('vote', '') == 'Y' and to and to != request.user.id)
-    confirmation = request.POST.get('allow_closing', '') == 'Y'
-    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
+    vote = (request.POST.get('message_type', '') == 'vote' and to and to != request.user.id)
+    confirmation = request.POST.get('message_type', '') == 'allow_closing'
+    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('message_type', '') == 'need-time') else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
     profile = request.user.get_profile()
