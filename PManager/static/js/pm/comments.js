@@ -177,7 +177,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 };
                 arKeys['HIDDEN_LABEL'] = '';
                 if (messageInfo.hidden_from_employee) {
-                    arKeys['HIDDEN_LABEL'] += 'Скрыто от персонала <a href="#"><i class="fa fa-ban js-cancel-resp-hide"></i></a>';
+                    arKeys['HIDDEN_LABEL'] += 'Hidden from developers <a href="#"><i class="fa fa-ban js-cancel-resp-hide"></i></a>';
                 }
                 arKeys['AVATAR'] = '';
                 if (messageInfo.author.avatar) {
@@ -189,18 +189,18 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     arKeys['AVATAR'] += $.createAvatar({'id': id, 'initials': text, 'color': color});
                 }
                 if (messageInfo.hidden) {
-                    arKeys['HIDDEN_LABEL'] += 'Личное ';
+                    arKeys['HIDDEN_LABEL'] += 'Personal ';
                 }
                 if (messageInfo.hidden_from_clients) {
-                    arKeys['HIDDEN_LABEL'] += 'Скрыто от клиентов <a href="#"><i class="fa fa-ban js-cancel-author-hide"></i></a>';
+                    arKeys['HIDDEN_LABEL'] += 'Hidden from clients <a href="#"><i class="fa fa-ban js-cancel-author-hide"></i></a>';
                 }
                 if (messageInfo.userTo.id) {
-                    arKeys['USER_TO_NAME'] = ' для <b>' + messageInfo.userTo.name + '</b>';
+                    arKeys['USER_TO_NAME'] = '<b>' + messageInfo.userTo.name + '</b>';
                 } else {
                     arKeys['USER_TO_NAME'] = '';
                 }
                 if (messageInfo.modifiedBy.last_name) {
-                    arKeys['MODIFIED'] = '&nbsp;(изменил ' + messageInfo.modifiedBy.first_name + ' ' + messageInfo.modifiedBy.last_name + ' в ' + messageInfo.dateModify + ')';
+                    arKeys['MODIFIED'] = '&nbsp;(changed ' + messageInfo.modifiedBy.first_name + ' ' + messageInfo.modifiedBy.last_name + ' в ' + messageInfo.dateModify + ')';
                 } else {
                     arKeys['MODIFIED'] = '';
                 }
@@ -211,8 +211,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                     arKeys['AUTHOR_ID'] = messageInfo.author.id;
                     arKeys['AUTHOR_URL'] = '/user_detail/?id=' + messageInfo.author.id;
                 } else {
-                    arKeys['AUTHOR_NAME'] = 'сообщение';
-                    arKeys['AUTHOR_LAST_NAME'] = 'Системное';
+                    arKeys['AUTHOR_NAME'] = 'message';
+                    arKeys['AUTHOR_LAST_NAME'] = 'System';
                     arKeys['AUTHOR_USERNAME'] = '';
                 }
 
@@ -221,7 +221,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
                 arKeys['TODO_BTN'] = '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">To Do</a>';
-                arKeys['BUG_BTN'] = '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Ошибка</a>';
+                arKeys['BUG_BTN'] = '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Bug</a>';
                 //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
@@ -238,7 +238,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                         messageInfo.task.name + '</strong></a>';
                 }
                 if (messageInfo.author.id != document.mainController.userId)
-                    arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="' + (messageInfo.hidden ? 1 : 0) + '" href="' + messageInfo.task.url + '" rel="' + messageInfo.author.id + '">Ответить</a>';
+                    arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="' + (messageInfo.hidden ? 1 : 0) + '" href="' + messageInfo.task.url + '" rel="' + messageInfo.author.id + '">Reply</a>';
 
 
                 if (messageInfo.system) {
@@ -277,6 +277,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
                 var qa = this.template(this.model.toJSON());
                 this.$el.html(qa).addClass('task-message');
+                if (!this.model.get('userTo')) this.$el.find('.js-to').remove();
 //                var $messageTextBlock = this.$el.find('.js-taskMessageText');
 
                 if (!this.model.get('text') && !this.model.get('files')) {
@@ -417,9 +418,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
 
                     var $textarea = $('<textarea></textarea>').addClass('form-control ' + this.textareaClass);
                     var $messageTextBlock = this.$('.js-messageDetailText');
-                    var $saveButton = $('<button></button>').text('Сохранить').addClass('btn btn-success')
+                    var $saveButton = $('<button></button>').text('Save').addClass('btn btn-success')
                         .addClass(this.editModeSaveButtonClass);
-                    var $cancelButton = $('<button></button>').text('Отмена').addClass('btn btn-danger')
+                    var $cancelButton = $('<button></button>').text('Cancel').addClass('btn btn-danger')
                         .addClass(this.editModeCancelButtonClass);
                     var tags = new RegExp('\<[^>]+\>', 'mig');
                     $messageTextBlock.replaceWith(
@@ -636,10 +637,10 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 $('.js-taskMessage:hidden').closest('.SUBCONTAINER').each(function () {
-                    if ($(this).find('.js-taskMessage').size() <= 1) return;
+                    if (!$(this).find('.js-taskMessage').get(0)) return;
                     $(this).find('.js-btn-minimize').remove();
 
-                    var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').size();
+                    var hiddenMsgsQty = $(this).find('.js-taskMessage:hidden').length;
                     var $btnMinimize = $(
                         '<div class="toggle-messages minimize js-btn-minimize">' +
                         '<span class="btn btn-xs"><span class="fa fa-caret-down">' +

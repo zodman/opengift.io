@@ -157,9 +157,7 @@
     </div><!--invite-popup-->
 {% endif %}
 
-<a href="#" class="feedback-button js-feedback" data-target="#feedback-popup" data-toggle="modal">
-    Support
-</a>
+
 {% if not user.first_name and main.FIRST_STEP_FORM %}
 <div class="overflow"></div>
 <div class="popup green-popup create-poject-popup">
@@ -297,14 +295,21 @@
             </a>
         </div>
 {% if user.is_authenticated %}
-{#          <nav class="menu">#}
-{#                <ul>#}
-{#                    <li class="{% if activeMenuItem == 'calendar' %} active{% endif %}">#}
-{#                        <a href="/calendar/">#}
-{#                            <span aria-hidden="true" class="fa fa-calendar-o"></span>#}
-{#                            <span>Календарь</span>#}
+          <nav class="menu">
+                <ul>
+{#                    <li class="{% if activeMenuItem == 'projects' %} active{% endif %}">#}
+{#                        <a href="/project/list/">#}
+{#                            <span aria-hidden="true" class="fa fa-bolt"></span>#}
+{#                            <span>Projects</span>#}
 {#                        </a>#}
 {#                    </li>#}
+
+                    <li class="{% if activeMenuItem == 'bounty' %} active{% endif %}">
+                        <a href="/bounty/">
+                            <span aria-hidden="true" class="fa fa-bolt"></span>
+                            <span>Bounty list</span>
+                        </a>
+                    </li>
 {#                    <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">#}
 {#                        <a href="/milestones/">#}
 {#                            <span aria-hidden="true" class="fa fa-star"></span>#}
@@ -323,8 +328,8 @@
 {#                            <span>Пригласить разработчиков Heliard</span>#}
 {#                        </a>#}
 {#                    </li>#}
-{#                </ul>#}
-{#          </nav>#}
+                </ul>
+          </nav>
 
             <div class="timer-wrapper clearfix">
 
@@ -368,39 +373,39 @@
 
                 <div class="timer js-currentTask">
                 <span>
-                    <span class="Time js-mainTimer">{% if userTimer %}{{ userTimer }}{% else %}
-                        00:00:00{% endif %}</span>
-                    &nbsp;&nbsp;<a
-                        class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play-circle{% endif %}"></a>
+{#                    <span class="Time js-mainTimer">{% if userTimer %}{{ userTimer }}{% else %}#}
+{#                        00:00:00{% endif %}</span>#}
+{#                    &nbsp;&nbsp;<a#}
+{#                        class="js-play fa {% if userTimer.jsonData.started %}fa-pause{% else %}fa-play-circle{% endif %}"></a>#}
 
-                    <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">
-                        <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>
-                        <hr>
-                        <h5><a class="js-parentTaskName" href="
-                                {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.url }}{% else %}{{ userTimer.task.url }}{% endif %}">
-                            {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.name }}{% else %}
-                                {{ userTimer.task.name }}{% endif %}
-                        </a></h5>
-                        {% if userTimer.task.parentTask %}
-                            <ul>
-                                <li><h6><a class="js-taskName"
-                                           href="{{ userTimer.task.url }}">{{ userTimer.task.name }}</a></h6></li>
-                            </ul>
-                            <hr>
-                        {% else %}
-                        {% endif %}
-                        <p class="js-description">{{ userTimer.task.text }}</p>
-                        <hr>
-                        <p class="js-onlystarted"><textarea placeholder="Leave a message" name="comment"
-                                                            class="form-control" rows="3"></textarea></p>
-                        <label class="js-onlystarted checkbox"><input type="checkbox" name="solution" value="Y">To wiki</label>
-                        <a class="js-onlystarted js-stop-timer pause_comment_success btn btn-success">Stop</a><a class="js-onlystarted js-cancel-timer pause_comment_cancel btn btn-danger">Remove</a>
-                    </div>
+{#                    <div class="dropdown-menu timer-popup pause_dialog js-mainTimerPopup" role="menu">#}
+{#                        <h3 class="js-projectName">{{ userTimer.task.project.name }}</h3>#}
+{#                        <hr>#}
+{#                        <h5><a class="js-parentTaskName" href="#}
+{#                                {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.url }}{% else %}{{ userTimer.task.url }}{% endif %}">#}
+{#                            {% if userTimer.task.parentTask %}{{ userTimer.task.parentTask.name }}{% else %}#}
+{#                                {{ userTimer.task.name }}{% endif %}#}
+{#                        </a></h5>#}
+{#                        {% if userTimer.task.parentTask %}#}
+{#                            <ul>#}
+{#                                <li><h6><a class="js-taskName"#}
+{#                                           href="{{ userTimer.task.url }}">{{ userTimer.task.name }}</a></h6></li>#}
+{#                            </ul>#}
+{#                            <hr>#}
+{#                        {% else %}#}
+{#                        {% endif %}#}
+{#                        <p class="js-description">{{ userTimer.task.text }}</p>#}
+{#                        <hr>#}
+{#                        <p class="js-onlystarted"><textarea placeholder="Leave a message" name="comment"#}
+{#                                                            class="form-control" rows="3"></textarea></p>#}
+{#                        <label class="js-onlystarted checkbox"><input type="checkbox" name="solution" value="Y">To wiki</label>#}
+{#                        <a class="js-onlystarted js-stop-timer pause_comment_success btn btn-success">Stop</a><a class="js-onlystarted js-cancel-timer pause_comment_cancel btn btn-danger">Remove</a>#}
+{#                    </div>#}
                 </span>
                 </div>
                 <div class="user-menu">
                     {#                <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>#}
-                    <a href="/user_detail/?id={{ user.id }}"
+                    <a href="/profile/edit/"
                        class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
                     <a class="btn btn-danger btn-xs" href="/?logout=Y"><span>Exit<i class="fa fa-power-off"></i></span></a>
                 </div>
@@ -410,14 +415,15 @@
     <!--header-->
 </header>
 {# -=========== ПОДМЕНЮ: пользователи, файлы ===========- #}
+{% if main.CURRENT_PROJECT %}
 <div class="container sub-menu">
     <div class="row sub-menu_line clearfix">
         {% if user.is_authenticated %}
             <div class="sub-menu_line_section-user">
 
 
-                <a href="/kanban/" class="{% if activeMenuItem == 'kanban' %} active{% endif %}"><i
-                        class="fa fa-table"></i><span>Desk</span></a>
+{#                <a href="/kanban/" class="{% if activeMenuItem == 'kanban' %} active{% endif %}"><i#}
+{#                        class="fa fa-table"></i><span>Desk</span></a>#}
 {##}
 {#                <a href="/gantt/"#}
 {#                   class="hide-on-mobile {% if activeMenuItem == 'gantt' %} active{% endif %} {% if not main.CURRENT_PROJECT.id %}disabled{% endif %}">#}
@@ -442,14 +448,14 @@
 {#                <a href="/wiki/{% if main.CURRENT_PROJECT.id %}project/{{ main.CURRENT_PROJECT.id }}/{% endif %}"#}
 {#                   class="{% if activeMenuItem == 'wiki' %} active{% endif %}"><i#}
 {#                        class="fa fa-file-text"></i><span>Wiki</span></a>#}
-                <a href="/user_list/" class="{% if activeMenuItem == 'user_list' %} active{% endif %}"><i
-                        class="fa fa-users"></i><span>Team</span></a>
+{#                <a href="/user_list/" class="{% if activeMenuItem == 'user_list' %} active{% endif %}"><i#}
+{#                        class="fa fa-users"></i><span>Team</span></a>#}
 
             </div>
             <div class="sub-menu_line_section-tracker">
                 <ul class="list-inline navbar-right">
                     {% if main.CURRENT_PROJECT %}
-                        <li class="section-tracker_menu_name h5"><span class="all-projects-link-main">Project: &nbsp;
+                        <li class="section-tracker_menu_name h5"><span class="all-projects-link-main">
 {#                            <i class="fa fa-angle-right"></i>&nbsp; #}
                         </span>
                         </li>
@@ -457,9 +463,8 @@
                     <li class="projects-list-menu">
                         <div class="dropdown">
                             <button type="button" class="btn btn-link tracker-choose ">
-                            <a data-target="#projects-popup" data-toggle="modal" class="js-openProjectList"
-
-                               href="#" style="text-decoration: none; border-bottom: 1px dashed #47a447;">
+                            <a href="/project/{{ main.CURRENT_PROJECT.id }}/public/"
+                               href="#" >
                                 {% if main.CURRENT_PROJECT %}
                                     {{ main.CURRENT_PROJECT.name }}
                                 {% else %}
@@ -467,14 +472,16 @@
                                 {% endif %}
                             </a>
                             </button>
-                            <a data-target="#projects-popup" data-toggle="modal" title="Project list" class="fa fa-caret-down js-openProjectList" style="font-size: 15px; color: rgb(73, 73, 73); top: 3px; margin-right: 10px;"></a>
+{#                            <a data-target="#projects-popup" data-toggle="modal" title="Project list" class="fa fa-caret-down js-openProjectList" style="font-size: 15px; color: rgb(73, 73, 73); top: 3px; margin-right: 10px;"></a>#}
 {#                            <a class="fa fa-chevron-down js-openProjectList" title="Список проектов" data-toggle="modal" data-target="#projects-popup"></a>#}
                             {% if main.CURRENT_PROJECT.id %}
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/edit/" class="fa fa-cog"
                                    title="Edit project"></a>
                             {% endif %}
                             <a href="/project/add/" class="fa fa-plus" title="Add project"></a>
+
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Invite members"><i class="fa fa-user-plus"></i></a>
+                            <a href="/user_list/" class="fa fa-users" title="Team"></a>
 {#                            {% if main.CURRENT_PROJECT.id and backurl != '/' %}#}
 {#                            <a href="/new_task_wizard/" class="js-taskWizard-opener" style="display: inline-block; top: 4px;position: relative;"><span>Новая задача</span></a>#}
 {#                            {% endif %}#}
@@ -500,6 +507,7 @@
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}"
                                data-target="#invite-popup" data-toggle="modal" title="Invite members"><i
                                     class="fa fa-user-plus"></i></a>
+                            <a href="/user_list/" class="fa fa-users" title="Team"></a>
 {#                            <a href="/new_task_wizard/" class="js-taskWizard-opener fa fa-plus" title="Добавить задачу"></a>#}
                         </div>
                     </li>
@@ -508,6 +516,7 @@
         {% endif %}
     </div>
 </div>
+{% endif %}
 <!-- /container -->
 <hr style="margin-top:0px;">
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
@@ -523,12 +532,12 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-2">
-                    <span class="copyright">© 2012-2017 OpenGift</span>
+                    <span class="copyright">© 2012-2018 OpenGift Inc.</span>
 
                 </div>
                 <div class="col-md-6">
                     <ul class="list-inline quicklinks">
-                        <li><a href="mailto:admin@heliard.ru">admin@opengift.io</a></li>
+                        <li><a href="mailto:admin@heliard.ru">info@opengift.io</a></li>
                     </ul>
                 </div>
                 <div class="col-md-2">

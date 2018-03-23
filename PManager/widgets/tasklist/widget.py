@@ -334,9 +334,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'first_name': task.author.first_name,
                     'last_name': task.author.last_name
                 },
+                'donated': task.donated,
+                'asked': task.asked,
                 'canEdit': task.canEdit(cur_user),
                 'canRemove': task.canPMUserRemove(cur_prof),
-                'canSetOnPlanning': arBIsManager[task.id] or False,
+                'canSetOnPlanning': arBIsManager[task.id] or cur_user.id == task.author.id,
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
                 'canClose': arBIsManager[task.id] or cur_user.id == task.author.id,
@@ -469,13 +471,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name + u': tasks' if project and isinstance(project, PM_Project) else u'Tasks')
+    title = u'All tasks'
 
     return {
         'title': title,
         'tasks': tasks,
         'project': project,
         'users': aResps,
+        'bounty': widgetParams.get('bounty'),
         'projectSettings': pSettings,
         'tab': True,
         'name': u'Tasks',

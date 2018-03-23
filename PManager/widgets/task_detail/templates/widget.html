@@ -21,7 +21,7 @@
         <div class="widget-title-info clearfix">
             <div class="widget-title-info-left">
                 <ul class="widget-title-info-left-ul clearfix">
-                    <li class="active"><a href="/">Task list</a></li>
+                    <li class="active"><a href="/project/{{ task_detail.task.project.id }}/tasks/">Task list</a></li>
                     {% if not request.GET.frame_mode %}
                     {% if task_detail.task.parentTask %}
                     {% with task_detail.task.parentTask as parent %}
@@ -38,22 +38,22 @@
             </div>
             <div class="widget-title-info-right task-manage">
                         {% if task_detail.subtasks|length == 0 %}
-                        <a href="javascript:void(0);" title="Подтвердить задачу" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
-                        <a href="javascript:void(0);" title="Закрыть задачу" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
+                        <a href="javascript:void(0);" title="Approve task" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
+                        <a href="javascript:void(0);" title="Close task" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
                         {% endif %}
 
-                    <span class="dropdown pull-right close-task-wrapper">
-                        <a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>
-                        <div class="dropdown-menu pull-right pause_dialog">
-                            <h3>Введите комментарий</h3>
-                            <textarea name="comment" class="form-control"></textarea>
-                            <label class="checkbox">
-                                <input type="checkbox" name="solution" disabled="disabled" value="Y"> To wiki
-                            </label>
-                            <a class="btn btn-success pause_comment_success" >Ок</a>
-                            <a class="btn btn-danger pause_comment_cancel" >Cancel</a>
-                        </div>
-                    </span>
+{#                    <span class="dropdown pull-right close-task-wrapper">#}
+{#                        <a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>#}
+{#                        <div class="dropdown-menu pull-right pause_dialog">#}
+{#                            <h3>Введите комментарий</h3>#}
+{#                            <textarea name="comment" class="form-control"></textarea>#}
+{#                            <label class="checkbox">#}
+{#                                <input type="checkbox" name="solution" disabled="disabled" value="Y"> To wiki#}
+{#                            </label>#}
+{#                            <a class="btn btn-success pause_comment_success" >Ок</a>#}
+{#                            <a class="btn btn-danger pause_comment_cancel" >Cancel</a>#}
+{#                        </div>#}
+{#                    </span>#}
 
                     <span class="dropdown pull-right js-options_popup">
                         <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-cog js-task_menu"></a>
@@ -61,16 +61,22 @@
 
             </div>
         </div>
-        <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}</h2>
+        <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}
+            {% if not task_detail.task.closed %}
+            <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}" class="btn btn-success">Donate</a>
+            {% endif %}
+        </h2>
     </div><!--widget-title-->
 
     <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
             <ul class="widget-title-info-left-ul clearfix">
-                {% if task_detail.task.planTime %}
-                <li>Plan time: <b>{{ task_detail.task.planTime }}</b> ч.</li>
+                {% if task_detail.task.asked %}
+                <li>Asked: <b>${{ task_detail.task.asked }}</b></li>
                 {% endif %}
 
-                <li>Spent time: <b id="js-td_time"></b></li>
+                <li>Donated: <b>${{ task_detail.task.donated|default_if_none:'0' }}</b></li>
+
+{#                <li>Spent time: <b id="js-td_time"></b></li>#}
 
                     {% if task_detail.task.resp %}
                     <li>
@@ -78,9 +84,9 @@
                     </li>
                     {% endif %}
 
-                    {% if task_detail.task.observersList %}
+                    {% if task_detail.task.currentWinner %}
                      <li>
-                    Observers: <strong>{% for resp in task_detail.task.observersList %}{{ resp.last_name }} {{ resp.first_name }}{% if not forloop.last %}, {% endif %}{% endfor %}</strong>
+                    Current Winner: <strong>{{ task_detail.task.currentWinner.last_name }} {{ task_detail.task.currentWinner.first_name }}</strong>
                     </li>
                     {% endif %}
             </ul>
@@ -140,22 +146,6 @@
          <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions" >Доступные решения похожих задач</a></p>
         {% endif %}
 
-        {% if not task_detail.task.parentTask %}
-            <div class="sub-tasks js-sub-tasks box-shadow-0">
-                <div class="task-wrapper clearfix">
-                    <div class="subtask">
-                        {# ---- ДОБАВИТЬ ПОДЗАДАЧУ #}
-                        <div class="add-task-input js-addTaskInput relative">
-                            <a href="#" class="js-add-subtask-helper">Add subtask</a>
-                            <input class="js-add-subtask-input input-block-level form-control hidden" data-parent="{{ task.id }}" type="text" placeholder="Добавить подзадачу...">
-                        </div>
-                    </div>
-                </div>
-                {% if task_detail.hiddenSubTasksExist %}
-                <a class="js-ShowClosedSubtasks grey-bg button button-mini sub-tasks-button">Show closed subtasks</a>
-                {% endif %}
-            </div>
-        {% endif %}
 
     <div class="task_add-message">
             <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
@@ -172,7 +162,7 @@
                         margin-right: 5px;
                         position: relative;
                         top: -2px;
-                        width: 60px;
+                        width: 160px;
                         height: 30px;
                         display: inline-block;
                         height:34px;
@@ -197,17 +187,22 @@
                         box-shadow:inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
                     }
                 </style>
+
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Personally</label>
+                    {% if not task_detail.task.closed %}
+                    <label class="left_check"><input class="js-vote" type="checkbox" name="vote" value="Y" /> Vote for a winner</label>
+                    <label class="left_check"><input class="js-allow" type="checkbox" name="allow_closing" value="Y" /> Allow task closing</label>
                     <label class="left_check">
-                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Time request
+                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Money request
                         <span class="js-need-time-hours" style="display: none;">
-                            <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> ч.
+                            <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
                         </span>
                     </label>
-                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>
-                    <a href="#" title="Нарисовать рисунок" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
-                    <a title="Прикрепить файл" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
+                    {% endif %}
+{#                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>#}
+                    <a href="#" title="Drow" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
+                    <a title="Attach a file" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
                 </div>
                 <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
                 <div class="form-group">
@@ -240,8 +235,8 @@
                     <input type="hidden" name="close" value="" />
                     <button class="btn btn-danger btn-close sendTaskMessage" type="button">Send and close task</button>
                     {% endif %}
-                    <input type="hidden" name="responsible_change" value="" />
-                    <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Send and change responsible</button>
+{#                    <input type="hidden" name="responsible_change" value="" />#}
+{#                    <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Send and change responsible</button>#}
                 </div>
             </form>
         </div>

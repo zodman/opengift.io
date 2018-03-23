@@ -109,16 +109,25 @@ def projectDetailDonate(request, project_id):
 
     project = get_object_or_404(PM_Project, id=project_id)
     milestoneId = request.GET.get('m', None)
+    taskId = request.GET.get('t', None)
     milestone = None
+    task = None
     if milestoneId:
         try:
             milestone = project.milestones.get(pk=int(milestoneId))
         except PM_Milestone.DoesNotExist:
             pass
 
+    if taskId:
+        try:
+            task = project.projectTasks.get(pk=int(taskId))
+        except PM_Task.DoesNotExist:
+            pass
+
     c = RequestContext(request, {
         'project': project,
-        'milestone': milestone
+        'milestone': milestone,
+        'task': task
     })
 
     t = loader.get_template('details/project_donate.html')
@@ -475,6 +484,8 @@ def projectDetailPublic(request, project_id):
     statistic = stat_widget(request, {'getAllCharts': 1, 'CURRENT_PROJECT': project}, None, None)
 
     team = []
+    bounty = []
+    sponsors = []
 
     for user in project.getUsers():
         taskTagCoefficient = 0
@@ -486,7 +497,12 @@ def projectDetailPublic(request, project_id):
             break
 
         setattr(user, 'rating', taskTagCoefficient)
-        team.append(user)
+        if user.get_profile().isGuest(project):
+            bounty.append(user)
+        elif user.get_profile().isManager(project):
+            team.append(user)
+        else:
+            sponsors.append(user)
 
     ms = PM_Milestone.objects.filter(project=project, is_request=False).order_by('date')
     ams = []

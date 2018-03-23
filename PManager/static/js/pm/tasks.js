@@ -83,14 +83,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                 if (this.get('onPlanning')) {
                     arItems.push({
                         'itemClass': 'ResetPlanning',
-                        'itemText': 'Choose minimal estimated user',
+                        'itemText': 'In-house task',
                         'itemMethod': 'closePlanning',
                         'icon': 'list-alt'
                     });
                 } else {
                     arItems.push({
                         'itemClass': 'BringPlanning',
-                        'itemText': 'Planning poker mode',
+                        'itemText': 'Bounty task',
                         'itemMethod': 'addToPlaning',
                         'icon': 'users'
                     });
@@ -284,7 +284,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                 '$addSubtaskColumn': $row.find('.add-subtask'),
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
-                '$planTime': $row.find('.task-plantime')
+                '$planTime': $row.find('.task-plantime'),
+                '$reward': $row.find('.js-reward')
             };
 
             if (params.timerTag) {
@@ -306,14 +307,22 @@ var CRITICALLY_THRESHOLD = 0.7;
                 oTaskContainers.$addSubtaskColumn.hide();
             }
 
+            if (taskInfo.donated || taskInfo.asked) {
+                 oTaskContainers.$reward.append('<b>$' + parseFloat(taskInfo.donated)+'</b>');
+                 oTaskContainers.$reward.append('<span> ($' + parseFloat(taskInfo.asked) + ')</span>');
+            }
+            if (taskInfo.onPlanning) {
+                oTaskContainers.$reward.append('<span>  Bounty</span>')
+            }
+
             if (taskInfo.planTime)
-                taskInfo.planTime = '' + taskInfo.planTime + ' ч.';
+                taskInfo.planTime = '' + taskInfo.planTime + ' hrs.';
             else
                 taskInfo.planTime = '';
 
             var sPlanTime = '';
             if (taskInfo.planTime || taskInfo.onPlanning || taskInfo.canSetPlanTime) {
-                sPlanTime += '<span class="dropdown">[ ~ </span>' +
+                sPlanTime += '<span class="dropdown"> ~ </span>' +
                     '<span class="dropdown">' +
                     (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="tasklist-plan-time jsPlanTimeHolder">')
                     + (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'Plan'))
@@ -328,7 +337,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 sPlanTime += '<li><a rel="" >Custom</a></li>';
                 sPlanTime += '</ul>';
                 sPlanTime += '</span>';
-                sPlanTime += '<span class="dropdown">]</span>';
+                sPlanTime += '<span class="dropdown"></span>';
                 if (taskInfo.planTimes && taskInfo.planTimes.length > 0) {
                     sPlanTime += '<span class="dropdown arrow">';
                     sPlanTime += '<a data-toggle="dropdown" ><b class="caret"></b></a>';

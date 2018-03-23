@@ -12,81 +12,24 @@
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
                     <p>
-                        <a target="_blank" href="https://www.youtube.com/watch?v=Bme1lTX6gQ4">How
-                    to fill out this form?</a>
+                        Create task for new project
                     </p>
                 </div>
             </div> <!-- END row-->
             <div class="row">
-                <div class="col-md-4 col-lg-3">
-                    <div class="nav flex-column nav-pills nav-vertical" role="tablist" aria-orientation="vertical">
-                        <a class="nav-link active" data-toggle="pill" href="#v-pills-home" role="tab"
-                           aria-controls="v-pills-home" aria-selected="true" aria-expanded="false">
-                            <span class="icon icon-Notebook color-primary mr-lg-3"></span>
-                            General
-                        </a>
-                        <a class="nav-link" data-toggle="pill" href="#v-pills-profile" role="tab"
-                           aria-controls="v-pills-profile" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-MessageLeft color-primary mr-lg-3"></span>
-                            Categories</a>
-                        <a class="nav-link" data-toggle="pill" href="#v-pills-problems" role="tab"
-                           aria-controls="v-pills-problems" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-List color-primary mr-lg-3"></span>
-                            Problem/solution</a>
-                        <a class="nav-link" data-toggle="pill" href="#v-pills-messages" role="tab"
-                           aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-Tools color-primary mr-lg-3"></span>
-                            Links</a>
-                        <a class="nav-link" data-toggle="pill" href="#v-pills-roadmap" role="tab"
-                           aria-controls="v-pills-roadmap" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-Agenda color-primary mr-lg-3"></span>
-                            Roadmap</a>
-                        <a class="nav-link" data-toggle="pill" href="#v-pills-team" role="tab"
-                           aria-controls="v-pills-team" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-Users color-primary mr-lg-3"></span>
-                            Team</a>
-                        <a class="nav-link {% if not project.blockchain_name %}alert-tab{% endif %}"
-                           data-toggle="pill" href="#v-pills-cloud" role="tab"
-                           aria-controls="v-pills-messages" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-Cloud color-primary mr-lg-3"></span>
-                            Donation wallet
-                            Donation tools {% if not project.share_link_enabled %}<i class="fa fa-exclamation-triangle"></i>{% endif %}</a>
-                        <a class="nav-link {% if not project.share_link_enabled %}alert-tab{% endif %}"
-                           data-toggle="pill" href="#v-pills-donation-tools" role="tab"
-                           aria-controls="v-pills-donation-tools" aria-selected="false" aria-expanded="false">
-                            <span class="icon icon-Heart color-primary mr-lg-3"></span>
-                            Donation tools {% if not project.share_link_enabled %}<i class="fa fa-exclamation-triangle"></i>{% endif %}</a>
-{#                        <a class="nav-link" data-toggle="pill" href="#v-pills-coworkers" role="tab"#}
-{#                           aria-controls="v-pills-team" aria-selected="false" aria-expanded="false">#}
-{#                            <span class="icon icon-Users color-primary mr-lg-3"></span>#}
-{#                            Co-workers</a>#}
-                    </div>
-                </div>
-                <div class="col-md-8 col-lg-9">
-                    <form novalidate action="" method="POST" enctype="multipart/form-data"
+                <div class="col-md-6 col-lg-9 mx-auto">
+                    <form novalidate action="/task_handler" method="POST" enctype="multipart/form-data"
                           class="js-project-form">
+                        <input type="hidden" name="action" value="fastCreate" />
                         <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade  active show" id="v-pills-home" role="tabpanel"
+                            <div class="tab-pane fade  active show" id="v-task" role="tabpanel"
                                  aria-labelledby="v-pills-home-tab"
                                  aria-expanded="true">
                                 <div class="project-edit-form">
-
-                                    <div class="text-left u-mb-20">
-                                        <label class="custom-control custom-checkbox text-left">
-                                            <input type="checkbox" {% if project.public %}checked{% endif %} value="1"
-                                                   name="public" class="custom-control-input"/>
-                                            <span class="custom-control-indicator mt-1"></span>
-                                            <span class="custom-control-description">Make the project's page public</span>
-                                        </label>
-                                    </div>
-                                    <input type="text" name="name" value="{{ project.name }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
-                                           required="">
-                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30" rows="6"
-                                              name="description"
-                                              placeholder="Short description" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;">{{ project.description|default_if_none:'' }}</textarea>
-
+                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                                              name="task_name"
+                                              placeholder="Short task description" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
 
                                     <div class="project-edit-form--files-list">
                                         <div class="clearfix">
@@ -114,330 +57,27 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel"
-                                 aria-labelledby="v-pills-profile-tab" aria-expanded="false">
-                                <div class="project-edit-form">
-                                    <p><b>Please specify the industry and stack level of your project</b></p>
 
-                                    <div class="project-form--specialties-container-select-cats">
-
-                                        <div class="project-form--specialties-container-select-cats-list">
-                                            {% for s in project.industries.all %}
-                                                <span class="small-text-label btn-red btn btn-xs">
-                                                {{ s.name }} <a href="#" data-id="{{ s.id }}"
-                                                                class="js-category-remove text-white"><i
-                                                        class="fa fa-remove"></i></a>
-                                            </span>
-                                            {% endfor %}
-                                        </div>
-                                        <!--<p>У вас пока что не выбрано ни одной категории</p>-->
-                                        {#                                        <button class="btn btn-outline-green btn-sm btn-rounded">Выберите категорию</button>#}
-                                    </div>
-
-
-                                    <div class="project-form--specialties-container clearfix" style="text-align: left;">
-
-                                        {{ industriesList|safe }}
-
-                                    </div>
-
-                                    <!--<div class="project-form--specialties-container clearfix" style="text-align: left;">
-
-                                    </div>-->
-
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-problems" role="tabpanel"
-                                 aria-labelledby="v-pills-problems-tab" aria-expanded="false">
-                                <div class="project-edit-form">
-                                    {% for problem in project.problems.all %}
-                                        <div class="milestone-row js-problem-row">
-                                            <div class="row">
-                                                <div class="col-md-11">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_{{ problem.id }}_target_group"
-                                                              placeholder="Target group">{{ problem.target_group }}</textarea>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-problem-row').remove();return false;"></a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_{{ problem.id }}_problem"
-                                                              placeholder="Problem">{{ problem.problem }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="problem_{{ problem.id }}_solution"
-                                                              placeholder="Solution">{{ problem.solution }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row"><div class="col-12">
-                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div></div>
-                                        </div>
-                                    {% endfor %}
-                                    <div class="milestone-row js-problem-new">
-                                        <div class="row">
-                                            <div class="col-md-11">
-                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                          name="problem_new_target_group"
-                                                          placeholder="Target group"></textarea>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <a href="#" class="fa fa-remove js-remove"  style="display: none;" onclick="$(this).closest('.js-problem-new').remove();return false;"></a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                          name="problem_new_problem"
-                                                          placeholder="Problem"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                          name="problem_new_solution"
-                                                          placeholder="Solution"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-12">
-                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div></div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-dark" onclick="$('.js-problem-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add solution</button>
-{#                                    <div class="row">#}
-{#                                        <div class="col-12">#}
-{#                                            <input type="text" name="commercial_analogs" placeholder="Commercial analogs of your project" />#}
-{#                                        </div>#}
-{#                                    </div>#}
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
-                                <div class="project-edit-form">
-                                    <input type="text" name="link_video"
-                                           value="{{ project.link_video|default_if_none:'' }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30"
-                                           placeholder="Link to the promo video (embed only)"
-                                    >
-                                    <input type="text" name="link_site"
-                                           value="{{ project.link_site|default_if_none:'' }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the site"
-                                    >
-                                    <input type="text" name="link_github"
-                                           value="{{ project.link_github|default_if_none:'' }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to GitHub"
-                                    >
-                                    <input type="text" name="link_demo"
-                                           value="{{ project.link_demo|default_if_none:'' }}"
-                                           class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Link to the Demo"
-                                    >
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-roadmap" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
-                                <div class="project-edit-form">
-                                    {% for milestone in milestones %}
-                                        <div class="milestone-row js-milestone-row">
-                                            <div class="row">
-                                                <div class="col-md-7">
-                                                    <input type="text" name="milestone_{{ milestone.id }}_name"
-                                                           class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.name }}"
-                                                           placeholder="Milestone title"/>
-                                                </div>
-                                                <div class="col-md-4">
-                                                    <input type="text" name="milestone_{{ milestone.id }}_date"
-                                                           class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.date|date:"d.m.Y" }}"
-                                                           placeholder="Milestone date"/>
-                                                </div>
-                                                <div class="col-md-1">
-                                                    <a href="#" class="fa fa-remove js-remove" onclick="$(this).closest('.js-milestone-row').remove();return false;"></a>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                              name="milestone_{{ milestone.id }}_desc"
-                                                              placeholder="Milestone description">{{ milestone.description }}</textarea>
-                                                </div>
-                                            </div>
-                                            <div class="row">
-                                                <div class="col-md-6">
-                                                        <input type="text" name="milestone_{{ milestone.id }}_min_donate"
-                                                           class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.min_donate|default_if_none:'' }}"
-                                                           placeholder="Minimal donation sum (USD)"/>
-                                                </div>
-                                                <div class="col-md-6">
-                                                        <input type="text" name="milestone_{{ milestone.id }}_conditioned_time"
-                                                           class="form-control u-rounded-50 p-3 u-mb-30"
-                                                           value="{{ milestone.conditioned_time|default_if_none:'' }}"
-                                                           placeholder="Conditional deadline (days)"/>
-                                                </div>
-                                            </div>
-
-                                            <div class="text-left u-mb-20">
-                                                <label class="custom-control custom-checkbox text-left">
-                                                    <input type="checkbox"
-                                                           name="milestone_{{ milestone.id }}_closed" class="custom-control-input"/>
-                                                    <span class="custom-control-indicator mt-1"></span>
-                                                    <span class="custom-control-description">                                                  Mark as done (you'll get the payment after confirmation of 50% backers who donate for it)</span>
-                                                </label>
-                                            </div>
-
-                                            <div class="row">
-                                            <div class="col-12 u-pt-20">
-                                                <div class="u-h-4 u-w-20 bg-dark rounded u-mb-30  mx-auto"></div>
-                                            </div>
-                                            </div>
-                                            </div>
-                                    {% endfor %}
-                                    <div class="milestone-row js-milestone-new">
-                                        <div class="row">
-                                            <div class="col-md-7">
-                                                <input type="text" name="milestone_new_name"
-                                                       class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value=""
-                                                       placeholder="Milestone title"/>
-                                            </div>
-                                            <div class="col-md-4">
-                                                <input type="text" name="milestone_new_date"
-                                                       class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value=""
-                                                       placeholder="Milestone date DD.MM.YYYY"/>
-                                            </div>
-                                            <div class="col-md-1">
-                                                <a href="#" class="fa fa-remove js-remove"
-                                                   style="display: none" onclick="$(this).closest('.js-milestone-new').remove();return false;"></a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <textarea class="form-control u-rounded-15 p-3 u-mb-30"
-                                                          name="milestone_new_desc"
-                                                          placeholder="Milestone description"></textarea>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-5">
-                                                    <input type="text" name="milestone_new_min_donate"
-                                                       class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value=""
-                                                       placeholder="Minimal donation sum"/>
-                                            </div>
-                                            <div class="col-md-7">
-                                                    <input type="text" name="milestone_new_conditioned_time"
-                                                       class="form-control u-rounded-50 p-3 u-mb-30"
-                                                       value=""
-                                                       placeholder="Days to complete if minimal donations collected"/>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="btn btn-dark" onclick="$('.js-milestone-new').clone().insertBefore(this).find('.js-remove').show().end().find('input, textarea').val('');return false;">Add new milestone</button>
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-team" role="tabpanel"
-                                 aria-labelledby="v-pills-team-tab" aria-expanded="false">
-                                <div class="project-edit-form js-invite-cont">
-                                    {% if not project.blockchain_name %}
-                                    <h4>Register BlockChain wallet for your project to start earning donations.</h4>
-                                    {% endif %}
-                                    <div class="row">
-                                        <div class="col-md-8">
-                                            <input type="text"
-                                                   value=""
-                                                   class="js-invite-email form-control u-rounded-50 p-3 u-mb-30 js-required"
-                                                   placeholder="User email" >
-                                            <input name="role" type="radio" checked="checked" style="display: none" value="employee" />
-                                        </div>
-                                        <div class="col-md-4">
-                                            <a href="#" class="btn btn-dark btn-rounded" onclick="document.mainController.inviteUser(this, $('.js-invite-email'));return false;">Invite User</a>
-                                        </div>
-                                    </div>
-                                    <h2 class="u-py-25 text-primary">Current team</h2>
-                                    {% for user in project.getUsers %}
-                                        <div class="u-pb-25 user-row">
-                                            <strong class="user-name">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}</strong>
-                                            {% if user.get_profile.blockchain_wallet %}
-                                            <br/>
-                                            <span>Wallet: {{ user.get_profile.blockchain_wallet }}</span>
-                                            {% endif %}
-                                        </div>
-                                    {% endfor %}
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-cloud" role="tabpanel"
-                                 aria-labelledby="v-pills-messages-tab" aria-expanded="false">
-                                <div class="project-edit-form js-blockchain-form">
-                                    {% if project.blockchain_name %}
-                                        The project is registered in GiftCloud with name
-                                        <b>{{ project.blockchain_name }}</b>
-                                    {% else %}
-                                        <input type="text" name="blockchain_name" value=""
-                                               data-valmask='[A-z0-9\\_\\.]+'
-                                               class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name"
-                                               placeholder="Project name in blockchain">
-                                        <button type="button"
-                                                class="btn btn-success btn-rounded js-register-project-in-blockchain {% if not request.user.get_profile.blockchain_wallet %}js-create-wallet{% endif %}">
-                                            Register project in GiftCloud
-                                            {% if not request.user.get_profile.blockchain_wallet %}*{% endif %}
-                                        </button>
-                                        {% if not request.user.get_profile.blockchain_wallet %}<br/><br/>
-                                            <p>*This action automatically creates your wallet in OpenGiftCloud</p>
-                                        {% endif %}
-                                        <p><small>Use only letters and dots for the BlockChain project title.</small></p>
-                                    {% endif %}
-                                </div>
-                            </div>
-                            <div class="tab-pane fade" id="v-pills-donation-tools" role="tabpanel"
-                                 aria-labelledby="v-pills-donation-tools-tab" aria-expanded="false">
-                                <div class="project-edit-form js-blockchain-form">
-                                    <h2>Donation tools</h2>
-                                    <p><b>3 simple steps to improve your donations with OpenGift</b></p>
-
-                                    <h3>1. Get your personal donation widget</h3>
-                                    <textarea type="text"
-                                           class="form-control u-rounded-15 p-3 u-mb-30 js-blockchain-name">&lt;script src="https://opengift.io/static/public/assets/js/og.widget.js"&gt;&lt;/script&gt;&lt;div class="ogwidget js-og-widget" data-project="{{ project.id }}"&gt;&lt;/div&gt;</textarea>
-                                    <script src="/static/public/assets/js/og.widget.js"></script>
-                                    <div class="ogwidget js-og-widget" data-project="{{ project.id }}"></div>
-
-
-                                    <h3 class="u-pt-25">2. Enable Partner Program for your potential marketers</h3>
-
-
-                                    <div class="text-left u-mb-20">
-                                        <label class="custom-control custom-checkbox text-left">
-                                            <input type="checkbox" name="share_link_enabled"
-                                                   {% if project.share_link_enabled %}checked{% endif %} class="custom-control-input"/>
-                                            <span class="custom-control-indicator mt-1"></span>
-                                            <span class="custom-control-description">Enable <a href="/ref/">Referral Partner Program</a></span>
-                                        </label>
-                                    </div>
-                                    <h3 class="u-pt-25">3. <a href="/project/{{ project.id }}/public/">Share</a> new features of your <a href="/project/{{ project.id }}/public/">project</a> on social media</h3>
-                                    <h3 class="u-pt-25">4. Want to integrate you project for some companies? Set minimal integration price.</h3>
-                                    <div class="field-group">
-                                        <input type="text" name="integration_price"
-                                               value="{{ project.integration_price|default_if_none:'' }}"
-                                               class="form-field" placeholder="Minimal price ($)" />
-                                    </div>
+                                    <h4 class="u-py-15 text-center">Project details</h4>
+                                    <input type="text" name="project_name" value=""
+                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"
+                                           required="">
+                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                                              name="project_description"
+                                              placeholder="Short description" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+                                    <input type="text" name="project_code" value=""
+                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Project unique code"
+                                               required="">
                                 </div>
                             </div>
                         </div>
                         <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
                                 style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i
-                                class="fa fa-save"></i> Save
+                                class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
                         </button>
                     </form>
+
                 </div>
 
             </div>
@@ -445,9 +85,9 @@
         </div> <!-- END container-->
     </section>
 
-    <script>
+    <script type="application/javascript">
         $(function () {
-            var ajaxUrl = '/project/{{ project.id }}/ajax/';
+            var ajaxUrl = '/task_handler';
 
             function enableSubmit() {
                 $('.js-submit').removeAttr('disabled');
@@ -457,37 +97,7 @@
                 $('.js-submit').attr('disabled', 'disabled');
             }
 
-            $('.js-add-category-btn').click(function () {
-                var $curBlock = $(this).closest('.js-add-item');
-                var $curIntput = $curBlock.find('.js-category-name');
-                var name = $curIntput.val();
-                $.post(
-                        ajaxUrl,
-                        {
-                            'action': 'addProblem',
-                            'name': name,
-                            'parent': $(this).data('id')
-                        },
-                        function (data) {
-                            if (parseInt(data) > 0) {
-                                $('<div class="progress-item"><label class="custom-control custom-checkbox text-left"><input type="checkbox" name="specialties" value="' + data + '" class="custom-control-input">' +
-                                        '<span class="custom-control-indicator mt-1"></span><span class="custom-control-description">' + name + '</span></label>' +
-                                        '<h4 class="float-right text-primary">0%</h4>' +
-
-                                        '<div class="progress w-100">' +
-                                        '<div class="progress-bar" aria-valuenow="0" style="width: 0%;"></div>' +
-                                        '</div>' +
-                                        '</div>').insertBefore($curBlock);
-                            } else {
-                                alert(data);
-                            }
-                        }
-                );
-                $curIntput.val('');
-                return false;
-            });
-
-            $('.js-next-btn').click(function () {
+                        $('.js-next-btn').click(function () {
 
                 $(this).closest('.js-form-step').find('.js-form-step-content').show();
                 $(this).hide();
@@ -500,9 +110,11 @@
             $('.js-submit').click(function () {
                 var form = new Form('.js-project-form');
                 if (form.validate()) {
-                    form.$form.ajaxSubmit(function () {
+                    form.$form.ajaxSubmit(function (data) {
                         disableSubmit();
                         $('.js-file-new-block').val('').not(':eq(0)').remove().end();
+                        data = $.parseJSON(data);
+                        document.location.href='/project/'+data.project.id+'/tasks/';
                     });
                 }
             });
@@ -529,64 +141,18 @@
                     $subList.slideDown();
                 }
             });
-            {% if not project.blockchain_name %}
-                $('.js-register-project-in-blockchain').click(function () {
-                    var $name = $('.js-blockchain-name').addClass('js-required');
-                    var form = new Form('.js-blockchain-form');
-                    var name = $name.val();
-                    var t = this;
-                    if (form.validate()) {
-                        var send = function () {
-                            $(t).text('Sending project to blockchain...');
-
-                            $.post(
-                                    '/blockchain/ajax/',
-                                    {
-                                        'action': 'addProject',
-                                        'id': {{ project.id }},
-                                        'name': $name.val()
-                                    },
-                                    function (data) {
-                                        if (data == 'ok') {
-                                            form.$form.replaceWith('<p>The project is registered in Opengift Cloud with name ' + name + '</p>');
-                                        }
-                                    }
-                            );
-                        };
-
-                        $(t).attr('disabled', 'disabled').addClass('disabled');
-                        if ($(this).hasClass('js-create-wallet')) {
-                            $(t).text('Creating wallet...');
-
-                            $.post('/blockchain/ajax/', {'action': 'register'}, function (d) {
-                                if (d && d == 'ok') {
-                                    send();
-                                } else {
-                                    $(t).text('Something is wrong:(');
-                                }
-                            });
-                        } else {
-                            send();
-                        }
-                    }
-
-                    $name.removeClass('js-required');
-                    return false;
-                });
-            {% endif %}
         });
-        window.currentProject = {{ project.id }};
     </script>
     <style>
-    .alert-tab {
-        color: darkred !important;
-    }
+        .alert-tab {
+            color: darkred !important;
+        }
         .alert-tab {
             position: relative;
             background: #ffe5e5;
         }
 
-    .alert-tab .fa.fa-exclamation-triangle {
+        .alert-tab .fa.fa-exclamation-triangle {
              float: right;
              position: absolute;
              right: 11px;
@@ -594,9 +160,9 @@
              margin-top: -7px;
          }
 
-    .alert-tab .color-primary {
-        color: darkred !important;
-    }
+        .alert-tab .color-primary {
+            color: darkred !important;
+        }
 
         .nav-vertical .nav-link {
             margin: 5px 0;
@@ -607,17 +173,18 @@
             text-overflow: ellipsis;
         }
 
-    .nav-vertical .nav-link .icon {
-        position: absolute;
-        left: 10px;
-        top: 50%;
-        margin-top: -7px;
-    }
+        .nav-vertical .nav-link .icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            margin-top: -7px;
+        }
+
         .nav-vertical {display: block; margin-bottom: 30px;}
 
-    .nav-pills.nav-vertical .nav-link.alert-tab.active {
-        background:darkred !important;
-        color: #fff !important;
-    }
+        .nav-pills.nav-vertical .nav-link.alert-tab.active {
+            background:darkred !important;
+            color: #fff !important;
+        }
     </style>
 {% endblock %}

@@ -15,7 +15,7 @@ def set_project_in_session(project_id, projects, request):
     so that next requests will have access to it
     '''
     project = None
-    if project_id == 0 or project_id not in projects:
+    if project_id == 0:
         request.COOKIES["CURRENT_PROJECT"] = 0
         return project
     try:

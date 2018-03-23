@@ -92,8 +92,6 @@ def widget(request, headerValues, arFilter, q):
                             message.requested_time_approved = True
                             message.requested_time_approve_date = datetime.datetime.now()
                             message.requested_time_approved_by = request.user
-                            message.task.planTime += int(message.requested_time or 0)
-                            message.task.save()
                             message.save()
 
                 return {'redirect': task.url}
@@ -102,9 +100,13 @@ def widget(request, headerValues, arFilter, q):
             except PM_User_PlanTime.DoesNotExist:
                 pass
 
+
+        winner = task.getWinner()
+
         setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text) if task.text else '')
         # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
+        setattr(task, 'currentWinner', winner)
         setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
         setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
         setattr(task, 'canSetCritically', task.canEdit(cur_user))

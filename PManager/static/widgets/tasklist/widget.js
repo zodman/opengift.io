@@ -383,13 +383,13 @@ var widget_tl, currentGroup;
                         bottomPanel.addCloseHandler('uncheck', function () {
                             $('.js-task-checkbox:checked').attr('checked', false);
                         });
-                        $block = menuTaskBlock('Add goal', '#add-to-milestone', function () {
-                            var $taskInputContainer = $('.js-tasks-for-milestone').empty();
-                            $('.js-task-checkbox:checked').each(function () {
-                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
-                            });
-                        });
-                        bottomPanel.addBlock('addToMilestone', $block);
+                        // $block = menuTaskBlock('Add goal', '#add-to-milestone', function () {
+                        //     var $taskInputContainer = $('.js-tasks-for-milestone').empty();
+                        //     $('.js-task-checkbox:checked').each(function () {
+                        //         $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                        //     });
+                        // });
+                        // bottomPanel.addBlock('addToMilestone', $block);
                         // //TODO: вынести в отдельный класс
                         // $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function () {
                         //     var $taskInputContainer = $('.js-tasks-for-observers').empty();
@@ -566,7 +566,7 @@ var widget_tl, currentGroup;
 
                 if (params.activeTab) {
                     var $userTabEqualsQuery = $('[data-id="' + params.activeTab + '"]');
-                    if ($userTabEqualsQuery.size()) {
+                    if ($userTabEqualsQuery.get(0)) {
                         $userTabEqualsQuery.activateListItem();
                     }
                 } else {
@@ -593,7 +593,7 @@ var widget_tl, currentGroup;
                     .filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
 
                 with (this.TL_SearchTask) {
-                    if (val() || this.$searchRulesHolder.children().size()) {
+                    if (val() || this.$searchRulesHolder.children().get(0)) {
                         if (val()) {
                             siblings('.icon-remove').show();
                         }
@@ -766,6 +766,10 @@ var widget_tl, currentGroup;
                     if (!params.task_search && this.TL_GetSearchText()) {
                         params.task_search = this.TL_GetSearchText();
                     }
+
+                    var $activeTab = this.$tabContainer.find('li.active > a');
+                    if ($activeTab.attr('rel') == 'bounty') params.action = 'bounty';
+
                     if (!params.action) {
                         var $activeTab = this.$tabContainer.find('li.active > a');
                         if ($activeTab.attr('rel'))
@@ -866,7 +870,8 @@ var widget_tl, currentGroup;
                         'name': 'Uncategorized tasks'
                     }
                 }
-                var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>'
+                var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>';
+                group.url = false;//todo temporary while bounty page not ready
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
                     '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +

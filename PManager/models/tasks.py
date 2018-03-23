@@ -136,6 +136,7 @@ class PM_Project_Donation(models.Model):
     ref = models.ForeignKey(User, related_name="partner_donations", null=True, blank=True)
     sum = models.FloatField()
     milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
+    task = models.ForeignKey('PM_Task', related_name="donations", blank=True, null=True)
     exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
     date = models.DateTimeField(auto_now_add=True, blank=True)
 
@@ -148,6 +149,7 @@ class PM_Project_Donation(models.Model):
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Name of project')
     blockchain_name = models.CharField(max_length=255, verbose_name=u'Name of project', null=True, blank=True)
+    blockchain_registered = models.BooleanField(default=False, blank=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, blank=True, verbose_name=u'Description')
     problem = models.TextField(null=True, blank=True, verbose_name=u'The problem to solve')
@@ -635,12 +637,49 @@ class PM_Task(models.Model):
     release = models.ForeignKey(Release, blank=True, null=True, related_name='tasks')
 
     isParent = models.BooleanField(default=False, blank=True)
+    winner = models.ForeignKey(User, null=True, blank=True, related_name='conquered')
 
     @property
     def url(self):
         return "/task_detail/?" + (
             ("id=" + str(self.id)) if self.parentTask else ("number=" + str(self.number))) + "&project=" + str(
             self.project.id)
+
+    @property
+    def donated(self):
+        donated = 0
+        for m in self.messages.filter(code='DONATION'):
+            donated += m.donated
+
+        return donated
+
+    @property
+    def asked(self):
+        asked = 0
+        for m in self.messages.filter(requested_time_approved=True):
+            asked += m.requested_time
+
+        return asked
+
+    def getWinner(self):
+        winners = {}
+        votes = {}
+        winner = None
+        for m in self.messages.filter(code='VOTE'):
+            if not votes.get(m.userTo.id, None):
+                votes[m.userTo.id] = 0
+                winners[m.userTo.id] = m.userTo
+
+            votes[m.userTo.id] += 1
+
+        if len(votes):
+            import operator
+            sorted_votes = sorted(votes.items(), key=operator.itemgetter(1), reverse=True)
+            winnerId = sorted_votes[0][0]
+            winner = winners[winnerId]
+
+        return winner
+
 
     def safeDelete(self):
         self.active = False
@@ -1044,10 +1083,10 @@ class PM_Task(models.Model):
         return pm_user.hasAccess(self, 'view')
 
     def canPMUserRemove(self, pm_user):
-        if self.realDateStart:
+        if self.donated:
             return False
 
-        return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
+        return self.author and pm_user.user.id == self.author.id
 
     def canPMUserSetPlanTime(self, pm_user):
         return (not self.planTime and pm_user.isManager(self.project)) or not self.realDateStart and (
@@ -1330,35 +1369,40 @@ class PM_Task(models.Model):
             }
             filterQArgs = []
 
-        filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
-
         excludeFilter = {}
-        if 'exclude' in filter:
-            excludeFilter = filter['exclude']
-            del filter['exclude']
-
-        filter['active'] = True
-
-        # subtasks search
-        if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
-            filterSubtasks = filter.copy()
-            filterSubtasks['parentTask__isnull'] = False
-            filterSubtasks['parentTask__active'] = True
-            try:
-                subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
-                    dcount=Count('parentTask__id'))
-            except ValueError:
-                subTasks = []
-            aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
-        else:
-            aTasksIdFromSubTasks = None
-
-        filterQArgs = PM_Task.mergeFilterObjAndArray(filter, filterQArgs)
-
-        if aTasksIdFromSubTasks:
-            filterQArgs = [Q(*filterQArgs) | Q(
-                id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
+        if 'bounty' in filter:
+            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
             filter = {}
+        else:
+            filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
+
+
+            if 'exclude' in filter:
+                excludeFilter = filter['exclude']
+                del filter['exclude']
+
+            filter['active'] = True
+
+            # subtasks search
+            if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
+                filterSubtasks = filter.copy()
+                filterSubtasks['parentTask__isnull'] = False
+                filterSubtasks['parentTask__active'] = True
+                try:
+                    subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
+                        dcount=Count('parentTask__id'))
+                except ValueError:
+                    subTasks = []
+                aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
+            else:
+                aTasksIdFromSubTasks = None
+
+            filterQArgs = PM_Task.mergeFilterObjAndArray(filter, filterQArgs)
+
+            if aTasksIdFromSubTasks:
+                filterQArgs = [Q(*filterQArgs) | Q(
+                    id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
+                filter = {}
 
         try:
             tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,
@@ -1581,7 +1625,7 @@ class PM_Task(models.Model):
         self.dateModify = datetime.datetime.now()
         if not self.project:
             if self.author:
-                roles = self.author.projectRoles.all()[:1]
+                roles = self.author.userRoles.all()[:1]
                 if roles and roles[0] and roles[0].project:
                     self.project = roles[0].project
 
@@ -1728,7 +1772,9 @@ class PM_Task_Message(models.Model):
     checked = models.BooleanField(blank=True, db_index=True)
     bug = models.BooleanField(blank=True, db_index=True)
     solution = models.BooleanField(default=False)
+    vote = models.BooleanField(default=False)
     requested_time = models.IntegerField(blank=True, null=True)
+    donated = models.FloatField(blank=True, null=True)
     requested_time_approved = models.BooleanField(default=False)
     requested_time_approved_by = models.ForeignKey(User, null=True, blank=True, related_name="approvedTimeRequests")
     requested_time_approve_date = models.DateTimeField(blank=True, null=True)
@@ -1854,20 +1900,21 @@ class PM_Task_Message(models.Model):
                         'confirmation': (
                             '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(
                                 self.id) + '" ' +
-                            '" class="js-confirm-estimate agree-with-button">Add time: ' + str(
-                                self.requested_time) + ' hrs.</a></div>'
+                            '" class="js-confirm-estimate agree-with-button">Money request: $' + str(
+                                self.requested_time) + '</a></div>'
                         )
                     })
             else:
+                d = self.requested_time_approve_date
                 addParams.update({
                     'confirmation': (
                         u'<div class="message-desc-right">' +
                         unicode(
                             self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
                             self.requested_time_approved_by else '') +
-                        u' дал согласие на добавление <b>' +
-                        unicode(self.requested_time) + u'ч.</b> в <b>' +
-                        unicode(templateTools.dateTime.convertToSite(self.requested_time_approve_date)) +
+                        u' set cost addition <b>' +
+                        unicode(self.requested_time) + u'$.</b> at <b>' +
+                        unicode(templateTools.dateTime.convertToSite(d) if d.tzinfo is not None else 'now') +
                         u'</b></div>'
                     )
                 })
@@ -1939,12 +1986,11 @@ class PM_Task_Message(models.Model):
     def canEdit(self, user):
         return (
             (self.author and self.author.id == user.id)
-            or
-            (self.project and user.get_profile().isManager(self.project))
         )
 
     def canDelete(self, user):
-        return self.author and self.author.id == user.id
+        prof = user.get_profile()
+        return self.author and self.author.id == user.id or prof.isManager(self.task.project)
 
     def canView(self, user):
         if not user:
@@ -1980,6 +2026,10 @@ class PM_Task_Message(models.Model):
 
     def getUsersForNotice(self):
         pass
+
+    def safeDelete(self):
+        self.delete()
+        return True
 
     class Meta:
         app_label = 'PManager'

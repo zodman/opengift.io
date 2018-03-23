@@ -583,7 +583,7 @@ $(function () {
             //    var place = "todo"
             //}
             var $checkbox = $('.js-todo-checkbox[rel=' + model.id + ']');
-            if ($checkbox.size()) {
+            if ($checkbox.get(0)) {
                 $checkbox.hide();
             }
             widget_td.renderTodo();

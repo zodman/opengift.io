@@ -3,50 +3,18 @@
     	<span class="task-id js-number-link">#TASK_NUMBER#</span><!-- ===== НОМЕР ЗАДАЧИ -->
        	<span class="task-drag task-name_status"></span><!-- ===== ПЕРЕТЯГИВАТЕЛЬ -->
 
-       <div class="task-title"><input class="js-task-checkbox task-checkbox" type="checkbox" name="#TASK_ID#" id="taskid#TASK_ID#" /><label for="taskid#TASK_ID#"></label>
+       <div class="task-title"><label for="taskid#TASK_ID#"></label>
        <a title="#LAST_MESSAGE#" class="js-name-link" href="#TASK_URL#">#TASK_NAME#</a>
        #FILE_LIST#
        <b class="red-text">#DEADLINE#</b>
        <div class="to-do-buttons js-todo"></div>
-       <span class="task_add-subtask"><a class="show-subtasks add-subtask" rel="#TASK_ID#" onclick="return false;" href="#"><span class="js-subNum">#ACTIVE_SUBTASK_QTY# </span><span class="fa fa-plus" title="Добавить подзадачу"></span></a></span><!-- ===== ДОБАВИТЬ ПОДЗАДАЧУ -->
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
 
 		<div class="task-info">
         	<div class="task-info-author"><span class="title-to-hide">Responsible:&nbsp;</span><span class="js_task_responsibles"><span class="dropdown"></span></span></div>
             <div class="task-info-time task_play-wrap">
-                <span class="btn-group dropdown"><a class="task_play-wrap_btn dropdown-toggle js-task_play play" rel="#TASK_ID#"><span class="fa fa-play-circle"></span></a>
-
-                <div class="how-much-time dropdown-menu pull-right">
-                    <h5>Please, estimate the task?</h5>
-                    <div class="col-wrapper">
-                        <div class="col-10">
-                            <select class="form-control on-desktop"><option>12 hrs</option></select>
-                            <input type="time" value="00:00:00" class="on-mobile form-control" autofocus="autofocus">
-                        </div>
-                    </div>
-                    <div class="col-wrapper">
-                        <div class="col-5">
-                            <a class="pause_comment_success btn btn-success width-100">Send</a>
-                        </div>
-                        <div class="col-5">
-                            <a class="pause_comment_cancel btn btn-danger width-100">Cancel</a>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div class="pause_dialog dropdown-menu pull-right">
-                    <h5>Comment</h5>
-                    <textarea class="form-control" name="comment"></textarea>
-                    <label class="checkbox">
-                        <input type="checkbox" name="solution" value="Y" />To wiki
-                    </label>
-                    <a class="pause_comment_success btn btn-success">OK</a>
-                    <a class="pause_comment_cancel btn btn-danger">Remove</a>
-                </div>&nbsp;&nbsp;
-                </span>
             	<span class="dropdown">
-            		<a href="#" class="link-with-popup js-time" data-toggle="dropdown" ></a>&nbsp;<span class="task-plantime"></span>
+            		<span class="js-reward"></span>
                 </span>
             </div><!--task-info-time-->
             <div class="task-info-control clearfix">

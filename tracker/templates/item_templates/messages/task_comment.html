@@ -19,7 +19,7 @@ HTML template for message
         <div class="message-content">
             <div class="message-info js-author-block">
                 <span class="message-info-time">#DATE_CREATE# #HIDDEN_LABEL#</span>
-                <a href="#AUTHOR_URL#" class="message-info-name">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a>#USER_TO_NAME#
+                <a href="#AUTHOR_URL#" class="message-info-name">#AUTHOR_LAST_NAME# #AUTHOR_NAME#</a><span class="js-to"> to #USER_TO_NAME#</span>
                 <small>#MODIFIED#</small>
                 <span class="message-control">
                     <a style="display:none;" href="" title="Change" class="js-editTaskMessage"><i class="fa fa-edit"></i></a>
@@ -38,7 +38,7 @@ HTML template for message
                 <div class="message-desc-right clearfix">
                     #TODO_BTN#
                     #BUG_BTN#
-                     <a class="link js-quote" style="margin-left:5px;" href="#" data-author="#AUTHOR_ID#" rel="#ID#">Цитировать</a>
+                     <a class="link js-quote" style="margin-left:5px;" href="#" data-author="#AUTHOR_ID#" rel="#ID#">Cite</a>
                     <!--<a class="link" href="#">Цитировать</a>                 
                     <a class="link" href="#">Ответить</a>                 
                     <a class="to-do-button" href="#"><label><input type="checkbox" />To Do</label></a>

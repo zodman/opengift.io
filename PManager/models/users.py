@@ -434,26 +434,28 @@ class PM_User(models.Model):
 
     def hasAccess(self, task, rule):
         if task and hasattr(task, 'project') and task.project:
-            if self.isManager(task.project):
-                return True
+            # if self.isManager(task.project):
+            #     return True
 
             if task.author.id == self.user.id:
                 return True
 
             if rule == 'view':
-                if task.onPlanning and not task.resp:
-                    return self.hasRole(task.project)
+                return True
 
-                return (task.resp and self.user.id == task.resp.id) \
-                       or self.user.id in [u.id for u in task.observers.all()] \
-                       or task.subTasks.filter(resp=self.user.id, active=True).exists() \
-                       or task.subTasks.filter(author=self.user.id, active=True).exists()
+                # if task.onPlanning and not task.resp:
+                #     return self.hasRole(task.project)
+                #
+                # return (task.resp and self.user.id == task.resp.id) \
+                #        or self.user.id in [u.id for u in task.observers.all()] \
+                #        or task.subTasks.filter(resp=self.user.id, active=True).exists() \
+                #        or task.subTasks.filter(author=self.user.id, active=True).exists()
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
-                       or self.user.id == task.resp
+                       or self.user.id == task.resp.id
 
     def getBet(self, project, type=None, role_code=None):
         try:

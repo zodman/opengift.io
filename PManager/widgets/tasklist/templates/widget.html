@@ -16,7 +16,11 @@
     <!--<div class="row">
         <div class="col-xs-12">-->
     <div class="widget-tasklist-header">
-        <div class="widget-title"><h2>{{ tasklist.title }}</h2></div>
+        <div class="widget-title">
+            <h2>
+                {{ tasklist.title }}
+            </h2>
+        </div>
         <ul class="widget-tasklist-functions clearfix">
             <li>
                 <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Task list</span></a>
@@ -115,11 +119,6 @@
             </div>
             <div class="task-file-upload"></div>
         </form>
-    {% endif %}
-    {% if not tasklist.tasks %}
-        {% if not tasklist.project %}
-            <p>For creating the task choose some project.</p>
-        {% endif %}
     {% endif %}
     {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
 
@@ -258,7 +257,7 @@
                                            onclick="$(this).parent().toggleClass('active');" value="milestones"
                                            class="milestones-btn js-milestones-checkbox milestones-checkbox"
                                            id="mlst-checkbox"/>
-                                    <label for="mlst-checkbox"><span>Goals</span></label>
+{#                                    <label for="mlst-checkbox"><span>Goals</span></label>#}
                                     {#                                 <label class="btn milestones-btn" >#}
                                     {#                             <input type="checkbox" name="group" onclick="$(this).parent().toggleClass('active');" value="milestones" />&nbsp;<i class="fa fa-star" title="Этапы проекта"></i>&nbsp;Цели</label>#}
                                 </div>
@@ -270,10 +269,13 @@
             <!--</div> /.input-group -->
         </div>
         <div class="col-xs-8 clearfix">
+        {% if tasklist.bounty %}
+            <ul class="task-tab-filter" style="display: none;"><li class="active"><a rel="bounty"></a></li></ul>
+        {% else %}
             <ul class="task-tab-filter list-inline pull-right to-hide-768 clearfix">
                 <li class="active"><a>All</a></li>
-                <li class="hide-on-mobile"><a rel="started">Started{% if tasklist.qty.started %}
-                    <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>
+{#                <li class="hide-on-mobile"><a rel="started">Started{% if tasklist.qty.started %}#}
+{#                    <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>#}
                 <li><a rel="ready">Complete{% if tasklist.qty.ready %}
                     <span class="micro-circle-with-number">{{ tasklist.qty.ready }}</span>{% endif %}</a></li>
 {#                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}#}
@@ -301,6 +303,7 @@
                     <option value="arc">Closed</option>
                 </select>
             </div>
+        {% endif %}
         </div>
     </div>
     <div class="search_items_holder_wrapper">

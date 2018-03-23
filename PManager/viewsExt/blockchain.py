@@ -1,6 +1,6 @@
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, Http404
-from PManager.models import PM_User, PM_Project, PM_Milestone
+from PManager.models import PM_User, PM_Project, PM_Milestone, PM_Task
 from PManager.viewsExt.crypto import bitcoin_set_request, get_rate
 from PManager.services.danations import donate
 from django.template import loader, RequestContext
@@ -128,6 +128,8 @@ def blockchainAjax(request):
         # profile = request.user.get_profile()
         project = request.POST.get('project')
         milestone = request.POST.get('milestone', None)
+        task = request.POST.get('task', None)
+
         try:
             project = PM_Project.objects.get(blockchain_name=project)
         except PM_Project.DoesNotExist:
@@ -137,6 +139,12 @@ def blockchainAjax(request):
             try:
                 milestone = PM_Milestone.objects.get(pk=int(milestone))
             except PM_Milestone.DoesNotExist:
+                pass
+
+        if task:
+            try:
+                task = PM_Task.objects.get(pk=int(task))
+            except PM_Task.DoesNotExist:
                 pass
 
         ref = request.COOKIES.get('ref')
@@ -153,6 +161,7 @@ def blockchainAjax(request):
         if request.user.is_authenticated() and request.user.get_profile().hasRole(project):
             return HttpResponse('error')
 
+        mtId = milestone.id if milestone else 't'+str(task.id) if task else '-1'
         if currency == 'gift':
             if refUser and refUser.id != uid:
                 qtyRef = qty * 0.2
@@ -178,7 +187,7 @@ def blockchainAjax(request):
                     [
                         project.blockchain_name,
                         str(uid),
-                        (str(milestone.id) if milestone else '-1'),
+                        mtId,
                         (str(refUser.id) if refUser else '0')
                     ]
                 ),
@@ -205,7 +214,7 @@ def blockchainAjax(request):
                     "item_list": {
                         "items": [{
                             "name": project.blockchain_name,
-                            "sku": (str(milestone.id) if milestone else '-1'),
+                            "sku": mtId,
                             "price": str(qty),
                             "currency": "USD",
                             "quantity": 1
@@ -273,12 +282,16 @@ def paypalExecute(request):
             if payment.execute({"payer_id": payerId}):
                 goalId = str(payment.transactions[0].item_list.items[0].sku)
                 milestone = None
+                task = None
                 if goalId != '-1':
-                    goalId = int(goalId)
+
                     try:
                         milestone = PM_Milestone.objects.get(pk=goalId)
                     except PM_Milestone.DoesNotExist:
-                        pass
+                        try:
+                            task = PM_Task.objects.get(pk=int(goalId.replace('t', '')))
+                        except PM_Task.DoesNotExist:
+                            pass
 
                 ref = request.COOKIES.get('ref')
                 refUser = None
@@ -301,7 +314,8 @@ def paypalExecute(request):
                     request.user if request.user.is_authenticated() else None,
                     milestone,
                     'opengift@opengift.io',
-                    refUser
+                    refUser,
+                    task
                 ):
                     return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
                 else:

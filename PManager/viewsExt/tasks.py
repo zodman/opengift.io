@@ -8,7 +8,7 @@ from django.db import transaction
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib.humanize.templatetags.humanize import intcomma
-from django.shortcuts import HttpResponse
+from django.shortcuts import HttpResponse, HttpResponseRedirect
 from PManager.models import Specialty, PM_Task, PM_Timer, PM_Task_Message, PM_ProjectRoles, PM_Task_Status, PM_User, TaskDraft, \
     PM_Project, PM_Files, PM_Reminder
 import datetime, json, codecs
@@ -44,6 +44,9 @@ def ajaxNewTaskWizardResponder(request):
 
 def taskDetail(request):
     from django.shortcuts import render
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/?backurl=/task/add/')
+
     return render(request, 'details/task_edit.html', {})
 
 
@@ -199,6 +202,8 @@ def __search_filter(header_values, request):
     elif action == 'started':
         ar_filter['realDateStart__isnull'] = False
         ar_filter['closed'] = False
+    elif action == 'bounty':
+        ar_filter['bounty'] = True
     elif action == 'all':
         pass
 
@@ -433,6 +438,8 @@ def __task_message(request):
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
+    vote = (request.POST.get('vote', '') == 'Y' and to and to != request.user.id)
+    confirmation = request.POST.get('allow_closing', '') == 'Y'
     requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
@@ -458,11 +465,21 @@ def __task_message(request):
         text = text.replace('<', '&lt;').replace('>', '&gt;')
         message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
         message.hidden = hidden
+        message.vote = vote
+        if vote:
+            message.code = 'VOTE'
+
+        if confirmation:
+            message.code = 'CONFIRMATION'
+
         message.hidden_from_clients = hidden_from_clients
         message.hidden_from_employee = hidden_from_employee
         message.requested_time = requested_time
         if requested_time > 0:
             message.code = 'TIME_REQUEST'
+            message.requested_time_approved = True
+            message.requested_time_approved_by = author
+            message.requested_time_approve_date = datetime.datetime.now()
 
         if to:
             try:
@@ -556,7 +573,7 @@ def __task_message(request):
             {
                 'task': task_data
             },
-            u'Сообщение: ' + task_data['name']
+            u'Incoming message: ' + task_data['name']
         )
 
         try:
@@ -629,7 +646,7 @@ def taskListAjax(request):
                     task.setPlanTime(value, request)
                     from PManager.services.rating import get_user_rating_for_task
                     task.systemMessage(
-                        u'оценил(а) задачу в ' + str(value) + u'ч. с опытом '
+                        u'estimated the task ' + str(value) + u'hrs. with rating '
                         + str(get_user_rating_for_task(task, request.user)),
                         request.user,
                         'SET_PLAN_TIME'
@@ -689,7 +706,7 @@ def taskListAjax(request):
                     task.lastModifiedBy = request.user
                     task.save()
                     task.systemMessage(
-                        u'Критичность ' + (u'повышена' if bCriticallyIsGreater else u'понижена'),
+                        u'Priority ' + (u'increased' if bCriticallyIsGreater else u'decreased'),
                         request.user,
                         'CRITICALLY_' + ('UP' if bCriticallyIsGreater else 'DOWN')
                     )
@@ -706,7 +723,7 @@ def taskListAjax(request):
                             if task.resp.get_profile().is_outsource:
                                 if not task.planTime:
                                     return HttpResponse(json.dumps({
-                                        'error': u'Задача должна быть оценена'
+                                        'error': u'The task must be estimated'
                                     }))
 
                                 if request.user.id == task.project.payer.id or request.user.get_profile().isManager(task.project):
@@ -740,7 +757,7 @@ def taskListAjax(request):
                         task.setStatus(str(value))
 
                         task.systemMessage(
-                            u'Статус изменен на "' + task.status.name + u'"',
+                            u'Status has been changed to "' + task.status.name + u'"',
                             request.user,
                             'STATUS_' + task.status.code.upper()
                         )
@@ -786,7 +803,7 @@ class taskManagerCreator:
 
     def fastCreateAndGetTask(self, text):
         self.task = PM_Task.createByString(text, self.currentUser, self.fileList, self.parentTask, project=self.project)
-        self.task.systemMessage(u'Задача создана', self.currentUser, 'TASK_CREATE')
+        self.task.systemMessage(u'Task has been created', self.currentUser, 'TASK_CREATE')
 
         if self.task.resp and self.task.resp.get_profile().is_outsource:
             self.task.setStatus('not_approved')
@@ -864,7 +881,7 @@ class taskManagerCreator:
     def tryToRemoveMessage(self, id):
         try:
             message = PM_Task_Message.objects.get(id=id, author=self.currentUser)
-            message.delete()
+            message.safeDelete()
             return True
         except PM_Task_Message.DoesNotExist:
             return False
@@ -1091,7 +1108,7 @@ class taskAjaxManagerCreator(object):
             if t.parentTask and t.parentTask.closed:
                 t.parentTask.Open()
 
-            t.systemMessage(u'Задача открыта', user, 'TASK_OPEN')
+            t.systemMessage(u'Task has been recovered', user, 'TASK_OPEN')
 
         return json.dumps({
             'closed': t.closed
@@ -1105,13 +1122,13 @@ class taskAjaxManagerCreator(object):
 
         if t.started:
             t.Stop()
-            t.endTimer(user, u'Закрытие задачи')
+            t.endTimer(user, u'Task closing')
 
         if not t.closed:
             profile = user.get_profile()
             bugsExists = t.messages.filter(bug=True, checked=False).exists()
             if bugsExists:
-                text = u'Перед тем как закрыть задачу, вам нужно исправить все ошибки.'
+                text = u'Please mark all bugs as fixed before closing.'
                 message = PM_Task_Message(text=text, task=t, project=t.project, author=t.resp,
                                           userTo=user, code='WARNING', hidden=True)
                 message.save()
@@ -1125,39 +1142,26 @@ class taskAjaxManagerCreator(object):
                 )
                 mess.send()
             else:
-                if profile.isClient(t.project) or profile.isManager(t.project) or t.author.id == user.id:
-                    taskTimers = PM_Timer.objects.filter(task=t)
-                    if taskTimers.count():
-                        if t.resp and t.resp.get_profile().is_outsource:
-                            if not user or user.id != t.project.payer.id:
-                                error = u'Закрывать задачи с участием PRO специалистов может только ' + \
-                                    t.project.payer.last_name + ' ' + t.project.payer.first_name
+                if profile.isManager(t.project) or t.author.id == user.id:
+                    if t.donations.exists():
+                        donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
+                            .exclude(pk__in=t.messages.filter(code='CONFIRMATION').values_list('author__id', flat=True))\
+                            .exclude(pk=user.id)
 
-                            from PManager.models.agreements import Agreement
-                            from django.db.models import Count
-
-                            taskTimers = taskTimers.values('user__id').annotate(dcount=Count('user__id'))
-                            for timer in taskTimers:
-                                if timer['user__id'] == t.project.payer.id:
-                                    continue
-
-                                u = User.objects.get(pk=timer['user__id'])
-                                try:
-                                    agreement = Agreement.objects.get(
-                                        approvedByPayer=True,
-                                        approvedByResp=True,
-                                        resp=u,
-                                        payer=t.project.payer
-                                    )
-                                except Agreement.DoesNotExist:
-                                    error = u'Нет принятого с обоих сторон договора c ' + u.last_name + ' ' + u.first_name
+                        if donatedUsers.exists():
+                            error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' about closing the task'
 
                     if not error:
                         if not t.closedInTime:
                             t.setIsInTime()
 
+                        t.winner = t.getWinner()
+                        closingDesc = 'Task closed'
+                        if t.winner:
+                            closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + ')'
+
                         t.Close(user)
-                        t.systemMessage(u'Задача закрыта', user, 'TASK_CLOSE')
+                        t.systemMessage(closingDesc, user, 'TASK_CLOSE')
 
                         #TODO: данный блок дублируется 4 раза
                         if t.milestone and not t.milestone.closed:
@@ -1203,7 +1207,7 @@ class taskAjaxManagerCreator(object):
                            {
                                'task': t
                            },
-                           u'Задача закрыта: ' + t.name
+                           u'Task was closed: ' + t.name
                         )
                         sendMes.send([t.author.email, t.resp.email])
 
@@ -1212,7 +1216,7 @@ class taskAjaxManagerCreator(object):
                     t.setStatus('ready')
 
                     t.systemMessage(
-                        u'Статус изменен на "' + t.status.name + u'"',
+                        u'Status has been changed to "' + t.status.name + u'"',
                         user,
                         'STATUS_' + t.status.code.upper()
                     )
@@ -1278,7 +1282,28 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_fastCreate(self):
         taskInputText = self.getRequestData('task_name')
+        projectName = self.getRequestData('project_name')
+        projectDescription = self.getRequestData('project_description')
+        projectCode = self.getRequestData('project_code')
+
+        if projectName:
+            project, created = PM_Project.objects.get_or_create(
+                name=projectName,
+                author=self.currentUser,
+                blockchain_name=projectCode,
+                tracker_id=1
+            )
+            project.description = projectDescription
+            project.save()
+
+            self.currentUser.get_profile().setRole('manager', project)
+
+            self.taskManager.project = project
+
         request = self.getRequestData()
+        if not self.taskManager.project:
+            return json.dumps({'errorText': 'Empty project'})
+
         if taskInputText:
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:

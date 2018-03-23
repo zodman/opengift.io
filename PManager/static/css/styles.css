@@ -134,8 +134,8 @@ header .header {position:relative; max-width:1600px; margin:0 auto;}
 /*ЛОГО*/
 header .header .logo {float:left; width:15%;}
 /*МЕНЮ*/
-header .header > nav {float:left; width:60%; text-align:center; height:29px; line-height:29px;}
-header .header > nav > ul {display: inline-block;//display: inline;zoom: 1; margin:0px; height:29px; line-height:29px;}
+header .header > nav {float:left;  height:29px; line-height:29px;}
+header .header > nav > ul {display: inline-block;zoom: 1; margin:0px; height:29px; line-height:29px;}
 header .header > nav > ul > li {display:inline; height:29px; line-height:29px;}
 header .header > nav > ul > li > a {display: block; padding:0 40px 0 0 ; font-size:14px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; color:#494949;}
 header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus, header .header >nav > ul > li.active > a {background-color: #fff; color:#cd0000; text-decoration:none; }
@@ -1313,7 +1313,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 
 .task .task-border {padding:15px 0 10px;}
-.task-title {float:left; font-size:14px; width:40%; position:relative; padding-left:30px; padding-right:35px;}
+.task-title {float:left; font-size:14px; width:40%; position:relative; padding-right:35px;}
 .task-checkbox {opacity: 0;}
 .task-checkbox + label {
     cursor: pointer;

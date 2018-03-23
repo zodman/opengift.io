@@ -22,6 +22,15 @@
                                     &nbsp;&nbsp;{{ milestone.name }}
                                 </p>
                             {% endif %}
+                            {% if task %}
+                                <input type="hidden" name="task" class="js-task"
+                                       value="{{ task.id }}"/>
+                                <h4>Task</h4>
+                                <p><small>By donating on a task, you motivate a team to complete it faster. The donation amount will be automatically released once the task is closed.</small></p>
+                                <p class="text-muted">
+                                    &nbsp;&nbsp;{{ task.name }}
+                                </p>
+                            {% endif %}
                             {% if request.user.get_profile.blockchain_wallet %}
                                 <p>Your wallet: <span
                                         class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
@@ -55,7 +64,13 @@
                                 </div>
                                 <div class="col-lg-3">
                                     <input type="button" value="Donate"
-                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val(), $('.js-currency').val(), $('.js-milestone').val());"
+                                           onclick="return donate(
+                                               $('.js-target-project').val(),
+                                               $('.js-target-project-sum').val(),
+                                               $('.js-currency').val(),
+                                               $('.js-milestone').val(),
+                                               $('.js-task').val()
+                                           );"
                                            class="js-donate btn btn-success" />
                                 </div>
                             </div>
@@ -124,7 +139,7 @@
 
 
 
-            var donate = function (project, qty, currency, milestone) {
+            var donate = function (project, qty, currency, milestone, task) {
                 var form = new Form('.js-donate-form');
 
                 if (form.validate()) {
@@ -134,7 +149,8 @@
                         'project': project,
                         'qty': qty,
                         'currency': currency,
-                        'milestone': milestone
+                        'milestone': milestone,
+                        'task': task
                     }, function (data) {
                         {% if request.user.get_profile.blockchain_wallet %}
                             getBalance();
