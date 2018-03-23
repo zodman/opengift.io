@@ -256,7 +256,13 @@ def blockchainAjax(request):
     elif action == 'getProjectVals':
         # profile = request.user.get_profile()
         project = request.POST.get('pName')
-        result = blockchain_project_getbalance_request(request.user.username, project)
+        try:
+            project = PM_Project.objects.get(blockchain_name=project)
+            result = blockchain_project_getbalance_request(request.user.username, project.blockchain_name)
+            project.blockchain_state = result
+            project.save()
+        except PM_Project.DoesNotExist:
+            result = ''
 
     elif action == 'getProjectStatus':
         # profile = request.user.get_profile()

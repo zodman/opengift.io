@@ -487,6 +487,13 @@ def projectDetailPublic(request, project_id):
     bounty = []
     sponsors = []
 
+    teamWallets = []
+
+    if project.blockchain_state:
+        state = json.loads(project.blockchain_state)
+        userShares = state['Users']
+        teamWallets = userShares.keys()
+
     for user in project.getUsers():
         taskTagCoefficient = 0
         for obj1 in ObjectTags.objects.raw(
@@ -500,9 +507,13 @@ def projectDetailPublic(request, project_id):
         if user.get_profile().isGuest(project):
             bounty.append(user)
         elif user.get_profile().isManager(project):
-            team.append(user)
-        else:
-            sponsors.append(user)
+            if user.get_profile().blockchain_wallet in teamWallets:
+                team.append(user)
+
+    sponsorReq = User.objects.filter(pk__in=project.donations.values_list('user__id', flat=True))
+    for sponsor in sponsorReq:
+        setattr(sponsor, 'donated', sum([x.sum for x in project.donations.filter(user=sponsor)]))
+        sponsors.append(sponsor)
 
     ms = PM_Milestone.objects.filter(project=project, is_request=False).order_by('date')
     ams = []
@@ -537,6 +548,8 @@ def projectDetailPublic(request, project_id):
         'project': project,
         'milestones': ams,
         'team': team,
+        'bounty': bounty,
+        'sponsors': sponsors,
         'hours_spent': time,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,

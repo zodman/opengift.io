@@ -204,6 +204,7 @@ def __search_filter(header_values, request):
         ar_filter['closed'] = False
     elif action == 'bounty':
         ar_filter['bounty'] = True
+        ar_filter['allProjects'] = True
     elif action == 'all':
         pass
 
@@ -1159,6 +1160,9 @@ class taskAjaxManagerCreator(object):
                         closingDesc = 'Task closed'
                         if t.winner:
                             closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + ')'
+
+                        if not t.winner.get_profile().hasRole(t.project):
+                            t.winner.get_profile().setRole('guest', t.project)
 
                         t.Close(user)
                         t.systemMessage(closingDesc, user, 'TASK_CLOSE')

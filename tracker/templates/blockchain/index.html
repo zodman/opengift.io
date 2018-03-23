@@ -270,8 +270,10 @@
                 }
 
                 $.post('/blockchain/ajax/', {'action': 'getProjectVals', 'pName': p}, function (data) {
-                    data = $.parseJSON(data);
-                    call(data['Users'][$('.js-wallet-code').text()]);
+                    if (data) {
+                        data = $.parseJSON(data);
+                        call(data['Users'][$('.js-wallet-code').text()]);
+                    }
                 });
             };
 
