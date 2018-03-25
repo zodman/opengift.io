@@ -2,19 +2,19 @@
 {% load htmlemail %}
 {% load get_settings %}
 {% load thumbnail %}
-{% block subject %}Новое сообщение в вашей задаче!{% endblock %}
+{% block subject %}New message in task!{% endblock %}
 
 {% block top_running_title %}
     <strong>{{ task.message.author }}</strong><br>{{ task.dateCreate }}
 {% endblock %}
 
-{% block title %}Новое событие в вашей задаче!{% endblock %}
+{% block title %}New message in task!{% endblock %}
 
 {% block content %}
     {% if time %}
-        <p>Потраченное время: {{ time }}</p>
+        <p>Time: {{ time }}</p>
     {% endif %}
-    <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;">Новое сообщение в задаче "<a style="color:#51A351" href="{% get_settings "HTTP_ROOT_URL" %}{{ task.task_url }}">{{ task.name }}</a>"!
+    <p style="font-size:14px; font-family: Helvetica Neue, Helvetica, Arial, sans-serif; line-height:20px; color:#3b3f4a;">New message in task "<a style="color:#51A351" href="{% get_settings "HTTP_ROOT_URL" %}{{ task.task_url }}">{{ task.name }}</a>"!
         <br /><br />
         <div style="font-style:italic">
         {% autoescape off %}
