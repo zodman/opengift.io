@@ -930,7 +930,7 @@ border: none;}
     margin-bottom: 10px; } }
 
 .progress-bar {
-  width: 0;
+  width: 11%;
   -webkit-transition: 0.5s;
   -o-transition: 0.5s;
   transition: 0.5s; }
