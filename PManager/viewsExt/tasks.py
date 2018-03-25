@@ -1161,7 +1161,7 @@ class taskAjaxManagerCreator(object):
                         if t.winner:
                             closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + ')'
 
-                        if not t.winner.get_profile().hasRole(t.project):
+                        if not t.winner or not t.winner.get_profile().hasRole(t.project):
                             t.winner.get_profile().setRole('guest', t.project)
 
                         t.Close(user)
