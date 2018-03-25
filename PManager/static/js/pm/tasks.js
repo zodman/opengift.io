@@ -116,7 +116,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                             'icon': 'check-square-o'
                         });
                     }
-                } else {
+                } else if (this.get('canSetReady')) {
                     arItems.push({
                         'itemClass': 'SetReady',
                         'itemText': 'Ready',
