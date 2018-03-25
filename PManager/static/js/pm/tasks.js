@@ -116,7 +116,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                             'icon': 'check-square-o'
                         });
                     }
-                } else {
+                } else if (this.get('canSetReady')) {
                     arItems.push({
                         'itemClass': 'SetReady',
                         'itemText': 'Ready',
@@ -396,6 +396,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                             if (taskInfo.status == 'ready') {
                                 $closeIcon.hide();
                             }
+                        } else {
+                            $closeIcon.hide();
                         }
                     }
                 }
