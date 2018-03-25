@@ -170,13 +170,13 @@
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Name</div>
                 <div class="modal-body-item-right">
-                    <input required maxlength="200" name="name" placeholder="Введите имя" type="text" class="input-block-level form-control" />
+                    <input required maxlength="200" name="name" placeholder="Your name" type="text" class="input-block-level form-control" />
                 </div>
             </div>
             <div class="modal-body-item clearfix">
                 <div class="modal-body-item-left">Last Name</div>
                 <div class="modal-body-item-right">
-                    <input required maxlength="200" name="last_name" placeholder="Введите фамилию" type="text" class="input-block-level form-control" />
+                    <input required maxlength="200" name="last_name" placeholder="Your last name" type="text" class="input-block-level form-control" />
                 </div>
             </div>
         </div>
@@ -199,21 +199,21 @@
     {#</div>#}
 
 {% elif userAchievement %}
-    <div class="overflow"></div>
-    <div class="popup green-popup js-popup">
-        <div class="modal-header"><h2 class="modal-title">Новое достижение!</h2></div>
-        <div class="modal-body clearfix">
-        <img class="pull-left modal-body-img" src="{{ userAchievement.achievement.smallImageUrl }}" alt="{{ userAchievement.achievement.name }}"/><h4>{{ userAchievement.achievement.name }}</h4>
-        <p>{{ userAchievement.achievement.description|safe }}</p>
-        {% if userAchievement.text %}
-            <p>{{ userAchievement.text|safe }}</p>
-        {% endif %}
-        </div>
-        <div class="modal-footer">
-            <a href="{{ backurl }}" class="btn  btn-large btn-success"
-               onclick="$(this).closest('.js-popup').remove(); $('.overflow').hide(); return false;">Продолжить</a>
-        </div>
-    </div>
+{#    <div class="overflow"></div>#}
+{#    <div class="popup green-popup js-popup">#}
+{#        <div class="modal-header"><h2 class="modal-title">Новое достижение!</h2></div>#}
+{#        <div class="modal-body clearfix">#}
+{#        <img class="pull-left modal-body-img" src="{{ userAchievement.achievement.smallImageUrl }}" alt="{{ userAchievement.achievement.name }}"/><h4>{{ userAchievement.achievement.name }}</h4>#}
+{#        <p>{{ userAchievement.achievement.description|safe }}</p>#}
+{#        {% if userAchievement.text %}#}
+{#            <p>{{ userAchievement.text|safe }}</p>#}
+{#        {% endif %}#}
+{#        </div>#}
+{#        <div class="modal-footer">#}
+{#            <a href="{{ backurl }}" class="btn  btn-large btn-success"#}
+{#               onclick="$(this).closest('.js-popup').remove(); $('.overflow').hide(); return false;">Продолжить</a>#}
+{#        </div>#}
+{#    </div>#}
 {% endif %}
 <div class="modal fade js-projects" id="projects-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">

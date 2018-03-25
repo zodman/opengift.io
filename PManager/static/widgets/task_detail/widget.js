@@ -495,8 +495,7 @@ $(function () {
                         data = $.parseJSON(data);
                         data['noveltyMark'] = true;
                         widget_td.messageListHelper.addMessages([data]);
-                        widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('')
-                            .closest('.newMessage').removeClass('active');
+                        widget_td.$messageForm.find('textarea[name=task_message], [name="need-time-hours"]').val('');
                         widget_td.$messageForm.find('.js-need-time:checked').trigger('click');
                         widget_td.$messageForm.find('.js-solution-set:checked').trigger('click');
                         widget_td.$attachedFileContainer.empty();
@@ -620,13 +619,6 @@ $(function () {
 
     $('[data-toggle="popover"]').popover({
         'trigger': 'hover'
-    });
-
-    $('textarea[name=task_message]').keyup(function () {
-        if (!$(this).val())
-            $(this).closest('.newMessage').removeClass('active');
-        else
-            $(this).closest('.newMessage').addClass('active');
     });
 
     $('.js-add-subtask-helper').click(function () {
