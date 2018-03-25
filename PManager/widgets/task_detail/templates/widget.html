@@ -191,10 +191,10 @@
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Personally</label>
                     {% if not task_detail.task.closed %}
-                    <label class="left_check"><input class="js-vote" type="radio" name="message_type" value="vote" /> Vote for a winner</label>
-                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>
+                    <label class="left_check"><input class="js-vote" type="checkbox" name="vote" value="Y" /> Confirm result</label>
+{#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
                     <label class="left_check">
-                        <input class="js-need-time" type="radio" name="message_type" value="need-time" /> Money request
+                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Money request
                         <span class="js-need-time-hours" style="display: none;">
                             <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
                         </span>
