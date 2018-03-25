@@ -439,9 +439,8 @@ def __task_message(request):
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
-    vote = (request.POST.get('message_type', '') == 'vote' and to and to != request.user.id)
-    confirmation = request.POST.get('message_type', '') == 'allow_closing'
-    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('message_type', '') == 'need-time') else 0
+    vote = (request.POST.get('vote', '') and to and to != request.user.id)
+    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
     profile = request.user.get_profile()
@@ -469,9 +468,6 @@ def __task_message(request):
         message.vote = vote
         if vote:
             message.code = 'VOTE'
-
-        if confirmation:
-            message.code = 'CONFIRMATION'
 
         message.hidden_from_clients = hidden_from_clients
         message.hidden_from_employee = hidden_from_employee
@@ -1146,7 +1142,7 @@ class taskAjaxManagerCreator(object):
                 if profile.isManager(t.project) or t.author.id == user.id:
                     if t.donations.exists():
                         donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
-                            .exclude(pk__in=t.messages.filter(code='CONFIRMATION').values_list('author__id', flat=True))\
+                            .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
                             .exclude(pk=user.id)
 
                         if donatedUsers.exists():
