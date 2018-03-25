@@ -342,6 +342,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
                 'canClose': cur_user.id == task.author.id,
+                'canSetReady': cur_prof.hasRole(task.project),
                 'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
                 'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
                 'canBaneUser': bCanBaneUser,

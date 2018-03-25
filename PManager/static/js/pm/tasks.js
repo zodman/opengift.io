@@ -391,7 +391,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                         var $closeIcon = $buttonClose.find('.fa');
                         if (taskInfo.canClose) {
                             $closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Close task');
-                        } else {
+                        } else if (taskInfo.canSetReady) {
                             $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'Ready');
                             if (taskInfo.status == 'ready') {
                                 $closeIcon.hide();

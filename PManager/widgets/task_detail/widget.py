@@ -110,6 +110,7 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
         setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
         setattr(task, 'canSetCritically', task.canEdit(cur_user))
+        setattr(task, 'canSetReady', prof.hasRole(task.project))
         setattr(task, 'canEdit', task.canEdit(cur_user))
         setattr(task, 'canRemove', task.canPMUserRemove(prof))
         setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
