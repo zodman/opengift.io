@@ -139,7 +139,7 @@ def initGlobals(request):
 
     return {
         'SET_COOKIE': SET_COOKIE,
-        'DEBUG_MODE': request.COOKIES['debug_mode'] == 'on',
+        'DEBUG_MODE': request.COOKIES.get('debug_mode', '') == 'on',
         'CURRENT_PROJECT': CURRENT_PROJECT,
         'CAN_INVITE': can_invite,
         'IS_MANAGER':  is_manager,
