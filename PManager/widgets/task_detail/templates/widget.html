@@ -148,7 +148,7 @@
 
 
     <div class="task_add-message">
-            <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
+            <form class="newMessage form-horizontal active" action="/task_handler" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
                     <option value="">To:</option>
@@ -215,19 +215,19 @@
                 <div class="uploaded_file clearfix" style="display: none">
                 </div>
 
-                <div class="task_add-message_message-detail ">
-                    {% if task_detail.task.status.code != 'not_approved' %}
-                        <label class="checkbox-inline clearfix">
-                    <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">
-                    same status</label>
-                    <label class="checkbox-inline clearfix">
-                    <input class="radioded" type="radio" id="ready" name="status" value="ready">
-                        ready</label>
-                    <label class="checkbox-inline clearfix">
-                    <input class="radioded" type="radio" id="revision" name="status" value="revision">
-                        revision</label>
-                    {% endif %}
-                </div>
+{#                <div class="task_add-message_message-detail ">#}
+{#                    {% if task_detail.task.status.code != 'not_approved' %}#}
+{#                        <label class="checkbox-inline clearfix">#}
+{#                    <input class="radioded" type="radio" id="checked" checked="checked" name="status" value="">#}
+{#                    same status</label>#}
+{#                    <label class="checkbox-inline clearfix">#}
+{#                    <input class="radioded" type="radio" id="ready" name="status" value="ready">#}
+{#                        ready</label>#}
+{#                    <label class="checkbox-inline clearfix">#}
+{#                    <input class="radioded" type="radio" id="revision" name="status" value="revision">#}
+{#                        revision</label>#}
+{#                    {% endif %}#}
+{#                </div>#}
 
                 <div class="row-fluid show-grid task-add-btns">
                     <button class="btn btn-success sendTaskMessage" type="button">Send (Ctrl+Enter)</button>
