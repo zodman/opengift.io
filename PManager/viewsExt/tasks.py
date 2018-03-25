@@ -1157,11 +1157,10 @@ class taskAjaxManagerCreator(object):
                         if t.winner:
                             closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + ')'
 
-                        if not t.winner or not t.winner.get_profile().hasRole(t.project):
-                            t.winner.get_profile().setRole('guest', t.project)
-
                         t.Close(user)
                         t.systemMessage(closingDesc, user, 'TASK_CLOSE')
+                        if t.winner and not t.winner.get_profile().hasRole(t.project):
+                            t.winner.get_profile().setRole('guest', t.project)
 
                         #TODO: данный блок дублируется 4 раза
                         if t.milestone and not t.milestone.closed:
