@@ -396,6 +396,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                             if (taskInfo.status == 'ready') {
                                 $closeIcon.hide();
                             }
+                        } else {
+                            $closeIcon.hide();
                         }
                     }
                 }
