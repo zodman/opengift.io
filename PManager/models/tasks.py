@@ -1857,7 +1857,7 @@ class PM_Task_Message(models.Model):
         profileAuthor = self.author.get_profile() if self.author else None
         cur_profile = cur_user.get_profile() if cur_user else None
         if self.code == 'SET_PLAN_TIME' and cur_profile:
-            if self.task.onPlanning and cur_profile.id != profileAuthor.id:
+            if self.task.onPlanning and cur_profile.id != profileAuthor.id and False:
                 p = self.task.project
 
                 if cur_profile and (
