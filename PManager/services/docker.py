@@ -7,6 +7,7 @@ from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
 def blockchain_donate_request(username, project, qty, milestoneCode = None):
+    return 'ok'
     args = {'user': username, 'fcn': 'donate', 'arg1': project.lower(), 'arg2': qty}
     if milestoneCode:
         args['arg3'] = milestoneCode

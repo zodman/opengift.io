@@ -5,6 +5,15 @@ from django.template import loader, RequestContext
 from django.contrib.auth.models import User
 
 class Public:
+    @staticmethod
+    def debug_on(request):
+        response = HttpResponse('ok')
+        return response.set_cookie('debug_mode', 'on')
+
+    @staticmethod
+    def debug_off(request):
+        response = HttpResponse('ok')
+        return response.set_cookie('debug_mode', 'off')
 
     @staticmethod
     def backerProfile(request, user_id):

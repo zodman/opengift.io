@@ -100,18 +100,19 @@ def initGlobals(request):
                 if 'need_manager' not in form.cleaned_data or form.cleaned_data['need_manager'] == 'N':
                     pass
                 else:
-                    sendFeedBackEmail(
-                        request.user.first_name + ' ' + request.user.last_name,
-                        request.user.email,
-                        'Нужен менеджер',
-                        'Мне нужен менеджер (' + str(request.user.get_profile().phoneNumber or '') + ')'
-                    )
+                    # sendFeedBackEmail(
+                    #     request.user.first_name + ' ' + request.user.last_name,
+                    #     request.user.email,
+                    #     'Нужен менеджер',
+                    #     'Мне нужен менеджер (' + str(request.user.get_profile().phoneNumber or '') + ')'
+                    # )
+                    pass
 
-                redirect = "/?project=" + str(project.id)
+                redirect = "/project/" + str(project.id) + "/tasks/"
             except PM_Project.DoesNotExist:
                 projects = currentUser.get_profile().getProjects()
                 if projects:
-                    redirect = "/?project=" + str(projects[0].id)
+                    redirect = "/project/" + str(projects[0].id) + "/tasks/"
                 else:
                     redirect = "/"
 
@@ -138,6 +139,7 @@ def initGlobals(request):
 
     return {
         'SET_COOKIE': SET_COOKIE,
+        'DEBUG_MODE': request.COOKIES['debug_mode'] == 'on',
         'CURRENT_PROJECT': CURRENT_PROJECT,
         'CAN_INVITE': can_invite,
         'IS_MANAGER':  is_manager,
