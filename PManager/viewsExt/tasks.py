@@ -1162,6 +1162,14 @@ class taskAjaxManagerCreator(object):
                         if t.winner and not t.winner.get_profile().hasRole(t.project):
                             t.winner.get_profile().setRole('guest', t.project)
 
+                        if t.donations.exists():
+                            from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
+                            blockchain_goal_confirmation_request(
+                                user.username,
+                                t.project.blockchain_name,
+                                'opengift.io:task-' + str(t.id)
+                            )
+
                         #TODO: данный блок дублируется 4 раза
                         if t.milestone and not t.milestone.closed:
                             qtyInMS = PM_Task.objects.filter(active=True, milestone=t.milestone, closed=False)\
