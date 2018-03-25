@@ -158,8 +158,8 @@ def blockchainAjax(request):
         qty = float(request.POST.get('qty', 0))
         currency = request.POST.get('currency', 'gift')
         uid = request.user.id if request.user.is_authenticated() else '-1'
-        if request.user.is_authenticated() and request.user.get_profile().hasRole(project):
-            return HttpResponse('error')
+        # if request.user.is_authenticated() and request.user.get_profile().hasRole(project):
+        #     return HttpResponse('error')
 
         mtId = milestone.id if milestone else 't'+str(task.id) if task else '-1'
         if currency == 'gift':
