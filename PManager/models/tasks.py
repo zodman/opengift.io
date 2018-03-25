@@ -1796,6 +1796,9 @@ class PM_Task_Message(models.Model):
 
             self.project = self.task.project
 
+        if self.author and self.author.get_profile().hasRole(self.project):
+            self.author.get_profile().setRole('guest', self.project)
+
         super(self.__class__, self).save(*args, **kwargs)
 
     @classmethod
