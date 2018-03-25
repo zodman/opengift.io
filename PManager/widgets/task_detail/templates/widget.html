@@ -71,10 +71,10 @@
     <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
             <ul class="widget-title-info-left-ul clearfix">
                 {% if task_detail.task.asked %}
-                <li>Asked: <b>${{ task_detail.task.asked }}</b></li>
+                <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked }}</b></li>
                 {% endif %}
 
-                <li>Donated: <b>${{ task_detail.task.donated|default_if_none:'0' }}</b></li>
+                <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0' }}</b></li>
 
 {#                <li>Spent time: <b id="js-td_time"></b></li>#}
 

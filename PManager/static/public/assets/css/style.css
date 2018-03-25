@@ -534,6 +534,7 @@ border: none;}
     background: #f5354d;
     color: #fff; }
 
+
 .btn-outline-green {
   background: transparent;
   border-color: #2cd44a; }
@@ -4910,6 +4911,10 @@ border: none;}
 
 .relative {
   position: relative;
+}
+
+.user-name .user-rating {
+  top:-10px;
 }
 
 .list-of-industries {

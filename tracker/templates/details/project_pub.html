@@ -35,6 +35,24 @@
         #share-buttons a:hover img {
             opacity: 1;
         }
+
+        .user-name .user-rating {
+            top:-10px;
+            margin-right: -5px;
+        }
+
+
+        .icon-avatar {
+        color: #fff;
+        font-size: 30px;
+        line-height: 94px;
+        }
+
+        .red-text {color: #f64d62;}
+        .red-text:hover {color: #f5354d;}
+
+        .pointer {cursor: pointer;}
+
     </style>
     <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
 	background: #62bb94;
@@ -232,40 +250,52 @@
             </h2>
 
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-            <div class="row text-center">
-                <div class="col-md-4 mb-4">
-                    <h2 class="mb-4">
-                        Target group
-                    </h2>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h2 class="mb-4">
-                        Problem
-                    </h2>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <h2 class="mb-4">
-                        Solution
-                    </h2>
-                </div>
-            </div>
             {% for problem in project.problems.all %}
-                <div class="row text-center">
-                    <div class="col-md-4 mb-4">
-                        <p>
-                            {{ problem.target_group|default_if_none:''|linebreaksbr }}
-                        </p>
+                <div class="">
+                    <div class="row u-mb-40">
+                        <div class="col-3 col-md-2">
+                            <img src="/static/img/group.svg">
+                        </div>
+                        <div class="col-9 col-md-10">
+
+                            <h2 class="mb-4">
+                                Target group
+                            </h2>
+                            <p>
+                                {{ problem.target_group|default_if_none:''|linebreaksbr }}
+                            </p>
+                        </div>
 
                     </div> <!-- END col-md-6 -->
-                    <div class="col-md-4 mb-4">
+                    <div>
+                        <div class="row u-mb-40">
+                        <div class="col-3 col-md-2">
+                            <img src="/static/img/problem.svg">
+                        </div>
+                        <div class="col-9 col-md-10">
+                        <h2 class="mb-4">
+                            Problem
+                        </h2>
                         <p>
                             {{ problem.problem|default_if_none:''|linebreaksbr }}
                         </p>
+                        </div>
+                            </div>
                     </div> <!-- END col-md-6 -->
-                    <div class="col-md-4 mb-4">
+                    <div>
+
+                        <div class="row u-mb-40">
+                        <div class="col-3 col-md-2">
+                            <img src="/static/img/decision.svg">
+                        </div>
+                        <div class="col-9 col-md-10">
+                        <h2 class="mb-4">
+                            Solution
+                        </h2>
                         <p>
                             {{ problem.solution|default_if_none:''|linebreaksbr }}
                         </p>
+                            </div></div>
                     </div> <!-- END col-md-6 -->
 
                 </div> <!-- END row-->
@@ -284,7 +314,7 @@
         </div> <!-- END container-->
     </section>
 
-    <section class="u-pb-15">
+    <section>
             <div class="container">
                 <div class="row">
 
@@ -337,7 +367,8 @@
                                          style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
                                     </div>
 
-                                    <h4 class="u-mb-5">
+
+                                    <h4 class="u-mb-5 relative user-name">
                                         {{ user.first_name }} {{ user.last_name }}
                                         <div class="user-rating">
                                             <i class="fa fa-star"></i> {{ user.rating|floatformat }}
@@ -377,7 +408,7 @@
             </div> <!-- END container-->
         </section>
 
-         <section class="u-pb-15">
+         <section class="bg-gray-v1">
                 <div class="container">
                     <div class="row">
 
@@ -386,7 +417,7 @@
                                 Sponsors
                             </h2>
 
-                            <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                            <div class="u-h-4 u-w-50 orange-gr rounded mx-auto mt-4 mb-5"></div>
                         </div> <!-- END col-12-->
                     </div> <!-- END row-->
                     <div data-init="carousel" data-slick='{
@@ -421,22 +452,20 @@
 
                         {% for user in sponsors %}
                             {% if user.get_profile and user.last_name %}
-                                <div class="rounded bg-white text-center js-team-member"
+                                <div class="rounded text-center js-team-member"
                                      data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
                                     <div class="rounded-circle u-w-90-wrapper mb-4"
                                          style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
                                     </div>
 
-                                    <h4 class="u-mb-5">
+                                    <h4 class="u-mb-5 relative user-name">
                                         {{ user.first_name }} {{ user.last_name }}
-                                        <div class="user-rating">
+                                        <div class="user-rating orange-gr">
                                             <i class="fa fa-dollar"></i> {{ user.donated|floatformat }}
                                         </div>
                                     </h4>
 
-                                    <div>
 
-                                    </div>
                                     <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                         {% if user.get_profile.skype %}
                                             <li class="list-inline-item">
@@ -458,10 +487,22 @@
                                 </div>
                             {% endif %}
                         {% endfor %}
+                        <div class="rounded text-center js-team-member"
+                             data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                            <div class="rounded-circle u-w-90-wrapper mb-4 orange-gr pointer" onclick="document.location.href='/project/{{ project.id }}/donate/';" >
+                                <i class="fa fa-plus icon-avatar"></i>
+                            </div>
+
+                            <h4 class="u-mb-5 relative user-name">
+                                <a href="/project/{{ project.id }}/donate/" class="red-text">Become a sponsor</a>
+                            </h4>
+
+
+                        </div>
                     </div>
                      <div class="row">
                                 <div class="col-4 text-center mx-auto">
-                                    <a href="/project/{{ project.id }}/donate/" ><h5>Become a sponsor</h5></a>
+                                    <a href="/project/{{ project.id }}/donate/" class="btn btn-red btn-rounded">Become a sponsor</a>
                                 </div>
                             </div>
                 </div>
@@ -557,7 +598,7 @@
                 </div> <!-- END row-->
                      <div class="row">
                          <div class="col-4 text-center mx-auto">
-                             <a href="/bounty/" ><h5>Become a contributor</h5></a>
+                             <a href="/bounty/" class="btn btn-lg btn-rounded green-gr">Become a contributor</a>
                          </div>
                      </div>
                 </div>
