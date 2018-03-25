@@ -165,7 +165,7 @@
                         } else if (currency == 'usd') {
                             document.location.href = $.parseJSON(data);
                         } else if (task) {
-                            document.location.href = '/task_detail/?project=' + project + '&id='+task;
+                            document.location.href = '/task_detail/?project={{ project.id }}&id='+task;
                         }
                         yaCounter47053188.reachGoal('donate');
                     });
