@@ -86,56 +86,56 @@
             </div> <!-- END row-->
         </div> <!-- END container-->
         <script>
-                $(function () {
-                    $('.js-currency-rate').each(function () {
-                        var t = this;
-                        if ($(this).data('currency') == 'usd') return true;
-                        $.post('/blockchain/ajax/', {
-                            'action': 'getRate',
-                            'currency': $(this).data('currency')
-                        }, function (data) {
-                            $(t).html(Math.round(100 / parseFloat(data)) / 100);
-                        });
+            $(function () {
+                $('.js-currency-rate').each(function () {
+                    var t = this;
+                    if ($(this).data('currency') == 'usd') return true;
+                    $.post('/blockchain/ajax/', {
+                        'action': 'getRate',
+                        'currency': $(this).data('currency')
+                    }, function (data) {
+                        $(t).html(Math.round(100 / parseFloat(data)) / 100);
                     });
-                    {% if request.user.get_profile.blockchain_wallet %}
-                    getKey(function () {
-                        getBalance();
-                    });
-                    {% endif %}
-                    $('.js-fast-donate').click(function () {
-                        var val = parseFloat($(this).data('value')),
-                            rate = parseFloat($('.js-currency-rate[data-currency=' + $('.js-currency').val() + ']').text());
+                });
+                {% if request.user.get_profile.blockchain_wallet %}
+                getKey(function () {
+                    getBalance();
+                });
+                {% endif %}
+                $('.js-fast-donate').click(function () {
+                    var val = parseFloat($(this).data('value')),
+                        rate = parseFloat($('.js-currency-rate[data-currency=' + $('.js-currency').val() + ']').text());
 
-                        if (!rate) {
-                            alert('Currency rates is still loading.');
-                            return false;
-                        }
-                        val = val / rate;
-                        if (val < 1) {
-                            val = Math.round(val * 1000000) / 1000000;
-                        } else {
-                            val = Math.round(val * 100) / 100;
-                        }
-                        $('.js-target-project-sum').val(val);
+                    if (!rate) {
+                        alert('Currency rates is still loading.');
                         return false;
-                    });
+                    }
+                    val = val / rate;
+                    if (val < 1) {
+                        val = Math.round(val * 1000000) / 1000000;
+                    } else {
+                        val = Math.round(val * 100) / 100;
+                    }
+                    $('.js-target-project-sum').val(val);
+                    return false;
+                });
+
+            });
+            var getKey = function (callback) {
+                $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
+                    $('.js-wallet-code').html(data);
+                    callback();
+                });
+                return false;
+            };
+            var getBalance = function () {
+                $.post('/blockchain/ajax/', {'action': 'getBalance'}, function (data) {
+                    data = $.parseJSON(data);
+                    $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
 
                 });
-                var getKey = function (callback) {
-                    $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
-                        $('.js-wallet-code').html(data);
-                        callback();
-                    });
-                    return false;
-                };
-                var getBalance = function () {
-                    $.post('/blockchain/ajax/', {'action': 'getBalance'}, function (data) {
-                        data = $.parseJSON(data);
-                        $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
-
-                    });
-                    return false;
-                };
+                return false;
+            };
 
 
 
@@ -164,6 +164,8 @@
                             )
                         } else if (currency == 'usd') {
                             document.location.href = $.parseJSON(data);
+                        } else if (task) {
+                            document.location.href = '/task_detail/?project=' + project + '&id='+task;
                         }
                         yaCounter47053188.reachGoal('donate');
                     });
