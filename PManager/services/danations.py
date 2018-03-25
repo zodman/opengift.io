@@ -5,11 +5,12 @@ from django.contrib.auth.models import User
 
 def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=None, task=None):
     from PManager.services.docker import blockchain_donate_request
+
     if not project.blockchain_name:
         return False
 
-    if user and user.is_authenticated() and user.get_profile().hasRole(project):
-        return False
+    # if user and user.is_authenticated() and user.get_profile().hasRole(project):
+    #     return False
 
     milestoneCode = None
     if milestone:
