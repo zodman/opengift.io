@@ -1146,7 +1146,7 @@ class taskAjaxManagerCreator(object):
                             .exclude(pk=user.id)
 
                         if donatedUsers.exists():
-                            error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' about closing the task'
+                            error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' for gratitude before the closing.'
 
                     if not error:
                         if not t.closedInTime:

@@ -453,7 +453,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var templateParams = {};
 
             var playBtnStatus = 'enabled';
-            if (this.model.get('subtasksQty') > 0) {
+            if (this.model.get('subtasksQty') > 0 || !this.model.get('canEdit')) {
                 templateParams.responsibleTag = 'span';
                 templateParams.timerTag = 'span';
                 playBtnStatus = 'transparent';
