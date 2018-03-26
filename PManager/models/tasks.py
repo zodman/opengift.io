@@ -208,7 +208,7 @@ class PM_Project(models.Model):
 
     @property
     def url(self):
-        return '/?project=' + str(self.id)
+        return '/project/' + str(self.id) + '/public/'
 
     @property
     def imagePath(self):
@@ -1860,7 +1860,7 @@ class PM_Task_Message(models.Model):
         profileAuthor = self.author.get_profile() if self.author else None
         cur_profile = cur_user.get_profile() if cur_user else None
         if self.code == 'SET_PLAN_TIME' and cur_profile:
-            if self.task.onPlanning and cur_profile.id != profileAuthor.id and False:
+            if self.task.onPlanning and cur_profile.id != profileAuthor.id:
                 p = self.task.project
 
                 if cur_profile and (
@@ -1889,10 +1889,10 @@ class PM_Task_Message(models.Model):
                         addParams.update({
                             'confirmation': (
                                 '<div>'
-                                '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
+                                # '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
                                                                                                 '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(
                                     self.id) + '" ' +
-                                '" class="js-confirm-estimate agree-with-button">Выбрать исполнителем</a></div>'
+                                '" class="js-confirm-estimate agree-with-button">Choose responsible</a></div>'
                             )
                         })
 
@@ -1919,7 +1919,7 @@ class PM_Task_Message(models.Model):
                         unicode(
                             self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
                             self.requested_time_approved_by else '') +
-                        u' set cost addition <b>' +
+                        u' set cost <b>' +
                         unicode(self.requested_time) + u'$.</b> at <b>' +
                         unicode(templateTools.dateTime.convertToSite(d) if d.tzinfo is not None else 'now') +
                         u'</b></div>'
@@ -1956,7 +1956,7 @@ class PM_Task_Message(models.Model):
             'project': {
                 'id': self.project.id,
                 'name': self.project.name,
-                'url': '/?project=' + str(self.project.id)
+                'url': '/project/' + str(self.project.id) + '/tasks/'
             } if self.project else None,
             'author': {
                 'id': self.author.id,

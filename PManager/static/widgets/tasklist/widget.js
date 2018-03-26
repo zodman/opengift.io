@@ -871,7 +871,7 @@ var widget_tl, currentGroup;
                     }
                 }
                 var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>';
-                group.url = false;//todo temporary while bounty page not ready
+
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
                     '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
