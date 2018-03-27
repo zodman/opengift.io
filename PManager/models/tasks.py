@@ -1905,7 +1905,7 @@ class PM_Task_Message(models.Model):
                         cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
                     addParams.update({
                         'confirmation': (
-                            '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(
+                            '<div class="message-desc-right"><a class="btn" href="' + self.task.url + '&confirm=' + str(
                                 self.id) + '" ' +
                             '" class="js-confirm-estimate agree-with-button">Money request: $' + str(
                                 self.requested_time) + '</a></div>'

@@ -61,11 +61,7 @@
 
             </div>
         </div>
-        <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}
-            {% if not task_detail.task.closed %}
-            <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}" class="btn btn-success">Donate</a>
-            {% endif %}
-        </h2>
+        <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}</h2>
     </div><!--widget-title-->
 
     <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
@@ -89,7 +85,17 @@
                     Current Winner: <strong>{{ task_detail.task.currentWinner.last_name }} {{ task_detail.task.currentWinner.first_name }}</strong>
                     </li>
                     {% endif %}
+
+            {% if task_detail.task.asked %}
+                <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked }}</b></li>
+                {% endif %}
+
+                <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0' }}</b></li>
             </ul>
+
+        {% if not task_detail.task.closed %}
+        <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}" class="donate-button btn orange-gr radius-25">Donate<img src="/static/img/investment.svg" height="18"></a>
+        {% endif %}
     </div>
 
     {# ---- TASK BODY #}
@@ -148,7 +154,7 @@
 
 
     <div class="task_add-message">
-            <form class="newMessage form-horizontal active" action="/task_handler" method="POST" enctype="multipart/form-data">
+            <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                 {% csrf_token %}
                 <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
                     <option value="">To:</option>

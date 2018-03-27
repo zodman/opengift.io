@@ -291,7 +291,7 @@
     <div class="header clearfix">
         <div class="logo">
             <a href="/">
-                <img src="{% if is_opengift %}/static/public/assets/img/logo-inverse.png{% else %}/static/images/logo.png{% endif %}" alt="Heliard" height="29px"/>
+                <img src="{% if is_opengift %}/static/public/assets/img/logo-gradient.svg{% else %}/static/public/assets/img/logo-gradient.svg{% endif %}" alt="OpenGift" height="29px"/>
             </a>
         </div>
 {% if user.is_authenticated %}
@@ -407,7 +407,7 @@
                     {#                <a href="/achievements/" title="Мои достижения" class="fa fa-star"></a>#}
                     <a href="/profile/edit/"
                        class="user-name">{{ user.first_name }} {{ user.last_name }}</a>
-                    <a class="btn btn-danger btn-xs" href="/?logout=Y"><span>Exit<i class="fa fa-power-off"></i></span></a>
+                    <a class="btn btn-default btn-xs" href="/?logout=Y"><span>Exit<i class="fa fa-power-off"></i></span></a>
                 </div>
             </div><!--timer-->
         {% endif %}
@@ -518,7 +518,7 @@
 </div>
 {% endif %}
 <!-- /container -->
-<hr style="margin-top:0px;">
+
 {# -=========== КОНТЕНТНАЯ ЧАСТЬ ===========- #}
 <div class="container">
     <div class="frame-container js-frame-mode" style="display:none;width:70%;z-index:100;position:fixed;right:0;top:0;">
@@ -529,22 +529,9 @@
     {% block content %}{% endblock %}
 </div>
     <footer>
-        <div class="container">
-            <div class="row">
-                <div class="col-md-2">
-                    <span class="copyright">© 2012-2018 OpenGift Inc.</span>
+                    <span class="copyright">© 2012-2018 OpenGift Inc.</span><br>
+                    <a href="mailto:admin@heliard.ru">info@opengift.io</a>
 
-                </div>
-                <div class="col-md-6">
-                    <ul class="list-inline quicklinks">
-                        <li><a href="mailto:admin@heliard.ru">info@opengift.io</a></li>
-                    </ul>
-                </div>
-                <div class="col-md-2">
-
-                </div>
-            </div>
-        </div>
     </footer>
     <script type="text/javascript">
         $(function () {
