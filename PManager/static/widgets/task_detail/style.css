@@ -6,9 +6,6 @@
     display: block;
 }
 
-textarea[name=task_message] {
-    height: 34px;
-}
 
 .newMessage.active [name=task_message] {
     height: auto;
