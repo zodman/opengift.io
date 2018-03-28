@@ -26,7 +26,7 @@ def set_project_in_session(project_id, projects, request):
     return project
 
 
-def get_project_in_session(projects, request):
+def get_project_in_session( request):
     '''
     This function gets a stored project from session data
     '''
@@ -34,11 +34,8 @@ def get_project_in_session(projects, request):
     project_id = request.COOKIES.get("CURRENT_PROJECT", 0)
     try:
         project_id = int(project_id)
-        if project_id in projects:
-            project = PM_Project.objects.get(pk=project_id)
-            return project
-        else:
-            request.COOKIES["CURRENT_PROJECT"] = 0
+        project = PM_Project.objects.get(pk=project_id)
+        return project
     except PM_Project.DoesNotExist:
         request.COOKIES["CURRENT_PROJECT"] = 0
     except ValueError:
@@ -74,7 +71,7 @@ def initGlobals(request):
             else:
                 redirect = '/404'
     else:
-        CURRENT_PROJECT = get_project_in_session(projects, request)
+        CURRENT_PROJECT = get_project_in_session(request)
         SET_COOKIE["CURRENT_PROJECT"] = request.COOKIES["CURRENT_PROJECT"]
 
     if request.method == 'POST':
@@ -114,7 +111,7 @@ def initGlobals(request):
                 if projects:
                     redirect = "/project/" + str(projects[0].id) + "/tasks/"
                 else:
-                    redirect = "/"
+                    redirect = request.get_full_path()
 
         WhoAreYouForm = False
 

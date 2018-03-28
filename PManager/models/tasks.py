@@ -1317,24 +1317,25 @@ class PM_Task(models.Model):
         pm_user = user.get_profile()
         bExist = False
         if project:
-            if pm_user.isManager(project):
-                bExist = True
-            elif pm_user.isEmployee(project):
-                subtasksSubQuery = PM_Task.objects.exclude(parentTask__isnull=True) \
-                    .filter(resp=user, closed=False).values('parentTask__id') \
-                    .annotate(dcount=Count('parentTask__id'))
-                aExternalId = []
-                for obj in subtasksSubQuery:
-                    aExternalId.append(obj['parentTask__id'])
-
-                filterQArgs.append((
-                    Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
-                        id__in=aExternalId)
-                ))
-                bExist = True
-            elif pm_user.isGuest(project):
-                filterQArgs.append(Q(observers=user))
-                bExist = True
+            bExist = True
+            # if pm_user.isManager(project):
+            #     bExist = True
+            # elif pm_user.isEmployee(project):
+            #     subtasksSubQuery = PM_Task.objects.exclude(parentTask__isnull=True) \
+            #         .filter(resp=user, closed=False).values('parentTask__id') \
+            #         .annotate(dcount=Count('parentTask__id'))
+            #     aExternalId = []
+            #     for obj in subtasksSubQuery:
+            #         aExternalId.append(obj['parentTask__id'])
+            #
+            #     filterQArgs.append((
+            #         Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
+            #             id__in=aExternalId)
+            #     ))
+            #     bExist = True
+            # elif pm_user.isGuest(project):
+            #     filterQArgs.append(Q(observers=user))
+            #     bExist = True
 
         if not bExist:
             # userProjects = user.get_profile().getProjects()
