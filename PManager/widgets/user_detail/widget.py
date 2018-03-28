@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from PManager.models import ObjectTags, PM_Milestone, Credit, PM_Task, PM_Task_Message, PM_Timer, PM_Role, PM_Project, \
-    PM_User_Achievement, LogData
+    PM_User_Achievement, LogData, PM_Project_Donation
 from PManager.widgets.tasklist.widget import widget as taskList
 from PManager.models.keys import *
 from django.db.models import Q
@@ -315,8 +315,21 @@ def widget(request, headerValues, ar, qargs):
             if quality > 100:
                 quality = 100
 
+            donated = 0
+            for d in request.user.donations.all():
+                donated += d.sum
+
+            sponsored = []
+            for p in PM_Project.objects.filter(pk__in=PM_Project_Donation.objects.filter(user=user).values_list('project__id', flat=True)):
+                d = 0
+                for donation in PM_Project_Donation.objects.filter(project=p, user=user):
+                    d += donation.sum
+                setattr(p, 'sponsored', d)
+                sponsored.append(p)
+
             return {
                 'user': user,
+                'donated': donated,
                 'profile': profile,
                 'title': user.first_name + ' ' + user.last_name,
                 'allTaskClosed': allTasksClosed,
@@ -337,7 +350,6 @@ def widget(request, headerValues, ar, qargs):
                 'velocity': velocity,
                 'bugsQty': bugsQty,
                 'quality': quality,
-                'donations': request.user.donations.order_by('-id'),
                 'userProjectsOpenQty': userProjectsOpenQty,
                 'userProjectsClosedQty': userProjectsClosedQty,
                 'timers': [
@@ -375,6 +387,8 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
+                'core_team': cur_prof.getProjects(only_managed=True),
+                'sponsored': sponsored,
                 'payments': paymentsAndCredits,
                 'competence': taskTagCoefficient,
                 'competencePlace': taskTagPosition + 100

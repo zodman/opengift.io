@@ -1022,9 +1022,13 @@ var CRITICALLY_THRESHOLD = 0.7;
         'closePlanning': function () {
             if (!this.model.get('onPlanning')) return false;
             var obj = this;
-            taskManager.RemoveFromPlanning(this.model.id, function () {
-                obj.model.set('onPlanning', false);
-                obj.render();
+            taskManager.RemoveFromPlanning(this.model.id, function (data) {
+                if (data.error) {
+                    alert(data.error);
+                } else {
+                    obj.model.set('onPlanning', false);
+                    obj.render();
+                }
             });
             return false;
         },
@@ -1463,7 +1467,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 this.taskAjaxRequest({
                     'id': id,
                     'prop': 'from_plan'
-                }, call);
+                }, call, 'json');
             }
         },
         'ChangeResponsible': function (id, uid, call) {

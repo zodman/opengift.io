@@ -698,7 +698,6 @@ class PM_Task(models.Model):
 
     def Close(self, user):
         from django.contrib.contenttypes.models import ContentType
-        from PManager.models.integration import SlackIntegration
 
         logger = Logger()
 
@@ -723,7 +722,6 @@ class PM_Task(models.Model):
         self.closed = True
         self.critically = 0.5
         self.status = None
-        self.onPlanning = False
         self.dateClose = datetime.datetime.now()
 
         if not self.wasClosed and not self.subTasks.count():

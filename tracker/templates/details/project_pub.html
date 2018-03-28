@@ -351,16 +351,16 @@
             <div class="col-lg-4 col-md-6 u-my-20">
                 <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded purple-gr">
                     <img class="u-w-70 u-mb-25" src="/static/img/list.svg" alt="">
-                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">32/45</h4>
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">{{ tasks_done }} / {{ tasks_open }}</h4>
 
-                    <p class="u-fs-20 text-white">Done/Open</p>
+                    <p class="u-fs-20 text-white">Done / Open</p>
                 </div>
             </div> <!-- END col-lg-3 col-md-6-->
 
             <div class="col-lg-4 col-md-6 u-my-20">
                 <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded green-gr">
                     <img class="u-w-70 u-mb-25" src="/static/public/assets/img/donates.svg" alt="">
-                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">$1 500</h4>
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">${{ bounty_reward }}</h4>
 
                     <p class="u-fs-20 text-white">Bounty</p>
                 </div>
@@ -369,7 +369,7 @@
             <div class="col-lg-4 col-md-6 u-my-20">
                 <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded blue-gr">
                     <img class="u-w-70 u-mb-25" src="/static/img/donation.svg" alt="">
-                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">$1 400</h4>
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">${{ donated }}</h4>
 
                     <p class="u-fs-20 text-white">Donated</p>
                 </div>
@@ -377,7 +377,7 @@
 
         </div> <!-- END row-->
         <div class="text-center u-pt-15 u-pb-50">
-            <a class="btn btn-red btn-rounded" href="https://github.com/opengift-io/">Add Task</a>
+            <a class="btn btn-red btn-rounded" href="/project/{{ project.id }}/tasks/">Add Task</a>
         </div>
     </div> <!-- END container-->
 </section>

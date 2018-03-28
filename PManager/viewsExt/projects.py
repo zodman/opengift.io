@@ -3,6 +3,7 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
+from django.db.models import Q
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags, PM_Timer
 from PManager.models import LikesHits, PM_Project_Problem, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
@@ -537,6 +538,15 @@ def projectDetailPublic(request, project_id):
 
     aIndustries = [p for p in project.industries.filter(active=True)]
     project.link_video = project.link_video.replace("watch?v=", "embed/")
+
+    reward = 0
+    for d in project.donations.filter(task__onPlanning=True, task__closed=False):
+        reward += d.sum
+
+    donated = 0
+    for d in project.donations.filter(Q(Q(task__onPlanning=False) | Q(task__closed=True) | Q(task__isnull=True))):
+        donated += d.sum
+
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
@@ -550,6 +560,10 @@ def projectDetailPublic(request, project_id):
         'team': team,
         'bounty': bounty,
         'sponsors': sponsors,
+        'tasks_done': project.projectTasks.filter(closed=True).count(),
+        'tasks_open': project.projectTasks.filter(closed=False).count(),
+        'bounty_reward': reward,
+        'donated': donated,
         'hours_spent': time,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,

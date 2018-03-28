@@ -196,6 +196,8 @@ def __search_filter(header_values, request):
     elif action == 'ready':
         ar_filter['status__code'] = 'ready'
         ar_filter['closed'] = False
+    elif action == 'bounty':
+        ar_filter['onPlanning'] = True
     elif action == 'not_ready':
         qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
         ar_filter['closed'] = False
@@ -658,6 +660,11 @@ def taskListAjax(request):
                 elif property == "from_plan":
                     task.onPlanning = False
                     sendData['onPlanning'] = False
+                    if task.donations.exists():
+                        return HttpResponse(json.dumps({
+                            'error': u'Someone already donated to this task'
+                        }))
+
                     planTimes = PM_User_PlanTime.objects.filter(task=task).order_by('time')
                     for planTime in planTimes:
                         if planTime.user.get_profile().isEmployee(task.project):
