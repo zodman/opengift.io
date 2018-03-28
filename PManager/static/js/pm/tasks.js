@@ -311,10 +311,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                 var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
                 if (percent > 100) percent = 100;
                 oTaskContainers.$reward.append('<div class="progress-item mb-5" style="' +
-                    '   margin-top:  -13px;' +
-                    '   position:  relative;' +
-                    '   top: -3px;' +
-                    '   margin-bottom: 0;' +
+                    'margin-top:  -13px;' +
+                    'position:  relative;' +
+                    'top: -3px;' +
+                    'margin-bottom: 0;' +
                     '">' +
                     '                    <span>Donated $'+parseFloat(taskInfo.donated)+' out of $'+parseFloat(taskInfo.asked)+'</span>' +
                     '                    ' +
