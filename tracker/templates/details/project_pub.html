@@ -673,7 +673,7 @@
             </div> <!-- END row-->
             <div class="row">
                 <div class="col-4 text-center mx-auto">
-                    <a href="/bounty/" class="btn btn-lg btn-rounded green-gr">Become a contributor</a>
+                    <a href="/project/{{ project.id }}/tasks/" class="btn btn-lg btn-rounded green-gr">Become a contributor</a>
                 </div>
             </div>
         </div>
@@ -1027,6 +1027,10 @@
                                 <div class="input-group">
                                     <label><input type="radio" style="display: inline-block; width: 30px;"
                                                   name="invest_model" value="translate"/> Localization</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="develop"/> Become a developer</label>
                                 </div>
                             </div>
                             <button class="btn btn-primary btn-rounded">
