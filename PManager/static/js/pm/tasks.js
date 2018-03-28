@@ -308,11 +308,20 @@ var CRITICALLY_THRESHOLD = 0.7;
             }
 
             if (taskInfo.donated || taskInfo.asked) {
-                 oTaskContainers.$reward.append('<b>$' + parseFloat(taskInfo.donated)+'</b>');
-                 oTaskContainers.$reward.append('<span> ($' + parseFloat(taskInfo.asked) + ')</span>');
-            }
-            if (taskInfo.onPlanning) {
-                oTaskContainers.$reward.append('<span>  Bounty</span>')
+                var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
+                if (percent > 100) percent = 100;
+                oTaskContainers.$reward.append('<div class="progress-item mb-5" style="' +
+                    '   margin-top:  -13px;' +
+                    '   position:  relative;' +
+                    '   top: -3px;' +
+                    '   margin-bottom: 0;' +
+                    '">' +
+                    '                    <span>Donated $'+parseFloat(taskInfo.donated)+' out of $'+parseFloat(taskInfo.asked)+'</span>' +
+                    '                    ' +
+                    '                    <div class="progress w-100">' +
+                    '                        <div class="progress-bar orange-gr" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
+                    '                    </div>' +
+                    '                </div>');
             }
 
             if (taskInfo.planTime)
