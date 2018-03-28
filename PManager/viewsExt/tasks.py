@@ -196,7 +196,7 @@ def __search_filter(header_values, request):
     elif action == 'ready':
         ar_filter['status__code'] = 'ready'
         ar_filter['closed'] = False
-    elif action == 'bounty':
+    elif action == 'only_bounty':
         ar_filter['onPlanning'] = True
     elif action == 'not_ready':
         qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))

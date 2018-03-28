@@ -235,6 +235,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             filter['closed'] = False
 
         tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
+
         try:
             tasks = tasks['tasks']
             tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
