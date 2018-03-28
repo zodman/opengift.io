@@ -1,6 +1,3 @@
-.task-add-btns, .task_add-message_message-detail {
-    display: none;
-}
 
 .newMessage.active .task-add-btns, .newMessage.active .task_add-message_message-detail {
     display: block;

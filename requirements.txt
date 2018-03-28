@@ -48,3 +48,4 @@ openpyxl==2.3.0-b1
 lxml==3.5
 django-yandex-money
 django-notify
+pika==0.11.2

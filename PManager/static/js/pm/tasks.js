@@ -79,6 +79,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     'icon': 'eye'
                 });
             }
+
             if (this.get('canSetOnPlanning')) {
                 if (this.get('onPlanning')) {
                     arItems.push({
@@ -150,12 +151,21 @@ var CRITICALLY_THRESHOLD = 0.7;
                 arItems.push(criticallyObj);
             }
 
+            if (this.get('canEdit')) {
+                arItems.push({
+                    'itemClass': 'Color',
+                    'itemText': 'Color',
+                    'itemMethod': 'setColor',
+                    'icon': 'th-large'
+                });
+            }
+
             arItems.push({
-                'itemClass': 'Color',
-                'itemText': 'Color',
-                'itemMethod': 'setColor',
-                'icon': 'th-large'
-            });
+                    'itemClass': 'Donate',
+                    'itemText': 'Donate',
+                    'itemMethod': 'donate',
+                    'icon': 'dollar'
+                });
 
             if (this.get('canRemove')) {
                 arItems.push({
@@ -285,7 +295,8 @@ var CRITICALLY_THRESHOLD = 0.7;
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
                 '$planTime': $row.find('.task-plantime'),
-                '$reward': $row.find('.js-reward')
+                '$reward': $row.find('.js-reward'),
+                '$bountyStatus': $row.find('.js-task-bounty')
             };
 
             if (params.timerTag) {
@@ -322,6 +333,12 @@ var CRITICALLY_THRESHOLD = 0.7;
                     '                        <div class="progress-bar orange-gr" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
                     '                    </div>' +
                     '                </div>');
+            }
+
+            if (taskInfo.onPlanning) {
+                oTaskContainers.$bountyStatus.show().addClass('text-'+taskInfo.color);
+            } else {
+                oTaskContainers.$bountyStatus.hide();
             }
 
             if (taskInfo.planTime)
@@ -1130,6 +1147,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                     })
                     .modal('show');
             });
+        },
+        'donate': function () {
+            var obj = this;
+            document.location.href = '/project/'+obj.model.get('project').id+'/donate/?t='+obj.model.id;
         },
         'setColor': function () {
             var obj = this;
