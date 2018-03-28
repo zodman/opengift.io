@@ -1024,7 +1024,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var obj = this;
             taskManager.RemoveFromPlanning(this.model.id, function (data) {
                 if (data.error) {
-                    alert(data.error);
+                    showError(data.error);
                 } else {
                     obj.model.set('onPlanning', false);
                     obj.render();
