@@ -325,7 +325,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     '                    <span>Donated <b>$'+parseFloat(taskInfo.donated)+'</b> out of <b>$'+parseFloat(taskInfo.asked)+'</b></span>' +
                     '                    ' +
                     '                    <div class="progress w-100">' +
-                    '                        <div class="progress-bar orange-gr" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
+                    '                        <div class="progress-bar green-gr" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
                     '                    </div>' +
                     '                </div>');
             }
