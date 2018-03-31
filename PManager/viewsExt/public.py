@@ -42,10 +42,15 @@ class Public:
             logout(request)
             return HttpResponseRedirect('/pub/')
 
+        bounty_fund = 0
+        for d in PM_Project_Donation.objects.filter(task__closed=False, task__isnull=False):
+            bounty_fund += d.sum
+
         c = RequestContext(request, {
             'projects_qty': PM_Project.objects.filter(public=True).count(),
             'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
             'donations_qty': PM_Project_Donation.objects.count(),
+            'bounty_fund': bounty_fund,
             'milestones': project.milestones.order_by('date'),
             'w': request.GET.get('w', '')
         })
