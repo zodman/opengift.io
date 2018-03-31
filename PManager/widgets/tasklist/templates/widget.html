@@ -21,6 +21,8 @@
                 {{ tasklist.title }}
             </h2>
         </div>
+        {% if tasklist.bounty %}
+        {% else %}
         <ul class="widget-tasklist-functions clearfix">
             <li>
                 <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Task list</span></a>
@@ -30,6 +32,7 @@
                    data-widget="chat"><i class="fa fa-bell" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Messages</span> <span style="display: none" class="micro-circle-with-number js-new-messages"></span></a>
             </li>
         </ul>
+        {% endif %}
     </div>
     {% if tasklist.project %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
