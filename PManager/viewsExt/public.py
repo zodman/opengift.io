@@ -46,10 +46,17 @@ class Public:
         for d in PM_Project_Donation.objects.filter(task__closed=False, task__isnull=False):
             bounty_fund += d.sum
 
+        donated = 0
+        for d in PM_Project_Donation.objects.filter(task__isnull=True):
+            donated += d.sum
+
+        donated = int(donated)
+
+        bounty_fund = int(bounty_fund)
         c = RequestContext(request, {
             'projects_qty': PM_Project.objects.filter(public=True).count(),
             'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
-            'donations_qty': PM_Project_Donation.objects.count(),
+            'donated': donated,
             'bounty_fund': bounty_fund,
             'milestones': project.milestones.order_by('date'),
             'w': request.GET.get('w', '')
