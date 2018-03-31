@@ -384,7 +384,7 @@
                                         <b>{{ project.blockchain_name }}</b>
                                     {% else %}
                                         <input type="text" name="blockchain_name" value=""
-                                               data-valmask='[A-z0-9\\_\\.]+'
+                                               data-valmask='^[A-z0-9\\_\\.]+$'
                                                class="form-control u-rounded-50 p-3 u-mb-30 js-blockchain-name"
                                                placeholder="Project name in blockchain">
                                         <button type="button"
