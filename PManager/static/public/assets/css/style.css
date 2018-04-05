@@ -6602,3 +6602,14 @@ color: #4abeb8;
   }
 
 }
+
+.progress-pointer {position: absolute;
+  right: 0;
+  font-weight: bold;
+  top: -10px;
+  height: 30px;
+  width: 4px;
+  background: #fff;
+  display: block;
+  border-radius: 6px;
+}
