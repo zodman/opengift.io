@@ -2751,6 +2751,8 @@ border: none;}
     padding: 15rem !important; }
   .u-p-lg-250 {
     padding: 15.625rem !important; }
+  .u-pt-lg-80 {
+    padding-top: 5rem !important;}
   .u-pt-lg-100 {
     padding-top: 6.25rem !important; }
   .u-pt-lg-110 {
@@ -6612,4 +6614,17 @@ color: #4abeb8;
   background: #fff;
   display: block;
   border-radius: 6px;
+}
+
+.ide-img {display: none;}
+
+@media (max-width: 767px) {
+  .ide-bg {
+    background: none !important;
+  }
+
+  .ide-img {
+    display: block;
+    margin: -3em 0;
+  }
 }
