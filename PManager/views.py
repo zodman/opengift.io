@@ -411,8 +411,8 @@ class MainPage:
         from django.utils.html import escape
         import urllib
 
-        if activeMenuItem == 'main' and not request.user.is_superuser:
-            return HttpResponseRedirect('/ico/')
+        if activeMenuItem == 'main':
+            return HttpResponseRedirect('/pub/')
 
         cType = 'text/html'
         mimeType = None

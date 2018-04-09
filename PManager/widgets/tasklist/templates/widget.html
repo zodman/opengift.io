@@ -32,7 +32,7 @@
             </li>
         </ul>
     </div>
-    {% if tasklist.project %}
+    {% if tasklist.project and tasklist.project.id != 1011 %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">
@@ -326,7 +326,7 @@
         taskRespSummary = {}
     </script>
     {% if not tasklist.tasks %}
-        {% if tasklist.project and not tasklist.isInvite %}
+        {% if tasklist.project and not tasklist.isInvite  and tasklist.project.id != 1011  %}
             <div class="js-new-first-task"><br/>
                 <p align="center"><img class="img-responsive" style="opacity: .2;" src="/static/img/create-a-task.png"></p><br/>
             </div>

@@ -1314,6 +1314,11 @@ class taskAjaxManagerCreator(object):
 
             self.taskManager.project = project
 
+        isBounty = False
+        if not self.taskManager.project:
+            self.taskManager.project = PM_Project.objects.get(pk=1011)
+            isBounty = True
+
         request = self.getRequestData()
         if not self.taskManager.project:
             return json.dumps({'errorText': 'Empty project'})
@@ -1322,6 +1327,11 @@ class taskAjaxManagerCreator(object):
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
                 task.lastModifiedBy = self.currentUser
+                if isBounty:
+                    task.onPlanning = True
+
+                task.save()
+
                 taskListWidgetData = self.taskListWidget(request, self.globalVariables, {'filter': {'id': task.id}})
                 tasks = taskListWidgetData['tasks']
                 if tasks:

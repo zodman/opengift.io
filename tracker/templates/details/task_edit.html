@@ -11,9 +11,9 @@
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-                    <p>
-                        Create task for new project
-                    </p>
+{#                    <p>#}
+{#                        Create task for new project#}
+{#                    </p>#}
                 </div>
             </div> <!-- END row-->
             <div class="row">
@@ -58,19 +58,19 @@
                                         </div>
                                     </div>
 
-                                    <h4 class="u-py-15 text-center">Project details</h4>
-                                    <input type="text" name="project_name" value=""
-                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"
-                                           required="">
-                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
-                                              name="project_description"
-                                              placeholder="Short description" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
-                                    <input type="text" name="project_code" value=""
-                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required"
-                                               data-valmask='^[A-z0-9\\_\\.]+$'
-                                               placeholder="Project unique code (only letters, underlines and dots allowed)"
-                                               required="">
+{#                                    <h4 class="u-py-15 text-center">Project details</h4>#}
+{#                                    <input type="text" name="project_name" value=""#}
+{#                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"#}
+{#                                           required="">#}
+{#                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"#}
+{#                                              name="project_description"#}
+{#                                              placeholder="Short description" required=""#}
+{#                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>#}
+{#                                    <input type="text" name="project_code" value=""#}
+{#                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required"#}
+{#                                               data-valmask='^[A-z0-9\\_\\.]+$'#}
+{#                                               placeholder="Project unique code (only letters, underlines and dots allowed)"#}
+{#                                               required="">#}
                                 </div>
                             </div>
                         </div>
@@ -116,7 +116,7 @@
                         disableSubmit();
                         $('.js-file-new-block').val('').not(':eq(0)').remove().end();
                         data = $.parseJSON(data);
-                        document.location.href='/project/'+data.project.id+'/tasks/';
+                        document.location.href='/task_detail/?number='+data.number+'&project='+data.project.id;
                     });
                 }
             });

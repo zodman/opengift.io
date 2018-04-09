@@ -339,7 +339,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'asked': task.asked,
                 'canEdit': task.canEdit(cur_user),
                 'canRemove': task.canPMUserRemove(cur_prof),
-                'canSetOnPlanning': arBIsManager[task.id] or cur_user.id == task.author.id,
+                'canSetOnPlanning': (arBIsManager[task.id] or cur_user.id == task.author.id) and task.project.id!=1011,
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
                 'canClose': cur_user.id == task.author.id,
