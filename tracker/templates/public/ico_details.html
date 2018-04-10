@@ -1,0 +1,370 @@
+{% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Favicon-->
+    <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+    {% block header %}
+    <meta name="description" content="The token for 93% companies in the world. The token for open-source community.">
+    <!-- Title-->
+    <title>OpenGift.io - Token Sale</title>
+    {% endblock %}
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
+          rel="stylesheet">
+    <!--Icon fonts-->
+
+    {#    {% compressed_css 'base' %}#}
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css?v1">
+
+
+    <link rel="stylesheet" href="/static/public/assets/css/flipclock.css">
+
+
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+    <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+    <link rel="stylesheet" href="/static/public/assets/css/style.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/form.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/timeline.css">
+
+    <link rel="stylesheet" href="/static/public/assets/css/dosis.css">
+    {#    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">#}
+
+    <script src="/static/public/assets/js/bundle.js"></script>
+    {% compressed_js 'base' %}
+    <script type="text/javascript">
+        window.heliardSettings = {
+            "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
+            "SERVER_IP": '{% get_settings "SERVER_IP" %}',
+            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}',
+            'CSRF_TOKEN': $.cookie('csrftoken')
+        };
+        var CURRENT_TASK_VIEW;
+        var CURRENT_TASK_DATA;
+        var arTimers = {};
+        window.backurl = '{{ backurl }}';
+        {% if main.CURRENT_PROJECT %}
+        window.currentProject = {{ main.CURRENT_PROJECT.id }};
+        {% endif %}
+        window.baseUserParams = {
+            'userId': {{ user.id|default_if_none:'0' }}
+        };
+
+        WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
+        $(function () {
+            APNG.ifNeeded(function () {
+                $("img.loader").each(function () {
+                    APNG.animateImage(this);
+                });
+            });
+        });
+        {% if user.is_authenticated %}
+        document.mainController = new mainControllerClass({
+            'userId':{{ user.id }},
+        'widgetsData': {}
+        });
+        {% endif %}
+        var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
+        {% if userTimer %}
+        CURRENT_TASK_DATA = {
+            'id':{{ userTimer.task.id }},
+        'started':{{ userTimer.task.started|jsonify }},
+        'closed':{{ userTimer.task.closed|jsonify }},
+        'name':{{ userTimer.task.name|jsonify|safe }},
+        'project': {
+            'name': {{ userTimer.task.project.name|jsonify|safe }}
+        }
+        };
+
+        {% if userTimer.task.parentTask %}
+        CURRENT_TASK_DATA['parentTask'] = {
+            'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+        };
+        {% endif %}
+        {% endif %}
+        var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
+    </script>
+    {% block scripts %}{% endblock %}
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+
+</head>
+
+<body id="top">
+
+
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="top-panel-error animated js-error-container label-danger" style="display: none;">
+    <div class="container">
+        <div class="pull-left">
+            <div class="container js-error-container-text"></div>
+        </div>
+
+        <div class="pull-right">
+            <a href="#" class="close-btn js-error-container-close">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% block head %}
+<header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
+    <div class="container">
+        <nav class="navbar navbar-expand-lg px-md-0">
+            <a class="navbar-brand" href="/">
+				<span class="logo-default">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+				<span class="logo-inverse">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+            </a>
+
+            <div class="navbar-toggler js-navbar-toggler">
+                <span class="lnr lnr-text-align-right nav-hamburger"></span>
+                <span class="lnr lnr-cross nav-close"></span>
+            </div>
+
+            <div class="collapse navbar-collapse js-navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/pub/">Platform</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ico/">ICO</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" href="/faq/">FAQ</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/ico/#team">Team</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">WhitePaper</a>
+                        <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
+                            <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a>
+                            <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a>
+                            <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a>
+                            <a class="dropdown-item u-d-block" href="/static/documents/ld.pdf">Legal Disclaimer</a>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/project/list/">Projects</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://explorer.opengift.io">Blockchain</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="/wallet/">Wallet</a>
+                        <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+                            <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
+                            {% if request.user.is_authenticated %}
+                            {% for p in request.user.createdProjects.all %}
+                            <a class="dropdown-item u-d-block" href="/project/{{ p.id }}/edit/">My project</a>
+                            {% endfor %}
+                            {% endif %}
+                            <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a>
+                            {% if request.user.is_authenticated %}
+                            <a class="dropdown-item u-d-block" href="/pub/?logout=yes">Logout</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </nav>
+    </div> <!-- END container-->
+</header> <!-- END header -->
+{% endblock %}
+
+
+{% block content %}
+
+
+{% endblock %}
+
+<footer>
+
+    <div class="container text-center p-4">
+        <p class="mb-0">
+            OpenGift Inc., incorporated under the BVI Business Companies Act of the British Virgin Islands <span class="icon icon-Heart text-primary mx-2"></span> 2018.
+        </p>
+    </div>
+</footer>
+
+<div class="scroll-top bg-white box-shadow-v1">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
+// If you wanna add those manually bellow is the sequence
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+
+<script src="/static/js/libs/jquery.waipoints.min.js"></script>
+<script src="/static/public/assets/js/fury.js"></script>
+<script src="/static/public/assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+<script src="/static/public/assets/js/jquery.wavify.js"></script>
+<script src="/static/js/pm/form.js?v4"></script>
+
+<script src="/static/public/assets/js/flipclock.min.js"></script>
+<script>
+    $('#feel-the-wave').wavify({
+        height: 10,
+        bones: 4,
+        amplitude: 20,
+        color: '#ee882c',
+        speed: .15
+    });
+
+    $('#feel-the-wave-two').wavify({
+        height: 13,
+        bones: 3,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+
+    $('#feel-the-wave-three').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+    $('#feel-the-wave-four').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#ffffff',
+        speed: .25
+    });
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter47053188 = new Ya.Metrika({
+                id: 47053188,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
+    }
+})(document, window, "yandex_metrika_callbacks"); </script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript> <!-- /Yandex.Metrika counter -->
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq)return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq)f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '895148243996073');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+{#<script>#}
+{#  window.intercomSettings = {#}
+    {#    app_id: "jcdkru1n",#}
+    {#  name: '{{ request.user.first_name }} {{ request.user.last_name }}',#}
+    {#  email: '{{ request.user.email|default_if_none:'' }}',#}
+    {#  created_at: '{{ request.user.date_joined|date:"U"|default_if_none:'' }}'#}
+    {#  };#}
+{#</script>#}
+{#<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jcdkru1n';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>#}
+
+</body>
+</html>
