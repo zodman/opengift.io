@@ -46,16 +46,21 @@
                                                 </div>
                                             {% endfor %}
                                         </div>
-                                        <div class="project-edit-form--new-files js-file-new-inputs">
-                                            <div class="js-file-new-block">
-                                                <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">
-                                                    <span class="js-add-file-text">Upload screenshots/pictures</span>
-                                                    <input name="IMAGES" type="file" accept="image/*"
-                                                           onchange="$(this).closest('.js-add-file-block').find('.js-add-file-text').text($(this).val());"
-                                                           class="project-edit-form--file-input-input js-file-new-block-input"/>
-                                                </div>
-                                            </div>
+                                        <div class="text-center">
+                                            <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button"><i
+                                                    class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
+                                            </button>
                                         </div>
+{#                                        <div class="project-edit-form--new-files js-file-new-inputs">#}
+{#                                            <div class="js-file-new-block">#}
+{#                                                <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">#}
+{#                                                    <span class="js-add-file-text">Upload screenshots/pictures</span>#}
+{#                                                    <input name="IMAGES" type="file" accept="image/*"#}
+{#                                                           onchange="$(this).closest('.js-add-file-block').find('.js-add-file-text').text($(this).val());"#}
+{#                                                           class="project-edit-form--file-input-input js-file-new-block-input"/>#}
+{#                                                </div>#}
+{#                                            </div>#}
+{#                                        </div>#}
                                     </div>
 
 {#                                    <h4 class="u-py-15 text-center">Project details</h4>#}
@@ -74,10 +79,7 @@
                                 </div>
                             </div>
                         </div>
-                        <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
-                                style="position: fixed; right: 3%; bottom: 3%;z-index: 100;" type="button"><i
-                                class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
-                        </button>
+
                     </form>
 
                 </div>

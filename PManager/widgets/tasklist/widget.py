@@ -58,8 +58,8 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
                     userTagSums[userId] = round(float((int(userTagSums[userId]) - int(minTagCount))) / float(
                         (int(maxTagCount) - int(minTagCount))), 3)
 
-                if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
-                    currentRecommendedUser = userId
+                # if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
+                #     currentRecommendedUser = userId
 
     return currentRecommendedUser, userTagSums
 
@@ -473,7 +473,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = u'All tasks'
+    title = u'All tasks' if not project else project.name + ' tasks'
 
     return {
         'title': title,

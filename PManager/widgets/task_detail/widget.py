@@ -8,6 +8,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
 from django.http import Http404
+from django.contrib.auth.models import User
 from PManager.services.similar_tasks import similar_solutions
 
 from PManager.services.mind.task_mind_core import TaskMind
@@ -138,7 +139,11 @@ def widget(request, headerValues, arFilter, q):
                     hiddenSubTasksExist = True
                     break
 
-        users = widgetManager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        # users = widgetManager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        users = User.objects.order_by('last_name').filter(
+            pk__in=PM_Task_Message.objects.filter(task=task).values('author__id')
+        )
+
         dict = task.__dict__
 
         for field, val in dict.iteritems():
