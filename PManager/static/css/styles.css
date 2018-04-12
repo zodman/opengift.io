@@ -5901,6 +5901,14 @@ ul.colors {
 .task-drag.purple {background: #c666d3;}
 .task-drag.orange {background: #ef9332;}
 
+.color-block.grey {background: #8d9091;}
+.color-block.green {background: #3dc33d;}
+.color-block.blue {background: #1dabe6;}
+.color-block.red {background: #f53838;}
+.color-block.yellow {background: #eac53d;}
+.color-block.purple {background: #c666d3;}
+.color-block.orange {background: #ef9332;}
+
 .text-grey {color: #8d9091;}
 .text-green {color: #3dc33d;}
 .text-blue {color: #1dabe6;}

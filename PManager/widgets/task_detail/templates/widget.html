@@ -21,7 +21,11 @@
         <div class="widget-title-info clearfix">
             <div class="widget-title-info-left">
                 <ul class="widget-title-info-left-ul clearfix">
-                    <li class="active"><a href="/project/{{ task_detail.task.project.id }}/tasks/">Task list</a></li>
+                    {% if task_detail.task.project.id != 1013 %}
+                    <li class="active">
+                        <a href="/project/{{ task_detail.task.project.id }}/tasks/">Task list</a>
+                    </li>
+                    {% endif %}
                     {% if not request.GET.frame_mode %}
                     {% if task_detail.task.parentTask %}
                     {% with task_detail.task.parentTask as parent %}
@@ -192,15 +196,15 @@
                 <div class="left clearfix">
                     <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message</label>
                     {% if not task_detail.task.closed %}
-                    <label class="left_check"><input class="js-vote" type="checkbox" name="vote" value="Y" /> Gratitude</label>
 {#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
                     <label class="left_check">
-                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Money request
+                        <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Est. price
                         <span class="js-need-time-hours" style="display: none;">
                             <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
                         </span>
                     </label>
                     {% endif %}
+                    <label class="left_check"><input class="js-vote" type="checkbox" name="vote" value="Y" /> Choose a bounty winner</label>
 {#                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>#}
                     <a href="#" title="Drow" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
                     <a title="Attach a file" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>

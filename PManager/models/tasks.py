@@ -648,17 +648,27 @@ class PM_Task(models.Model):
 
     @property
     def donated(self):
+        from tracker.settings import GIFT_USD_RATE
         donated = 0
         for m in self.messages.filter(code='DONATION'):
             donated += m.donated
+
+        donated = donated * GIFT_USD_RATE
 
         return donated
 
     @property
     def asked(self):
         asked = 0
+        qty = 0
         for m in self.messages.filter(requested_time_approved=True):
+            qty += 1
             asked += m.requested_time
+
+        if not qty:
+            qty = 1
+
+        asked = round(asked / qty)
 
         return asked
 

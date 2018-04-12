@@ -23,6 +23,7 @@ from PManager.services.projects import get_project_by_id
 from PManager.services.task_drafts import get_unique_slug
 from PManager.viewsExt.tools import redisSendTaskUpdate, service_queue, redisSendTaskAdd
 from django.core.context_processors import csrf
+from django.utils.translation import gettext as _
 
 FORMAT_TO_INTEGER = 1
 CRITICALLY_THRESHOLD = 0.7
@@ -46,8 +47,8 @@ def taskDetail(request):
     from django.shortcuts import render
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/?backurl=/task/add/')
-
-    return render(request, 'details/task_edit.html', {})
+    title = _('Create new task for community')
+    return render(request, 'details/task_edit.html', {'title':title})
 
 
 def microTaskAjax(request, task_id):
@@ -1316,7 +1317,7 @@ class taskAjaxManagerCreator(object):
 
         isBounty = False
         if not self.taskManager.project:
-            self.taskManager.project = PM_Project.objects.get(pk=1011)
+            self.taskManager.project = PM_Project.objects.get(pk=1013)
             isBounty = True
 
         request = self.getRequestData()

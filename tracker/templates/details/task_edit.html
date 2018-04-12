@@ -7,7 +7,7 @@
             <div class="row">
                 <div class="col-lg-6 mx-auto text-center u-p-25">
                     <h2 class="h1">
-                        Create new task for community
+                        {{ title }}
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
@@ -46,11 +46,7 @@
                                                 </div>
                                             {% endfor %}
                                         </div>
-                                        <div class="text-center">
-                                            <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button"><i
-                                                    class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
-                                            </button>
-                                        </div>
+
 {#                                        <div class="project-edit-form--new-files js-file-new-inputs">#}
 {#                                            <div class="js-file-new-block">#}
 {#                                                <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">#}
@@ -63,19 +59,25 @@
 {#                                        </div>#}
                                     </div>
 
-{#                                    <h4 class="u-py-15 text-center">Project details</h4>#}
-{#                                    <input type="text" name="project_name" value=""#}
-{#                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"#}
-{#                                           required="">#}
-{#                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"#}
-{#                                              name="project_description"#}
-{#                                              placeholder="Short description" required=""#}
-{#                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>#}
-{#                                    <input type="text" name="project_code" value=""#}
-{#                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required"#}
-{#                                               data-valmask='^[A-z0-9\\_\\.]+$'#}
-{#                                               placeholder="Project unique code (only letters, underlines and dots allowed)"#}
-{#                                               required="">#}
+                                    <h4 class="u-py-15 text-center">Link task to new project</h4>
+                                    <input type="text" name="project_name" value=""
+                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"
+                                           required="">
+                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                                              name="project_description"
+                                              placeholder="Short description" required=""
+                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+                                    <input type="text" name="project_code" value=""
+                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required"
+                                               data-valmask='^[A-z0-9\\_\\.]+$'
+                                               placeholder="Project unique code (only letters, underlines and dots allowed)"
+                                               required="">
+
+                                    <div class="text-center">
+                                            <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button"><i
+                                                    class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
+                                            </button>
+                                        </div>
                                 </div>
                             </div>
                         </div>
