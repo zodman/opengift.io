@@ -20,6 +20,7 @@ import json, math, random
 from django.core.context_processors import csrf
 from django.db.models import Sum
 from PManager.viewsExt.tools import templateTools
+from tracker.settings import GIFT_USD_RATE
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -563,7 +564,7 @@ def projectDetailPublic(request, project_id):
         'tasks_done': project.projectTasks.filter(closed=True).count(),
         'tasks_open': project.projectTasks.filter(closed=False).count(),
         'bounty_reward': reward,
-        'donated': donated,
+        'donated': donated * GIFT_USD_RATE,
         'hours_spent': time,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,

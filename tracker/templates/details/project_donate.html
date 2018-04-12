@@ -31,20 +31,22 @@
                                     &nbsp;&nbsp;{{ task.name }}
                                 </p>
                             {% endif %}
-                            {% if request.user.get_profile.blockchain_wallet %}
+                            {% if request.user.get_profile.blockchain_wallet and request.user.is_superuser %}
                                 <p>Your wallet: <span
                                         class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
                                 </p>
 
                                 <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
                             {% endif %}
-                            <ul class="list-inline">
-                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="5">$5</a></li>
-                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="10">$10</a></li>
-                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="50">$50</a></li>
-                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="100">$100</a></li>
-                            </ul>
-
+{#                            <ul class="list-inline">#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="5">$5</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="10">$10</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="50">$50</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="100">$100</a></li>#}
+{#                            </ul>#}
+                            {% if not request.user.is_superuser %}
+                            <iframe id="myiframe" src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Project%20donation&targets-hint=&default-sum=&button-text=13&payment-type-choice=on&comment=on&hint=Specify%20project%20and%20task&successURL=https%3A%2F%2Fopengift.io%2F&quickpay=shop&account=41001361392488" width="450" height="290" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+                            {% else %}
                             <div class="row align-items-center">
                                 <div class="col-lg-6 js-form-group">
                                     <input type="text" name="" data-number-from="0.00001"
@@ -80,6 +82,7 @@
                                 <small>1 GIFT = $<span data-currency="gift" class="js-currency-rate">...</span></small>
                                 <span data-currency="usd" style="display: none;" class="js-currency-rate">1</span>
                             </p>
+                            {% endif %}
                         </form>
                     </div>
                 </div> <!-- END col-lg-5-->

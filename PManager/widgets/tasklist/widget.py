@@ -14,7 +14,7 @@ from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 from django.db.models import Q
 # This function are used in many controllers.
 # It must return only json serializeble values in 'tasks' array
-
+from tracker.settings import GIFT_USD_RATE
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
     userTagSums = dict()
@@ -335,7 +335,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'first_name': task.author.first_name,
                     'last_name': task.author.last_name
                 },
-                'donated': task.donated,
+                'donated': task.donated * GIFT_USD_RATE,
                 'asked': task.asked,
                 'canEdit': task.canEdit(cur_user),
                 'canRemove': task.canPMUserRemove(cur_prof),
