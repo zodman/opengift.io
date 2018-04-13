@@ -140,7 +140,7 @@ def __change_resp(request):
         task.sendTaskEmail('new_task', ar_email)
 
     task.systemMessage(
-        u'responsible changed to ' + resp_name,
+        u'curator changed to ' + resp_name,
         request.user,
         'NEW_RESPONSIBLE'
     )

@@ -335,7 +335,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'first_name': task.author.first_name,
                     'last_name': task.author.last_name
                 },
-                'donated': task.donated * GIFT_USD_RATE,
+                'donated': task.donated,
                 'asked': task.asked,
                 'canEdit': task.canEdit(cur_user),
                 'canRemove': task.canPMUserRemove(cur_prof),
