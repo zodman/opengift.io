@@ -100,6 +100,47 @@ input, textarea {
     font-size: 1rem;
     opacity: 1; }
 
+.u-row {
+  margin-right: -15px;
+  margin-left: -15px;
+}
+
+.col-xs-1-5,
+.col-sm-1-5,
+.col-md-1-5,
+.col-lg-1-5 {
+  position: relative;
+  min-height: 1px;
+  padding-right: 10px;
+  padding-left: 10px;
+}
+
+.col-xs-1-5 {
+  width: 20%;
+  float: left;
+}
+
+@media (min-width: 768px) {
+  .col-sm-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-md-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-lg-1-5 {
+    width: 20%;
+    float: left;
+  }
+}
+
 @media (max-width: 767px) {
   .display-1 {
     font-size: 4rem; }
@@ -3944,6 +3985,8 @@ border: none;}
 @media (min-width: 768px) {
   .u-fs-md-150 {
     font-size: 9.375rem !important; }
+  .u-fs-md-16 {
+    font-size: 1rem !important; }
   .u-fs-md-20 {
     font-size: 1.25rem !important; }
   .u-fs-md-22 {
@@ -6473,11 +6516,19 @@ color: #4abeb8;
     filter: grayscale(100%);
 }
 
+.hidden-md-up {
+  display: none;
+}
+
 @media (max-width: 768px) {
     .hidden-md-down {
         display: none !important;
     }
+  .hidden-md-up {
+    display: block !important;
+  }
 }
+
 
 .roadmap-container-date .date-desc {
     display: block;
@@ -6627,4 +6678,19 @@ color: #4abeb8;
     display: block;
     margin: -3em 0;
   }
+}
+
+.canvas-wrapper > canvas {
+
+}
+
+.canvas-wrapper > h6 {
+  position: absolute;
+  top: 50%;
+  margin-top: -10px;
+  left: 0;
+  z-index: 2;
+  justify-content: center;
+  vertical-align: middle;
+  right: 0;
 }

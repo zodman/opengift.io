@@ -251,7 +251,7 @@ $.fn.addFilePaste = function (options) {
                 'id': 'posted_img_form'
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
-                .append('<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>')
+                .append('<a href="#" class="close"><i class="fa fa-times icon-remove icon-white"></i></a>')
                 .append('<h2>Вставка изображения</h2>')
                 .append('<p>Выберите участок для вставки</p>')
                 .append('<input type="hidden" style="display:none" name="posted_image" value="' + src + '" />')
@@ -304,7 +304,7 @@ $.fn.addFilePaste = function (options) {
 
                 // html canvas
                 var $canvasEl = '<div id="canvasPaint">' +
-                    '<a href="#" class="close btn btn-danger btn-mini"><i class="fa fa-times icon-remove icon-white"></i></a>' +
+                    '<a href="#" class="close"><i class="fa fa-times icon-remove icon-white"></i></a>' +
                     '<div class="canvasTools clearfix">' +
                     '<div class="brushColor"></div>' +
                     '<div class="brushDepth"></div>' +
