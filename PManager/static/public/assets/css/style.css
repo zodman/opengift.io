@@ -1404,6 +1404,11 @@ border: none;}
 .u-w-230 {
   width: 14.375rem !important; }
 
+
+.u-w-230-max {
+  max-width: 14.375rem !important; }
+
+
 .u-w-240 {
   width: 15rem !important; }
 
@@ -6693,4 +6698,10 @@ color: #4abeb8;
   justify-content: center;
   vertical-align: middle;
   right: 0;
+}
+
+.col-md-20 {-ms-flex:0 0 100%; flex:0 0 100%; max-width:100%; margin:2% 0;}
+
+@media (min-width: 768px) {
+  .col-md-20 {-ms-flex:0 0 18%; flex:0 0 18%; max-width:18%; margin: 0 1%;}
 }
