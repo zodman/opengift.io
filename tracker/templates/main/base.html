@@ -40,7 +40,7 @@
         });
         {% if user.is_authenticated %}
             window.baseUserParams = {
-                'userId': {{ user.id | default_if_none: '0' }}
+                'userId': {{ user.id | default_if_none:'0' }}
             };
             document.mainController = new mainControllerClass({
                 'userId':{{ user.id }},
