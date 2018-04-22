@@ -199,11 +199,13 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         #@var HttpRequest request
         cur_user = request.user
 
-    cur_prof = cur_user.get_profile()
-    try:
-        aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
-    except AttributeError:
-        aManagedProjectsId = dict()
+    cur_prof = None
+    if cur_user.is_authenticated():
+        cur_prof = cur_user.get_profile()
+        try:
+            aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
+        except AttributeError:
+            aManagedProjectsId = dict()
 
     if not 'pageCount' in arPageParams:
         arPageParams['pageCount'] = 100
@@ -263,14 +265,16 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         arBets = {}
         arClientBets = {}
-        aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
+        # aUsersHaveAccess = []
+        # if cur_user.is_authenticated():
+        #     widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
 
         for task in tasks:
             if not task.id in arBIsManager:
                 arBIsManager[task.id] = task.project.id in aManagedProjectsId
 
-            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
-                                                                    aUsersHaveAccess)
+            # currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
+            #                                                         aUsersHaveAccess)
 
             last_message_q = task.messages
             if not arBIsManager[task.id]:
@@ -368,7 +372,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'author': last_mes.author.first_name + ' ' + last_mes.author.last_name if
                     last_mes.author else '',
                 } if last_mes and last_mes.author else {'text': task.text},
-                'responsibleList': userTagSums,
+                # 'responsibleList': userTagSums,
                 'files': taskExtensions.getFileList(task.files.all()),
                 'planTimes': [],
                 'viewed': (task.closed or task.isViewed(cur_user)),
@@ -409,17 +413,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             if reminder.exists():
                 addTasks[task.id]['reminder'] = reminder[0]
 
-            if addTasks[task.id]['needRespRecommendation']:
-                if currentRecommendedUser:
-                    recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
-                    recommendedUserArray = {
-                        'id': recommendedUser.id,
-                        'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
-                    }
-                    addTasks[task.id]['recommendedUser'] = {
-                        'id': int(currentRecommendedUser),
-                        'name': recommendedUserArray['name']
-                    }
+            # if addTasks[task.id]['needRespRecommendation']:
+            #     if currentRecommendedUser:
+            #         recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
+            #         recommendedUserArray = {
+            #             'id': recommendedUser.id,
+            #             'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
+            #         }
+            #         addTasks[task.id]['recommendedUser'] = {
+            #             'id': int(currentRecommendedUser),
+            #             'name': recommendedUserArray['name']
+            #         }
 
             planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
             for obj in planTimes:

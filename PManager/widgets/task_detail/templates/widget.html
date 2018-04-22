@@ -3,19 +3,19 @@
 {% compressed_js 'task_detail' %}
 {% compressed_css 'task_detail' %}
 {% if task_detail.error %}
-            <div class="popup" >
+    <div class="popup" >
 {#                <strong>Oh snap!</strong>#}
-                {{ task_detail.error|safe }}
-            </div>
-        {% endif %}
+        {{ task_detail.error|safe }}
+    </div>
+{% endif %}
 <script src="/static/js/jquery.fancyform.min.js"></script>
-        <script>
-            $(function () {
-                $("input:radio").transformRadio({
-                    base: "class" // Can be image or class, if class a span will be added
-                });
-            });
-        </script>
+<script>
+    $(function () {
+        $("input:radio").transformRadio({
+            base: "class" // Can be image or class, if class a span will be added
+        });
+    });
+</script>
 <div class="widget inner Task_Detail" id="task_detail" >
     <div class="widget-title clearfix" style="border: 0;">
         <div class="widget-title-info clearfix">

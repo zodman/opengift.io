@@ -1368,10 +1368,8 @@ class PM_Task(models.Model):
 
         order_by = arOrderParams.get('order_by', 'closed')
 
-        pm_user = user.get_profile()
-
-        if not pm_user:
-            raise Exception('Access denied')
+        if user.is_authenticated():
+            pm_user = user.get_profile()
 
         if 'id' in filter or 'pk' in filter:
             filter = {
@@ -1380,8 +1378,9 @@ class PM_Task(models.Model):
             filterQArgs = []
 
         excludeFilter = {}
-        if 'bounty' in filter:
-            filterQArgs = [Q(Q(Q(onPlanning=True) | Q(author=user)), project__closed=False, project__locked=False, closed=False) ]
+        if 'bounty' in filter or not user.is_authenticated():
+            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
+
             del filter['bounty']
             if 'exclude' in filter:
                 excludeFilter = filter['exclude']

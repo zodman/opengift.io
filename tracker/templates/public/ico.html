@@ -161,36 +161,42 @@
                     <span class="lnr lnr-cross nav-close"></span>
                 </div>
 
-                <div class="collapse navbar-collapse js-navbar-collapse" id="navbarNav">
+                <li class="collapse navbar-collapse js-navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item">
-                            <a class="nav-link" href="/pub/">Platform</a>
+                            <a class="nav-link" href="/pub/">MAIN</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/ico/">ICO</a>
+                        <li class="nav-item dropdown">
+                                <a class="nav-link"  href="/ico/">ICO</a>
+                                <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item u-d-block" href="/ico/">Summary</a>
+                                    <a class="dropdown-item u-d-block" href="/ico_details/">Details</a>
+                                    <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
+                                    <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a>
+                                    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a>
+                                    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a>
+                                    <a class="dropdown-item u-d-block" href="/static/documents/ld.pdf">Legal Disclaimer</a>
+                                </div>
                         </li>
 
                         <li class="nav-item">
                             <a class="nav-link" href="/faq/">FAQ</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/ico/#team">Team</a>
-                        </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">WhitePaper</a>
+                            <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">About us</a>
                             <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
-							    <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
-							    <a class="dropdown-item u-d-block" href="/static/documents/wp.ru.pdf">WhitePaper RU</a>
-							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-en.pdf">Presentation EN</a>
-							    <a class="dropdown-item u-d-block" href="/static/documents/presentation-opengift-ru.pdf">Presentation RU</a>
-                                <a class="dropdown-item u-d-block" href="/static/documents/ld.pdf">Legal Disclaimer</a>
+							    <a class="dropdown-item u-d-block" href="/ico/#team">Team</a>
+							    <a class="dropdown-item u-d-block" href="/ico/#advisors">Advisory board</a>
+							    <a class="dropdown-item u-d-block" href="/pub/#clients">Clients</a>
+							    <a class="dropdown-item u-d-block" href="/pub/#partners">Partners</a>
+							    <a class="dropdown-item u-d-block" target="_blank"
+                                   href="http://explorer.opengift.io">Blockchain</a>
+                                <a class="dropdown-item u-d-block" target="_blank"
+                                   href="http://github.com/opengift">GitHub</a>
                             </div>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/project/list/">Projects</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="http://explorer.opengift.io">Blockchain</a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link" href="/wallet/">Wallet</a>
@@ -870,6 +876,40 @@
                             <div class="with-hidden-text-wrapper-inner">
                                 <div class="row">
                                     <div class="col-md-5 user-img-wrapper">
+                                        <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/amin.jpeg"
+                                             alt="">
+
+                                        <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                            <li class="list-inline-item">
+                                                <a href="https://www.linkedin.com/in/amin-saleem-338b94/" target="_blank"><i
+                                                        class="fa fa-linkedin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <h4 class="u-mb-10">
+                                            Amin Saleem
+                                        </h4>
+                                        <p class="text-muted mb-0 u-fs-13">
+                                            CEO
+                                        </p><p class="my-2 u-fs-15">
+                                        Amin is a serial entrepreneur, a visionary and strategic thinker. He previously founded and exited a UK government award-winning an online reverse auction. The platform achieved over £330m in orders, reaching over 1m unique users and establishing itself as a consumer champion in its industry.
+
+                                        <br />
+                                        Amin is an advisor to a number of organisations within the cryptocurrency blockchain and SaaS sectors and has been featured as an accomplished entrepreneur on BBC TV, BBC Radio, National UK Newspapers, NEC E-commerce Conference (Birmingham) and the Global African Business Awards.
+                                    </p>
+                                    </div>
+                                </div> <!-- END row-->
+                            </div>
+                        </div>
+
+                    </div> <!-- END col-lg-6-->
+                <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                                <div class="row">
+                                    <div class="col-md-5 user-img-wrapper">
                                         <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/emas.jpg"
                                              alt="">
 
@@ -893,6 +933,7 @@
                                             Founder &amp; CIO
                                         </p><p class="my-2 u-fs-15">
                                         Yegor combines an excellent technical background and experience of running own software business. Key facts and achievements:<br />
+                                        - Created WEB development agency Heliant<br />
                                         - Developed Heliard, a popular Russian task tracker and project analytics system<br />
                                         - Won several hackathons organized by Google<br />
                                         - Created an AI-based system of IT projects audit<br />

@@ -29,7 +29,7 @@
             window.currentProject = {{ main.CURRENT_PROJECT.id }};
         {% endif %}
         window.baseUserParams = {
-            'userId': {{ user.id }}
+            'userId': {{ user.id | default_if_none: '0' }}
         };
 
         WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
@@ -45,23 +45,24 @@
                 'userId':{{ user.id }},
                 'widgetsData': {}
             });
-        {% endif %}
-        var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
-        {% if userTimer %}
-            CURRENT_TASK_DATA = {
-                'id':{{ userTimer.task.id }},
-                'started':{{ userTimer.task.started|jsonify }},
-                'closed':{{ userTimer.task.closed|jsonify }},
-                'name':{{ userTimer.task.name|jsonify|safe }},
-                'project': {
-                    'name': {{ userTimer.task.project.name|jsonify|safe }}
-                }
-            };
+            var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
 
-            {% if userTimer.task.parentTask %}
-                CURRENT_TASK_DATA['parentTask'] = {
-                    'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+            {% if userTimer %}
+                CURRENT_TASK_DATA = {
+                    'id':{{ userTimer.task.id }},
+                    'started':{{ userTimer.task.started|jsonify }},
+                    'closed':{{ userTimer.task.closed|jsonify }},
+                    'name':{{ userTimer.task.name|jsonify|safe }},
+                    'project': {
+                        'name': {{ userTimer.task.project.name|jsonify|safe }}
+                    }
                 };
+
+                {% if userTimer.task.parentTask %}
+                    CURRENT_TASK_DATA['parentTask'] = {
+                        'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+                    };
+                {% endif %}
             {% endif %}
         {% endif %}
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};

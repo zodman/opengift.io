@@ -246,15 +246,30 @@ class MainPage:
         pageTitle = ''
 
         agreementForApprove = None
+
+        taskNumber = int(request.GET.get('number', 0))
+        taskId = int(request.GET.get('id', 0))
+        projectId = int(request.GET.get('project', 0))
+
+        if not widgetList:
+            widgetList = ['chat', 'tasklist']
+
+        uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
+        userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+
+        if userAchievement:
+            if userAchievement.achievement.delete_on_first_view:
+                userAchievement.delete()
+            else:
+                userAchievement.read = True
+                userAchievement.save()
+
         if request.user.is_authenticated():
             messages = PM_Task_Message.objects.filter(
                 userTo=request.user,
                 read=False
             ).order_by('-dateCreate')
 
-            taskNumber = int(request.GET.get('number', 0))
-            taskId = int(request.GET.get('id', 0))
-            projectId = int(request.GET.get('project', 0))
 
             if projectId:
                 if taskId:
@@ -276,9 +291,6 @@ class MainPage:
                 setattr(mes, 'text', TextFilters.convertQuotes(mes.text))
                 aMessages.append(mes)
 
-            if not widgetList:
-                widgetList = ['chat', 'tasklist']
-
             unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
             unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)
 
@@ -294,79 +306,63 @@ class MainPage:
                 timerDataForJson['started'] = True if not userTimer.dateEnd else False
                 setattr(userTimer, 'jsonData', timerDataForJson)
 
-            arPageParams = {
-                'pageCount': 10,
-                'page': int(request.POST.get('page', 1))
-            }
 
-            for widgetName in widgetList:
-                str = 'widget = widgets.%s' % widgetName
-                exec (str)
-                if widgetName == 'tasklist':
-                    widget = widget.widget(request, headerValues, widgetParams, [], arPageParams)
-                else:
-                    widget = widget.widget(request, headerValues, widgetParams, [])
+        arPageParams = {
+            'pageCount': 10,
+            'page': int(request.POST.get('page', 1))
+        }
 
-                if widget:
-                    if 'redirect' in widget:
-                        return HttpResponseRedirect(widget['redirect'])
-                    if 'title' in widget:
-                        pageTitle = widget['title']
-
-                    c.update({widgetName: widget})
-                    if bXls:
-                        templateName = 'xls'
-                    else:
-                        templateName = 'widget'
-
-                    widgetHtml = loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c)
-
-                    if 'tab' in widget and widget['tab']:
-                        widgetsInTabs.append({
-                            'code': widgetName,
-                            'name': widget['name'],
-                            'html': widgetHtml
-                        })
-                    else:
-                        headerWidgets.append(widgetHtml)
-
-            if request.is_ajax():
-                if request.GET.get('modal', None) is not None:
-                    t = loader.get_template('main/xhr_response_modal.html')
-                else:
-                    t = loader.get_template('main/xhr_response.html')
+        for widgetName in widgetList:
+            str = 'widget = widgets.%s' % widgetName
+            exec (str)
+            if widgetName == 'tasklist':
+                widget = widget.widget(request, headerValues, widgetParams, [], arPageParams)
             else:
-                if request.GET.get('frame_mode', False):
-                    t = loader.get_template('index_frame.html')
-                elif bXls:
-                    cType = 'application/xls'
-                    mimeType = 'application/xls'
-                    t = loader.get_template('index_xls.html')
-                elif template == 'new':
-                    t = loader.get_template('index_new.html')
+                widget = widget.widget(request, headerValues, widgetParams, [])
+
+            if widget:
+                if 'redirect' in widget:
+                    return HttpResponseRedirect(widget['redirect'])
+                if 'title' in widget:
+                    pageTitle = widget['title']
+
+                c.update({widgetName: widget})
+                if bXls:
+                    templateName = 'xls'
                 else:
-                    t = loader.get_template('index.html')
+                    templateName = 'widget'
 
-            c.update({'widget_header': u" ".join(headerWidgets)})
-            c.update({'widgets': widgetsInTabs})
+                widgetHtml = loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c)
 
-            uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
-            userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
-
-            if userAchievement:
-                if userAchievement.achievement.delete_on_first_view:
-                    userAchievement.delete()
+                if 'tab' in widget and widget['tab']:
+                    widgetsInTabs.append({
+                        'code': widgetName,
+                        'name': widget['name'],
+                        'html': widgetHtml
+                    })
                 else:
-                    userAchievement.read = True
-                    userAchievement.save()
+                    headerWidgets.append(widgetHtml)
+
+        if request.is_ajax():
+            if request.GET.get('modal', None) is not None:
+                t = loader.get_template('main/xhr_response_modal.html')
+            else:
+                t = loader.get_template('main/xhr_response.html')
         else:
-            import re
-            # if is not main page
-            if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
-                t = loader.get_template(
-                    'public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
+            if request.GET.get('frame_mode', False):
+                t = loader.get_template('index_frame.html')
+            elif bXls:
+                cType = 'application/xls'
+                mimeType = 'application/xls'
+                t = loader.get_template('index_xls.html')
+            elif template == 'new':
+                t = loader.get_template('index_new.html')
             else:
-                return HttpResponseRedirect('/login/?backurl=' + urllib.quote(request.get_full_path()))
+                t = loader.get_template('index.html')
+
+        c.update({'widget_header': u" ".join(headerWidgets)})
+        c.update({'widgets': widgetsInTabs})
+
 
         if not headerValues['FIRST_STEP_FORM']:
             cur_notice = PM_Notice.getForUser(
@@ -378,6 +374,7 @@ class MainPage:
                 c.update({
                     'current_notice': cur_notice
                 })
+
         c.update({
             'pageTitle': pageTitle,
             'activeMenuItem': activeMenuItem,
