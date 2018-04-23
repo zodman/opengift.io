@@ -4,8 +4,8 @@
                             <a class="nav-link" href="/pub/">MAIN</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link"  href="/ico/">ICO</a>
-                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+                            <a class="nav-link js-nav-link"  href="#">ICO</a>
+                            <div class="dropdown-menu box-shadow-v2 js-nav-dropdown" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item u-d-block" href="/ico/">Summary EN</a>
                                 <a class="dropdown-item u-d-block" href="/ico_details/">Summary RU</a>
                                 <a class="dropdown-item u-d-block" href="/static/documents/wp.eng.pdf">WhitePaper EN</a>
@@ -20,8 +20,8 @@
                             <a class="nav-link" href="/faq/">FAQ</a>
                         </li>
                         <li class="nav-item dropdown">
-                            <a class="nav-link" target="_blank" href="/static/documents/wp.eng.pdf">About us</a>
-                            <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
+                            <a class="nav-link js-nav-link " href="#">About us</a>
+                            <div class="dropdown-menu box-shadow-v2 js-nav-dropdown" aria-labelledby="navbarDropdown">
 							    <a class="dropdown-item u-d-block" href="/ico/#team">Team</a>
 							    <a class="dropdown-item u-d-block" href="/ico/#advisors">Advisory board</a>
 							    <a class="dropdown-item u-d-block" href="/ico/#roadmap">Roadmap</a>
@@ -56,3 +56,8 @@
                         </li>
                     </ul>
                 </div>
+<script>
+    $(function() {
+        $('.js-nav-link').click(function() {$(this).parent().find('.js-nav-dropdown').toggle();return false;});
+    });
+</script>
