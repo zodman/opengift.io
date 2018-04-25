@@ -1,196 +1,162 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
-    <script type="application/javascript" src="/static/js/libs/jquery.form.js"></script>
-    <section style="z-index: 11;">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 mx-auto text-center u-p-25">
-                    <h2 class="h1">
-                        {{ title }}
-                    </h2>
+<!--<script type="application/javascript" src="/static/js/libs/jquery.form.js"></script>-->
 
-                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-{#                    <p>#}
-{#                        Create task for new project#}
-{#                    </p>#}
-                </div>
-            </div> <!-- END row-->
-            <div class="row">
-                <div class="col-md-6 col-lg-9 mx-auto">
-                    <form novalidate action="/task_handler" method="POST" enctype="multipart/form-data"
-                          class="js-project-form">
-                        <input type="hidden" name="action" value="fastCreate" />
-                        <div class="tab-content" id="v-pills-tabContent">
-                            <div class="tab-pane fade  active show" id="v-task" role="tabpanel"
-                                 aria-labelledby="v-pills-home-tab"
-                                 aria-expanded="true">
-                                <div class="project-edit-form">
-                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
-                                              name="task_name"
-                                              placeholder="Short task description" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+<script src="/static/public/assets/js/task_edit.js"></script>
 
-                                    <div class="project-edit-form--files-list">
-                                        <div class="clearfix">
-                                            {% for file in project.files.all %}
-                                                <div class="project-edit-form--files-list--file js-file-block">
-                                                <span class="project-edit-form--files-list--file-img"
-                                                      style="background-image: url('{{ file.src }}');"></span>
+<section id="task_edit_form" style="z-index: 11;">
+  <div class="container">
+    <div class="text-center u-p-25">
+      <h2 class="h1">{{ title }}</h2>
+      <div class="u-h-4 u-w-50 bg-primary rounded mt-4 -u-mb-40 mx-auto"></div>
+      <!--{# <p>Create task for new project</p> #}-->
+    </div>
 
-                                                    <input type="hidden" name="files" value="{{ file.id }}"/>
-                                                    <a href="#"
-                                                       class="project-edit-form--files-list--file-remove js-file-remove">
-                                                        <i class="fa fa-remove"></i>
-                                                    </a>
-                                                </div>
-                                            {% endfor %}
-                                        </div>
+    <!-- END row-->
+    <div class="row">
+      <div class="col-md-6 col-lg-9 mx-auto">
+        <form novalidate action="/task_handler" method="POST" enctype="multipart/form-data" class="js-project-form">
+          <input type="hidden" name="action" value="fastCreate" />
 
-{#                                        <div class="project-edit-form--new-files js-file-new-inputs">#}
-{#                                            <div class="js-file-new-block">#}
-{#                                                <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">#}
-{#                                                    <span class="js-add-file-text">Upload screenshots/pictures</span>#}
-{#                                                    <input name="IMAGES" type="file" accept="image/*"#}
-{#                                                           onchange="$(this).closest('.js-add-file-block').find('.js-add-file-text').text($(this).val());"#}
-{#                                                           class="project-edit-form--file-input-input js-file-new-block-input"/>#}
-{#                                                </div>#}
-{#                                            </div>#}
-{#                                        </div>#}
-                                    </div>
+          <div class="tab-content" id="v-pills-tabContent">
+            <div class="tab-pane fade  active show" id="v-task" role="tabpanel" aria-labelledby="v-pills-home-tab" aria-expanded="true">
+              <div class="project-edit-form">
+                <!--project-->
+                <div class="js-project-step">
+                  <div class="project-edit-form--files-list">
+                    <div class="clearfix">
+                      {% for file in project.files.all %}
 
-                                    <h4 class="u-py-15 text-center">Link task to new project</h4>
-                                    <input type="text" name="project_name" value=""
-                                           class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title"
-                                           required="">
-                                    <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
-                                              name="project_description"
-                                              placeholder="Short description" required=""
-                                              style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
-                                    <input type="text" name="project_code" value=""
-                                               class="form-control u-rounded-50 p-3 u-mb-30 js-required"
-                                               data-valmask='^[A-z0-9\\_\\.]+$'
-                                               placeholder="Project unique code (only letters, underlines and dots allowed)"
-                                               required="">
+                      <div class="project-edit-form--files-list--file js-file-block">
+                        <span class="project-edit-form--files-list--file-img" style="background-image: url('{{ file.src }}');"></span>
 
-                                    <div class="text-center">
-                                            <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button"><i
-                                                    class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
-                                            </button>
-                                        </div>
-                                </div>
-                            </div>
-                        </div>
+                        <!--files-->
+                        <input type="hidden" name="files" value="{{ file.id }}" />
 
-                    </form>
+                        <a href="#" class="project-edit-form--files-list--file-remove js-file-remove"><i class="fa fa-remove"></i></a>
+                      </div>
+                      {% endfor %}
+                    </div>
+                    <!--{# <div class="project-edit-form--new-files js-file-new-inputs"> #}
+                      {# <div class="js-file-new-block"> #}
+                      {# <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">  #}
+                      {# <span class="js-add-file-text">Upload screenshots/pictures</span> #}
+                      {# <input name="IMAGES" type="file" accept="image/*" #}
+                      {# onchange="$(this).closest('.js-add-file-block').find('.js-add-file-text').text($(this).val());" #}
+                      {# class="project-edit-form--file-input-input js-file-new-block-input" /> #}
+                      {# </div> #}
+                      {# </div> #}
+                      {# </div> #}-->
+                  </div>
 
+                  <h4 class="u-py-15 text-center">Creating a project</h4>
+
+                  <p>
+                    A project is a program that you create. The project can contain any number of tasks. 
+                    From the description and the name of the project, it depends how many people will want to co-finance it with you. If you want to change an existing project,
+                     create a <a href="/project/list">task directly in it.</a>                   
+                  </p>
+
+                  <!--project_name-->
+                  <input type="text" name="project_name" value="" class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title" required="">
+
+                  <!--project_description-->
+                  <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6" name="project_description" placeholder="Short description" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+
+                  <!--project_code-->
+                  <input name="project_code" readonly class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Project unique code (only letters, underlines and dots allowed)">
+
+                  <!--footer-->
+                  <div class="text-center">
+                    <button disabled class="btn btn-rounded btn-primary u-w-170 js-button-next" type="button">
+                      <i class="fa fa-save"></i> <span class="js-button-next"> Forward</span>
+                    </button>
+                  </div>
                 </div>
 
+                <!--task-->
+                <div class="js-task-step" style="display:none">
+                  <h4 class="u-py-15 text-center">Creating a Task</h4>
+
+                  <p>Create the first task in the project. Let it be something specific, which you can already install and test.</p>
+
+                  <!--task_name-->
+                  <input type="text" name="task_name" value="" class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Task title" required="">
+
+                  <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                            name="task_description"
+                            placeholder="Short task description" required=""
+                            style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
+
+                  <!--form-footer-->
+                  <div class="text-center">
+                    <button class="btn btn-rounded btn-primary u-w-170 js-butto-prev" type="button">
+                      <i class="fa fa-save"></i> <span class="js-button-text"> Go back</span>
+                    </button>
+
+                    <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button">
+                      <i class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
+                    </button>
+                  </div>
+                </div>                
+              </div>
             </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
-        </div> <!-- END container-->
-    </section>
+<!-- END container-->
+<style>
+  .alert-tab {
+    color: darkred !important;
+  }
 
-    <script type="application/javascript">
-        $(function () {
-            var ajaxUrl = '/task_handler';
+  .alert-tab {
+    position: relative;
+    background: #ffe5e5;
+  }
 
-            function enableSubmit() {
-                $('.js-submit').removeAttr('disabled');
-            }
+    .alert-tab .fa.fa-exclamation-triangle {
+      float: right;
+      position: absolute;
+      right: 11px;
+      top: 50%;
+      margin-top: -7px;
+    }
 
-            function disableSubmit() {
-                $('.js-submit').attr('disabled', 'disabled');
-            }
+    .alert-tab .color-primary {
+      color: darkred !important;
+    }
 
-                        $('.js-next-btn').click(function () {
+  .nav-vertical .nav-link {
+    margin: 5px 0;
+    position: relative;
+    padding: 5px 40px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 
-                $(this).closest('.js-form-step').find('.js-form-step-content').show();
-                $(this).hide();
-                if (!$('.js-form-step-content:hidden').get(0)) {
-                    $('.js-submit').show();
-                }
-                return false;
-            });
+    .nav-vertical .nav-link .icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      margin-top: -7px;
+    }
 
-            $('.js-submit').click(function () {
-                var form = new Form('.js-project-form');
-                if (form.validate()) {
-                    form.$form.ajaxSubmit(function (data) {
-                        disableSubmit();
-                        $('.js-file-new-block').val('').not(':eq(0)').remove().end();
-                        data = $.parseJSON(data);
-                        document.location.href='/task_detail/?number='+data.number+'&project='+data.project.id;
-                    });
-                }
-            });
+  .nav-vertical {
+    display: block;
+    margin-bottom: 30px;
+  }
 
-            $('input, textarea, select').change(enableSubmit).keyup(enableSubmit);
-            $('input:radio, input:checkbox').change(enableSubmit);
+  .nav-pills.nav-vertical .nav-link.alert-tab.active {
+    background: darkred !important;
+    color: #fff !important;
+  }
+</style>
 
-            $('.js-file-remove, .js-remove').click(function () {
-                $(this).closest('.js-file-block').remove();
-                enableSubmit();
-                return false;
-            });
-
-            $('.js-add-file').click(function () {
-                $('.js-file-new-block').clone().appendTo('.js-file-new-inputs').val('');
-                return false;
-            });
-
-            $('.js-toggle-section').click(function () {
-                var $subList = $(this).closest('.js-section-item').find('.js-subitems-list').eq(0);
-                if ($subList.is(':visible')) {
-                    $subList.slideUp();
-                } else {
-                    $subList.slideDown();
-                }
-            });
-        });
-    </script>
-    <style>
-        .alert-tab {
-            color: darkred !important;
-        }
-        .alert-tab {
-            position: relative;
-            background: #ffe5e5;
-        }
-
-        .alert-tab .fa.fa-exclamation-triangle {
-             float: right;
-             position: absolute;
-             right: 11px;
-             top: 50%;
-             margin-top: -7px;
-         }
-
-        .alert-tab .color-primary {
-            color: darkred !important;
-        }
-
-        .nav-vertical .nav-link {
-            margin: 5px 0;
-            position: relative;
-            padding: 5px 40px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .nav-vertical .nav-link .icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            margin-top: -7px;
-        }
-
-        .nav-vertical {display: block; margin-bottom: 30px;}
-
-        .nav-pills.nav-vertical .nav-link.alert-tab.active {
-            background:darkred !important;
-            color: #fff !important;
-        }
-    </style>
 {% endblock %}
