@@ -1500,7 +1500,6 @@ div.taskWizard-required .taskWizard-question-title:after {
     width: 20px;
 }
 
-.task-title a {color:#54667a;}
 .task.newEvent .task-title > a {font-weight:bold; margin-right: 5px;}
 .to-do-buttons {
     display: inline-block;
