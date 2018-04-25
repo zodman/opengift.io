@@ -169,6 +169,11 @@ class MainPage:
                     error = u'Enter correct email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)
+                    if request.POST.get('name'):
+                        user.first_name = request.POST.get('name')
+                        user.last_name = request.POST.get('surname')
+                        user.save()
+
                     white_list_registraton = request.POST.get('whitelist', None)
                     if white_list_registraton:
                         prof = user.get_profile()
