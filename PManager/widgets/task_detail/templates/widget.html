@@ -23,7 +23,7 @@
                 <ul class="widget-title-info-left-ul clearfix">
                     {% if task_detail.task.project.id != 1013 %}
                     <li class="active">
-                        <a href="/project/{{ task_detail.task.project.id }}/tasks/">Task list</a>
+                        <a href="/project/{{ task_detail.task.project.id }}/tasks/">{{ task_detail.task.project.name }} tasks</a>
                     </li>
                     {% endif %}
                     {% if not request.GET.frame_mode %}
