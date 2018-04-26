@@ -169,18 +169,18 @@
                                             {% endfor %}
                                         </ul>
                                     </li>
-                                    <li data-code="observers" class="dropdown-toggle dropdown-submenu">
-                                        <a data-toggle="dropdown">Observer</a>
-                                        <ul class="dropdown-menu">
-                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Me</a></li>
-                                            {% for resp_user in tasklist.users %}
-                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">
-                                                    {% if resp_user.last_name %}{{ resp_user.last_name }}
-                                                        {{ resp_user.first_name }}{% else %}
-                                                        {{ resp_user.username }}{% endif %}</a></li>
-                                            {% endfor %}
-                                        </ul>
-                                    </li>
+{#                                    <li data-code="observers" class="dropdown-toggle dropdown-submenu">#}
+{#                                        <a data-toggle="dropdown">Observer</a>#}
+{#                                        <ul class="dropdown-menu">#}
+{#                                            <li><a data-toggle="dropdown-item" rel="{{ user.id }}">Me</a></li>#}
+{#                                            {% for resp_user in tasklist.users %}#}
+{#                                                <li><a data-toggle="dropdown-item" rel="{{ resp_user.id }}">#}
+{#                                                    {% if resp_user.last_name %}{{ resp_user.last_name }}#}
+{#                                                        {{ resp_user.first_name }}{% else %}#}
+{#                                                        {{ resp_user.username }}{% endif %}</a></li>#}
+{#                                            {% endfor %}#}
+{#                                        </ul>#}
+{#                                    </li>#}
                                     <li class="divider"></li>
                                     <li data-code="closed" class="dropdown-toggle dropdown-submenu">
                                         <a data-toggle="dropdown">Closed</a>
@@ -220,7 +220,6 @@
                                             <li><a data-toggle="dropdown-item" rel="range">Range</a></li>
                                         </ul>
                                     </li>
-                                    <li class="divider"></li>
                                     <li data-code="date_modify" class="dropdown-toggle dropdown-submenu">
                                         <a data-toggle="dropdown">Date change</a>
                                         <ul class="dropdown-menu">
