@@ -39,14 +39,15 @@
             });
         });
         var oMyCurrentTimer = new PM_Timer();
+        document.mainController = new mainControllerClass({
+                'userId':{{ user.id | default_if_none:"0" }},
+                'widgetsData': {}
+            });
         {% if user.is_authenticated %}
             window.baseUserParams = {
                 'userId': {{ user.id | default_if_none:'0' }}
             };
-            document.mainController = new mainControllerClass({
-                'userId':{{ user.id }},
-                'widgetsData': {}
-            });
+
             oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
 
             {% if userTimer %}
