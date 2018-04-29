@@ -259,15 +259,15 @@ class MainPage:
         if not widgetList:
             widgetList = ['chat', 'tasklist']
 
-        uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
-        userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
-
-        if userAchievement:
-            if userAchievement.achievement.delete_on_first_view:
-                userAchievement.delete()
-            else:
-                userAchievement.read = True
-                userAchievement.save()
+        # uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
+        # userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+        #
+        # if userAchievement:
+        #     if userAchievement.achievement.delete_on_first_view:
+        #         userAchievement.delete()
+        #     else:
+        #         userAchievement.read = True
+        #         userAchievement.save()
 
         if request.user.is_authenticated():
             messages = PM_Task_Message.objects.filter(
@@ -385,7 +385,7 @@ class MainPage:
             'activeMenuItem': activeMenuItem,
             'userTimer': userTimer,
             'currentProject': headerValues['CURRENT_PROJECT'],
-            'userAchievement': userAchievement,
+            # 'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
 
@@ -548,15 +548,15 @@ class MainPage:
             c.update({'widget_header': u" ".join(headerWidgets)})
             c.update({'widgets': widgetsInTabs})
 
-            uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
-            userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
-
-            if userAchievement:
-                if userAchievement.achievement.delete_on_first_view:
-                    userAchievement.delete()
-                else:
-                    userAchievement.read = True
-                    userAchievement.save()
+            # uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
+            # userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+            #
+            # if userAchievement:
+            #     if userAchievement.achievement.delete_on_first_view:
+            #         userAchievement.delete()
+            #     else:
+            #         userAchievement.read = True
+            #         userAchievement.save()
         else:
             import re
             # if is not main page
@@ -581,7 +581,7 @@ class MainPage:
             'activeMenuItem': activeMenuItem,
             'userTimer': userTimer,
             'currentProject': headerValues['CURRENT_PROJECT'],
-            'userAchievement': userAchievement,
+            # 'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
 
