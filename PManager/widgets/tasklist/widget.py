@@ -499,6 +499,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'canInvite': cur_prof.isManager(project) if project else False,
         'template': template
     }
+
     if cur_user.is_authenticated():
         result['qty'] = {
             'ready': PM_Task.getQtyForUser(cur_user, project,
