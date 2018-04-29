@@ -1322,7 +1322,10 @@ class PM_Task(models.Model):
         from django.db.models import Count
 
         filterQArgs = []
-        pm_user = user.get_profile()
+        pm_user = None
+        if user.is_authenticated():
+            pm_user = user.get_profile()
+
         bExist = False
         if project:
             bExist = True
@@ -1347,12 +1350,13 @@ class PM_Task(models.Model):
 
         if not bExist:
             # userProjects = user.get_profile().getProjects()
-            mProjects = user.get_profile().managedProjects
-            q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
+            if user.is_authenticated():
+                mProjects = user.get_profile().managedProjects
+                q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
 
-            filterQArgs.append(
-                Q(q)
-            )
+                filterQArgs.append(
+                    Q(q)
+                )
 
         return filterQArgs
 
