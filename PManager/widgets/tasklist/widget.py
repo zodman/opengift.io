@@ -200,6 +200,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         cur_user = request.user
 
     cur_prof = None
+    aManagedProjectsId = dict()
     if cur_user.is_authenticated():
         cur_prof = cur_user.get_profile()
         try:
