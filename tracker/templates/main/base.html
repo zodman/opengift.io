@@ -38,6 +38,7 @@
                 });
             });
         });
+        var oMyCurrentTimer = new PM_Timer();
         {% if user.is_authenticated %}
             window.baseUserParams = {
                 'userId': {{ user.id | default_if_none:'0' }}
@@ -46,7 +47,7 @@
                 'userId':{{ user.id }},
                 'widgetsData': {}
             });
-            var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
+            oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
 
             {% if userTimer %}
                 CURRENT_TASK_DATA = {
