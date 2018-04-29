@@ -608,10 +608,10 @@ def taskListAjax(request):
     header_values = headers.initGlobals(request)
     ajax_task_manager = taskAjaxManagerCreator(request)
 
-    if not request.user.is_authenticated():
-        response_text = json.dumps({'unauthorized': True})
+    # if not request.user.is_authenticated():
+    #     response_text = json.dumps({'unauthorized': True})
 
-    elif ajax_task_manager.tryToSetActionFromRequest():
+    if ajax_task_manager.tryToSetActionFromRequest():
         ajax_task_manager.process()
         response_text = ajax_task_manager.getResponse()
 
