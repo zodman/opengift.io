@@ -410,9 +410,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 not addTasks[task.id]['resp'][0]
             )
 
-            reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
-            if reminder.exists():
-                addTasks[task.id]['reminder'] = reminder[0]
+            if cur_user.is_authenticated():
+                reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
+                if reminder.exists():
+                    addTasks[task.id]['reminder'] = reminder[0]
 
             # if addTasks[task.id]['needRespRecommendation']:
             #     if currentRecommendedUser:
