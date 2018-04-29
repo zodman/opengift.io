@@ -576,6 +576,7 @@ class MainPage:
                 c.update({
                     'current_notice': cur_notice
                 })
+
         c.update({
             'pageTitle': pageTitle,
             'activeMenuItem': activeMenuItem,
