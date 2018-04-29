@@ -479,7 +479,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
     title = u'All tasks' if not project else project.name + ' tasks'
 
-    return {
+    result = {
         'title': title,
         'tasks': tasks,
         'project': project,
@@ -497,8 +497,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
         'canInvite': cur_prof.isManager(project) if project else False,
-        'template': template,
-        'qty': {
+        'template': template
+    }
+    if cur_user.is_authenticated():
+        result['qty'] = {
             'ready': PM_Task.getQtyForUser(cur_user, project,
                                            {'status__code': 'ready', 'closed': False, 'active': True}),
             'started': PM_Task.getQtyForUser(cur_user, project,
@@ -509,4 +511,4 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                               {'deadline__lt': now, 'deadline__isnull': False,
                                                'closed': False, 'active': True})
         }
-    }
+    return result
