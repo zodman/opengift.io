@@ -1509,10 +1509,11 @@ class TaskWidgetManager:
                     pass
 
         else:
-            userProjects = user.get_profile().getProjects()
-            users = users.filter(
-                pk__in=PM_ProjectRoles.objects.filter(project__in=userProjects).values('user__id')
-            )
+            if user.is_authenticated():
+                userProjects = user.get_profile().getProjects()
+                users = users.filter(
+                    pk__in=PM_ProjectRoles.objects.filter(project__in=userProjects).values('user__id')
+                )
 
         return users
 
