@@ -1365,7 +1365,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     color: #000;
 }
 
-.task-details-text {font-size: 14px;}
+.task-details-text {font-size: 14px;padding: 0 10px 20px;}
 
 .temp_task {border-top: 2px dashed #ddd;  border-bottom: 2px dashed #ddd; background:#f9f9f9;  width: 100%;  height: 45px; margin: 10px 0 10px;}
 
