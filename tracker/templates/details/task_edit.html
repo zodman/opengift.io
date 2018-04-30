@@ -76,9 +76,10 @@
 
                 <!--task-->
                 <div class="js-task-step" style="display:none">
+                  <input type="hidden" name="project_id" value="{{ request.GET.pid | default_if_none:'' }}" />
                   <h4 class="u-py-15 text-center">Creating a Task</h4>
 
-                  <p>Create your first task in the project. You may want to be specific enough, so developers return you something you can install and test.</p>
+                  <p>Create your task in the project. You may want to be specific enough, so developers return you something you can install and test.</p>
 
                   <!--task_name-->
                   <input type="text" name="task_name" value="" class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Task title" required="">

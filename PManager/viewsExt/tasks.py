@@ -1297,11 +1297,20 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_fastCreate(self):
         taskInputText = self.getRequestData('task_name')
+        projectId = self.getRequestData('project_name')
         projectName = self.getRequestData('project_name')
         projectDescription = self.getRequestData('project_description')
         projectCode = self.getRequestData('project_code')
 
-        if projectName:
+        if projectId:
+            try:
+                project = PM_Project.objects.get(pk=projectId)
+                self.taskManager.project = project
+                self.currentUser.get_profile().setRole('employee', project)
+            except PM_Project.DoesNotExist:
+                pass
+
+        elif projectName:
             project, created = PM_Project.objects.get_or_create(
                 name=projectName,
                 author=self.currentUser,
@@ -1315,10 +1324,7 @@ class taskAjaxManagerCreator(object):
 
             self.taskManager.project = project
 
-        isBounty = False
-        if not self.taskManager.project:
-            self.taskManager.project = PM_Project.objects.get(pk=1013)
-            isBounty = True
+        isBounty = True
 
         request = self.getRequestData()
         if not self.taskManager.project:
