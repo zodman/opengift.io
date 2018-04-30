@@ -190,6 +190,12 @@
                             Donate
                         </a>
                     {% endif %}
+                    {% if project.projectTasks.exists %}
+                        <a href="/project/{{ project.id }}/tasks/"
+                           class="btn btn btn-rounded btn-secondary ml-3 px-md-5">
+                            Tasks
+                        </a>
+                    {% endif %}
                     <div id="share-buttons" class="u-py-30">
 
 
