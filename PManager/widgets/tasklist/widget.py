@@ -498,7 +498,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
-        'canInvite': cur_prof.isManager(project) if project else False,
+        'canInvite': cur_prof.isManager(project) if project and cur_prof else False,
         'template': template
     }
 
