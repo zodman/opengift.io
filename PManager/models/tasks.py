@@ -991,20 +991,22 @@ class PM_Task(models.Model):
         tags = textManager.parseTags(self.name + u' ' + self.text)
 
         for k, tagInfo in tags.iteritems():
+            try:
+                tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
 
-            tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
+                if tagId.id > 0:
+                    tagObject, created = ObjectTags.objects.get_or_create(
+                        tag=tagId,
+                        object_id=self.id,
+                        content_type=ContentType.objects.get_for_model(PM_Task)
+                    )
 
-            if tagId.id > 0:
-                tagObject, created = ObjectTags.objects.get_or_create(
-                    tag=tagId,
-                    object_id=self.id,
-                    content_type=ContentType.objects.get_for_model(PM_Task)
-                )
+                    tagObject.weight = int(tagInfo['weight'])
+                    tagObject.content_object = self
 
-                tagObject.weight = int(tagInfo['weight'])
-                tagObject.content_object = self
-
-                tagObject.save()
+                    tagObject.save()
+            except Tags.MultipleObjectsReturned:
+                pass
 
     def startTimer(self, user):
         if not self.currentTimer:
