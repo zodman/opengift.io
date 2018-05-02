@@ -1,0 +1,235 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+  <!--Meta-->
+  <meta charset="UTF-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!--Favicon-->
+  <link rel="icon" href="https://opengift.io/static/public/assets/img/favicon/144x144.png">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/vendor/strokegap/style.css">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/vendor/linearicons/style.css?v1">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/css/bundle.css">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/css/style.css?v9">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/css/form.css?v4">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/css/timeline.css">
+  <link rel="stylesheet" href="https://opengift.io/static/public/assets/css/dosis.css">
+  <script src="https://opengift.io/static/public/assets/js/bundle.js"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/fancybox.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.history.min.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.form.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/html5shiv.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/howler.min.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/sniffer.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/string_mod.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/timepicker/jquery.datetimepicker.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/socket.io.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/mask.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/backbone.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/backbone.iobind.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/backbone.iosync.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/boostrap.growl.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.createAvatar.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.event.outside.min.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/apng-canvas.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.imgareaselect.min.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.cookie.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/moment/moment.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/bootstrap/typehead.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/bootstrap/bootstrap-combobox.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/bootstrap/bootstrap-tooltip.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/toastr.js" charset="utf-8"></script>
+  <!--<script type="application/javascript" src="https://opengift.io/static/js/pm/script.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/main.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/timer.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/panel.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/tasks.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/specialties.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/files.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/beep.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/hint.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/user_dynamics.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/sock_connector.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/user-notice.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/current_timer.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/drowCanvas.js" charset="utf-8"></script>
+  <script type="application/javascript" src="https://opengift.io/static/js/pm/csrf_protector.js" charset="utf-8"></script>-->
+</head>
+<body>
+  <!--estimates-->
+  <div>
+    <div class="grey-600">
+      <!--users-->
+      <div class="progress progress-avatar progress-xs m-t-1">
+        <span class="progress-bar" style="width: 10%;">
+          <a class="avatar avatar-sm m-y-5 m-r-5">
+            <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+          </a>
+        </span>
+
+        <span class="progress-bar progress-bar-info" style="width: 35%;">
+          <a class="avatar avatar-sm m-y-5 m-r-5">
+            <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+          </a>
+        </span>
+
+        <span class="progress-bar progress-bar-success" style="width: 27%;">
+          <a class="avatar avatar-sm m-y-5 m-r-5">
+            <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+          </a>
+        </span>
+      </div>
+
+      <!--prices-->
+      <div class="progress progress-price progress-xs m-t-1">
+        <span class="progress-bar" style="width: 20%;">
+          <span class="progress-item">$ 500</span>
+        </span>
+
+        <span class="progress-bar progress-bar-info" style="width: 30%;">
+          <span class="progress-item">$ 700</span>
+        </span>
+
+        <span class="progress-bar progress-bar-success" style="width: 40%;">
+          <span class="progress-item">$ 2000</span>
+        </span>
+      </div>
+    </div>
+
+    <style>
+      .progress {
+        height: 15px;
+        overflow: hidden;
+        background-color: #e4eaec;
+        border-radius: .215rem;
+      }
+
+      .progress-price {
+        overflow: visible;
+        margin-bottom: 37px;
+        /*background: none;*/
+      }
+
+        .progress-price .progress-item {
+          position: absolute;
+          top: 18px;
+          right: -35px;
+          color: #000;
+          font-size: 1rem;
+          width: 70px;
+        }
+
+      .progress-avatar {
+        overflow: visible;
+        margin-top: 37px;
+        background: none;
+      }
+
+        .progress-avatar .progress-bar {
+          position: relative;
+          background: none;
+        }
+
+        .progress-avatar .avatar {
+          position: absolute;
+          top: -31px;
+          right: -15px;
+        }
+
+          .progress-avatar .avatar:after {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: #4a4a4a;
+            display: block;
+            left: 14px;
+            position: relative;
+            border-radius: 0 0 50% 50%;
+          }
+
+      .progress-xs {
+        height: 4px;
+        border-radius: 2px;
+      }
+
+        .progress-xs .progress-bar {
+          line-height: 4px;
+        }
+
+      .progress-bar {
+        position: relative;
+        float: left;
+        width: 0%;
+        height: 100%;
+        font-size: .858rem;
+        line-height: 15px;
+        color: #fff;
+        text-align: center;
+        background-color: #3e8ef7;
+        -webkit-transition: width .6s ease;
+        transition: width .6s ease;
+      }
+
+      .progress-bar-warning {
+        background-color: #f5914b;
+      }
+
+      .progress-bar-info {
+        background-color: #0bb2d4;
+      }
+
+      .progress-bar-success {
+        background-color: #11c26d;
+      }
+    </style>
+  </div>
+
+  <style>
+    .project-team-items {
+      list-style: none;
+      padding: 0;
+      margin-bottom: 0;
+    }
+
+      .project-team-items .team-item {
+        float: left;
+      }
+
+    .avatar {
+      position: relative;
+      display: inline-block;
+      width: 40px;
+      white-space: nowrap;
+      vertical-align: bottom;
+      border-radius: 1000px;
+    }
+
+    .avatar-sm {
+      width: 30px;
+    }
+
+    .avatar img {
+      width: 100%;
+      max-width: 100%;
+      height: auto;
+      border: 0 none;
+      border-radius: 1000px;
+    }
+  </style>
+
+
+
+  <script type="application/javascript" src="https://opengift.io/static/js/libs/jquery.form.js"></script>
+
+  <script src="https://opengift.io/static/js/libs/jquery.waipoints.min.js"></script>
+  <script src="https://opengift.io/static/public/assets/js/fury.js"></script>
+  <script src="https://opengift.io/static/public/assets/js/custom.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+  <script src="https://opengift.io/static/public/assets/js/jquery.wavify.js"></script>
+  <script src="https://opengift.io/static/js/pm/form.js?v4"></script>
+</body>
+</html>
