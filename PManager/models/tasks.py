@@ -1005,7 +1005,7 @@ class PM_Task(models.Model):
                     tagObject.content_object = self
 
                     tagObject.save()
-            except MultipleObjectsReturned:
+            except MultipleObjectsReturned, Tags.MultipleObjectsReturned:
                 pass
 
     def startTimer(self, user):
