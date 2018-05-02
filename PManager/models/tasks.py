@@ -23,7 +23,7 @@ from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
-
+from django.core.exceptions import MultipleObjectsReturned
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
@@ -1005,7 +1005,7 @@ class PM_Task(models.Model):
                     tagObject.content_object = self
 
                     tagObject.save()
-            except Tags.MultipleObjectsReturned:
+            except MultipleObjectsReturned:
                 pass
 
     def startTimer(self, user):
