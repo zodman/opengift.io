@@ -45,7 +45,7 @@
                 <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
                 {% if request.user.is_authenticated %}
                     {% for p in request.user.createdProjects.all %}
-                    <a class="dropdown-item u-d-block" href="/project/{{ p.id }}/edit/">My project</a>
+                    <a class="dropdown-item u-d-block" href="/project/{{ p.id }}/edit/">{{ p.name }}</a>
                     {% endfor %}
                 {% endif %}
                 <a class="dropdown-item u-d-block" href="/profile/edit/">Personal Profile</a>
