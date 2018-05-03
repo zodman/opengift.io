@@ -1386,8 +1386,9 @@ class PM_Task(models.Model):
         excludeFilter = {}
         if 'bounty' in filter or not user.is_authenticated():
             filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
+            if 'bounty' in filter:
+                del filter['bounty']
 
-            del filter['bounty']
             if 'exclude' in filter:
                 excludeFilter = filter['exclude']
                 del filter['exclude']
