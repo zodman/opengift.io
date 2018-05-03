@@ -614,6 +614,7 @@ class MainPage:
         if widget:
             if 'redirect' in widget:
                 return HttpResponseRedirect(widget['redirect'])
+
         c.update({widget_name: widget})
         return HttpResponse(loader.get_template("%s/templates/widget.html" % widget_name).render(c))
 

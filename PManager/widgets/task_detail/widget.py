@@ -36,7 +36,7 @@ def widget(request, headerValues, arFilter, q):
         if not task:
             raise Http404(u'Задача удалена')
 
-        if not cur_user.get_profile().hasAccess(task, 'view'):
+        if not cur_user.get_profile().hasAccess(task, 'view') and not task.onPlanning:
             raise Http404(u'Нет прав для просмотра задачи')
 
         error = ''
