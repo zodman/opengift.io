@@ -103,31 +103,31 @@
                        <hr>
 
             {# -------- ТЕГИ #}
-                       <h5>Тэги:</h5>
-                       <ul class="add-tags">
-                           {% for tag in task_edit.post.tags %}
-                               <li><span>{{ tag.tag }}
+{#                       <h5>Тэги:</h5>#}
+{#                       <ul class="add-tags">#}
+{#                           {% for tag in task_edit.post.tags %}#}
+{#                               <li><span>{{ tag.tag }}#}
 {#                                   &nbsp;<a class="js-icon-remove fa fa-times"></a>#}
-                               </span></li>
-                           {% endfor %}
-                            <li><input name="additional_tags" type="text" /></li>
-                       </ul><!--add-tags-->
+{#                               </span></li>#}
+{#                           {% endfor %}#}
+{#                            <li><input name="additional_tags" type="text" /></li>#}
+{#                       </ul><!--add-tags-->#}
 
   						<hr>
 
             {# -------- ПАРАМЕТРЫ #}
-                       <div class="params">
-                           <div class="params-item">             
-                                <h5>Priority: <span data-name="critically">{{ task_edit.post.critically }}</span></h5>
-                                <div class="progress">
-                                    <a style="left:{% widthratio task_edit.post.critically|dotted_float 1 100 %}%;" class="btn btn-success"><i class="fa fa-arrows-h"></i></a>
-                                </div>     
-                                <div class="row-fluid">
-                                    <div class="pull-left muted">Low</div>
-                                    <div class="pull-right muted">High</div>
-                                </div>      
-                           </div>
-                       </div><!--params-->
+{#                       <div class="params">#}
+{#                           <div class="params-item">             #}
+{#                                <h5>Priority: <span data-name="critically">{{ task_edit.post.critically }}</span></h5>#}
+{#                                <div class="progress">#}
+{#                                    <a style="left:{% widthratio task_edit.post.critically|dotted_float 1 100 %}%;" class="btn btn-success"><i class="fa fa-arrows-h"></i></a>#}
+{#                                </div>     #}
+{#                                <div class="row-fluid">#}
+{#                                    <div class="pull-left muted">Low</div>#}
+{#                                    <div class="pull-right muted">High</div>#}
+{#                                </div>      #}
+{#                           </div>#}
+{#                       </div><!--params-->#}
                        
                        <hr>
 

@@ -76,13 +76,14 @@
 
   $('.js-submit').click(function () {
     if (form.validate()) {
+      disableSubmit();
       form.$form.ajaxSubmit(function (data) {
-        disableSubmit();
         $('.js-file-new-block').val('').not(':eq(0)').remove().end();
         data = $.parseJSON(data);
         document.location.href = '/task_detail/?number=' + data.number + '&project=' + data.project.id;
       });
     }
+    return false;
   });
 
   $('input, textarea, select').change(enableSubmit).keyup(enableSubmit);

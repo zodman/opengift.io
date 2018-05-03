@@ -23,7 +23,7 @@ from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
-
+from django.core.exceptions import MultipleObjectsReturned
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
@@ -991,20 +991,22 @@ class PM_Task(models.Model):
         tags = textManager.parseTags(self.name + u' ' + self.text)
 
         for k, tagInfo in tags.iteritems():
+            try:
+                tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
 
-            tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
+                if tagId.id > 0:
+                    tagObject, created = ObjectTags.objects.get_or_create(
+                        tag=tagId,
+                        object_id=self.id,
+                        content_type=ContentType.objects.get_for_model(PM_Task)
+                    )
 
-            if tagId.id > 0:
-                tagObject, created = ObjectTags.objects.get_or_create(
-                    tag=tagId,
-                    object_id=self.id,
-                    content_type=ContentType.objects.get_for_model(PM_Task)
-                )
+                    tagObject.weight = int(tagInfo['weight'])
+                    tagObject.content_object = self
 
-                tagObject.weight = int(tagInfo['weight'])
-                tagObject.content_object = self
-
-                tagObject.save()
+                    tagObject.save()
+            except MultipleObjectsReturned, Tags.MultipleObjectsReturned:
+                pass
 
     def startTimer(self, user):
         if not self.currentTimer:
@@ -1384,8 +1386,9 @@ class PM_Task(models.Model):
         excludeFilter = {}
         if 'bounty' in filter or not user.is_authenticated():
             filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
+            if 'bounty' in filter:
+                del filter['bounty']
 
-            del filter['bounty']
             if 'exclude' in filter:
                 excludeFilter = filter['exclude']
                 del filter['exclude']
