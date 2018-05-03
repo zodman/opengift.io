@@ -156,39 +156,54 @@
       <div>
         <div class="grey-600">
           <!--users-->
-          <div class="progress progress-avatar progress-xs m-t-1">
-            <span class="progress-bar" style="width: 10%;">
-              <a class="avatar avatar-sm m-y-5 m-r-5">
-                <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-              </a>
-            </span>
+          <div class="hidden-400-down">
+            <div class="progress progress-users progress-xs m-t-1">
+              <div class="progress-bar" style="width: 10%;">
+                <a class="avatar avatar-sm m-y-5 m-r-5">
+                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+                </a>
+              </div>
 
-            <span class="progress-bar progress-bar-info" style="width: 35%;">
-              <a class="avatar avatar-sm m-y-5 m-r-5">
-                <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-              </a>
-            </span>
+              <div class="progress-bar progress-bar-info" style="width: 35%;">
+                <a class="avatar avatar-sm m-y-5 m-r-5">
+                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+                </a>
+              </div>
 
-            <span class="progress-bar progress-bar-success" style="width: 27%;">
-              <a class="avatar avatar-sm m-y-5 m-r-5">
-                <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-              </a>
-            </span>
+              <div class="progress-bar progress-bar-success" style="width: 27%;">
+                <a class="avatar avatar-sm m-y-5 m-r-5">
+                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+                </a>
+              </div>
+            </div>
           </div>
 
           <!--prices-->
           <div class="progress progress-price progress-xs m-t-1">
-            <span class="progress-bar" style="width: 20%;">
-              <span class="progress-item">$ 500</span>
-            </span>
-
-            <span class="progress-bar progress-bar-info" style="width: 30%;">
+            <span class="progress-bar progress-bar-info" style="width: 50%;">
               <span class="progress-item">$ 700</span>
             </span>
+          </div>
 
-            <span class="progress-bar progress-bar-success" style="width: 40%;">
-              <span class="progress-item">$ 2000</span>
-            </span>
+          <!--media-400-->
+          <div class="hidden-400-up">
+            <div class="progress-custom">
+              <div class="progress-bar progress-bar-info" style="width: 90%;">
+                <div class="float-right progress-bar-price text-right">$500</div>
+
+                <div class="avatar avatar-sm m-y-5 m-r-5">
+                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+                </div>
+              </div>
+
+              <div class="progress-bar progress-bar-info" style="width: 80%;">
+                <div class="float-right progress-bar-price text-right">$500</div>
+
+                <div class="avatar avatar-sm m-y-5 m-r-5">
+                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -215,24 +230,24 @@
               width: 70px;
             }
 
-          .progress-avatar {
+          .progress-users {
             overflow: visible;
             margin-top: 37px;
             background: none;
           }
 
-            .progress-avatar .progress-bar {
+            .progress-users .progress-bar {
               position: relative;
               background: none;
             }
 
-            .progress-avatar .avatar {
+            .progress-users .avatar {
               position: absolute;
               top: -31px;
               right: -15px;
             }
 
-              .progress-avatar .avatar:after {
+              .progress-users .avatar:after {
                 content: '';
                 width: 3px;
                 height: 16px;
@@ -277,6 +292,36 @@
 
           .progress-bar-success {
             background-color: #11c26d;
+          }
+
+          .progress-custom {
+          }
+
+            .progress-custom .progress-bar {
+              padding: 2px;
+              margin: 2px 0;
+              border-radius: 4px;
+              display: block;
+              float: none;
+              text-align: left;
+              min-width: 80px;
+            }
+
+            .progress-custom .progress-bar-price {
+              line-height: 2rem;
+              font-size: 1rem;
+            }
+
+          @media (max-width: 400px) {
+            .hidden-400-down {
+              display: none;
+            }
+          }
+
+          @media (min-width: 400px) {
+            .hidden-400-up {
+              display: none;
+            }
           }
         </style>
       </div>
