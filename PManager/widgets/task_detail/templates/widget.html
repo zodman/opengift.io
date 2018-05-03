@@ -175,7 +175,7 @@
           </div>
 
           <!--media-400-->
-          <div class="hidden-400-up">
+          <div class="hidden-400-up user-progress">
             <div class="progress-custom">
               <div class="progress-bar progress-bar-info" style="width: 90%;">
                 <div class="float-right progress-bar-price text-right">$500</div>
@@ -235,18 +235,20 @@
               top: -31px;
               right: -15px;
             }
-
-              .progress-users .avatar:after {
-                content: '';
-                width: 3px;
-                height: 16px;
-                background: #4a4a4a;
-                display: block;
-                left: 14px;
-                position: relative;
-                border-radius: 0 0 50% 50%;
-                z-index: 1;
-              }
+            .user-progress .avatar-sm {
+                top: -25px;
+            }
+          .user-progress .avatar-sm:after {
+            content: '';
+            width: 3px;
+            height: 16px;
+            background: #4a4a4a;
+            display: block;
+            left: 14px;
+            position: relative;
+            border-radius: 0 0 50% 50%;
+            z-index: 1;
+          }
 
           .progress-xs {
             height: 4px;
