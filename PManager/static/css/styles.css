@@ -119,6 +119,11 @@ h1, h2, h3, h4, h5, h6,
 .loginPage {padding:0 15px; max-width:600px; text-align:center; margin:0 auto;}
 
 @media only screen and (max-width: 568px) {
+
+
+    .widget-title-info {
+        margin: -15px -15px 20px;
+    }
     .loginPage-loginBlock input {height:35px; width:100%; display:block;}
     .loginPage-loginBlock input.input-medium {margin-bottom:10px;}
     .btn.btn-success.loginPage-loginBt {width:100%;}

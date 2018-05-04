@@ -151,135 +151,79 @@
     <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
     {% endif %}
 
-    <div style="margin:4px">
+    <div class="bakers-wrapper">
       <!--estimates-->
-      <div>
         <div class="grey-600">
           <!--users-->
 
-
-          <!--prices-->
-          <div class="progress progress-price progress-xs m-t-1 user-progress">
-          <a class="avatar avatar-sm m-y-5 m-r-5 hidden-400-down" style="position: absolute;left:10%;">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5 hidden-400-down" style="position: absolute;left:20%;">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-              <a class="avatar avatar-sm m-y-5 m-r-5 hidden-400-down" style="position: absolute;left:50%;">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <span class="progress-bar progress-bar-info" style="width: 50%;">
-              <span class="progress-item">$ 700</span>
-            </span>
-          </div>
-
-          <!--media-400-->
-          <div class="hidden-400-up ">
-            <div class="progress-custom">
-              <div class="progress-bar progress-bar-info" style="width: 90%;">
-                <div class="float-right progress-bar-price text-right">$500</div>
-
-                <div class="avatar avatar-sm m-y-5 m-r-5">
-                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-                </div>
-              </div>
-
-              <div class="progress-bar progress-bar-info" style="width: 80%;">
-                <div class="float-right progress-bar-price text-right">$500</div>
-
-                <div class="avatar avatar-sm m-y-5 m-r-5">
-                  <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-<div>
-    Backers:
-        <ul class="project-team-items clearfix">
-          <li class="team-item">
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-            <a class="avatar avatar-sm m-y-5 m-r-5">
-              <img src="https://getbootstrapadmin.com/remark/global/portraits/7.jpg">
-            </a>
-          </li>
-        </ul>
-      </div>
-        <style>
+          <style>
             .project-team-items {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 0;
-          }
+              list-style: none;
+              padding: 0;
+              margin-bottom: 0;
+            }
 
             .project-team-items .team-item {
               float: left;
+              margin-right: 15px;
+              margin-bottom: 15px;
             }
 
-          .avatar {
-            position: relative;
-            display: inline-block;
-            width: 40px;
-            white-space: nowrap;
-            vertical-align: bottom;
-            border-radius: 1000px;
-          }
 
-          .avatar-sm {
-            width: 30px;
-          }
+            .avatar {
+              position: relative;
+              display: inline-block;
+              white-space: nowrap;
+              vertical-align: bottom;
+              border-radius: 50%;
+              -moz-border-radius: 50%;
+              -webkit-border-radius: 50%;
+            }
 
-          .avatar img {
-            width: 100%;
-            max-width: 100%;
-            height: auto;
-            border: 0 none;
-            border-radius: 1000px;
-          }
+            .avatar img {
+              width: 100%;
+              max-width: 100%;
+              height: auto;
+              border: 0 none;
+            }
 
-          .progress {
-            height: 15px;
-            overflow: hidden;
-            background-color: #e4eaec;
-            border-radius: .215rem;
-          }
+            .progress {
+              height: 15px;
+              overflow: hidden;
+              background-color: #e4eaec;
+              border-radius: .215rem;
+            }
 
-          .progress-price {
-            overflow: visible;
-            margin-bottom: 37px;
+            .progress-price {
+              overflow: visible;
+              margin-bottom: 35px;
               margin-left: 0;
-            /*background: none;*/
-          }
+              /*background: none;*/
+            }
 
+
+            .progress-bar-price {
+              position: absolute;
+              right: 0;
+              top: -26px;
+              color: #54667a;
+              font-size: 15px !important;
+            }
             .progress-price .progress-item {
               position: absolute;
               top: 18px;
               right: -35px;
-              color: #000;
-              font-size: 1rem;
-              width: 70px;
+              color: #ff5466;
+              font-size: 14px;
+              width: 75px;
+              font-weight: bold;
             }
 
-          .progress-users {
-            overflow: visible;
-            margin-top: 37px;
-            background: none;
-          }
+            .progress-users {
+              overflow: visible;
+              margin-top: 37px;
+              background: none;
+            }
 
             .progress-users .progress-bar {
               position: relative;
@@ -291,58 +235,107 @@
               top: -31px;
               right: -15px;
             }
-            .user-progress .avatar-sm {
-                top: -35px;
-            }
-          .user-progress .avatar-sm:after {
-            content: '';
-            width: 3px;
-            height: 16px;
-            background: #4a4a4a;
-            display: block;
-            left: 14px;
-            position: relative;
-            border-radius: 0 0 50% 50%;
-            z-index: 1;
-          }
 
-          .progress-xs {
-            height: 4px;
-            border-radius: 2px;
-          }
+
+            .bakers-avatar {
+              position: absolute;
+              background: url(/static/img/avatar.png) 0px 0px no-repeat;
+              height: 60px;
+              width: 46px;
+              bottom: 6px;
+              z-index: 7;
+              margin-left: -23px;
+            }
+
+            .avatar-sm {
+              width: 50px;
+            }
+
+            .bakers-avatar .avatar-sm {
+              margin-left: 6px;
+              margin-top: 6px;
+              border: 3px solid #fff;
+              box-shadow: 0 0px 7px rgba(1,1,1,0.2);
+              width: 34px;
+              border-radius: 50%;
+            }
+
+
+            .bakers-avatar .avatar-sm img {
+              border-radius: 50%;
+            }
+
+
+            span.avatar-sm-spa {
+              height: 50px;
+              width: 50px;
+              display: block;
+              background-repeat: no-repeat;
+              background-size: cover;
+              background-position: center;
+            }
+
+            .bakers-avatar span.avatar-sm-spa {
+               height: 28px;
+               width: 28px;
+               border-radius: 50%;
+             }
+
+            .bakers-list {
+              margin-bottom: 15px;
+            }
+
+
+            .progress-xs {
+              height: 7px;
+              border-radius: 25px;
+              margin-top: 35px;
+            }
 
             .progress-xs .progress-bar {
               line-height: 4px;
+              border-radius: 25px;
             }
 
-          .progress-bar {
-            position: relative;
-            float: left;
-            width: 0%;
-            height: 100%;
-            font-size: .858rem;
-            line-height: 15px;
-            color: #fff;
-            text-align: center;
-            background-color: #3e8ef7;
-            -webkit-transition: width .6s ease;
-            transition: width .6s ease;
-          }
+            .progress-bar {
+              position: relative;
+              float: left;
+              width: 0%;
+              height: 100%;
+              font-size: .858rem;
+              line-height: 15px;
+              color: #fff;
+              text-align: center;
+              background-color: #3e8ef7;
+              -webkit-transition: width .6s ease;
+              transition: width .6s ease;
+            }
 
-          .progress-bar-warning {
-            background-color: #f5914b;
-          }
+            .progress-bar-warning {
+              background-color: #f5914b;
+            }
 
-          .progress-bar-info {
-            background-color: #0bb2d4;
-          }
+            .progress-bar-info {
+              background: #62bb94;
+              background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+              background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+              background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+              background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+              background-repeat: repeat-x;
+              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+            }
 
-          .progress-bar-success {
-            background-color: #11c26d;
-          }
+            .progress-bar-success {
+              background-color: #11c26d;
+            }
 
-          .progress-custom {
-          }
+            .progress-custom {
+              margin-bottom: 25px;
+            }
+            .progress-custom:last-child {
+              margin-bottom: 0px;
+            }
+
 
             .progress-custom .progress-bar {
               padding: 2px;
@@ -359,18 +352,165 @@
               font-size: 1rem;
             }
 
-          @media (max-width: 400px) {
-            .hidden-400-down {
-              display: none;
+            .bakers-list-mobile {
+              margin-bottom: 30px;
             }
-          }
 
-          @media (min-width: 400px) {
-            .hidden-400-up {
-              display: none;
+            @media (max-width: 767px) {
+              .hidden-768-down {
+                display: none;
+              }
             }
-          }
-        </style>
+
+            @media (min-width: 768px) {
+              .hidden-768-up {
+                display: none;
+              }
+            }
+
+            .float-left {
+              float: left;
+            }
+
+            .avatar-name {overflow: hidden;}
+            .avatar-name .avatar {
+              float: left;
+              width: 50px;
+              margin-right: 15px;
+            }
+            .avatar-name .name {
+              float: left;
+              width: calc(100% - 130px);
+              margin-top: 4px;
+            }
+
+            .name-rating {
+              font-size: 11px;
+              opacity: 0.8;
+              text-transform: uppercase;
+            }
+
+            @media only screen and (max-width: 568px) {
+
+
+              .widget-title-info {
+                margin: -15px -15px 20px;
+              }
+            }
+
+
+          </style>
+          <!--prices-->
+          <div class="progress progress-price progress-xs user-progress hidden-768-down">
+            <div class="bakers-avatar" style="left:10%;">
+              <a class="avatar avatar-sm">
+                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c633622/v633622322/1383f/53KeJtgPqU0.jpg') "></span>
+              </a>
+            </div>
+
+            <div class="bakers-avatar" style="left:20%;">
+              <a class="avatar avatar-sm">
+                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
+              </a>
+            </div>
+            <div class="bakers-avatar" style="left:50%;">
+              <a class="avatar avatar-sm">
+                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
+              </a>
+            </div>
+            <span class="progress-bar progress-bar-info" style="width: 50%;">
+              <span class="progress-item">$ 700</span>
+            </span>
+          </div>
+
+          <!--media-400-->
+          <div class="hidden-768-up bakers-list-mobile clearfix">
+
+            <div class="progress-custom clearfix">
+
+              <div class="avatar-name">
+                <div class="avatar float-left avatar-sm">
+                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
+                </div>
+                <div class="name">
+                  <div class="name-rating">Рейтинг: 5000</div>
+                  <h5>Алексеев Алексей</h5>
+                </div>
+              </div>
+              <div class="clearfix"></div>
+              <div class="progress-bar orange-gr" style="width: 100%;">
+                <div class="progress-bar-price">$700</div>
+              </div>
+            </div>
+            <div class="progress-custom clearfix">
+
+
+
+              <div class="avatar-name">
+                <div class="avatar float-left avatar-sm">
+                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
+                </div>
+                <div class="name">
+                  <div class="name-rating">Рейтинг: 5000</div>
+                  <h5>Алексеев Алексей</h5>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="progress-bar progress-bar-info" style="width: 90%;">
+                <div class="progress-bar-price">$500</div>
+              </div>
+            </div>
+            <div class="progress-custom clearfix">
+
+              <div class="avatar-name">
+                <div class="avatar float-left avatar-sm">
+                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
+                </div>
+                <div class="name">
+                  <div class="name-rating">Рейтинг: 5000</div>
+                  <h5>Алексеев Алексей</h5>
+                </div>
+              </div>
+
+              <div class="clearfix"></div>
+              <div class="progress-bar progress-bar-info clearfix" style="width: 80%;">
+                <div class="progress-bar-price">$500</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bakers-list">
+    <h3>Backers:</h3>
+        <ul class="project-team-items clearfix">
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
+
+            </a>
+          </li>
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
+            </a>
+          </li>
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c633622/v633622322/1383f/53KeJtgPqU0.jpg') "></span>
+            </a>
+          </li>
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c824603/v824603619/2bdc5/0SIaM0fr6QM.jpg') "></span>
+            </a>
+          </li>
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
+            </a>
+          </li>
+        </ul>
       </div>
 
       <!--backers-->
