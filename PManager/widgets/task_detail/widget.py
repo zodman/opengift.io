@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles
+from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles, PM_Project_Donation
 import datetime, json
 from PManager.viewsExt.tools import TextFilters, taskExtensions
 from PManager.widgets.tasklist.widget import widget as taskList
@@ -213,11 +213,29 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'bug', arBugs)
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.get_task_template()
+        backers = User.objects.filter(pk__in=PM_Project_Donation.objects.filter(task=task).values_list('user__id', flat=True))
+
+        askers = []
+        maxRequested = 100
+        for m in task.messages.filter(requested_time_approved=True):
+            if maxRequested < m.requested_time:
+                maxRequested = m.requested_time
+            askers.append({
+                'user': m.author,
+                'ask': m.requested_time
+            })
+
+        for asker in askers:
+            asker['percent'] = asker['ask'] * 100 / maxRequested
+
+        if maxRequested:
+            maxRequested += maxRequested * 0.1
 
         # brain = TaskMind()
         return {
             'title': task.name,
             'task': task,
+            'donatedPercent': task.donated * 100 / maxRequested,
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'project': task.project,
@@ -226,6 +244,8 @@ def widget(request, headerValues, arFilter, q):
             'user_roles': cur_user.get_profile().getRoles(task.project),
             'files': files,
             'time': allTime,
+            'backers': backers,
+            'askers': askers,
             'subtasks': subtasks,
             'taskTemplate': taskTemplate,
             'users': users,

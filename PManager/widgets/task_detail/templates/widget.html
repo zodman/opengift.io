@@ -211,7 +211,7 @@
             }
             .progress-price .progress-item {
               position: absolute;
-              top: 18px;
+              top: 30px;
               right: -35px;
               color: #ff5466;
               font-size: 14px;
@@ -239,10 +239,10 @@
 
             .bakers-avatar {
               position: absolute;
-              background: url(/static/img/avatar.png) 0px 0px no-repeat;
+{#              background: url(/static/img/avatar.png) 0px 0px no-repeat;#}
               height: 60px;
               width: 46px;
-              bottom: 6px;
+              bottom: -33px;
               z-index: 7;
               margin-left: -23px;
             }
@@ -400,28 +400,22 @@
 
 
           </style>
+          {% if task_detail.task.asked %}
           <!--prices-->
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
-            <div class="bakers-avatar" style="left:10%;">
+            {% for asker in askers %}
+            <div class="bakers-avatar" style="left:{{ asker.percent }}%;">
               <a class="avatar avatar-sm">
-                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c633622/v633622322/1383f/53KeJtgPqU0.jpg') "></span>
+                <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
               </a>
             </div>
+          {% endfor %}
 
-            <div class="bakers-avatar" style="left:20%;">
-              <a class="avatar avatar-sm">
-                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
-              </a>
-            </div>
-            <div class="bakers-avatar" style="left:50%;">
-              <a class="avatar avatar-sm">
-                <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
-              </a>
-            </div>
-            <span class="progress-bar progress-bar-info" style="width: 50%;">
-              <span class="progress-item">$ 700</span>
+            <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent }}%;">
+              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0' }}</span>
             </span>
           </div>
+
 
           <!--media-400-->
           <div class="hidden-768-up bakers-list-mobile clearfix">
@@ -443,9 +437,6 @@
               </div>
             </div>
             <div class="progress-custom clearfix">
-
-
-
               <div class="avatar-name">
                 <div class="avatar float-left avatar-sm">
                   <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
@@ -479,40 +470,22 @@
               </div>
             </div>
           </div>
+            {% endif %}
         </div>
-
+{% if backers %}
         <div class="bakers-list">
     <h3>Backers:</h3>
         <ul class="project-team-items clearfix">
+        {% for backer in backers %}
           <li class="team-item">
             <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
-
+              <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
           </li>
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
-            </a>
-          </li>
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c633622/v633622322/1383f/53KeJtgPqU0.jpg') "></span>
-            </a>
-          </li>
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c824603/v824603619/2bdc5/0SIaM0fr6QM.jpg') "></span>
-            </a>
-          </li>
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
-            </a>
-          </li>
+        {% endfor %}
         </ul>
       </div>
-
+{% endif %}
       <!--backers-->
 
     </div>
