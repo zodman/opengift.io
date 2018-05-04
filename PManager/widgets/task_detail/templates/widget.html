@@ -403,7 +403,7 @@
           {% if task_detail.task.asked %}
           <!--prices-->
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
-            {% for asker in askers %}
+            {% for asker in task_detail.askers %}
             <div class="bakers-avatar" style="left:{{ asker.percent }}%;">
               <a class="avatar avatar-sm">
                 <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
