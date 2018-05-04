@@ -472,11 +472,11 @@
           </div>
             {% endif %}
         </div>
-{% if backers %}
+{% if task_detail.backers %}
         <div class="bakers-list">
     <h3>Backers:</h3>
         <ul class="project-team-items clearfix">
-        {% for backer in backers %}
+        {% for backer in task_detail.backers %}
           <li class="team-item">
             <a class="avatar avatar-sm">
               <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
