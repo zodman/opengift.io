@@ -427,7 +427,7 @@
 
               <div class="avatar-name">
                 <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+                  <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
                 </div>
                 <div class="name">
                   <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
