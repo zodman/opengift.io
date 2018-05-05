@@ -225,11 +225,13 @@ def widget(request, headerValues, arFilter, q):
                 'ask': m.requested_time
             })
 
-        for asker in askers:
-            asker['percent'] = asker['ask'] * 100 / maxRequested
+
 
         if maxRequested:
             maxRequested += maxRequested * 0.1
+
+        for asker in askers:
+            asker['percent'] = asker['ask'] * 100 / maxRequested
 
         # brain = TaskMind()
         return {
