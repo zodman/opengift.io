@@ -456,10 +456,10 @@
         {% endfor %}
         </ul>
       </div>
-    <div class="bakers-list hidden-768-down">
+    <div class="bakers-list hidden-768-down" style="margin-bottom: 30px;">
     <span><b>Backers:</b></span>
         {% for backer in task_detail.backers %}
-          <div style="display: inline;position: relative;float: inherit;" class="team-item bakers-avatar">
+          <div style="display: inline;position: relative;float: inherit;margin: 0;bottom: 0; top: 6px;" class="team-item bakers-avatar">
             <a class="avatar avatar-sm">
               <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
