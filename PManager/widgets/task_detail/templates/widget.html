@@ -427,7 +427,7 @@
 
               <div class="avatar-name">
                 <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+                  <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
                 </div>
                 <div class="name">
                   <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
@@ -450,7 +450,7 @@
         {% for backer in task_detail.backers %}
           <li class="team-item">
             <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
           </li>
         {% endfor %}
@@ -462,7 +462,7 @@
         {% for backer in task_detail.backers %}
           <li class="team-item bakers-avatar">
             <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
           </li>
         {% endfor %}
