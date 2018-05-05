@@ -457,16 +457,14 @@
         </ul>
       </div>
     <div class="bakers-list hidden-768-down">
-    <h3>Backers:</h3>
-        <ul class="project-team-items clearfix">
+    <span><b>Backers:</b></span>
         {% for backer in task_detail.backers %}
-          <li class="team-item bakers-avatar">
+          <div style="display: inline;position: relative;float: inherit;" class="team-item bakers-avatar">
             <a class="avatar avatar-sm">
               <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
-          </li>
+          </div>
         {% endfor %}
-        </ul>
       </div>
 {% endif %}
       <!--backers-->
