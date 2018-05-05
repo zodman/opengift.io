@@ -392,9 +392,9 @@
           {% endfor %}
 
             <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
-                {% if task_detail.task.donated %}
-              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>
-                {% endif %}
+{#                {% if task_detail.task.donated %}#}
+{#              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>#}
+{#                {% endif %}#}
             </span>
           </div>
 
