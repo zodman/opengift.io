@@ -404,7 +404,7 @@
           <!--prices-->
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
             {% for asker in task_detail.askers %}
-            <div class="bakers-avatar" style="left:{{ asker.percent }}%;">
+            <div class="bakers-avatar" style="left:{{ asker.percent|floatformat:"f" }}%;">
               <a class="avatar avatar-sm">
                 <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
               </a>
@@ -421,7 +421,7 @@
 
           <!--media-400-->
           <div class="hidden-768-up bakers-list-mobile clearfix">
-
+            {% for asker in task_detail.askers %}
             <div class="progress-custom clearfix">
 
               <div class="avatar-name">
@@ -429,48 +429,16 @@
                   <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
                 </div>
                 <div class="name">
-                  <div class="name-rating">Рейтинг: 5000</div>
-                  <h5>Алексеев Алексей</h5>
+                  <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
+                  <h5>{{ asker.user.last_name }} {{ asker.user.first_name }}</h5>
                 </div>
               </div>
               <div class="clearfix"></div>
-              <div class="progress-bar orange-gr" style="width: 100%;">
-                <div class="progress-bar-price">$700</div>
+              <div class="progress-bar orange-gr" style="width: {{ asker.percent | floatformat:"f" }}%;">
+                <div class="progress-bar-price">${{ asker.ask | floatformat }}</div>
               </div>
             </div>
-            <div class="progress-custom clearfix">
-              <div class="avatar-name">
-                <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
-                </div>
-                <div class="name">
-                  <div class="name-rating">Рейтинг: 5000</div>
-                  <h5>Алексеев Алексей</h5>
-                </div>
-              </div>
-
-              <div class="clearfix"></div>
-              <div class="progress-bar progress-bar-info" style="width: 90%;">
-                <div class="progress-bar-price">$500</div>
-              </div>
-            </div>
-            <div class="progress-custom clearfix">
-
-              <div class="avatar-name">
-                <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c837620/v837620789/6a0cc/7JV7kwJoRfM.jpg') "></span>
-                </div>
-                <div class="name">
-                  <div class="name-rating">Рейтинг: 5000</div>
-                  <h5>Алексеев Алексей</h5>
-                </div>
-              </div>
-
-              <div class="clearfix"></div>
-              <div class="progress-bar progress-bar-info clearfix" style="width: 80%;">
-                <div class="progress-bar-price">$500</div>
-              </div>
-            </div>
+          {% endfor %}
           </div>
             {% endif %}
         </div>
