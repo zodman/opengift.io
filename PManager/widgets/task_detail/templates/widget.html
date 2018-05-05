@@ -437,7 +437,7 @@
           <!--prices-->
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
             {% for asker in task_detail.askers %}
-            <div class="bakers-avatar {% if asker.percent > task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">
+            <div class="bakers-avatar {% if asker.percent < task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">
               <a class="avatar avatar-sm" title="{{ asker.user.last_name }} {{ asker.user.first_name }}" data-toggle="tooltip">
                 <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
               </a>
