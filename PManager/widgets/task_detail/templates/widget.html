@@ -242,7 +242,7 @@
 {#              background: url(/static/img/avatar.png) 0px 0px no-repeat;#}
               height: 60px;
               width: 46px;
-              bottom: -33px;
+              bottom: -26px;
               z-index: 7;
               margin-left: -23px;
             }
@@ -256,7 +256,7 @@
               margin-top: 6px;
               border: 3px solid #fff;
               box-shadow: 0 0px 7px rgba(1,1,1,0.2);
-              width: 34px;
+              width: 46px;
               border-radius: 50%;
             }
 
@@ -276,8 +276,8 @@
             }
 
             .bakers-avatar span.avatar-sm-spa {
-               height: 28px;
-               width: 28px;
+               height: 40px;
+               width: 40px;
                border-radius: 50%;
              }
 
@@ -413,7 +413,7 @@
 
             <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
                 {% if task_detail.task.donated %}
-              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0' }}</span>
+              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>
                 {% endif %}
             </span>
           </div>
