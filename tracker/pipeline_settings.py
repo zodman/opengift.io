@@ -205,6 +205,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/pm/comments.js',
             'widgets/task_detail/widget.js',
+            'js/bootstrap/bootstrap-tooltip.js',
         ),
         'output_filename': 'js_compressed/task_detail.js'
     },
