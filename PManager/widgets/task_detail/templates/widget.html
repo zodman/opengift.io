@@ -153,7 +153,36 @@
 
     <div class="bakers-wrapper">
       <!--estimates-->
-        <div class="grey-600">
+
+{% if task_detail.backers %}
+    <div class="bakers-list hidden-768-up">
+        <h3>Backers:</h3>
+        <ul class="project-team-items clearfix">
+        {% for backer in task_detail.backers %}
+          <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+    </div>
+    <div class="bakers-list hidden-768-down" style="margin-bottom: 30px;">
+    <span><b>Backers:</b></span>
+        {% for backer in task_detail.backers %}
+          <div style="display: inline;position: relative;float: inherit;margin: 0;bottom: 0; top: 14px;" class="team-item bakers-avatar">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+            </a>
+          </div>
+        {% endfor %}
+      </div>
+    <div class="progress progress-price progress-xs user-progress hidden-768-up" style="margin-top: 0;">
+        <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
+        </span>
+    </div>
+{% endif %}
+    <div class="grey-600">
           <!--users-->
 
           <style>
@@ -443,34 +472,6 @@
           </div>
             {% endif %}
         </div>
-{% if task_detail.backers %}
-        <div class="bakers-list hidden-768-up">
-    <h3>Backers:</h3>
-        <ul class="project-team-items clearfix">
-        {% for backer in task_detail.backers %}
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-            </a>
-          </li>
-        {% endfor %}
-        </ul>
-      </div>
-    <div class="bakers-list hidden-768-down" style="margin-bottom: 30px;">
-    <span><b>Backers:</b></span>
-        {% for backer in task_detail.backers %}
-          <div style="display: inline;position: relative;float: inherit;margin: 0;bottom: 0; top: 14px;" class="team-item bakers-avatar">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
-    <div class="progress progress-price progress-xs user-progress hidden-768-up" style="margin-top: 0;">
-                <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
-                </span>
-            </div>
-{% endif %}
       <!--backers-->
 
     </div>
