@@ -467,9 +467,6 @@
       </div>
     <div class="progress progress-price progress-xs user-progress hidden-768-up">
                 <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
-                    {% if task_detail.task.donated %}
-                  <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0' }}</span>
-                    {% endif %}
                 </span>
             </div>
 {% endif %}
