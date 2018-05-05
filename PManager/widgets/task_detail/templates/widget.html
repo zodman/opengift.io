@@ -421,12 +421,13 @@
 
           <!--media-400-->
           <div class="hidden-768-up bakers-list-mobile clearfix">
+          <h3>Developers:</h3>
             {% for asker in task_detail.askers %}
             <div class="progress-custom clearfix">
 
               <div class="avatar-name">
                 <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('https://pp.userapi.com/c407716/v407716322/6f71/McjsSbAEA_Q.jpg') "></span>
+                  <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
                 </div>
                 <div class="name">
                   <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
@@ -443,11 +444,23 @@
             {% endif %}
         </div>
 {% if task_detail.backers %}
-        <div class="bakers-list">
+        <div class="bakers-list hidden-768-up">
     <h3>Backers:</h3>
         <ul class="project-team-items clearfix">
         {% for backer in task_detail.backers %}
           <li class="team-item">
+            <a class="avatar avatar-sm">
+              <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+            </a>
+          </li>
+        {% endfor %}
+        </ul>
+      </div>
+    <div class="bakers-list hidden-768-down">
+    <h3>Backers:</h3>
+        <ul class="project-team-items clearfix">
+        {% for backer in task_detail.backers %}
+          <li class="team-item bakers-avatar">
             <a class="avatar avatar-sm">
               <span class="avatar-sm-spa" style="background-image:url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
