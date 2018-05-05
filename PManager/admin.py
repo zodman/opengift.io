@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Gvammer'
 from django.contrib import admin
 from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, PM_Project_Problem, \

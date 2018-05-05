@@ -32,7 +32,7 @@
             </li>
         </ul>
     </div>
-    {% if tasklist.project and tasklist.project.id != 1013 %}
+    {% if tasklist.project and request.user.is_authenticated %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}
         <form role="form">
             <div class="clearfix">

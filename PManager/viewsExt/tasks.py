@@ -1297,7 +1297,7 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_fastCreate(self):
         taskInputText = self.getRequestData('task_name')
-        projectId = self.getRequestData('project_name')
+        projectId = self.getRequestData('project_id')
         projectName = self.getRequestData('project_name')
         projectDescription = self.getRequestData('project_description')
         projectCode = self.getRequestData('project_code')
