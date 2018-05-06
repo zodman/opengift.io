@@ -65,7 +65,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 });
             }
 
-            if () {
+            if (this.get('canObserve')) {
                 if (this.get('observer')) {
                     arItems.push({
                         'itemClass': 'ResetPlanning',
