@@ -90,7 +90,7 @@
       <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked }}</b></li>
       {% endif %}
 
-      <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0' }}</b></li>
+      <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
     </ul>
 
     {% if not task_detail.task.closed %}
@@ -480,7 +480,7 @@
     <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
     {% endif %}
 
-
+    {% if request.user.is_authenticated %}
     <div class="task_add-message">
       <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
@@ -561,7 +561,9 @@
         </div>
       </form>
     </div>
-
+    {% else %}
+        <p><a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}&number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to download the result.</p>
+    {% endif %}
     <!--{#        <div class="chat-nav chat-nav-simple">#}
     {#            <div class="radio-checkbox-block">#}
     {#                <label class="checkbox-inline clearfix">#}

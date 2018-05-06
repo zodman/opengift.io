@@ -24,7 +24,7 @@
                     {% endif %}
                 </div>
                 <div class="">Rating: {% if user_detail.competence > 0 %}+ {% endif %}{{ user_detail.competence }}</div>
-                <div class="">Donated: {{ user_detail.donated }}</div>
+                <div class="">Donated: {{ user_detail.donated | floatformat: "0" }}</div>
                 <div class="">Wallet: {{ user_detail.profile.blockchain_wallet }}</div>
                 <h3>Projects</h3>
                 <h4>Sponsor</h4>
