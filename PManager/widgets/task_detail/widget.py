@@ -218,7 +218,7 @@ def widget(request, headerValues, arFilter, q):
                         'hidden_from_employee': mes.hidden_from_employee
                     })
 
-            setattr(mes, 'json', json.dumps(mes.getJson(ob, cur_user)))
+            setattr(mes, 'json', json.dumps(mes.getJson(ob, cur_user if cur_user.is_authenticated() else None)))
 
         try:
             startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
