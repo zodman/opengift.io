@@ -17,7 +17,11 @@ from PManager.viewsExt.tools import redisSendTaskUpdate
 def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
     cur_user = request.user
-    prof = request.user.get_profile()
+
+    prof = None
+    if cur_user.is_authenticated():
+        prof = request.user.get_profile()
+
     task = None
     if 'id' in request.GET or 'number' in request.GET:
         try:
@@ -36,7 +40,7 @@ def widget(request, headerValues, arFilter, q):
         if not task:
             raise Http404(u'Задача удалена')
 
-        if not cur_user.get_profile().hasAccess(task, 'view') and not task.onPlanning:
+        if not task.onPlanning and not cur_user.get_profile().hasAccess(task, 'view'):
             raise Http404(u'Нет прав для просмотра задачи')
 
         error = ''
@@ -108,15 +112,18 @@ def widget(request, headerValues, arFilter, q):
         # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
         setattr(task, 'currentWinner', winner)
-        setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
-        setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
-        setattr(task, 'canSetCritically', task.canEdit(cur_user))
-        setattr(task, 'canSetReady', prof.hasRole(task.project))
-        setattr(task, 'canEdit', task.canEdit(cur_user))
-        setattr(task, 'canRemove', task.canPMUserRemove(prof))
-        setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
-        setattr(task, 'canClose', task.canApprove)
         setattr(task, 'taskPlanTime', task.planTime)
+
+        if cur_user.is_authenticated():
+            setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
+            setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
+            setattr(task, 'canSetCritically', task.canEdit(cur_user))
+            setattr(task, 'canSetReady', prof.hasRole(task.project))
+            setattr(task, 'canEdit', task.canEdit(cur_user))
+            setattr(task, 'canRemove', task.canPMUserRemove(prof))
+            setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
+            setattr(task, 'canClose', task.canApprove)
+
 
         setattr(task, 'taskResp', [{'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}])
 
@@ -125,8 +132,9 @@ def widget(request, headerValues, arFilter, q):
 
         if task:
             #set task readed
-            if not request.user.id in [u.id for u in task.viewedUsers.all()]:
-                task.viewedUsers.add(request.user)
+            if cur_user.is_authenticated():
+                if not cur_user.id in [u.id for u in task.viewedUsers.all()]:
+                    task.viewedUsers.add(cur_user)
 
             hiddenSubTasksExist = False
             arFilter = {
@@ -150,20 +158,25 @@ def widget(request, headerValues, arFilter, q):
             if isinstance(val, datetime.datetime):
                 setattr(task, field, val.strftime('%d.%m.%Y %H:%M'))
 
+
         messages = task.messages.order_by('-dateCreate').exclude(code="WARNING")
-        # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
-        if not request.user.is_superuser:
-            if prof.isEmployee(task.project) or prof.isManager(task.project) or True:
-                messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
-            else:
-                messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
+
+        if cur_user.is_authenticated():
+            messages = messages.filter(isSystemLog=True)
+        else:
+            # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
+            if not request.user.is_superuser:
+                if prof.isEmployee(task.project) or prof.isManager(task.project) or True:
+                    messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
+                else:
+                    messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
 
 
-        if not prof.isManager(task.project):
-            if prof.isClient(task.project):
-                messages = messages.filter(hidden_from_clients=False)
-            if prof.isEmployee(task.project):
-                messages = messages.filter(hidden_from_employee=False)
+            if not prof.isManager(task.project):
+                if prof.isClient(task.project):
+                    messages = messages.filter(hidden_from_clients=False)
+                if prof.isEmployee(task.project):
+                    messages = messages.filter(hidden_from_employee=False)
 
         lamp, iMesCount = 'no-asked', messages.count()
 
@@ -174,10 +187,6 @@ def widget(request, headerValues, arFilter, q):
         arTodo = []
         arBugs = []
         for mes in messages:
-            if mes.userTo and mes.userTo.id == request.user.id:
-                mes.read = True
-                mes.save()
-
             if mes.todo:
                 arTodo.append({
                     'id': mes.id,
@@ -197,11 +206,18 @@ def widget(request, headerValues, arFilter, q):
                 'canDelete': mes.canDelete(request.user),
                 'init': True
             }
-            if cur_user.get_profile().isManager(task.project):
-                ob.update({
-                    'hidden_from_clients': mes.hidden_from_clients,
-                    'hidden_from_employee': mes.hidden_from_employee
-                })
+            if cur_user.is_authenticated():
+
+                if mes.userTo and mes.userTo.id == cur_user.id:
+                    mes.read = True
+                    mes.save()
+
+                if cur_user.get_profile().isManager(task.project):
+                    ob.update({
+                        'hidden_from_clients': mes.hidden_from_clients,
+                        'hidden_from_employee': mes.hidden_from_employee
+                    })
+
             setattr(mes, 'json', json.dumps(mes.getJson(ob, request.user)))
 
         try:
@@ -241,9 +257,9 @@ def widget(request, headerValues, arFilter, q):
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'project': task.project,
-            'is_employee': cur_user.get_profile().isEmployee(task.project),
-            'is_manager': cur_user.get_profile().isManager(task.project),
-            'user_roles': cur_user.get_profile().getRoles(task.project),
+            'is_employee': cur_user.get_profile().isEmployee(task.project) if cur_user.is_authenticated() else False,
+            'is_manager': cur_user.get_profile().isManager(task.project) if cur_user.is_authenticated() else False,
+            'user_roles': cur_user.get_profile().getRoles(task.project) if cur_user.is_authenticated() else False,
             'files': files,
             'time': allTime,
             'backers': backers,
