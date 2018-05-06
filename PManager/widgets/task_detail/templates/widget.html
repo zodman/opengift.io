@@ -561,7 +561,9 @@
       </form>
     </div>
     {% else %}
-        <p><a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to download the result.</p>
+        <p style="margin-left: 10px;">
+            <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to download the result.
+        </p>
     {% endif %}
     <!--{#        <div class="chat-nav chat-nav-simple">#}
     {#            <div class="radio-checkbox-block">#}
