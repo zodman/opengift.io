@@ -133,10 +133,11 @@
                             <div class="find-container">
                                 <i class="fa fa-search"
                                    style="color: #d9d9d9; font-size: 17px; left: 11px; position: absolute; top: 8px;"></i>
-                                <input type="text" placeholder="Search" class="search-input form-control "/>
+                                <input type="text" placeholder="Search" class="search-input form-control{% if request.user.is_authenticated %} with-filter{% endif %}"/>
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
                         </td>
+                        {% if request.user.is_authenticated %}
                         <td style="vertical-align:top; padding-right: 10px;">
                             <div class="big-filter-wrapper">
                                 <button class="btn btn-info border-r4 js-filter-btn" type="button"
@@ -250,6 +251,7 @@
 
                             </div>
                         </td>
+                        {% endif %}
                         {% if main.CURRENT_PROJECT %}
                             <td width="105">
                                 <div class="milestones-btn-wrapper">

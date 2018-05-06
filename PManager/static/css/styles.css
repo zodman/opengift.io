@@ -911,7 +911,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== ДОБАВИТЬ ЗАДАЧУ */
 
-.tasks-toolbar .search-filter input.search-input {display:block; float:left;
+.tasks-toolbar .search-filter input.search-input.with-filter {display:block; float:left;
     -webkit-border-top-right-radius: 0px;
     -webkit-border-bottom-right-radius: 0px;
     -moz-border-radius-topright: 0px;
@@ -919,7 +919,8 @@ div.taskWizard-required .taskWizard-question-title:after {
     -o-border-radius-topright: 0px;
     -o-border-radius-bottomright: 0px;
     border-top-right-radius: 0px;
-    border-bottom-right-radius: 0px;}
+    border-bottom-right-radius: 0px;
+}
 .tasks-toolbar .search-filter .btn-default {width:40px;}
 .tasks-toolbar .search-filter .btn-success .name {padding-left:10px;}
 .tasks-toolbar .search-filter .btn-info {margin-left:0px;}
