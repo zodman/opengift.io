@@ -252,7 +252,7 @@ $.fn.addFilePaste = function (options) {
             })
                 .append('<a href="#" class="edit btn btn-success btn-mini"><i class="fa fa-pencil icon-white"></i></a>')
                 .append('<a href="#" class="close"><i class="fa fa-times icon-remove icon-white"></i></a>')
-                .append('<h2>Вставка изображения</h2>')
+                .append('<h2>Picture attaching</h2>')
                 .append('<p>Выберите участок для вставки</p>')
                 .append('<input type="hidden" style="display:none" name="posted_image" value="' + src + '" />')
                 .append('<input type="hidden" name="posted_image_x1" />')
@@ -312,8 +312,8 @@ $.fn.addFilePaste = function (options) {
                     '</div>' +
                     '<div class="CanvasContainer"></div>' +
                     '<hr><div class="canvasBottons">' +
-                    '<button class="canvasSave btn btn-success">Отправить</button>' +
-                    '<button class="canvasClear btn btn-warning">Очистить</button>' +
+                    '<button class="canvasSave btn btn-success">Attach</button>' +
+                    '<button class="canvasClear btn btn-warning">Clear</button>' +
                     '</div>' +
                     '<div id="savedCopyContainer"></div>' +
                     '</div>';
@@ -397,7 +397,7 @@ $.fn.addFilePaste = function (options) {
                 }
             };
 
-            $form.append('<hr><div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Отправить" class="btn btn-success btn-large" /></div></div>')
+            $form.append('<hr><div class="form_submit"><div align="center"><input type="submit" name="posted_image_submit" value="Attach" class="btn btn-success btn-large" /></div></div>')
                 .ajaxForm(function (data) {
                     options.callback.call(pasteObj.get(0), data);
                     $('.preview_img_form').remove();
