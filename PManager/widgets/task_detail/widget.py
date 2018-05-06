@@ -202,11 +202,11 @@ def widget(request, headerValues, arFilter, q):
                 })
 
             ob = {
-                'canEdit': mes.canEdit(request.user),
-                'canDelete': mes.canDelete(request.user),
                 'init': True
             }
             if cur_user.is_authenticated():
+                ob['canEdit'] = mes.canEdit(cur_user)
+                ob['canDelete'] = mes.canDelete(cur_user)
 
                 if mes.userTo and mes.userTo.id == cur_user.id:
                     mes.read = True
@@ -218,7 +218,7 @@ def widget(request, headerValues, arFilter, q):
                         'hidden_from_employee': mes.hidden_from_employee
                     })
 
-            setattr(mes, 'json', json.dumps(mes.getJson(ob, request.user)))
+            setattr(mes, 'json', json.dumps(mes.getJson(ob, cur_user)))
 
         try:
             startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
