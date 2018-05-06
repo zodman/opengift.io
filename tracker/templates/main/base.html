@@ -25,10 +25,10 @@
         var CURRENT_TASK_DATA;
         var arTimers = {};
         window.backurl = '{{ backurl }}';
+
         {% if main.CURRENT_PROJECT %}
             window.currentProject = {{ main.CURRENT_PROJECT.id }};
         {% endif %}
-
 
         WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
         $(function () {
