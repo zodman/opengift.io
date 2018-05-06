@@ -56,6 +56,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                    'itemMethod': 'editTask',
                    'icon': 'edit'
                 });
+
                 arItems.push({
                     'itemClass': 'Deadline',
                     'itemText': 'Dates',
@@ -64,20 +65,22 @@ var CRITICALLY_THRESHOLD = 0.7;
                 });
             }
 
-            if (this.get('observer')) {
-                arItems.push({
-                    'itemClass': 'ResetPlanning',
-                    'itemText': 'Dont observe',
-                    'itemMethod': 'stopObserve',
-                    'icon': 'eye-slash'
-                });
-            } else {
-                arItems.push({
-                    'itemClass': 'BringPlanning',
-                    'itemText': 'Observe',
-                    'itemMethod': 'startObserve',
-                    'icon': 'eye'
-                });
+            if () {
+                if (this.get('observer')) {
+                    arItems.push({
+                        'itemClass': 'ResetPlanning',
+                        'itemText': 'Don\'t observe',
+                        'itemMethod': 'stopObserve',
+                        'icon': 'eye-slash'
+                    });
+                } else {
+                    arItems.push({
+                        'itemClass': 'BringPlanning',
+                        'itemText': 'Observe',
+                        'itemMethod': 'startObserve',
+                        'icon': 'eye'
+                    });
+                }
             }
 
             if (this.get('canSetOnPlanning')) {

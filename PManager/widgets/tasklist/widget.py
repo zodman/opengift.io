@@ -344,7 +344,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'asked': task.asked,
                 'canEdit': task.canEdit(cur_user) if cur_user.is_authenticated() else False,
                 'canRemove': task.canPMUserRemove(cur_prof) if cur_prof else False,
-                'canSetOnPlanning': (arBIsManager[task.id] or cur_user.id == task.author.id) and task.project.id!=1013,
+                'canSetOnPlanning': arBIsManager[task.id] or cur_user.id == task.author.id,
+                'canObserve': cur_user.is_authenticated(),
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
                 'canClose': cur_user.id == task.author.id if cur_user else False,

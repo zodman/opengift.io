@@ -481,7 +481,7 @@
     {% endif %}
 
     {% if request.user.is_authenticated %}
-    <div class="task_add-message">
+      <div class="task_add-message">
       <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
         <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
@@ -521,7 +521,6 @@
               box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
             }
         </style>
-
         <div class="left clearfix">
           <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message</label>
           {% if not task_detail.task.closed %}

@@ -117,6 +117,7 @@ def widget(request, headerValues, arFilter, q):
         if cur_user.is_authenticated():
             setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
             setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
+            setattr(task, 'canObserve', cur_user.is_authenticated())
             setattr(task, 'canSetCritically', task.canEdit(cur_user))
             setattr(task, 'canSetReady', prof.hasRole(task.project))
             setattr(task, 'canEdit', task.canEdit(cur_user))
