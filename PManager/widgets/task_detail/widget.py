@@ -161,7 +161,7 @@ def widget(request, headerValues, arFilter, q):
 
         messages = task.messages.order_by('-dateCreate').exclude(code="WARNING")
 
-        if cur_user.is_authenticated():
+        if not cur_user.is_authenticated():
             messages = messages.filter(isSystemLog=True)
         else:
             # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
