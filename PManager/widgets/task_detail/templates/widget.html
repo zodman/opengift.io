@@ -87,7 +87,7 @@
       {% endif %}
 
       {% if task_detail.task.asked %}
-      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked }}</b></li>
+      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>
       {% endif %}
 
       <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
@@ -97,11 +97,9 @@
     <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}" class="donate-button btn orange-gr">Donate<img src="/static/img/investment.svg" height="18"></a>
     {% endif %}
   </div>
-
     <div class="bakers-wrapper">
       <!--estimates-->
-
-{% if task_detail.backers %}
+    {% if task_detail.backers %}
     <div class="bakers-list hidden-768-up">
         <h3>Backers:</h3>
         <ul class="project-team-items clearfix">
