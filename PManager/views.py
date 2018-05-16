@@ -180,12 +180,12 @@ class MainPage:
                         user.save()
 
                     white_list_registraton = request.POST.get('whitelist', None)
-                    promo = request.POST.get('promo', None)
+                    promo_reg = request.POST.get('promo', None)
 
-                    if white_list_registraton or promo:
+                    if white_list_registraton or promo_reg:
                         prof = user.get_profile()
                         prof.in_whitelist = True if white_list_registraton else False
-                        prof.in_promo = True if promo else False
+                        prof.in_promo = True if promo_reg else False
                         prof.save()
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
