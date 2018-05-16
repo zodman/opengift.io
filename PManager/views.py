@@ -121,7 +121,12 @@ class MainPage:
         return HttpResponse(loader.get_template('main/change_password.html').render(c))
 
     @staticmethod
-    def auth(request):
+    def takeGift(request):
+        return MainPage.auth(request, isPromo=True)
+
+    @staticmethod
+    def auth(request, isPromo=False):
+        setattr(request, 'isPromo', isPromo)
         from PManager.viewsExt.tools import emailMessage
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
@@ -175,9 +180,11 @@ class MainPage:
                         user.save()
 
                     white_list_registraton = request.POST.get('whitelist', None)
-                    if white_list_registraton:
+                    promo = request.POST.get('promo', None)
+                    if white_list_registraton or promo:
                         prof = user.get_profile()
-                        prof.in_whitelist = True
+                        prof.in_whitelist = True if white_list_registraton else False
+                        prof.in_promo = True if promo else False
                         prof.save()
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'

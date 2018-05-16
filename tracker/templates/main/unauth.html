@@ -3,11 +3,15 @@
 {% block content %}
 <section>
   <div class="container">
+      {% if request.isPromo %}
+          <h1 class="display-4 u-fw-600 u-mb-40">Take 100 GIFT tokens for free to your new wallet!</h1>
+          <p class="u-fs-22 u-lh-1_8 my-4">You can hold it or sponsor any open-source project on the platform.</p>
+      {% endif %}
     <!--tabs-->
     <div class="nav nav-pills justify-content-center mb-3" role="tablist" aria-orientation="vertical">
-      <a class="nav-link active h1" data-toggle="pill" href="#v-pills-Sign" role="tab" aria-controls="v-pills-Sign" aria-selected="true" aria-expanded="false">Sign In</a>
+      <a class="nav-link {% if not request.isPromo %}active{% endif %} h1" data-toggle="pill" href="#v-pills-Sign" role="tab" aria-controls="v-pills-Sign" aria-selected="true" aria-expanded="false">Sign In</a>
 
-      <a class="nav-link h1" data-toggle="pill" href="#v-pills-Register" role="tab" aria-controls="v-pills-Register" aria-selected="false" aria-expanded="false">Register</a>
+      <a class="nav-link {% if request.isPromo %}active{% endif %} h1" data-toggle="pill" href="#v-pills-Register" role="tab" aria-controls="v-pills-Register" aria-selected="false" aria-expanded="false">Register</a>
     </div>
 
     <style>
@@ -168,6 +172,9 @@
               <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Register" />
               <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
               <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
+                {% if request.isPromo %}
+                <input type="hidden" name="promo" value="1" />
+                {% endif %}
             </div>
           </div>
         </form>
