@@ -145,7 +145,7 @@ class MainPage:
 
             backurl = request.POST.get('backurl', None)
             if not backurl:
-                backurl = '/'
+                backurl = '/wallet/'
 
             from django.contrib.auth import authenticate, login
 
@@ -181,6 +181,7 @@ class MainPage:
 
                     white_list_registraton = request.POST.get('whitelist', None)
                     promo = request.POST.get('promo', None)
+
                     if white_list_registraton or promo:
                         prof = user.get_profile()
                         prof.in_whitelist = True if white_list_registraton else False
