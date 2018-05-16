@@ -80,7 +80,7 @@ div.preview_img_form .edit {
     position: absolute;
     right: 57px;
     top: 13px;
-    color:#47a447;
+    color:#FFFFFF;
     width: 35px;
     text-shadow: 0px 0px 0px #fff;
     -moz-text-shadow: 0px 0px 0px #fff;
@@ -96,10 +96,9 @@ div.preview_img_form .close {
     position: absolute;
     right: 15px;
     top: 13px;
-    opacity: 0.2;
+    color:#FFFFFF;
 }
 div.preview_img_form .close:hover {
-    opacity: 0.6;
 }
 div.preview_img_form .btn-mini [class^="icon-"],
 div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
