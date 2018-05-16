@@ -8,12 +8,13 @@
           <p class="u-fs-22 u-lh-1_8 my-4 text-center">You can choose to keep it or sponsor some cool open source projects.</p>
       {% endif %}
     <!--tabs-->
+  {% if not request.isPromo %}
     <div class="nav nav-pills justify-content-center mb-3" role="tablist" aria-orientation="vertical">
-      <a class="nav-link {% if not request.isPromo %}active{% endif %} h1" data-toggle="pill" href="#v-pills-Sign" role="tab" aria-controls="v-pills-Sign" aria-selected="true" aria-expanded="false">Sign In</a>
+      <a class="nav-link active h1" data-toggle="pill" href="#v-pills-Sign" role="tab" aria-controls="v-pills-Sign" aria-selected="true" aria-expanded="false">Sign In</a>
 
-      <a class="nav-link {% if request.isPromo %}active{% endif %} h1" data-toggle="pill" href="#v-pills-Register" role="tab" aria-controls="v-pills-Register" aria-selected="false" aria-expanded="false">Register</a>
+      <a class="nav-link h1" data-toggle="pill" href="#v-pills-Register" role="tab" aria-controls="v-pills-Register" aria-selected="false" aria-expanded="false">Register</a>
     </div>
-
+    {% endif %}
     <style>
       .nav-link.active {
         color: white !important;
