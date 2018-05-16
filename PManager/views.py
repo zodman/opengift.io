@@ -122,11 +122,12 @@ class MainPage:
 
     @staticmethod
     def takeGift(request):
-        return MainPage.auth(request, isPromo=True)
+        setattr(request, 'isPromo', isPromo)
+        return MainPage.auth(request)
 
     @staticmethod
-    def auth(request, isPromo=False):
-        setattr(request, 'isPromo', isPromo)
+    def auth(request):
+
         from PManager.viewsExt.tools import emailMessage
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
@@ -180,7 +181,7 @@ class MainPage:
                         user.save()
 
                     white_list_registraton = request.POST.get('whitelist', None)
-                    promo_reg = request.POST.get('promo', None)
+                    promo_reg = request.POST.get('promo_reg', None)
 
                     if white_list_registraton or promo_reg:
                         prof = user.get_profile()

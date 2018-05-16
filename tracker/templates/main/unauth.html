@@ -173,7 +173,7 @@
               <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
               <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
                 {% if request.isPromo %}
-                <input type="hidden" name="promo" value="1" />
+                <input type="hidden" name="promo_reg" value="1" />
                 {% endif %}
             </div>
           </div>
