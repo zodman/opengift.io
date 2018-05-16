@@ -122,7 +122,7 @@ class MainPage:
 
     @staticmethod
     def takeGift(request):
-        setattr(request, 'isPromo', isPromo)
+        setattr(request, 'isPromo', True)
         return MainPage.auth(request)
 
     @staticmethod
