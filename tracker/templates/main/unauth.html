@@ -23,7 +23,7 @@
 
     <!--messages-->
     <div class="text-center">
-      <p>View our privacy policy and use of cookies</p>
+
       {% if error %}
       <div class="bg-primary rounded u-p-10 u-mb-40 mx-auto">
         {% ifequal error "not_found" %}
@@ -87,7 +87,7 @@
           <!--button-->
           <div class="row">
             <div class="col-lg-4 text-center mx-auto">
-              <input class="btn btn-rounded btn-green px-md-5 m-3" type="submit" value="Submit" />
+              <input class="btn btn-rounded btn-green px-md-5 m-3" type="submit" value="Sign in" />
               <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
               <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
             </div>
@@ -170,12 +170,13 @@
           <!--button-->
           <div class="row">
             <div class="col-lg-4 text-center mx-auto">
-              <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Register" />
+              <input class="btn btn-rounded btn-green px-md-5 m-3" type="submit" value="Register" />
               <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
               <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
                 {% if request.isPromo %}
                 <input type="hidden" name="promo_reg" value="1" />
                 {% endif %}
+            <p>View our privacy policy and use of cookies</p>
             </div>
           </div>
         </form>
