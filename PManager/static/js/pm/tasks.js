@@ -325,7 +325,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
                 if (percent > 100) percent = 100;
                 oTaskContainers.$reward.append('<div class="progress-item donation-progress">' +
-                    '                    <span>Donated <b>$'+Math.round(parseFloat(taskInfo.donated) * 100)+'</b> out of <b>$'+Math.round(parseFloat(taskInfo.asked))+'</b></span>' +
+                    '                    <span>Donated <b>$'+Math.round(parseFloat(taskInfo.donated))+'</b> out of <b>$'+Math.round(parseFloat(taskInfo.asked))+'</b></span>' +
                     '                    ' +
                     '                    <div class="progress w-100">' +
                     '                        <div class="progress-bar green-gr" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
