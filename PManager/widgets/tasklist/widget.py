@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
+from PManager.models import PM_Task, PM_Project, Tags,PM_User, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
     PM_Milestone, PM_ProjectRoles, PM_Reminder, Release, PM_MilestoneChanges
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
@@ -364,8 +364,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     } for t in task.messages.filter(Q(Q(todo=True) | Q(bug=True))).order_by('id').values('checked', 'bug', 'todo')
                 ],
                 'resp': responsibleSequence if responsibleSequence else [
-                    {'id': task.resp.id,
-                     'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
+                    {
+                        'id': task.resp.id,
+                        'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username
+                    } if task.resp else {}
                 ],
                 'last_message': {
                     'text': TextFilters.escapeText(last_mes.text),
@@ -447,11 +449,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         histasksQty = resp.todo.filter(active=True, closed=False).count()
         setattr(resp, 'openTasksQty', histasksQty)
         if resp.id not in aUserLinks:
-            aUserLinks[resp.id] = {
-                'url': resp.get_profile().url,
-                'name': resp.last_name + ' ' + resp.first_name,
-            }
-        aResps.append(resp)
+            try:
+                aUserLinks[resp.id] = {
+                    'url': resp.get_profile().url,
+                    'name': resp.last_name + ' ' + resp.first_name,
+                }
+                aResps.append(resp)
+            except PM_User.DoesNotExist:
+                pass
 
     if needTaskList:
         aTasksId = addTasks.keys()
