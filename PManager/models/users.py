@@ -168,9 +168,16 @@ class PM_User(models.Model):
     def is_opengifter(self):
         return self.opengifter_level == self.OPENGIFTER
 
-    def get_donation_sum(self):
+    def get_donation_sum(self, taskId=None, projectId=None):
         sum = 0
-        for d in self.user.donations.all():
+        donations = self.user.donations.all()
+        if taskId:
+            donations = donations.filter(task=taskId)
+
+        if projectId:
+            donations = donations.filter(project=projectId)
+
+        for d in donations:
             sum += d.sum
 
         return sum

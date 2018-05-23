@@ -116,7 +116,7 @@
     <span><b>Backers:</b></span>
         {% for backer in task_detail.backers %}
           <div style="display: inline;position: relative;float: inherit;margin: 0;bottom: 0; top: 14px;" class="team-item bakers-avatar">
-            <a class="avatar avatar-sm" title="{{ backer.last_name }} {{ backer.first_name }}" data-toggle="tooltip">
+            <a class="avatar avatar-sm" title="{{ backer.last_name }} {{ backer.first_name }} ({{ backer.donated }})" data-toggle="tooltip">
               <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
             </a>
           </div>

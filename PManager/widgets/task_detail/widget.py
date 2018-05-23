@@ -232,6 +232,11 @@ def widget(request, headerValues, arFilter, q):
         taskTemplate = templateTools.get_task_template()
         backers = User.objects.filter(pk__in=PM_Project_Donation.objects.filter(task=task).values_list('user__id', flat=True))
 
+        aBackers = []
+        for backer in backers:
+            setattr(backer, 'donated', backer.get_profile().get_donation_sum(taskId=task.id))
+            aBackers.append(backer)
+
         askers = []
         maxRequested = 100
         for m in task.messages.filter(requested_time_approved=True):
@@ -263,7 +268,7 @@ def widget(request, headerValues, arFilter, q):
             'user_roles': cur_user.get_profile().getRoles(task.project) if cur_user.is_authenticated() else False,
             'files': files,
             'time': allTime,
-            'backers': backers,
+            'backers': aBackers,
             'askers': askers,
             'subtasks': subtasks,
             'taskTemplate': taskTemplate,
