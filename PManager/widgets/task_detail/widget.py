@@ -234,8 +234,12 @@ def widget(request, headerValues, arFilter, q):
 
         aBackers = []
         from tracker.settings import GIFT_USD_RATE
+        arDonateSum = 0
+        arDonateQty = 0
         for backer in backers:
             setattr(backer, 'donated', backer.get_profile().get_donation_sum(taskId=task.id) * GIFT_USD_RATE)
+            arDonateSum += backer.donated
+            arDonateQty += 1
             aBackers.append(backer)
 
         askers = []
@@ -269,6 +273,7 @@ def widget(request, headerValues, arFilter, q):
             'user_roles': cur_user.get_profile().getRoles(task.project) if cur_user.is_authenticated() else False,
             'files': files,
             'time': allTime,
+            'avgDonate': (arDonateSum * 1.0 / (arDonateQty or 1)) if arDonateSum else 5,
             'backers': aBackers,
             'askers': askers,
             'subtasks': subtasks,
