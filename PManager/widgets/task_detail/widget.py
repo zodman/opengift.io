@@ -233,8 +233,9 @@ def widget(request, headerValues, arFilter, q):
         backers = User.objects.filter(pk__in=PM_Project_Donation.objects.filter(task=task).values_list('user__id', flat=True))
 
         aBackers = []
+        from tracker.settings import GIFT_USD_RATE
         for backer in backers:
-            setattr(backer, 'donated', backer.get_profile().get_donation_sum(taskId=task.id))
+            setattr(backer, 'donated', backer.get_profile().get_donation_sum(taskId=task.id) * GIFT_USD_RATE)
             aBackers.append(backer)
 
         askers = []
