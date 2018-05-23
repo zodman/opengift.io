@@ -298,7 +298,7 @@
                 <img src="{% if is_opengift %}/static/public/assets/img/logo-gradient.svg{% else %}/static/public/assets/img/logo-gradient.svg{% endif %}" alt="OpenGift" height="29px"/>
             </a>
         </div>
-{% if user.is_authenticated %}
+
           <nav class="menu">
                 <ul>
 {#                    <li class="{% if activeMenuItem == 'projects' %} active{% endif %}">#}
@@ -334,7 +334,7 @@
 {#                    </li>#}
                 </ul>
           </nav>
-
+{% if user.is_authenticated %}
             <div class="timer-wrapper clearfix">
 
             <span class="dropdown notifications">
