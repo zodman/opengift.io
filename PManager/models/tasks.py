@@ -211,6 +211,10 @@ class PM_Project(models.Model):
         return '/project/' + str(self.id) + '/public/'
 
     @property
+    def taskListUrl(self):
+        return '/project/' + str(self.id) + '/tasks/'
+
+    @property
     def imagePath(self):
         return unicode(self.image).replace('PManager', '')
 

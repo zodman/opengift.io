@@ -200,7 +200,8 @@ a {
 
 .task-wrapper.task-group-project {
     color: #000000;
-    /*text-align: left;*/
+    text-align: left;
+    font-size: 14px;
 }
 
 rect.selected {

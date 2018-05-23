@@ -402,7 +402,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'name': task.project.name,
                     'id': task.project.id,
                     'code': 'project',
-                    'url': task.project.url
+                    'url': task.project.taskListUrl
                 }
 
             if subtasksQty:
