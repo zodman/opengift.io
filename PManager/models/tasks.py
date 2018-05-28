@@ -586,8 +586,8 @@ class PM_Task(models.Model):
         ('orange', u'Orange')
     )
 
-    name = models.CharField(max_length=1000, verbose_name='Заголовок')
-    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст', blank=True, null=True)
+    name = models.CharField(max_length=1000, verbose_name=u'Заголовок')
+    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name=u'Текст', blank=True, null=True)
     number = models.IntegerField()
     project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True, related_name='projectTasks')
     resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')
@@ -595,7 +595,7 @@ class PM_Task(models.Model):
     author = models.ForeignKey(User, related_name='createdTasks', null=True, blank=True)
     lastModifiedBy = models.ForeignKey(User, related_name='modifiedBy', null=True, blank=True)
     status = models.ForeignKey(PM_Task_Status, related_name='tasksByStatus', null=True, blank=True,
-                               verbose_name='Статус')
+                               verbose_name=u'Статус')
     observers = models.ManyToManyField(User, related_name='tasksLooking', null=True, blank=True)
 
     perhapsResponsible = models.ManyToManyField(User, related_name='hisTasksMaybe', null=True, blank=True)
@@ -604,7 +604,7 @@ class PM_Task(models.Model):
     dateModify = models.DateTimeField(auto_now=True, blank=True)
     dateClose = models.DateTimeField(blank=True, null=True)
     dateStart = models.DateTimeField(blank=True, null=True)
-    deadline = models.DateTimeField(blank=True, null=True, verbose_name='Дедлайн')
+    deadline = models.DateTimeField(blank=True, null=True, verbose_name=u'Дедлайн')
 
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
@@ -612,7 +612,7 @@ class PM_Task(models.Model):
     realTime = models.BigIntegerField(blank=True, null=True)
     realDateStart = models.DateTimeField(blank=True, null=True)
 
-    closed = models.BooleanField(blank=True, verbose_name='Закрыта')
+    closed = models.BooleanField(blank=True, verbose_name=u'Закрыта')
     started = models.BooleanField(blank=True)
     wasClosed = models.BooleanField(blank=True)
     closedInTime = models.BooleanField(blank=True, default=False)
@@ -620,12 +620,12 @@ class PM_Task(models.Model):
     active = models.BooleanField(default=True, blank=True)
 
     priority = models.FloatField(default=0.5)
-    critically = models.FloatField(default=0.5, verbose_name='Критичность')
+    critically = models.FloatField(default=0.5, verbose_name=u'Критичность')
     hardness = models.FloatField(default=0.5)
     reconcilement = models.FloatField(default=0.5)
     project_knowledge = models.FloatField(default=0.5)
 
-    parentTask = models.ForeignKey('self', related_name="subTasks", null=True, blank=True, verbose_name='Контейнер')
+    parentTask = models.ForeignKey('self', related_name="subTasks", null=True, blank=True, verbose_name=u'Контейнер')
     tags = generic.GenericRelation(ObjectTags)
 
     virgin = models.BooleanField(default=True, blank=True)
@@ -2187,7 +2187,7 @@ class PM_User_PlanTime(models.Model):
 
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)
-    date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name='Напоминание')
+    date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name=u'Напоминание')
     user = models.ForeignKey(User)
 
     def __unicode__(self):
@@ -2198,8 +2198,8 @@ class PM_Reminder(models.Model):
 
 
 class RatingHistory(models.Model):
-    value = models.FloatField(blank=True, verbose_name='Рейтинг', default=0)
-    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    value = models.FloatField(blank=True, verbose_name=u'Рейтинг', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name=u'Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
@@ -2207,8 +2207,8 @@ class RatingHistory(models.Model):
 
 
 class FineHistory(models.Model):
-    value = models.FloatField(blank=True, verbose_name='Штраф', default=0)
-    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    value = models.FloatField(blank=True, verbose_name=u'Штраф', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name=u'Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):
