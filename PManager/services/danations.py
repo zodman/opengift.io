@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'rayleigh'
 from PManager.models.tasks import PM_Project_Donation, PM_Task_Message
 from django.contrib.auth.models import User

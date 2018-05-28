@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Tonakai'
 
 from PManager.models import ObjectTags, Specialty
