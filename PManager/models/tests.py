@@ -1,4 +1,4 @@
-# coding=utf-8
+# -*- coding:utf-8 -*-
 __author__ = 'Alwx'
 
 from django.db import models
