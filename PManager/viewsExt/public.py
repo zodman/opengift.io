@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, Http404
 from PManager.models import PM_User, PM_Project, PM_Project_Donation, PM_Task

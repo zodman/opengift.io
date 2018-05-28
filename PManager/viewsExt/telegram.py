@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse
 import telebot

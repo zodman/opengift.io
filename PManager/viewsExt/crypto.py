@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import urllib, urllib2, json
 from PManager.models import PM_Project, PM_Milestone, PM_User, PM_Task
