@@ -143,6 +143,9 @@ class PM_Project_Donation(models.Model):
     def __str__(self):
         return self.project.name + ' : ' + str(self.sum)
 
+    def __unicode__(self):
+        return self.project.name + ' : ' + unicode(self.sum)
+
     class Meta:
             app_label = 'PManager'
 
