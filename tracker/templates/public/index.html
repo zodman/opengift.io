@@ -435,7 +435,7 @@
     <section class="u-py-100">
     <div style="padding: 0 6.25rem;">
         <div class="row">
-            <div class="col-lg-6 m-auto text-center">
+            <div class="col-lg-12 m-auto text-center">
                 <h2 class="h1 js-h1">
                     Let's reduce software development costs by 10 for organizations
                 </h2>
@@ -478,7 +478,7 @@ $(function() {
     $('.js-bg-change').mousemove(function(e) {
         $(this).find('.js-bg').css('left', e.pageX-parseInt($(this).closest('.u-py-100').find('> div').css('padding-left')));
         if (e.pageX > $(window).width() / 2) {
-            $('.js-h1').html('OpenGift Changes Everything<br />&nbsp;');
+            $('.js-h1').html('OpenGift Changes Everything');
             $('.js-p').text('With OpenGift organizations can collectively fund development of new features in open-source software.');
         } else {
             $('.js-h1').text('Let\'s reduce software development costs by 10 for organizations');
@@ -695,31 +695,40 @@ $(function() {
                     <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
 
                     <div class="row " align="center">
-                        <div class="col-md-20 u-mb-20">
-                            <a target="_blank" href="https://www.youtube.com/watch?v=VtGrpUFuRjc"><img src="/static/img/events/tokenconf.png" class="u-mb-20" alt="tokenConf"></a>
+                        <div class="col-md-4 u-mb-70">
+                            <img src="/static/img/events/tokenconf.png" class="u-mb-20" alt="tokenConf">
                             <h3 class="text-white">TokenConf in Moscow</h3>
                             <p>A very technical report about OpenGift experience of HyperLedger adoption from the ideologist of OpenGift.</p>
+                            <a target="_blank" href="https://www.youtube.com/watch?v=VtGrpUFuRjc" class="btn btn btn-rounded btn-white py-2">
+                                Watch
+                            </a>
 
                         </div>
-                        <div class="col-md-20 u-mb-20">
-                            <a target="_blank" href="https://youtu.be/BLo7aBDC5pQ?t="><img src="/static/img/events/meetup.png" class="u-mb-20" alt="ico meetup" /></a>
+                        <div class="col-md-4 u-mb-70">
+                            <img src="/static/img/events/meetup.png" class="u-mb-20" alt="ico meetup" />
                             <h3 class="text-white">We are the champions</h3>
                             <p>OpenGift become a winner of the ICO Meetup Show.</p>
+                            <a target="_blank" href="https://youtu.be/BLo7aBDC5pQ?t=" class="btn btn btn-rounded btn-white py-2">
+                                Watch
+                            </a>
 
                         </div>
-                        <div class="col-md-20 u-mb-20">
+                        <div class="col-md-4 u-mb-70">
                             <img src="/static/img/events/consensys.jpg" class="u-mb-20" alt="consensys" />
                             <h3 class="text-white">Visit the Consensys 2018</h3>
                             <p>CRO of OpenGift visits the ConsenSys in NY.</p>
 
                         </div>
-                        <div class="col-md-20 u-mb-20">
+                    </div>
+
+                    <div class="row " align="center">
+                        <div class="col-md-6 u-mb-5">
                             <a href="/static/img/events/emerge.png" target="_blank"><img src="/static/img/events/emerge.png" class="u-mb-20" alt="emerge" /></a>
                             <h3 class="text-white">EMERGE Conf</h3>
                             <p>OpenGift presentation on EmergeConf in MINSK.</p>
 
                         </div>
-                        <div class="col-md-20 u-mb-20">
+                        <div class="col-md-6 u-mb-5">
                             <img src="/static/img/events/tallin.png" class="u-mb-20" alt="tokenomics" />
                             <h3 class="text-white">Tokenomics 2018</h3>
                             <p>OpenGift was presentated to leading VCs in Tallin</p>
