@@ -391,7 +391,7 @@
             </div>
           {% endfor %}
 
-            <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
+            <span class="progress-bar progress-bar-{% if task_detail.donatedPercent > 100 %}warning{% else %}info{% endif %}" style="width: {% if task_detail.donatedPercent > 100 %}100{% else %}{{ task_detail.donatedPercent|floatformat:"f" }}{% endif %}%;">
 {#                {% if task_detail.task.donated %}#}
 {#              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>#}
 {#                {% endif %}#}
