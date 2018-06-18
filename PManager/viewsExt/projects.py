@@ -511,6 +511,8 @@ def projectDetailPublic(request, project_id):
         elif user.get_profile().isManager(project):
             if user.get_profile().blockchain_wallet in teamWallets:
                 team.append(user)
+            else:
+                bounty.append(user)
 
     sponsorReq = User.objects.filter(pk__in=project.donations.values_list('user__id', flat=True))
     for sponsor in sponsorReq:

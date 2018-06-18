@@ -387,7 +387,7 @@ def widget(request, headerValues, ar, qargs):
                 'roles': PM_Role.objects.all(),
                 'taskTemplate': taskTemplate,
                 'timeGraph': timeGraph,
-                'core_team': cur_prof.getProjects(only_managed=True),
+                'core_team': profile.getProjects(only_managed=True),
                 'sponsored': sponsored,
                 'payments': paymentsAndCredits,
                 'competence': taskTagCoefficient,

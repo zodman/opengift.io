@@ -228,6 +228,10 @@ class PM_User(models.Model):
         if avatar:
             if avatar.find('media') < 0:
                 avatar = '/media/' + avatar
+
+        else:
+            avatar = 'https://robohash.org/opengift_' + str(self.id) + '.png'
+
         return avatar
 
     @property

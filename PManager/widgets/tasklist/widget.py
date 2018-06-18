@@ -485,7 +485,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = u'All tasks' if not project else project.name + ' tasks'
+    title = u'All tasks' if not project else '<a href="/project/'+str(project.id)+'/public/">' + project.name + '</a>' + ' / Tasks'
 
     result = {
         'title': title,
