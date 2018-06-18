@@ -187,6 +187,8 @@ class MainPage:
                         prof = user.get_profile()
                         prof.in_whitelist = True if white_list_registraton else False
                         prof.in_promo = True if promo_reg else False
+                        prof.tokens_to_buy = request.POST.get('gift_qty')
+                        prof.eth = request.POST.get('eth_address')
                         prof.save()
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'

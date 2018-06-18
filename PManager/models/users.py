@@ -89,6 +89,8 @@ class PM_User(models.Model):
     telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
     linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
     facebook = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Facebook account')
+    eth = models.CharField(max_length=100, null=True, blank=True,  verbose_name=u'Eth account')
+    tokens_to_buy = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Tokens to buy')
     phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Phone number')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
