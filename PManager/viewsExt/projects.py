@@ -442,9 +442,15 @@ def projectDetailPublic(request, project_id):
             'offer': request.POST.get('offer'),
             'project': project.name,
         }
-
+        users = PM_Project.objects.get(pk=project_id).getUsers()
         sendMes = emailMessage(
             'new_investment_request', data, 'New investment request')
+
+        for u in users:
+            try:
+                sendMes.send([u.email])
+            except Exception:
+                print 'Message is not sent'
 
         try:
             sendMes.send(['gvamm3r@gmail.com'])
