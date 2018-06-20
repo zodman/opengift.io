@@ -57,6 +57,34 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
         )
         message.save()
 
+        if task:
+            ar_email = task.getUsersEmail()
+            from PManager.viewsExt.tools import emailMessage
+            import datetime
+            from django.utils import timezone
+            task_data = {
+                'task_url': task.url,
+                'name': task.project.name + '. ' + task.name,
+                'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
+            }
+
+            mail_sender = emailMessage(
+                'new_donation_received',
+                {
+                    'task': task_data,
+                    'donator': {
+                        'first_name': user.first_name,
+                        'last_name': user.last_name,
+                    }
+                },
+                u'New donation: ' + task_data['name'] + '!'
+            )
+
+            try:
+                mail_sender.send(ar_email)
+            except Exception:
+                print 'Email has not sent'
+
         return True
 
     return False
