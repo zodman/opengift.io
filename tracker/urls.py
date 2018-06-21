@@ -3,13 +3,14 @@ from django.conf.urls import patterns, include, url
 from django.contrib import admin
 from PManager.views import MainPage, Brains, add_timer
 from PManager.viewsExt.git_view import GitView
-from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder, microTaskAjax
+from PManager.viewsExt.tasks import taskListAjax, ajaxNewTaskWizardResponder, microTaskAjax, taskDetail
 from PManager.viewsExt.messages import ajaxResponder as messagesAjaxResponder
 from PManager.viewsExt.files import fileSave, ajaxFilesResponder, AjaxFileUploader, DeleteUploadedFile
 from PManager.viewsExt.setup import register, recall
 from PManager.viewsExt.milestones import ajaxMilestonesResponder, milestonesResponder, milestoneForm
 from PManager.viewsExt.releases import releasesResponder
 from PManager.viewsExt.users import userHandlers
+from PManager.viewsExt.faq import list as faq_list
 from PManager.viewsExt.notice import noticeSetRead
 from PManager.viewsExt.task_drafts import taskdraft_detail, taskdraft_task_discussion, \
     taskdraft_resend_invites, taskdraft_accept_developer
@@ -34,8 +35,10 @@ from PManager.models.tasks import PM_Project
 from PManager.models.payments import Fee, Credit, PaymentRequest
 from django.contrib.auth.models import User
 from PManager.viewsExt.agreements import ajax_handler as agreements_ajax
-from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax, blockchainIncome
+from PManager.viewsExt.blockchain import blockchainMain, blockchainAjax, blockchainIncome, paypalExecute
+from PManager.viewsExt.telegram import botPage
 from PManager.viewsExt.public import Public
+from PManager.viewsExt.crypto import get_paid_btc
 import datetime
 from django.views.generic import TemplateView
 import logging
@@ -64,7 +67,7 @@ default_storage_uploader = AjaxFileUploader(backend=LocalUploadBackend)
 
 urlpatterns = patterns('',
                        url(r'^$', MainPage.indexRender,
-                           {'widgetList': ["project_graph", "tasklist", "chat"], 'activeMenuItem': 'main'}),
+                           {'widgetList': ["tasklist"], 'activeMenuItem': 'main'}),
 
                        url(r'^gantt/$', MainPage.indexRender, {'widgetList': ["gantt"], 'activeMenuItem': 'gantt'}),
                        url(r'^widgets/js/(?P<widget_name>[A-z_]+)/(?P<script_name>[A-z_\.]+)\.js',
@@ -74,26 +77,31 @@ urlpatterns = patterns('',
                        url(r'^life/', MainPage.indexRender, {'widgetList': ["life"]}),
                        url(r'^pro/', MainPage.likeAPro),
                        url(r'^achievements/', MainPage.indexRender, {'widgetList': ["achievements"]}),
-                       url(r'^user_detail/', MainPage.indexRender, {'widgetList': ["user_detail"]}, name='user-detail'),
+                       url(r'^user_detail/', MainPage.indexRender, {'widgetList': ["user_detail"], 'template': 'new'}, name='user-detail'),
                        url(r'^task_edit/$', MainPage.indexRender,
                            {'widgetList': ["task_edit"], 'activeMenuItem': 'tasks'}),
-                       url(r'^task_detail/$', MainPage.indexRender,
+                       url(r'^task_detail/$', MainPage.projectWidgets,
                            {'widgetList': ["task_detail"], 'activeMenuItem': 'tasks'}),
                        url(r'^task_handler', taskListAjax, name='task-handler'),
                        url(r'^sendfile/', fileSave),
                        url(r'^calendar/', MainPage.indexRender,
                            {'widgetList': ["project_calendar"], 'activeMenuItem': 'calendar'}),
+                       url(r'^opengifters/(?P<user_id>[0-9_]+)/', Public.backerProfile),
                        url(r'^profile/edit/', MainPage.indexRender,
-                           {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile'}),
+                           {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile', 'template': 'new'}),
                        url(r'^project/(?P<project_id>[0-9_]+)/server-setup', project_server_setup),
                        url(r'^project/(?P<project_id>[0-9_]+)/server-status', project_server_status),
                        url(r'^project/(?P<project_id>[0-9_]+)/public/', projectDetailPublic),
+                       url(r'^project/(?P<project_id>[0-9_]+)/tasks/', MainPage.projectWidgets,
+                           {'widgetList': ["tasklist"]}),
                        url(r'^project/(?P<project_id>[0-9_]+)/donate/', projectDetailDonate),
                        url(r'^project/(?P<project_id>[0-9_]+)/server/', projectDetailServer),
                        url(r'^project/(?P<project_id>[0-9_]+)/edit/', projectDetailEdit),
                        url(r'^project/(?P<project_id>[0-9_]+)/ajax/', projectDetailAjax),
                        url(r'^project/(?P<project_id>[0-9_]+)', projectDetail),
-
+                       url(r'^task/add/', taskDetail),
+                       url(r'^bounty/', MainPage.projectWidgets,
+                           {'widgetList': ["tasklist"], 'activeMenuItem': 'bounty', 'widgetParams': {'bounty': True}}),
                        url(r'^add_interface/', addInterface),
                        url(r'^remove_interface/', removeInterface),
                        url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
@@ -101,7 +109,7 @@ urlpatterns = patterns('',
                        url(r'^project/edit/', MainPage.indexRender,
                            {'widgetList': ["project_edit"], 'activeMenuItem': 'project'}),
                        url(r'^project/add/', projectDetailAdd),
-                       url(r'^project/list/', projectList),
+                       url(r'^project/list/', projectList, {'need_inverse': True}),
                        url(r'^upload/receiver$', default_storage_uploader, name="ajax-upload-default-storage"),
                        url(r'^upload/receiver/(?P<handler_id>[A-z0-9_\-]+)$', DeleteUploadedFile),
                        url(r'^files/$', MainPage.indexRender, {'widgetList': ["file_list"], 'activeMenuItem': 'files'}),
@@ -138,6 +146,7 @@ urlpatterns = patterns('',
                        url(r'^credits/$', MainPage.creditReport),
                        url(r'^credit_chart/$', MainPage.creditChart),
                        url(r'^login/$', MainPage.auth),
+                       url(r'^take_your_gift/$', MainPage.takeGift),
                        url(r'^change_password/$', MainPage.changePassword),
                        url(r'^add_timer/', add_timer),
                        url(r'^kanban/', MainPage.indexRender, {'widgetList': ["kanban"], 'activeMenuItem': 'kanban'}),
@@ -152,7 +161,7 @@ urlpatterns = patterns('',
                        url(r'^sniffer/get_errors/', get_errors),
                        url(r'^admin/', include(admin.site.urls)),
                        (r'^robots\.txt$',
-                        lambda r: HttpResponse("User-agent: *\r\nDisallow: /static/\r\n", mimetype="text/plain")),
+                        lambda r: HttpResponse("User-agent: *\r\nAllow: /\r\nDisallow: /static/\r\n", mimetype="text/plain")),
                        # (r'^search/', include('haystack.urls')),
                        url(r'^robokassa/', include('robokassa.urls')),
                        url(r'^fail-payment/$', TemplateView.as_view(template_name='yandex/fail.html'), name='payment_fail'),
@@ -164,9 +173,21 @@ urlpatterns = patterns('',
                        url(r'^support/', MainPage.support),
 
                        url(r'^blockchain/ajax/', blockchainAjax),
-                       url(r'^wallet/', blockchainMain),
                        url(r'^crypto/electrum', blockchainIncome),
+                       url(r'^crypto/getpaid', get_paid_btc),
+                       url(r'^wallet/', blockchainMain),
                        url(r'^pub/', Public.mainPage),
+                       url(r'^ico/', Public.icoPage),
+                       url(r'^debug_on/', Public.debug_on),
+                       url(r'^debug_off/', Public.debug_off),
+                       url(r'^backers/$', TemplateView.as_view(template_name='public/backers.html'), {'need_inverse': True}),
+                       url(r'^offer_ru/$', TemplateView.as_view(template_name='public/offer_ru.html')),
+                       url(r'^offer/$', TemplateView.as_view(template_name='public/offer.html')),
+                       url(r'^ico_details/$', TemplateView.as_view(template_name='public/ico_details.html')),
+                       url(r'^telegram/bot/$', botPage),
+                       url(r'^ref/$', TemplateView.as_view(template_name='public/ref.html'), {'need_inverse': True}),
+                       url(r'^faq/$', faq_list),
+                       url(r'^paypal/$', paypalExecute),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),
                        url(r'^wiki/', include('wiking.urls'))
                        )

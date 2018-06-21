@@ -1,5 +1,24 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
+{% block header %}
+    {% if request.GET.ref %}
+        <meta name="description"
+              content="Give the fuel to Open Source projects and get non-commercial bonuses. --- {{ project.description }}">
+    {% elif request.GET.share %}
+        <meta name="description"
+              content="Support this project or any other from hundreds on OpenGift and get the possibility to change it. --- {{ project.description }}">
+    {% else %}
+        <meta name="description" content="{{ project.description }}">
+    {% endif %}
+    <!-- Title-->
+    {% if request.GET.ref %}
+        <title>"{{ project.name }}" needs your support in smth nightmare complicated but really cool</title>
+    {% elif request.GET.share %}
+        <title>Help "{{ project.name }}" to make the software world extremely better with OpenGift.</title>
+    {% else %}
+        <title>OpenGift.io - {{ project.name }}</title>
+    {% endif %}
+{% endblock %}
 {% block content %}
     {% compressed_css 'project_detail' %}
     <style>
@@ -7,6 +26,43 @@
             padding: 3px 7px;
             font-size: 11px !important;
         }
+
+        #share-buttons img {
+            width: 35px;
+            padding: 5px;
+            border: 0;
+            box-shadow: 0;
+            display: inline;
+            opacity: 0.3;
+        }
+
+        #share-buttons a:hover img {
+            opacity: 1;
+        }
+
+        .user-name .user-rating {
+            top: -10px;
+            margin-right: -5px;
+        }
+
+        .icon-avatar {
+            color: #fff;
+            font-size: 30px;
+            line-height: 94px;
+        }
+
+        .red-text {
+            color: #f64d62;
+        }
+
+        .red-text:hover {
+            color: #f5354d;
+        }
+
+        .pointer {
+            cursor: pointer;
+        }
+
     </style>
     <section class="u-py-100 relative u-h-100vh u-flex-center quadro-relative" style="
 	background: #62bb94;
@@ -17,11 +73,11 @@
 	background-repeat: repeat-x;
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
  ">
-         <div class="container">
+        <div class="container">
             <div class="row">
-                <div class="col-lg-{% if project.files.count %}6{% else %}12 text-center{% endif %} u-mt-80">
+                <div class="col-lg-{% if project.files.count or project.link_video %}6{% else %}12 text-center{% endif %} u-mt-80">
                     <div class="project-rate clearfix">
-                        <div class="project-stars pull-left">
+                        <div class="js-project-rating-stars-container project-stars{% if user_voted %} voted{% endif %} pull-left">
                             <a href="#" data-rating="1"
                                class="js-project-rating-star fa fa-star{% if rating < 1 %}-o{% endif %}"></a>
                             <a href="#" data-rating="2"
@@ -39,38 +95,38 @@
                                     var userVoted = false;
                                     var star = '.js-project-rating-star';
                                     $(star).hover(
-                                            function () {
-                                                if (!userVoted) {
-                                                    var vote = true, t = this;
-                                                    $(star).each(function () {
-                                                        if (vote) {
-                                                            $(this).addClass('fa-star').removeClass('fa-star-o');
-                                                            if ($(t).data('rating') == $(this).data('rating')) {
-                                                                vote = false;
-                                                            }
-                                                        } else {
-                                                            $(this).removeClass('fa-star').addClass('fa-star-o');
+                                        function () {
+                                            if (!userVoted) {
+                                                var vote = true, t = this;
+                                                $(star).each(function () {
+                                                    if (vote) {
+                                                        $(this).addClass('fa-star').removeClass('fa-star-o');
+                                                        if ($(t).data('rating') == $(this).data('rating')) {
+                                                            vote = false;
                                                         }
-                                                    });
-                                                }
-                                            },
-                                            function () {
-                                                if (!userVoted) {
-                                                    $(star).removeClass('fa-star').addClass('fa-star-o');
-                                                }
+                                                    } else {
+                                                        $(this).removeClass('fa-star').addClass('fa-star-o');
+                                                    }
+                                                });
                                             }
+                                        },
+                                        function () {
+                                            if (!userVoted) {
+                                                $(star).removeClass('fa-star').addClass('fa-star-o');
+                                            }
+                                        }
                                     ).click(function () {
                                         if (!userVoted) {
                                             $.post(
-                                                    '/project/{{ project.id }}/ajax/',
-                                                    {
-                                                        'action': 'rate',
-                                                        'rating': $(this).data('rating')
-                                                    },
-                                                    function (data) {
-
-                                                    },
-                                                    'json'
+                                                '/project/{{ project.id }}/ajax/',
+                                                {
+                                                    'action': 'rate',
+                                                    'rating': $(this).data('rating')
+                                                },
+                                                function (data) {
+                                                    $('.js-project-rating-stars-container').addClass('voted');
+                                                },
+                                                'json'
                                             );
                                             userVoted = true;
                                             var vc = '.js-voters-count';
@@ -87,161 +143,267 @@
                         </div>
                     </div>
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;<a style="font-size: 30%;" href="/project/{{ project.id }}/edit/" class="fa fa-edit text-small"></a>{% endif %}
+                        {{ project.name }}{% if bCurUserIsAuthor %}&nbsp;
+                            <a style="font-size: 30%;" href="/project/{{ project.id }}/edit/"
+                               class="fa fa-edit text-small text-white"></a>{% endif %}
                         {% if not long_industries_list %}
-                            {% for tags in project.industries.all %}
-                                <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tags.name }}</sup>
+                            {% for tag in tagList %}
+                                <sup class="small-text-label btn-red btn btn-sm btn-rounded">{{ tag.name }}</sup>
                             {% endfor %}
                         {% endif %}
                     </h1>
+                    {% if project.blockchain_name %}
+                        <div class="text-white u-mb-25">
+                            Blockchain name: <b>{{ project.blockchain_name }}</b>
+                            {% if project.share_link_enabled %}
+                                <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
+                                   class="u-px-15 text-white"
+                                   {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal"
+                                   data-target="#partners-link" {% endif %}>
+                                    Get partners link
+                                </a>
+                            {% endif %}
+                        </div>
+
+                    {% endif %}
                     {% if long_industries_list %}
-                        {% for tags in project.industries.all %}
-                            <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tags.name }}</sup>
+                        {% for tag in tagList %}
+                            <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
                         {% endfor %}
                     {% endif %}
-
-
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                    <div class="u-h-4 u-w-50 bg-white rounded {% if not project.files.count or project.link_video %}mx-auto{% endif %} my-4"></div>
+                    <p class="lead text-white u-mb-40">
                         {{ project.description }}
                     </p>
-                    <a href="" class="btn btn btn-rounded btn-white px-md-5">
-                        Demo
-                    </a>
-                    <a href="/project/{{ project.id }}/donate/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
-                        Push the project
-                    </a>
-                </div> <!-- END col-lg-6-->
-                {% if project.files.count %}
-                <div class="col-lg-6 u-mt-80">
+                    {% if project.link_demo %}
+                        <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
+                            View Demo
+                        </a>
+                    {% elif project.link_github %}
+                        <a href="{{ project.link_github }}" class="btn btn btn-rounded btn-white px-md-5">
+                            <i class="fa fa-github"></i> GitHub
+                        </a>
+                    {% endif %}
+                    {% if project.blockchain_name %}
+                        <a href="/project/{{ project.id }}/donate/"
+                           class="btn btn btn-rounded btn-primary ml-3 px-md-5">
+                            Donate
+                        </a>
+                    {% endif %}
+                    {% if project.projectTasks.exists %}
+                        <a href="/project/{{ project.id }}/tasks/"
+                           class="btn btn btn-rounded btn-secondary ml-3 px-md-5">
+                            Tasks
+                        </a>
+                    {% endif %}
+                    <div id="share-buttons" class="u-py-30">
 
-                    <ul class="p-0" data-init="carousel"
-                        data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
-                        {% for file in project.files.all %}
-                            {% if file.isPicture %}
+
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
+                        </a>
+
+                        <!-- Google+ -->
+                        <a href="https://plus.google.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=gplus"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google"/>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://opengift.io/project/{{ project.id }}/public/?share=li"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn"/>
+                        </a>
+
+                        <!-- Reddit -->
+                        <a href="http://reddit.com/submit?url=https://opengift.io/project/{{ project.id }}/public/?share=reddit&amp;title=Help {{ project.name }} to make the software world extremely better with OpenGift."
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit"/>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=twitter&amp;text=Help {{ project.name }} to make the software world extremely better with @OpenGift.&amp;hashtags=opengift"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter"/>
+                        </a>
+
+                        <!-- VK -->
+                        <a href="http://vkontakte.ru/share.php?url=https://opengift.io/project/{{ project.id }}/public/?share=vk"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/vk.png" alt="VK"/>
+                        </a>
+
+                    </div>
+                </div> <!-- END col-lg-6-->
+                {% if project.files.count or project.link_video %}
+                    <div class="col-lg-6 u-mt-80">
+
+                        <ul class="p-0" data-init="carousel"
+                            data-slick='{ "slidesToShow":1, "dots":true, "arrows":false, "dotsClass":"slick-dots dots-white mt-4 text-center"}'>
+                            {% if project.link_video %}
                                 <li>
-                                    <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                                    <iframe width="560" height="315" src="{{ project.link_video }}" frameborder="0"
+                                            allow="encrypted-media" allowfullscreen></iframe>
                                 </li>
                             {% endif %}
-                        {% endfor %}
-                    </ul>
+                            {% for file in project.files.all %}
+                                {% if file.isPicture %}
+                                    <li>
+                                        <img class="box-shadow-v1" src="{{ file.src }}" alt=""/>
+                                    </li>
+                                {% endif %}
+                            {% endfor %}
+                        </ul>
 
-                </div> <!-- END col-lg-6-->
+                    </div> <!-- END col-lg-6-->
                 {% endif %}
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
 
-
-
-
-    <section class="u-py-100 with-waves" style="padding-bottom: 0 !important; padding-top: 50px !important;">
+    <section class="bg-gray-v1  with-waves">
         <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
              style="position: absolute;"><title>Wave</title>
             <defs></defs>
             <path id="feel-the-wave-four" d=""/>
         </svg>
         <div class="container">
-            <div class="row text-center">
+            <h2 class="h1 mb-4 u-pt-50">
+                Target groups
+            </h2>
 
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #a456fd; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            10M
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Downloads
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #ff7298; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            {{ project.projectTasks.count }}
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Things done
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"
-                         style="background: #5eabff; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            56%
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Unique code
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-                <div class="col-lg-3 col-md-6 u-my-20">
-                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"
-                         style="background: #ffb976; color: #fff !important;">
-                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">
-                            4
-                        </h4>
-
-                        <p class="u-fs-20">
-                            Donates recd
-                        </p>
-                    </div>
-                </div> <!-- END col-lg-3 col-md-6-->
-
-            </div> <!-- END row-->
-        </div> <!-- END container-->
-    </section>
-
-    <section class="u-py-100" style="padding-bottom: 0 !important;">
-        <section class="u-py-100 bg-gray-v1">
-            <div style="padding: 0 6.25rem;">
-                <div class="row">
-                    <div class="col-lg-6 m-auto text-center">
-                        <h2 class="h1">
-                            Project's pulse
-                        </h2>
-
-                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3">
+                    <div class="nav flex-column nav-pills nav-vertical" role="tablist" aria-orientation="vertical">
+                        {% for problem in project.problems.all %}
+                            <a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="pill" href="#v-problems-{{ problem.id }}" role="tab"
+                               aria-controls="v-problems-{{ problem.id }}" aria-selected="true" aria-expanded="false">
+                                <h4 class="text-white">{{ problem.target_group|default_if_none:''}}</h4>
+                            </a>
+                        {% endfor %}
                     </div>
                 </div>
-                <div class="row">
-                    {% for chart in statistic.charts %}
-                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">
-                            <div class="card border-0 box-shadow-v1 u-h-100p">
-                                <div class="u-p-30">
-                                    <h4 class="text-center">{{ chart.title }}</h4>
-                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>
-                                </div>
+                <div class="col-md-9 col-lg-9">
+                    <div class="tab-content" id="v-pills-tabContent">
+                        {% for problem in project.problems.all %}
+                            <div class="tab-pane fade  {% if forloop.first %}active show{% endif %}" id="v-problems-{{ problem.id }}" role="tabpanel"
+                                 aria-labelledby="v-problems-{{ problem.id }}-tab"
+                                 aria-expanded="true">
+                                <div>
+                                    <div class="row u-mb-40">
+                                        <div class="col-3 col-md-2">
+                                            <img src="/static/img/problem.svg">
+                                        </div>
+                                        <div class="col-9 col-md-10">
+                                            <h2 class="mb-4">
+                                                Problem
+                                            </h2>
+                                            <p>
+                                                {{ problem.problem|default_if_none:''|linebreaksbr }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> <!-- END col-md-6 -->
+                                <div>
+
+                                    <div class="row u-mb-40">
+                                        <div class="col-3 col-md-2">
+                                            <img src="/static/img/decision.svg">
+                                        </div>
+                                        <div class="col-9 col-md-10">
+                                            <h2 class="mb-4">
+                                                Solution
+                                            </h2>
+                                            <p>
+                                                {{ problem.solution|default_if_none:''|linebreaksbr }}
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div> <!-- END col-md-6 -->
                             </div>
-                        </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </section>
 
-        <section>
-            <div class="container">
-                <div class="row">
+                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                <div class="text-center">
+                    <a href="#" class="btn btn-success{% if not project.integration_price %} disabled{% endif %}">Help
+                        me with integration</a>
+                    {% if project.integration_price %}
+                        <p>
+                            <small>Project team will help you integrate this project for
+                                ${{ project.integration_price }}</small>
+                        </p>
+                    {% else %}
+                        <p>
+                            <small class="text-muted">The team doesn't provide this service at the moment.</small>
+                        </p>
+                    {% endif %}
+                </div>
+            </div> <!-- END container-->
+    </section>
 
-                    <div class="col-12 text-center">
-                        <h2 class="h1">
-                            Team
-                        </h2>
-
-                        <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-                    </div> <!-- END col-12-->
-                </div> <!-- END row-->
+<section class="u-pt-0 u-pb-30 bg-gray-v1">
+    <div class="container">
+        <h2 class="h1 u-mt-50 text-center"><a href="/project/{{ project.id }}/tasks/">Tasks</a></h2>
 
 
-                <div class="align-items-center">
-                    <div data-init="carousel" data-slick='{
+        <div class="row text-center u-my-50">
+
+
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded purple-gr">
+                    <img class="u-w-70 u-mb-25" src="/static/img/list.svg" alt="">
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">{{ tasks_done }} / {{ tasks_open }}</h4>
+
+                    <p class="u-fs-20 text-white">Done / Open</p>
+                </div>
+            </div> <!-- END col-lg-3 col-md-6-->
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded green-gr">
+                    <img class="u-w-70 u-mb-25" src="/static/public/assets/img/donates.svg" alt="">
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">${{ bounty_reward }}</h4>
+
+                    <p class="u-fs-20 text-white">Bounty</p>
+                </div>
+            </div> <!-- END col-lg-3 col-md-6-->
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded blue-gr">
+                    <img class="u-w-70 u-mb-25" src="/static/img/donation.svg" alt="">
+                    <h4 class="mb-0 u-fs-36 u-fw-400 text-white">${{ donated }}</h4>
+
+                    <p class="u-fs-20 text-white">Donated</p>
+                </div>
+            </div> <!-- END col-lg-3 col-md-6-->
+
+        </div> <!-- END row-->
+        <div class="text-center u-pt-15 u-pb-50">
+            <a class="btn btn-red btn-rounded" href="/project/{{ project.id }}/tasks/">Manage tasks</a>
+        </div>
+    </div> <!-- END container-->
+</section>
+
+    <section>
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Core Team
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+
+
+            <div class="align-items-center">
+                <div data-init="carousel" data-slick='{
 				"slidesToShow":3,
 				"slidesToScroll": 1,
 				"arrows":true,
@@ -268,130 +430,339 @@
 						}
 					]
 				}'
-                         data-slick-margin="30">
+                     data-slick-margin="30">
 
 
-                        {% for user in team %}
-                            {% if user.get_profile.avatarSrc %}
-                                <div class="rounded bg-white text-center">
-                                    <div class="rounded-circle u-w-90-wrapper mb-4"
-                                         style="background: url('{{ user.get_profile.avatarSrc }}');">
+                    {% for user in team %}
+                        {% if user.get_profile and user.last_name %}
+                            <div class="rounded bg-white text-center js-team-member"
+                                 data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                                <div class="rounded-circle u-w-90-wrapper mb-4"
+                                     style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
+                                </div>
+
+
+                                <h4 class="u-mb-5 relative user-name">
+                                    {{ user.first_name }} {{ user.last_name }}
+                                    <div class="user-rating">
+                                        <i class="fa fa-star"></i> {{ user.rating|floatformat }}
+                                    </div>
+                                </h4>
+
+                                <div>
+                                    {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
+                                        {% if not forloop.last %}, {% endif %}{% endfor %}
+                                    <div style="display: none;width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;"
+                                         class="bg-primary text-white text-center rounded user-share js-share" sty><span
+                                            class="js-share-percent"></span>%
                                     </div>
 
-                                    <h4 class="u-mb-5">
-                                        {{ user.first_name }} {{ user.last_name }}
-                                        <div class="user-rating">
-                                            <i class="fa fa-star"></i> {{ user.rating|floatformat }}
-                                        </div>
-                                    </h4>
-
-                                    <p>
-                                        {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
-                                            {% if not forloop.last %}, {% endif %}{% endfor %}
-                                    </p>
-                                    <ul class="list-inline social social-rounded social-default social-sm mt-4">
-                                        <li class="list-inline-item">
-                                            <a href=""><i class="fa fa-facebook"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href=""><i class="fa fa-twitter"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href=""><i class="fa fa-google-plus"></i></a>
-                                        </li>
-                                        <li class="list-inline-item">
-                                            <a href=""><i class="fa fa-linkedin"></i></a>
-                                        </li>
-                                    </ul>
                                 </div>
-                            {% endif %}
-                        {% endfor %}
+                                <ul class="list-inline social social-rounded social-default social-sm mt-4">
+                                    {% if user.get_profile.skype %}
+                                        <li class="list-inline-item">
+                                            <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user.get_profile.telegram %}
+                                        <li class="list-inline-item">
+                                            <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
+                                                    class="fa fa-telegram"></i></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user.get_profile.linkedin %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
+
+    <section class="bg-gray-v1">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Sponsors
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 orange-gr rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+            <div data-init="carousel" data-slick='{
+				"slidesToShow":3,
+				"slidesToScroll": 1,
+				"arrows":true,
+				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
+				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
+				"responsive": [
+						{
+						 "breakpoint":1024,
+						 "settings":{
+							"slidesToShow": 2,
+							"arrows":true,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						},
+						{
+						 "breakpoint":600,
+						 "settings":{
+							"slidesToShow": 1,
+							"arrows":false,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						}
+					]
+				}'
+                 data-slick-margin="30">
+
+
+                {% for user in sponsors %}
+                    {% if user.get_profile and user.last_name %}
+                        <div class="rounded text-center js-team-member"
+                             data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                            <div class="rounded-circle u-w-90-wrapper mb-4"
+                                 style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
+                            </div>
+
+                            <h4 class="u-mb-5 relative user-name">
+                                {{ user.first_name }} {{ user.last_name }}
+                                <div class="user-rating orange-gr">
+                                    <i class="fa fa-dollar"></i> {{ user.donated|floatformat }}
+                                </div>
+                            </h4>
+
+
+                            <ul class="list-inline social social-rounded social-default social-sm mt-4">
+                                {% if user.get_profile.skype %}
+                                    <li class="list-inline-item">
+                                        <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.get_profile.telegram %}
+                                    <li class="list-inline-item">
+                                        <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
+                                                class="fa fa-telegram"></i></a>
+                                    </li>
+                                {% endif %}
+                                {% if user.get_profile.linkedin %}
+                                    <li class="list-inline-item">
+                                        <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+                <div class="rounded text-center js-team-member"
+                     data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                    <div class="rounded-circle u-w-90-wrapper mb-4 orange-gr pointer"
+                         onclick="document.location.href='/project/{{ project.id }}/donate/';">
+                        <i class="fa fa-plus icon-avatar"></i>
                     </div>
 
-                </div> <!-- END row-->
-            </div> <!-- END container-->
-        </section>
+                    <h4 class="u-mb-5 relative user-name">
+                        <a href="/project/{{ project.id }}/donate/" class="red-text">Become a sponsor</a>
+                    </h4>
 
-        <script>
-            $(function () {
-                {% for chart in statistic.charts %}
-                    var ctx = document.getElementById("chart_{{ forloop.counter }}").getContext('2d');
-                    var mixedChart = new Chart(ctx, {
-                        type: 'bar',
 
-                        data: {
-                            labels: [{% for event in chart.xAxe %}'{{ event.date|date:"m" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
-                            datasets: [
-                                {% for y, axis in chart.yAxes.iteritems %}
-                                    {
-                                        label: "{{ axis.title }}",
-                                        {% if forloop.last %}backgroundColor: "{{ axis.color }}",{% endif %}
-                                        borderColor: "{{ axis.color }}",
-                                        data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
-                                        {% if not forloop.last %},type: 'line', pointRadius: 2, fill: false{% endif %}
-                                    }{% if not forloop.last %},{% endif %}
-                                {% endfor %}
-                            ]
-                        },
-                        options: {
-                            legend: {
-                                display: false
-                            },
-                            legendCallback: function (chart) {
-                                var text = [];
-                                text.push('<ul class="' + chart.id + '-legend">');
-
-                                var data = chart.data;
-                                var datasets = data.datasets;
-                                var labels = data.labels;
-
-                                if (datasets.length) {
-                                    if (datasets[0].data.length == 1) return '';
-                                    for (var i = 0; i < datasets[0].data.length; ++i) {
-                                        text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
-                                        if (labels[i]) {
-                                            text.push(labels[i]);
-                                        }
-                                        text.push('</li>');
-                                    }
-                                }
-
-                                text.push('</ul>');
-                                return text.join('');
-                            },
-                            scales: {
-                                xAxes: [{
-                                    display:false,
-                                    barPercentage: 0.6,
-                                    categoryPercentage: 0.7,
-                                    ticks: {
-                                        beginAtZero: true,
-                                        display: false
-                                    },
-                                    gridLines: {
-                                        display: false
-                                    },
-                                    scaleLabel: {
-                                        display: false
-                                    }
-                                }],
-                                yAxes: [{
-                                    display:false,
-                                    ticks: {
-                                        beginAtZero: true,
-                                        display: false
-                                    },
-                                    gridLines: {
-                                        display: false
-                                    }
-                                }]
-                            }
-                        }
-                    });
-                {% endfor %}
-            });
-        </script>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-4 text-center mx-auto">
+                    <a href="/project/{{ project.id }}/donate/" class="btn btn-red btn-rounded">Become a sponsor</a>
+                </div>
+            </div>
+        </div>
     </section>
+
+    <section class="">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Bounty / Contributors
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+            <div class="align-items-center">
+                <div data-init="carousel" data-slick='{
+				"slidesToShow":3,
+				"slidesToScroll": 1,
+				"arrows":true,
+				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
+				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
+				"responsive": [
+						{
+						 "breakpoint":1024,
+						 "settings":{
+							"slidesToShow": 2,
+							"arrows":true,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						},
+						{
+						 "breakpoint":600,
+						 "settings":{
+							"slidesToShow": 1,
+							"arrows":false,
+							"dots":true,
+							"dotsClass":"slick-dots dots-white mt-4 text-center"
+						 }
+						}
+					]
+				}'
+                     data-slick-margin="30">
+
+
+                    {% for user in bounty %}
+                        {% if user.get_profile and user.last_name %}
+                            <div class="rounded bg-white text-center js-team-member"
+                                 data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
+                                <div class="rounded-circle u-w-90-wrapper mb-4"
+                                     style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
+                                </div>
+
+                                <h4 class="u-mb-5">
+                                    {{ user.first_name }} {{ user.last_name }}
+                                    <div class="user-rating">
+                                        <i class="fa fa-star"></i> {{ user.rating|floatformat }}
+                                    </div>
+                                </h4>
+
+                                <div>
+                                    {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
+                                        {% if not forloop.last %}, {% endif %}{% endfor %}
+                                    <div style="display: none;width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;"
+                                         class="bg-primary text-white text-center rounded user-share js-share" ><span
+                                            class="js-share-percent"></span>%
+                                    </div>
+
+                                </div>
+                                <ul class="list-inline social social-rounded social-default social-sm mt-4">
+                                    {% if user.get_profile.skype %}
+                                        <li class="list-inline-item">
+                                            <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user.get_profile.telegram %}
+                                        <li class="list-inline-item">
+                                            <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
+                                                    class="fa fa-telegram"></i></a>
+                                        </li>
+                                    {% endif %}
+                                    {% if user.get_profile.linkedin %}
+                                        <li class="list-inline-item">
+                                            <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                </div>
+
+            </div> <!-- END row-->
+            <div class="row">
+                <div class="col-4 text-center mx-auto">
+                    <a href="/project/{{ project.id }}/tasks/" class="btn btn-lg btn-rounded green-gr">Become a contributor</a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <script>
+        $(function () {
+            {% for chart in statistic.charts %}
+                var ctx = document.getElementById("chart_{{ forloop.counter }}").getContext('2d');
+                var mixedChart = new Chart(ctx, {
+                    type: 'bar',
+
+                    data: {
+                        labels: [{% for event in chart.xAxe %}'{{ event.date|date:"m" }}'{% if not forloop.last %}, {% endif %}{% endfor %}],
+                        datasets: [
+                            {% for y, axis in chart.yAxes.iteritems %}
+                                {
+                                    label: "{{ axis.title }}",
+                                    {% if forloop.last %}backgroundColor: "{{ axis.color }}",{% endif %}
+                                    borderColor: "{{ axis.color }}",
+                                    data: [{% for event in axis.values %}{{ event }}{% if not forloop.last %}, {% endif %}{% endfor %}]
+                                    {% if not forloop.last %},type: 'line', pointRadius: 2, fill: false{% endif %}
+                                }{% if not forloop.last %},{% endif %}
+                            {% endfor %}
+                        ]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        legendCallback: function (chart) {
+                            var text = [];
+                            text.push('<ul class="' + chart.id + '-legend">');
+
+                            var data = chart.data;
+                            var datasets = data.datasets;
+                            var labels = data.labels;
+
+                            if (datasets.length) {
+                                if (datasets[0].data.length == 1) return '';
+                                for (var i = 0; i < datasets[0].data.length; ++i) {
+                                    text.push('<li><span style="background-color:' + datasets[0].backgroundColor[i] + '"></span>');
+                                    if (labels[i]) {
+                                        text.push(labels[i]);
+                                    }
+                                    text.push('</li>');
+                                }
+                            }
+
+                            text.push('</ul>');
+                            return text.join('');
+                        },
+                        scales: {
+                            xAxes: [{
+                                display: false,
+                                barPercentage: 0.6,
+                                categoryPercentage: 0.7,
+                                ticks: {
+                                    beginAtZero: true,
+                                    display: false
+                                },
+                                gridLines: {
+                                    display: false
+                                },
+                                scaleLabel: {
+                                    display: false
+                                }
+                            }],
+                            yAxes: [{
+                                display: false,
+                                ticks: {
+                                    beginAtZero: true,
+                                    display: false
+                                },
+                                gridLines: {
+                                    display: false
+                                }
+                            }]
+                        }
+                    }
+                });
+            {% endfor %}
+        });
+    </script>
 
     <section class="bg-gray-v1">
         <div class="container">
@@ -400,84 +771,292 @@
                     <h2 class="h1">
                         Roadmap
                     </h2>
-
+                    <p>You can prioritize any task with your donation or set a new one.</p>
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
         </div>
         {% if milestones %}
-        <section id="cd-timeline" class="cd-container">
-            <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
-            <script>
-                (function ($) {
-                    $(function () {
-                        $('.second.circle').each(function () {
-                            var t = this;
-                            (function(t){
-                                new Waypoint({
-                                  element: t,
-                                  offset: '95%',
-                                  handler: function(direction) {
-                                      if (!$(t).data('completed')) {
-                                          $(t).data('completed', true);
-                                          $(t).circleProgress({
-                                                fill: {
-                                                    gradient: ['#fd5663', '#f08035']
-                                                },
-                                                lineCap: 'round',
-                                                emptyFill: '#d7e4ed',
-                                                value: parseInt($(t).data('value')) / 100
-                                            }).on('circle-animation-progress', function (event, progress) {
-                                                $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
-                                            });
-                                      }
-                                  }
-                                });
-                            })(t);
+            <section id="cd-timeline" class="cd-container">
+                <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+                <script>
+                    (function ($) {
+                        $(function () {
+                            $('.second.circle').each(function () {
+                                var t = this;
+                                (function (t) {
+                                    new Waypoint({
+                                        element: t,
+                                        offset: '95%',
+                                        handler: function (direction) {
+                                            if (!$(t).data('completed')) {
+                                                $(t).data('completed', true);
+                                                $(t).circleProgress({
+                                                    fill: {
+                                                        gradient: ['#fd5663', '#f08035']
+                                                    },
+                                                    lineCap: 'round',
+                                                    emptyFill: '#d7e4ed',
+                                                    value: parseInt($(t).data('value')) / 100
+                                                }).on('circle-animation-progress', function (event, progress) {
+                                                    $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
+                                                });
+                                            }
+                                        }
+                                    });
+                                })(t);
+                            });
                         });
-                    });
-                })(jQuery);
-            </script>
-            {% for milestone in milestones %}
-                <div class="cd-timeline-block">
-                    <div class="cd-timeline-img">
-                        <div class="second circle" data-size="68"
-                             data-value="{{ milestone.percent|default_if_none:0 }}">
-                            <strong></strong>
-                        </div>
-                    </div> <!-- cd-timeline-img -->
+                    })(jQuery);
+                </script>
+                <a name="milestones"></a>
+                {% for milestone in milestones %}
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img">
+                            <div class="second circle" data-size="68"
+                                 data-value="{{ milestone.percent|default_if_none:0 }}">
+                                <strong></strong>
+                            </div>
+                        </div> <!-- cd-timeline-img -->
 
-                    <div class="cd-timeline-content" {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
-                        <h2>{{ milestone.name }}</h2>
+                        <div class="cd-timeline-content"
+                             {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
+                            <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;
+                                <small>(${{ milestone.get_donation_sum|floatformat:"2" }})</small>{% endif %}</h2>
 
-                        <p>{{ milestone.description|default_if_none:'' }}</p>
-                        {#				<a href="#0" class="cd-read-more">Read more</a>#}
-                        <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
+                            <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
+                            {% if milestone.conditioned_time and milestone.min_donate %}
+                                <p>
+                                    <small>This task should be completed within {{ milestone.conditioned_time }} day
+                                        after ${{ milestone.min_donate }} raised. Otherwise your donation will be
+                                        refunded.
+                                    </small>
+                                </p>
+                            {% endif %}
+                            <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
 
 
-                        <div class="like-buttons">
-                            <button data-id="{{ milestone.id }}"
-                                    {% if milestone.liked %}disabled {% endif %}
-                                    class="{% if milestone.liked %}active disabled {% endif %} btn-outline-danger btn btn btn-sm btn-rounded js-milestone-like btn-danger px-md-4"
-                                    style="margin: auto;">
-                                <i class="fa fa-heart mr-1"></i> Do it!
-                            </button>
-                            <span class="btn btn btn-sm btn-rounded btn-danger px-md-4" style="margin: auto;cursor:default;">
-                                <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
-                                                                       class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
-                            </span>
-                        </div>
-                    </div> <!-- cd-timeline-content -->
-                </div> <!-- cd-timeline-block -->
-            {% endfor %}
-        </section> <!-- cd-timeline -->
+                            <div class="like-buttons">
+                                {% if project.blockchain_name %}
+                                    {% if milestone.closed and milestone.canConfirm %}
+                                        <a href="#"
+                                           data-id="{{ milestone.id }}"
+                                           class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4 js-confirm-donation"
+                                           style="margin: auto;">
+                                            <i class="fa fa-heart mr-1"></i> &nbsp;
+                                            Confirm goal achievement
+                                        </a>
+                                    {% else %}
+                                        <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
+                                           class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4"
+                                           onclick="(typeof yaCounter47053188 != 'undefined') && yaCounter47053188.reachGoal('donation_try');"
+                                           style="margin: auto;">
+                                            Donate
+                                        </a>
+                                    {% endif %}
+                                {% endif %}
+                                <span data-id="{{ milestone.id }}"
+                                        {% if not request.user.is_authenticated or not request.user.get_profile.is_donator %}
+                                      data-lowlevel="1"
+                                        {% endif %}
+                                      class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
+                                      style="margin: auto;">
+                                    <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
+                                                                           class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
+                                </span>
+                            </div>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+                {% endfor %}
+            </section> <!-- cd-timeline -->
         {% else %}
             <div class="container text-center">
-            <h3>This project hasn't any goals :(</h3>
+                <h3>This project doesn't have any goals :(</h3>
             </div>
         {% endif %}
+        <div align="center">
+            <h1 class="text-green blue-gradient-title"><span class="icon icon-Starship"></span></h1>
+            <a href="#" data-toggle="modal" data-target="#add-milestone" class="btn btn-lg btn-rounded green-gr">
+                &nbsp;&nbsp;&nbsp;&nbsp;Create task&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+        </div>
+
+    </section>
+    {#    <section class="u-py-100" style="padding-bottom: 50px !important; padding-top: 50px !important;">#}
+
+    {#        <div class="container">#}
+
+    {#            <div class="row text-center">#}
+    {##}
+    {#                <div class="col-lg-3 col-md-6 u-my-20">#}
+    {#                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"#}
+    {#                         style="background: #a456fd; color: #fff !important;">#}
+    {#                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">#}
+    {#                            {{ hours_spent|floatformat }}#}
+    {#                        </h4>#}
+    {##}
+    {#                        <p class="u-fs-20">#}
+    {#                            Hours spent#}
+    {#                        </p>#}
+    {#                    </div>#}
+    {#                </div> <!-- END col-lg-3 col-md-6-->#}
+    {##}
+    {#                <div class="col-lg-3 col-md-6 u-my-20">#}
+    {#                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"#}
+    {#                         style="background: #ff7298; color: #fff !important;">#}
+    {#                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">#}
+    {#                            {{ project.projectTasks.count }}#}
+    {#                        </h4>#}
+    {##}
+    {#                        <p class="u-fs-20">#}
+    {#                            Things done#}
+    {#                        </p>#}
+    {#                    </div>#}
+    {#                </div> <!-- END col-lg-3 col-md-6-->#}
+    {##}
+    {#                <div class="col-lg-3 col-md-6 u-my-20">#}
+    {#                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded"#}
+    {#                         style="background: #5eabff; color: #fff !important;">#}
+    {#                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">#}
+    {#                            0#}
+    {#                        </h4>#}
+    {##}
+    {#                        <p class="u-fs-20">#}
+    {#                            Registrations/Downloads#}
+    {#                        </p>#}
+    {#                    </div>#}
+    {#                </div> <!-- END col-lg-3 col-md-6-->#}
+    {##}
+    {#                <div class="col-lg-3 col-md-6 u-my-20">#}
+    {#                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded bg-gray-v1"#}
+    {#                         style="background: #ffb976; color: #fff !important;">#}
+    {#                        <h4 class="mb-0 u-fs-36 u-fw-400" style="color: #fff !important;">#}
+    {#                            {{ donationsCount }}#}
+    {#                        </h4>#}
+    {##}
+    {#                        <p class="u-fs-20">#}
+    {#                            Donates recd#}
+    {#                        </p>#}
+    {#                    </div>#}
+    {#                </div> <!-- END col-lg-3 col-md-6-->#}
+    {##}
+    {#            </div> <!-- END row-->#}
+    {#        </div> <!-- END container-->#}
+    {#    </section>#}
+    {#    <section class="u-py-100">#}
+    {#            <div style="padding: 0 6.25rem;">#}
+    {#                <div class="row">#}
+    {#                    <div class="col-lg-6 m-auto text-center">#}
+    {#                        <h2 class="h1">#}
+    {#                            Project's pulse#}
+    {#                        </h2>#}
+    {##}
+    {#                        <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
+    {#                    </div>#}
+    {#                </div>#}
+    {#                <div class="row">#}
+    {#                    {% for chart in statistic.charts %}#}
+    {#                        <div class="col-md-3 mt-3" style="margin-bottom: 30px;">#}
+    {#                            <div class="card border-0 box-shadow-v1 u-h-100p">#}
+    {#                                <div class="u-p-30">#}
+    {#                                    <h4 class="text-center">{{ chart.title }}</h4>#}
+    {#                                    <canvas id="chart_{{ forloop.counter }}" width="400" height="400"></canvas>#}
+    {#                                </div>#}
+    {#                            </div>#}
+    {#                        </div>#}
+    {#                    {% endfor %}#}
+    {#                </div>#}
+    {#            </div>#}
+    {#        </section>#}
+    <section class="u-py-md-250 u-flex-center">
+        <div class="container">
+            <h2 class="h1 text-center u-pb-100">For new contributors</h2>
+            <div class="row align-items-center">
+                <div class="col-lg-6 mb-5 mb-lg-0">
+                    <h1 class="display-4 u-fw-600">
+                        Request for <span class="text-primary">participation</span>
+                    </h1>
+                    <p class="u-fs-22 u-lh-1_8 my-4">
+                        This project is looking for investment and co-workers.
+                        Investors and team members share the project tokens which allow them to receive the part of all
+                        project income.
+                        You can send your offer to the team. Your proposal will be sent to all tokenholders of the
+                        project.
+                    </p>
+                </div> <!-- END col-lg-7-->
+
+                <div class="col-lg-6">
+                    <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
+                        <h2 class="bg-primary m-0 py-3 text-white">Get project tokens</h2>
+                        <form action="" method="POST" class="p-4 p-md-5">
+                            <input type="hidden" name="invest_offer" value="1"/>
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-User text-primary"></span>
+                                </div>
+                                <input type="text" name="name" class="form-control border-0 p-3"
+                                       placeholder="Your fullname">
+                            </div>
+
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Mail text-primary"></span>
+                                </div>
+                                <input type="text" name="email" class="form-control border-0 p-3"
+                                       placeholder="Your email">
+                            </div>
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Share text-primary"></span>
+                                </div>
+                                <input type="text" name="tokens" class="form-control border-0 p-3"
+                                       placeholder="Expected percentage of project tokens">
+                            </div>
+                            <div class="u-pb-20">
+                                <p>How do you want to participate in the project?</p>
+                                {#                        <div class="input-group">#}
+                                {#                            <label><input type="radio" style="display: inline-block; width: 30px;" name="invest_model" value="money" /> Invest money</label>#}
+                                {#                        </div>#}
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="doc"/> Become a documentator for the
+                                        project</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="support"/> Do support tasks</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="integration"/> Do integration tasks</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="translate"/> Localization</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="develop"/> Become a developer</label>
+                                </div>
+                            </div>
+                            <button class="btn btn-primary btn-rounded">
+                                Send offer
+                            </button>
+                        </form>
+                    </div>
+                </div> <!-- END col-lg-5-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
     </section>
     <script>
+        var getProjectVals = function (p, call) {
+            $.post('/blockchain/ajax/', {'action': 'getProjectVals', 'pName': p}, function (data) {
+                if (data) {
+                    data = $.parseJSON(data);
+                    call(data);
+                }
+            });
+        };
         var getProjectState = function (p, call) {
             $.post('/blockchain/ajax/', {'action': 'getProjectStatus', 'pName': p}, function (data) {
                 if (data == 'ok')
@@ -485,30 +1064,151 @@
             });
         };
         $(function () {
-            getProjectState('{{ project.name }}', function () {
+            $('.js-show-partner-link').click(function () {
+                $('.js-partner-link').toggle();
+                return false;
+            });
+
+            getProjectState('{{ project.blockchain_name }}', function () {
                 $('.js-donate').show();
             });
+            {#            getProjectVals('{{ project.blockchain_name }}', function(data) {#}
+            {#                $('.js-team-member[data-wallet]').each(function() {#}
+            {#                    if ($(this).data('wallet')) {#}
+            {#                        var share = data['Users'][$(this).data('wallet')];#}
+            {#                        (function(s, t) {#}
+            {#                            if (s) {#}
+            {#                                $(t).find('.js-share').show().find('.js-share-percent').text(s)#}
+            {#                            }#}
+            {#                        })(share, this);#}
+            {#                    }#}
+            {#                });#}
+            {#            });#}
             var liked = {}, $mstcnt;
             $('.js-milestone-like').click(function () {
                 if (!liked[$(this).data('id')]) {
+                    if ($(this).data('lowlevel')) {
+                        alert('Only users with level <a href="/backers/">Donator</a> can rate the goals');
+                        return;
+                    }
+                    if ($(this).hasClass('disabled')) {
+                        return false;
+                    }
+
                     liked[$(this).data('id')] = true;
                     $(this).addClass('active disabled').attr('disabled', 'disabled');
                     $mstcnt = $('.js-milestone-likes-count[data-id=' + $(this).data('id') + ']');
                     $mstcnt.text(parseInt($mstcnt.text()) + 1);
                     $.post(
-                            '/project/{{ project.id }}/ajax/',
-                            {
-                                'action': 'like',
-                                'mid': $(this).data('id')
-                            },
-                            function (data) {
+                        '/project/{{ project.id }}/ajax/',
+                        {
+                            'action': 'like',
+                            'mid': $(this).data('id')
+                        },
+                        function (data) {
 
-                            },
-                            'json'
+                        },
+                        'json'
                     );
                 }
+            });
+
+            $('.js-confirm-donation').click(function () {
+                $.post(
+                    '/blockchain/ajax/',
+                    {
+                        'action': 'confirmGoal',
+                        'projectId': {{ project.id }},
+                        'goalId': $(this).data('id')
+                    },
+                    function (data) {
+                        if (data == 'ok') {
+                            ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
+                        }
+                    }
+                );
+                return false;
             });
         })
     </script>
     <script type="application/javascript" src="/static/js/libs/charts.2.7.1.js"></script>
+    {% if request.user.get_profile.blockchain_wallet %}
+        <div class="modal fade" id="partners-link" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header bg-green">
+                        <h5 class="modal-title text-white">Your promo link</h5>
+                        <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                      height="20"> </span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="u-mb-15">
+                            <p>You will <a href="/ref/">get 20% of all donations</a> of all projects from users who come
+                                to the platform through this link.</p>
+                        </div>
+                        <div>
+                            <input type="text" name="" class="js-target-wallet"
+                                   value="https://opengift.io/project/{{ project.id }}/public/?ref={{ request.user.get_profile.blockchain_wallet }}"/>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    {% endif %}
+    <div class="modal fade" id="add-milestone" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header green-gr">
+                    <h5 class="modal-title text-white">Set task to project team</h5>
+                    <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true"><img src="/static/public/assets/img/cross-out.svg" width="20"
+                                                      height="20"> </span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="u-mb-15">
+                        <p>The task will be opened up for the project team only after you make a donation.</p>
+                    </div>
+                    <div class="u-mb-15">
+                        <input type="text" name="" class="js-new-milestone-title" placeholder="Task title" value=""/>
+                    </div>
+                    <div>
+                        <textarea name="" class="js-new-milestone-desc" placeholder="Description"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn green-gr js-send-milestone-form" data-dismiss="modal">Add task
+                    </button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        $('.js-send-milestone-form').click(function () {
+            $(this).addClass('disabled').attr('disabled', 'disabled');
+            $.post(
+                '/milestone_ajax/',
+                {
+                    'name': $('.js-new-milestone-title').val(),
+                    'description': $('.js-new-milestone-desc').val(),
+                    'project': {{ project.id }}
+                },
+                function (data) {
+                    if (parseInt(data)) {
+                        document.location.href = '/project/{{ project.id }}/donate/?m=' + data;
+                    } else {
+                        alert('Something is wrong.')
+                    }
+                }
+            );
+            return false;
+        });
+    </script>
 {% endblock %}

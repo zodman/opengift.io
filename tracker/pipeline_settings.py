@@ -7,7 +7,7 @@ PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 PIPELINE_JS = {
     'base': {
         'source_filenames': (
-            'js/libs/jquery.min.js',
+            # 'js/libs/jquery.min.js',
             'js/libs/fancybox.js',
             'js/libs/jquery.history.min.js',
             'js/libs/jquery.form.js',
@@ -28,7 +28,7 @@ PIPELINE_JS = {
             'js/libs/jquery.imgareaselect.min.js',
             'js/libs/jquery.cookie.js',
             'js/libs/moment/moment.js',
-            'js/bootstrap/bootstrap.min.js',
+            # 'js/bootstrap/bootstrap.min.js',
             'js/bootstrap/typehead.js',
             'js/bootstrap/bootstrap-combobox.js',
             'js/pm/script.js',
@@ -47,6 +47,7 @@ PIPELINE_JS = {
             'js/pm/drowCanvas.js',
             'js/libs/toastr.js',
             'js/pm/csrf_protector.js',
+            'public/js/libs/jquery.waipoints.min.js',
             'js/bootstrap/bootstrap-tooltip.js'
         ),
         'output_filename': 'js_compressed/base.js',
@@ -71,6 +72,13 @@ PIPELINE_JS = {
             'js/fileup/task-file-upload.js',
         ),
         'output_filename': 'js_compressed/file_up.js'
+    },
+    'howitworks': {
+        'source_filenames': (
+            'public/assets/js/createjs-2015.11.26.min.js',
+            'public/assets/js/howitworks.js'
+        ),
+        'output_filename': 'js_compressed/howitworks.js'
     },
     'chat': {
         'source_filenames': (
@@ -197,6 +205,7 @@ PIPELINE_JS = {
         'source_filenames': (
             'js/pm/comments.js',
             'widgets/task_detail/widget.js',
+            'js/bootstrap/bootstrap-tooltip.js',
         ),
         'output_filename': 'js_compressed/task_detail.js'
     },

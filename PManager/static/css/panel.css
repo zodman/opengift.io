@@ -4,17 +4,23 @@
 
 .bt-panel.bottom {
     position: fixed;
-    bottom: 0;
+    bottom: 1%;
+    left: 4%
     border-radius: 0;
     margin:0;
-    width: 100%;
+    width: 20%;
     z-index: 9999;
 	background:#47a447;
 	box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
 	-moz-box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
 	-webkit-box-shadow:0 0 5px rgba(1, 1, 1, 0.3);
 }
-
+@media (max-width:768px) {
+    .bt-panel.bottom {
+        width: 100%;
+        bottom: 0;
+    }
+}
 .bt-panel.bottom ul {
     list-style: none;
 }
@@ -24,7 +30,7 @@
 }
 
 .bt-panel.bottom ul li a {padding:15px 25px; font-weight:bold; color:#fff; }
-.bt-panel.bottom ul li a:hover {background:#4cae4c;}
+.bt-panel.bottom ul li a:hover {font-weight: bold}
 
 
 .bt-panel.bottom ul li:last-child {border: 0;}

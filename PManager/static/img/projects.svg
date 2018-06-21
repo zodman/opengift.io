@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="480px" height="480px" viewBox="0 0 480 480" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>browser</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="browser" fill="#39C3D3">
+            <g id="Group">
+                <path d="M472,120 L424,120 L424,8 C424,3.576 420.424,0 416,0 L8,0 C3.576,0 0,3.576 0,8 L0,360 C0,364.424 3.576,368 8,368 L80,368 L80,472 C80,476.424 83.576,480 88,480 L440,480 C462.056,480 480,462.056 480,440 L480,128 C480,123.576 476.424,120 472,120 L472,120 Z M464,168 L96,168 L96,136 L464,136 L464,168 L464,168 Z M408,16 L408,48 L16,48 L16,16 L408,16 L408,16 Z M16,352 L16,64 L408,64 L408,120 L88,120 C83.576,120 80,123.576 80,128 L80,352 L16,352 L16,352 Z M440,464 L96,464 L96,184 L464,184 L464,440 C464,453.232 453.232,464 440,464 L440,464 Z" id="Shape"></path>
+                <path d="M178.344,274.344 L122.344,330.344 C119.216,333.472 119.216,338.528 122.344,341.656 L178.344,397.656 L189.656,386.344 L139.312,336 L189.656,285.656 L178.344,274.344 L178.344,274.344 Z" id="Shape"></path>
+                <path d="M333.656,274.344 L322.344,285.656 L372.688,336 L322.344,386.344 L333.656,397.656 L389.656,341.656 C392.784,338.528 392.784,333.472 389.656,330.344 L333.656,274.344 L333.656,274.344 Z" id="Shape"></path>
+                <rect id="Rectangle-path" transform="translate(259.985879, 328.001862) rotate(116.565051) translate(-259.985879, -328.001862) " x="179.510825" y="320.002106" width="160.950107" height="15.9995136"></rect>
+                <rect id="Rectangle-path" x="368" y="384" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="400" y="384" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="432" y="384" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="120" y="232" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="152" y="232" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="184" y="232" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="120" y="200" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="152" y="200" width="16" height="16"></rect>
+                <rect id="Rectangle-path" x="184" y="200" width="16" height="16"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

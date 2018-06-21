@@ -13,3 +13,5 @@ tracker/static/*
 tracker/sniffer_files/*
 gunicornsudo.pid
 npm-debug.log.*
+/.vs/config
+/.vs/opengift.git/v14

@@ -1,0 +1,81 @@
+{% extends "public/index.html" %}
+{% load thumbnail get_settings compressed %}
+{% block header %}
+    <meta name="description" content="You get unique bonuses for donating to projects on the Opengift Platform.
+                        Type of bonus depends on the amount of your donations.">
+    <!-- Title-->
+    <title>OpenGift.io - Benefits for Backers</title>
+{% endblock %}
+{% block content %}
+    <section id="pricing" class="bg-gray-v1 u-pt-150">
+        <div class="container text-center u-mt-50">
+            <div class="row">
+                <div class="col-lg-6 m-auto text-center">
+                    <h2 class="h1">
+                        OpenGifters. How to become one?
+                    </h2>
+                    <p>
+                        You get unique bonuses for donating to projects on the Opengift Platform.
+                        Type of bonus depends on the amount of your donations.
+                    </p>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+                </div>
+            </div> <!--END row-->
+            <div class="row">
+
+                <div class="col-md-4 mt-4">
+                    <div class="bg-white box-shadow-v1 rounded">
+                        <h4 class="m-0 py-4">
+                            Donator
+                        </h4>
+                        <hr class="m-0">
+                        <h2 class="u-fs-60 u-fw-600 py-4">> 1 000 <sup class="u-fs-20">GIFT</sup></h2>
+                        <hr class="m-0">
+                        <ul class="list-unstyled u-p-30 u-lh-2">
+                            <li>You can <strong>rate</strong> projects’ goals.</li>
+                        </ul>
+                        <hr class="m-0">
+
+                    </div>
+                </div> <!-- END col-md-4-->
+
+                <div class="col-md-4 mt-4">
+                    <div class="bg-white box-shadow-v1 rounded">
+                        <h4 class="m-0 py-4">
+                            Backer
+                        </h4>
+                        <hr class="m-0">
+                        <h2 class="u-fs-60 u-fw-600 py-4">> 10 000 <sup class="u-fs-20">GIFT</sup></h2>
+                        <hr class="m-0">
+                        <ul class="list-unstyled u-p-30 u-lh-2">
+                            <li>You can <strong>write reviews</strong> for the projects and their goals.</li>
+                            <li>You also obtain your own <strong><a href="/faq/#expertise">Expertise Rating</a></strong>.</li>
+                        </ul>
+                        <hr class="m-0">
+
+                    </div>
+                </div> <!-- END col-md-4-->
+
+                <div class="col-md-4 mt-4">
+                    <div class="bg-white box-shadow-v1 rounded">
+                        <h4 class="m-0 py-4 text-green">
+                            OPENGIFTER
+                        </h4>
+                        <hr class="m-0">
+                        <h2 class="u-fs-60 u-fw-600 py-4 text-green">> 50 000 <sup class="u-fs-20">GIFT</sup></h2>
+                        <hr class="m-0">
+                        <ul class="list-unstyled u-p-30 u-lh-2">
+                            <li>You can <strong>set your own goals</strong> for the projects.</li>
+                            <li>You can participate in projects’ <strong>boost-campaigns<sup>*</sup></strong>.</li>
+                            <li>You also get an OpenGift T-Shirt, a special badge and a souvenir GIFT-coin.</li>
+                        </ul>
+                        <hr class="m-0">
+                    </div>
+                </div> <!-- END col-md-4-->
+
+            </div> <!-- END row-->
+            <p class="u-pl-80 u-pr-80 u-my-30"><small>* A boost-campaign is implementation of a special smart-contract for the project in the blockchain according to which the TOP 5 project’s donators get a 1% share of the project by a certain date.</small></p>
+        </div> <!-- END container-->
+    </section>
+
+{% endblock %}

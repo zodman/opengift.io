@@ -93,15 +93,15 @@ class userHandlers:
                     roles = request.POST.getlist('roles['+email+'][]', [])
 
                     if not emailMessage.validateEmail(email):
-                        return HttpResponse(u'Email введен неверно')
+                        return HttpResponse(u'Email is incorrect')
                     if not roles:
-                        return HttpResponse(u'Не введено ни одной роли')
+                        return HttpResponse(u'Set the role before inviting')
 
                     headers = initGlobals(request)
                     p = headers['CURRENT_PROJECT']
                     if request.user.get_profile().isManager(p):
                         if p:
-                            user = PM_User.getOrCreateByEmail(email, p, roles.pop())
+                            user = PM_User.getOrCreateByEmail(email, p, roles.pop(), False)
                             if USE_GIT_MODULE:
                                 GitoliteManager.regenerate_access(p)
 

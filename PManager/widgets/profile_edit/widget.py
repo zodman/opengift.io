@@ -19,19 +19,19 @@ def widget(request, headerValues, ar, qargs):
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'specialties', 'hoursQtyPerDay',  'sp_price', 'overdraft',
+                fields = ['avatar', 'paypal', 'skype', 'telegram', 'linkedin'
                           # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
                           ]
     else:
         class ProfileForm(forms.ModelForm):
             class Meta:
                 model = PM_User
-                fields = ['second_name', 'phoneNumber', 'skype', 'avatar', 'hoursQtyPerDay',
+                fields = ['avatar', 'paypal', 'skype', 'telegram','linkedin'
                           # 'documentNumber', 'documentIssueDate', 'documentIssuedBy', 'order', 'bik', 'bank'
                           ]
 
     uid = request.GET.get('id', None)
-    if False and uid and request.user.is_staff:
+    if uid and request.user.is_superuser:
         user = User.objects.get(pk=uid)
     else:
         user = request.user
@@ -59,7 +59,7 @@ def widget(request, headerValues, ar, qargs):
                     user.set_password(password_confirm)
                     user.save()
 
-            return {'redirect': '/profile/edit/?id='+str(uid)}
+            return {'redirect': '/profile/edit/'+ (('?id='+str(uid)) if uid else '')}
     else:
         form = ProfileForm(instance=profile) # An unbound form
         uform = UserForm(instance=user) # An unbound form
@@ -90,5 +90,5 @@ def widget(request, headerValues, ar, qargs):
         'profile': profile,
         'form': form,
         'uform': uform,
-        'title': u'Редактирование профиля'
+        'title': u'Profile edit'
     }

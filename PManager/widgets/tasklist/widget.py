@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 import datetime
-from PManager.models import PM_Task, PM_Project, Tags, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
+from PManager.models import PM_Task, PM_Project, Tags,PM_User, PM_Timer, listManager, ObjectTags, PM_User_PlanTime, \
     PM_Milestone, PM_ProjectRoles, PM_Reminder, Release, PM_MilestoneChanges
 from django.contrib.auth.models import User
 from PManager.viewsExt.tools import templateTools, taskExtensions, TextFilters
@@ -14,7 +14,7 @@ from PManager.services.task_list import task_list_prepare, tasks_to_tuple
 from django.db.models import Q
 # This function are used in many controllers.
 # It must return only json serializeble values in 'tasks' array
-
+from tracker.settings import GIFT_USD_RATE
 
 def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
     userTagSums = dict()
@@ -58,8 +58,8 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
                     userTagSums[userId] = round(float((int(userTagSums[userId]) - int(minTagCount))) / float(
                         (int(maxTagCount) - int(minTagCount))), 3)
 
-                if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
-                    currentRecommendedUser = userId
+                # if userTagSums[userId] == maxTagCount or userTagSums[userId] == 1:
+                #     currentRecommendedUser = userId
 
     return currentRecommendedUser, userTagSums
 
@@ -106,6 +106,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         mId = int(pst('milestone')) if pst('milestone') else 0
         mName = pst('milestone_name')
         mDate = pst('milestone_date')
+        mDesc = pst('milestone_description')
         milestone = None
         if mId:
             milestone = PM_Milestone.objects.get(pk=mId)
@@ -121,7 +122,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 if not mDate:
                     mDate = datetime.datetime.now()
 
-                milestone = PM_Milestone(name=mName, project=project)
+                milestone = PM_Milestone(name=mName, project=project, description=mDesc)
                 milestone.date = mDate
                 milestone.save()
 
@@ -198,11 +199,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         #@var HttpRequest request
         cur_user = request.user
 
-    cur_prof = cur_user.get_profile()
-    try:
-        aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
-    except AttributeError:
-        aManagedProjectsId = dict()
+    cur_prof = None
+    aManagedProjectsId = dict()
+    if cur_user.is_authenticated():
+        cur_prof = cur_user.get_profile()
+        try:
+            aManagedProjectsId = cur_prof.managedProjects.values_list('id', flat=True)
+        except AttributeError:
+            aManagedProjectsId = dict()
 
     if not 'pageCount' in arPageParams:
         arPageParams['pageCount'] = 100
@@ -234,6 +238,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             filter['closed'] = False
 
         tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
+
         try:
             tasks = tasks['tasks']
             tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
@@ -261,14 +266,16 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
 
         arBets = {}
         arClientBets = {}
-        aUsersHaveAccess = widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
+        # aUsersHaveAccess = []
+        # if cur_user.is_authenticated():
+        #     widgetManager.getResponsibleList(cur_user, None).values_list('id', flat=True)
 
         for task in tasks:
             if not task.id in arBIsManager:
                 arBIsManager[task.id] = task.project.id in aManagedProjectsId
 
-            currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
-                                                                    aUsersHaveAccess)
+            # currentRecommendedUser, userTagSums = get_user_tag_sums(get_task_tag_rel_array(task), currentRecommendedUser,
+            #                                                         aUsersHaveAccess)
 
             last_message_q = task.messages
             if not arBIsManager[task.id]:
@@ -333,14 +340,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'first_name': task.author.first_name,
                     'last_name': task.author.last_name
                 },
-                'canEdit': task.canEdit(cur_user),
-                'canRemove': task.canPMUserRemove(cur_prof),
-                'canSetOnPlanning': arBIsManager[task.id] or False,
+                'donated': task.donated,
+                'asked': task.asked,
+                'canEdit': task.canEdit(cur_user) if cur_user.is_authenticated() else False,
+                'canRemove': task.canPMUserRemove(cur_prof) if cur_prof else False,
+                'canSetOnPlanning': arBIsManager[task.id] or cur_user.id == task.author.id,
+                'canObserve': cur_user.is_authenticated(),
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
-                'canClose': arBIsManager[task.id] or cur_user.id == task.author.id,
-                'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id,
-                'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof),
+                'canClose': cur_user.id == task.author.id if cur_user else False,
+                'canSetReady': cur_prof.hasRole(task.project) and task.messages.filter(author=cur_user).exists() if cur_prof else False,
+                'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id if cur_user.is_authenticated() else False,
+                'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof) if cur_prof else False,
                 'canBaneUser': bCanBaneUser,
                 'startedTimerExist': startedTimer != None,
                 'startedTimerUserId': startedTimer.user.id if startedTimer else None,
@@ -353,8 +364,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     } for t in task.messages.filter(Q(Q(todo=True) | Q(bug=True))).order_by('id').values('checked', 'bug', 'todo')
                 ],
                 'resp': responsibleSequence if responsibleSequence else [
-                    {'id': task.resp.id,
-                     'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}
+                    {
+                        'id': task.resp.id,
+                        'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username
+                    } if task.resp else {}
                 ],
                 'last_message': {
                     'text': TextFilters.escapeText(last_mes.text),
@@ -363,10 +376,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'author': last_mes.author.first_name + ' ' + last_mes.author.last_name if
                     last_mes.author else '',
                 } if last_mes and last_mes.author else {'text': task.text},
-                'responsibleList': userTagSums,
+                # 'responsibleList': userTagSums,
                 'files': taskExtensions.getFileList(task.files.all()),
                 'planTimes': [],
-                'viewed': (task.closed or task.isViewed(cur_user)),
+                'viewed': (task.closed or task.isViewed(cur_user)) if cur_user.is_authenticated() else False,
                 'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
                 'parentName': task.parentTask.name if task.parentTask and hasattr(task.parentTask, 'name') else '',
                 'subtasksQty': subtasksQty,
@@ -377,6 +390,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,
+                    'description': task.milestone.description,
                     'code': 'milestone',
                     'closed': task.milestone.closed,
                     'date': templateTools.dateTime.convertToSite(task.milestone.date, '%d.%m.%Y')
@@ -388,7 +402,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                     'name': task.project.name,
                     'id': task.project.id,
                     'code': 'project',
-                    'url': task.project.url
+                    'url': task.project.taskListUrl
                 }
 
             if subtasksQty:
@@ -399,21 +413,22 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 not addTasks[task.id]['resp'][0]
             )
 
-            reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
-            if reminder.exists():
-                addTasks[task.id]['reminder'] = reminder[0]
+            if cur_user.is_authenticated():
+                reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
+                if reminder.exists():
+                    addTasks[task.id]['reminder'] = reminder[0]
 
-            if addTasks[task.id]['needRespRecommendation']:
-                if currentRecommendedUser:
-                    recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
-                    recommendedUserArray = {
-                        'id': recommendedUser.id,
-                        'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
-                    }
-                    addTasks[task.id]['recommendedUser'] = {
-                        'id': int(currentRecommendedUser),
-                        'name': recommendedUserArray['name']
-                    }
+            # if addTasks[task.id]['needRespRecommendation']:
+            #     if currentRecommendedUser:
+            #         recommendedUser = User.objects.get(pk=int(currentRecommendedUser))
+            #         recommendedUserArray = {
+            #             'id': recommendedUser.id,
+            #             'name': recommendedUser.first_name + ' ' + recommendedUser.last_name
+            #         }
+            #         addTasks[task.id]['recommendedUser'] = {
+            #             'id': int(currentRecommendedUser),
+            #             'name': recommendedUserArray['name']
+            #         }
 
             planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
             for obj in planTimes:
@@ -434,11 +449,14 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         histasksQty = resp.todo.filter(active=True, closed=False).count()
         setattr(resp, 'openTasksQty', histasksQty)
         if resp.id not in aUserLinks:
-            aUserLinks[resp.id] = {
-                'url': resp.get_profile().url,
-                'name': resp.last_name + ' ' + resp.first_name,
-            }
-        aResps.append(resp)
+            try:
+                aUserLinks[resp.id] = {
+                    'url': resp.get_profile().url,
+                    'name': resp.last_name + ' ' + resp.first_name,
+                }
+                aResps.append(resp)
+            except PM_User.DoesNotExist:
+                pass
 
     if needTaskList:
         aTasksId = addTasks.keys()
@@ -467,16 +485,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                     timezone.get_current_timezone())
     template = templateTools.get_task_template()
 
-    title = (project.name + u': задачи' if project and isinstance(project, PM_Project) else u'Задачи')
+    title = u'All tasks' if not project else '<a href="/project/'+str(project.id)+'/public/">' + project.name + '</a>' + ' / Tasks'
 
-    return {
+    result = {
         'title': title,
         'tasks': tasks,
         'project': project,
         'users': aResps,
+        'bounty': widgetParams.get('bounty'),
         'projectSettings': pSettings,
         'tab': True,
-        'name': u'Задачи',
+        'name': u'Tasks',
         'paginator': paginator,
         'milestones': PM_Milestone.objects.filter(project=project, closed=False),
         'releases': Release.objects.filter(project=project, status='new'),
@@ -485,9 +504,12 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
-        'canInvite': cur_prof.isManager(project) if project else False,
-        'template': template,
-        'qty': {
+        'canInvite': cur_prof.isManager(project) if project and cur_prof else False,
+        'template': template
+    }
+
+    if cur_user.is_authenticated():
+        result['qty'] = {
             'ready': PM_Task.getQtyForUser(cur_user, project,
                                            {'status__code': 'ready', 'closed': False, 'active': True}),
             'started': PM_Task.getQtyForUser(cur_user, project,
@@ -498,4 +520,4 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                                               {'deadline__lt': now, 'deadline__isnull': False,
                                                'closed': False, 'active': True})
         }
-    }
+    return result

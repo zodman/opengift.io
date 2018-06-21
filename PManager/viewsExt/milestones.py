@@ -27,14 +27,16 @@ def ajaxMilestonesResponder(request):
     milestone = None
     responseText = 'bad query'
     name = request.POST.get('name', '')
+    description = request.POST.get('description', '')
     user = request.user
     responsible_id = request.POST.get('responsible', 0)
-    date = templateTools.dateTime.convertToDateTime(request.POST.get('date', ''))
+    date = request.POST.get('date', None)
+    date = templateTools.dateTime.convertToDateTime(date) if date else None
     id = request.POST.get('id', None)
     task_id = int(request.POST.get('task_id', 0))
     critically = request.POST.get('critically', 2)
     action = request.POST.get('action', None)
-    if not user.is_authenticated():
+    if action and not user.is_authenticated():
         return HttpResponse('not authorized')
 
     project = None
@@ -79,10 +81,7 @@ def ajaxMilestonesResponder(request):
             change.save()
 
         responseText = 'added'
-    elif name and date and project:
-        if not user.get_profile().isManager(project):
-            return HttpResponse('user is not manager of project')
-
+    elif name and project:
         if not milestone:
             milestone = None
         if id:
@@ -90,20 +89,26 @@ def ajaxMilestonesResponder(request):
                 milestone = PM_Milestone.objects.get(pk=id)
                 milestone.name = name
                 milestone.date = date
+                milestone.description = description
                 milestone.project = project
             except PM_Milestone.DoesNotExist:
                 pass
         else:
-            milestone = PM_Milestone(name=name, date=date, project=project)
+            milestone = PM_Milestone(name=name, date=date, project=project, description=description)
+
 
         if milestone:
+            if not user.is_authenticated() or not user.get_profile().isManager(project):
+                milestone.is_request = True
+
             milestone.save()
             if responsible_id:
                 milestone.responsible.clear()
                 milestone.responsible.add(responsible_id)
             else:
-                milestone.responsible.add(user)
-            responseText = 'saved'
+                if user.is_authenticated():
+                    milestone.responsible.add(user)
+            responseText = milestone.id
 
     return HttpResponse(responseText)
 

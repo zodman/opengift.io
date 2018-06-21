@@ -1,151 +1,214 @@
-{% extends extends %}
+{% extends 'public/index.html' %}
 {% load less %}
 {% block content %}
-    {% if is_opengift %}
-        <section>
-            <form name="authform" action="/login/" method="POST">
-                {% csrf_token %}
-                <div class="container">
-                    <div class="row">
-                        <div class="col-lg-6 mx-auto text-center">
-                            <h2 class="h1">
-                                Sign In / Register
-                            </h2>
-                            <p>View our privacy policy and use of cookies</p>
-                            {% if error %}
-                            <div class="bg-primary rounded u-p-10 u-mb-40 mx-auto">
-                                {% ifequal error "not_found" %}
-                                    <div class="label-danger">Email or password is incorrect.</div>
-                                {% endifequal %}
-                                {% ifequal error "not_active" %}
-                                    <div class="label-danger">User not found</div>
-                                {% endifequal %}
-                                {% ifequal error "incorrect_email" %}
-                                    <div class="label-danger">Email is incorrect</div>
-                                {% endifequal %}
-                            </div>
-                            {% endif %}
-                        </div>
-                    </div>
+<section>
+  <div class="container">
+      {% if request.isPromo %}<br /><br />
+          <h1 class="display-4 u-fw-600 u-mb-40 text-center">Register and get 100 GIFT tokens<br />for free to your wallet!</h1>
+          <p class="u-fs-22 u-lh-1_8 my-4 text-center">You can choose to keep it or sponsor some cool open source projects.</p>
+      {% endif %}
+    <!--tabs-->
+  {% if not request.isPromo %}
+    <div class="nav nav-pills justify-content-center mb-3" role="tablist" aria-orientation="vertical">
+      <a class="nav-link{% if not request.GET.wl %} active{% endif %} h1" data-toggle="pill" href="#v-pills-Sign" role="tab" aria-controls="v-pills-Sign" aria-selected="true" aria-expanded="false">Sign In</a>
 
-                    <div class="row">
-                        <div class="col-lg-4 text-center mx-auto">
-                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                                    <span class="icon icon-Mail text-primary"></span>
-                                </div>
-                                <input type="text" class="form-control border-0 p-3"
-                                       name="username"
-                                       placeholder="E-mail" required="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 text-center mx-auto">
-                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
-                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
-                                    <span class="icon icon-ClosedLock text-primary"></span>
-                                </div>
-                                <input type="password" name="password" class="form-control border-0 p-3"
-                                       placeholder="Password" required="">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-4 text-center mx-auto">
-                            <input class="btn btn-rounded btn-outline-green px-md-5 m-3" type="submit" value="Sign in / Register"/>
-                            <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </section>
-        <script>$(function() {$('[name=username]').focus();});</script>
-    {% else %}
-
-        <div class="container">
-            <div class="loginPage">
-                <div class="loginPage-logoBig">
-                    <br><br>
-                </div>
-                <div class="loginPage-helloText">
-                    <h3 style="color: #444;margin: 16px 0 0;"></h3>
-                    <p align="center">
-                        <br><img src="/static/images/video_small.png" class="img-responsive"
-                                 style="margin-left: 40px;"/><br><br>
-                    </p>
-                </div>
-
-                <div class="loginPage-loginBlock well text-center clearfix">
-                    <form class="form-inline loginPage-loginBlock-form" name="authform" action="/login/" method="POST">
-                        {% csrf_token %}
-                        <input class="input-medium form-control" type="text" name="username" value="Email"
-                               onfocus="if(this.value==this.defaultValue)this.value='';"
-                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                        <input class="input-medium form-control" type="password" name="password" value="Пароль"
-                               onfocus="if(this.value==this.defaultValue)this.value='';"
-                               onblur="if(this.value=='')this.value=this.defaultValue;"/>
-                        <input class="btn btn-success loginPage-loginBt" type="submit" value="Войти"/>
-                        <input type="hidden" name="backurl" value="{{ request.GET.backurl }}"/>
-                    </form>
-                </div>
-                {% ifequal error "not_found" %}
-                    <div class='alert alert-danger' role="alert">
-                        <strong>Ошибка:</strong>&nbsp;Email или пароль введены неверно.
-                    </div>
-                {% endifequal %}
-                {% ifequal error "not_active" %}
-                    <div class='alert alert-danger' role="alert">
-                        <strong>Ошибка:</strong>&nbsp;Пользователь не активен
-                    </div>
-                {% endifequal %}
-                <p class="footer-links"><a href="/change_password/">Забыли пароль?</a></p>
-            </div>
-        </div>
-        <style type="text/css">
-            body {
-                padding-top: 20px;
-            }
-        </style>
-        <script>
-            $(function () {
-                $('.fancybox-media').fancybox();
-            });
-        </script>
-        <script type="text/javascript">
-            (function (d, w, c) {
-                (w[c] = w[c] || []).push(function () {
-                    try {
-                        w.yaCounter26252781 = new Ya.Metrika({
-                            id: 26252781,
-                            webvisor: true,
-                            clickmap: true,
-                            trackLinks: true,
-                            accurateTrackBounce: true
-                        });
-                    } catch (e) {
-                    }
-                });
-
-                var n = d.getElementsByTagName("script")[0],
-                    s = d.createElement("script"),
-                    f = function () {
-                        n.parentNode.insertBefore(s, n);
-                    };
-                s.type = "text/javascript";
-                s.async = true;
-                s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
-
-                if (w.opera == "[object Opera]") {
-                    d.addEventListener("DOMContentLoaded", f, false);
-                } else {
-                    f();
-                }
-            })(document, window, "yandex_metrika_callbacks");
-        </script>
-        <noscript>
-            <div><img src="//mc.yandex.ru/watch/26252781" style="position:absolute; left:-9999px;" alt=""/></div>
-        </noscript>
-        <!-- /Yandex.Metrika counter -->
+      <a class="nav-link{% if request.GET.wl %} active{% endif %} h1" data-toggle="pill" href="#v-pills-Register" role="tab" aria-controls="v-pills-Register" aria-selected="false" aria-expanded="false">Register</a>
+    </div>
     {% endif %}
+    <style>
+      .nav-link.active {
+        color: white !important;
+      }
+    </style>
+
+    <!--messages-->
+    <div class="text-center">
+
+      {% if error %}
+      <div class="bg-primary rounded u-p-10 u-mb-40 mx-auto">
+        {% ifequal error "not_found" %}
+        <div class="label-danger">Email or password is incorrect.</div>
+        {% endifequal %}
+        {% ifequal error "not_active" %}
+        <div class="label-danger">User not found</div>
+        {% endifequal %}
+        {% ifequal error "incorrect_email" %}
+        <div class="label-danger">Email is incorrect</div>
+        {% endifequal %}
+        {% ifequal error "incorrect_captcha" %}
+        <div class="label-danger">Please confirm you are not a robot</div>
+        {% endifequal %}
+      </div>
+      {% endif %}
+    </div>
+
+    <div class="tab-content" id="v-pills-tabContent">
+      <div class="tab-pane fade  {% if not request.isPromo and not request.GET.wl %}active show{% endif %}" id="v-pills-Sign" role="tabpanel" aria-labelledby="v-pills-Sign-tab" aria-expanded="true">
+        <form name="authform" action="/login/" method="POST">
+          {% csrf_token %}
+          {% if request.GET.skip_recaptcha %}
+          <input type="hidden" name="skip_recaptcha" value="Y" />
+          {% endif %}
+
+          <!--username-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-Mail text-primary"></span>
+                </div>
+                <input type="text" class="form-control border-0 p-3"
+                       name="username"
+                       placeholder="E-mail" required="">
+              </div>
+            </div>
+          </div>
+
+          <!--password-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-ClosedLock text-primary"></span>
+                </div>
+                <input type="password" name="password" class="form-control border-0 p-3"
+                       placeholder="Password" required="">
+              </div>
+            </div>
+          </div>
+
+          <!--g-recaptcha-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="g-recaptcha" style="display: inline-block;padding-left: 25px;" data-sitekey="6LdiPUIUAAAAAPF5izr5ffAZToMug8oaLz0zZ1AC"></div>
+            </div>
+          </div>
+
+          <!--button-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <input class="btn btn-rounded btn-green px-md-5 m-3" type="submit" value="Sign in" />
+              <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
+              <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
+            </div>
+          </div>
+
+          <!--forgot password-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <p class=""><a href="/change_password/">Forgot your password?</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="tab-pane fade {% if request.isPromo or request.GET.wl %}active show{% endif %}" id="v-pills-Register" role="tabpanel" aria-labelledby="v-pills-Register-tab" aria-expanded="false">
+        <form name="authform" action="/login/" method="POST">
+          {% csrf_token %}
+          {% if request.GET.skip_recaptcha %}
+          <input type="hidden" name="skip_recaptcha" value="Y" />
+          {% endif %}
+
+          <!--name-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-User text-primary"></span>
+                </div>
+
+                <input type="text" class="form-control border-0 p-3" name="name" placeholder="Name" required="">
+              </div>
+            </div>
+          </div>
+
+          <!--surname-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-User text-primary"></span>
+                </div>
+
+                <input type="text" class="form-control border-0 p-3" name="surname" placeholder="Last name" required="">
+              </div>
+            </div>
+          </div>
+          {% if request.GET.wl %}
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-User text-primary"></span>
+                </div>
+
+                <input type="text" class="form-control border-0 p-3" name="gift_qty" placeholder="GIFTS to buy" required="">
+              </div>
+            </div>
+          </div>
+          {% endif %}
+        {% if request.GET.wl %}
+           <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-User text-primary"></span>
+                </div>
+
+                <input type="text" class="form-control border-0 p-3" name="eth_address" placeholder="Ethereum address" required="">
+              </div>
+            </div>
+          </div>
+          {% endif %}
+          <!--username-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-Mail text-primary"></span>
+                </div>
+                <input type="text" class="form-control border-0 p-3" name="username" placeholder="E-mail" required="">
+              </div>
+            </div>
+          </div>
+
+          <!--password-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-ClosedLock text-primary"></span>
+                </div>
+                <input type="password" name="password" class="form-control border-0 p-3"
+                       placeholder="Password" required="">
+              </div>
+            </div>
+          </div>
+
+          <!--g-recaptcha-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <div class="g-recaptcha" style="display: inline-block;padding-left: 25px;" data-sitekey="6LdiPUIUAAAAAPF5izr5ffAZToMug8oaLz0zZ1AC"></div>
+            </div>
+          </div>
+
+          <!--button-->
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <input class="btn btn-rounded btn-green px-md-5 m-3" type="submit" value="Register" />
+              <input type="hidden" name="backurl" value="{{ request.GET.backurl|default_if_none:'' }}" />
+              <input type="hidden" name="whitelist" value="{{ request.GET.wl|default_if_none:'' }}" />
+                {% if request.isPromo or request.GET.wl %}
+                <input type="hidden" name="promo_reg" value="1" />
+                {% endif %}
+            <p>View our <a href="/static/documents/policy.pdf">privacy policy and use of cookies</a></p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+</section>
+<script>$(function () { $('[name=username]').focus(); });</script>
 {% endblock %}

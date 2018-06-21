@@ -1,0 +1,107 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "opengift.git", ".", "{22F4DA6E-ED68-49B6-AC1D-F35A767F0B09}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_63398"
+		Debug.AspNetCompiler.PhysicalPath = "..\opengift.git\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63398\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_63398"
+		Release.AspNetCompiler.PhysicalPath = "..\opengift.git\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_63398\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "63398"
+		SlnRelativePath = "..\opengift.git\"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "templates", "tracker\templates\", "{97EDC9B1-D8B4-46AB-BC92-26941782D453}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_65460"
+		Debug.AspNetCompiler.PhysicalPath = "tracker\templates\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65460\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_65460"
+		Release.AspNetCompiler.PhysicalPath = "tracker\templates\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_65460\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "65460"
+		SlnRelativePath = "tracker\templates\"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "static", "PManager\static\", "{94703D99-8579-4A5C-A229-F1F88AF1A9F3}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_49178"
+		Debug.AspNetCompiler.PhysicalPath = "PManager\static\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49178\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_49178"
+		Release.AspNetCompiler.PhysicalPath = "PManager\static\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_49178\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "49178"
+		SlnRelativePath = "PManager\static\"
+	EndProjectSection
+EndProject
+Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "templates", "PManager\widgets\task_detail\templates\", "{94866A4E-2819-48E3-AA1B-AAE0C0D3A9E9}"
+	ProjectSection(WebsiteProperties) = preProject
+		TargetFrameworkMoniker = ".NETFramework,Version%3Dv4.0"
+		Debug.AspNetCompiler.VirtualPath = "/localhost_54733"
+		Debug.AspNetCompiler.PhysicalPath = "PManager\widgets\task_detail\templates\"
+		Debug.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54733\"
+		Debug.AspNetCompiler.Updateable = "true"
+		Debug.AspNetCompiler.ForceOverwrite = "true"
+		Debug.AspNetCompiler.FixedNames = "false"
+		Debug.AspNetCompiler.Debug = "True"
+		Release.AspNetCompiler.VirtualPath = "/localhost_54733"
+		Release.AspNetCompiler.PhysicalPath = "PManager\widgets\task_detail\templates\"
+		Release.AspNetCompiler.TargetPath = "PrecompiledWeb\localhost_54733\"
+		Release.AspNetCompiler.Updateable = "true"
+		Release.AspNetCompiler.ForceOverwrite = "true"
+		Release.AspNetCompiler.FixedNames = "false"
+		Release.AspNetCompiler.Debug = "False"
+		VWDPort = "54733"
+		SlnRelativePath = "PManager\widgets\task_detail\templates\"
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{22F4DA6E-ED68-49B6-AC1D-F35A767F0B09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{22F4DA6E-ED68-49B6-AC1D-F35A767F0B09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{97EDC9B1-D8B4-46AB-BC92-26941782D453}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{97EDC9B1-D8B4-46AB-BC92-26941782D453}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94703D99-8579-4A5C-A229-F1F88AF1A9F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94703D99-8579-4A5C-A229-F1F88AF1A9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{94866A4E-2819-48E3-AA1B-AAE0C0D3A9E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{94866A4E-2819-48E3-AA1B-AAE0C0D3A9E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

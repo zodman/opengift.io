@@ -63,12 +63,35 @@ class PM_User(models.Model):
         ('#ab82ff', '#ab82ff'),
     )
 
+    OPENGIFTER = 'opengifter'
+    DONATOR = 'donator'
+    BACKER = 'backer'
+
+    level_choices =(
+        (DONATOR, 'Donator'),
+        (BACKER, 'Backer'),
+        (OPENGIFTER, 'OpenGifter'),
+    )
+
+    level_sum = {
+        DONATOR: 1000,
+        BACKER: 10000,
+        OPENGIFTER: 50000,
+    }
+
     user = models.OneToOneField(User, db_index=True, related_name='profile')
-    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Отчество')
+    second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
-    skype = models.CharField(max_length=70, null=True, blank=True)
-    phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Номер телефона')
+    paypal = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'Paypal account (for money receiving from OpenGift Exchange)')
+    btc_wallet = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'BTC wallet')
+    skype = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Skype')
+    telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
+    linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
+    facebook = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Facebook account')
+    eth = models.CharField(max_length=100, null=True, blank=True,  verbose_name=u'Eth account')
+    tokens_to_buy = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Tokens to buy')
+    phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Phone number')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
     documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
@@ -82,6 +105,7 @@ class PM_User(models.Model):
     sp_price = models.IntegerField(blank=True, null=True, default=0, verbose_name=u'Желаемая ставка')
 
     premium_till = models.DateTimeField(blank=True, null=True, verbose_name=u'Оплачен до')
+    verification_code = models.CharField(max_length=100, blank=True, null=True)
     paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
@@ -96,6 +120,8 @@ class PM_User(models.Model):
 
     is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
     is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
+    in_whitelist = models.BooleanField(blank=True, verbose_name=u'In whitelist', default=False)
+    in_promo = models.BooleanField(blank=True, verbose_name=u'In Promo', default=False)
     heliard_manager_rate = models.FloatField(blank=True, null=True, verbose_name=u'Ставка менеджера')
     overdraft = models.IntegerField(blank=True, null=True, verbose_name=u'Максимальный овердрафт')
 
@@ -103,6 +129,7 @@ class PM_User(models.Model):
     blockchain_key = models.CharField(blank=True, null=True, max_length=2000)
     blockchain_cert = models.CharField(blank=True, null=True, max_length=2000)
     blockchain_wallet = models.CharField(blank=True, null=True, max_length=100)
+    opengifter_level = models.CharField(blank=True, null=True, max_length=100, choices=level_choices)
 
     @property
     def rating(self):
@@ -132,6 +159,45 @@ class PM_User(models.Model):
     @property
     def allTasksQty(self):
         return self.user.todo.filter(active=True, closed=False).exclude(project__closed=True, project__locked=True, status__code='ready').count()
+
+
+    def is_donator(self):
+        return self.opengifter_level in [self.DONATOR, self.BACKER, self.OPENGIFTER]
+
+    def is_backer(self):
+        return self.opengifter_level in [self.BACKER, self.OPENGIFTER]
+
+    def is_opengifter(self):
+        return self.opengifter_level == self.OPENGIFTER
+
+    def get_donation_sum(self, taskId=None, projectId=None):
+        sum = 0
+        donations = self.user.donations.all()
+        if taskId:
+            donations = donations.filter(task=taskId)
+
+        if projectId:
+            donations = donations.filter(project=projectId)
+
+        for d in donations:
+            sum += d.sum
+
+        return sum
+
+    def update_opengifter_level(self):
+        sum = self.get_donation_sum()
+
+        dl = None
+        if sum > self.level_sum[self.OPENGIFTER]:
+            dl = self.OPENGIFTER
+        elif sum > self.level_sum[self.BACKER]:
+            dl = self.BACKER
+        elif sum > self.level_sum[self.DONATOR]:
+            dl = self.DONATOR
+
+        if self.opengifter_level != dl:
+            self.opengifter_level = dl
+            self.save()
 
     def account_total_project(self, project):
         if not project:
@@ -164,6 +230,10 @@ class PM_User(models.Model):
         if avatar:
             if avatar.find('media') < 0:
                 avatar = '/media/' + avatar
+
+        else:
+            avatar = 'https://robohash.org/opengift_' + str(self.id) + '.png'
+
         return avatar
 
     @property
@@ -218,7 +288,10 @@ class PM_User(models.Model):
             is_new = False
         except User.DoesNotExist:
             is_new = True
+            generated_password = False
+
             if not password:
+                generated_password = True
                 password = User.objects.make_random_password()
             login = email
             if len(login) > 30:
@@ -226,14 +299,16 @@ class PM_User(models.Model):
             user = User.objects.create_user(login, email, password)
             context = {
                 'user_name': ' '.join([user.first_name, user.last_name]),
-                'user_login': login,
-                'user_password': password
+                'user_login': login
             }
+
+            if generated_password:
+                context['user_password'] = password
 
             message = emailMessage(
                 'hello_new_user',
                 context,
-                'Heliard: сообщество профессионалов. Добро пожаловать!'
+                'Welcome to OpenGift!'
             )
 
             message.send([email])
@@ -373,26 +448,28 @@ class PM_User(models.Model):
 
     def hasAccess(self, task, rule):
         if task and hasattr(task, 'project') and task.project:
-            if self.isManager(task.project):
-                return True
+            # if self.isManager(task.project):
+            #     return True
 
             if task.author.id == self.user.id:
                 return True
 
             if rule == 'view':
-                if task.onPlanning and not task.resp:
-                    return self.hasRole(task.project)
+                return True
 
-                return (task.resp and self.user.id == task.resp.id) \
-                       or self.user.id in [u.id for u in task.observers.all()] \
-                       or task.subTasks.filter(resp=self.user.id, active=True).exists() \
-                       or task.subTasks.filter(author=self.user.id, active=True).exists()
+                # if task.onPlanning and not task.resp:
+                #     return self.hasRole(task.project)
+                #
+                # return (task.resp and self.user.id == task.resp.id) \
+                #        or self.user.id in [u.id for u in task.observers.all()] \
+                #        or task.subTasks.filter(resp=self.user.id, active=True).exists() \
+                #        or task.subTasks.filter(author=self.user.id, active=True).exists()
 
             elif rule == 'change':
                 #todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
-                       or self.user.id == task.resp
+                       or self.user.id == task.resp.id
 
     def getBet(self, project, type=None, role_code=None):
         try:

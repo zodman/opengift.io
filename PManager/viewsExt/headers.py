@@ -15,7 +15,7 @@ def set_project_in_session(project_id, projects, request):
     so that next requests will have access to it
     '''
     project = None
-    if project_id == 0 or project_id not in projects:
+    if project_id == 0:
         request.COOKIES["CURRENT_PROJECT"] = 0
         return project
     try:
@@ -26,7 +26,7 @@ def set_project_in_session(project_id, projects, request):
     return project
 
 
-def get_project_in_session(projects, request):
+def get_project_in_session( request):
     '''
     This function gets a stored project from session data
     '''
@@ -34,11 +34,8 @@ def get_project_in_session(projects, request):
     project_id = request.COOKIES.get("CURRENT_PROJECT", 0)
     try:
         project_id = int(project_id)
-        if project_id in projects:
-            project = PM_Project.objects.get(pk=project_id)
-            return project
-        else:
-            request.COOKIES["CURRENT_PROJECT"] = 0
+        project = PM_Project.objects.get(pk=project_id)
+        return project
     except PM_Project.DoesNotExist:
         request.COOKIES["CURRENT_PROJECT"] = 0
     except ValueError:
@@ -74,7 +71,7 @@ def initGlobals(request):
             else:
                 redirect = '/404'
     else:
-        CURRENT_PROJECT = get_project_in_session(projects, request)
+        CURRENT_PROJECT = get_project_in_session(request)
         SET_COOKIE["CURRENT_PROJECT"] = request.COOKIES["CURRENT_PROJECT"]
 
     if request.method == 'POST':
@@ -100,20 +97,21 @@ def initGlobals(request):
                 if 'need_manager' not in form.cleaned_data or form.cleaned_data['need_manager'] == 'N':
                     pass
                 else:
-                    sendFeedBackEmail(
-                        request.user.first_name + ' ' + request.user.last_name,
-                        request.user.email,
-                        'Нужен менеджер',
-                        'Мне нужен менеджер (' + str(request.user.get_profile().phoneNumber or '') + ')'
-                    )
+                    # sendFeedBackEmail(
+                    #     request.user.first_name + ' ' + request.user.last_name,
+                    #     request.user.email,
+                    #     'Нужен менеджер',
+                    #     'Мне нужен менеджер (' + str(request.user.get_profile().phoneNumber or '') + ')'
+                    # )
+                    pass
 
-                redirect = "/?project=" + str(project.id)
+                redirect = "/project/" + str(project.id) + "/tasks/"
             except PM_Project.DoesNotExist:
                 projects = currentUser.get_profile().getProjects()
                 if projects:
-                    redirect = "/?project=" + str(projects[0].id)
+                    redirect = "/project/" + str(projects[0].id) + "/tasks/"
                 else:
-                    redirect = "/"
+                    redirect = request.get_full_path()
 
         WhoAreYouForm = False
 
@@ -121,11 +119,6 @@ def initGlobals(request):
         WhoAreYouForm = WhoAreYou()
     else:
         WhoAreYouForm = False
-
-    if 'logout' in request.GET and bIsAuthenticated:
-        if request.GET['logout'] == 'Y':
-            logout(request)
-            redirect = "/"
 
     can_invite = False
     is_manager = False
@@ -136,8 +129,14 @@ def initGlobals(request):
 
     is_author = bIsAuthenticated and request.user.createdProjects.exists()
 
+    if 'logout' in request.GET and bIsAuthenticated:
+        if request.GET['logout'] == 'Y':
+            logout(request)
+            redirect = "/"
+
     return {
         'SET_COOKIE': SET_COOKIE,
+        'DEBUG_MODE': request.COOKIES.get('debug_mode', '') == 'on',
         'CURRENT_PROJECT': CURRENT_PROJECT,
         'CAN_INVITE': can_invite,
         'IS_MANAGER':  is_manager,

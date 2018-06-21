@@ -74,28 +74,29 @@ baseConnectorClass.prototype = {
         if (this.socket) {
             cb = this.socket.getCallBacks();
         }
-        this.socket = new FancyWebSocket((port + this.url), this);
+        if (document.mainController.userId) {
+            this.socket = new FancyWebSocket((port + this.url), this);
 
+            if (cb) {
+                this.socket.rebindAll(cb);
+            } else {
+                this.addListener('connect', function () {
+                    t.connected = true;
 
-        if (cb) {
-            this.socket.rebindAll(cb);
-        } else {
-            this.addListener('connect', function () {
-                t.connected = true;
+                    this.send('connect', {
+                        sessionid: $.cookie("sessionid")
+                    });
 
-                this.send('connect', {
-                    sessionid: $.cookie("sessionid")
+                    if (!window.timerID) {
+                        window.timerID = setInterval(function () {
+                            if (t.socket.state() == 3) {
+                                t.init();
+                                t.socket.rebindAll();
+                            }
+                        }, 8000);
+                    }
                 });
-
-                if (!window.timerID) {
-                    window.timerID = setInterval(function () {
-                        if (t.socket.state() == 3) {
-                            t.init();
-                            t.socket.rebindAll();
-                        }
-                    }, 8000);
-                }
-            });
+            }
         }
     },
     'disableAllInputs': function() {
@@ -105,15 +106,17 @@ baseConnectorClass.prototype = {
         $('.js-disabled').removeClass('disabled js-disabled').attr('disabled', false);
     },
     'addListener': function (event_name, func) {
-        this.socket.bind(event_name, func);
+        if (this.socket)
+            this.socket.bind(event_name, func);
     },
     'send': function (message, data, func) {
-        this.socket.send(message, data);
+        if (this.socket)
+            this.socket.send(message, data);
+
         if (func) func();
     },
     'closeConnection': function () {
-        this.socket.onclose = function () {
-        };
+        this.socket.onclose = function () {};
         this.socket.close();
     }
 };

@@ -1,0 +1,1856 @@
+{% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Favicon-->
+    <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+    {% block header %}
+        <meta name="description" content="The token for 93% companies in the world. The token for open-source community.">
+        <!-- Title-->
+        <title>OpenGift.io - Token Sale</title>
+    {% endblock %}
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
+          rel="stylesheet">
+    <!--Icon fonts-->
+
+    {#    {% compressed_css 'base' %}#}
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css?v1">
+
+
+    <link rel="stylesheet" href="/static/public/assets/css/flipclock.css">
+
+
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+    <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+    <link rel="stylesheet" href="/static/public/assets/css/style.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/form.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/timeline.css">
+
+    <link rel="stylesheet" href="/static/public/assets/css/dosis.css">
+    {#    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">#}
+
+    <script src="/static/public/assets/js/bundle.js"></script>
+    {% compressed_js 'base' %}
+    <script type="text/javascript">
+        window.heliardSettings = {
+            "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
+            "SERVER_IP": '{% get_settings "SERVER_IP" %}',
+            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}',
+            'CSRF_TOKEN': $.cookie('csrftoken')
+        };
+        var CURRENT_TASK_VIEW;
+        var CURRENT_TASK_DATA;
+        var arTimers = {};
+        window.backurl = '{{ backurl }}';
+        {% if main.CURRENT_PROJECT %}
+            window.currentProject = {{ main.CURRENT_PROJECT.id }};
+        {% endif %}
+        window.baseUserParams = {
+            'userId': {{ user.id|default_if_none:'0' }}
+        };
+
+        WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
+        $(function () {
+            APNG.ifNeeded(function () {
+                $("img.loader").each(function () {
+                    APNG.animateImage(this);
+                });
+            });
+        });
+        {% if user.is_authenticated %}
+            document.mainController = new mainControllerClass({
+                'userId':{{ user.id }},
+                'widgetsData': {}
+            });
+        {% endif %}
+        var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
+        {% if userTimer %}
+            CURRENT_TASK_DATA = {
+                'id':{{ userTimer.task.id }},
+                'started':{{ userTimer.task.started|jsonify }},
+                'closed':{{ userTimer.task.closed|jsonify }},
+                'name':{{ userTimer.task.name|jsonify|safe }},
+                'project': {
+                    'name': {{ userTimer.task.project.name|jsonify|safe }}
+                }
+            };
+
+            {% if userTimer.task.parentTask %}
+                CURRENT_TASK_DATA['parentTask'] = {
+                    'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+                };
+            {% endif %}
+        {% endif %}
+        var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
+    </script>
+    {% block scripts %}{% endblock %}
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+
+</head>
+
+<body id="top">
+
+
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="top-panel-error animated js-error-container label-danger" style="display: none;">
+    <div class="container">
+        <div class="pull-left">
+            <div class="container js-error-container-text"></div>
+        </div>
+
+        <div class="pull-right">
+            <a href="#" class="close-btn js-error-container-close">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% block head %}
+    <header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg px-md-0">
+                <a class="navbar-brand" href="/">
+				<span class="logo-default">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+				<span class="logo-inverse">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+                </a>
+
+                <div class="navbar-toggler js-navbar-toggler">
+                    <span class="lnr lnr-text-align-right nav-hamburger"></span>
+                    <span class="lnr lnr-cross nav-close"></span>
+                </div>
+
+                {% include "public/menu.html" %}
+
+            </nav>
+        </div> <!-- END container-->
+    </header> <!-- END header -->
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="u-py-100 u-h-100vh u-flex-center" data-dark-overlay="6"
+             style="background:url(/static/public/assets/img/banner.jpg) no-repeat; background-size: cover; background-position: top center;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-8 u-mt-80 text-center">
+
+                    <p class="u-fs-18 text-white u-lh-1_8 u-mb-20">
+                        Decentralized Cost-Cutter for Software Development
+                    </p>
+                    <h1 class="display-4 u-fw-600 text-white u-mb-40">
+                        GIFT Token Sale
+                    </h1>
+
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                        <a target="_blank" href="https://bitcointalk.org/index.php?topic=2915520" class="icon fa fa-bitcoin"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://twitter.com/OpenGift_io" class="icon fa fa-twitter"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="mailto:info@opengift.io" class="icon fa fa-envelope"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://medium.com/@opengift" class="icon fa fa-medium"></a>
+                    </p>
+                    <h2 class="text-white ">GIFT Token open PreSale starts on 1st of July, 2018.
+{#                        <br />Public PreSale starts 3 pm UTC on 19th of March#}
+                    </h2>
+                    <div class="progress-item mb-5" style="position: relative;">
+                        <h4 class="float-right text-white  u-mb-0  u-mt-20">1 351 200 out of 10 000 000 GIFT</h4>
+                        <div class="clearfix"></div>
+                        <div class="progress w-100 green-gr u-mt-20" style="overflow: visible;position: relative;">
+                            <div class="progress-pointer" style="left: 10%; right: auto;z-index: 2;top:-11px;"></div>
+                            <div class="progress-bar orange-gr relative" aria-valuenow="12.95" style="width: 0%;">
+
+                            </div>
+                        </div>
+                    </div>
+
+{#                    <a href="/login/?backurl=/profile/edit/&wl=1" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">#}
+{#                        REGISTER TO WHITELIST#}
+{#                    </a>#}
+
+                </div> <!-- END col-lg-6-->
+                <div class="col-lg-4 u-mt-80" align="center">
+                    <h2 class="u-fw-600 text-white u-mb-40">20% bonus GIFT</h2>
+                    <h3 class="u-fw-600 text-white u-mb-40">The offer is active till 01.07</h3>
+                    <div class="clock u-mb-40"></div>
+
+                    <a href="/login/?wl=1&backurl=/wallet/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+                        Buy GIFT
+                    </a>
+
+                    <script type="text/javascript">
+
+                        $(document).ready(function() {
+                            var clock;
+                            clock = $('.clock').FlipClock({
+                                clockFace: 'DailyCounter',
+                                autoStart: false,
+                                callbacks: {
+                                    stop: function() {
+                                        $('.message').html('The clock has stopped!')
+                                    }
+                                }
+                           });
+                            var date = new Date(2018, 6, 1);
+                            clock.setTime((date - new Date()) / 1000);
+                            clock.setCountdown(true);
+                            clock.start();
+
+                        });
+                    </script>
+                </div>
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section> <!-- END intro-hero-->
+
+
+<section class="bg-gray-v2 u-pt-50 u-pb-50">
+    <div class="container">
+
+        <div class="row align-items-center">
+            <div class="col-md-3 mb-5">
+                <img src="/static/img/blockchain.png" alt="">
+            </div> <!-- END col-md-6 -->
+            <div class="col-md-9 u-pl-50">
+                <h3 class="mb-4 u-fw-500 u-lh-1_6">The mission of our project is to make free software better than premium.</h3>
+                <h5 class="mb-4 u-fw-500 u-lh-1_6">OpenGift allows organizations and users to send requests for implementation of the changes needed for their business to the open source project teams.</h5>
+                <h5 class="mb-4 u-fw-500 u-lh-1_6">Open source project teams can create “virtual” organizations for transparent distribution of their profits, no matter where in the world they are.</h5>
+            </div> <!-- END col-md-6 -->
+        </div>
+
+
+    </div>
+</section>
+
+<section class="u-pt-60 u-pb-15">
+    <div class="container">
+
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-5 color-heading">
+                <h2 class="h1 u-mb-30">
+                    Open Source potential market
+                </h2>
+                <p class="u-fs-18 u-fw-500 u-lh-1_5">By the middle of 2016, open source software market overgrew the proprietary software market.</p>
+                <p class="u-fs-60 u-fw-600 u-lh-1_5 u-mb-5 u-mt-5 blue-gradient-title"><span>$357 billion.</span></p>
+
+
+            </div> <!-- END col-md-6 -->
+            <div class="col-md-6">
+                <div id="chartdiv2" style="width: 100%; height: 400px; background-color: #FFFFFF;" ></div>
+            </div> <!-- END col-md-6 -->
+        </div>
+    </div>
+</section>
+    <section class="u-pt-50 u-pb-0 relative" id="howitworks">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50 text-center">The platform has been launched.</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <div class="row">
+                <div class="col-lg-4 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/guarantee.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                            All GIFT emitted
+                        </h4>
+                        <p class="text-center text-dark u-t-u">
+                            <a href="http://explorer.opengift.io" target="_blank">Blockchain explorer</a>
+                        </p>
+                        <p class="mb-0">
+                            Total emission of <strong>160&nbsp;000&nbsp;000&nbsp;GIFT</strong>. No extra GIFTs to be emitted.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/bank.svg" alt="">
+                        <h4 class="u-fs-26 u-mt-35 u-mb-15">
+                            MVP ready
+                        </h4>
+                        <p class="text-center text-dark u-t-u">
+                            <a href="https://www.youtube.com/watch?v=Bme1lTX6gQ4" target="_blank">Video presentation</a>
+                        </p>
+                        <p class="mb-0">
+                            The platform has been launched with all the basic functions ready. The first stage of customer development has been completed. First participants have registered on the platform.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/investment.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                            Guaranteed liquidity
+                        </h4>
+
+                        <p class="mb-0">
+                            Donations to projects enable GIFT Exchanges to operate and exchange GIFTs for other participants of the platform.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<section class="bg-gray-v2 u-pt-30 u-pb-80">
+    <div class="container">
+
+        <h2 class="h1 u-mt-50 u-mb-80 text-center">GIFT Ecosystem</h2>
+        <div class="row text-center">
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="">
+                    <img src="/static/public/assets/img/businessman.svg" width="64" class="u-mb-15">
+                    <h5 class="text-purple">Software financing</h5>
+                    <p>Projects members receive donations in GIFTs according to their share of the project. The sum in the currency of the donation is transferred to the Exchange Fund.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 hide-on-992 u-my-20">
+                &nbsp;
+            </div>
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="">
+                    <img src="/static/public/assets/img/megaphone.svg" width="64" class="u-mb-15">
+                    <h5 class="text-blue">Internal Exchanges</h5>
+                    <p>GIFT Exchanges set their orders to buy GIFTs from users. Users can sell GIFT, hold it or pay in it another users for their code or marketing service.</p>
+                </div>
+            </div>
+
+        </div>
+
+
+        <div class="row text-center hide-on-992" style="margin: -250px 0;">
+
+            <div class="col-lg-2 col-md-4">
+                &nbsp;
+            </div>
+            <div class="col-lg-8 col-md-4">
+                <div align="center"><img src="/static/public/assets/img/ecosystem-circle.png" alt=""></div>
+            </div>
+
+            <div class="col-lg-2 col-md-4">
+                &nbsp;
+            </div>
+
+        </div>
+
+
+        <div class="row text-center">
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="">
+                    <img src="/static/public/assets/img/team.svg" width="64" class="u-mb-15">
+                    <h5 class="text-red">Free transactions</h5>
+                    <p>GIFTs transactions in the system are free. There is no commission.</p>
+                </div>
+            </div>
+            <div class="col-lg-4 hide-on-992 u-my-20">
+                &nbsp;
+            </div>
+
+            <div class="col-lg-4 col-md-6 u-my-20">
+                <div class="">
+                    <img src="/static/public/assets/img/search.svg" width="64" class="u-mb-15">
+                    <h5 class="text-green">Gift Distribution</h5>
+                    <p>GIFT Exchange Rate depends on the amount of donations processed by the platform.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="u-pt-30 u-pb-80 stars-bg">
+    <div class="container">
+         <h2 class="h1 u-mt-50 u-mb-80 text-center text-white ">Project Strategy</h2>
+
+
+        <ul class="timeline" id="timeline">
+            <li class="li complete u-my-20">
+                <div class="timestamp">
+                    <div class="blue-gradient-title"><span class="date">2017</span></div>
+                </div>
+                <div class="status">
+                    <h4>The OpenGift Platform prototype launched. First projects registered on the Platform. Users fund development of projects’ new features. Contributors in projects can receive a share of the amount donated through smart-contracts.</h4>
+                </div>
+            </li>
+            <li class="li u-my-20">
+                <div class="timestamp">
+                    <div class="blue-gradient-title"><span class="date">2018</span></div>
+                </div>
+                <div class="status">
+                    <h4>Projects rating system and technological map implemented. It gets cheaper for companies to fund OSS developers directly through OpenGift avoiding the intermediaries. The projects successfully solving the most important problems become visible and easy to find for investors and funds.</h4>
+                </div>
+            </li>
+            <li class="li u-my-20">
+                <div class="timestamp">
+                    <div class="blue-gradient-title"><span class="date">2019</span></div>
+                </div>
+                <div class="status">
+                    <span></span>
+                    <h4>OpenGift goes fully opensource. A community of experts is created. Projects become interlinked in a tree to solve global technological problems. Donators can fund them online and observe in real time what exactly the funds are being spent on.</h4>
+                </div>
+            </li>
+            <li class="li u-my-20">
+                <div class="timestamp">
+                    <div class="blue-gradient-title"><span class="date">2020</span></div>
+                </div>
+                <div class="status">
+                    <h4>GIFT-based economy and the world of absolutely free software is on the rise. OpenSource becomes way more popular than proprietary software. The community is rapidly developing creating millions of OS products designed to solve the specific problems of the donators. Developers get fairly paid for their contribution into OpenSource projects. All popular software is absolutely free for business and customers. They pay only for changes.</h4>
+                </div>
+            </li>
+        </ul>
+        <p align="center">
+            <a href="#roadmap" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+                Full Roadmap
+            </a>
+            &nbsp;&nbsp;
+            <a href="/static/documents/presentation-opengift-en.pdf"
+               class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
+                Presentation
+            </a>
+        </p>
+
+    </div>
+</section>
+    <section class="u-pt-30 u-pb-30 bg-gray-v2">
+        <div class="container">
+            <h2 class="h1 u-mt-50 text-center">Live data feed</h2>
+
+
+            <div class="row text-center u-my-50">
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded purple-gr">
+                        <img class="u-w-70 u-mb-25" src="/static/public/assets/img/projects.svg" alt="">
+                        <h4 class="mb-0 u-fs-36 u-fw-400 text-white">
+                            {{ projects_qty|default_if_none:"0"|floatformat }}
+                        </h4>
+
+                        <p class="u-fs-20 text-white">
+                            Projects on platform
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded green-gr">
+                        <img class="u-w-70 u-mb-25" src="/static/public/assets/img/gifts.svg" alt="">
+                        <h4 class="mb-0 u-fs-36 u-fw-400 text-white">
+                            176 M
+                        </h4>
+
+                        <p class="u-fs-20 text-white">
+                            GIFTS Transferred
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded blue-gr">
+                        <img class="u-w-70 u-mb-25" src="/static/public/assets/img/donates.svg" alt="">
+                        <h4 class="mb-0 u-fs-36 u-fw-400 text-white">
+                            {{ donations_qty }}
+                        </h4>
+
+                        <p class="u-fs-20 text-white">
+                            Donates recieved
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+                <div class="col-lg-3 col-md-6 u-my-20">
+                    <div class="box-shadow-v1 u-ff-dosis u-py-40 rounded orange-gr">
+                        <img class="u-w-70 u-mb-25" src="/static/public/assets/img/issues.svg" alt="">
+                        <h4 class="mb-0 u-fs-36 u-fw-400 text-white">
+                            {{ tasksQty }}
+                        </h4>
+
+                        <p class="u-fs-20 text-white">
+                            Issues closed
+                        </p>
+                    </div>
+                </div> <!-- END col-lg-3 col-md-6-->
+
+            </div> <!-- END row-->
+            <div class="text-center u-pt-15 u-pb-50">
+                <a class="btn btn-red btn-rounded" href="https://github.com/opengift-io/"><i class="fa fa-github"></i> Explore our GitHub</a>
+            </div>
+        </div> <!-- END container-->
+    </section>
+    <section class="u-pt-30 u-pb-30">
+        <div class="container js-presale">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="h1 u-mt-50 u-mb-50 text-center">
+                        Token Distribution Breakdown
+                    </h2>
+
+
+                    <div id="chartdiv" style="width: 100%; margin-bottom: -100px; margin-top: -100px;"  class="hide-on-992"></div>
+                    <script type="text/javascript" src="/static/js/libs/amcharts/amcharts.js"></script>
+
+
+                    <script type="text/javascript">
+                        AmCharts.makeChart("chartdiv2",
+                                {
+                                    "type": "serial",
+                                    "categoryField": "category",
+                                    "startDuration": 1,
+                                    "color": "#333",
+                                    "fontFamily": "Dosis, Open Sans, sans-serif",
+                                    "fontSize": 16,
+                                    "categoryAxis": {
+                                        "gridPosition": "start"
+                                    },
+                                    "trendLines": [],
+                                    "graphs": [
+                                        {
+                                            "balloonText": "[[value]]",
+                                            "bullet": "round",
+                                            "id": "AmGraph-1",
+                                            "bulletBorderColor": "#f3784c",
+                                            "bulletColor": "#f3784c",
+                                            "title": "Vendors",
+                                            "valueField": "Vendors"
+                                        },
+                                        {
+                                            "balloonText": "[[value]]",
+                                            "bullet": "round",
+                                            "id": "AmGraph-2",
+                                            "bulletBorderColor": "#f3784c",
+                                            "bulletColor": "#f3784c",
+                                            "title": "Open Source",
+                                            "valueField": "Open Source"
+                                        }
+                                    ],
+                                    "guides": [],
+                                    "allLabels": [],
+                                    "balloon": {},
+                                    "legend": {
+                                        "enabled": true,
+                                        "useGraphSettings": true
+                                    },
+                                    "dataProvider": [
+                                        {
+                                            "category": "2013",
+                                            "Vendors": 6000,
+                                            "Open Source": 3000
+                                        },
+                                        {
+                                            "category": "2014",
+                                            "Vendors": 5500,
+                                            "Open Source": 4000
+                                        },
+                                        {
+                                            "category": "2015",
+                                            "Vendors": 5000,
+                                            "Open Source": 4500
+                                        },
+                                        {
+                                            "category": "2016",
+                                            "Vendors": 5000,
+                                            "Open Source": 4800
+                                        },
+                                        {
+                                            "category": "2017",
+                                            "Vendors": 4800,
+                                            "Open Source": 5000
+                                        },
+                                        {
+                                            "category": "2018",
+                                            "Vendors": 4800,
+                                            "Open Source": 5500
+                                        }
+                                    ]
+                                }
+                        );
+                    </script>
+                    <script type="text/javascript">
+                        $(function() {
+
+                            new Waypoint({
+                              element: $('.js-presale').get(0),
+                              offset: '95%',
+                              handler: function(direction) {
+                                  AmCharts.makeChart("chartdiv",
+                                    {
+
+                                        "type": "pie",
+                                        "angle": 36.9,
+                                        "balloonText": "[[title]]<br><span style='font-size:13px'><b>[[value]]</b> ([[percents]]%)</span>",
+                                        "depth3D": 8,
+                                        "innerRadius": 0,
+                                        "responsive": {
+                                            "enabled": true,
+                                            "addDefaultRules": false,
+                                            "rules": [
+                                                {
+                                                    "maxWidth": 1200,
+                                                    "overrides": {
+                                                        "legend": {
+                                                            "enabled": false
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        },
+                                        "colors": [
+                                            "#3bc1cd",
+                                            "#60ba95",
+                                            "#93d29d",
+                                            "#dbd791",
+                                            "#e2b785",
+                                            "#e29285",
+                                            "#d76969"
+                                        ],
+                                        "gradientRatio": [],
+                                        "labelTickAlpha": 1,
+                                        "labelTickColor": "#5a6671",
+                                        "outlineAlpha": 0,
+                                        "outlineThickness": 0,
+                                        "titleField": "country",
+                                        "valueField": "litres",
+                                        "color": "#5a6671",
+                                        "fontFamily": "Open Sans",
+                                        "fontSize": 15,
+                                        "handDrawScatter": 0,
+                                        "handDrawThickness": 3,
+                                        "theme": "chalk",
+                                        "allLabels": [],
+                                        "balloon": {},
+                                        "titles": [],
+                                        "dataProvider": [
+                                            {
+                                                "country": "Main Sale",
+                                                "litres": "59.38"
+                                            },
+                                            {
+                                                "country": "Project team",
+                                                "litres": "15.63"
+                                            },
+                                            {
+                                                "country": "Legal & Advisory & Partners",
+                                                "litres": "9.38"
+                                            },
+                                            {
+                                                "country": "First exchange",
+                                                "litres": "3.13"
+                                            },
+                                            {
+                                                "country": "Marketing Bounty",
+                                                "litres": "3.13"
+                                            },
+                                            {
+                                                "country": "Pre-ICO",
+                                                "litres": "6.25"
+                                            },
+                                            {
+                                                "country": "Bug Bounty",
+                                                "litres": "3.13"
+                                            }
+                                        ]
+                                    }
+                            );
+                              }
+                            });
+                        });
+                    </script>
+                    <div class="row u-mb-50">
+                        <div class="col-md-8">
+
+                            <table class="table table-responsive text-center text-md-left">
+                                <thead class="bg-primary border-0 text-white">
+                                <tr>
+                                    <th scope="col" class="text-center text-md-left"></th>
+                                    <th scope="col" class="text-center text-md-left">GIFT&nbsp;price (ETH)</th>
+                                    <th scope="col" class="text-center text-md-left">Bonus</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr>
+                                    <th scope="row">PreSale round (10% of whole public sale)</th>
+                                    <td>0,00012</td>
+                                    <td>15% for everyone</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">Less than 20% GIFTs* have been sold</th>
+                                    <td>0,00013</td>
+                                    <td>10% when buying no less than 1 000 GIFTs</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">From 20% to 40% GIFTs have been sold</th>
+                                    <td>0,00014</td>
+                                    <td>7.5% when buying no less than 2 000 GIFTs</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">From 40% to 60% GIFTs have been sold</th>
+                                    <td>0,00015</td>
+                                    <td>5% when buying no less than 3 000 GIFTs</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">From 60% to 80% GIFTs have been sold</th>
+                                    <td>0,00016</td>
+                                </tr>
+                                <tr>
+                                    <th scope="row">More than 80% GIFTs have been sold</th>
+                                    <td>0,00017</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <p>*- of the Main Sale amount of coins</p>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="box-shadow-v2 bg-white p-4 p-md-5">
+                                <p>You can buy EthGIFTs by transfering Ethereum to our smart-contract</p>
+                                <h5>Presale rate</h5>
+                                <h2 class="my-4">
+                                    <span class="text-primary">0,00012 ETH</span> = <span class="text-red">1&nbsp;ERC20&nbsp;GIFT</span>
+                                </h2>
+                                <p>You can exchange EthGIFT for GIFT 1-to-1 at any moment.</p>
+                                <h2>All PreSale<br />10M EthGIFT</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+        </div>
+    </section>
+
+    <a name="team"></a>
+    <section class="bg-gray-v2">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        The Executive Team
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+            <style>
+                .images-grey img {
+                    filter: grayscale(100%);
+                }
+                @media (max-width: 768px) {
+                    .hidden-md-down {
+                        display: none !important;
+                    }
+                }
+
+                .roadmap-container-date .date-desc {
+                    display: block;
+                }
+            </style>
+
+            <div class="row align-items-left">
+                <!--<div class="col-12 u-mt-0">
+                <div data-init="carousel" data-slick='{
+				"slidesToShow":3,
+				"slidesToScroll": 1,
+				"infinite":false,
+				"arrows":true,
+				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
+				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
+				"responsive": [
+						{
+						 "breakpoint":1024,
+						 "settings":{
+							"slidesToShow": 3,
+							"arrows":false,
+							"dots":true
+						 }
+						},
+						{
+						 "breakpoint":600,
+						 "settings":{
+							"slidesToShow": 1,
+							"arrows":false,
+							"dots":true
+						 }
+						}
+					]
+				}'
+                     data-slick-margin="15">-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                                <div class="row">
+                                    <div class="col-md-5 user-img-wrapper">
+                                        <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/amin.jpeg"
+                                             alt="">
+
+                                        <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                            <li class="list-inline-item">
+                                                <a href="https://www.linkedin.com/in/amin-saleem-338b94/" target="_blank"><i
+                                                        class="fa fa-linkedin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <h4 class="u-mb-10">
+                                            Amin Saleem
+                                        </h4>
+                                        <p class="text-muted mb-0 u-fs-13">
+                                            Commercial Director
+                                        </p><p class="my-2 u-fs-15">
+                                        Amin is a serial entrepreneur, a visionary and strategic thinker. He previously founded and exited a UK government award-winning an online reverse auction. The platform achieved over $330M in orders, reaching over 1m unique users and establishing itself as a consumer champion in its industry.
+
+                                        <br />
+                                        Amin is an advisor to a number of organisations within the cryptocurrency blockchain and SaaS sectors and has been featured as an accomplished entrepreneur on BBC TV, BBC Radio, National UK Newspapers, NEC E-commerce Conference (Birmingham) and the Global African Business Awards.
+                                    </p>
+                                    </div>
+                                </div> <!-- END row-->
+                            </div>
+                        </div>
+
+                    </div> <!-- END col-lg-6-->
+                <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                                <div class="row">
+                                    <div class="col-md-5 user-img-wrapper">
+                                        <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/emas.jpg"
+                                             alt="">
+
+                                        <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                            <li class="list-inline-item">
+                                                <a href="https://www.facebook.com/gvammer" target="_blank"><i
+                                                        class="fa fa-facebook"></i></a>
+                                            </li>
+                                            <li class="list-inline-item">
+                                                <a href="https://www.linkedin.com/in/yegor-maslov/" target="_blank"><i
+                                                        class="fa fa-linkedin"></i></a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <h4 class="u-mb-10">
+                                            Yegor Maslov
+                                        </h4>
+                                        <p class="text-muted mb-0 u-fs-13">
+                                            Founder &amp; Ideologist
+                                        </p><p class="my-2 u-fs-15">
+                                        Yegor combines an excellent technical background and experience of running own software business. Key facts and achievements:<br />
+                                        - Created WEB development agency Heliant<br />
+                                        - Developed Heliard, a popular Russian task tracker and project analytics system<br />
+                                        - Won several hackathons organized by Google<br />
+                                        - Created an AI-based system of IT projects audit<br />
+                                        - Created a multiplatform loan management system for retail sector<br />
+                                        - Automated project management in a ~50 developers team<br />
+                                    </p>
+                                    </div>
+                                </div> <!-- END row-->
+                            </div>
+                        </div>
+
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-5 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/emor.jpg"
+                                         alt="">
+                                    <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/Visa_Inc._logo.svg"></div>   </div>                             <ul class="user-list-socials list-inline social social-rounded social-default social-sm">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.facebook.com/evgenii.morozov" target="_blank"><i
+                                                class="fa fa-facebook"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/evgeny-morozov-13597b26/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+
+                                </div>
+                                <div class="col-md-7">
+                                    <h4 class="u-mb-10">
+                                        Evgeny Morozov
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13">
+                                        Co-Founder & CCO
+                                    </p>
+
+
+                                    <p class="my-2 u-fs-15">
+                                        Evgeny is a Moscow State University graduate, experienced buz dev and former CorpComm Manager at Visa. During his career Evgeny helped his employers and clients to establish partner relationships with Fortune 500 companies, government bodies and NGOs in CEMEA region. As a B2B sales person he routinely brought his company $1+ million in profits.
+                                    </p>
+                                </div>
+                            </div> <!-- END row-->
+                            </div>
+                        </div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/ktru.jpg"
+                                     alt="">
+                                <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/redhat-seeklogo.com.svg"></div></div>
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/konstantin-t-b7180571/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0 u-mb-10">
+                                    Konstantin Trufanov
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Community Developer
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">
+                                    Konstantin is a software engineer at RedHat by day
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/vbel.jpg"
+                                     alt="">
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.facebook.com/slava.belykh" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-twitter"></i></a>#}
+                                    {#							</li>#}
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-google-plus"></i></a>#}
+                                    {#							</li>#}
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/slavabelykh"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Slava Belykh
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Co-founder &amp; CMO
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">
+                                    Slava is a marketer with a strong tech background. Information Security specialist by education, he was in charge of managing of big IT projects like implementation of the first call-tracking system in CIS. After moving to marketing, he organized numerous information and education campaigns for a public health sector. A number of people who volunteered to get tested for different types of diseases after such campaigns is reaching hundreds of thousands.
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/kero.jpg"
+                                     alt="">
+                                <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/Kaspersky_Lab_logo.svg"></div></div>
+
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Konstantin Erokhin
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    BlockChain DevOps &amp; Security Analyst
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">
+                                    Konstantin has a solid development experience in such companies as Kaspersky, Alpha Bank and Sberbank (the largest banks in Russia)
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/kbal.jpg"
+                                     alt="">
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.facebook.com/konstantin.burn.1" target="_blank"><i class="fa fa-facebook"></i></a>
+                                    </li>
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-twitter"></i></a>#}
+                                    {#							</li>#}
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-google-plus"></i></a>#}
+                                    {#							</li>#}
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/konstantin-balashov-4a8b27152/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Konstantin Balashov
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Co-founder &amp; DevOps
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">
+                                    Konstantin is proficient in developing testing procedures for high load web-sites. He has been in cryptospace since 2013.
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6--><div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/steve.jpg"
+                                     alt="">
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+{#                                    <li class="list-inline-item">#}
+{#                                        <a href="https://www.facebook.com/konstantin.burn.1" target="_blank"><i class="fa fa-facebook"></i></a>#}
+{#                                    </li>#}
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-twitter"></i></a>#}
+                                    {#							</li>#}
+                                    {#							<li class="list-inline-item">#}
+                                    {#								<a href=""><i class="fa fa-google-plus"></i></a>#}
+                                    {#							</li>#}
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/stevstone/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Steve Stone
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    VP of Partnerships, North America
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">
+                                    Steve is a business development specialist with accomplished experience that has progressed into entrepreneurship.
+                                    He’s the co-founder of MODAS and helped to pioneer a white label, SaaS solution for billing, tax and regulatory compliance
+                                    for IoT solution providers.
+                                    Prior to joining MODAS Steve was sales director for North America for a UK based electrical engineering systems manufacturer.
+                                    He was able to turn around a declining US operation and increase sales by more than 300%.
+                                    Steve has managed multi-million dollar P&L budget responsibilities for
+                                    national and international territories.  Likewise, he’s a business development strategist that has taken products from concept
+                                    to revenue contribution in excess of $5M.
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/npop.jpg"
+                                     alt="">
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.facebook.com/natalia.poplavskaya.7" target="_blank"><i
+                                                class="fa fa-facebook"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/nata-poplavskaya/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Natalya Poplavskaya
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Scientific Expert &amp; Data Analyst
+                                </p>
+                                <p class="my-2 u-fs-15">
+                                    Natalia is a scientist with PhD earned from a leading Russian university. She is an expert in data analytics.
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12  mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/npav.jpg"
+                                     alt="">
+
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Nik Pavlov
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Co-founder &amp; System Architect
+                                </p>
+                                <p class="my-2 u-fs-15">
+                                    Nick is an accomplished system architect and probably most powerful (phisically) software developers in the world. He has extensive experience in leading large enterprise software development projects and creates software tools for 3D printing as hobby.
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12  mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/djeo.jpg"
+                                     alt="">
+                                <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/Microsoft_logo.svg"></div>   </div>
+
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="http://www.facebook.com/ugeeen"><i#}
+{#                                                class="fa fa-facebook"></i></a>#}
+{#                                    </li>#}
+                                    <li class="list-inline-item">
+                                        <a target="_blank" href="https://www.linkedin.com/in/kun-钱坤-bb6b5488/"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Kun Qian
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Community Manager (China)
+                                </p>
+                                <p class="my-2 u-fs-15">
+                                Kun is a PHD candidate in computer science and technology at Tsinghua University (top 1 university in China) and author of numerous publications in leading scientific magazines. Kun acquired a "Tomorrow Star" medal while working as a researcher at Microsoft Research Asia.
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12  mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/efred.jpg"
+                                     alt="">
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="http://www.facebook.com/ugeeen"><i#}
+{#                                                class="fa fa-facebook"></i></a>#}
+{#                                    </li>#}
+                                    <li class="list-inline-item">
+                                        <a target="_blank" href="http://www.linkedin.com/in/emilyfriedmanlaw"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Emily Friedman
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Senior Lawyer
+                                </p>
+
+                                <p class="my-2 u-fs-15">
+                                    Emily is the co-author of an upcoming legal treatise on U.S. blockchain law, contributing chapters on topics including securities law, federal taxation, anti-money laundering regulations, litigation issues and international regulation. Originally a practicing attorney in England, Emily moved to California with the intent to research and practice law in burgeoning technological fields. Emily completed her masters in law at the University of California Los Angeles with a focus on artificial intelligence.                            </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/evas.jpg"
+                                     alt="">
+
+
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="http://www.facebook.com/ugeeen"><i#}
+{#                                                class="fa fa-facebook"></i></a>#}
+{#                                    </li>#}
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="https://www.linkedin.com/in/kun-钱坤-bb6b5488/"><i#}
+{#                                                class="fa fa-linkedin"></i></a>#}
+{#                                    </li>#}
+                                </ul>
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Evgeny Vasyutin
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    UX/UI &amp; Design
+                                </p>
+                                <p class="my-2 u-fs-15">
+                                    OpenGift's right hemisphere.
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/danny.jpg"
+                                     alt="">
+
+
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="http://www.facebook.com/ugeeen"><i#}
+{#                                                class="fa fa-facebook"></i></a>#}
+{#                                    </li>#}
+{#                                    <li class="list-inline-item">#}
+{#                                        <a target="_blank" href="https://www.linkedin.com/in/kun-钱坤-bb6b5488/"><i#}
+{#                                                class="fa fa-linkedin"></i></a>#}
+{#                                    </li>#}
+                                </ul>
+
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Danny Jeong
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Marketing Manager (Korea)
+                                </p>
+
+
+                                <p class="my-2 u-fs-15">Danny holds a degree in Russian Language and Literature from a leading Korean university. Throughout his career he worked as an Korean-English editor and marketer of tech companies in a Korean market.
+                                </p>
+
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/nm.jpg"
+                                     alt="">
+
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a target="_blank" href="https://www.facebook.com/nikita.mushkovets?lst=1277927384%3A1277927384%3A1521285302"><i
+                                                class="fa fa-facebook"></i></a>
+                                    </li>
+                                    <li class="list-inline-item">
+                                        <a target="_blank" href="https://www.linkedin.com/in/nikita-mushkovets-76644711a/"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Nikita Mushkovets
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Business Development Director
+                                </p>
+
+                                <p class="my-2 u-fs-15">
+                                    Nick has a versatile business experience.  Engineer of automatic control systems at Moscow Aviation University by education. Founded fire security company and was leading it for five years. After decided to switch business sphere and became head of sales department at Gazprom daughter’s company. For that period company earned almost 1m$ total net value. Then he goes to money market biggest online bank in the world as head of department of VIP clients. This guy never stops when its getting to new experience, opportunities and possibility to build something new.
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <div class="col-lg-6 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/vv.jpg"
+                                     alt="">
+                            </div>
+                            <div class="col-md-7">
+                                <h4 class="mb-0">
+                                    Vladimir Mashinskiy
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Community Manager
+                                </p>
+
+                                <p class="my-2 u-fs-15">
+                                    Empathy 80 lvl
+                                </p>
+                            </div>
+                        </div> <!-- END row--></div></div>
+                    </div> <!-- END col-lg-6-->
+                    <!--</div></div>-->
+            </div> <!-- END row-->
+            <a name="advisors"></a>
+            <div class="row align-items-left">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1 u-mt-60">
+                        Advisory board
+                    </h2>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+                    <div class="row">
+                        <div class="col-md-12">
+
+                            <div class="with-hidden-text-wrapper">
+                                <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-2 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/adviser-2.png" alt="Joe Yoo">
+
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/joehyoo/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+
+                                <div class="col-md-10">
+
+                                    <h4 class="u-mb-10 text-left">
+                                        Joe Yoo
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13 text-left">
+                                        The Head of U.S. Market for Xstar
+                                    </p>
+
+                                    <p class="my-2 u-fs-15 text-left">
+                                        Joe Yoo is the Head of U.S. Market for Xstar - a cryptocurrency exchange dedicated to security, compliance, and user experience. Leading U.S. business development initiatives, he collaborates with global partners and entrepreneurs interested in listing tokens and growing the blockchain ecosystem.</p>
+<p class="my-2 u-fs-15 text-left">
+                                        Prior to joining Xstar, Joe was the Blockchain Industry Lead for PwC’s FinTech practice, where he consulted numerous Financial Institutions on blockchain and cryptocurrency adoption strategies and use cases. At PwC, Joe also helped launch PwC’s DeNovo product. DeNovo represents the next generation of strategy consulting—a new platform powered by Strategy& and PwC, focused on FinTech.</p><p class="my-2 u-fs-15 text-left">
+
+                                        He holds BS in Business Administration and BS in Accounting from the University of Southern California.                                    </p>
+                                </div>
+                            </div></div></div>
+                        </div>
+                        <div class="col-md-12 u-mt-50">
+
+                            <div class="with-hidden-text-wrapper">
+                                <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-2 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/adviser-1.png" alt="Ryan David Williams">
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/rdavidwill/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-10">
+
+                                    <h4 class="u-mb-10 text-left">
+                                        Ryan David Williams
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13 text-left">
+                                        The founding partner of Experience Legal
+                                    </p>
+
+                                    <p class="my-2 u-fs-15 text-left">
+Ryan is the founding partner of Experience Legal, a California law firm focused on improving how entrepreneurs experience legal services. Prior to Experience Legal, Ryan was an associate in the global law firms Orrick (Tech Companies) and Morrison & Foerster (Capital Markets). Ryan combines his securities, tech and startup expertise to counsel blockchain startups on all aspects of their lifecycle. He has worked with blockchain startups in Brazil, Singapore, Switzerland and the U.S., and has helped close over USD$100M in token sales.                            </p>
+                        </div>
+                            </div></div></div>
+                        </div>
+                        <div class="col-md-12 u-mt-50">
+
+                            <div class="with-hidden-text-wrapper">
+                                <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-2 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/adviser-4.jpg" alt="William Freedman">
+
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/bywilliamfreedman" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-10">
+
+                                    <h4 class="u-mb-10 text-left">
+                                        William Freedman
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13 text-left">
+                                        Media Advisor
+                                    </p>
+
+
+                                            <p class="my-2 u-fs-15 text-left">
+                                William Freedman is a New York-based fintech journalist. His financial and technological writing has been featured in Investor's Business Daily, Euromoney Books, Global Finance, Treasury & Risk Management, Tom's IT Pro, DealFlow's Alternative Lending Report, and many other print and electronic media outlets. Prior to journalistic career, William had been working for 15 years on managerial positions at IBM and in equity research at Deutsche Bank.</p>
+
+                            </div>
+                        </div></div></div>
+                        <div class="col-md-12 u-mt-50">
+
+                            <div class="with-hidden-text-wrapper">
+                                <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-2 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/adviser-3.jpg" alt="Sandeep Singh">
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/sandeep-singh-61b15995/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-10">
+
+                                    <h4 class="u-mb-10 text-left">
+                                        Sandeep Singh
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13 text-left">
+                                        Partner at Faad Network & Blue Belt Technology
+                                    </p>
+
+<p class="my-2 u-fs-15 text-left">
+                                        Sandeep Singh is an entrepreneur turned venture capitalist, who started his career in blockchain industry by building a company called Snapper Technologies, which later was acquired by government of Andhra to implement its concept of blockchain based governance.                                 </p>
+                                </div>
+                            </div></div></div>
+                        </div>
+                        <div class="col-md-12 u-mt-50">
+
+                            <div class="with-hidden-text-wrapper">
+                                <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-2 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/diego.jpg" alt="Sandeep Singh">
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/diegodenotaris/" target="_blank"><i class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-10">
+
+                                    <h4 class="u-mb-10 text-left">
+                                        Diego De Notaris
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13 text-left">
+                                        Business Advisor
+                                    </p>
+
+                                        <p class="my-2 u-fs-15 text-left">
+                                        Diego (Entity Mind, Entity Games Studio, Korporatio) is a corporate troubleshooter and business advisor. He is a lawyer with experience in jurisdictions as diverse as Brazil, Venezuela, the United States, Seychelles, Egypt, Mozambique, Thailand, Italy, the EU and India. He has advised governments and corporations on international trade, private sector development, investment, public diplomacy. Diego is a libertarian, passionate about blockchain, adaptive intelligence, alternative energy, and solving the big challenges of our times. He devotes half of his time to pro bono and nonprofit causes.
+                                        </p>
+                                </div>
+                            </div></div></div>
+                        </div>
+                    </div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section>
+{% endblock %}
+<section class="u-pt-30 u-pb-80 stars-bg">
+    <div class="container">
+        <a name="roadmap"></a>
+        <h2 class="h1 u-mt-50 u-mb-80 text-center text-white "> OpenGift Roadmap </h2>
+
+        <div class="roadmap-container clearfix">
+            <div class="roadmap-container-block complete clearfix">
+                <div class="roadmap-container-date">
+                    <div class="blue-gradient-title"><span class="date">2015</span></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>Software Audit System Heliard created</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block complete clearfix">
+                <div class="roadmap-container-date">
+                    <div class="blue-gradient-title"><span class="date">2016</span></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>Monitoring Framework and GIT Repository Access Management System</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block complete clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2017</span><b class="date-desc">3Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>OpenGift ecosystem vision and OpenGift platform MVP</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block complete clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2017</span><b class="date-desc">4Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>OpenGift Blockchain Network and core Smart-Contracts. Key projects data collected</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block complete  clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2018</span><b class="date-desc">1Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>Internal GIFT Exchange. Improved donations functionality. First projects and backers on the platform. Business model testing. Token closed pre-sale starts.</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block last clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2018</span><b class="date-desc">2Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>GIFT offline wallet. GIFT-USD Exchange. Main Token Sale. GIFT-coin listed on external exchanges</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2018</span><b class="date-desc">3Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+
+                    <p>Investment scoring for OSS projects. Investment portfolio and metrics visualisation. Gamefication and social incentives functionality</p>
+
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2018</span><b class="date-desc">4Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>Paid OSS modifications and documentation sale made possible. Paying for new features with project tokens</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2019</span><b class="date-desc">1Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>Donation to an industry/stack with automatic distribution of the amount between most promising projects. Projects dependancies tree: projects to receive a share of donations from other projects useing their code</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2019</span><b class="date-desc">2Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>One can buy goods and services with GIFT in OpenGift partnership network. Enhanced partnership API</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2019</span><b class="date-desc">3Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>Best Open Source contributors receive a share of GIFTs in forging process</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2019</span><b class="date-desc">4Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>A marketplace of tasks created. Projects will be able to pay for writing tech docs, support services, etc. with GIFTs</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2020</span><b class="date-desc">1Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>GIFT Distribution Audit System enabling sponsors to boost entire industries in 1 click</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+            <div class="roadmap-container-block clearfix">
+                <div class="roadmap-container-date two-line">
+                    <div class="blue-gradient-title"><span class="date">2020</span><b class="date-desc">2Q</b></div>
+                    <div class="roadmap-line"><div class="roadmap-line-checkbox"></div></div>
+                </div>
+
+                <div class="roadmap-container-content">
+                    <p>OpenGift Fund as a guarantee that OS projects fulfill their obligations</p>
+                </div> <!-- cd-timeline-content -->
+            </div> <!-- cd-timeline-block -->
+        </div>
+
+
+    </div>
+</section>
+
+<footer>
+
+    <div class="container text-center p-4">
+        <p class="mb-0">
+            OpenGift Inc., incorporated under the BVI Business Companies Act of the British Virgin Islands <span class="icon icon-Heart text-primary mx-2"></span> 2018.
+        </p>
+    </div>
+</footer>
+
+<div class="scroll-top bg-white box-shadow-v1">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+
+<script src="/static/js/libs/jquery.waipoints.min.js"></script>
+<script src="/static/public/assets/js/fury.js"></script>
+<script src="/static/public/assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+<script src="/static/public/assets/js/jquery.wavify.js"></script>
+<script src="/static/js/pm/form.js?v4"></script>
+
+<script src="/static/public/assets/js/flipclock.min.js"></script>
+<script>
+    $('#feel-the-wave').wavify({
+        height: 10,
+        bones: 4,
+        amplitude: 20,
+        color: '#ee882c',
+        speed: .15
+    });
+
+    $('#feel-the-wave-two').wavify({
+        height: 13,
+        bones: 3,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+
+    $('#feel-the-wave-three').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+    $('#feel-the-wave-four').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#ffffff',
+        speed: .25
+    });
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter47053188 = new Ya.Metrika({
+                id: 47053188,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
+    }
+})(document, window, "yandex_metrika_callbacks"); </script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript> <!-- /Yandex.Metrika counter -->
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq)return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq)f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '895148243996073');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+{#<script>#}
+{#  window.intercomSettings = {#}
+{#    app_id: "jcdkru1n",#}
+{#  name: '{{ request.user.first_name }} {{ request.user.last_name }}',#}
+{#  email: '{{ request.user.email|default_if_none:'' }}',#}
+{#  created_at: '{{ request.user.date_joined|date:"U"|default_if_none:'' }}'#}
+{#  };#}
+{#</script>#}
+{#<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jcdkru1n';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>#}
+
+</body>
+</html>

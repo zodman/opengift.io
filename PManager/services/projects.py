@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'rayleigh'
 from PManager.models.tasks import PM_Project
 

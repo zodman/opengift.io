@@ -1,6 +1,7 @@
+# -*- coding: utf-8 -*-
 __author__ = 'Gvammer'
 from django.contrib import admin
-from PManager.models import Credit, Specialty, RatingHits, \
+from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, PM_Project_Problem, \
     PM_Project_Industry, LogData, LikesHits, Agent, PM_File_Category, PM_Milestone, \
     PM_NoticedUsers, PM_Notice, PM_Task_Status, \
     PM_User_PlanTime, PM_Files, PM_Task_Message, \
@@ -8,7 +9,8 @@ from PManager.models import Credit, Specialty, RatingHits, \
     PM_Properties, PM_Project, PM_Tracker, PM_User, Agreement, \
     PM_User_Achievement, PM_Achievement, AccessInterface, \
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
-    RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges
+    RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges, \
+    FaqQuestions, FaqQuestionsCategory
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -60,13 +62,16 @@ class AgreementInline(admin.ModelAdmin):
 class PM_MilestoneChangesInline(admin.ModelAdmin):
     list_display = ['date', 'value', 'milestone']
 
+class PM_UserInline(admin.ModelAdmin):
+    list_display = ['user', 'id', 'in_whitelist', 'in_promo']
+
 admin.site.register(PM_Role)
 admin.site.register(PM_Task, TaskInline)
 admin.site.register(PM_ProjectRoles, UserRoles)
 admin.site.register(PM_Properties)
 admin.site.register(PM_Project)
 admin.site.register(PM_Tracker)
-admin.site.register(PM_User)
+admin.site.register(PM_User, PM_UserInline)
 admin.site.register(PM_Files)
 admin.site.register(PM_Task_Message)
 admin.site.register(PM_Timer, Timers)
@@ -77,6 +82,7 @@ admin.site.register(PM_User_PlanTime)
 admin.site.register(PM_Task_Status)
 admin.site.register(PM_Notice)
 admin.site.register(PM_NoticedUsers)
+admin.site.register(PM_Project_Donation)
 admin.site.register(PM_Milestone)
 admin.site.register(PM_File_Category)
 admin.site.register(PM_Reminder, Reminder)
@@ -98,6 +104,9 @@ admin.site.register(Release)
 admin.site.register(RatingHits)
 admin.site.register(PM_Project_Industry)
 admin.site.register(LikesHits)
+admin.site.register(PM_Project_Problem)
+admin.site.register(FaqQuestionsCategory)
+admin.site.register(FaqQuestions)
 admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin

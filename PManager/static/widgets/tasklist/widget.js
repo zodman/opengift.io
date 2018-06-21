@@ -24,7 +24,7 @@ var widget_tl, currentGroup;
         });
 
         $('.js-select-milestone').click(function () {
-            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date]');
+            var $newMilestoneFields = $('[name=milestone_name], [name=milestone_date], [name=milestone_description]');
             if ($(this).val()) {
                 $newMilestoneFields.disable();
             } else {
@@ -83,10 +83,10 @@ var widget_tl, currentGroup;
             '$movedTask': false,
             'TL_TaskTemplates': {},
             'TL_Tags': {
-                'Responsible': 'для ',
-                'Date': ' до ',
-                'Author': ' от ',
-                'About': 'примерно '
+                'Responsible': ' for ',
+                'Date': ' deadline ',
+                'Author': ' author ',
+                'About': ' estimate '
             },
             'TL_HintBlocks': {
                 'Responsible': $('#TL_responsible_list'),
@@ -383,22 +383,22 @@ var widget_tl, currentGroup;
                         bottomPanel.addCloseHandler('uncheck', function () {
                             $('.js-task-checkbox:checked').attr('checked', false);
                         });
-                        $block = menuTaskBlock('Добавить цель', '#add-to-milestone', function () {
-                            var $taskInputContainer = $('.js-tasks-for-milestone').empty();
-                            $('.js-task-checkbox:checked').each(function () {
-                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
-                            });
-                        });
-                        bottomPanel.addBlock('addToMilestone', $block);
-                        //TODO: вынести в отдельный класс
-                        $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function () {
-                            var $taskInputContainer = $('.js-tasks-for-observers').empty();
-                            $('.js-task-checkbox:checked').each(function () {
-                                $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
-                            });
-                        });
-
-                        bottomPanel.addBlock('addObservers', $block);
+                        // $block = menuTaskBlock('Add goal', '#add-to-milestone', function () {
+                        //     var $taskInputContainer = $('.js-tasks-for-milestone').empty();
+                        //     $('.js-task-checkbox:checked').each(function () {
+                        //         $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                        //     });
+                        // });
+                        // bottomPanel.addBlock('addToMilestone', $block);
+                        // //TODO: вынести в отдельный класс
+                        // $block = menuTaskBlock('Назначить наблюдателей', '#add-observers', function () {
+                        //     var $taskInputContainer = $('.js-tasks-for-observers').empty();
+                        //     $('.js-task-checkbox:checked').each(function () {
+                        //         $taskInputContainer.append('<input type="hidden" name="task" value="' + $(this).attr('name') + '" />');
+                        //     });
+                        // });
+                        //
+                        // bottomPanel.addBlock('addObservers', $block);
 
                         //$block = menuTaskBlock('Назначить релиз', '#add-to-release', function () {
                         //    var $taskInputContainer = $('.js-tasks-for-release').empty();
@@ -410,8 +410,8 @@ var widget_tl, currentGroup;
 
                     } else {
                         bottomPanel.removeBlock('addToMilestone');
-                        bottomPanel.removeBlock('addObservers');
-                        bottomPanel.removeBlock('addToRelease');
+                        // bottomPanel.removeBlock('addObservers');
+                        // bottomPanel.removeBlock('addToRelease');
                     }
                 });
             },
@@ -453,7 +453,7 @@ var widget_tl, currentGroup;
 
                     return true;
                 } else if (id) {
-                    if (confirm('Вы действительно хотите перенести эту задачу в ' + (parentTask ? 'задачу #"' + parentTask.get('number') + '"' : 'общий список') + '?')) {
+                    if (confirm('Are you sure to append this task to' + (parentTask ? 'task #"' + parentTask.get('number') + '"' : 'main list') + '?')) {
                         taskManager.taskAjaxRequest({
                             'action': 'appendTask',
                             'id': id,
@@ -512,12 +512,12 @@ var widget_tl, currentGroup;
                     try {
                         data = $.parseJSON(data);
                     } catch (e) {
-                        alert('Неизвестная ошибка');
+                        alert('Fatal error');
                     }
                     if (data.file) {
                         document.location.href = data.file;
                     } else {
-                        alert('Ошибка генерации XLS');
+                        alert('Error of generating XLS');
                     }
                 });
                 return false;
@@ -566,7 +566,7 @@ var widget_tl, currentGroup;
 
                 if (params.activeTab) {
                     var $userTabEqualsQuery = $('[data-id="' + params.activeTab + '"]');
-                    if ($userTabEqualsQuery.size()) {
+                    if ($userTabEqualsQuery.get(0)) {
                         $userTabEqualsQuery.activateListItem();
                     }
                 } else {
@@ -593,7 +593,7 @@ var widget_tl, currentGroup;
                     .filter('[href="#' + encodeURIComponent(document.location.hash.replace('#', '')) + '"]');
 
                 with (this.TL_SearchTask) {
-                    if (val() || this.$searchRulesHolder.children().size()) {
+                    if (val() || this.$searchRulesHolder.children().get(0)) {
                         if (val()) {
                             siblings('.icon-remove').show();
                         }
@@ -766,6 +766,10 @@ var widget_tl, currentGroup;
                     if (!params.task_search && this.TL_GetSearchText()) {
                         params.task_search = this.TL_GetSearchText();
                     }
+
+                    var $activeTab = this.$tabContainer.find('li.active > a');
+                    if ($activeTab.attr('rel') == 'bounty') params.action = 'bounty';
+
                     if (!params.action) {
                         var $activeTab = this.$tabContainer.find('li.active > a');
                         if ($activeTab.attr('rel'))
@@ -843,7 +847,7 @@ var widget_tl, currentGroup;
 
                         if ((!tasks || tasks.length <= 0) && !params.parent && !params.page) {
                             if (!$('.js-new-first-task').get(0))
-                                obj.TL_Container.html("<div class='empty_result'>Ничего не найдено</div>");
+                                obj.TL_Container.html("<div class='empty_result'>Not found</div>");
                         }
 
                         if (!params.parent) {
@@ -863,19 +867,20 @@ var widget_tl, currentGroup;
             'addGroupRow': function (group) {
                 if (!group.name) {
                     group = {
-                        'name': 'Свободные задачи'
+                        'name': 'Uncategorized tasks'
                     }
                 }
-                var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>'
+                var closeButton = '<a href="#" class="fa fa-check-square-o js-close-milestone"></a>';
+
                 var row = '<div class="task-wrapper milestone task-group-' + group.code + '">' +
                     '<div class="task clearfix" ' + (group.closed ? 'style="color: green;" ' : '') +
                     'data-milestoneId="' + group.id + '">' +
                     (group.url ? '<a href="' + group.url + '" class="js-milestone-data">' : '<span class="js-milestone-data">') +
-                    group.name + (group.date ? ' до ' + group.date : '') + (group.url ? '</a>' : '</span>') +
+                    group.name + (group.date ? '  (' + group.date + ')' : '') + (group.url ? '</a>' : '</span>') +
                     (group.date ? '<div class="pull-right milestone-icons">' +
                     (group.closed ? '<span style="display: inline-block; width: 47px;"></span>' : '') +
                     '<a href="#" class="fa fa-edit js-edit-milestone-link"' + (group.closed ? 'style="color: green;" ' : '') + 'data-toggle="modal" data-target="#edit-milestone" data-edit-id="' + group.id +
-                    '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '"></a>' +
+                    '" data-edit-name="' + group.name + '" data-edit-date="' + group.date + '" data-edit-description="' + (group.description ? group.description.replace('"', '') : '') + '"></a>' +
                     (!group.closed ? closeButton : '') +
                     '</div>' : '') +
                     '</div>' +
@@ -887,18 +892,22 @@ var widget_tl, currentGroup;
                     var id = button.data('edit-id');
                     var name = button.data('edit-name');
                     var date = button.data('edit-date');
+                    var desc = button.data('edit-description');
                     var modal = $(this);
                     modal.find('.modal-body input[name="ms_name"]').val(name);
                     modal.find('.modal-body input[name="ms_date"]').val(date);
+                    modal.find('.modal-body [name="ms_description"]').val(desc);
                     modal.find('.js-milestone-form').unbind('submit').bind('submit', function (ev) {
                         name = modal.find('.modal-body input[name="ms_name"]').val();
                         date = modal.find('.modal-body input[name="ms_date"]').val();
+                        desc = modal.find('.modal-body [name="ms_description"]').val();
                         $.post('/milestone_ajax/', {
                             'id': id,
                             'name': name,
-                            'date': date
+                            'date': date,
+                            'description': desc
                         }, function (response) {
-                            if (response === 'saved') {
+                            if (response) {
                                 button.data('edit-name', name);
                                 button.data('edit-date', date);
                                 if (date) {
@@ -909,7 +918,7 @@ var widget_tl, currentGroup;
                                 }
                                 $('#edit-milestone').modal('hide');
                             } else {
-                                alert('Ошибка сохранения цели');
+                                alert('Error with saving goal');
                             }
                             return false;
                         });
@@ -920,13 +929,13 @@ var widget_tl, currentGroup;
                 var $row;
                 if (group.id) {
                     $row = $(row).on('click', '.js-close-milestone', function (e) {
-                        if (confirm('Вы действительно хотите закрыть данную цель?')) {
+                        if (confirm('Are you sure to close current goal?')) {
                             $.post('/milestone_ajax/', {
                                 'action': 'remove',
                                 'id': group.id
                             }, function (response) {
                                 if (response != 'removed') {
-                                    alert('Ошибка закрытия цели');
+                                    alert('Error with goal closing');
                                 } else {
                                     window.location.reload();
                                 }
@@ -972,7 +981,7 @@ var widget_tl, currentGroup;
                 if (!parent) {
                     var $task_el = $('<div></div>').addClass('task-wrapper')
                         .append(view.$el)
-                        .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Добавить подзадачу..."></div>')
+                        .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Add subtask..."></div>')
                         .append('<div class="subtask" style="display: none;"></div>');
 
                     if (is_new) {
@@ -1130,13 +1139,13 @@ var widget_tl, currentGroup;
                     var cl = 'js-similar_result';
                     var $similarResult = widget_tl.TL_CreateTaskInput.parent().find('.' + cl);
                     if (!$similarResult.get(0)) {
-                        $similarResult = $('<div></div>').addClass(cl).insertAfter(widget_tl.TL_CreateTaskInput);
+                        $similarResult = $('<div></div>').addClass(cl).appendTo('.task-create-wrapper');
                     }
                     if (data.length) {
-                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle', 'dropdown').text(data.length + ' похожих');
+                        var $link = $('<a></a>').addClass('dropdown').attr('data-toggle', 'dropdown').text(data.length + ' similar');
                         var sAddMessage = '';
                         if (data.length > 20) {
-                            sAddMessage = '<span style="color:red">&nbsp;Постарайтесь конкретизировать задачу.</span>'
+                            sAddMessage = '<span style="color:red">&nbsp;Try to add sume details.</span>'
                         }
 
                         var $menu = $('<ul></ul>').addClass('dropdown-menu').attr('role', 'dropdown');

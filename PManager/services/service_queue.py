@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Rayleigh'
 import redis
 from tracker import settings

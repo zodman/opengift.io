@@ -51,46 +51,50 @@ var CRITICALLY_THRESHOLD = 0.7;
             var arItems = [];
             if (this.get('canEdit')) {
                 arItems.push({
-                    'itemClass': 'Edit',
-                    'itemText': 'Изменить',
-                    'itemMethod': 'editTask',
-                    'icon': 'edit'
+                   'itemClass': 'Edit',
+                   'itemText': 'Change',
+                   'itemMethod': 'editTask',
+                   'icon': 'edit'
                 });
+
                 arItems.push({
                     'itemClass': 'Deadline',
-                    'itemText': 'Сроки',
+                    'itemText': 'Dates',
                     'itemMethod': 'setDeadline',
                     'icon': 'calendar'
                 });
             }
 
-            if (this.get('observer')) {
-                arItems.push({
-                    'itemClass': 'ResetPlanning',
-                    'itemText': 'Не наблюдаю',
-                    'itemMethod': 'stopObserve',
-                    'icon': 'eye-slash'
-                });
-            } else {
-                arItems.push({
-                    'itemClass': 'BringPlanning',
-                    'itemText': 'Наблюдаю',
-                    'itemMethod': 'startObserve',
-                    'icon': 'eye'
-                });
+            if (this.get('canObserve')) {
+                if (this.get('observer')) {
+                    arItems.push({
+                        'itemClass': 'ResetPlanning',
+                        'itemText': 'Don\'t observe',
+                        'itemMethod': 'stopObserve',
+                        'icon': 'eye-slash'
+                    });
+                } else {
+                    arItems.push({
+                        'itemClass': 'BringPlanning',
+                        'itemText': 'Observe',
+                        'itemMethod': 'startObserve',
+                        'icon': 'eye'
+                    });
+                }
             }
+
             if (this.get('canSetOnPlanning')) {
                 if (this.get('onPlanning')) {
                     arItems.push({
                         'itemClass': 'ResetPlanning',
-                        'itemText': 'Выбрать наименьшую оценку',
+                        'itemText': 'In-house task',
                         'itemMethod': 'closePlanning',
                         'icon': 'list-alt'
                     });
                 } else {
                     arItems.push({
                         'itemClass': 'BringPlanning',
-                        'itemText': 'Покер планирования',
+                        'itemText': 'Bounty task',
                         'itemMethod': 'addToPlaning',
                         'icon': 'users'
                     });
@@ -103,7 +107,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 if (status == 'ready') {
                     arItems.push({
                         'itemClass': 'SetRevision',
-                        'itemText': 'На доработку',
+                        'itemText': 'Todo',
                         'itemMethod': 'setRevision',
                         'icon': 'thumbs-down'
                     });
@@ -111,15 +115,15 @@ var CRITICALLY_THRESHOLD = 0.7;
                     if (this.get('canApprove')) {
                         arItems.push({
                             'itemClass': 'SetRevision',
-                            'itemText': 'Подтвердить выполнение',
+                            'itemText': 'Confirm',
                             'itemMethod': 'approveTask',
                             'icon': 'check-square-o'
                         });
                     }
-                } else {
+                } else if (this.get('canSetReady')) {
                     arItems.push({
                         'itemClass': 'SetReady',
-                        'itemText': 'На проверку',
+                        'itemText': 'Ready',
                         'itemMethod': 'setReady',
                         'icon': 'check-square-o'
                     });
@@ -142,25 +146,34 @@ var CRITICALLY_THRESHOLD = 0.7;
                 };
                 if (this.get('critically') > CRITICALLY_THRESHOLD) {
                     criticallyObj['icon'] = 'ban';
-                    criticallyObj['itemText'] = 'Не критичная';
+                    criticallyObj['itemText'] = 'Not critical';
                 } else {
                     criticallyObj['icon'] = 'exclamation-circle';
-                    criticallyObj['itemText'] = 'Критичная';
+                    criticallyObj['itemText'] = 'Critical';
                 }
                 arItems.push(criticallyObj);
             }
 
+            if (this.get('canEdit')) {
+                arItems.push({
+                    'itemClass': 'Color',
+                    'itemText': 'Color',
+                    'itemMethod': 'setColor',
+                    'icon': 'th-large'
+                });
+            }
+
             arItems.push({
-                'itemClass': 'Color',
-                'itemText': 'Цвет',
-                'itemMethod': 'setColor',
-                'icon': 'th-large'
-            });
+                    'itemClass': 'Donate',
+                    'itemText': 'Donate',
+                    'itemMethod': 'donate',
+                    'icon': 'dollar'
+                });
 
             if (this.get('canRemove')) {
                 arItems.push({
                     'itemClass': 'Remove',
-                    'itemText': 'Удалить',
+                    'itemText': 'Remove',
                     'itemMethod': 'removeTask',
                     'icon': 'times-circle'
                 });
@@ -201,16 +214,16 @@ var CRITICALLY_THRESHOLD = 0.7;
                 this.el = this.$el.get(0);
             }
             this.arPlanTimes = [
-                [0.5, '30 мин.'],
-                [1, '1 ч.'],
-                [2, '2 ч.'],
-                [3, '3 ч.'],
-                [5, '5 ч.'],
-                [8, '8 ч.'],
-                [13, '13 ч.'],
-                [21, '21 ч.'],
-                [34, '34 ч.'],
-                [55, '55 ч.']
+                [0.5, '30 min.'],
+                [1, '1 hrs.'],
+                [2, '2 hrs.'],
+                [3, '3 hrs.'],
+                [5, '5 hrs.'],
+                [8, '8 hrs.'],
+                [13, '13 hrs.'],
+                [21, '21 hrs.'],
+                [34, '34 hrs.'],
+                [55, '55 hrs.']
             ];
         },
         'createEl': function () {
@@ -228,7 +241,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         'showModalStart': function () {
             //todo: разработчик нажимает раньше, чем узнает
             $('<div class="modal fade"><div id="previewModal" class="modal fade wiki-modal in" style="display: block;" aria-hidden="false"><div class="modal-dialog"><div class="modal-content ui-resizable"></div></div></div>')
-                .find('modal-content').append('<h3>Сколько примерно времени у вас займет данная задача?</h3>')
+                .find('modal-content').append('<h3>Please, estimate the task time...</h3>')
                 .append('<select></select>').end().modal('show');
         },
         'template': function (taskInfo, params) {
@@ -263,7 +276,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#ACTIVE\_SUBTASK\_QTY\#/ig, taskInfo.subtasksQty);
 
             if (!taskInfo.deadline) taskInfo.deadline = '';
-            if (taskInfo.deadline) taskInfo.deadline = 'до&nbsp;' + taskInfo.deadline;
+            if (taskInfo.deadline) taskInfo.deadline = 'deadline&nbsp;' + taskInfo.deadline;
             html = html.replace(/\#DEADLINE#/ig, taskInfo.deadline);
 
             var sFileList = '';
@@ -284,7 +297,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                 '$addSubtaskColumn': $row.find('.add-subtask'),
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
-                '$planTime': $row.find('.task-plantime')
+                '$planTime': $row.find('.task-plantime'),
+                '$reward': $row.find('.js-reward'),
+                '$bountyStatus': $row.find('.js-task-bounty')
             };
 
             if (params.timerTag) {
@@ -306,17 +321,39 @@ var CRITICALLY_THRESHOLD = 0.7;
                 oTaskContainers.$addSubtaskColumn.hide();
             }
 
+            if (taskInfo.donated || taskInfo.asked) {
+                var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
+                var color = 'green';
+                if (percent > 100)  {
+                    percent = 100;
+                    color = 'orange';
+                }
+                oTaskContainers.$reward.append('<div class="progress-item donation-progress">' +
+                    '                    <span>Donated <b>$'+Math.round(parseFloat(taskInfo.donated))+'</b> out of <b>$'+Math.round(parseFloat(taskInfo.asked))+'</b></span>' +
+                    '                    ' +
+                    '                    <div class="progress w-100">' +
+                    '                        <div class="progress-bar ' + color + '-gr' + '" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
+                    '                    </div>' +
+                    '                </div>');
+            }
+
+            if (taskInfo.onPlanning) {
+                oTaskContainers.$bountyStatus.show().addClass('text-'+taskInfo.color);
+            } else {
+                oTaskContainers.$bountyStatus.hide();
+            }
+
             if (taskInfo.planTime)
-                taskInfo.planTime = '' + taskInfo.planTime + ' ч.';
+                taskInfo.planTime = '' + taskInfo.planTime + ' hrs.';
             else
                 taskInfo.planTime = '';
 
             var sPlanTime = '';
             if (taskInfo.planTime || taskInfo.onPlanning || taskInfo.canSetPlanTime) {
-                sPlanTime += '<span class="dropdown">[ ~ </span>' +
+                sPlanTime += '<span class="dropdown"> ~ </span>' +
                     '<span class="dropdown">' +
                     (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '<a data-toggle="dropdown" class="tasklist-plan-time jsPlanTimeHolder">')
-                    + (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'План'))
+                    + (taskInfo.planTime || (taskInfo.subtasksQty ? '' : 'Plan'))
                     + (taskInfo.subtasksQty || !taskInfo.canSetPlanTime ? '' : '</a> ')
                     + (taskInfo.onPlanning ? ' <b style="color:red">?</b> ' : '');
                 sPlanTime += '<ul class="dropdown-menu jsPlanTimeList">';
@@ -325,10 +362,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                     var planTime = this.arPlanTimes[i];
                     sPlanTime += '<li><a rel="' + planTime[0] + '">' + planTime[1] + '</a></li>';
                 }
-                sPlanTime += '<li><a rel="" >Другое</a></li>';
+                sPlanTime += '<li><a rel="" >Custom</a></li>';
                 sPlanTime += '</ul>';
                 sPlanTime += '</span>';
-                sPlanTime += '<span class="dropdown">]</span>';
+                sPlanTime += '<span class="dropdown"></span>';
                 if (taskInfo.planTimes && taskInfo.planTimes.length > 0) {
                     sPlanTime += '<span class="dropdown arrow">';
                     sPlanTime += '<a data-toggle="dropdown" ><b class="caret"></b></a>';
@@ -336,7 +373,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     for (i in taskInfo.planTimes) {
                         var oPlanTime = taskInfo.planTimes[i];
 
-                        sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;ч<br />';
+                        sPlanTime += '<a href="' + oPlanTime.user_url + '" rel="' + oPlanTime.user_id + '">' + oPlanTime.user_name + '</a>&nbsp;-&nbsp;' + oPlanTime.time + '&nbsp;hrs<br />';
                     }
                     sPlanTime += '</div>';
                     sPlanTime += '</span>';
@@ -381,12 +418,14 @@ var CRITICALLY_THRESHOLD = 0.7;
                         $buttonClose.show();
                         var $closeIcon = $buttonClose.find('.fa');
                         if (taskInfo.canClose) {
-                            $closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Закрыть задачу');
-                        } else {
-                            $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'На проверку');
+                            $closeIcon.removeClass('fa-check').addClass('fa-close').attr('title', 'Close task');
+                        } else if (taskInfo.canSetReady) {
+                            $closeIcon.removeClass('fa-close').addClass('fa-check').attr('title', 'Ready');
                             if (taskInfo.status == 'ready') {
                                 $closeIcon.hide();
                             }
+                        } else {
+                            $closeIcon.hide();
                         }
                     }
                 }
@@ -417,7 +456,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 $('<a href=""></a>').addClass('fa fa-thumbs-o-up fa-lg fa-border js-resp-approve')
                     .attr('rel', taskInfo.recommendedUser.id).insertAfter(restRec);
             } else {
-                $respLink.text('Нет ответственного');
+                $respLink.text('Empty');
             }
             var v, todo;
             for (v in taskInfo.todo) {
@@ -442,7 +481,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             var templateParams = {};
 
             var playBtnStatus = 'enabled';
-            if (this.model.get('subtasksQty') > 0) {
+            if (this.model.get('subtasksQty') > 0 || !this.model.get('canEdit')) {
                 templateParams.responsibleTag = 'span';
                 templateParams.timerTag = 'span';
                 playBtnStatus = 'transparent';
@@ -687,7 +726,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                                             '<span class="user" onclick="document.location.href=\'/user_detail/?id=' + data[i].id + '\';event.stopPropagation();return false;">' + data[i].first_name + ' ' + data[i].last_name + '</span>' +
                                             '<span class="occupation"></span>' +
                                             '<div class="progress-bar-wrapper clearfix">' +
-                                            '<div class="progress-bar-wrapper-title">Компетентность</div>' +
+                                            '<div class="progress-bar-wrapper-title">Matching</div>' +
                                             '<div class="progress">' +
                                             '<div class="js-progress-success progress-bar progress-bar-success" style="width: 0%;"></div>' +
                                             '</div>' +
@@ -985,16 +1024,20 @@ var CRITICALLY_THRESHOLD = 0.7;
         'closePlanning': function () {
             if (!this.model.get('onPlanning')) return false;
             var obj = this;
-            taskManager.RemoveFromPlanning(this.model.id, function () {
-                obj.model.set('onPlanning', false);
-                obj.render();
+            taskManager.RemoveFromPlanning(this.model.id, function (data) {
+                if (data.error) {
+                    showError(data.error);
+                } else {
+                    obj.model.set('onPlanning', false);
+                    obj.render();
+                }
             });
             return false;
         },
         'approveTask': function () {
             var t = this;
             if (!t.model.get('resp') || !t.model.get('resp')[0] || !t.model.get('resp')[0]['name']) {
-                alert('Подтвердить выполнение задачи можно только если выбран исполнитель.');
+                alert('You should choose the responsible before confirmation.');
                 return false;
             }
             this.setRevision();
@@ -1013,7 +1056,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             });
         },
         'removeTask': function () {
-            if (confirm('Вы действительно хотите удалить эту задачу?')) {
+            if (confirm('A you really want to remove it?')) {
                 taskManager.deleteTask(this.model.id, function () {
 
                 });
@@ -1111,6 +1154,10 @@ var CRITICALLY_THRESHOLD = 0.7;
                     .modal('show');
             });
         },
+        'donate': function () {
+            var obj = this;
+            document.location.href = '/project/'+obj.model.get('project').id+'/donate/?t='+obj.model.id;
+        },
         'setColor': function () {
             var obj = this;
             obj.initModal('/static/templates/color.html', function () {
@@ -1147,9 +1194,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                     $('.js-deadlinedate').data('min-date', date).data('min-time', time);
 
                     if (check > today) {
-                        $(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Сегодня</s></span>");
+                        $(".js-changeDeadlineDate[data-time*='today']").replaceWith("<span class='grey'><s>Today</s></span>");
                         if (check > tomorrow) {
-                            $(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Завтра</s></span>");
+                            $(".js-changeDeadlineDate[data-time*='tomorrow']").replaceWith("<span class='grey'><s>Tomorrow</s></span>");
                         }
                     }
                 }
@@ -1422,7 +1469,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 this.taskAjaxRequest({
                     'id': id,
                     'prop': 'from_plan'
-                }, call);
+                }, call, 'json');
             }
         },
         'ChangeResponsible': function (id, uid, call) {
@@ -1448,10 +1495,10 @@ var CRITICALLY_THRESHOLD = 0.7;
         this.inputText = '';
         //this.tags = tags;
         this.tags = {
-            'Responsible': 'для ',
-            'Date': ' до ',
-            'Author': ' от ',
-            'About': 'примерно '
+            'Responsible': ' for ',
+            'Date': ' deadline ',
+            'Author': ' author ',
+            'About': ' estimate '
         };
         //this.hintBlocks = blocks;
         this.hintBlocks = {
@@ -1600,7 +1647,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         this.addFilePaste(function (data) {
             data = $.parseJSON(data);
             if (data && data.fid)
-                $(this).val($(this).val() + ' файл #' + data.fid + '#').focus();
+                $(this).val($(this).val() + ' file #' + data.fid + '#').focus();
         });
         return this;
     }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512px" height="512px" viewBox="0 0 512 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 40 (33762) - http://www.bohemiancoding.com/sketch -->
+    <title>decision</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="100%" y1="50%" x2="0%" y2="50%" id="linearGradient-1">
+            <stop stop-color="#5CBC9D" offset="0%"></stop>
+            <stop stop-color="#3EC0C8" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="decision">
+            <g id="Group" transform="translate(0.000000, 15.000000)">
+                <path d="M392.25,66.401 C392.624,62.287 394.428,58.436 397.349,55.515 L450.207,2.655 C453.654,-0.792 459.244,-0.792 462.691,2.655 L494.345,34.309 C497.792,37.756 497.792,43.346 494.345,46.793 L441.485,99.653 C438.564,102.574 434.712,104.378 430.599,104.752 L388.414,108.587 L392.25,66.401 Z" id="Shape" fill="#5CBC9D"></path>
+                <circle id="Oval" fill="url(#linearGradient-1)" cx="211.862" cy="285.139" r="211.862"></circle>
+            </g>
+            <circle id="Oval" fill="#FFFFFF" cx="211.862" cy="300.139" r="158.897"></circle>
+            <circle id="Oval" fill="url(#linearGradient-1)" cx="211.862" cy="300.139" r="105.931"></circle>
+            <circle id="Oval" fill="#FFFFFF" cx="211.862" cy="300.139" r="52.966"></circle>
+            <path d="M211.862,308.966 C209.603,308.966 207.344,308.104 205.621,306.38 C202.173,302.932 202.173,297.345 205.621,293.897 L496.931,2.587 C500.379,-0.861 505.966,-0.861 509.414,2.587 C512.862,6.035 512.862,11.621 509.414,15.069 L218.104,306.379 C216.38,308.105 214.121,308.966 211.862,308.966 L211.862,308.966 Z" id="Shape" fill="#464655"></path>
+        </g>
+    </g>
+</svg>

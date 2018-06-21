@@ -23,7 +23,7 @@ from django.db.models import Sum, Max
 from PManager.classes.language import transliterate
 from django.db.models.signals import post_save, pre_delete, post_delete, pre_save
 from PManager.services.service_queue import service_queue
-
+from django.core.exceptions import MultipleObjectsReturned
 
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
@@ -97,9 +97,31 @@ class PM_Tracker(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class PM_Project_Problem(models.Model):
+    problem = models.CharField(max_length=1000, verbose_name=u'Problem')
+    target_group = models.CharField(max_length=2500, verbose_name=u'Target group')
+    solution = models.CharField(max_length=2500, verbose_name=u'Solution')
+    industry = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
+
+    def __unicode__(self):
+        return self.problem
+
+    def __str__(self):
+        return self.problem
+
+    class Meta:
+            app_label = 'PManager'
+
 class PM_Project_Industry(models.Model):
-    name = models.CharField(max_length=255, verbose_name=u'Название')
-    parent = models.ForeignKey('PM_Project_Industry', related_name="problems", null=True, blank=True)
+    name = models.CharField(max_length=255, verbose_name=u'Title')
+    active = models.BooleanField(default=False, blank=True)
+    parent = models.ForeignKey('PM_Project_Industry', related_name="categories", null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    def __str__(self):
+        return self.name
 
     def getPercent(self):
         import random
@@ -108,15 +130,39 @@ class PM_Project_Industry(models.Model):
     class Meta:
             app_label = 'PManager'
 
+class PM_Project_Donation(models.Model):
+    project = models.ForeignKey('PM_Project', related_name="donations")
+    user = models.ForeignKey(User, related_name="donations", null=True, blank=True)
+    ref = models.ForeignKey(User, related_name="partner_donations", null=True, blank=True)
+    sum = models.FloatField()
+    milestone = models.ForeignKey('PM_Milestone', related_name="donations", blank=True, null=True)
+    task = models.ForeignKey('PM_Task', related_name="donations", blank=True, null=True)
+    exchange = models.ForeignKey(User, related_name="passedDonations", null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True, blank=True)
+
+    def __str__(self):
+        return self.project.name + ' : ' + str(self.sum)
+
+    def __unicode__(self):
+        return self.project.name + ' : ' + unicode(self.sum)
+
+    class Meta:
+            app_label = 'PManager'
+
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Name of project')
     blockchain_name = models.CharField(max_length=255, verbose_name=u'Name of project', null=True, blank=True)
+    blockchain_registered = models.BooleanField(default=False, blank=True)
+    blockchain_state = models.TextField(null=True, blank=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
     description = models.TextField(null=True, blank=True, verbose_name=u'Description')
     problem = models.TextField(null=True, blank=True, verbose_name=u'The problem to solve')
     target_group = models.TextField(null=True, blank=True, verbose_name=u'Target groups')
     files = models.ManyToManyField('PM_Files', related_name="fileProjects", null=True, blank=True)
     author = models.ForeignKey(User, related_name='createdProjects')
+    opengift_rating = models.IntegerField(null=True, blank=True)
+    integration_price = models.FloatField(null=True, blank=True)
+    commercial_analogs = models.CharField(max_length=500, null=True, blank=True)
     image = models.ImageField(upload_to=path_and_rename("project_thumbnails"), null=True,
                               verbose_name=u'Picture', blank=True)
     tracker = models.ForeignKey(PM_Tracker, related_name='projects')
@@ -124,9 +170,12 @@ class PM_Project(models.Model):
     link_site = models.CharField(max_length=255, blank=True, verbose_name=u'Site')
     link_github = models.CharField(max_length=255, blank=True, verbose_name=u'Link to GitHub')
     link_demo = models.CharField(max_length=255, blank=True, verbose_name=u'Link to the Demo')
+    link_video = models.CharField(max_length=255, blank=True, verbose_name=u'Link to the video')
+    share_link_enabled = models.BooleanField(default=False, blank=True, verbose_name=u'Enable shares link')
     api_key = models.CharField(max_length=200, blank=True, verbose_name=u'Ключ проекта')
     closed = models.BooleanField(blank=True, verbose_name=u'Архив', default=False, db_index=True)
     locked = models.BooleanField(blank=True, verbose_name=u'Заблокирован', default=False, db_index=True)
+    public = models.BooleanField(blank=True, verbose_name=u'Public', default=False, db_index=True)
     settings = models.CharField(max_length=1000)
     payer = models.ForeignKey(User)
     # tags = models.ManyToManyField(Tags, null=True, blank=True, related_name="tagProjects")
@@ -134,15 +183,53 @@ class PM_Project(models.Model):
                                          verbose_name=u'Направления')
 
     industries = models.ManyToManyField(PM_Project_Industry, blank=True, null=True, related_name='projects',
+                                         verbose_name=u'Категории')
+
+    problems = models.ManyToManyField(PM_Project_Problem, blank=True, null=True, related_name='projects',
                                          verbose_name=u'Решаемые проблемы')
 
     @property
+    def color(self):
+        if not self.milestones.exists():
+            return 'grey'
+
+        for s in self.industries.all():
+            if s.name == 'Blockchain':
+                return 'blue'
+            elif s.name == 'Applications':
+                return 'orange'
+            elif s.name == 'API' or s.name == 'Databases' or s.name == 'Web Service':
+                return 'green'
+            elif s.name == 'IoT':
+                return 'yellow'
+        import random
+        return random.choice(['yellow', 'green', 'orange', 'blue', 'purple'])
+
+    @property
+    def firstLetter(self):
+        return self.name[0]
+
+    @property
     def url(self):
-        return '/?project=' + str(self.id)
+        return '/project/' + str(self.id) + '/public/'
+
+    @property
+    def taskListUrl(self):
+        return '/project/' + str(self.id) + '/tasks/'
 
     @property
     def imagePath(self):
         return unicode(self.image).replace('PManager', '')
+
+    @property
+    def votersQty(self):
+        return RatingHits.objects.filter(project=self).count()
+
+    @property
+    def rating(self):
+        return 1.0 * (RatingHits.objects.filter(
+                project=self
+            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (self.votersQty or 1)
 
     def setSettings(self, settings):
         self.settings = json.dumps(settings)
@@ -397,12 +484,20 @@ class PM_Milestone(models.Model):
     description = models.TextField(null=True, blank=True)
     responsible = models.ManyToManyField(User, null=True, blank=True)
     closed = models.BooleanField(blank=True, default=False)
+    confirmed = models.BooleanField(blank=True, default=False)
+    is_request = models.BooleanField(blank=True, default=False)
+    donated = models.BooleanField(blank=True, default=False)
+    min_donate = models.FloatField(blank=True, null=True)
+    conditioned_time = models.IntegerField(blank=True, null=True)
 
     def tasksOrderedByClose(self):
         return self.tasks.order_by('-closed')
 
     def userLiked(self, request):
         return LikesHits.userLiked(self, request)
+
+    def canConfirm(self, user):
+        return user.is_authenticated() and self.donations.filter(user=user).count()
 
     @staticmethod
     def check():
@@ -425,6 +520,13 @@ class PM_Milestone(models.Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_donation_sum(self):
+        sum = 0
+        for d in self.donations.all():
+            sum += d.sum
+
+        return sum
 
     def status(self):
         from PManager.classes.datetime.work_time import WorkTime
@@ -478,17 +580,17 @@ class PM_Task(models.Model):
     )
 
     colors = (
-        ('grey', u'Серый'),
-        ('green', u'Зеленый'),
-        ('blue', u'Голубой'),
-        ('red', u'Красный'),
-        ('yellow', u'Желтый'),
-        ('purple', u'Пурпурный'),
-        ('orange', u'Оранжевый')
+        ('grey', u'Grey'),
+        ('green', u'Green'),
+        ('blue', u'Blue'),
+        ('red', u'Red'),
+        ('yellow', u'Yellow'),
+        ('purple', u'Purple'),
+        ('orange', u'Orange')
     )
 
-    name = models.CharField(max_length=1000, verbose_name='Заголовок')
-    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name='Текст', blank=True, null=True)
+    name = models.CharField(max_length=1000, verbose_name=u'Заголовок')
+    text = models.TextField(validators=[MaxLengthValidator(7000)], verbose_name=u'Текст', blank=True, null=True)
     number = models.IntegerField()
     project = models.ForeignKey(PM_Project, null=True, blank=True, db_index=True, related_name='projectTasks')
     resp = models.ForeignKey(User, null=True, blank=True, related_name='todo')
@@ -496,7 +598,7 @@ class PM_Task(models.Model):
     author = models.ForeignKey(User, related_name='createdTasks', null=True, blank=True)
     lastModifiedBy = models.ForeignKey(User, related_name='modifiedBy', null=True, blank=True)
     status = models.ForeignKey(PM_Task_Status, related_name='tasksByStatus', null=True, blank=True,
-                               verbose_name='Статус')
+                               verbose_name=u'Статус')
     observers = models.ManyToManyField(User, related_name='tasksLooking', null=True, blank=True)
 
     perhapsResponsible = models.ManyToManyField(User, related_name='hisTasksMaybe', null=True, blank=True)
@@ -505,7 +607,7 @@ class PM_Task(models.Model):
     dateModify = models.DateTimeField(auto_now=True, blank=True)
     dateClose = models.DateTimeField(blank=True, null=True)
     dateStart = models.DateTimeField(blank=True, null=True)
-    deadline = models.DateTimeField(blank=True, null=True, verbose_name='Дедлайн')
+    deadline = models.DateTimeField(blank=True, null=True, verbose_name=u'Дедлайн')
 
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
@@ -513,7 +615,7 @@ class PM_Task(models.Model):
     realTime = models.BigIntegerField(blank=True, null=True)
     realDateStart = models.DateTimeField(blank=True, null=True)
 
-    closed = models.BooleanField(blank=True, verbose_name='Закрыта')
+    closed = models.BooleanField(blank=True, verbose_name=u'Закрыта')
     started = models.BooleanField(blank=True)
     wasClosed = models.BooleanField(blank=True)
     closedInTime = models.BooleanField(blank=True, default=False)
@@ -521,12 +623,12 @@ class PM_Task(models.Model):
     active = models.BooleanField(default=True, blank=True)
 
     priority = models.FloatField(default=0.5)
-    critically = models.FloatField(default=0.5, verbose_name='Критичность')
+    critically = models.FloatField(default=0.5, verbose_name=u'Критичность')
     hardness = models.FloatField(default=0.5)
     reconcilement = models.FloatField(default=0.5)
     project_knowledge = models.FloatField(default=0.5)
 
-    parentTask = models.ForeignKey('self', related_name="subTasks", null=True, blank=True, verbose_name='Контейнер')
+    parentTask = models.ForeignKey('self', related_name="subTasks", null=True, blank=True, verbose_name=u'Контейнер')
     tags = generic.GenericRelation(ObjectTags)
 
     virgin = models.BooleanField(default=True, blank=True)
@@ -543,12 +645,59 @@ class PM_Task(models.Model):
     release = models.ForeignKey(Release, blank=True, null=True, related_name='tasks')
 
     isParent = models.BooleanField(default=False, blank=True)
+    winner = models.ForeignKey(User, null=True, blank=True, related_name='conquered')
 
     @property
     def url(self):
         return "/task_detail/?" + (
             ("id=" + str(self.id)) if self.parentTask else ("number=" + str(self.number))) + "&project=" + str(
             self.project.id)
+
+    @property
+    def donated(self):
+        from tracker.settings import GIFT_USD_RATE
+        donated = 0
+        for m in self.messages.filter(code='DONATION'):
+            donated += m.donated
+
+        donated = donated * GIFT_USD_RATE
+
+        return donated
+
+    @property
+    def asked(self):
+        asked = 0
+        qty = 0
+        for m in self.messages.filter(requested_time_approved=True):
+            qty += 1
+            asked += m.requested_time
+
+        if not qty:
+            qty = 1
+
+        asked = round(asked / qty)
+
+        return asked
+
+    def getWinner(self):
+        winners = {}
+        votes = {}
+        winner = None
+        for m in self.messages.filter(code='VOTE'):
+            if not votes.get(m.userTo.id, None):
+                votes[m.userTo.id] = 0
+                winners[m.userTo.id] = m.userTo
+
+            votes[m.userTo.id] += 1
+
+        if len(votes):
+            import operator
+            sorted_votes = sorted(votes.items(), key=operator.itemgetter(1), reverse=True)
+            winnerId = sorted_votes[0][0]
+            winner = winners[winnerId]
+
+        return winner
+
 
     def safeDelete(self):
         self.active = False
@@ -566,7 +715,6 @@ class PM_Task(models.Model):
 
     def Close(self, user):
         from django.contrib.contenttypes.models import ContentType
-        from PManager.models.integration import SlackIntegration
 
         logger = Logger()
 
@@ -591,7 +739,6 @@ class PM_Task(models.Model):
         self.closed = True
         self.critically = 0.5
         self.status = None
-        self.onPlanning = False
         self.dateClose = datetime.datetime.now()
 
         if not self.wasClosed and not self.subTasks.count():
@@ -851,20 +998,22 @@ class PM_Task(models.Model):
         tags = textManager.parseTags(self.name + u' ' + self.text)
 
         for k, tagInfo in tags.iteritems():
+            try:
+                tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
 
-            tagId, created = Tags.objects.get_or_create(tagText=tagInfo["norm"])
+                if tagId.id > 0:
+                    tagObject, created = ObjectTags.objects.get_or_create(
+                        tag=tagId,
+                        object_id=self.id,
+                        content_type=ContentType.objects.get_for_model(PM_Task)
+                    )
 
-            if tagId.id > 0:
-                tagObject, created = ObjectTags.objects.get_or_create(
-                    tag=tagId,
-                    object_id=self.id,
-                    content_type=ContentType.objects.get_for_model(PM_Task)
-                )
+                    tagObject.weight = int(tagInfo['weight'])
+                    tagObject.content_object = self
 
-                tagObject.weight = int(tagInfo['weight'])
-                tagObject.content_object = self
-
-                tagObject.save()
+                    tagObject.save()
+            except MultipleObjectsReturned, Tags.MultipleObjectsReturned:
+                pass
 
     def startTimer(self, user):
         if not self.currentTimer:
@@ -952,10 +1101,10 @@ class PM_Task(models.Model):
         return pm_user.hasAccess(self, 'view')
 
     def canPMUserRemove(self, pm_user):
-        if self.realDateStart:
+        if self.donated:
             return False
 
-        return pm_user.isManager(self.project) or (self.author and pm_user.user.id == self.author.id)
+        return self.author and pm_user.user.id == self.author.id
 
     def canPMUserSetPlanTime(self, pm_user):
         return (not self.planTime and pm_user.isManager(self.project)) or not self.realDateStart and (
@@ -1002,11 +1151,11 @@ class PM_Task(models.Model):
         from PManager.models.users import PM_User
 
         arTags = {
-            u'для ': 'responsible',
-            u' до ': 'deadline',
-            u'примерно ': 'about',
-            u' файл ': 'file',
-            u' от ': 'from'
+            u' for ': 'responsible',
+            u' deadline ': 'deadline',
+            u' estimate ': 'about',
+            u' file ': 'file',
+            u' author ': 'from'
         }
 
         # TODO: сделать обработку быстрых тегов
@@ -1182,36 +1331,41 @@ class PM_Task(models.Model):
         from django.db.models import Count
 
         filterQArgs = []
-        pm_user = user.get_profile()
+        pm_user = None
+        if user.is_authenticated():
+            pm_user = user.get_profile()
+
         bExist = False
         if project:
-            if pm_user.isManager(project):
-                bExist = True
-            elif pm_user.isEmployee(project):
-                subtasksSubQuery = PM_Task.objects.exclude(parentTask__isnull=True) \
-                    .filter(resp=user, closed=False).values('parentTask__id') \
-                    .annotate(dcount=Count('parentTask__id'))
-                aExternalId = []
-                for obj in subtasksSubQuery:
-                    aExternalId.append(obj['parentTask__id'])
-
-                filterQArgs.append((
-                    Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
-                        id__in=aExternalId)
-                ))
-                bExist = True
-            elif pm_user.isGuest(project):
-                filterQArgs.append(Q(observers=user))
-                bExist = True
+            bExist = True
+            # if pm_user.isManager(project):
+            #     bExist = True
+            # elif pm_user.isEmployee(project):
+            #     subtasksSubQuery = PM_Task.objects.exclude(parentTask__isnull=True) \
+            #         .filter(resp=user, closed=False).values('parentTask__id') \
+            #         .annotate(dcount=Count('parentTask__id'))
+            #     aExternalId = []
+            #     for obj in subtasksSubQuery:
+            #         aExternalId.append(obj['parentTask__id'])
+            #
+            #     filterQArgs.append((
+            #         Q(onPlanning=True) | Q(author=user) | Q(resp=user) | Q(observers=user) | Q(
+            #             id__in=aExternalId)
+            #     ))
+            #     bExist = True
+            # elif pm_user.isGuest(project):
+            #     filterQArgs.append(Q(observers=user))
+            #     bExist = True
 
         if not bExist:
             # userProjects = user.get_profile().getProjects()
-            mProjects = user.get_profile().managedProjects
-            q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
+            if user.is_authenticated():
+                mProjects = user.get_profile().managedProjects
+                q = Q(author=user) | Q(resp=user) | Q(observers=user) | Q(project__in=mProjects)
 
-            filterQArgs.append(
-                Q(q)
-            )
+                filterQArgs.append(
+                    Q(q)
+                )
 
         return filterQArgs
 
@@ -1227,10 +1381,8 @@ class PM_Task(models.Model):
 
         order_by = arOrderParams.get('order_by', 'closed')
 
-        pm_user = user.get_profile()
-
-        if not pm_user:
-            raise Exception('Access denied')
+        if user.is_authenticated():
+            pm_user = user.get_profile()
 
         if 'id' in filter or 'pk' in filter:
             filter = {
@@ -1238,35 +1390,45 @@ class PM_Task(models.Model):
             }
             filterQArgs = []
 
-        filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
-
         excludeFilter = {}
-        if 'exclude' in filter:
-            excludeFilter = filter['exclude']
-            del filter['exclude']
+        if 'bounty' in filter or not user.is_authenticated():
+            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
+            if 'bounty' in filter:
+                del filter['bounty']
 
-        filter['active'] = True
-
-        # subtasks search
-        if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
-            filterSubtasks = filter.copy()
-            filterSubtasks['parentTask__isnull'] = False
-            filterSubtasks['parentTask__active'] = True
-            try:
-                subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
-                    dcount=Count('parentTask__id'))
-            except ValueError:
-                subTasks = []
-            aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
+            if 'exclude' in filter:
+                excludeFilter = filter['exclude']
+                del filter['exclude']
+            # filter = {}
         else:
-            aTasksIdFromSubTasks = None
+            filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
 
-        filterQArgs = PM_Task.mergeFilterObjAndArray(filter, filterQArgs)
+            if 'exclude' in filter:
+                excludeFilter = filter['exclude']
+                del filter['exclude']
 
-        if aTasksIdFromSubTasks:
-            filterQArgs = [Q(*filterQArgs) | Q(
-                id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
-            filter = {}
+            filter['active'] = True
+
+            # subtasks search
+            if filter and not 'isParent' in filter and not 'parentTask' in filter and not 'id' in filter and not 'onlyParent' in arOrderParams:
+                filterSubtasks = filter.copy()
+                filterSubtasks['parentTask__isnull'] = False
+                filterSubtasks['parentTask__active'] = True
+                try:
+                    subTasks = PM_Task.objects.filter(*filterQArgs, **filterSubtasks).values('parentTask__id').annotate(
+                        dcount=Count('parentTask__id'))
+                except ValueError:
+                    subTasks = []
+                aTasksIdFromSubTasks = [subtask['parentTask__id'] for subtask in subTasks]
+            else:
+                aTasksIdFromSubTasks = None
+
+            filterQArgs = PM_Task.mergeFilterObjAndArray(filter, filterQArgs)
+
+            if aTasksIdFromSubTasks:
+                filterQArgs = [Q(*filterQArgs) | Q(
+                    id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
+                filter = {}
 
         try:
             tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,
@@ -1489,7 +1651,7 @@ class PM_Task(models.Model):
         self.dateModify = datetime.datetime.now()
         if not self.project:
             if self.author:
-                roles = self.author.projectRoles.all()[:1]
+                roles = self.author.userRoles.all()[:1]
                 if roles and roles[0] and roles[0].project:
                     self.project = roles[0].project
 
@@ -1636,7 +1798,9 @@ class PM_Task_Message(models.Model):
     checked = models.BooleanField(blank=True, db_index=True)
     bug = models.BooleanField(blank=True, db_index=True)
     solution = models.BooleanField(default=False)
+    vote = models.BooleanField(default=False)
     requested_time = models.IntegerField(blank=True, null=True)
+    donated = models.FloatField(blank=True, null=True)
     requested_time_approved = models.BooleanField(default=False)
     requested_time_approved_by = models.ForeignKey(User, null=True, blank=True, related_name="approvedTimeRequests")
     requested_time_approve_date = models.DateTimeField(blank=True, null=True)
@@ -1653,6 +1817,9 @@ class PM_Task_Message(models.Model):
                     return False
 
             self.project = self.task.project
+
+        if self.author and not self.author.get_profile().hasRole(self.project):
+            self.author.get_profile().setRole('guest', self.project)
 
         super(self.__class__, self).save(*args, **kwargs)
 
@@ -1744,10 +1911,10 @@ class PM_Task_Message(models.Model):
                         addParams.update({
                             'confirmation': (
                                 '<div>'
-                                '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
+                                # '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
                                                                                                 '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(
                                     self.id) + '" ' +
-                                '" class="js-confirm-estimate agree-with-button">Выбрать исполнителем</a></div>'
+                                '" class="js-confirm-estimate agree-with-button">Choose responsible</a></div>'
                             )
                         })
 
@@ -1760,22 +1927,23 @@ class PM_Task_Message(models.Model):
                         cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
                     addParams.update({
                         'confirmation': (
-                            '<div class="message-desc-right"><a class="button green-button" href="' + self.task.url + '&confirm=' + str(
+                            '<div class="message-desc-right"><a class="btn" href="' + self.task.url + '&confirm=' + str(
                                 self.id) + '" ' +
-                            '" class="js-confirm-estimate agree-with-button">Добавить время: ' + str(
-                                self.requested_time) + ' ч.</a></div>'
+                            '" class="js-confirm-estimate agree-with-button">Money request: $' + str(
+                                self.requested_time) + '</a></div>'
                         )
                     })
             else:
+                d = self.requested_time_approve_date
                 addParams.update({
                     'confirmation': (
                         u'<div class="message-desc-right">' +
                         unicode(
                             self.requested_time_approved_by.last_name + ' ' + self.requested_time_approved_by.first_name if
                             self.requested_time_approved_by else '') +
-                        u' дал согласие на добавление <b>' +
-                        unicode(self.requested_time) + u'ч.</b> в <b>' +
-                        unicode(templateTools.dateTime.convertToSite(self.requested_time_approve_date)) +
+                        u' set cost <b>' +
+                        unicode(self.requested_time) + u'$.</b> at <b>' +
+                        unicode(templateTools.dateTime.convertToSite(d) if d.tzinfo is not None else 'now') +
                         u'</b></div>'
                     )
                 })
@@ -1810,7 +1978,7 @@ class PM_Task_Message(models.Model):
             'project': {
                 'id': self.project.id,
                 'name': self.project.name,
-                'url': '/?project=' + str(self.project.id)
+                'url': '/project/' + str(self.project.id) + '/tasks/'
             } if self.project else None,
             'author': {
                 'id': self.author.id,
@@ -1847,12 +2015,11 @@ class PM_Task_Message(models.Model):
     def canEdit(self, user):
         return (
             (self.author and self.author.id == user.id)
-            or
-            (self.project and user.get_profile().isManager(self.project))
         )
 
     def canDelete(self, user):
-        return self.author and self.author.id == user.id
+        prof = user.get_profile()
+        return self.author and self.author.id == user.id or prof.isManager(self.task.project)
 
     def canView(self, user):
         if not user:
@@ -1888,6 +2055,10 @@ class PM_Task_Message(models.Model):
 
     def getUsersForNotice(self):
         pass
+
+    def safeDelete(self):
+        self.delete()
+        return True
 
     class Meta:
         app_label = 'PManager'
@@ -2019,7 +2190,7 @@ class PM_User_PlanTime(models.Model):
 
 class PM_Reminder(models.Model):
     task = models.ForeignKey(PM_Task)
-    date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name='Напоминание')
+    date = models.DateTimeField(blank=True, null=True, db_index=True, verbose_name=u'Напоминание')
     user = models.ForeignKey(User)
 
     def __unicode__(self):
@@ -2030,8 +2201,8 @@ class PM_Reminder(models.Model):
 
 
 class RatingHistory(models.Model):
-    value = models.FloatField(blank=True, verbose_name='Рейтинг', default=0)
-    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    value = models.FloatField(blank=True, verbose_name=u'Рейтинг', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name=u'Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     class Meta:
@@ -2039,8 +2210,8 @@ class RatingHistory(models.Model):
 
 
 class FineHistory(models.Model):
-    value = models.FloatField(blank=True, verbose_name='Штраф', default=0)
-    user = models.ForeignKey(User, blank=True, verbose_name='Пользователь', db_index=True)
+    value = models.FloatField(blank=True, verbose_name=u'Штраф', default=0)
+    user = models.ForeignKey(User, blank=True, verbose_name=u'Пользователь', db_index=True)
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
 
     def __str__(self):

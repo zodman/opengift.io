@@ -46,7 +46,12 @@ gulp.task('concatjs', function() {
 		"assets/vendor/typed.js/lib/typed.min.js",
 		"assets/vendor/appear-master/dist/appear.min.js",
 		"assets/vendor/jquery.countdown/dist/jquery.countdown.min.js",
-		"assets/js/smoothscroll.js"
+
+		"assets/vendor/jquery.form/jquery.form.js",
+
+		"assets/js/smoothscroll.js",
+
+		"scripts/**/*.js",
   ])
     .pipe(concat('bundle.js'))
     .pipe(uglify())

@@ -6,13 +6,12 @@ from PManager.models import PM_User, PM_Task, PM_Notice, PM_Timer, PM_User_Achie
 from PManager import widgets
 from django.template import loader, RequestContext
 from PManager.viewsExt.tools import emailMessage
-
+from tracker import settings
 import os
 from PManager.viewsExt.tools import set_cookie
 from PManager.viewsExt import headers
 from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
-from PManager.viewsExt.blockchain import userRegisterAndUpdate
 from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
 
@@ -38,7 +37,6 @@ class MainPage:
         c = RequestContext(request)
         return HttpResponse(loader.get_template('main/support.html').render(c))
 
-
     @staticmethod
     def likeAPro(request):
         from robokassa.forms import RobokassaForm
@@ -48,12 +46,12 @@ class MainPage:
         feeLatId = userFee[0].id if userFee else None
         if feeLatId:
             form = RobokassaForm(initial={
-               'OutSum': fee,#order.total,
-               'InvId': feeLatId,#order.id,
-               'Desc': 'Пополнение счета Heliard',#order.name,
-               'Email': request.user.email,
-               'user': request.user.id,
-               'request': ''
+                'OutSum': fee,  # order.total,
+                'InvId': feeLatId,  # order.id,
+                'Desc': 'Пополнение счета Heliard',  # order.name,
+                'Email': request.user.email,
+                'user': request.user.id,
+                'request': ''
             })
             c.update(
                 {
@@ -73,36 +71,63 @@ class MainPage:
     def changePassword(request):
         message = ''
         uname = request.POST.get('username', None)
+        vcode = request.POST.get('code', None)
         if uname:
+            from PManager.services.recaptcha import validate as validate_recaptcha
+            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST.get('skip_recaptcha', None)):
+                return HttpResponse(
+                    loader.get_template('main/change_password.html').render(
+                        RequestContext(request, {"message": "incorrect_captcha"})
+                    )
+                )
+
             try:
                 user = User.objects.get(username=uname)
-                password = User.objects.make_random_password()
-                user.set_password(password)
-                user.save()
+                if vcode:
+                    if vcode == user.get_profile().verification_code:
+                        new_password = request.POST.get('password', None)
+                        if new_password:
+                            user.set_password(new_password)
+                            user.save()
 
-                context = {
-                    'user_name': ' '.join([user.first_name, user.last_name]),
-                    'user_login': user.username,
-                    'user_password': password
-                }
+                            prof = user.get_profile()
+                            prof.verification_code = ''
+                            prof.save()
 
-                mess = emailMessage(
-                    'hello_new_user',
-                    context,
-                    'Heliard: сообщество профессионалов. Ваши регистрационные данные.'
-                )
-                mess.send([user.username])
-                mess.send(['gvamm3r@gmail.com'])
-                message = 'success'
+                            message = 'success'
+                else:
+                    prof = user.get_profile()
+                    prof.verification_code = User.objects.make_random_password()
+                    prof.save()
+                    message = 'success_code_sent'
+                    context = {
+                        'user_name': ' '.join([user.first_name, user.last_name]),
+                        'user_login': user.username,
+                        'link': 'https://opengift.io/change_password/?code=' + prof.verification_code + '&uname=' + user.username
+                    }
+
+                    mess = emailMessage(
+                        'hello_new_user',
+                        context,
+                        'OpenGift - Password changing.'
+                    )
+                    mess.send([user.username])
+                    mess.send(['gvamm3r@gmail.com'])
 
             except User.DoesNotExist:
                 message = 'not_found'
 
-        c = RequestContext(request, {"message": message})
+        c = RequestContext(request, {"message": message, 'is_confirmation': not not request.GET.get('code')})
         return HttpResponse(loader.get_template('main/change_password.html').render(c))
 
     @staticmethod
+    def takeGift(request):
+        setattr(request, 'isPromo', True)
+        return MainPage.auth(request)
+
+    @staticmethod
     def auth(request):
+
         from PManager.viewsExt.tools import emailMessage
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
@@ -111,9 +136,17 @@ class MainPage:
             username = request.POST['username']
             password = request.POST['password']
 
+            from PManager.services.recaptcha import validate as validate_recaptcha
+            if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST.get('skip_recaptcha', None)):
+                return HttpResponse(
+                    loader.get_template('main/unauth.html').render(
+                        RequestContext(request, {"error": "incorrect_captcha"})
+                    )
+                )
+
             backurl = request.POST.get('backurl', None)
             if not backurl:
-                backurl = '/'
+                backurl = '/wallet/'
 
             from django.contrib.auth import authenticate, login
 
@@ -139,16 +172,30 @@ class MainPage:
             except User.DoesNotExist:
                 error = None
                 if not emailMessage.validateEmail(username):
-                    error = u'Введите правильный email'
+                    error = u'Enter correct email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)
+                    if request.POST.get('name'):
+                        user.first_name = request.POST.get('name')
+                        user.last_name = request.POST.get('surname')
+                        user.save()
+
+                    white_list_registraton = request.POST.get('whitelist', None)
+                    promo_reg = request.POST.get('promo_reg', None)
+
+                    if white_list_registraton or promo_reg:
+                        prof = user.get_profile()
+                        prof.in_whitelist = True if white_list_registraton else False
+                        prof.in_promo = True if promo_reg else False
+                        prof.tokens_to_buy = request.POST.get('gift_qty')
+                        prof.eth = request.POST.get('eth_address')
+                        prof.save()
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(
                         request,
                         user
                     )
-                    userRegisterAndUpdate(request)
                     return HttpResponseRedirect(backurl)
 
                 if error:
@@ -172,7 +219,7 @@ class MainPage:
         return HttpResponse(loader.get_template('main/unauth.html').render(c))
 
     @staticmethod
-    def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}):
+    def projectWidgets(request, project_id=None, widgetList=None, activeMenuItem=None, widgetParams={}, template=None):
         # agents
         from PManager.models import Agent
         from django.db.models import Q
@@ -189,11 +236,210 @@ class MainPage:
         for agent in agents:
             agent.process()
 
+        if project_id:
+            request.COOKIES["CURRENT_PROJECT"] = project_id
+
+        if widgetParams.get('bounty'):
+            request.COOKIES["CURRENT_PROJECT"] = 0
+
         headerValues = headers.initGlobals(request)
         if headerValues['REDIRECT']:
             return redirect(headerValues['REDIRECT'])
 
-        #stop timers
+        # stop timers
+        leastHours = datetime.datetime.now() - datetime.timedelta(hours=9)
+        for timer in PM_Timer.objects.filter(dateStart__lt=leastHours, dateEnd__isnull=True):
+            timer.delete()
+
+        headerWidgets = []
+        widgetsInTabs = []
+        c = RequestContext(request, {})
+        userTimer = None
+        userAchievement = None
+        messages = None
+        messages_qty = 0
+        aMessages = []
+        pageTitle = ''
+
+        agreementForApprove = None
+
+        taskNumber = int(request.GET.get('number', 0))
+        taskId = int(request.GET.get('id', 0))
+        projectId = int(request.GET.get('project', 0))
+
+        if not widgetList:
+            widgetList = ['chat', 'tasklist']
+
+        # uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
+        # userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+        #
+        # if userAchievement:
+        #     if userAchievement.achievement.delete_on_first_view:
+        #         userAchievement.delete()
+        #     else:
+        #         userAchievement.read = True
+        #         userAchievement.save()
+
+        if request.user.is_authenticated():
+            messages = PM_Task_Message.objects.filter(
+                userTo=request.user,
+                read=False
+            ).order_by('-dateCreate')
+
+
+            if projectId:
+                if taskId:
+                    messages = messages.exclude(
+                        task=taskId,
+                        project=projectId
+                    )
+                elif taskNumber:
+                    messages = messages.exclude(
+                        task__number=taskNumber,
+                        project=projectId
+                    )
+
+            messages = messages.exclude(code="WARNING")
+            messages_qty = messages.count()
+
+            for mes in messages:
+                setattr(mes, 'text', TextFilters.getFormattedText(escape(mes.text)))
+                setattr(mes, 'text', TextFilters.convertQuotes(mes.text))
+                aMessages.append(mes)
+
+            unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
+            unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)
+
+            if unapprovedAgreements:
+                agreementForApprove = unapprovedAgreements[0]
+            elif unapprovedAgreementsResp:
+                agreementForApprove = unapprovedAgreementsResp[0]
+
+            userTimer = PM_Timer.objects.filter(user=request.user, dateEnd__isnull=True)
+            if userTimer:
+                userTimer = userTimer[0]
+                timerDataForJson = userTimer.getTime()
+                timerDataForJson['started'] = True if not userTimer.dateEnd else False
+                setattr(userTimer, 'jsonData', timerDataForJson)
+
+
+        arPageParams = {
+            'pageCount': 10,
+            'page': int(request.POST.get('page', 1))
+        }
+
+        for widgetName in widgetList:
+            str = 'widget = widgets.%s' % widgetName
+            exec (str)
+            if widgetName == 'tasklist':
+                widget = widget.widget(request, headerValues, widgetParams, [], arPageParams)
+            else:
+                widget = widget.widget(request, headerValues, widgetParams, [])
+
+            if widget:
+                if 'redirect' in widget:
+                    return HttpResponseRedirect(widget['redirect'])
+                if 'title' in widget:
+                    pageTitle = widget['title']
+
+                c.update({widgetName: widget})
+                if bXls:
+                    templateName = 'xls'
+                else:
+                    templateName = 'widget'
+
+                widgetHtml = loader.get_template("%s/templates/%s.html" % (widgetName, templateName)).render(c)
+
+                if 'tab' in widget and widget['tab']:
+                    widgetsInTabs.append({
+                        'code': widgetName,
+                        'name': widget['name'],
+                        'html': widgetHtml
+                    })
+                else:
+                    headerWidgets.append(widgetHtml)
+
+        if request.is_ajax():
+            if request.GET.get('modal', None) is not None:
+                t = loader.get_template('main/xhr_response_modal.html')
+            else:
+                t = loader.get_template('main/xhr_response.html')
+        else:
+            if request.GET.get('frame_mode', False):
+                t = loader.get_template('index_frame.html')
+            elif bXls:
+                cType = 'application/xls'
+                mimeType = 'application/xls'
+                t = loader.get_template('index_xls.html')
+            elif template == 'new':
+                t = loader.get_template('index_new.html')
+            else:
+                t = loader.get_template('index.html')
+
+        c.update({'widget_header': u" ".join(headerWidgets)})
+        c.update({'widgets': widgetsInTabs})
+
+
+        if not headerValues['FIRST_STEP_FORM']:
+            cur_notice = PM_Notice.getForUser(
+                request.user,
+                request.get_full_path()
+            )
+            if cur_notice:
+                # cur_notice.setRead(request.user)
+                c.update({
+                    'current_notice': cur_notice
+                })
+
+        c.update({
+            'pageTitle': pageTitle,
+            'activeMenuItem': activeMenuItem,
+            'userTimer': userTimer,
+            'currentProject': headerValues['CURRENT_PROJECT'],
+            # 'userAchievement': userAchievement,
+            'messages': aMessages,
+            'messages_qty': messages_qty,
+
+            'agreementForApprove': agreementForApprove,
+            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
+                'COOKIES'] else None
+        })
+
+        response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
+        if bXls:
+            response['Content-Disposition'] = 'attachment; filename="file.xls"'
+
+        for key in headerValues['SET_COOKIE']:
+            set_cookie(response, key, headerValues['SET_COOKIE'][key])
+
+        return response
+
+    @staticmethod
+    def indexRender(request, widgetList=None, activeMenuItem=None, widgetParams={}, template=None):
+        # agents
+        from PManager.models import Agent
+        from django.db.models import Q
+        import datetime
+        from PManager.viewsExt.tools import TextFilters
+        from django.utils.html import escape
+        import urllib
+
+        if activeMenuItem == 'main':
+            return HttpResponseRedirect('/pub/')
+
+        cType = 'text/html'
+        mimeType = None
+        bXls = request.GET.get('xls_output', False)
+
+        agents = Agent.objects.filter(Q(Q(datetime__lt=datetime.datetime.now()) | Q(datetime__isnull=True)))
+        for agent in agents:
+            agent.process()
+
+        headerValues = headers.initGlobals(request)
+        if headerValues['REDIRECT']:
+            return redirect(headerValues['REDIRECT'])
+
+        # stop timers
         leastHours = datetime.datetime.now() - datetime.timedelta(hours=9)
         for timer in PM_Timer.objects.filter(dateStart__lt=leastHours, dateEnd__isnull=True):
             timer.delete()
@@ -219,9 +465,6 @@ class MainPage:
             taskId = int(request.GET.get('id', 0))
             projectId = int(request.GET.get('project', 0))
 
-            if not request.user.get_profile().getProjects().exists():
-                return HttpResponseRedirect('/project/add/')
-
             if projectId:
                 if taskId:
                     messages = messages.exclude(
@@ -233,7 +476,7 @@ class MainPage:
                         task__number=taskNumber,
                         project=projectId
                     )
-                    
+
             messages = messages.exclude(code="WARNING")
             messages_qty = messages.count()
 
@@ -247,7 +490,6 @@ class MainPage:
 
             unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
             unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)
-
 
             if unapprovedAgreements:
                 agreementForApprove = unapprovedAgreements[0]
@@ -309,28 +551,31 @@ class MainPage:
                     cType = 'application/xls'
                     mimeType = 'application/xls'
                     t = loader.get_template('index_xls.html')
+                elif template == 'new':
+                    t = loader.get_template('index_new.html')
                 else:
                     t = loader.get_template('index.html')
 
             c.update({'widget_header': u" ".join(headerWidgets)})
             c.update({'widgets': widgetsInTabs})
 
-            uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
-            userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
-
-            if userAchievement:
-                if userAchievement.achievement.delete_on_first_view:
-                    userAchievement.delete()
-                else:
-                    userAchievement.read = True
-                    userAchievement.save()
+            # uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
+            # userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
+            #
+            # if userAchievement:
+            #     if userAchievement.achievement.delete_on_first_view:
+            #         userAchievement.delete()
+            #     else:
+            #         userAchievement.read = True
+            #         userAchievement.save()
         else:
             import re
-            #if is not main page
+            # if is not main page
             if re.sub(r'([^/]+)', '', request.get_full_path()) == '/':
-                t = loader.get_template('public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
+                t = loader.get_template(
+                    'public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/promo.html')
             else:
-                return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
+                return HttpResponseRedirect('/login/?backurl=' + urllib.quote(request.get_full_path()))
 
         if not headerValues['FIRST_STEP_FORM']:
             cur_notice = PM_Notice.getForUser(
@@ -348,11 +593,13 @@ class MainPage:
             'activeMenuItem': activeMenuItem,
             'userTimer': userTimer,
             'currentProject': headerValues['CURRENT_PROJECT'],
-            'userAchievement': userAchievement,
+            # 'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
+
             'agreementForApprove': agreementForApprove,
-            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues['COOKIES'] else None
+            'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
+                'COOKIES'] else None
         })
 
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
@@ -378,6 +625,7 @@ class MainPage:
         if widget:
             if 'redirect' in widget:
                 return HttpResponseRedirect(widget['redirect'])
+
         c.update({widget_name: widget})
         return HttpResponse(loader.get_template("%s/templates/widget.html" % widget_name).render(c))
 
@@ -529,8 +777,8 @@ class MainPage:
 
         c = RequestContext(request, {})
 
-        payed = sum(p.value for p in Credit.objects.filter(value__lt = 0, project=p, payer__isnull=False))
-        total = sum(d.value for d in Credit.objects.filter(value__gt = 0, project=p, payer__isnull=False))
+        payed = sum(p.value for p in Credit.objects.filter(value__lt=0, project=p, payer__isnull=False))
+        total = sum(d.value for d in Credit.objects.filter(value__gt=0, project=p, payer__isnull=False))
 
         c.update({
             'is_manager': request.user.get_profile().isManager(p),
@@ -578,8 +826,8 @@ class MainPage:
             sIn += sum(c.value for c in creditIn)
 
             payments = Credit.objects.filter(date__range=(datetime.datetime.combine(date, datetime.time.min),
-                                                           datetime.datetime.combine(date, datetime.time.max)),
-                                              project__in=projects, value__lt=0)
+                                                          datetime.datetime.combine(date, datetime.time.max)),
+                                             project__in=projects, value__lt=0)
 
             paymentsOut = payments.filter(user__isnull=False)
             paymentsIn = payments.filter(payer__isnull=False)
@@ -634,10 +882,11 @@ def add_timer(request):
                     task=task, text=str(timer) + '<br />' + comment, author=request.user, project=task.project,
                     hidden_from_clients=True)
                 comment.save()
-                #add user log
+                # add user log
                 logger = Logger()
                 logger.log(request.user, 'DAILY_TIME', seconds, task.project.id)
-                return redirect('/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
+                return redirect(
+                    '/add_timer/?' + 'project=' + str(comment.project.id) + '&text=' + u'Успешно%20добавлено')
             else:
                 return HttpResponse('Operation not permitted')
 
@@ -653,4 +902,3 @@ def add_timer(request):
     t = loader.get_template('report/add_timer.html')
 
     return HttpResponse(t.render(c))
-

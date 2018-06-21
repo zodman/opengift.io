@@ -1,20 +1,8 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
-{% block header %}
+{% block head %}
 {% endblock %}
 {% block content %}
-    {% if not request.user.get_profile.blockchain_cert %}
-        <section class="text-center">
-            <h1>Wallet initialization</h1>
-            <script>
-                $(function () {
-                    $.post('/blockchain/ajax/', {'action':'register'}, function(data) {
-                        document.location.reload();
-                    });
-                })
-            </script>
-        </section>
-    {% else %}
     <section class="u-py-md-250 u-flex-center">
         <div class="container">
             <div class="row align-items-center">
@@ -23,26 +11,78 @@
                         <h2 class="bg-primary m-0 py-3 text-white">Donation to "{{ project.name }}"</h2>
 
                         <form action="" method="POST" class="p-4 p-md-5 js-donate-form">
-                            <p>Your wallet: <span
-                                    class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
-                            </p>
+                            {% if milestone %}
+                                <input type="hidden" name="milestone" class="js-milestone"
+                                       value="{{ milestone.id }}"/>
+                                <h4>Milestone</h4>
+                                <p><small>By donating on a goal, you motivate a team to complete a specific task. The donation amount will be automatically released once the goal is achieved.</small></p>
+                                <p class="text-muted">
+                                        <span><i
+                                                class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
+                                    &nbsp;&nbsp;{{ milestone.name }}
+                                </p>
+                            {% endif %}
+                            {% if task %}
+                                <input type="hidden" name="task" class="js-task"
+                                       value="{{ task.id }}"/>
+                                <h4>Task</h4>
+                                <p><small>By donating on a task, you motivate a team to complete it faster. The donation amount will be automatically released once the task is closed.</small></p>
+                                <p class="text-muted">
+                                    &nbsp;&nbsp;{{ task.name }}
+                                </p>
+                            {% endif %}
+                            {% if request.user.get_profile.blockchain_wallet and request.user.is_superuser %}
+                                <p>Your wallet: <span
+                                        class="js-wallet-code">{{ request.user.get_profile.blockchain_wallet|default_if_none:'' }}</span>
+                                </p>
 
-                            <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
-
-
+                                <p>Your balance: <b class="js-wallet-balance"></b> GIFT</p>
+                            {% endif %}
+{#                            <ul class="list-inline">#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="5">$5</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="10">$10</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="50">$50</a></li>#}
+{#                                <li class="list-inline-item"><a class="js-fast-donate" href="#" data-value="100">$100</a></li>#}
+{#                            </ul>#}
+                            {% if not request.user.is_superuser %}
+                            <iframe id="myiframe" src="https://money.yandex.ru/quickpay/shop-widget?writer=seller&targets=Project%20donation&targets-hint=&default-sum=&button-text=13&payment-type-choice=on&comment=on&hint=Specify%20project%20and%20task&successURL=https%3A%2F%2Fopengift.io%2F&quickpay=shop&account=41001361392488" width="450" height="290" frameborder="0" allowtransparency="true" scrolling="no"></iframe>
+                            {% else %}
                             <div class="row align-items-center">
-                                <div class="col-lg-7 js-form-group">
-                                    <input type="text" name="" data-number-from="0.01" class="js-required js-target-project-sum" value=""
+                                <div class="col-lg-6 js-form-group">
+                                    <input type="text" name="" data-number-from="0.00001"
+                                           class="js-required js-target-project-sum" value=""
                                            placeholder="Sum"/>
                                     <input type="hidden" name="" class="js-required js-target-project"
-                                           value="{{ project.name }}" />
+                                           value="{{ project.blockchain_name }}"/>
                                 </div>
-                                <div class="col-lg-5">
+                                <div class="col-lg-3">
+                                    <select class="js-currency">
+                                        <option value="usd" selected>USD</option>
+                                        <option value="btc" >BTC</option>
+                                        {% if request.user.get_profile.blockchain_wallet %}
+                                            <option value="gift">GIFT</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
+                                <div class="col-lg-3">
                                     <input type="button" value="Donate"
-                                           onclick="return donate($('.js-target-project').val(), $('.js-target-project-sum').val());"
-                                           class="js-donate btn btn-success"/>
+                                           onclick="return donate(
+                                               $('.js-target-project').val(),
+                                               $('.js-target-project-sum').val(),
+                                               $('.js-currency').val(),
+                                               $('.js-milestone').val(),
+                                               $('.js-task').val()
+                                           );"
+                                           class="js-donate btn btn-success" />
                                 </div>
                             </div>
+                            <p class="u-pt-15">
+                                <small>1 BTC = $<span data-currency="btc" class="js-currency-rate">...</span></small>
+                                &nbsp;&nbsp;&nbsp;
+                                <small>1 GIFT = $<span data-currency="gift" class="js-currency-rate">...</span></small>
+                                <span data-currency="usd" style="display: none;" class="js-currency-rate">1</span>
+                            </p>
+                            {% endif %}
                         </form>
                     </div>
                 </div> <!-- END col-lg-5-->
@@ -50,9 +90,39 @@
         </div> <!-- END container-->
         <script>
             $(function () {
+                $('.js-currency-rate').each(function () {
+                    var t = this;
+                    if ($(this).data('currency') == 'usd') return true;
+                    $.post('/blockchain/ajax/', {
+                        'action': 'getRate',
+                        'currency': $(this).data('currency')
+                    }, function (data) {
+                        $(t).html(Math.round(100 / parseFloat(data)) / 100);
+                    });
+                });
+                {% if request.user.get_profile.blockchain_wallet %}
                 getKey(function () {
                     getBalance();
                 });
+                {% endif %}
+                $('.js-fast-donate').click(function () {
+                    var val = parseFloat($(this).data('value')),
+                        rate = parseFloat($('.js-currency-rate[data-currency=' + $('.js-currency').val() + ']').text());
+
+                    if (!rate) {
+                        alert('Currency rates is still loading.');
+                        return false;
+                    }
+                    val = val / rate;
+                    if (val < 1) {
+                        val = Math.round(val * 1000000) / 1000000;
+                    } else {
+                        val = Math.round(val * 100) / 100;
+                    }
+                    $('.js-target-project-sum').val(val);
+                    return false;
+                });
+
             });
             var getKey = function (callback) {
                 $.post('/blockchain/ajax/', {'action': 'getKey'}, function (data) {
@@ -70,18 +140,41 @@
                 return false;
             };
 
-            var donate = function (project, qty) {
+
+
+            var donate = function (project, qty, currency, milestone, task) {
                 var form = new Form('.js-donate-form');
+
                 if (form.validate()) {
                     $('.js-donate').attr('disabled', 'disabled');
-                    $.post('/blockchain/ajax/', {'action': 'donate', 'project': project, 'qty': qty}, function (data) {
-                        getBalance();
+                    $.post('/blockchain/ajax/', {
+                        'action': 'donate',
+                        'project': project,
+                        'qty': qty,
+                        'currency': currency,
+                        'milestone': milestone,
+                        'task': task
+                    }, function (data) {
+                        {% if request.user.get_profile.blockchain_wallet %}
+                            getBalance();
+                        {% endif %}
                         ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
+                        if (currency == 'btc') {
+                            data = $.parseJSON(data);
+                            $('.js-donate-form').replaceWith(
+                                    '<br /><p>Please, pay ' + qty + ' BTC for this account in next 24 hours.</p>' +
+                                    '<h3><a href="' + data.URI + '">' + data.address + '</a></h3><br />'
+                            )
+                        } else if (currency == 'usd') {
+                            document.location.href = $.parseJSON(data);
+                        } else if (task) {
+                            document.location.href = '/task_detail/?project={{ project.id }}&id='+task;
+                        }
+                        yaCounter47053188.reachGoal('donate');
                     });
                     $('.js-target-project, .js-target-project-sum').val('');
                 }
             }
         </script>
     </section>
-    {% endif %}
 {% endblock %}

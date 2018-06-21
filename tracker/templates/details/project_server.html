@@ -19,17 +19,6 @@
 </div>
 </div>
 <script>
-    var getProjectState = function(p, call) {
-        $.post('/blockchain/ajax/', {'action':'getProjectStatus', 'pName': p}, function(data) {
-            if (data == 'ok')
-                call();
-        });
-    };
-    $(function() {
-        getProjectState('{{ project.name }}', function() {
-            $('.js-donate-cont').append('<input type="button" class="btn btn-success" value="Donate" />');
-        });
-    });
     window.heliardData = {
         project: {{ project.id }}
     };

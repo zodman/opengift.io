@@ -1,3 +1,4 @@
+# -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 
 from PManager.models.tasks import *
@@ -16,3 +17,4 @@ from PManager.models.tests import *
 from PManager.models.agreements import *
 from PManager.models.integration import *
 from PManager.models.scrum import *
+from PManager.models.faq import *

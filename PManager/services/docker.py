@@ -6,10 +6,15 @@ import json
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
-def blockchain_donate_request(username, project, qty):
-    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'donate', 'arg1': project, 'arg2': qty})
+def blockchain_donate_request(username, project, qty, milestoneCode = None):
+    return 'ok'
+    args = {'user': username, 'fcn': 'donate', 'arg1': project.lower(), 'arg2': qty}
+    if milestoneCode:
+        args['arg3'] = milestoneCode
+
+    result = __blockchain_request_raw('/blockchain/write', args)
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to token move ' + username
+        return 'Fatal Error: Failed to token move ' + username + '('+result+')'
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
@@ -20,6 +25,17 @@ def blockchain_token_move_request(username, project, wallet, qty):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'move', 'arg1': project, 'arg2': wallet, 'arg3': qty})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to token move ' + username
+
+    # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
+    # result = json.loads(result)
+
+    return 'ok'
+
+def blockchain_goal_confirmation_request(username, project, goal):
+    return 'ok'
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal})
+    if result.find('success') == -1:
+        return 'Fatal Error: Failed to confirm the goal ' + goal
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
@@ -59,7 +75,7 @@ def blockchain_project_getbalance_request(username, pName):
 def blockchain_user_getbalance_request(username, wallet):
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'query', 'arg1': wallet})
     if result.find('Error') > -1:
-        return 'Fatal Error: Failed to get balance ' + username
+        return 'Fatal Error: Failed to get balance ' + username + ' - ' + result
 
     result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
@@ -74,11 +90,12 @@ def blockchain_project_status_request(username, pname):
     return 'ok'
 
 def blockchain_user_getkey_request(username):
+    import re
     result = __blockchain_request_raw('/blockchain/read', {'user': username, 'fcn': 'getKey'})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to get key user ' + username
-
-    result = result.replace('success', '')
+    regex = re.compile('[^a-zA-Z0-9]')
+    result = regex.sub('', result.replace('success', ''))
 
     return result
 

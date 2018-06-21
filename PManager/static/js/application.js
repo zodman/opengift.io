@@ -6,12 +6,12 @@
 
   $(function(){
 
-    var $window = $(window)
+    var $window = $(window);
 
     // Disable certain links in docs
-    $('section [href^=#]').click(function (e) {
-      e.preventDefault()
-    })
+    $('section [href^=#]').not('.js-anchor').click(function (e) {
+      e.preventDefault();
+    });
 
     // side bar
     setTimeout(function () {

@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles
+from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles, PM_Project_Donation
 import datetime, json
 from PManager.viewsExt.tools import TextFilters, taskExtensions
 from PManager.widgets.tasklist.widget import widget as taskList
@@ -8,6 +8,7 @@ from PManager.viewsExt.tasks import TaskWidgetManager
 from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
 from django.http import Http404
+from django.contrib.auth.models import User
 from PManager.services.similar_tasks import similar_solutions
 
 from PManager.services.mind.task_mind_core import TaskMind
@@ -16,7 +17,11 @@ from PManager.viewsExt.tools import redisSendTaskUpdate
 def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
     cur_user = request.user
-    prof = request.user.get_profile()
+
+    prof = None
+    if cur_user.is_authenticated():
+        prof = request.user.get_profile()
+
     task = None
     if 'id' in request.GET or 'number' in request.GET:
         try:
@@ -35,7 +40,7 @@ def widget(request, headerValues, arFilter, q):
         if not task:
             raise Http404(u'Задача удалена')
 
-        if not cur_user.get_profile().hasAccess(task, 'view'):
+        if not task.onPlanning and not cur_user.get_profile().hasAccess(task, 'view'):
             raise Http404(u'Нет прав для просмотра задачи')
 
         error = ''
@@ -92,8 +97,6 @@ def widget(request, headerValues, arFilter, q):
                             message.requested_time_approved = True
                             message.requested_time_approve_date = datetime.datetime.now()
                             message.requested_time_approved_by = request.user
-                            message.task.planTime += int(message.requested_time or 0)
-                            message.task.save()
                             message.save()
 
                 return {'redirect': task.url}
@@ -102,17 +105,26 @@ def widget(request, headerValues, arFilter, q):
             except PM_User_PlanTime.DoesNotExist:
                 pass
 
+
+        winner = task.getWinner()
+
         setattr(task, 'text_formatted', TextFilters.getFormattedText(task.text) if task.text else '')
         # setattr(task, 'responsibleList', task.responsible.all())
         setattr(task, 'observersList', task.observers.all())
-        setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
-        setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
-        setattr(task, 'canSetCritically', task.canEdit(cur_user))
-        setattr(task, 'canEdit', task.canEdit(cur_user))
-        setattr(task, 'canRemove', task.canPMUserRemove(prof))
-        setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
-        setattr(task, 'canClose', task.canApprove)
+        setattr(task, 'currentWinner', winner)
         setattr(task, 'taskPlanTime', task.planTime)
+
+        if cur_user.is_authenticated():
+            setattr(task, 'canSetOnPlanning', task.onPlanning or task.canEdit(cur_user))
+            setattr(task, 'canSetPlanTime', task.canPMUserSetPlanTime(prof))
+            setattr(task, 'canObserve', cur_user.is_authenticated())
+            setattr(task, 'canSetCritically', task.canEdit(cur_user))
+            setattr(task, 'canSetReady', prof.hasRole(task.project))
+            setattr(task, 'canEdit', task.canEdit(cur_user))
+            setattr(task, 'canRemove', task.canPMUserRemove(prof))
+            setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
+            setattr(task, 'canClose', task.canApprove)
+
 
         setattr(task, 'taskResp', [{'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}])
 
@@ -121,8 +133,9 @@ def widget(request, headerValues, arFilter, q):
 
         if task:
             #set task readed
-            if not request.user.id in [u.id for u in task.viewedUsers.all()]:
-                task.viewedUsers.add(request.user)
+            if cur_user.is_authenticated():
+                if not cur_user.id in [u.id for u in task.viewedUsers.all()]:
+                    task.viewedUsers.add(cur_user)
 
             hiddenSubTasksExist = False
             arFilter = {
@@ -135,26 +148,36 @@ def widget(request, headerValues, arFilter, q):
                     hiddenSubTasksExist = True
                     break
 
-        users = widgetManager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        # users = widgetManager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
+        users = User.objects.order_by('last_name').filter(
+            pk__in=PM_Task_Message.objects.filter(task=task).values('author__id')
+        )
+
         dict = task.__dict__
 
         for field, val in dict.iteritems():
             if isinstance(val, datetime.datetime):
                 setattr(task, field, val.strftime('%d.%m.%Y %H:%M'))
 
-        messages = task.messages.order_by('-dateCreate').exclude(code="WARNING")
-        # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
-        if not request.user.is_superuser:
-            if prof.isEmployee(task.project) or prof.isManager(task.project):
-                messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
-            else:
-                messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
 
-        if not prof.isManager(task.project):
-            if prof.isClient(task.project):
-                messages = messages.filter(hidden_from_clients=False)
-            if prof.isEmployee(task.project):
-                messages = messages.filter(hidden_from_employee=False)
+        messages = task.messages.order_by('-dateCreate').exclude(code="WARNING")
+
+        if not cur_user.is_authenticated():
+            messages = messages.filter(isSystemLog=True)
+        else:
+            # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
+            if not request.user.is_superuser:
+                if prof.isEmployee(task.project) or prof.isManager(task.project) or True:
+                    messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
+                else:
+                    messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
+
+
+            if not prof.isManager(task.project):
+                if prof.isClient(task.project):
+                    messages = messages.filter(hidden_from_clients=False)
+                if prof.isEmployee(task.project):
+                    messages = messages.filter(hidden_from_employee=False)
 
         lamp, iMesCount = 'no-asked', messages.count()
 
@@ -165,10 +188,6 @@ def widget(request, headerValues, arFilter, q):
         arTodo = []
         arBugs = []
         for mes in messages:
-            if mes.userTo and mes.userTo.id == request.user.id:
-                mes.read = True
-                mes.save()
-
             if mes.todo:
                 arTodo.append({
                     'id': mes.id,
@@ -184,16 +203,23 @@ def widget(request, headerValues, arFilter, q):
                 })
 
             ob = {
-                'canEdit': mes.canEdit(request.user),
-                'canDelete': mes.canDelete(request.user),
                 'init': True
             }
-            if cur_user.get_profile().isManager(task.project):
-                ob.update({
-                    'hidden_from_clients': mes.hidden_from_clients,
-                    'hidden_from_employee': mes.hidden_from_employee
-                })
-            setattr(mes, 'json', json.dumps(mes.getJson(ob, request.user)))
+            if cur_user.is_authenticated():
+                ob['canEdit'] = mes.canEdit(cur_user)
+                ob['canDelete'] = mes.canDelete(cur_user)
+
+                if mes.userTo and mes.userTo.id == cur_user.id:
+                    mes.read = True
+                    mes.save()
+
+                if cur_user.get_profile().isManager(task.project):
+                    ob.update({
+                        'hidden_from_clients': mes.hidden_from_clients,
+                        'hidden_from_employee': mes.hidden_from_employee
+                    })
+
+            setattr(mes, 'json', json.dumps(mes.getJson(ob, cur_user if cur_user.is_authenticated() else None)))
 
         try:
             startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
@@ -204,19 +230,52 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'bug', arBugs)
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.get_task_template()
+        backers = User.objects.filter(pk__in=PM_Project_Donation.objects.filter(task=task).values_list('user__id', flat=True))
+
+        aBackers = []
+        from tracker.settings import GIFT_USD_RATE
+        arDonateSum = 0
+        arDonateQty = 0
+        for backer in backers:
+            setattr(backer, 'donated', backer.get_profile().get_donation_sum(taskId=task.id) * GIFT_USD_RATE)
+            arDonateSum += backer.donated
+            arDonateQty += 1
+            aBackers.append(backer)
+
+        askers = []
+        maxRequested = 100
+        for m in task.messages.filter(requested_time_approved=True):
+            if maxRequested < m.requested_time:
+                maxRequested = m.requested_time
+            askers.append({
+                'user': m.author,
+                'ask': m.requested_time
+            })
+
+
+
+        if maxRequested:
+            maxRequested += maxRequested * 0.1
+
+        for asker in askers:
+            asker['percent'] = asker['ask'] * 100 / maxRequested
 
         # brain = TaskMind()
         return {
             'title': task.name,
             'task': task,
+            'donatedPercent': task.donated * 100 / maxRequested,
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
             'project': task.project,
-            'is_employee': cur_user.get_profile().isEmployee(task.project),
-            'is_manager': cur_user.get_profile().isManager(task.project),
-            'user_roles': cur_user.get_profile().getRoles(task.project),
+            'is_employee': cur_user.get_profile().isEmployee(task.project) if cur_user.is_authenticated() else False,
+            'is_manager': cur_user.get_profile().isManager(task.project) if cur_user.is_authenticated() else False,
+            'user_roles': cur_user.get_profile().getRoles(task.project) if cur_user.is_authenticated() else False,
             'files': files,
             'time': allTime,
+            'avgDonate': (arDonateSum * 1.0 / (arDonateQty or 1)) if arDonateSum else 5,
+            'backers': aBackers,
+            'askers': askers,
             'subtasks': subtasks,
             'taskTemplate': taskTemplate,
             'users': users,

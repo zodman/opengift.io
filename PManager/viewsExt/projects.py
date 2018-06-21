@@ -3,9 +3,10 @@ __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.http import Http404
+from django.db.models import Q
 from django.template import loader, RequestContext
-from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags
-from PManager.models import LikesHits, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
+from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags, PM_Timer
+from PManager.models import LikesHits, PM_Project_Problem, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, PM_Project_Industry
 from django import forms
 from django.utils import timezone
@@ -18,6 +19,8 @@ from PManager.classes.git.gitolite_manager import GitoliteManager
 import json, math, random
 from django.core.context_processors import csrf
 from django.db.models import Sum
+from PManager.viewsExt.tools import templateTools
+from tracker.settings import GIFT_USD_RATE
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -29,7 +32,7 @@ class InterfaceForm(forms.ModelForm):
 class ProjectForm(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "author", "tracker"]
+        fields = ["name", "description", "author", "tracker"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -41,7 +44,9 @@ class ProjectForm(forms.ModelForm):
 class ProjectFormEdit(forms.ModelForm):
     class Meta:
         model = PM_Project
-        fields = ["name", "description", "files", "specialties", "target_group", "problem", "link_site", "link_github", "link_demo"]
+        fields = ["name", "share_link_enabled", "description", "integration_price", "commercial_analogs",
+                  "public", "files", "industries", "target_group", "problem", "link_site",
+                  "link_github", "link_video", "link_demo"]
         if USE_GIT_MODULE:
             fields.append("repository")
 
@@ -70,38 +75,61 @@ def getIndustriesTree():
 
     return aSpecialties
 
-def projectList(request):
+def projectList(request, **kwargs):
     aSpec = getIndustriesTree()
 
-    def recursiveTreeDraw(treeItem):
+
+    def recursiveTreeDraw(treeItem, depth=1):
         s = ''
         if 'item' in treeItem:
-            s += '{value:25, label: "'
-            s += treeItem['item'].name
-            s += '", subitems: ['
+            s += '<option value="'
+            s += str(treeItem['item'].id)
+            s += '">'
+            i = 0
+            while i < depth:
+                i += 1
+                s += '.'
+
+            s += treeItem['item'].name + '</option>'
 
         if treeItem['subitems']:
             for item in treeItem['subitems']:
-                s += recursiveTreeDraw(item)
-
-        if 'item' in treeItem:
-            s += ']},'
+                s += recursiveTreeDraw(item, depth+1)
 
         return s
 
     c = RequestContext(request, {
         'specialties': aSpec,
         'spectree': recursiveTreeDraw({'subitems': aSpec.values()}),
-        'projects': PM_Project.objects.filter(specialties__isnull=False)
+        'project_list': PM_Project.objects.filter(public=True).order_by('-id')
     })
-
+    c.update(kwargs)
     t = loader.get_template('details/project_list.html')
     return HttpResponse(t.render(c))
 
 def projectDetailDonate(request, project_id):
+
     project = get_object_or_404(PM_Project, id=project_id)
+    milestoneId = request.GET.get('m', None)
+    taskId = request.GET.get('t', None)
+    milestone = None
+    task = None
+    if milestoneId:
+        try:
+            milestone = project.milestones.get(pk=int(milestoneId))
+        except PM_Milestone.DoesNotExist:
+            pass
+
+    if taskId:
+        try:
+            task = project.projectTasks.get(pk=int(taskId))
+        except PM_Task.DoesNotExist:
+            pass
+
     c = RequestContext(request, {
-        'project': project
+        'project': project,
+        'milestone': milestone,
+        'task': task
     })
 
     t = loader.get_template('details/project_donate.html')
@@ -109,6 +137,8 @@ def projectDetailDonate(request, project_id):
 
 def projectDetailEdit(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
+    if not request.user.is_authenticated() or not request.user.get_profile().isManager(project):
+        return HttpResponseRedirect('/login/')
 
     if request.method == 'POST':
         p_form = ProjectFormEdit(
@@ -131,13 +161,94 @@ def projectDetailEdit(request, project_id):
                 f.save()
                 project.files.add(f)
 
+            for m in project.milestones.filter(closed=False):
+                name = request.POST.get('milestone_'+str(m.id)+'_name', None)
+                if name:
+                    m.name = name
+                    m.date = templateTools.dateTime.convertToDateTime(request.POST.get('milestone_'+str(m.id)+'_date', ''))
+                    m.description = request.POST.get('milestone_'+str(m.id)+'_desc', '')
+                    m.closed = request.POST.get('milestone_'+str(m.id)+'_closed', False)
+
+                    try:
+                        m.min_donate=float(request.POST.get('milestone_'+str(m.id)+'_min_donate', 0))
+                        m.conditioned_time=int(request.POST.get('milestone_'+str(m.id)+'_conditioned_time', 0))
+                    except ValueError:
+                        pass
+
+                    m.save()
+                else:
+                    m.delete()
+
+            new_milestones = request.POST.getlist('milestone_new_name')
+            new_milestones_date = request.POST.getlist('milestone_new_date')
+            new_milestones_desc = request.POST.getlist('milestone_new_desc')
+            new_milestones_min_donate = request.POST.getlist('milestone_new_min_donate')
+            new_milestones_conditioned_time = request.POST.getlist('milestone_new_conditioned_time')
+            i = 0
+            for ms_name in new_milestones:
+                if ms_name:
+                    ms_date = templateTools.dateTime.convertToDateTime(new_milestones_date[i])
+                    ct = None
+                    md = None
+                    try:
+                        md = float(new_milestones_min_donate[i])
+                        ct = int(new_milestones_conditioned_time[i])
+                    except ValueError:
+                        pass
+
+                    ms = PM_Milestone(
+                        name=ms_name,
+                        description=new_milestones_desc[i],
+                        min_donate=md,
+                        conditioned_time=ct,
+                        date=ms_date,
+                        project=project,
+                        author=request.user
+                    )
+                    ms.save()
+                i += 1
+
+            for m in project.problems.all():
+                name = request.POST.get('problem_'+str(m.id)+'_problem', None)
+                if name:
+                    m.problem = name
+                    m.target_group = request.POST.get('problem_'+str(m.id)+'_target_group', '')
+                    m.solution = request.POST.get('problem_'+str(m.id)+'_solution', '')
+                    m.save()
+                else:
+                    project.problems.remove(m)
+
+            new_problems = request.POST.getlist('problem_new_problem')
+            new_problems_target_group = request.POST.getlist('problem_new_target_group')
+            new_problems_solution = request.POST.getlist('problem_new_solution')
+            i = 0
+            for ms_name in new_problems:
+                if ms_name:
+                    try:
+                        ms = PM_Project_Problem.objects.get(
+                            problem=ms_name,
+                            target_group=new_problems_target_group[i],
+                        )
+                    except PM_Project_Problem.DoesNotExist:
+                        ms = PM_Project_Problem(
+                            problem=ms_name,
+                            target_group=new_problems_target_group[i],
+                            solution=new_problems_solution[i]
+                        )
+
+                    ms.save()
+                    project.problems.add(ms)
+
+                i += 1
+
+
             return HttpResponse('ok')
         else:
             return HttpResponse(p_form.errors)
 
     aSpecialties = getIndustriesTree()
 
-    sprojectSpec = project.specialties.values_list('id', flat=True)
+    sprojectSpec = project.industries.values_list('id', flat=True)
 
     def recursiveTreeDraw(treeItem):
         s = ''
@@ -146,7 +257,7 @@ def projectDetailEdit(request, project_id):
             s += '<li class="js-section-item project-form--specialties-container-ul-li">'
             s += '<div class="progress-item">'
             s += '<label class="custom-control custom-checkbox text-left"><input '+(
-                'checked ' if treeItem['item'].id in sprojectSpec else '')+' type="checkbox" name="specialties" value="' + str(
+                'checked ' if treeItem['item'].id in sprojectSpec else '')+' type="checkbox" name="industries" value="' + str(
                 treeItem['item'].id) + '" class="custom-control-input"><span class="custom-control-indicator mt-1"></span>'
             s += '<span class="custom-control-description">'+treeItem['item'].name+'</span>'
             s += '</label>'
@@ -171,7 +282,7 @@ def projectDetailEdit(request, project_id):
                 s += '<div class="progress-item">'
                 s += '<div class="row">'
                 s += '<div class="col-md-6 u-mb-30">'
-                s += u'<input type="text" class="input-sm" placeholder="Add another problem" />'
+                s += u'<input type="text" class="input-sm js-category-name" placeholder="Add your option..." />'
                 s += '</div>'
                 s += '<div class="col-md-6 u-mb-30">'
                 s += u'<button data-id="'+str(curId)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Add</button>'
@@ -187,6 +298,7 @@ def projectDetailEdit(request, project_id):
         return s
 
     c = RequestContext(request, {
+        'milestones': project.milestones.filter(closed=False, donated=False).order_by('date'),
         'project': project,
         'e': sprojectSpec,
         'industries': aSpecialties,
@@ -220,6 +332,40 @@ def projectDetailAjax(request, project_id):
             likeObject = LikesHits(milestone=milestone)
             likeObject.save(request=request)
 
+    elif action == 'addProblem':
+        name = request.POST.get('name', '')
+        parent = int(request.POST.get('parent', 0))
+        if not name:
+            return HttpResponse('Insert name')
+
+        try:
+            industry = PM_Project_Industry.objects.get(name=name)
+            return HttpResponse('Industry already exists')
+        except PM_Project_Industry.DoesNotExist:
+            try:
+                parent = PM_Project_Industry.objects.get(pk=parent)
+                industry = PM_Project_Industry(name=name, parent=parent)
+                industry.save()
+                return HttpResponse(industry.id)
+            except PM_Project_Industry.DoesNotExist:
+                return HttpResponse('Empty parent')
+
+    elif action == 'milestones':
+        milestones = PM_Milestone.objects.filter(project=project, closed=False).order_by('date')
+        a = []
+        for milestone in milestones:
+            a.append({
+                'id': milestone.id,
+                'name': milestone.name.replace('script', 'sc ript'),
+                'description': milestone.description.replace('script', 'sc ript'),
+                'date': milestone.date.strftime('%d.%m.%Y') if milestone.date else '',
+                'likesQty': milestone.likesHits.count(),
+                'donationsQty': milestone.donations.count(),
+                'percent': milestone.percent()
+            })
+
+        return HttpResponse(json.dumps(a))
+
     return HttpResponse('ok')
 
 def projectDetailAdd(request):
@@ -239,6 +385,9 @@ def projectDetailAdd(request):
         if not request.user.is_authenticated():
             raise Http404
 
+        if request.user.createdProjects.exists():
+            raise Http404
+
         post.update({'author': request.user.id})
         post.update({'tracker': 1})
 
@@ -256,6 +405,7 @@ def projectDetailAdd(request):
                 f.save()
                 instance.files.add(f)
 
+            instance.public = True
             instance.save()
 
             request.user.get_profile().setRole('manager', instance)
@@ -282,6 +432,32 @@ def projectDetailPublic(request, project_id):
         canDeleteProject = request.user.is_superuser or request.user.id == project.author.id
         canEditProject = request.user.is_superuser or request.user.id == project.author.id
         bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
+
+    if request.POST.get('invest_offer', None):
+        from PManager.viewsExt.tools import emailMessage
+        data = {
+            'name': request.POST.get('name'),
+            'email': request.POST.get('email'),
+            'tokens': request.POST.get('tokens'),
+            'offer': request.POST.get('offer'),
+            'project': project.name,
+        }
+        users = PM_Project.objects.get(pk=project_id).getUsers()
+        sendMes = emailMessage(
+            'new_investment_request', data, 'New investment request')
+
+        for u in users:
+            try:
+                sendMes.send([u.email])
+            except Exception:
+                print 'Message is not sent'
+
+        try:
+            sendMes.send(['gvamm3r@gmail.com'])
+        except Exception:
+            print 'Message is not sent'
+
+        return HttpResponseRedirect(request.get_full_path())
 
     projectSettings = project.getSettings()
     daysBeforeNowForStartFilt = 7
@@ -316,6 +492,15 @@ def projectDetailPublic(request, project_id):
     statistic = stat_widget(request, {'getAllCharts': 1, 'CURRENT_PROJECT': project}, None, None)
 
     team = []
+    bounty = []
+    sponsors = []
+
+    teamWallets = []
+
+    if project.blockchain_state:
+        state = json.loads(project.blockchain_state)
+        userShares = state['Users']
+        teamWallets = userShares.keys()
 
     for user in project.getUsers():
         taskTagCoefficient = 0
@@ -327,38 +512,89 @@ def projectDetailPublic(request, project_id):
             break
 
         setattr(user, 'rating', taskTagCoefficient)
-        team.append(user)
+        if user.get_profile().isGuest(project):
+            bounty.append(user)
+        elif user.get_profile().isManager(project):
+            if user.get_profile().blockchain_wallet in teamWallets:
+                team.append(user)
+            else:
+                bounty.append(user)
 
-    ms = PM_Milestone.objects.filter(project=project).order_by('date')
+    sponsorReq = User.objects.filter(pk__in=project.donations.values_list('user__id', flat=True))
+    for sponsor in sponsorReq:
+        setattr(sponsor, 'donated', sum([x.sum for x in project.donations.filter(user=sponsor)]))
+        sponsors.append(sponsor)
+
+    ms = PM_Milestone.objects.filter(project=project, is_request=False).order_by('date')
     ams = []
     for m in ms:
         setattr(m, 'liked', m.userLiked(request))
+        setattr(m, 'canConfirm', m.canConfirm(request.user))
+
         ams.append(m)
 
-    raters_count = RatingHits.objects.filter(project=project).count()
+    # timers = PM_Timer.objects.raw(
+    #         'SELECT SUM(`seconds`) as summ, id from PManager_pm_timer' +
+    #         ' WHERE `task_id` IN (select id from PManager_pm_task where closed=1 and project_id=' + str(project.id) + ')'
+    #     )
+    time = 0
+    # for t in timers:
+    #     if t.summ:
+    #         time += float(t.summ)
+
+    time /= 3600
+    time = round(time)
+
+    aIndustries = [p for p in project.industries.filter(active=True)]
+    project.link_video = project.link_video.replace("watch?v=", "embed/")
+
+    reward = 0
+    for d in project.donations.filter(task__onPlanning=True, task__closed=False):
+        reward += d.sum
+
+    donated = 0
+    for d in project.donations.filter(Q(Q(task__onPlanning=False) | Q(task__closed=True) | Q(task__isnull=True))):
+        donated += d.sum
+
     c = RequestContext(request, {
         'chart': {
             'xAxe': xAxe,
             'yAxes': yAxes,
         },
         'statistic': statistic,
+        'tagList': aIndustries,
+        'donationsCount': project.donations.count(),
         'project': project,
         'milestones': ams,
         'team': team,
+        'bounty': bounty,
+        'sponsors': sponsors,
+        'tasks_done': project.projectTasks.filter(closed=True).count(),
+        'tasks_open': project.projectTasks.filter(closed=False).count(),
+        'bounty_reward': reward,
+        'donated': donated * GIFT_USD_RATE,
+        'hours_spent': time,
         'canDelete': canDeleteProject,
         'canEdit': canEditProject,
         'bCurUserIsAuthor': bCurUserIsAuthor,
         'settings': projectSettings,
-        'long_industries_list': project.industries.count() > 3,
-        'raters_count': raters_count,
+        'long_industries_list': len(aIndustries) > 3,
+        'raters_count': project.votersQty,
         'user_voted': RatingHits.userVoted(project, request),
-        'rating': (RatingHits.objects.filter(
-                project=project
-            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (raters_count or 1)
+        'rating': project.rating
     })
+    if request.GET.get('frame'):
+        t = loader.get_template('details/project_widget.html')
+    else:
+        t = loader.get_template('details/project_pub.html')
 
-    t = loader.get_template('details/project_pub.html')
-    return HttpResponse(t.render(c))
+    response = HttpResponse(t.render(c))
+
+    from PManager.viewsExt.tools import set_cookie
+    if request.GET.get('ref'):
+        set_cookie(response, 'ref', request.GET.get('ref'))
+
+    return response
 
 
 def projectDetailServer(request, project_id):

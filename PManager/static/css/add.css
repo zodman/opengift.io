@@ -80,7 +80,7 @@ div.preview_img_form .edit {
     position: absolute;
     right: 57px;
     top: 13px;
-    color:#47a447;
+    color:#FFFFFF;
     width: 35px;
     text-shadow: 0px 0px 0px #fff;
     -moz-text-shadow: 0px 0px 0px #fff;
@@ -92,16 +92,13 @@ div.preview_img_form .edit:active {
     background: #f9f9f9;
 }
 div.preview_img_form .close {
-    line-height: 22px;
     padding: 5px 8px;
     position: absolute;
     right: 15px;
     top: 13px;
-    color:#fff;
-    width: 35px;
-    text-shadow: 0px 0px 0px #fff;
-    -moz-text-shadow: 0px 0px 0px #fff;
-    -webkit-text-shadow: 0px 0px 0px #fff;
+    color:#FFFFFF;
+}
+div.preview_img_form .close:hover {
 }
 div.preview_img_form .btn-mini [class^="icon-"],
 div.preview_img_form .btn-mini [class*=" icon-"] {margin:0px;}
@@ -203,7 +200,8 @@ a {
 
 .task-wrapper.task-group-project {
     color: #000000;
-    /*text-align: left;*/
+    text-align: left;
+    font-size: 14px;
 }
 
 rect.selected {
