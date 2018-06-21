@@ -7,8 +7,7 @@ from PManager.services.docker import blockchain_pay_request
 from django.shortcuts import HttpResponse
 from django.contrib.auth.models import User
 from tracker.settings import GIFT_USD_RATE
-
-CRYPTO_HOST = '188.166.237.19'
+from tracker.settings import CRYPTO_HOST
 
 
 def get_rate():
