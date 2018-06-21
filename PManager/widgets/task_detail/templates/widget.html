@@ -123,10 +123,6 @@
           </div>
         {% endfor %}
       </div>
-    <div class="progress progress-price progress-xs user-progress hidden-768-up" style="margin-top: 0;">
-        <span class="progress-bar progress-bar-info" style="width: {{ task_detail.donatedPercent|floatformat:"f" }}%;">
-        </span>
-    </div>
     {% endif %}
     <div class="grey-600">
           <!--users-->
@@ -382,6 +378,7 @@
           </style>
           {% if task_detail.askers %}
           <!--prices-->
+              <h3 class="hidden-768-down">Developers</h3>
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
             {% for asker in task_detail.askers %}
             <div class="bakers-avatar {% if asker.percent < task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">

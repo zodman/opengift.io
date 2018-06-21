@@ -16,7 +16,7 @@ from tracker import settings
 # http://stackoverflow.com/questions/4399617/python-os-getlogin-problem
 
 import pwd
-os.getlogin = lambda: 'heliard'
+os.getlogin = lambda: 'opengift'
 
 __all__ = ['os', 'FileSystemStorage', 'ContentFile', 'ConfigWriter']
 
