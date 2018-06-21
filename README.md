@@ -24,20 +24,20 @@ This README would normally document whatever steps are necessary to get your app
    Например:
 
         cd /home/user/Projects
-        git clone git@bitbucket.org:Gvammer/heliard.git heliard
+        git clone git@github.com:opengift-io/opengift.io.git opengift
 
 5. Перейдите в папку с проектом и запустите виртуальную машину (В первый раз должен будет скачаться образ.
 
         vagrant up
 
-6. Для работы нужно указать что heliard.dev является именем ресурса 192.168.33.13.
+6. Для работы нужно указать что opengift.dev является именем ресурса 192.168.33.13.
     Проще всего сделать это в файле hosts.
     
     **Linux**
     
     Добавьте строчку
 
-        192.168.33.13     heliard.dev
+        192.168.33.13     opengift.dev
 
     в файл /etc/hosts
 
@@ -50,10 +50,10 @@ This README would normally document whatever steps are necessary to get your app
 
     Добавьте строчку
 
-        192.168.33.13     heliard.dev
+        192.168.33.13     opengift.dev
 
 7. Когда виртуальная машина запустится выполните в bash терминале
 
         vagrant provision
 
-8. Откройте в браузере страницу [heliard.dev](http://heliard.dev)
+8. Откройте в браузере страницу [opengift.dev](http://opengift.dev)
