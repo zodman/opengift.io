@@ -15,6 +15,7 @@
                 <div class="checkbox-wrapper clearfix">
                     <label class="checkbox-wrapper-item">
                         <input type="checkbox" name="use_git" class="js-repository" {% if project.repository %}checked="checked" readonly disabled="disabled"{% endif %}>
+                        <input type="hidden" name="project_name" class="js-project-name" value="{{ project.name }}">
                         <span class="checkbox-wrapper-item-checkbox"></span>
                         Использовать GIT
                     </label>
