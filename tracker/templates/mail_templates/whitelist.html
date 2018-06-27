@@ -1,0 +1,33 @@
+{% extends 'mail_templates/default_template.html' %}
+{% load get_settings %}
+{% block subject %}Thanks for registering in the WhiteList!{% endblock %}
+
+{% block top_running_title %}
+    <strong>OpenGift Token CrowdSale</strong>
+{% endblock %}
+
+{% block title %}Thanks for registering in the WhiteList!{% endblock %}
+
+{% block content %}
+<p>Dear {{ first_name }} {{ last_name }},</p>
+
+<p>thanks for registering in the WhiteList!</p>
+
+<p>Please kindly answer the following questions:</p>
+<ul>
+    <li>what currency you'd like to buy the tokens with?</li>
+    <li>your cryptocurrency address which you'll use to buy tokens. Please let us know If you'd like to purchase GIFTs with fiat - we'll give you the further information.</li>
+    <li>expected amount of purchase</li>
+</ul>
+
+<p>Glad to inform you that now you have an OpenGift wallet address. You can learn its number here - https://opengift.io/wallet/</p>
+
+<p>We'll send the tokens to this address once we get funds from your wallet.</p>
+
+<p>Some legal stuff which we would like you to be familiar with:</p>
+
+<p><a href="https://opengift.io/static/documents/tokensale-agreement.pdf">https://opengift.io/static/documents/tokensale-agreement.pdf</a></p>
+<p><a href="https://opengift.io/static/documents/ld.pdf">https://opengift.io/static/documents/ld.pdf</a></p>
+
+<p>By proceeding with the transaction you confirm that you have read and agree with these docs.</p>
+{% endblock %}

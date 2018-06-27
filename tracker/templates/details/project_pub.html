@@ -344,10 +344,118 @@
                 </div>
             </div> <!-- END container-->
     </section>
+<section class="bg-gray-v1">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Roadmap
+                    </h2>
+                    <p>You can prioritize any task with your donation or set a new one.</p>
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+        </div>
+        {% if milestones %}
+            <section id="cd-timeline" class="cd-container">
+                <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
+                <script>
+                    (function ($) {
+                        $(function () {
+                            $('.second.circle').each(function () {
+                                var t = this;
+                                (function (t) {
+                                    new Waypoint({
+                                        element: t,
+                                        offset: '95%',
+                                        handler: function (direction) {
+                                            if (!$(t).data('completed')) {
+                                                $(t).data('completed', true);
+                                                $(t).circleProgress({
+                                                    fill: {
+                                                        gradient: ['#fd5663', '#f08035']
+                                                    },
+                                                    lineCap: 'round',
+                                                    emptyFill: '#d7e4ed',
+                                                    value: parseInt($(t).data('value')) / 100
+                                                }).on('circle-animation-progress', function (event, progress) {
+                                                    $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
+                                                });
+                                            }
+                                        }
+                                    });
+                                })(t);
+                            });
+                        });
+                    })(jQuery);
+                </script>
+                <a name="milestones"></a>
+                {% for milestone in milestones %}
+                    <div class="cd-timeline-block">
+                        <div class="cd-timeline-img">
+                            <div class="second circle" data-size="68"
+                                 data-value="{{ milestone.percent|default_if_none:0 }}">
+                                <strong></strong>
+                            </div>
+                        </div> <!-- cd-timeline-img -->
 
+                        <div class="cd-timeline-content"
+                             {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
+                            <h2><a href="{{ milestone.url }}">{{ milestone.name }}</a> {% if milestone.donations.count %}&nbsp;
+                                <small>(${{ milestone.donated|floatformat:"2" }})</small>{% endif %}</h2>
+
+                            <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
+                            {% if milestone.conditioned_time and milestone.min_donate %}
+                                <p>
+
+                                    <small>This task should be completed within {{ milestone.conditioned_time }} day
+                                        after ${{ milestone.min_donate }} raised. Otherwise your donation will be
+                                        refunded.
+                                    </small>
+                                </p>
+                            {% endif %}
+                            <span class="cd-date">{{ milestone.dateCreate|date:"d.m.Y" }}</span>
+
+
+                            <div class="like-buttons">
+                                {% if project.blockchain_name %}
+                                    <a href="/project/{{ project.id }}/donate/?t={{ milestone.id }}"
+                                       class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4"
+                                       onclick="(typeof yaCounter47053188 != 'undefined') && yaCounter47053188.reachGoal('donation_try');"
+                                       style="margin: auto;">
+                                        Donate
+                                    </a>
+                                {% endif %}
+                                <span data-id="{{ milestone.id }}"
+                                        {% if not request.user.is_authenticated or not request.user.get_profile.is_donator %}
+                                      data-lowlevel="1"
+                                        {% endif %}
+                                      class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
+                                      style="margin: auto;">
+                                    <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
+                                                                           class="js-milestone-likes-count">0</span>
+                                </span>
+                            </div>
+                        </div> <!-- cd-timeline-content -->
+                    </div> <!-- cd-timeline-block -->
+                {% endfor %}
+            </section> <!-- cd-timeline -->
+        {% else %}
+            <div class="container text-center">
+                <h3>This project doesn't have any goals :(</h3>
+            </div>
+        {% endif %}
+        <div align="center">
+            <h1 class="text-green blue-gradient-title"><span class="icon icon-Starship"></span></h1>
+            <a href="#" data-toggle="modal" data-target="#add-milestone" class="btn btn-lg btn-rounded green-gr">
+                &nbsp;&nbsp;&nbsp;&nbsp;Create task&nbsp;&nbsp;&nbsp;&nbsp;
+            </a>
+        </div>
+
+    </section>
 <section class="u-pt-0 u-pb-30 bg-gray-v1">
     <div class="container">
-        <h2 class="h1 u-mt-50 text-center"><a href="/project/{{ project.id }}/tasks/">Tasks</a></h2>
+        <h2 class="h1 u-mt-50 text-center">Donations</h2>
 
 
         <div class="row text-center u-my-50">
@@ -359,7 +467,7 @@
                     <img class="u-w-70 u-mb-25" src="/static/img/list.svg" alt="">
                     <h4 class="mb-0 u-fs-36 u-fw-400 text-white">{{ tasks_done }} / {{ tasks_open }}</h4>
 
-                    <p class="u-fs-20 text-white">Done / Open</p>
+                    <p class="u-fs-20 text-white">Task done / Open</p>
                 </div>
             </div> <!-- END col-lg-3 col-md-6-->
 
@@ -453,11 +561,11 @@
                                     {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
                                         {% if not forloop.last %}, {% endif %}{% endfor %}
                                     <div style="display: none;width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;"
-                                         class="bg-primary text-white text-center rounded user-share js-share" sty><span
+                                         class="bg-primary text-white text-center rounded user-share js-share" ><span
                                             class="js-share-percent"></span>%
                                     </div>
-
                                 </div>
+
                                 <ul class="list-inline social social-rounded social-default social-sm mt-4">
                                     {% if user.get_profile.skype %}
                                         <li class="list-inline-item">
@@ -764,124 +872,7 @@
         });
     </script>
 
-    <section class="bg-gray-v1">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 text-center">
-                    <h2 class="h1">
-                        Roadmap
-                    </h2>
-                    <p>You can prioritize any task with your donation or set a new one.</p>
-                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-                </div> <!-- END col-12-->
-            </div> <!-- END row-->
-        </div>
-        {% if milestones %}
-            <section id="cd-timeline" class="cd-container">
-                <script src="https://rawgit.com/kottenator/jquery-circle-progress/1.2.2/dist/circle-progress.js"></script>
-                <script>
-                    (function ($) {
-                        $(function () {
-                            $('.second.circle').each(function () {
-                                var t = this;
-                                (function (t) {
-                                    new Waypoint({
-                                        element: t,
-                                        offset: '95%',
-                                        handler: function (direction) {
-                                            if (!$(t).data('completed')) {
-                                                $(t).data('completed', true);
-                                                $(t).circleProgress({
-                                                    fill: {
-                                                        gradient: ['#fd5663', '#f08035']
-                                                    },
-                                                    lineCap: 'round',
-                                                    emptyFill: '#d7e4ed',
-                                                    value: parseInt($(t).data('value')) / 100
-                                                }).on('circle-animation-progress', function (event, progress) {
-                                                    $(this).find('strong').html(Math.round(parseInt($(t).data('value')) * progress) + '<i>%</i>');
-                                                });
-                                            }
-                                        }
-                                    });
-                                })(t);
-                            });
-                        });
-                    })(jQuery);
-                </script>
-                <a name="milestones"></a>
-                {% for milestone in milestones %}
-                    <div class="cd-timeline-block">
-                        <div class="cd-timeline-img">
-                            <div class="second circle" data-size="68"
-                                 data-value="{{ milestone.percent|default_if_none:0 }}">
-                                <strong></strong>
-                            </div>
-                        </div> <!-- cd-timeline-img -->
 
-                        <div class="cd-timeline-content"
-                             {% if milestone.percent == 100 %}style="opacity:.4;" {% endif %}>
-                            <h2>{{ milestone.name }} {% if milestone.donations.count %}&nbsp;
-                                <small>(${{ milestone.get_donation_sum|floatformat:"2" }})</small>{% endif %}</h2>
-
-                            <p>{{ milestone.description|default_if_none:''|truncatewords:"70" }}</p>
-                            {% if milestone.conditioned_time and milestone.min_donate %}
-                                <p>
-                                    <small>This task should be completed within {{ milestone.conditioned_time }} day
-                                        after ${{ milestone.min_donate }} raised. Otherwise your donation will be
-                                        refunded.
-                                    </small>
-                                </p>
-                            {% endif %}
-                            <span class="cd-date">{{ milestone.date|date:"d.m.Y" }}</span>
-
-
-                            <div class="like-buttons">
-                                {% if project.blockchain_name %}
-                                    {% if milestone.closed and milestone.canConfirm %}
-                                        <a href="#"
-                                           data-id="{{ milestone.id }}"
-                                           class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4 js-confirm-donation"
-                                           style="margin: auto;">
-                                            <i class="fa fa-heart mr-1"></i> &nbsp;
-                                            Confirm goal achievement
-                                        </a>
-                                    {% else %}
-                                        <a href="/project/{{ project.id }}/donate/?m={{ milestone.id }}"
-                                           class="btn-outline-danger btn btn btn-sm btn-rounded btn-danger px-md-4"
-                                           onclick="(typeof yaCounter47053188 != 'undefined') && yaCounter47053188.reachGoal('donation_try');"
-                                           style="margin: auto;">
-                                            Donate
-                                        </a>
-                                    {% endif %}
-                                {% endif %}
-                                <span data-id="{{ milestone.id }}"
-                                        {% if not request.user.is_authenticated or not request.user.get_profile.is_donator %}
-                                      data-lowlevel="1"
-                                        {% endif %}
-                                      class="{% if milestone.liked %}disabled {% endif %}btn btn btn-sm btn-rounded btn-danger px-md-4 js-milestone-like"
-                                      style="margin: auto;">
-                                    <i class="fa fa-heart mr-1"></i> <span data-id="{{ milestone.id }}"
-                                                                           class="js-milestone-likes-count">{{ milestone.likesHits.count }}</span>
-                                </span>
-                            </div>
-                        </div> <!-- cd-timeline-content -->
-                    </div> <!-- cd-timeline-block -->
-                {% endfor %}
-            </section> <!-- cd-timeline -->
-        {% else %}
-            <div class="container text-center">
-                <h3>This project doesn't have any goals :(</h3>
-            </div>
-        {% endif %}
-        <div align="center">
-            <h1 class="text-green blue-gradient-title"><span class="icon icon-Starship"></span></h1>
-            <a href="#" data-toggle="modal" data-target="#add-milestone" class="btn btn-lg btn-rounded green-gr">
-                &nbsp;&nbsp;&nbsp;&nbsp;Create task&nbsp;&nbsp;&nbsp;&nbsp;
-            </a>
-        </div>
-
-    </section>
     {#    <section class="u-py-100" style="padding-bottom: 50px !important; padding-top: 50px !important;">#}
 
     {#        <div class="container">#}

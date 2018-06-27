@@ -269,7 +269,8 @@ class PM_Project(models.Model):
 
 class LikesHits(models.Model):
     ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
-    milestone = models.ForeignKey('PM_Milestone', related_name='likesHits')
+    milestone = models.ForeignKey('PM_Milestone', null=True, blank=True, related_name='likesHits')
+    task = models.ForeignKey('PM_Task', null=True, blank=True, related_name='likesHitsOfTask')
     datetime = models.DateTimeField(auto_now_add=True, blank=True)
 
     @staticmethod
@@ -285,6 +286,11 @@ class LikesHits(models.Model):
     def userLiked(milestone, request):
         ip = LikesHits.get_client_ip(request)
         return LikesHits.objects.filter(milestone=milestone, ip=ip).exists()
+
+    @staticmethod
+    def userLikedTask(task, request):
+        ip = LikesHits.get_client_ip(request)
+        return LikesHits.objects.filter(task=task, ip=ip).exists()
 
     def save(self, *args, **kwargs):
         if not 'request' in kwargs:
@@ -678,6 +684,13 @@ class PM_Task(models.Model):
         asked = round(asked / qty)
 
         return asked
+
+    @property
+    def percent(self):
+        return 100 if self.closed else 0
+
+    def userLiked(self, request):
+        return LikesHits.userLikedTask(self, request)
 
     def getWinner(self):
         winners = {}

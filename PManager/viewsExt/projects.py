@@ -525,11 +525,11 @@ def projectDetailPublic(request, project_id):
         setattr(sponsor, 'donated', sum([x.sum for x in project.donations.filter(user=sponsor)]))
         sponsors.append(sponsor)
 
-    ms = PM_Milestone.objects.filter(project=project, is_request=False).order_by('date')
+    ms = PM_Task.objects.filter(project=project, closed=False, onPlanning=True).order_by('-dateCreate')
     ams = []
     for m in ms:
-        setattr(m, 'liked', m.userLiked(request))
-        setattr(m, 'canConfirm', m.canConfirm(request.user))
+        # setattr(m, 'liked', m.userLiked(request))
+        # setattr(m, 'canConfirm', m.canConfirm(request.user))
 
         ams.append(m)
 
@@ -583,6 +583,7 @@ def projectDetailPublic(request, project_id):
         'user_voted': RatingHits.userVoted(project, request),
         'rating': project.rating
     })
+
     if request.GET.get('frame'):
         t = loader.get_template('details/project_widget.html')
     else:

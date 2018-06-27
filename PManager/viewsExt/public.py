@@ -81,4 +81,9 @@ class Public:
             'w': request.GET.get('w', '')
         })
 
-        return HttpResponse(loader.get_template('public/ico.html').render(c))
+        response = HttpResponse(loader.get_template('public/ico.html').render(c))
+        ref = request.GET.get('r', None)
+        if ref:
+            response.set_cookie('partner_id', ref)
+
+        return response
