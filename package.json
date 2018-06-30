@@ -1,7 +1,7 @@
 {
   "name": "heliard",
   "version": "1.0.0",
-  "description": "Node modules for heliard",
+  "description": "Node modules for OpenGift",
   "main": "gulpfile.js",
   "directories": {
     "test": "tests"

@@ -498,9 +498,13 @@ def projectDetailPublic(request, project_id):
     teamWallets = []
 
     if project.blockchain_state:
-        state = json.loads(project.blockchain_state)
-        userShares = state['Users']
-        teamWallets = userShares.keys()
+        try:
+            state = json.loads(project.blockchain_state)
+            userShares = state['Users']
+            teamWallets = userShares.keys()
+        except ValueError:
+            userShares = []
+            teamWallets = []
 
     for user in project.getUsers():
         taskTagCoefficient = 0
