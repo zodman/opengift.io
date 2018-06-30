@@ -1,0 +1,24 @@
+{% extends 'mail_templates/default_template.html' %}
+{% load get_settings %}
+{% block subject %}Just take our GIFTs!{% endblock %}
+
+{% block top_running_title %}
+    <strong>OpenGift Developers</strong>
+{% endblock %}
+
+{% block title %}Hi, {{ first_name }}!{% endblock %}
+
+{% block content %}
+<p>We haven’t been in touch for a while, but have great news!</p>
+
+<p>Our goal is to attract funding to your project. Obviously, a good project profile significantly increases chances of donations and purchasing of your project tokens. And yes, we know that filling out all types of forms is a dull sport, so we want to give you an incentive.</p>
+
+<p>From now on, you can receive GIFT tokens by adding new information to your profile. You’ll be able to exchange GIFT tokens for other currencies in the near future.</p>
+<p>The more meaningful information you add, the more tokens you get.</p>
+
+<p>Also, we’ll add 20$ worth of GIFTs for each task created by you from 27 of June till 4th of July! Create new tasks in your project, and we’ll make the first contribution!</p>
+
+<p>Do you like our idea? Share your project profile page in social networks and get 100$ GIFTs for it (you can send a link on your post here info@opengift.io)</p>
+
+<p>Let’s help open source conquer the world!</p>
+{% endblock %}

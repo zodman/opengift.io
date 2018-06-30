@@ -30,7 +30,7 @@ class emailMessage:
     templateName = ''
     context = None
     subject = ''
-    u_from = "Heliard <%s>" % settings.NO_REPLY_EMAIL
+    u_from = "OpenGift <%s>" % settings.NO_REPLY_EMAIL
 
     def __init__(self, templateName, context, subject, u_from='no-reply@opengift.io'):
         setattr(self, 'templateName', templateName)
