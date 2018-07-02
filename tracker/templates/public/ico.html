@@ -176,7 +176,7 @@
         <div class="container">
 
             <div class="row">
-                <div class="col-lg-8 u-mt-80 text-center">
+                <div class="col-lg-12 u-mt-80 text-center">
 
                     <p class="u-fs-18 text-white u-lh-1_8 u-mb-20">
                         Decentralized Cost-Cutter for Software Development
@@ -192,9 +192,12 @@
                         <a target="_blank" href="mailto:info@opengift.io" class="icon fa fa-envelope"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://medium.com/@opengift" class="icon fa fa-medium"></a>
                     </p>
-                    <h2 class="text-white ">GIFT Token Seed Crowdsale starts on 1st of July, 2018.
+                    <h2 class="text-white ">GIFT Token Seed Crowdsale is started!
 {#                        <br />Public PreSale starts 3 pm UTC on 19th of March#}
                     </h2>
+                    {% if request.user.is_authenticated %}
+                    <p class="text-white ">Smart Contract address: 0x5591f699b7b170b800faa435ccf21ed5f5d98772</p>
+                    {% endif %}
                     <div class="progress-item mb-5" style="position: relative;">
                         <h4 class="float-right text-white  u-mb-0  u-mt-20">1 351 200 out of 10 000 000 GIFT</h4>
                         <div class="clearfix"></div>
@@ -206,41 +209,23 @@
                         </div>
                     </div>
 
-{#                    <a href="/login/?backurl=/profile/edit/&wl=1" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">#}
-{#                        REGISTER TO WHITELIST#}
-{#                    </a>#}
-
-                </div> <!-- END col-lg-6-->
-                <div class="col-lg-4 u-mt-80" align="center">
-                    <h2 class="u-fw-600 text-white u-mb-40">20% bonus GIFT</h2>
-                    <h3 class="u-fw-600 text-white u-mb-40">The offer is active till 01.07</h3>
-                    <div class="clock u-mb-40"></div>
-
-                    <a href="/login/?wl=1&backurl=/wallet/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
-                        Buy GIFT
+                    {% if not request.user.is_authenticated %}
+                    <a href="/login/?wl=1&backurl=/ico/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
+                        REGISTER TO BUY GIFTS
                     </a>
-
-                    <script type="text/javascript">
-
-                        $(document).ready(function() {
-                            var clock;
-                            clock = $('.clock').FlipClock({
-                                clockFace: 'DailyCounter',
-                                autoStart: false,
-                                callbacks: {
-                                    stop: function() {
-                                        $('.message').html('The clock has stopped!')
-                                    }
-                                }
-                           });
-                            var date = new Date(2018, 6, 1);
-                            clock.setTime((date - new Date()) / 1000);
-                            clock.setCountdown(true);
-                            clock.start();
-
-                        });
-                    </script>
-                </div>
+                    {% endif %}
+                </div> <!-- END col-lg-6-->
+{#                <div class="col-lg-4 u-mt-80" align="center">#}
+{#                    <h2 class="u-fw-600 text-white u-mb-40">ERC20 GIFT BUYING</h2>#}
+{#                    <h3 class="u-fw-600 text-white u-mb-40"></h3>#}
+{#                    <div class="clock u-mb-40"></div>#}
+{##}
+{#                    <a href="/login/?wl=1&backurl=/wallet/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">#}
+{#                        Buy GIFT#}
+{#                    </a>#}
+{##}
+{##}
+{#                </div>#}
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
@@ -638,13 +623,14 @@
                                             ]
                                         },
                                         "colors": [
-                                            "#3bc1cd",
-                                            "#60ba95",
-                                            "#93d29d",
-                                            "#dbd791",
-                                            "#e2b785",
-                                            "#e29285",
-                                            "#d76969"
+                                            "#6faabb",
+                                            "#7bbdd0",
+                                            "#9ecdde",
+                                            "#c2dee7",
+                                            "#d7e9ec",
+                                            "#e2ebed",
+                                            "#f8f8f9",
+                                            "#ffffff"
                                         ],
                                         "gradientRatio": [],
                                         "labelTickAlpha": 1,
@@ -665,7 +651,7 @@
                                         "dataProvider": [
                                             {
                                                 "country": "Main Sale",
-                                                "litres": "59.38"
+                                                "litres": "43.75"
                                             },
                                             {
                                                 "country": "Project team",
@@ -684,11 +670,15 @@
                                                 "litres": "3.13"
                                             },
                                             {
-                                                "country": "Pre-ICO",
+                                                "country": "PreSale",
+                                                "litres": "15.63"
+                                            },
+                                            {
+                                                "country": "Seed Round",
                                                 "litres": "6.25"
                                             },
                                             {
-                                                "country": "Bug Bounty",
+                                                "country": "Development Bounty",
                                                 "litres": "3.13"
                                             }
                                         ]
@@ -711,32 +701,32 @@
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th scope="row">PreSale round (10% of whole public sale)</th>
+                                    <th scope="row">Seed Sale round (10% of whole public sale)</th>
                                     <td>0,00012</td>
                                     <td>15% for everyone</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">Less than 20% GIFTs* have been sold</th>
-                                    <td>0,00013</td>
+                                    <td>to be announced</td>
                                     <td>10% when buying no less than 1 000 GIFTs</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">From 20% to 40% GIFTs have been sold</th>
-                                    <td>0,00014</td>
+                                    <td>to be announced</td>
                                     <td>7.5% when buying no less than 2 000 GIFTs</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">From 40% to 60% GIFTs have been sold</th>
-                                    <td>0,00015</td>
+                                    <td>to be announced</td>
                                     <td>5% when buying no less than 3 000 GIFTs</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">From 60% to 80% GIFTs have been sold</th>
-                                    <td>0,00016</td>
+                                    <td>to be announced</td>
                                 </tr>
                                 <tr>
                                     <th scope="row">More than 80% GIFTs have been sold</th>
-                                    <td>0,00017</td>
+                                    <td>to be announced</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -917,7 +907,7 @@
                                     </h4>
 
                                     <p class="text-muted mb-0 u-fs-13">
-                                        Co-Founder & CCO
+                                        Co-Founder & COO
                                     </p>
 
 
@@ -929,38 +919,7 @@
                             </div>
                         </div>
                     </div> <!-- END col-lg-6-->
-                    <div class="col-lg-6 col-md-12 mb-5">
-                        <div class="with-hidden-text-wrapper">
-                            <div class="with-hidden-text-wrapper-inner">
-                        <div class="row">
-                            <div class="col-md-5 user-img-wrapper">
-                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/ktru.jpg"
-                                     alt="">
-                                <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/redhat-seeklogo.com.svg"></div></div>
-                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-                                    <li class="list-inline-item">
-                                        <a href="https://www.linkedin.com/in/konstantin-t-b7180571/" target="_blank"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                            <div class="col-md-7">
-                                <h4 class="mb-0 u-mb-10">
-                                    Konstantin Trufanov
-                                </h4>
-
-                                <p class="text-muted mb-0 u-fs-13">
-                                    Community Developer
-                                </p>
-
-
-                                <p class="my-2 u-fs-15">
-                                    Konstantin is a software engineer at RedHat by day
-                                </p>
-                            </div>
-                        </div> <!-- END row--></div></div>
-                    </div> <!-- END col-lg-6-->
+                     <!-- END col-lg-6-->
                     <div class="col-lg-6 col-md-12 mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
@@ -1033,46 +992,7 @@
                             </div>
                         </div> <!-- END row--></div></div>
                     </div> <!-- END col-lg-6-->
-                    <div class="col-lg-6 col-md-12 mb-5">
-                        <div class="with-hidden-text-wrapper">
-                            <div class="with-hidden-text-wrapper-inner">
-                        <div class="row">
-                            <div class="col-md-5 user-img-wrapper">
-                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/kbal.jpg"
-                                     alt="">
-                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-                                    <li class="list-inline-item">
-                                        <a href="https://www.facebook.com/konstantin.burn.1" target="_blank"><i class="fa fa-facebook"></i></a>
-                                    </li>
-                                    {#							<li class="list-inline-item">#}
-                                    {#								<a href=""><i class="fa fa-twitter"></i></a>#}
-                                    {#							</li>#}
-                                    {#							<li class="list-inline-item">#}
-                                    {#								<a href=""><i class="fa fa-google-plus"></i></a>#}
-                                    {#							</li>#}
-                                    <li class="list-inline-item">
-                                        <a href="https://www.linkedin.com/in/konstantin-balashov-4a8b27152/" target="_blank"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    </li>
-                                </ul>
-
-                            </div>
-                            <div class="col-md-7">
-                                <h4 class="mb-0">
-                                    Konstantin Balashov
-                                </h4>
-
-                                <p class="text-muted mb-0 u-fs-13">
-                                    Co-founder &amp; DevOps
-                                </p>
-
-
-                                <p class="my-2 u-fs-15">
-                                    Konstantin is proficient in developing testing procedures for high load web-sites. He has been in cryptospace since 2013.
-                                </p>
-                            </div>
-                        </div> <!-- END row--></div></div>
-                    </div> <!-- END col-lg-6--><div class="col-lg-6 col-md-12 mb-5">
+                     <!-- END col-lg-6--><div class="col-lg-6 col-md-12 mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
                         <div class="row">
@@ -1176,41 +1096,7 @@
                             </div>
                         </div> <!-- END row--></div></div>
                     </div> <!-- END col-lg-6-->
-                    <div class="col-lg-6 col-md-12  mb-5">
-                        <div class="with-hidden-text-wrapper">
-                            <div class="with-hidden-text-wrapper-inner">
-                        <div class="row">
-                            <div class="col-md-5 user-img-wrapper">
-                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/djeo.jpg"
-                                     alt="">
-                                <div class="user-logo-wrapper"><div class="user-logo"><img src="/static/public/assets/img/Microsoft_logo.svg"></div>   </div>
-
-                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-{#                                    <li class="list-inline-item">#}
-{#                                        <a target="_blank" href="http://www.facebook.com/ugeeen"><i#}
-{#                                                class="fa fa-facebook"></i></a>#}
-{#                                    </li>#}
-                                    <li class="list-inline-item">
-                                        <a target="_blank" href="https://www.linkedin.com/in/kun-钱坤-bb6b5488/"><i
-                                                class="fa fa-linkedin"></i></a>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-md-7">
-                                <h4 class="mb-0">
-                                    Kun Qian
-                                </h4>
-
-                                <p class="text-muted mb-0 u-fs-13">
-                                    Community Manager (China)
-                                </p>
-                                <p class="my-2 u-fs-15">
-                                Kun is a PHD candidate in computer science and technology at Tsinghua University (top 1 university in China) and author of numerous publications in leading scientific magazines. Kun acquired a "Tomorrow Star" medal while working as a researcher at Microsoft Research Asia.
-                                </p>
-
-                            </div>
-                        </div> <!-- END row--></div></div>
-                    </div> <!-- END col-lg-6-->
+                     <!-- END col-lg-6-->
                     <div class="col-lg-6 col-md-12  mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
@@ -1351,29 +1237,7 @@
                             </div>
                         </div> <!-- END row--></div></div>
                     </div> <!-- END col-lg-6-->
-                    <div class="col-lg-6 col-md-12 mb-5">
-                        <div class="with-hidden-text-wrapper">
-                            <div class="with-hidden-text-wrapper-inner">
-                        <div class="row">
-                            <div class="col-md-5 user-img-wrapper">
-                                <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/vv.jpg"
-                                     alt="">
-                            </div>
-                            <div class="col-md-7">
-                                <h4 class="mb-0">
-                                    Vladimir Mashinskiy
-                                </h4>
 
-                                <p class="text-muted mb-0 u-fs-13">
-                                    Community Manager
-                                </p>
-
-                                <p class="my-2 u-fs-15">
-                                    Empathy 80 lvl
-                                </p>
-                            </div>
-                        </div> <!-- END row--></div></div>
-                    </div> <!-- END col-lg-6-->
                     <!--</div></div>-->
             </div> <!-- END row-->
             <a name="advisors"></a>
@@ -1615,7 +1479,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
 
                 <div class="roadmap-container-content">
 
-                    <p>Improved donations functionality. Token closed pre-sale starts.</p>
+                    <p>Improved donations functionality. Token Seed Round starts. Community of experts creation.</p>
 
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
@@ -1638,7 +1502,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
                 </div>
 
                 <div class="roadmap-container-content">
-                    <p>GIFT-coin listed on external exchanges. Paid OSS modifications and documentation sale made possible. Paying for new features with project tokens</p>
+                    <p>Decentralized repository system. GIFT-coin listed on external exchanges. Paid OSS modifications and documentation sale made possible. Paying for new features with project tokens</p>
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
             <div class="roadmap-container-block clearfix">
@@ -1648,7 +1512,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
                 </div>
 
                 <div class="roadmap-container-content">
-                    <p>Donation to an industry/stack with automatic distribution of the amount between most promising projects. Projects dependancies tree: projects to receive a share of donations from other projects useing their code</p>
+                    <p>Community of curatos creation. Donation to an industry/stack with automatic distribution of the amount between most promising projects. Projects dependancies tree: projects to receive a share of donations from other projects useing their code</p>
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
             <div class="roadmap-container-block clearfix">
