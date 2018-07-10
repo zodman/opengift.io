@@ -199,10 +199,11 @@ def blockchainAjax(request):
 
         elif currency == 'usd':
             import paypalrestsdk
+            from tracker.settings import PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_SECRET
             my_api = paypalrestsdk.Api({
-                'mode': 'live',
-                'client_id': 'AezKr6fqe61vrxIFf9rIaNkT4KGl0aLsZ3G-YP1ynYpfKH4v3h7uQGhZNiDZQtKMjRRlC21SxjOxbcXk',
-                'client_secret': 'EBgfY1Nzzml7ziuyYCIY5DJOeQ7J90N0ucPK7xyYWo-zk3TNENwRaRWePOh5fV9AXAFSrYWVq2UOttXD'
+                'mode': PAYPAL_MODE,
+                'client_id': PAYPAL_CLIENT_ID,
+                'client_secret': PAYPAL_SECRET
             })
             payment = paypalrestsdk.Payment({
                 "intent": "sale",
@@ -275,10 +276,11 @@ def blockchainAjax(request):
 
 def paypalExecute(request):
     import paypalrestsdk
+    from tracker.settings import PAYPAL_MODE, PAYPAL_CLIENT_ID, PAYPAL_SECRET
     my_api = paypalrestsdk.Api({
-                'mode': 'live',
-                'client_id': 'AezKr6fqe61vrxIFf9rIaNkT4KGl0aLsZ3G-YP1ynYpfKH4v3h7uQGhZNiDZQtKMjRRlC21SxjOxbcXk',
-                'client_secret': 'EBgfY1Nzzml7ziuyYCIY5DJOeQ7J90N0ucPK7xyYWo-zk3TNENwRaRWePOh5fV9AXAFSrYWVq2UOttXD'
+                'mode': PAYPAL_MODE,
+                'client_id': PAYPAL_CLIENT_ID,
+                'client_secret': PAYPAL_SECRET
             })
     paymentId = request.GET.get('paymentId')
     payerId = request.GET.get('PayerID')

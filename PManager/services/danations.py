@@ -22,13 +22,14 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
     if task:
         milestoneCode = 'opengift.io:task-' + str(task.id)
 
-    res = blockchain_donate_request(
-        exchangeUser if exchangeUser else user.username,
-        project.blockchain_name,
-        sum,
-        milestoneCode
-    )
+    # res = blockchain_donate_request(
+    #     exchangeUser if exchangeUser else user.username,
+    #     project.blockchain_name,
+    #     sum,
+    #     milestoneCode
+    # )
 
+    res = 'ok'
     if res == 'ok':
         if exchangeUser:
             try:
