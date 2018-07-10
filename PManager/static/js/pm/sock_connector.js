@@ -74,7 +74,7 @@ baseConnectorClass.prototype = {
         if (this.socket) {
             cb = this.socket.getCallBacks();
         }
-        if (document.mainController.userId) {
+        if (document.mainController && document.mainController.userId) {
             this.socket = new FancyWebSocket((port + this.url), this);
 
             if (cb) {

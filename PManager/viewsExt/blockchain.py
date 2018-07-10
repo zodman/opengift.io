@@ -327,7 +327,12 @@ def paypalExecute(request):
                     refUser,
                     task
                 ):
-                    return HttpResponseRedirect('/project/'+str(project.id)+'/public/')
+                    if task:
+                        redirectUrl = '/task_detail/?number=' + str(task.number) + '&project=' + str(project.id) + '&donated=yes'
+                    else:
+                        redirectUrl = '/project/'+str(project.id)+'/public/?donated=yes'
+
+                    return HttpResponseRedirect(redirectUrl)
                 else:
                     return HttpResponse('error')
             else:
