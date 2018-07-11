@@ -2,12 +2,11 @@
 __author__ = 'Rayleigh'
 import urllib
 import urllib2
-import json
+import json, logging
 from tracker.settings import DOCKER_HOST, DOCKER_APP_KEY
 from PManager.models.interfaces import AccessInterface
 
 def blockchain_donate_request(username, project, qty, milestoneCode = None):
-    return 'ok'
     args = {'user': username, 'fcn': 'donate', 'arg1': project.lower(), 'arg2': qty}
     if milestoneCode:
         args['arg3'] = milestoneCode
@@ -32,7 +31,6 @@ def blockchain_token_move_request(username, project, wallet, qty):
     return 'ok'
 
 def blockchain_goal_confirmation_request(username, project, goal):
-    return 'ok'
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to confirm the goal ' + goal
@@ -142,6 +140,11 @@ def __blockchain_request_raw(service_url, data):
     req = urllib2.Request(url, data)
     result = urllib2.urlopen(req)
     res = result.read()
+
+    logger = logging.getLogger('blockchain')
+    logger.debug(service_url + ' ' + json.dumps(data))
+    logger.debug(res)
+
     return res
 
 

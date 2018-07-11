@@ -9,7 +9,7 @@ from pipeline_settings import *
 SITE_ID = 1
 
 # DEBUG MODE
-DEBUG = False
+DEBUG = True
 
 # TEMPLATE DEBUG MODE
 TEMPLATE_DEBUG = False
@@ -30,7 +30,7 @@ TIME_ZONE = 'Europe/Moscow'
 
 # Language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
-LANGUAGE_CODE = 'ru-ru'
+LANGUAGE_CODE = 'en-en'
 
 # If you set this to False, Django will make some optimizations so as not
 # to load the internationalization machinery.
@@ -43,13 +43,15 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
+GIFT_USD_RATE = 0.06
 # ####################### PATHS_SETTINGS ###############################
 # ROOT PATH
-PROJECT_ROOT = '/home/heliard/heliard/'
+PROJECT_ROOT = '/vagrant/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = PROJECT_ROOT + 'tracker/media/'
 
+CAPTCHA_DISABLED = True
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
@@ -78,6 +80,7 @@ TEMPLATE_DIRS = (
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     PROJECT_ROOT + 'tracker/templates',
+    PROJECT_ROOT + 'wiking/templates',
     PROJECT_ROOT + 'PManager/widgets'
 )
 
@@ -127,6 +130,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'rest_framework',
     # 'robokassa',
+    # 'yandex_money',
     'PManager',
     'pymorphy',
     'django.contrib.humanize',
@@ -137,7 +141,8 @@ INSTALLED_APPS = (
     'gunicorn',
     'less',
     'pipeline',
-    'sekizai'
+    'sekizai',
+    'wiking'
 )
 
 # todo: ADD DESCRIPTION
@@ -174,7 +179,8 @@ DATABASES = {
         'PASSWORD': 'root',                     # Not used with sqlite3.
         'HOST': 'localhost',                    # Set to empty string for localhost. Not used with sqlite3.
         'PORT': '3306',                         # Set to empty string for default. Not used with sqlite3.
-        'OPTIONS': {"init_command": "SET foreign_key_checks = 0;"} #it save our code for every storage engines
+        # 'STORAGE_ENGINE': 'MyISAM / INNODB / ETC',
+        'OPTIONS': {"init_command": "SET foreign_key_checks = 0;"}
     }
 }
 
@@ -183,23 +189,23 @@ AUTH_PROFILE_MODULE = 'PManager.PM_User'
 
 # Allowed hosts for this application
 ALLOWED_HOSTS = [
-    'heliard.ru', 'heliard'
+    'opengift.dev', 'opengift'
 ]
 
 # Socket server address
-SOCKET_SERVER_ADDRESS = 'heliard.ru'
+SOCKET_SERVER_ADDRESS = 'opengift.dev'
 
 # Server root url
-SERVER_ROOT_URL = 'heliard.ru'
-HTTP_ROOT_URL = 'http://heliard.ru'
-SERVER_IP = '188.225.74.214'
+SERVER_ROOT_URL = 'opengift.dev'
+HTTP_ROOT_URL = 'http://opengift.dev'
+SERVER_IP = '192.168.33.13'
 
 # Site default email url
-SITE_EMAIL = 'admin@heliard.ru'
-ADMIN_EMAIL = 'admin@heliard.ru'
-INFO_EMAIL = 'admin@heliard.ru'
-NO_REPLY_EMAIL = 'no-reply@heliard.ru'
-FEEDBACK_EMAIL = 'feedback@heliard.ru'
+SITE_EMAIL = 'admin@opengift.dev'
+ADMIN_EMAIL = 'admin@opengift.dev'
+INFO_EMAIL = 'admin@opengift.dev'
+NO_REPLY_EMAIL = 'no-reply@opengift.dev'
+FEEDBACK_EMAIL = 'feedback@opengift.dev'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION
@@ -212,7 +218,7 @@ SESSION_COOKIE_SECURE = False
 SET_COOKIE = {}
 
 # todo: ADD DESCRIPTION
-SESSION_COOKIE_DOMAIN = 'heliard.ru'
+SESSION_COOKIE_DOMAIN = 'opengift.dev'
 
 # ######################### REDIS SETTINGS ##############################
 # REDIS SERVER HOST
@@ -227,40 +233,22 @@ ORDERS_REDIS_PASSWORD = None
 # REDIS SERVER DB NAME
 ORDERS_REDIS_DB = None
 
-# #################### ROBOKASSA SETTINGS ##################################
-# ROBOKASSA_LOGIN
-ROBOKASSA_LOGIN = 'HeliardErp'
-
-# ROBOKASSA PASS
-ROBOKASSA_PASSWORD1 = ''
-
-# ROBOKASSA PASS 2
-ROBOKASSA_PASSWORD2 = ''
-
-# ROBOKASSA TEST MODE
-ROBOKASSA_TEST_MODE = True
-
-# ROBOKASSA EXTRA PARAMS ARRAY
-ROBOKASSA_EXTRA_PARAMS = ['user']
-
-# todo: ADD DESCRIPTION
 COMISSION = 1
 
-# ########################## GIT MODULE SETTINGS ######################################
 # GIT MODULE IS ENABLED
-USE_GIT_MODULE = True
+USE_GIT_MODULE = False
 
 #DOCKER
 DOCKER_USER_NAME = 'dockhost'
-DOCKER_HOST = 'heliard-servers.ru:8079'
-DOCKER_APP_KEY = ''
+DOCKER_HOST = 'heliard-cloud.ru'
+DOCKER_APP_KEY = 'q253kjhAS(*Fln2q34i6ts7dlSIHF3948657A>SKLSJFHl3895647aiojf.kerht89&ETIEt.jweht987'
 
 # Gitolite admin repository path
-GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
+GITOLITE_ADMIN_REPOSITORY = '/home/opengift/gitolite-admin'
 # Gitolite ssh url credentials and domain string
-GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
+GITOLITE_ACCESS_URL = 'opengift@opengift.dev'
 # Gitolite users repositories path
-GITOLITE_REPOS_PATH = '/home/heliard/repositories'
+GITOLITE_REPOS_PATH = '/home/opengift/repositories'
 # Gitolite default user for docker
 GITOLITE_DEFAULT_USER = 'id_rsa'
 
@@ -315,3 +303,5 @@ if DEBUG:
     EMAIL_HOST_PASSWORD = ''
     EMAIL_PORT = 1025
     EMAIL_USE_TLS = False
+
+CRYPTO_HOST = '0.0.0.0'
