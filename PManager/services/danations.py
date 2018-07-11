@@ -72,6 +72,7 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
                 'new_donation_received',
                 {
                     'task': task_data,
+                    'sum': sum,
                     'donator': {
                         'first_name': user.first_name,
                         'last_name': user.last_name,

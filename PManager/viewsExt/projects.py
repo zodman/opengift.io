@@ -433,7 +433,7 @@ def projectDetailPublic(request, project_id):
         canEditProject = request.user.is_superuser or request.user.id == project.author.id
         bCurUserIsAuthor = request.user.id == project.author.id or profile.isManager(project)
 
-    if request.POST.get('invest_offer', None):
+    if request.POST.get('invest_offer', None) and False:
         from PManager.viewsExt.tools import emailMessage
         data = {
             'name': request.POST.get('name'),
