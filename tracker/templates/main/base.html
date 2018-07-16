@@ -298,8 +298,12 @@
                 <img src="{% if is_opengift %}/static/public/assets/img/logo-gradient.svg{% else %}/static/public/assets/img/logo-gradient.svg{% endif %}" alt="OpenGift" height="29px"/>
             </a>
         </div>
-
-          <nav class="menu">
+        <style>
+            .menu_inline a {
+                display: inline-block !important;
+            }
+        </style>
+          <nav class="menu_inline">
                 <ul>
 {#                    <li class="{% if activeMenuItem == 'projects' %} active{% endif %}">#}
 {#                        <a href="/project/list/">#}
@@ -310,8 +314,17 @@
 
                     <li class="{% if activeMenuItem == 'bounty' %} active{% endif %}">
                         <a href="/bounty/">
-                            <span aria-hidden="true" class="fa fa-bolt"></span>
-                            <span>All tasks</span>
+                            <span>Tasks</span>
+                        </a>
+                    </li>
+                    <li class="{% if activeMenuItem == 'projects' %} active{% endif %}">
+                        <a href="/project/list/">
+                            <span>Projects</span>
+                        </a>
+                    </li>
+                    <li class="{% if activeMenuItem == 'task_add' %} active{% endif %}">
+                        <a href="/task/add/">
+                            <span>Add new project</span>
                         </a>
                     </li>
 {#                    <li class="{% if activeMenuItem == 'milestones' %} active{% endif %}">#}

@@ -124,7 +124,7 @@
     {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
 
     <div class="row tasks-toolbar js-search-block" style="display: none; margin-top: 23px;">
-        <div class="col-xs-4">
+        <div class="col-xs-6">
             <!--<div class="input-group">-->
             <div class="search-filter js-searchFilterBlock">
                 <table width="100%" cellpadding="0" cellspacing="0">
@@ -137,7 +137,7 @@
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
                         </td>
-                        {% if request.user.is_authenticated %}
+                        {% if request.user.is_authenticated and False %}
                         <td style="vertical-align:top; padding-right: 10px;">
                             <div class="big-filter-wrapper">
                                 <button class="btn btn-info border-r4 js-filter-btn" type="button"
@@ -268,8 +268,8 @@
             </div>
             <!--</div> /.input-group -->
         </div>
-        <div class="col-xs-8 clearfix">
-        {% if tasklist.bounty %}
+        <div class="col-xs-6 clearfix">
+        {% if tasklist.bounty and False %}
             <ul class="task-tab-filter" style="display: none;"><li class="active"><a rel="bounty"></a></li></ul>
         {% else %}
             <ul class="task-tab-filter list-inline pull-right to-hide-768 clearfix">
@@ -281,9 +281,10 @@
 {#                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}#}
 {#                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>#}
                 <li class="hide-on-mobile"><a rel="not_ready">Incomplete</a></li>
-                <li class="hide-on-mobile"><a rel="only_bounty">Bounty</a></li>
-                <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}
-                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>
+                <li class="hide-on-mobile"><a rel="donated">Donated</a></li>
+{#                <li class="hide-on-mobile"><a rel="only_bounty">Bounty</a></li>#}
+{#                <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}#}
+{#                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>#}
                 <li class="hide-on-mobile"><a rel="arc">Closed</a></li>
             </ul>
             <script>
@@ -296,12 +297,13 @@
             <div class="task-tab-filter-select show-on-768">
                 <select class="select-transform js-task-tab-mobile">
                     <option value="">All</option>
-                    <option value="started">Started{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>
+{#                    <option value="started">Started{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>#}
                     <option value="ready">Complete{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
 {#                    <option value="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>#}
                     <option value="not_ready">Incomplete</option>
-                    <option value="only_bounty">Bounty</option>
-                    <option value="deadline">Overdue{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>
+                    <option value="donated">Donated</option>
+{#                    <option value="only_bounty">Bounty</option>#}
+{#                    <option value="deadline">Overdue{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>#}
                     <option value="arc">Closed</option>
                 </select>
             </div>
