@@ -607,6 +607,7 @@ class PM_Task(models.Model):
                                verbose_name=u'Статус')
     observers = models.ManyToManyField(User, related_name='tasksLooking', null=True, blank=True)
 
+
     perhapsResponsible = models.ManyToManyField(User, related_name='hisTasksMaybe', null=True, blank=True)
 
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
@@ -617,6 +618,7 @@ class PM_Task(models.Model):
 
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
+    donate_exists = models.BooleanField(blank=True)
     planTime = models.FloatField(blank=True, null=True, default=0)
     realTime = models.BigIntegerField(blank=True, null=True)
     realDateStart = models.DateTimeField(blank=True, null=True)
@@ -663,8 +665,8 @@ class PM_Task(models.Model):
     def donated(self):
         from tracker.settings import GIFT_USD_RATE
         donated = 0
-        for m in self.messages.filter(code='DONATION'):
-            donated += m.donated
+        for m in self.donations.all():
+            donated += m.sum or 0
 
         donated = donated * GIFT_USD_RATE
 
@@ -1655,6 +1657,8 @@ class PM_Task(models.Model):
 
     def canEdit(self, user):
         return (
+            user.is_superuser
+            or
             (self.author and self.author.id == user.id)
             or
             (self.project and user.get_profile().isManager(self.project))

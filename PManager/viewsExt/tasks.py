@@ -202,6 +202,10 @@ def __search_filter(header_values, request):
     elif action == 'not_ready':
         qArgs.append(Q(Q(status__in=PM_Task_Status.objects.exclude(code='ready')) | Q(status__isnull=True)))
         ar_filter['closed'] = False
+    elif action == 'donated':
+        ar_filter['donate_exists'] = True
+    elif action == 'documented':
+        ar_filter['resp__isnull'] = False
     elif action == 'started':
         ar_filter['realDateStart__isnull'] = False
         ar_filter['closed'] = False
@@ -210,6 +214,8 @@ def __search_filter(header_values, request):
         ar_filter['allProjects'] = True
     elif action == 'all':
         pass
+
+    ar_filter['bounty'] = True
 
 
     kanbanFilter = None

@@ -62,6 +62,10 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
             from PManager.viewsExt.tools import emailMessage
             import datetime
             from django.utils import timezone
+
+            task.donate_exists = True
+            task.save()
+
             task_data = {
                 'task_url': task.url,
                 'name': task.project.name + '. ' + task.name,

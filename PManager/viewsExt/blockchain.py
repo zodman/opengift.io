@@ -205,6 +205,7 @@ def blockchainAjax(request):
                 'client_id': PAYPAL_CLIENT_ID,
                 'client_secret': PAYPAL_SECRET
             })
+
             payment = paypalrestsdk.Payment({
                 "intent": "sale",
                 "payer": {
@@ -297,7 +298,7 @@ def paypalExecute(request):
 
                     try:
                         milestone = PM_Milestone.objects.get(pk=goalId)
-                    except PM_Milestone.DoesNotExist:
+                    except (PM_Milestone.DoesNotExist, ValueError):
                         try:
                             task = PM_Task.objects.get(pk=int(goalId.replace('t', '')))
                         except PM_Task.DoesNotExist:
@@ -317,7 +318,7 @@ def paypalExecute(request):
                     raise Http404
 
                 qty = float(payment.transactions[0].amount.total) * 0.95
-                giftQty = qty / 0.06
+                giftQty = round(qty / 0.06)
                 if donate(
                     giftQty,
                     project,

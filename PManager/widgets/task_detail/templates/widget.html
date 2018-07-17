@@ -385,6 +385,7 @@
               <a class="avatar avatar-sm" title="{{ asker.user.last_name }} {{ asker.user.first_name }}" data-toggle="tooltip">
                 <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
               </a>
+                <span class="sum" style="width: 100%;text-align: center;display:block;">${{ asker.ask|floatformat:"f" }}</span>
             </div>
           {% endfor %}
 
