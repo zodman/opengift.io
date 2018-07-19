@@ -12,9 +12,9 @@
     <!--Favicon-->
     <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
     {% block header %}
-    <meta name="description" content="The token for 93% companies in the world. The token for open-source community.">
-    <!-- Title-->
-    <title>OpenGift.io - Token Sale</title>
+        <meta name="description" content="The token for 93% companies in the world. The token for open-source community.">
+        <!-- Title-->
+        <title>OpenGift.io - For developers</title>
     {% endblock %}
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
@@ -66,7 +66,7 @@
         var arTimers = {};
         window.backurl = '{{ backurl }}';
         {% if main.CURRENT_PROJECT %}
-        window.currentProject = {{ main.CURRENT_PROJECT.id }};
+            window.currentProject = {{ main.CURRENT_PROJECT.id }};
         {% endif %}
         window.baseUserParams = {
             'userId': {{ user.id|default_if_none:'0' }}
@@ -81,28 +81,28 @@
             });
         });
         {% if user.is_authenticated %}
-        document.mainController = new mainControllerClass({
-            'userId':{{ user.id }},
-        'widgetsData': {}
-        });
+            document.mainController = new mainControllerClass({
+                'userId':{{ user.id }},
+                'widgetsData': {}
+            });
         {% endif %}
         var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
         {% if userTimer %}
-        CURRENT_TASK_DATA = {
-            'id':{{ userTimer.task.id }},
-        'started':{{ userTimer.task.started|jsonify }},
-        'closed':{{ userTimer.task.closed|jsonify }},
-        'name':{{ userTimer.task.name|jsonify|safe }},
-        'project': {
-            'name': {{ userTimer.task.project.name|jsonify|safe }}
-        }
-        };
+            CURRENT_TASK_DATA = {
+                'id':{{ userTimer.task.id }},
+                'started':{{ userTimer.task.started|jsonify }},
+                'closed':{{ userTimer.task.closed|jsonify }},
+                'name':{{ userTimer.task.name|jsonify|safe }},
+                'project': {
+                    'name': {{ userTimer.task.project.name|jsonify|safe }}
+                }
+            };
 
-        {% if userTimer.task.parentTask %}
-        CURRENT_TASK_DATA['parentTask'] = {
-            'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
-        };
-        {% endif %}
+            {% if userTimer.task.parentTask %}
+                CURRENT_TASK_DATA['parentTask'] = {
+                    'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+                };
+            {% endif %}
         {% endif %}
         var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
     </script>
@@ -144,210 +144,180 @@
 
 
 {% block head %}
-<header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
-    <div class="container">
-        <nav class="navbar navbar-expand-lg px-md-0">
-            <a class="navbar-brand" href="/">
+    <header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg px-md-0">
+                <a class="navbar-brand" href="/">
 				<span class="logo-default">
 					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
 				</span>
 				<span class="logo-inverse">
 					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
 				</span>
-            </a>
+                </a>
 
-            <div class="navbar-toggler js-navbar-toggler">
-                <span class="lnr lnr-text-align-right nav-hamburger"></span>
-                <span class="lnr lnr-cross nav-close"></span>
-            </div>
+                <div class="navbar-toggler js-navbar-toggler">
+                    <span class="lnr lnr-text-align-right nav-hamburger"></span>
+                    <span class="lnr lnr-cross nav-close"></span>
+                </div>
 
-            {% include "public/menu.html" %}
+                {% include "public/menu.html" %}
 
-        </nav>
-    </div> <!-- END container-->
-</header> <!-- END header -->
+            </nav>
+        </div> <!-- END container-->
+    </header> <!-- END header -->
 {% endblock %}
 
 
 {% block content %}
 
-<section class="u-py-100 u-h-100vh u-flex-center" data-dark-overlay="6"
-         style="background:url('https://www.mango-office.ru/upload/iblock/18d/a3b.jpg') no-repeat; background-size: cover; background-position: center center;">
+    <section class="u-py-100 u-h-100vh u-flex-center bg-white" >
+        <div class="container">
 
-    <div class="container" >
+            <div class="row">
+                <div class="col-lg-12 u-mt-80 text-center">
 
-        <div class="row">
-            <div class="col-lg-12 u-mt-80 text-center">
+                    <h1 class="display-4 u-fw-600 text-dark u-mb-40">
+                        Open source can be profitable!
+                    </h1>
 
-
-                <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                    Save up to 90% when you share development cost
-                </h1>
-
-                <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
-                    Give us your requirements, or just your drop your idea, and we'll find other companies to co-sponsor it!
-                </p>
-
-                <a href="/task/add/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
-                    GET A QUOTE
-                </a>
-
-            </div> <!-- END col-lg-6-->
-            {#                <div class="col-lg-4 u-mt-80" align="center">#}
-            {#                    <h3 class="u-fw-600 text-white u-mb-40">Token PreSale ends in</h3>#}
-            {#                    <div class="clock u-mb-40"></div>#}
-            {##}
-            {#                    <a href="/login/?wl=1&backurl=/profile/edit/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">#}
-                {#                        Buy GIFT Token#}
-                {#                    </a>#}
-            {##}
-            {#                    <script type="text/javascript">#}
-            {#                        var clock;#}
-            {##}
-            {#                        $(document).ready(function() {#}
-                {#                            var clock;#}
-                {#                            clock = $('.clock').FlipClock({#}
-                    {#                                clockFace: 'DailyCounter',#}
-                    {#                                autoStart: false,#}
-                    {#                                callbacks: {#}
-                        {#                                    stop: function() {#}
-                            {#                                        $('.message').html('The clock has stopped!')#}
-                            {#                                    }#}
-                        {#                                }#}
-                    {#                           });#}
-                {##}
-                {#                            clock.setTime(220880);#}
-                {#                            clock.setCountdown(true);#}
-                {#                            clock.start();#}
-                {##}
-                {#                        });#}
-            {#                    </script>#}
-            {#                </div>#}
-        </div> <!-- END row-->
-    </div> <!-- END container-->
-</section> <!-- END intro-hero-->
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                        <img src="/static/img/languages/005-python.png" style="width: 40px" />
+                        <img src="/static/img/languages/015-ruby.png" style="width: 40px" />
+                        <img src="/static/img/languages/027-php.png" style="width: 40px" />
+                        <img src="/static/img/languages/029-javascript.png" style="width: 40px" />
+                        <img src="/static/img/languages/031-css.png" style="width: 40px" />
+                        <img src="/static/img/languages/016-c-1.png" style="width: 40px" />
+                    </p>
+                    <h2 class="text-dark u-mb-40">Earn money for making free software</h2>
 
 
-<section class="bg-gray-v2 u-mt-80 ide-bg" style="background:url('/static/img/ide.png') no-repeat; background-position: top center;">
+                    <a href="/bounty/" class="btn btn btn-rounded btn-secondary m-2 px-md-5 py-3">
+                        EXPLORE TASKS
+                    </a>
+                </div> <!-- END col-lg-6-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section> <!-- END intro-hero-->
+
+
+<section class="bg-gray-v2 u-pt-50 u-pb-50">
     <div class="container">
 
         <div class="row align-items-center">
-            <div class="col-md-10 u-pl-lg-100">
-                <h2 class="mb-4 u-fw-500 u-lh-1_6">What kind of software can I get?</h2>
-                <p class="u-fs-18 u-fw-500 u-lh-1_6">
-                    Custom <span class="u-fs-36">website</span> plugins, <span class="u-fs-26">parsers</span>, tools for <span class="u-fs-38">Linux</span>, mobile apps for <span class="u-fs-26">Android</span>,
-                    or new features for over <span class="u-fs-46">100 million</span> <span class="u-fs-32">GitHub</span> projects.</p>
-
-            </div> <!-- END col-md-6 -->
-            <div class="col-md-2 mb-5">
-                &nbsp;
+            <div class="col-md-12 u-pl-50">
+                <h2 class="u-mx-30 mb-4 u-fw-500 u-lh-1_6 text-center">
+                    OOwners of open source projects registered on our platform receive 20% from all payments toward your project
+                </h2>
             </div> <!-- END col-md-6 -->
         </div>
-
-        <img src="/static/img/ide.png" class="ide-img">
-        <div class="row align-items-center u-pt-md-150">
-            <div class="col-md-3 mb-5">
-                &nbsp;
-            </div> <!-- END col-md-6 -->
-            <div class="col-md-9 u-pr-lg-100 u-pt-md-150">
-                <h2 class="mb-4 u-fw-500 u-lh-1_6"> How it works?</h2>
-
-                <div class="media  u-mb-30">
-                    <h4 class="d-flex u-w-50 u-h-50 bg-primary rounded-circle u-flex-center text-white mr-3 mt-2">
-                        01
-                    </h4>
-                    <div class="media-body">
-                        <p class="u-fs-18 u-fw-500 u-lh-2">Make a request to create new features in an existing software, or develop new software from scratch.</p>
-                    </div>
-                </div>
-                <div class="media  u-mb-30">
-                    <h4 class="d-flex u-w-50 u-h-50 bg-primary rounded-circle u-flex-center text-white mr-3 mt-2">
-                        02
-                    </h4>
-                    <div class="media-body">
-                        <p class="u-fs-18 u-fw-500 u-lh-2">OpenGift finds others who are interested in your idea.</p>
-                    </div>
-                </div>
-
-                <div class="media  u-mb-30">
-                    <h4 class="d-flex u-w-50 u-h-50 bg-primary rounded-circle u-flex-center text-white mr-3 mt-2">
-                        03
-                    </h4>
-                    <div class="media-body">
-                        <p class="u-fs-18 u-fw-500 u-lh-2">Developers complete your task, and those who collectively paid over 50%, approve it.</p>
-                    </div>
-                </div>
-
-                <div class="media">
-                    <h4 class="d-flex u-w-50 u-h-50 bg-primary rounded-circle u-flex-center text-white mr-3 mt-2">
-                        04
-                    </h4>
-                    <div class="media-body">
-                        <p class="u-fs-18 u-fw-500 u-lh-2">OpenGift releases the money to the developers when the co-sponsors approved the task complete.</p>
-                    </div>
-                </div>
-
-
-
-
-            </div> <!-- END col-md-6 -->
-        </div>
-
-
-
 
 
     </div>
 </section>
 
-<section class="u-pt-0 u-pb-0 relative" id="howitworks">
+<section class="u-pt-60 u-pb-15">
     <div class="container">
 
-        <h2 class="h1 u-mt-50 text-center">Why OpenGift?</h2>
-
-        <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
         <div class="row">
-            <div class="col-lg-4 ">
-                <div class="px-3 u-my-50  text-center">
-                    <img class="u-w-150" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">
-                    <h4 class="u-fs-26 u-mt-35 u-mb-15">
-                        Price
-                    </h4>
-                    <p class="mb-0">
-                        We cut your development costs by up to 90%.
-                    </p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="px-3 u-my-50 text-center">
-                    <img class="u-w-150" src="/static/public/assets/img/svg/alarm-clock.svg" alt="">
-                    <h4 class="u-fs-26 u-mt-35 u-mb-15">
-                        Speed
-                    </h4>
+            <div class="col-md-6 mb-5 color-heading">
+                <h2 class="h1 u-mb-30">
+                    Register your GitHub project
+                </h2>
+                <p class="u-fs-18 u-fw-500 u-lh-1_5">
+                    Register your project with links to the open repository.  With our crowdfunding model, you’ll receive money for project updates and adding new functionalities.  Here’s a bonus; you’ll even receive 20% of the funds when other developers complete your project tasks.
+                </p>
 
-                    <p class="mb-0">
-                        Start a competition for the developers! They will work on the best solution ASAP for a reward.
-                    </p>
-                </div>
+            </div> <!-- END col-md-6 -->
+            <div class="col-md-6 mb-5 color-heading">
+                <h2 class="h1 u-mb-30">
+                    Discover new projects
+                </h2>
+                <p class="u-fs-18 u-fw-500 u-lh-1_5">
+                    Help others and do what you do best by developing new software!  Joining a project as one of the first developers on the team, you’ll become a co-owner.  As a co-owner, you’ll share in future, recurring income from the project!
+                </p>
+
+
+            </div> <!-- END col-md-6 -->
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a href="/project/add/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
+                        REGISTER PROJECT
+                    </a>
             </div>
-            <div class="col-lg-4">
-                <div class="px-3 u-my-50 text-center">
-                    <img class="u-w-150" src="/static/public/assets/img/svg/computer.svg" alt="">
-                    <h4 class="u-fs-26 u-mt-35 u-mb-15">
-                        Quality
-                    </h4>
-                    <p class="mb-0">
-                        We work only with professional development teams, no amateurs.
-                    </p>
-                </div>
+            <div class="col-md-6">
+                <a href="/bounty/" class="btn btn btn-rounded btn-secondary m-2 px-md-5 py-3">
+                    EXPLORE TASKS
+                </a>
             </div>
         </div>
     </div>
-<div class="text-center u-pt-15 u-pb-50">
-                <a class="btn btn-red btn-rounded" href="/task/add/" style="text-transform: none;">Create a project</a>
-            </div>
 </section>
+    <section class="u-pt-50 u-pb-0 relative" >
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2 class="h1 u-mt-50">Why this is cool?</h2>
 
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <ul class="list">
+                <li>You can build a passive income</li>
+                <li>You can build your reputation as an open-source developer</li>
+                <li>You can get your own project funded</li>
+            </ul>
+                </div>
+                <div class="col-md-6">
+                    <h2 class="h1 u-mt-50">How does it work?</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <ul>
+                <li>Register your new or existing open source project</li>
+                <li>Any user can create tasks for the project</li>
+                <li>Tasks are published as development contests and get crowd funded by users</li>
+            </ul>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <section class="u-pt-50 u-pb-0 relative u-mx-50 text-center" id="howitworks">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50 ">How one can earn money by participating in developer contests?</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <p>Find an open task you’d like to complete.
+                Publish results of your work as a fork or a pull request or a new project and submit a link on it in the task discussion thread.
+                When users select your solution as best for the task, you automatically receive a payment in tokens on your wallet.
+                You can sell back the tokens to OpenGift or exchange them for common currencies.</p>
+        </div>
+    </section>
+
+    <section class="u-pt-50 u-pb-0 relative u-mx-50 text-center u-mb-50" id="howitworks">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50">Why we are doing it?</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <p>
+                We believe there is no point in hiding a source code in a modern world.
+            </p>
+            <p>
+                Code is a commodity, it rapidly become outdated and rotten, only work of programmers gives it a value.
+                And it becomes more valuable when more people can use, test and improve it.
+                That’s why everything developers create on our platform is free for use but all development is commercial.
+            </p>
+            <p>
+                In the same time, we believe that skilled developers should earn significant money for their work.
+                That’s why we enabled users to crowd fund software development tasks.
+            </p>
+
+            <h1 class="u-mt-50">Welcome to our community of developers!</h1>
+        </div>
+    </section>
 
 
 {% endblock %}
@@ -356,7 +326,7 @@
 
     <div class="container text-center p-4">
         <p class="mb-0">
-            OpenGift Inc., incorporated under the BVI Business Companies Act of the British Virgin Islands <span class="icon icon-Heart text-primary mx-2"></span> 2018.
+            2018 <span class="icon icon-Heart text-primary mx-2"></span> OpenGift Inc., cert. no. 1972864, incorporated under the BVI Business Companies Act of the British Virgin Islands
         </p>
     </div>
 </footer>
@@ -369,7 +339,7 @@
 <!--
 // ////////////////////////////////////////////////
 // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
-// If you wanna add those manually bellow is the sequence
+// If you wanna add those manually bellow is the sequence 
 // ///////////////////////////////////////////////
 -->
 <!--
@@ -489,11 +459,11 @@
 <!-- End Facebook Pixel Code -->
 {#<script>#}
 {#  window.intercomSettings = {#}
-    {#    app_id: "jcdkru1n",#}
-    {#  name: '{{ request.user.first_name }} {{ request.user.last_name }}',#}
-    {#  email: '{{ request.user.email|default_if_none:'' }}',#}
-    {#  created_at: '{{ request.user.date_joined|date:"U"|default_if_none:'' }}'#}
-    {#  };#}
+{#    app_id: "jcdkru1n",#}
+{#  name: '{{ request.user.first_name }} {{ request.user.last_name }}',#}
+{#  email: '{{ request.user.email|default_if_none:'' }}',#}
+{#  created_at: '{{ request.user.date_joined|date:"U"|default_if_none:'' }}'#}
+{#  };#}
 {#</script>#}
 {#<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jcdkru1n';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>#}
 
