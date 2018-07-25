@@ -71,24 +71,24 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
                 'name': task.project.name + '. ' + task.name,
                 'dateCreate': timezone.make_aware(datetime.datetime.now(), timezone.get_current_timezone())
             }
+            if user and user.is_authenticated():
+                mail_sender = emailMessage(
+                    'new_donation_received',
+                    {
+                        'task': task_data,
+                        'sum': sum,
+                        'donator': {
+                            'first_name': user.first_name,
+                            'last_name': user.last_name,
+                        }
+                    },
+                    u'New donation: ' + task_data['name'] + '!'
+                )
 
-            mail_sender = emailMessage(
-                'new_donation_received',
-                {
-                    'task': task_data,
-                    'sum': sum,
-                    'donator': {
-                        'first_name': user.first_name,
-                        'last_name': user.last_name,
-                    }
-                },
-                u'New donation: ' + task_data['name'] + '!'
-            )
-
-            try:
-                mail_sender.send(ar_email)
-            except Exception:
-                print 'Email has not sent'
+                try:
+                    mail_sender.send(ar_email)
+                except Exception:
+                    print 'Email has not sent'
 
         return True
 

@@ -86,9 +86,9 @@
       </li>
       {% endif %}
 
-      {% if task_detail.task.asked %}
-      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>
-      {% endif %}
+{#      {% if task_detail.task.asked %}#}
+{#      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>#}
+{#      {% endif %}#}
 
       <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
     </ul>
@@ -378,7 +378,7 @@
           </style>
           {% if task_detail.askers %}
           <!--prices-->
-              <h3 class="hidden-768-down">Developers</h3>
+              <h3 class="hidden-768-down">Developer estimations</h3>
           <div class="progress progress-price progress-xs user-progress hidden-768-down">
             {% for asker in task_detail.askers %}
             <div class="bakers-avatar {% if asker.percent < task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">
@@ -398,7 +398,7 @@
 
           <!--media-400-->
           <div class="hidden-768-up bakers-list-mobile clearfix">
-          <h3>Developers:</h3>
+          <h3>Developer estimations:</h3>
             {% for asker in task_detail.askers %}
             <div class="progress-custom clearfix">
 
