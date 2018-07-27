@@ -86,9 +86,9 @@
       </li>
       {% endif %}
 
-{#      {% if task_detail.task.asked %}#}
-{#      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Asked: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>#}
-{#      {% endif %}#}
+      {% if task_detail.task.asked %}
+      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Estimated price: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>
+      {% endif %}
 
       <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
     </ul>
