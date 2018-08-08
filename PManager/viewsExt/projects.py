@@ -526,7 +526,7 @@ def projectDetailPublic(request, project_id):
 
     sponsorReq = User.objects.filter(pk__in=project.donations.values_list('user__id', flat=True))
     for sponsor in sponsorReq:
-        setattr(sponsor, 'donated', sum([x.sum for x in project.donations.filter(user=sponsor)]))
+        setattr(sponsor, 'donated', sum([x.sum for x in project.donations.filter(user=sponsor)]) * GIFT_USD_RATE)
         sponsors.append(sponsor)
 
     ms = PM_Task.objects.filter(project=project, closed=False, onPlanning=True).order_by('-dateCreate')

@@ -448,7 +448,7 @@ def __task_message(request):
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
-    vote = (request.POST.get('vote', '') and to and to != request.user.id)
+    type = request.POST.get('message_type', '')
     requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
@@ -474,9 +474,12 @@ def __task_message(request):
         text = text.replace('<', '&lt;').replace('>', '&gt;')
         message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
         message.hidden = hidden
-        message.vote = vote
-        if vote:
+        if type == 'vote' and to and to != request.user.id:
+            message.vote = True
             message.code = 'VOTE'
+
+        if type == 'result':
+            message.code = 'RESULT'
 
         message.hidden_from_clients = hidden_from_clients
         message.hidden_from_employee = hidden_from_employee
@@ -1303,9 +1306,8 @@ class taskAjaxManagerCreator(object):
     @task_ajax_action
     def process_fastCreate(self):
         taskInputText = self.getRequestData('task_name')
+        taskDesc = self.getRequestData('task_description')
         projectId = self.getRequestData('project_id')
-        projectName = self.getRequestData('project_name')
-        projectDescription = self.getRequestData('project_description')
         projectCode = self.getRequestData('project_code')
 
         if projectId:
@@ -1316,7 +1318,9 @@ class taskAjaxManagerCreator(object):
             except PM_Project.DoesNotExist:
                 pass
 
-        elif projectName:
+        if not self.taskManager.project:
+            projectName = taskInputText
+            projectDescription = taskDesc
             project, created = PM_Project.objects.get_or_create(
                 name=projectName,
                 author=self.currentUser,

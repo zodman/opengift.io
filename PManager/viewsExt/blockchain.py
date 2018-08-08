@@ -82,6 +82,7 @@ def blockchainAjax(request):
         wallet = profile.blockchain_wallet
         result = blockchain_user_getbalance_request(request.user.username, wallet)
 
+
     elif action == 'confirmGoal':
         project = int(request.POST.get('projectId'))
         try:
@@ -116,6 +117,31 @@ def blockchainAjax(request):
         wallet = request.POST.get('wallet')
         sum = request.POST.get('sum')
         result = blockchain_pay_request(request.user.username, wallet, sum)
+        if result == 'ok':
+            try:
+                targetProfile = PM_User.objects.get(blockchain_wallet=wallet)
+                from PManager.viewsExt.tools import emailMessage
+                from tracker.settings import ADMIN_EMAIL
+                mail_sender = emailMessage(
+                        'you_got_gifts',
+                        {
+                            'wallet': wallet,
+                            'sum': sum,
+                            'sender': {
+                                'first_name': request.user.first_name,
+                                'last_name': request.user.last_name,
+                            }
+                        },
+                        u'You received GIFTs!'
+                    )
+
+                try:
+                    mail_sender.send([targetProfile.user.email])
+                    mail_sender.send([ADMIN_EMAIL])
+                except Exception:
+                    print 'Email has not sent'
+            except PM_User.DoesNotExist:
+                pass
 
     elif action == 'move':
         # profile = request.user.get_profile()

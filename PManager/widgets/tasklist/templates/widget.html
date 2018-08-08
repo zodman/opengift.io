@@ -18,7 +18,7 @@
     <div class="widget-tasklist-header">
         <div class="widget-title">
             <h2>
-                {{ tasklist.title | safe }}
+                {{ tasklist.header | safe }}
             </h2>
         </div>
 
@@ -286,7 +286,7 @@
 {#                <li class="hide-on-mobile"><a rel="only_bounty">Bounty</a></li>#}
 {#                <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}#}
 {#                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>#}
-                <li class="hide-on-mobile"><a rel="arc">Closed</a></li>
+{#                <li class="hide-on-mobile"><a rel="arc">Closed</a></li>#}
             </ul>
             <script>
                 $(function () {

@@ -1,162 +1,112 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block content %}
-<!--<script type="application/javascript" src="/static/js/libs/jquery.form.js"></script>-->
+    <!--<script type="application/javascript" src="/static/js/libs/jquery.form.js"></script>-->
 
-<script src="/static/public/assets/js/task_edit.js"></script>
+    <script src="/static/public/assets/js/task_edit.js"></script>
 
-<section id="task_edit_form" style="z-index: 11;">
-  <div class="container">
-    <div class="text-center u-p-25">
-      <h2 class="h1">{{ title }}</h2>
-      <div class="u-h-4 u-w-50 bg-primary rounded mt-4 -u-mb-40 mx-auto"></div>
-      <!--{# <p>Create task for new project</p> #}-->
-    </div>
+    <section id="task_edit_form" style="z-index: 11;">
+        <div class="container">
+            <div class="text-center u-p-25">
+                <h2 class="h1">{{ title }}</h2>
 
-    <!-- END row-->
-    <div class="row">
-      <div class="col-md-6 col-lg-9 mx-auto">
-        <form novalidate action="/task_handler" method="POST" enctype="multipart/form-data" class="js-project-form">
-          <input type="hidden" name="action" value="fastCreate" />
-
-          <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade  active show" id="v-task" role="tabpanel" aria-labelledby="v-pills-home-tab" aria-expanded="true">
-              <div class="project-edit-form">
-                <!--project-->
-                <div class="js-project-step">
-                  <div class="project-edit-form--files-list">
-                    <div class="clearfix">
-                      {% for file in project.files.all %}
-
-                      <div class="project-edit-form--files-list--file js-file-block">
-                        <span class="project-edit-form--files-list--file-img" style="background-image: url('{{ file.src }}');"></span>
-
-                        <!--files-->
-                        <input type="hidden" name="files" value="{{ file.id }}" />
-
-                        <a href="#" class="project-edit-form--files-list--file-remove js-file-remove"><i class="fa fa-remove"></i></a>
-                      </div>
-                      {% endfor %}
-                    </div>
-                    <!--{# <div class="project-edit-form--new-files js-file-new-inputs"> #}
-                      {# <div class="js-file-new-block"> #}
-                      {# <div class="project-edit-form--file-input btn btn-sm btn-green js-add-file-block">  #}
-                      {# <span class="js-add-file-text">Upload screenshots/pictures</span> #}
-                      {# <input name="IMAGES" type="file" accept="image/*" #}
-                      {# onchange="$(this).closest('.js-add-file-block').find('.js-add-file-text').text($(this).val());" #}
-                      {# class="project-edit-form--file-input-input js-file-new-block-input" /> #}
-                      {# </div> #}
-                      {# </div> #}
-                      {# </div> #}-->
-                  </div>
-
-                  <h4 class="u-py-15 text-center">Creating a project</h4>
-
-                  <p>
-                    Project means software you are going to create. A project can contain any number of tasks.
-                      Better you describe the project, more people will cosponsor it.
-                  </p>
-                  <p>If you want to change an existing project, just set a new task on <a href="/project/list/">its page</a>.</p>
-                  <!--project_name-->
-                  <input type="text" name="project_name" value="" class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Title" required="">
-
-                  <!--project_description-->
-                  <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6" name="project_description" placeholder="Short description" required="" style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
-
-                  <!--project_code-->
-                  <input name="project_code" readonly class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Project unique code (only letters, underlines and dots allowed)">
-
-                  <!--footer-->
-                  <div class="text-center">
-                    <button disabled class="btn btn-rounded btn-primary u-w-170 js-button-next" type="button">
-                      <i class="fa fa-save"></i> <span class="js-button-next"> Forward</span>
-                    </button>
-                  </div>
-                </div>
-
-                <!--task-->
-                <div class="js-task-step" style="display:none">
-                  <input type="hidden" name="project_id" value="{{ request.GET.pid | default_if_none:'' }}" />
-                  <h4 class="u-py-15 text-center">Creating a Task</h4>
-
-                  <p>Create your task in the project. You may want to be specific enough, so developers return you something you can install and test.</p>
-
-                  <!--task_name-->
-                  <input type="text" name="task_name" value="" class="form-control u-rounded-50 p-3 u-mb-30 js-required" placeholder="Task title" required="">
-
-                  <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
-                            name="task_description"
-                            placeholder="Short task description" required=""
-                            style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
-
-                  <!--form-footer-->
-                  <div class="text-center">
-                    <button class="btn btn-rounded btn-primary u-w-170 js-butto-prev" type="button">
-                      <i class="fa fa-arrow-left"></i> <span class="js-button-text"> Go back</span>
-                    </button>
-
-                    <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit" type="button">
-                      <i class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
-                    </button>
-                  </div>
-                </div>                
-              </div>
+                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 -u-mb-40 mx-auto"></div>
+                <!--{# <p>Create task for new project</p> #}-->
             </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- END container-->
-<style>
-  .alert-tab {
-    color: darkred !important;
-  }
+            <!-- END row-->
+            <div class="row">
+                <div class="col-md-6 col-lg-9 mx-auto">
+                    <form novalidate action="/task_handler" method="POST" enctype="multipart/form-data"
+                          class="js-project-form">
+                        <input type="hidden" name="action" value="fastCreate"/>
 
-  .alert-tab {
-    position: relative;
-    background: #ffe5e5;
-  }
+                        <div class="tab-content" id="v-pills-tabContent">
+                            <div class="project-edit-form">
+                                <!--project-->
+                                <!--task-->
+                                <input type="hidden" name="project_id"
+                                       value="{{ request.GET.pid | default_if_none:'' }}"/>
+                                <h4 class="u-py-15 text-center">Creating a Task</h4>
 
-    .alert-tab .fa.fa-exclamation-triangle {
-      float: right;
-      position: absolute;
-      right: 11px;
-      top: 50%;
-      margin-top: -7px;
-    }
+                                <p>Create your task in the project. You may want to be specific enough, so developers
+                                    return you something you can install and test.</p>
 
-    .alert-tab .color-primary {
-      color: darkred !important;
-    }
+                                <!--task_name-->
+                                <input type="text" name="task_name" value=""
+                                       class="form-control u-rounded-50 p-3 u-mb-30 js-required"
+                                       placeholder="Task title" required="">
 
-  .nav-vertical .nav-link {
-    margin: 5px 0;
-    position: relative;
-    padding: 5px 40px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
+                                <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                                            name="task_description"
+                                            placeholder="Short task description" required=""
+                                            style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
 
-    .nav-vertical .nav-link .icon {
-      position: absolute;
-      left: 10px;
-      top: 50%;
-      margin-top: -7px;
-    }
+                                <input name="project_code" readonly class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Project unique code (only letters, underlines and dots allowed)">
+                                <!--form-footer-->
+                                <div class="text-center">
 
-  .nav-vertical {
-    display: block;
-    margin-bottom: 30px;
-  }
+                                    <button disabled class="btn btn-rounded btn-primary u-w-170 js-submit"
+                                            type="button">
+                                        <i class="fa fa-save"></i> <span class="js-button-text"> Create task</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
-  .nav-pills.nav-vertical .nav-link.alert-tab.active {
-    background: darkred !important;
-    color: #fff !important;
-  }
-</style>
+    <!-- END container-->
+    <style>
+        .alert-tab {
+            color: darkred !important;
+        }
+
+        .alert-tab {
+            position: relative;
+            background: #ffe5e5;
+        }
+
+        .alert-tab .fa.fa-exclamation-triangle {
+            float: right;
+            position: absolute;
+            right: 11px;
+            top: 50%;
+            margin-top: -7px;
+        }
+
+        .alert-tab .color-primary {
+            color: darkred !important;
+        }
+
+        .nav-vertical .nav-link {
+            margin: 5px 0;
+            position: relative;
+            padding: 5px 40px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .nav-vertical .nav-link .icon {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            margin-top: -7px;
+        }
+
+        .nav-vertical {
+            display: block;
+            margin-bottom: 30px;
+        }
+
+        .nav-pills.nav-vertical .nav-link.alert-tab.active {
+            background: darkred !important;
+            color: #fff !important;
+        }
+    </style>
 
 {% endblock %}

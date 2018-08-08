@@ -1,6 +1,10 @@
 {% extends "public/index.html" %}
 {% load thumbnail get_settings compressed %}
 {% block header %}
+    <meta property="og:image" content="/static/public/assets/img/os-icons.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="572">
+    <meta property="og:image:height" content="361">
     {% if request.GET.ref %}
         <meta name="description"
               content="Give the fuel to Open Source projects and get non-commercial bonuses. --- {{ project.description }}">
@@ -14,7 +18,7 @@
     {% if request.GET.ref %}
         <title>"{{ project.name }}" needs your support in smth nightmare complicated but really cool</title>
     {% elif request.GET.share %}
-        <title>Help "{{ project.name }}" to make the software world extremely better with OpenGift.</title>
+        <title>Donate or download free "{{ project.name }}" to make the software world extremely better with OpenGift.</title>
     {% else %}
         <title>OpenGift.io - {{ project.name }}</title>
     {% endif %}

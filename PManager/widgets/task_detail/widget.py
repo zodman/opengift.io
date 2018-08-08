@@ -124,6 +124,7 @@ def widget(request, headerValues, arFilter, q):
             setattr(task, 'canRemove', task.canPMUserRemove(prof))
             setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
             setattr(task, 'canClose', task.canApprove)
+            setattr(task, 'canConfirm', cur_user.is_authenticated() and task.donations.filter(user=cur_user).count())
 
 
         setattr(task, 'taskResp', [{'id': task.resp.id, 'name': task.resp.first_name + ' ' + task.resp.last_name if task.resp.first_name else task.resp.username} if task.resp else {}])
@@ -141,16 +142,22 @@ def widget(request, headerValues, arFilter, q):
             arFilter = {
                 'parentTask': task
             }
-            subtasks = taskList(request, headerValues, {'filter': arFilter}, [], {})
-            subtasks = subtasks['tasks']
-            for subtask in subtasks:
-                if subtask['closed']:
-                    hiddenSubTasksExist = True
-                    break
+
+            subtasks = []
+            # subtasks = taskList(request, headerValues, {'filter': arFilter}, [], {})
+            # subtasks = subtasks['tasks']
+            # for subtask in subtasks:
+            #     if subtask['closed']:
+            #         hiddenSubTasksExist = True
+            #         break
 
         # users = widgetManager.getResponsibleList(request.user, headerValues['CURRENT_PROJECT'])
         users = User.objects.order_by('last_name').filter(
             pk__in=PM_Task_Message.objects.filter(task=task).values('author__id')
+        )
+
+        candidates = User.objects.order_by('last_name').filter(
+            pk__in=PM_Task_Message.objects.filter(task=task, code='RESULT').values('author__id')
         )
 
         dict = task.__dict__
@@ -221,11 +228,12 @@ def widget(request, headerValues, arFilter, q):
 
             setattr(mes, 'json', json.dumps(mes.getJson(ob, cur_user if cur_user.is_authenticated() else None)))
 
-        try:
-            startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
-        except PM_Timer.DoesNotExist:
-            startedTimer = None
+        # try:
+        #     startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
+        # except PM_Timer.DoesNotExist:
+        #     startedTimer = None
 
+        startedTimer = None
         setattr(task, 'todo', arTodo)
         setattr(task, 'bug', arBugs)
         templates = templateTools.getMessageTemplates()
@@ -252,7 +260,11 @@ def widget(request, headerValues, arFilter, q):
                 'ask': m.requested_time
             })
 
-
+        results = []
+        for m in task.messages.filter(code='RESULT'):
+            if maxRequested < m.requested_time:
+                maxRequested = m.requested_time
+            results.append(m)
 
         if maxRequested:
             maxRequested += maxRequested * 0.1
@@ -276,9 +288,11 @@ def widget(request, headerValues, arFilter, q):
             'avgDonate': (arDonateSum * 1.0 / (arDonateQty or 1)) if arDonateSum else 5,
             'backers': aBackers,
             'askers': askers,
+            'results': results,
             'subtasks': subtasks,
             'taskTemplate': taskTemplate,
             'users': users,
+            'candidates': candidates,
             'messages': messages,
             # 'solutions': similar_solutions(task.id),
             'lamp': lamp,

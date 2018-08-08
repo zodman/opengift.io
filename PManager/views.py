@@ -183,14 +183,16 @@ class MainPage:
                     white_list_registraton = request.POST.get('whitelist', None)
                     promo_reg = request.POST.get('promo_reg', None)
 
+                    prof = user.get_profile()
                     if white_list_registraton or promo_reg:
-                        prof = user.get_profile()
                         prof.in_whitelist = True if white_list_registraton else False
                         prof.in_promo = True if promo_reg else False
                         prof.tokens_to_buy = request.POST.get('gift_qty')
                         prof.eth = request.POST.get('eth_address')
-                        prof.referrer = request.COOKIES.get('partner_id', None)
-                        prof.save()
+
+                    prof.is_bc_user = True
+                    prof.referrer = request.COOKIES.get('partner_id', None)
+                    prof.save()
 
                     mess = emailMessage(
                         'whitelist',

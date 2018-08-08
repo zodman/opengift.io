@@ -120,6 +120,7 @@ class PM_User(models.Model):
     last_activity_date = models.DateTimeField(null=True, blank=True)
 
     is_outsource = models.BooleanField(blank=True, verbose_name=u'Аутсорс', default=False)
+    is_bc_user = models.BooleanField(blank=True, verbose_name=u'Blockchain user', default=False)
     is_heliard_manager = models.BooleanField(blank=True, verbose_name=u'Менеджер Heliard', default=False)
     in_whitelist = models.BooleanField(blank=True, verbose_name=u'In whitelist', default=False)
     in_promo = models.BooleanField(blank=True, verbose_name=u'In Promo', default=False)

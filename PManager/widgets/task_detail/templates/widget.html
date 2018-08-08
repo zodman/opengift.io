@@ -23,7 +23,8 @@
         <ul class="widget-title-info-left-ul clearfix">
           {% if task_detail.task.project.id != 1013 %}
           <li class="active">
-            <a href="/project/{{ task_detail.task.project.id }}/tasks/">{{ task_detail.task.project.name }}</a>
+            <a href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a>
+              / <a href="/project/{{ task_detail.task.project.id }}/tasks/">tasks</a>
           </li>
           {% endif %}
           {% if not request.GET.frame_mode %}
@@ -91,6 +92,8 @@
       {% endif %}
 
       <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
+      <li>You can get up to 20% project shares donating to this task
+          <a href="#" data-toggle="tooltip" title="Shares of project gives you part of the income from all its tasks forever.">?</a></li>
     </ul>
 
     {% if not task_detail.task.closed %}
@@ -476,18 +479,79 @@
     {% if task_detail.solutions %}
     <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
     {% endif %}
-
+    {% if task_detail.results %}
+          <h3 class="hidden-768-down">Published results</h3>
+            <ul style="padding-left: 25px;margin-bottom: 25px;">
+            {% for result in task_detail.results %}
+                <li>{{ result.text }}</li>
+            {% endfor %}
+            </ul>
+    {% endif %}
     {% if request.user.is_authenticated %}
+
       <div class="task_add-message">
+      <style>
+          .message-tabs {
+              width: 100%;
+              padding: 0 0 15px;
+          }
+          .message-tab {
+              display: inline-block;
+              padding: 10px 20px 10px 0;
+          }
+          .message-tab.active {
+              cursor: default;
+              color: #444;
+              font-weight: bold;
+          }
+      </style>
+      <script>
+          $(function() {
+              $('.js-task-message-tab').click(function() {
+                  $(this).addClass('active').siblings().removeClass('active');
+                  $('[name="message_type"]').val($(this).data('type'));
+                  $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
+                  return false;
+              });
+          });
+      </script>
+      <div class="message-tabs">
+            <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
+            <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Estimate the task</a>
+            <a data-type="result" class="js-task-message-tab message-tab" href="#">Post result code</a>
+            {% if task_detail.candidates %}
+            <a data-type="vote" class="js-task-message-tab message-tab" href="#">Accept the result</a>
+            {% endif %}
+      </div>
       <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <select class="js-recipient combobox" onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}" name="to">
+      <input type="hidden" name="message_type" value="message" />
+      <div style="display: inline-block;" data-type="message"
+                class="js-message-options">
+        <select class="js-recipient combobox"
+                onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}"
+                name="to">
           <option value="">To:</option>
           {% for resp_user in task_detail.users %}
           <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
           {% endfor %}
         </select>
+      </div>
+      {% if task_detail.candidates %}
+      <div style="display: none;" data-type="vote"
+                class="js-message-options message-select">
+        <select class="js-winner combobox" name="winner">
+          <option value="">Winner:</option>
+          {% for resp_user in task_detail.candidates %}
+          <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      {% endif %}
         <style>
+            .message-select {
+                display: inline-block;
+            }
           .need-time-hours {
             margin-left: 5px;
             margin-right: 5px;
@@ -519,17 +583,17 @@
             }
         </style>
         <div class="left clearfix">
-          <label class="left_check"><input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message</label>
+          <label class="left_check js-message-options" data-type="message" style="display: none;">
+              <input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message
+          </label>
           {% if not task_detail.task.closed %}
           {#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
-          <label class="left_check">
-            <input class="js-need-time" type="checkbox" name="need-time" value="Y" /> Est. price
-            <span class="js-need-time-hours" style="display: none;">
+          <label class="left_check js-message-options" data-type="estimation" style="display: none;">
+            <span class="js-need-time-hours" >
               <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
             </span>
           </label>
           {% endif %}
-          <label class="left_check"><input class="js-vote" type="checkbox" name="vote" value="Y" /> Choose a bounty winner</label>
           {#                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>#}
           <a href="#" title="Drow" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
           <a title="Attach a file" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
