@@ -447,7 +447,7 @@
                 <h3 class="u-pt-25">4. Want to integrate you project for some companies? Set minimal integration price.</h3>
                 <div class="field-group">
                   <input type="text" name="integration_price"
-                         value="{{ project.integration_price|default_if_none:'' }}"
+                         value="{{ project.integration_price|default_if_none:''|floatformat:"0" }}"
                          class="form-field" placeholder="Minimal price ($)" />
                 </div>
               </div>

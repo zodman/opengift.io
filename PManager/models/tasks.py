@@ -1792,6 +1792,14 @@ class PM_Property_Values(models.Model):
     class Meta:
         app_label = 'PManager'
 
+class PM_TaskShareDonations(models.Model):
+    project = models.ForeignKey(PM_Project, related_name="promisedShares")
+    amount = models.FloatField()
+    task = models.ForeignKey(PM_Task, related_name="promisedShares")
+    author = models.ForeignKey(User, related_name="promisedShares")
+
+    class Meta:
+        app_label = 'PManager'
 
 class PM_Task_Message(models.Model):
     text = models.CharField(max_length=10000)

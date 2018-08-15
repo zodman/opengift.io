@@ -93,11 +93,11 @@
 
       <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
       <li>You can get up to 20% project shares donating to this task
-          <a href="#" data-toggle="tooltip" title="Shares of project gives you part of the income from all its tasks forever.">?</a></li>
+          <a href="#" data-toggle="tooltip" title="Shares of project gives you a part of the income from all its tasks eternaly.">?</a></li>
     </ul>
 
     {% if not task_detail.task.closed %}
-    <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}"
+    <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
        class="donate-button btn orange-gr">Donate (min. ${{ task_detail.avgDonate|floatformat:"0" }})<img src="/static/img/investment.svg" height="18"></a>
     {% endif %}
   </div>

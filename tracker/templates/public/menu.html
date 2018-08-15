@@ -51,7 +51,7 @@
         </li>
         <li class="nav-item dropdown">
 
-            <a class="nav-link" href="/wallet/">{% if request.user.is_authenticated %}Wallet{% else %}Sign in / Sign up{% endif %}</a>
+            <a class="nav-link" {% if not request.user.is_authenticated %}id="topsignin"{% endif %} href="/wallet/">{% if request.user.is_authenticated %}Wallet{% else %}Sign in / Sign up{% endif %}</a>
             <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
                 <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
                 {% if request.user.is_authenticated %}

@@ -47,8 +47,9 @@
 
                             <div class="row align-items-center">
                                 <div class="col-lg-6 js-form-group">
+                                    <input type="hidden" name="min_donation" value="{{ request.GET.min }}" />
                                     <input type="text" name="" data-number-from="0.00001"
-                                           class="js-required js-target-project-sum" value=""
+                                           class="js-required js-target-project-sum" value="{{ request.GET.min }}"
                                            placeholder="Sum"/>
                                     <input type="hidden" name="" class="js-required js-target-project"
                                            value="{{ project.blockchain_name }}"/>
@@ -142,10 +143,26 @@
 
 
             var donate = function (project, qty, currency, milestone, task) {
-                var form = new Form('.js-donate-form');
+                var form = new Form('.js-donate-form'),
+                    minDonationUSD = $('[name=min_donation]').val(),
+                    valToCheck = qty,
+                    $donateBtn = $('.js-donate');
 
                 if (form.validate()) {
-                    $('.js-donate').attr('disabled', 'disabled');
+                    if (minDonationUSD) {
+                        if (qty) {
+                            if (currency != 'usd') {
+                                valToCheck *= parseFloat($('.js-currency-rate[data-currency='+currency+']').text());
+                            }
+                            if (valToCheck < minDonationUSD) {
+                                alert('You have to donate min $'+minDonationUSD);
+                                return;
+                            }
+                        }
+                    }
+
+                    $donateBtn.attr('disabled', 'disabled').val('Please wait...');
+
                     $.post('/blockchain/ajax/', {
                         'action': 'donate',
                         'project': project,

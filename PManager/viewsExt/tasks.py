@@ -449,7 +449,7 @@ def __task_message(request):
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
     type = request.POST.get('message_type', '')
-    requested_time = float(request.POST.get('need-time-hours', 0)) if (request.POST.get('need-time', '') == 'Y') else 0
+    requested_time = float(request.POST.get('need-time-hours', 0))
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
     profile = request.user.get_profile()
@@ -1318,6 +1318,7 @@ class taskAjaxManagerCreator(object):
             except PM_Project.DoesNotExist:
                 pass
 
+        bIsNewProject = False
         if not self.taskManager.project:
             projectName = taskInputText
             projectDescription = taskDesc
@@ -1333,6 +1334,8 @@ class taskAjaxManagerCreator(object):
             self.currentUser.get_profile().setRole('manager', project)
 
             self.taskManager.project = project
+            bIsNewProject = True
+
 
         isBounty = True
 
@@ -1341,11 +1344,23 @@ class taskAjaxManagerCreator(object):
             return json.dumps({'errorText': 'Empty project'})
 
         if taskInputText:
+            if taskDesc:
+                taskInputText += '///' + str(taskDesc)
+
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:
                 task.lastModifiedBy = self.currentUser
                 if isBounty:
                     task.onPlanning = True
+                    if bIsNewProject:
+                        from PManager.models.tasks import PM_TaskShareDonations
+                        share = PM_TaskShareDonations(
+                            project=self.taskManager.project,
+                            task=task,
+                            amount=20,
+                            author=self.currentUser
+                        )
+                        share.save()
 
                 task.save()
 
