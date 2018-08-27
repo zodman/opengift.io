@@ -28,6 +28,7 @@ class Brains:
 
 
 class MainPage:
+
     @staticmethod
     def support(request):
         from bitrix24 import Bitrix24
@@ -190,21 +191,21 @@ class MainPage:
                         prof.tokens_to_buy = request.POST.get('gift_qty')
                         prof.eth = request.POST.get('eth_address')
 
+                        mess = emailMessage(
+                            'whitelist',
+                            {
+                                'first_name': user.first_name,
+                                'last_name': user.last_name
+                            },
+                            'OpenGift - Thanks for registering in the WhiteList!'
+                        )
+                        mess.send([username])
+                        from tracker.settings import ADMIN_EMAIL
+                        mess.send([ADMIN_EMAIL])
+
                     prof.is_bc_user = True
                     prof.referrer = request.COOKIES.get('partner_id', None)
                     prof.save()
-
-                    mess = emailMessage(
-                        'whitelist',
-                        {
-                            'first_name': user.first_name,
-                            'last_name': user.last_name
-                        },
-                        'OpenGift - Thanks for registering in the WhiteList!'
-                    )
-                    mess.send([username])
-                    from tracker.settings import ADMIN_EMAIL
-                    mess.send([ADMIN_EMAIL])
 
                     user.backend = 'django.contrib.auth.backends.ModelBackend'
                     login(

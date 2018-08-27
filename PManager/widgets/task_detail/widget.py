@@ -181,6 +181,7 @@ def widget(request, headerValues, arFilter, q):
 
 
             if not prof.isManager(task.project):
+                messages = messages.exclude(code="RESULT")
                 if prof.isClient(task.project):
                     messages = messages.filter(hidden_from_clients=False)
                 if prof.isEmployee(task.project):
@@ -261,10 +262,11 @@ def widget(request, headerValues, arFilter, q):
             })
 
         results = []
-        for m in task.messages.filter(code='RESULT'):
-            if maxRequested < m.requested_time:
-                maxRequested = m.requested_time
-            results.append(m)
+        if request.user.is_superuser:
+            for m in task.messages.filter(code='RESULT'):
+                if maxRequested < m.requested_time:
+                    maxRequested = m.requested_time
+                results.append(m)
 
         if maxRequested:
             maxRequested += maxRequested * 0.1

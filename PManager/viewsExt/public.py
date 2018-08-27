@@ -7,6 +7,42 @@ from django.contrib.auth.models import User
 
 class Public:
     @staticmethod
+    def hackathon(request):
+        c = RequestContext(request, {
+            'users': PM_User.objects.filter(hackathon_registered__isnull=False)
+        })
+        return HttpResponse(loader.get_template('public/hackathon.html').render(c))
+
+    @staticmethod
+    def hackathon_register(request):
+        c = RequestContext(request, {})
+        if request.POST.get('stack', ''):
+            from PManager.viewsExt.tools import emailMessage
+            prof = request.user.get_profile()
+            prof.hackathon_registered = request.POST.get('stack', '')
+            prof.save()
+
+            message = emailMessage(
+                'hackathon_register',
+                {
+                    'user': {
+                        'name': request.user.first_name + ' ' + request.user.last_name
+                    }
+                },
+                'OpenGift Hackathon registration'
+            )
+
+            message.send([request.user.email])
+            # admin
+            # todo: Move this method to a service
+            from tracker.settings import ADMIN_EMAIL
+            message.send([ADMIN_EMAIL])
+
+            return HttpResponseRedirect('/hackathon/')
+
+        return HttpResponse(loader.get_template('public/hackathon_register.html').render(c))
+
+    @staticmethod
     def debug_on(request):
         response = HttpResponse('ok')
         return response.set_cookie('debug_mode', 'on')

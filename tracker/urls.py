@@ -40,6 +40,7 @@ from PManager.viewsExt.telegram import botPage
 from PManager.viewsExt.public import Public
 from PManager.viewsExt.crypto import get_paid_btc
 import datetime
+from django.views.generic.base import RedirectView
 from django.views.generic import TemplateView
 import logging
 logger = logging.getLogger('yandex_money')
@@ -178,6 +179,7 @@ urlpatterns = patterns('',
                        url(r'^wallet/', blockchainMain),
                        url(r'^pub/', Public.mainPage),
                        url(r'^ico/', Public.icoPage),
+                       url(r'^hackathon_register/', Public.hackathon_register),
                        url(r'^debug_on/', Public.debug_on),
                        url(r'^debug_off/', Public.debug_off),
                        url(r'^backers/$', TemplateView.as_view(template_name='public/backers.html'), {'need_inverse': True}),
@@ -187,7 +189,8 @@ urlpatterns = patterns('',
                        url(r'^telegram/bot/$', botPage),
                        url(r'^ref/$', TemplateView.as_view(template_name='public/ref.html'), {'need_inverse': True}),
                        url(r'^dev/$', TemplateView.as_view(template_name='public/developers.html'), {'need_inverse': True}),
-                       url(r'^hackaton/$', TemplateView.as_view(template_name='public/hackaton.html'), {'need_inverse': True}),
+                       url(r'^hackathon/$', Public.hackathon),
+                       url(r'^hackaton/$', RedirectView.as_view(url='/hackathon/', permanent=False), {'need_inverse': True}),
                        url(r'^faq/$', faq_list),
                        url(r'^paypal/$', paypalExecute),
                        url(r'^.well-known/pki-validation/33964DF816EB9D15A1764F04818FB7E7.txt', lambda r: HttpResponse("893D709E4EFBB5DD6799956FA602579A9AFFA233377F7DBB3F14C48ACBD21211\r\nCOMODOCA.COM\r\nw0617990001512489411")),

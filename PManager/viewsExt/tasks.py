@@ -449,7 +449,7 @@ def __task_message(request):
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
     type = request.POST.get('message_type', '')
-    requested_time = float(request.POST.get('need-time-hours', 0))
+    requested_time = float(request.POST.get('need-time-hours', 0)) if request.POST.get('need-time-hours', 0) else 0
     solution = (request.POST.get('solution', 'N') == 'Y')
     task = PM_Task.objects.get(id=task_id)
     profile = request.user.get_profile()

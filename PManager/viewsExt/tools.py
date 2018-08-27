@@ -217,7 +217,7 @@ class TextFilters:
 
         text = TextFilters.escapeText(text)
         text = linebreaksbr(text)
-
+        text = text.replace('\t', '&nbsp;&nbsp;&nbsp;&nbsp;')
         return text
 
     @staticmethod

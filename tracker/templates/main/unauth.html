@@ -2,7 +2,8 @@
 {% load less %}
 {% block content %}
 <section>
-  <div class="container">
+    <br />
+  <div class="container ">
       {% if request.isPromo %}<br /><br />
           <h1 class="display-4 u-fw-600 u-mb-40 text-center">Register and get 100 GIFT tokens<br />for free to your wallet!</h1>
           <p class="u-fs-22 u-lh-1_8 my-4 text-center">You can choose to keep it or sponsor some cool open source projects.</p>
@@ -22,7 +23,7 @@
     </style>
 
     <!--messages-->
-    <div class="text-center">
+    <div class="text-center " >
 
       {% if error %}
       <div class="bg-primary rounded u-p-10 u-mb-40 mx-auto">

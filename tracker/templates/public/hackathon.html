@@ -1,0 +1,768 @@
+{% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Favicon-->
+    <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+    {% block header %}
+        <meta name="description" content="Every week we develop a new open source library or solution here.">
+        <!-- Title-->
+        <title>OpenGift.io - Weekly hackathon</title>
+    {% endblock %}
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Dosis:400,500,600,700%7COpen+Sans:400,600,700" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
+          rel="stylesheet">
+    <!--Icon fonts-->
+
+    {#    {% compressed_css 'base' %}#}
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css?v1">
+    <link rel="stylesheet" href="/static/public/assets/css/flipclock.css">
+
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+    <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+    <link rel="stylesheet" href="/static/public/assets/css/style.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/form.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/timeline.css">
+
+    <link rel="stylesheet" href="/static/public/assets/css/dosis.css">
+    {#    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">#}
+
+    <script src="/static/public/assets/js/bundle.js"></script>
+    {% compressed_js 'base' %}
+    <script type="text/javascript">
+        window.heliardSettings = {
+            "HTTP_ROOT_URL": '{% get_settings "HTTP_ROOT_URL" %}',
+            "SERVER_IP": '{% get_settings "SERVER_IP" %}',
+            "SOCKET_SERVER_ADDRESS": '{% get_settings "SOCKET_SERVER_ADDRESS" %}',
+            'CSRF_TOKEN': $.cookie('csrftoken')
+        };
+        var CURRENT_TASK_VIEW;
+        var CURRENT_TASK_DATA;
+        var arTimers = {};
+        window.backurl = '{{ backurl }}';
+        {% if main.CURRENT_PROJECT %}
+            window.currentProject = {{ main.CURRENT_PROJECT.id }};
+        {% endif %}
+        window.baseUserParams = {
+            'userId': {{ user.id|default_if_none:'0' }}
+        };
+
+        WEB_SOCKET_SWF_LOCATION = '/static/WebSocketMain.swf';
+        $(function () {
+            APNG.ifNeeded(function () {
+                $("img.loader").each(function () {
+                    APNG.animateImage(this);
+                });
+            });
+        });
+        {% if user.is_authenticated %}
+            document.mainController = new mainControllerClass({
+                'userId':{{ user.id }},
+                'widgetsData': {}
+            });
+        {% endif %}
+        var oMyCurrentTimer = new PM_Timer({{ userTimer.jsonData|jsonify|safe }});
+        {% if userTimer %}
+            CURRENT_TASK_DATA = {
+                'id':{{ userTimer.task.id }},
+                'started':{{ userTimer.task.started|jsonify }},
+                'closed':{{ userTimer.task.closed|jsonify }},
+                'name':{{ userTimer.task.name|jsonify|safe }},
+                'project': {
+                    'name': {{ userTimer.task.project.name|jsonify|safe }}
+                }
+            };
+
+            {% if userTimer.task.parentTask %}
+                CURRENT_TASK_DATA['parentTask'] = {
+                    'name': {{ userTimer.task.parentTask.name|jsonify|safe }}
+                };
+            {% endif %}
+        {% endif %}
+        var ACCOUNT_TOTAL = {{ account_total|jsonify|safe }};
+    </script>
+    {% block scripts %}{% endblock %}
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+
+</head>
+
+<body id="top">
+
+
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="top-panel-error animated js-error-container label-danger" style="display: none;">
+    <div class="container">
+        <div class="pull-left">
+            <div class="container js-error-container-text"></div>
+        </div>
+
+        <div class="pull-right">
+            <a href="#" class="close-btn js-error-container-close">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% block head %}
+    <header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg px-md-0">
+                <a class="navbar-brand" href="/">
+				<span class="logo-default">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+				<span class="logo-inverse">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+                </a>
+
+                <div class="navbar-toggler js-navbar-toggler">
+                    <span class="lnr lnr-text-align-right nav-hamburger"></span>
+                    <span class="lnr lnr-cross nav-close"></span>
+                </div>
+
+                {% include "public/menu.html" %}
+
+            </nav>
+        </div> <!-- END container-->
+    </header> <!-- END header -->
+{% endblock %}
+
+
+{% block content %}
+
+    <section class="u-py-100 u-h-100vh u-flex-center bg-white">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-7 u-mt-80 text-center u-pr-35">
+                    <p class="u-fs-22 text-dark u-lh-1_8 u-mb-40">
+                        <a target="_blank" href="https://www.facebook.com/OpenGift.io/" class="icon fa fa-facebook"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://github.com/opengift-io/" class="icon fa fa-github"></a>
+                    </p>
+
+                    <h1 class="display-4 u-fw-600 text-dark u-mb-40 u-ff-os">
+                        OpenGift weekly contest for developers
+                    </h1>
+
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                        <img src="/static/img/languages/005-python.png" style="width: 40px"/>
+                        <img src="/static/img/languages/015-ruby.png" style="width: 40px"/>
+                        <img src="/static/img/languages/027-php.png" style="width: 40px"/>
+                        <img src="/static/img/languages/029-javascript.png" style="width: 40px"/>
+                        <img src="/static/img/languages/031-css.png" style="width: 40px"/>
+                        <img src="/static/img/languages/016-c-1.png" style="width: 40px"/>
+                    </p>
+
+                    <h2 class="text-dark u-mb-40 u-ff-os">Take part in the OpenGift online hackathon and win up to
+                        $10,000 worth of our platform tokens, GIFTs.</h2>
+                    <p><a href="#current" style="display: none;" class="js-current-task-btn btn btn-primary">Current task</a></p>
+                </div> <!-- END col-lg-6-->
+                <div class="col-lg-5 text-center">
+                    <br/>
+                    <br/>
+                    <br/>
+
+                    <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
+
+                        <h2 class="u-fw-600 text-black u-mb-40 js-timer-title">The task for the hackathon will be
+                            announced on<br/> 1st
+                            of September at 1 pm GMT.</h2>
+
+                        <div class="clock u-mb-40"></div>
+                        <script type="text/javascript">
+
+                            $(document).ready(function () {
+                                var clock;
+                                clock = $('.clock').FlipClock({
+                                    clockFace: 'DailyCounter',
+                                    autoStart: false,
+                                    callbacks: {
+                                        stop: function () {
+                                            $('.message').html('The clock has stopped!')
+                                        }
+                                    }
+                                });
+                                var date = new Date(Date.UTC(2018, 7, 25, 13, 0, 0));
+                                var currentDate = new Date();
+                                if (currentDate > date) {
+
+                                    date = new Date(Date.UTC(2018, 7, 26, 13, 0, 0));
+
+                                    if (currentDate < date) {
+                                        $('.js-current-hackaton, .js-current-task-btn').show();
+                                        $('.js-timer-title').html('The hackathon results should be sent till <br />26 of August at 1 pm GMT.');
+                                    } else {
+                                        date = false;
+                                    }
+                                }
+                                if (date) {
+                                    clock.setTime((date - new Date()) / 1000);
+                                    clock.setCountdown(true);
+                                    clock.start();
+                                } else {
+                                    $('.clock').hide();
+                                }
+                            });
+                        </script>
+                        {% if request.user.is_authenticated and request.user.get_profile.hackathon_registered %}
+                            <p>You are registered for the next hackathon.</p>
+                        {% else %}
+                            <a href="{% if request.user.is_authenticated %}/hackathon_register/{% else %}/login/?backurl=/hackathon_register/{% endif %}"
+                               id="registerhackathonpage" style="background-color: #2a2a2a"
+                               class="btn btn-secondary m-2 px-md-5 py-3">
+                                REGISTER FOR HACKATHON
+                            </a>
+                        {% endif %}
+                        <div class="js-hackaton-calendar-add"></div>
+                        {#                        <a href="#current"#}
+                        {#                           class="btn btn-gray m-2 px-md-5 py-3">#}
+                        {#                            CURRENT HACKATON#}
+                        {#                        </a>#}
+                    </div>
+                </div>
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section> <!-- END intro-hero-->
+    <section class="bg-gray-v2 u-pt-50 u-pb-50">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 u-pl-50 text-center">
+                    <h2 class="h1 u-mb-30">
+                        What’s an OpenGift hackathon?
+                    </h2>
+
+                    <p class="u-fs-18 u-fw-500 u-lh-1_5">
+                        Every week we develop a new open source library or solution here. Free to use and available for
+                        all.
+                        Many customers from around the world collectively fund the new open source project.
+                        The winner is selected by voting.
+                    </p>
+
+                    <h2>Join us <a id="tghackathon" href="https://t.me/opengift">in telegram</a> to stay tuned!</h2>
+                </div> <!-- END col-md-6 -->
+            </div>
+        </div>
+    </section>
+
+    <a name="current"></a>
+    <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50 text-center">The second OpenGift online-hackathon has started!</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                            The following task was voted on by the community:
+                        </h4>
+
+                        <p class="text-center text-dark u-t-u">
+                            <a href="/task_detail/?number=1&project=1067" target="_blank">The shortest path</a>
+                        </p>
+
+                        <p>
+                            An application is required that can find a shortest cheapest path from city A to city B.
+                        </p>
+                        <p>
+                            Two dictionaries exist: the first one contains the set of path time from city to city in minutes. The second one contains the costs in $.
+                        </p>
+                        <p>
+                            You should provide a fast algorithm to find an optimal speed and cost path from one city to another. We assume that customer rather will pay 100$ then spend 2 hours more on the flight.
+                        </p>
+
+                        <p>Your algorithm must be faster than others to win the hackathon.</p>
+
+
+                        <p>That’s it! Easy, right?</p>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center bg-gray-v2">
+                        <h4 class="u-fs-26 u-my-35">
+                            Current hackathon rules
+                        </h4>
+
+                        <div style="text-align: left;">
+                            <p>1. You need to upload the result to the GitHub open repository and publish it as a result
+                                of OpenGift hackathon <a href="/task_detail/?number=1&project=1067">task</a>; you have
+                                until 26 Aug 2018 1 pm.</p>
+
+                            <p>2. Anything that isn’t mentioned in the requirements are up to you. Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
+
+                            <p>3. Referees will choose the best 1 developer who will get the prize fund in GIFT
+                                tokens. * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the
+                                requirements.</p>
+
+                            <p>4. The author of the best solution will get the 100% ownership of the new software
+                                solution on the OpenGift platform. **</p>
+                        </div>
+
+                        <h4 class="u-mt-50 ">We wish you a good luck. Let the best developer win!</h4>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p><small>** The owners of open-source project in OpenGift receives a 10% of other contributors income from
+                    new features development and bug fixes. The owner may give part or full of his/her ownership to
+                    any other member of OpenGift community.</small></p>
+
+                <p><small>*GIFT tokens is an inner currency of OpenGift platform. It can be used to pay or donate the
+                    developers. The network of independent interchange points will exchange GIFTs to fiat money but
+                    in the context of financial operations with tasks on the OpenGift platform.</small></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="u-mt-50 u-pb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 ">
+                    <div class="container">
+                        <h2 class="h1 u-mb-30">
+                            How to participate?
+                        </h2>
+                        <ul class="u-list">
+                            <li>Register you GIFT wallet here prior to the start of the hackathon.</li>
+                            <li>Wait for the hackathon started.</li>
+                            <li>Provide your GitHub link for the task when completed.</li>
+                            <li>Your reward will be transferred into your wallet after the voting.</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="container">
+                        <h2 class="h1 u-mb-30">Requirements for participants</h2>
+                        <ul>
+                            <li>
+                                Everyone can take part in the contest.
+                            </li>
+                            <li>
+                                Project work results should be published in a public repository.
+                            </li>
+                            <li>
+                                Project results should have either a public interface or a video that demonstrates the
+                                functional solution.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    {% if request.user.is_authenticated %}
+    <section class="bg-gray-v2 u-pb-0">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Developers
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+
+            <div class="row align-items-left">
+                {% for dev in users %}
+                    {% if not dev.user.is_superuser and dev.user.last_name and dev.hackathon_registered %}
+                    <div class="col-lg-4 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                                <div class="row">
+                                    <div class="col-md-5 user-img-wrapper">
+                                        <img class="w-100 rounded-circle images-grey u-mb-10"
+                                             src="{{ dev.avatarSrc }}"
+                                             alt="">
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <h4 class="u-mb-10">
+                                            {{ dev.user.first_name }} {{ dev.user.last_name }}
+                                        </h4>
+
+                                        <p class="text-muted mb-0 u-fs-13">
+                                            {{ dev.hackathon_registered }}
+                                        </p>
+                                    </div>
+                                </div> <!-- END row-->
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+    {% endif %}
+    <section class="bg-gray-v2 u-pt-0">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        The Referee Team
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+
+            <div class="row align-items-left">
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <div class="with-hidden-text-wrapper">
+                        <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-5 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10"
+                                         src="/static/img/team/emas.jpg"
+                                         alt="">
+
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/gvammer" target="_blank"><i
+                                                    class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/yegor-maslov/" target="_blank"><i
+                                                    class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-7">
+
+                                    <h4 class="u-mb-10">
+                                        Yegor Maslov
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13">
+                                        OpenGift Ideologist
+                                    </p>
+                                </div>
+                            </div> <!-- END row-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <div class="with-hidden-text-wrapper">
+                        <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-5 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/yb.jpg"
+                                         alt="">
+
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.facebook.com/yegor256" target="_blank"><i
+                                                    class="fa fa-facebook"></i></a>
+                                        </li>
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/yegor256" target="_blank"><i
+                                                    class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-7">
+
+                                    <h4 class="u-mb-10">
+                                        Yegor Bugayenko
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13">
+                                        A programmer, founder, investor, and philanthropist.
+                                    </p>
+                                </div>
+                            </div> <!-- END row-->
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-lg-4 col-md-12 mb-5">
+                    <div class="with-hidden-text-wrapper">
+                        <div class="with-hidden-text-wrapper-inner">
+                            <div class="row">
+                                <div class="col-md-5 user-img-wrapper">
+                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="/static/img/team/sc.jpg"
+                                         alt="">
+
+                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                        <li class="list-inline-item">
+                                            <a href="https://www.linkedin.com/in/stefanocovolan/" target="_blank"><i
+                                                    class="fa fa-linkedin"></i></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="col-md-7">
+
+                                    <h4 class="u-mb-10">
+                                        Stefano Covolan
+                                    </h4>
+
+                                    <p class="text-muted mb-0 u-fs-13">
+                                        Entrepreneur and Investor
+                                    </p>
+                                </div>
+                            </div> <!-- END row-->
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
+
+<footer>
+
+    <div class="container text-center p-4">
+        <p class="mb-0">
+            2018 <span class="icon icon-Heart text-primary mx-2"></span> OpenGift Inc., cert. no. 1972864, incorporated
+            under the BVI Business Companies Act of the British Virgin Islands
+        </p>
+    </div>
+</footer>
+
+<div class="scroll-top bg-white box-shadow-v1">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+
+<script src="/static/js/libs/jquery.waipoints.min.js"></script>
+<script src="/static/public/assets/js/fury.js"></script>
+<script src="/static/public/assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+<script src="/static/public/assets/js/jquery.wavify.js"></script>
+<script src="/static/js/pm/form.js?v4"></script>
+
+<script src="/static/public/assets/js/flipclock.min.js"></script>
+<script>
+    $('#feel-the-wave').wavify({
+        height: 10,
+        bones: 4,
+        amplitude: 20,
+        color: '#ee882c',
+        speed: .15
+    });
+
+    $('#feel-the-wave-two').wavify({
+        height: 13,
+        bones: 3,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+
+    $('#feel-the-wave-three').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+    $('#feel-the-wave-four').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#ffffff',
+        speed: .25
+    });
+</script>
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter47053188 = new Ya.Metrika({
+                id: 47053188,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
+    }
+})(document, window, "yandex_metrika_callbacks"); </script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript> <!-- /Yandex.Metrika counter -->
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq)return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq)f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '895148243996073');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
+/></noscript>
+<script src="/static/js/libs/addtomycalendar.js?1232" type="application/javascript"></script>
+<script>
+    $(function() {
+        var myCalendar = createCalendar({
+            options: {
+              class: 'hackathon-calendar-select',
+              id: 'addcalendar'
+            },
+            data: {
+              title: 'OpenGift Weekly Hackathon',
+              start: new Date(Date.UTC(2018, 7, 25, 13, 0, 0)),
+              duration: 60*24,
+              end: new Date(Date.UTC(2018, 7, 26, 13, 0, 0)),
+              address: 'https://opengift.io/hackathon/',
+              description: 'Just go there and become a winner.'
+            }
+          });
+
+        $('.js-hackaton-calendar-add').append(myCalendar);
+        $(document).on('click', '.js-add-to-calendar', function() {
+            $('.js-add-to-calendar-container').toggle();
+            return false;
+        });
+    });
+</script>
+<style>
+    .calendars-list {
+        display: none;
+    }
+
+    .calendars-list a:before {
+      width: 16px;
+      height: 16px;
+      display: inline-block;
+      background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFQAAAAQCAYAAACIoli7AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyRpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoTWFjaW50b3NoKSIgeG1wTU06SW5zdGFuY2VJRD0ieG1wLmlpZDo0MzJCRDU2NUE1MDIxMUUyOTY1Q0EwNTkxNEJDOUIwNCIgeG1wTU06RG9jdW1lbnRJRD0ieG1wLmRpZDo0MzJCRDU2NkE1MDIxMUUyOTY1Q0EwNTkxNEJDOUIwNCI+IDx4bXBNTTpEZXJpdmVkRnJvbSBzdFJlZjppbnN0YW5jZUlEPSJ4bXAuaWlkOjQzMkJENTYzQTUwMjExRTI5NjVDQTA1OTE0QkM5QjA0IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjQzMkJENTY0QTUwMjExRTI5NjVDQTA1OTE0QkM5QjA0Ii8+IDwvcmRmOkRlc2NyaXB0aW9uPiA8L3JkZjpSREY+IDwveDp4bXBtZXRhPiA8P3hwYWNrZXQgZW5kPSJyIj8+1Gcb3QAACh1JREFUeNrEWAtwVNUZ/u7d9yvZJBtMIC8eBhIKMkQIhqIBKirWwpSW0dahCir1gQhWg2XKjNRqR7AjQ6QjglBFRIW20KmC0KRYjRYMCZGHGEjIY0Oy2U32lX3d3Xv6nxuSbEJCQNvpn/n33POfxz33u9//uBGaBQFcMhgrpGYC6ddk+zfiZKgxsvOG4buJMGATNtzcq4l+WStbsGgpvOiELpgBWetGQGNCstSGkKwH1Ek04oVNFUZQsEAjedCg0iBRVivrP737CL+H8Na7f7lpRFa2cOfMqdUn9n3ARGc7NLEYJj62Qle6Z3/ZlATt82mINV4QVPV33HVXmK/1bRgPvst60vzXgJzZZ84UlOfnV1L/YvwhBxk7Q7quZ3zZLrvSivRy+PtR0Y8oUit2P7+aWm5TifxahErVPWfd/JRBQaNVjA2CIhsecEwIubHzB3+CQWNDNBCCyuiEC6NgpV3agkCszYWknBTInjAMFh20HAo1/QQFVM7Kw9aly7D1ze2iJEemhbu8Mzf++rkVNGMkaS7puKadb0yubGscp/Wa3rc0nNXVJ6RsJvsaUhmXt5oyZv36e4o//hi1tbUonjWrYNTs2QXxhywuL+8bmzevoG7dOu3gj8Po2MIVZGIcAw6TcPma0YV4JfXYEBiy/rbeqZcv+i1tEbIgagzgOAWMerT5MvDuXgfOH6vAsRoRgVAqHOp2TMrX4dYfFmLhVAHTRqtgkn0QQ3W0anZK+UsvzJe/qflxi2d04a3u9iJWdngUHd/I33KEyJEoqBE2mqCxGBCqq//p8idWvPh66Wa35ZlzUIcAnez3w+n14uwDD8CalYWo293vYePH+Fy+Jn58289HKu2rpbux9KF7EY4yfHroAHKL5iv2w/v2Ye7CBfBHBLRWHYJ54rzrCQcsDtx+YA4MAbyTqjsHLfLIrWWcChjwu/XHUVnuxrGDC2G2AdwnnKQNXwOLHnwFH4da8VnZBpg0ZqgcOgJMfKa+oqJkTDQMX3or3GF/khgJQ9TroDInQENq9rjItaNwqUWkeDoy0wtmTKYt/8XPpg4wZpADARTt2YOJx45Bo9PBlZEBy86dvQedPGkSxmZnw5SQAD6Xrxns6XWmYO+1x3e+n52D2WM3Y96w6F0F1F4wBwsBprBEv+0wIQO7Xj2HC0ercLbiEdi0zYgyAk1OgFUQccONwP5dyxELNMCQ5Cfq0YZpekgCpMZgENPvmIc5KckEm4gL7+9BrL0d1rFjYSGGGkePgyWX4qU1CQW3zVG5ztV+n25aQRpVGBojkFpWroTBaAQ/TpD6eput3xOZzWaKEjL43IEM3frHLZD8XtyQasXhdzbDbNTCJjN89tftvfaW8jd67fPyzP3jRBzThGGYKgwxrcceM2eyYDQNG9+8iAMfHsaRXY/AouV4qRAS9NCrmmkjKxBKwOQsM8X0iQhQkpK1IUiiBxq1+oLfaPJJXo8lEOyCJtGKScsfhTYpGYItFTUXG9DY2oqQw4UnFi5SGF/2zfkialQcUJ66V7PrFL5mQhwgXGRZZjv+8ALzBGPM4YuyA9s3sFMtIUW5/Xx7hNU0+RU7X7OM5bFlJxSQ2ODR+ArlIUy5HDjW04y+t5UrC9J5Vm5tYxkz/s5YF3WiESYzP2MRmbmp6+EH9vuZxM9N9iBz0ViUHbclsPuX/GJ2SUnJeX+LnUW6/MqzHTp6lL29dy9rtLewx598kpWsWcPuu+8+Fo1GlfG9+/bZn1q1Kk1JzHQSlUxHjBL7rkX5XL5mMBQks7WvY0vvZ3d4pW63j7Nfo/QDfYCbs3iGa6UORYMUP/92qhoYE4VsdNCoDEEyUYqnhBIDEmJ8hZYenKdmETH6468pWa3GJbvdHpKiTWpio4YSz7Hjx7Hu2Wdx9KOPkDkyHaWbNiE/Lw+LFy+makWlHCInOyc9MyOTJ3JRzcEhnCHHYtf0dCJtwrrp3Suvv/UGvO4uWBLN2L9/N7xeFzyedrS43+q1F401DQdaP+8Vrg1ppcRS3t+DDVQe9dhFqF3JiHTaIYaTyL2jYIld8IsGWCQRTB+GoCcgiU5q2QCD6KNFdQjrM1FVXeUYd+PYxg6nE+np6ZiYn48dO3Zg7dq1iEQi0Gq1KKeqh1h82T2BURkZQlpa2kzqHuJ1qEph3zCAPnVyDao8X6EgeQowANDlSx7mfo9t772NBQt+pmT5T468jgmFS5TxiqPvdderLO+Kfcnte2X71G9VzCvjulhfZaJFFjJSrCj7/DjCqgh0VN6EvSIsCUAXndxPvDxf1w5t4gjoY1qEnAYUfI8SpuokOlyIBIPhC06nSwHUZDIhNzcXoVAIRF7k5OQoLc83/E1eutSKpuYmRKToLZs3l6Zzhqo5QyPR6FVPfcJZg2lFN6Py80q+kbp2WzLwUEe/OZ2Ovr4YU11przqL/5XoRH3fvakwmjFdQtlH4/FC6VdY/dRNVKEYeMqAUR3EiSo9Vj56As2+MKwGMx68fySm5o+HSeDh6FLM7/fVu1zO3v24axcUFJDneZX+SkrgXq8PlZUnEKKKwGpNgM/rmaLT66Z1uzwxVBoC0JKqtTjpPtVd8sQ8YJKM+g3W5Ze/HpZ3f9r0kahk5aq41b/st1c8A3uYOQQrr0uyFwep+ujrG6HHip/YsPvlTmz+7dcovnMGZk4gt6cYKXQFMWuyAV98+iOcpfB6e9HzFBvvoS87J9XfynKZWFnfbLfzbwOlmpEkCauffhpejxenvjqF7KxsdPF6PByCz+PH6dOnKVRUW8eMGX1LN0MJ0MgQLl/dVgNb8YjuAj/qRFJhMmYVzkkv/3NZAV6jJPS4W/gWGLDr/Ua/mkQMzQM2T4dN58Q/DxbizuIKLLjtHax7bhqWPJaLVJMWPsXpzah3SWj3n6GQMKf7/wAmP6/65fq6uubGpsaOFntLuqPdARe5v4fY2emi1uej/OBmjjan3+V2tfi8voZYLFoXlaJnjQZDhZoJgi7GXX4IQPNN+Th9sJuhmKuCWM5w5pvqNiSLlfg/yhcLx2PEqA+QqhR/wX5jHirrdbIJI24A/lG9Gqt/U45NWz7Ey9s/BzQ3QpUQQajdjMS0NixdtQhFxTfTGzVQDc6rFJ/85Zdfem6ePr29dMuWdGKi5PV6Ov2BQFMoFL5INXqtx+upd3d21rXY7Y5AIMBvTp8FCJeXl/nVBKNFRa7Ag+xgsnH2K0p79+474Ix1IJWy5qgXuw40MPb8dwFkOFfngA0nY9zqQe1WnrQtzQRSBgwGEXs2zqUHmXvFvCCFLwP/Lw6PdhQLjVqFVIwSkCRFIgdPVp+sI66d7ury1Xrc7saGhkZ7OBziAEpxGotXYYQg/J4CReZwh3fdriqM2IQkrZN1mg/H9joY+4DMvSyt+eQlTL71uf8a+65VfvVw5nDh5Jpl58NHMK5FCT88diaSGi4DFYnTHvDkgTUyl/8IMABtKh8piZwIuwAAAABJRU5ErkJggg==);
+      margin-right: .5em;
+      content: ' ';
+    }
+
+
+    .calendars-list a {
+        display: block;
+        width: 100%;
+        margin-left: 20px;
+        text-align: left;
+        padding: 5px;
+        border: 1px solid #60bb98;
+        margin-bottom: 2px;
+    }
+
+    .icon-ical:before {
+        background-position: -68px 0;
+    }
+
+    .icon-outlook:before {
+        /*this is the default icon*/
+    }
+
+    .icon-yahoo:before {
+        background-position: -36px+4px;
+    }
+
+    .icon-google:before {
+        background-position: -52px 0;
+    }
+
+</style>
+</body>
+</html>

@@ -9,20 +9,28 @@ from PManager.services.docker import blockchain_user_register_request, blockchai
 
 class Command(NoArgsCommand):
     def handle_noargs(self, **options):
-        newUsers = PM_User.objects.filter(is_bc_user=True)
-        arUsers = []
-        for uProf in newUsers:
-            arUsers.append(uProf.user.id)
-            result = blockchain_user_register_request(uProf.user.username)
-            if result.find('Error') == -1:
-                res = result.split("\n\n")
-                uProf.blockchain_key = res[0]
-                uProf.blockchain_cert = res[1]
-                uProf.blockchain_wallet = blockchain_user_getkey_request(uProf.user.username)
-                uProf.save()
 
         projects = PM_Project.objects.filter(
             blockchain_name__isnull=False,
-            blockchain_registered=False,
-            author__in=arUsers
+            blockchain_registered=False
         )
+
+        for p in projects:
+            uProf = p.author.get_profile()
+            if not uProf.blockchain_wallet:
+                result = blockchain_user_register_request(uProf.user.username)
+                print result
+                if result.find('Error') == -1:
+                    res = result.split("\n\n")
+                    uProf.blockchain_key = res[0]
+                    uProf.blockchain_cert = res[1]
+                    wallet = blockchain_user_getkey_request(uProf.user.username)
+                    print wallet
+                    uProf.blockchain_wallet = wallet
+                    uProf.save()
+
+            res = blockchain_user_newproject_request(p.author.username, p.blockchain_name)
+            print res
+            if res == 'ok':
+                p.blockchain_registered = True
+                p.save()
