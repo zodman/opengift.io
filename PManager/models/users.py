@@ -101,6 +101,7 @@ class PM_User(models.Model):
     bik = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'БИК')
     referrer = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Referrer')
     hackathon_registered = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Hackathon')
+    hackathon_reg_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Hackathon date')
 
     birthday = models.DateTimeField(blank=True, null=True)
     avatar = models.ImageField(blank=True, upload_to=path_and_rename("users"))

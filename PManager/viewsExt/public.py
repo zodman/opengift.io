@@ -1,15 +1,23 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
 from django.shortcuts import HttpResponse, HttpResponseRedirect, Http404
-from PManager.models import PM_User, PM_Project, PM_Project_Donation, PM_Task
+from PManager.models import PM_User, PM_Hackathon, PM_Project, PM_Project_Donation, PM_Task
 from django.template import loader, RequestContext
 from django.contrib.auth.models import User
+import datetime
+from django.utils import timezone
 
 class Public:
     @staticmethod
     def hackathon(request):
+        now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+
         c = RequestContext(request, {
-            'users': PM_User.objects.filter(hackathon_registered__isnull=False)
+            'users': PM_User.objects.filter(hackathon_registered__isnull=False),
+            'user_registered': request.user.is_authenticated()
+                               and request.user.get_profile().hackathon_reg_date
+                               and request.user.get_profile().hackathon_reg_date > now,
+            'hackathons': PM_Hackathon.objects.filter(date__gt=now).order_by('date')
         })
         return HttpResponse(loader.get_template('public/hackathon.html').render(c))
 
@@ -19,7 +27,7 @@ class Public:
         if request.POST.get('stack', ''):
             from PManager.viewsExt.tools import emailMessage
             prof = request.user.get_profile()
-            prof.hackathon_registered = request.POST.get('stack', '')
+            prof.hackathon_reg_date = datetime.datetime(2018, 8, 1, 13, 0, 0)
             prof.save()
 
             message = emailMessage(

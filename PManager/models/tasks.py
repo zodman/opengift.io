@@ -97,6 +97,36 @@ class PM_Tracker(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
+class PM_Hackathon(models.Model):
+    name = models.CharField(max_length=255)
+    text = models.CharField(max_length=1000)
+    date = models.DateTimeField(blank=True)
+    description = models.TextField(null=True)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'PManager'
+
+
+class PM_Hackathon_Winner(models.Model):
+    hackathon = models.ForeignKey(PM_Hackathon, related_name='hackathon_winners')
+    winner = models.ForeignKey(User, related_name='hackathon_winners')
+    speed = models.IntegerField(null=True, blank=True)
+    requirements = models.IntegerField(null=True, blank=True)
+    clarity = models.IntegerField(null=True, blank=True)
+    ux = models.IntegerField(null=True, blank=True)
+
+    def __unicode__(self):
+        return self.name
+
+    class Meta:
+        app_label = 'PManager'
+
+
+
 class PM_Project_Problem(models.Model):
     problem = models.CharField(max_length=1000, verbose_name=u'Problem')
     target_group = models.CharField(max_length=2500, verbose_name=u'Target group')

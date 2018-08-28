@@ -209,7 +209,6 @@
 
                         <div class="clock u-mb-40"></div>
                         <script type="text/javascript">
-
                             $(document).ready(function () {
                                 var clock;
                                 clock = $('.clock').FlipClock({
@@ -221,11 +220,11 @@
                                         }
                                     }
                                 });
-                                var date = new Date(Date.UTC(2018, 7, 25, 13, 0, 0));
+                                var date = new Date(Date.UTC(2018, 8, 1, 13, 0, 0));
                                 var currentDate = new Date();
                                 if (currentDate > date) {
 
-                                    date = new Date(Date.UTC(2018, 7, 26, 13, 0, 0));
+                                    date = new Date(Date.UTC(2018, 8, 2, 13, 0, 0));
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
@@ -243,7 +242,7 @@
                                 }
                             });
                         </script>
-                        {% if request.user.is_authenticated and request.user.get_profile.hackathon_registered %}
+                        {% if user_registered %}
                             <p>You are registered for the next hackathon.</p>
                         {% else %}
                             <a href="{% if request.user.is_authenticated %}/hackathon_register/{% else %}/login/?backurl=/hackathon_register/{% endif %}"
@@ -393,7 +392,7 @@
             </div>
         </div>
     </section>
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_superuser %}
     <section class="bg-gray-v2 u-pb-0">
         <div class="container">
             <div class="row">
@@ -438,6 +437,55 @@
                     {% endif %}
                 {% endfor %}
             </div>
+        </div>
+    </section>
+    {% endif %}
+    {% if request.user.is_superuser %}
+    <section class="bg-gray-v2 u-pb-0">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-12 text-center">
+                    <h2 class="h1">
+                        Top developers
+                    </h2>
+
+                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+                </div> <!-- END col-12-->
+            </div> <!-- END row-->
+            {% for hackathon in hackathons %}
+            <div class="row align-items-left">
+                {% for dev in hackathon.users %}
+                    {% if not dev.user.is_superuser and dev.user.last_name and dev.hackathon_registered %}
+                    <div class="col-lg-4 col-md-12 mb-5">
+                        <div class="with-hidden-text-wrapper">
+                            <div class="with-hidden-text-wrapper-inner">
+                                <div class="row">
+                                    <div class="col-md-5 user-img-wrapper">
+                                        <img class="w-100 rounded-circle images-grey u-mb-10"
+                                             src="{{ dev.avatarSrc }}"
+                                             alt="">
+                                    </div>
+                                    <div class="col-md-7">
+
+                                        <h4 class="u-mb-10">
+                                            {{ dev.user.first_name }} {{ dev.user.last_name }}
+                                        </h4>
+
+                                        <p class="text-muted mb-0 u-fs-13">
+                                            {{ dev.hackathon_registered }}
+                                        </p>
+                                    </div>
+                                </div> <!-- END row-->
+                            </div>
+                        </div>
+
+                    </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        {% endfor %}
         </div>
     </section>
     {% endif %}
@@ -707,9 +755,9 @@
             },
             data: {
               title: 'OpenGift Weekly Hackathon',
-              start: new Date(Date.UTC(2018, 7, 25, 13, 0, 0)),
+              start: new Date(Date.UTC(2018, 8, 1, 13, 0, 0)),
               duration: 60*24,
-              end: new Date(Date.UTC(2018, 7, 26, 13, 0, 0)),
+              end: new Date(Date.UTC(2018, 8, 2, 13, 0, 0)),
               address: 'https://opengift.io/hackathon/',
               description: 'Just go there and become a winner.'
             }
