@@ -25,6 +25,7 @@ from django.db.models.signals import post_save, pre_delete, post_delete, pre_sav
 from PManager.services.service_queue import service_queue
 from django.core.exceptions import MultipleObjectsReturned
 
+
 def redisSendTaskUpdate(fields):
     mess = RedisMessage(service_queue,
                         objectName='task',
@@ -114,17 +115,36 @@ class PM_Hackathon(models.Model):
 class PM_Hackathon_Winner(models.Model):
     hackathon = models.ForeignKey(PM_Hackathon, related_name='hackathon_winners')
     winner = models.ForeignKey(User, related_name='hackathon_winners')
+
     speed = models.IntegerField(null=True, blank=True)
     requirements = models.IntegerField(null=True, blank=True)
     clarity = models.IntegerField(null=True, blank=True)
     ux = models.IntegerField(null=True, blank=True)
+    sort = models.IntegerField(null=True, blank=True)
+
+    @property
+    def params(self):
+        p = []
+        if self.speed:
+            p.append({'name': 'Speed', 'stars': [k for k in range(0, self.speed)]})
+        if self.ux:
+            p.append({'name': 'UX', 'stars': [k for k in range(0, self.ux)]})
+        if self.clarity:
+            p.append({'name': 'Clarity', 'stars': [k for k in range(0, self.clarity)]})
+        if self.requirements:
+            p.append({'name': 'Correctness', 'stars': [k for k in range(0, self.requirements)]})
+
+        return p
+
+    @property
+    def score(self):
+        return str(int(self.speed) + int(self.ux) + int(self.clarity) + int(self.requirements))
 
     def __unicode__(self):
-        return self.name
+        return str(self.hackathon) + ' ' + str(self.winner)
 
     class Meta:
         app_label = 'PManager'
-
 
 
 class PM_Project_Problem(models.Model):
@@ -140,7 +160,8 @@ class PM_Project_Problem(models.Model):
         return self.problem
 
     class Meta:
-            app_label = 'PManager'
+        app_label = 'PManager'
+
 
 class PM_Project_Industry(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Title')
@@ -158,7 +179,8 @@ class PM_Project_Industry(models.Model):
         return random.randint(0, 100)
 
     class Meta:
-            app_label = 'PManager'
+        app_label = 'PManager'
+
 
 class PM_Project_Donation(models.Model):
     project = models.ForeignKey('PM_Project', related_name="donations")
@@ -177,7 +199,8 @@ class PM_Project_Donation(models.Model):
         return self.project.name + ' : ' + unicode(self.sum)
 
     class Meta:
-            app_label = 'PManager'
+        app_label = 'PManager'
+
 
 class PM_Project(models.Model):
     name = models.CharField(max_length=255, verbose_name=u'Name of project')
@@ -213,10 +236,10 @@ class PM_Project(models.Model):
                                          verbose_name=u'Направления')
 
     industries = models.ManyToManyField(PM_Project_Industry, blank=True, null=True, related_name='projects',
-                                         verbose_name=u'Категории')
+                                        verbose_name=u'Категории')
 
     problems = models.ManyToManyField(PM_Project_Problem, blank=True, null=True, related_name='projects',
-                                         verbose_name=u'Решаемые проблемы')
+                                      verbose_name=u'Решаемые проблемы')
 
     @property
     def color(self):
@@ -258,8 +281,8 @@ class PM_Project(models.Model):
     @property
     def rating(self):
         return 1.0 * (RatingHits.objects.filter(
-                project=self
-            ).aggregate(Sum('rating'))['rating__sum'] or 0) / (self.votersQty or 1)
+            project=self
+        ).aggregate(Sum('rating'))['rating__sum'] or 0) / (self.votersQty or 1)
 
     def setSettings(self, settings):
         self.settings = json.dumps(settings)
@@ -296,6 +319,7 @@ class PM_Project(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
 
 class LikesHits(models.Model):
     ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
@@ -334,6 +358,7 @@ class LikesHits(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
 class RatingHits(models.Model):
     ip = models.CharField(max_length=255, verbose_name=u'IP', db_index=True)
     project = models.ForeignKey(PM_Project, related_name='ratingHits')
@@ -364,6 +389,7 @@ class RatingHits(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
 
 class Release(models.Model):
     statuses = (
@@ -637,7 +663,6 @@ class PM_Task(models.Model):
                                verbose_name=u'Статус')
     observers = models.ManyToManyField(User, related_name='tasksLooking', null=True, blank=True)
 
-
     perhapsResponsible = models.ManyToManyField(User, related_name='hisTasksMaybe', null=True, blank=True)
 
     dateCreate = models.DateTimeField(auto_now_add=True, blank=True)
@@ -743,7 +768,6 @@ class PM_Task(models.Model):
 
         return winner
 
-
     def safeDelete(self):
         self.active = False
         self.save()
@@ -753,7 +777,7 @@ class PM_Task(models.Model):
 
     def setIsInTime(self):
         if not self.deadline or self.deadline > timezone.make_aware(datetime.datetime.now(),
-                                                                 timezone.get_current_timezone()):
+                                                                    timezone.get_current_timezone()):
             self.closedInTime = True
         else:
             self.closedInTime = False
@@ -924,7 +948,8 @@ class PM_Task(models.Model):
                                     task=self,
                                     type='Resp real time',
                                     comment=(
-                                            ('+' if curUserRating >= 0 else '') + str(curUserRating) + u' к рейтингу') +
+                                                ('+' if curUserRating >= 0 else '') + str(
+                                                    curUserRating) + u' к рейтингу') +
                                             ((' -' + str(substruction) + u' за ошибки') if substruction else u'')
                                 )
                                 credit.save()
@@ -1025,7 +1050,7 @@ class PM_Task(models.Model):
                 self.save()
 
                 if self.milestone and oldPlanTime != self.planTime:
-                    change = PM_MilestoneChanges(milestone=self.milestone, value=(self.planTime-oldPlanTime))
+                    change = PM_MilestoneChanges(milestone=self.milestone, value=(self.planTime - oldPlanTime))
                     change.save()
 
             planTime, created = PM_User_PlanTime.objects.get_or_create(user=request.user, task=self)
@@ -1130,7 +1155,7 @@ class PM_Task(models.Model):
             delta = now - t['dateStart']
             aCurObj = aTime[t['task__parentTask_id']] if 'task__parentTask_id' in t and t[
                                                                                             'task__parentTask_id'] in aTime else \
-            aTime[t['task_id']]
+                aTime[t['task_id']]
             if t['user_id'] not in aCurObj:
                 aCurObj[t['user_id']] = 0
 
@@ -1444,7 +1469,7 @@ class PM_Task(models.Model):
             if 'exclude' in filter:
                 excludeFilter = filter['exclude']
                 del filter['exclude']
-            # filter = {}
+                # filter = {}
         else:
             filterQArgs += PM_Task.getQArgsFilterForUser(user, project)
 
@@ -1822,6 +1847,7 @@ class PM_Property_Values(models.Model):
     class Meta:
         app_label = 'PManager'
 
+
 class PM_TaskShareDonations(models.Model):
     project = models.ForeignKey(PM_Project, related_name="promisedShares")
     amount = models.FloatField()
@@ -1830,6 +1856,7 @@ class PM_TaskShareDonations(models.Model):
 
     class Meta:
         app_label = 'PManager'
+
 
 class PM_Task_Message(models.Model):
     text = models.CharField(max_length=10000)
@@ -1967,7 +1994,7 @@ class PM_Task_Message(models.Model):
                             'confirmation': (
                                 '<div>'
                                 # '<p>Стоимость задачи составит <b>' + str(planTime.time * bet) + ' руб.</b></p>'
-                                                                                                '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(
+                                '<a class="button orange-button" href="' + self.task.url + '&confirm=' + str(
                                     self.id) + '" ' +
                                 '" class="js-confirm-estimate agree-with-button">Choose responsible</a></div>'
                             )
@@ -1979,7 +2006,7 @@ class PM_Task_Message(models.Model):
         elif self.code == 'TIME_REQUEST':
             if not self.requested_time_approved:
                 if cur_profile and (
-                        cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
+                                cur_profile.user.id == self.project.payer.id or cur_profile.isManager(self.project)):
                     addParams.update({
                         'confirmation': (
                             '<div class="message-desc-right"><a class="btn" href="' + self.task.url + '&confirm=' + str(
@@ -2353,7 +2380,7 @@ def check_task_save(sender, instance, **kwargs):
                                 task.critically == origin.critically and
                                 task.planTime == origin.planTime and
                             (task.milestone.id if task.milestone else None) == (
-                        origin.milestone.id if origin.milestone else None) and
+                                origin.milestone.id if origin.milestone else None) and
                         (task.resp.id if task.resp else None) == (origin.resp.id if origin.resp else None)
         ):
             return

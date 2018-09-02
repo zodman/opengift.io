@@ -12,6 +12,7 @@ from PManager.customs.storages import path_and_rename
 from django.db import connection
 from django.db.models import Sum
 
+
 class Specialty(models.Model):
     name = models.CharField(max_length=500)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='subspecialties')
@@ -67,7 +68,7 @@ class PM_User(models.Model):
     DONATOR = 'donator'
     BACKER = 'backer'
 
-    level_choices =(
+    level_choices = (
         (DONATOR, 'Donator'),
         (BACKER, 'Backer'),
         (OPENGIFTER, 'OpenGifter'),
@@ -83,19 +84,20 @@ class PM_User(models.Model):
     second_name = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Second name')
     trackers = models.ManyToManyField(PM_Tracker, null=True)
     icq = models.CharField(max_length=70, null=True, blank=True)
-    paypal = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'Paypal account (for money receiving from OpenGift Exchange)')
-    btc_wallet = models.CharField(max_length=270, null=True, blank=True,  verbose_name=u'BTC wallet')
-    skype = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Skype')
-    telegram = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Telegram account')
-    linkedin = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Linkedin account')
-    facebook = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Facebook account')
-    eth = models.CharField(max_length=100, null=True, blank=True,  verbose_name=u'Eth account')
-    tokens_to_buy = models.CharField(max_length=70, null=True, blank=True,  verbose_name=u'Tokens to buy')
+    paypal = models.CharField(max_length=270, null=True, blank=True,
+                              verbose_name=u'Paypal account (for money receiving from OpenGift Exchange)')
+    btc_wallet = models.CharField(max_length=270, null=True, blank=True, verbose_name=u'BTC wallet')
+    skype = models.CharField(max_length=70, null=True, blank=True, verbose_name=u'Skype')
+    telegram = models.CharField(max_length=70, null=True, blank=True, verbose_name=u'Telegram account')
+    linkedin = models.CharField(max_length=70, null=True, blank=True, verbose_name=u'Linkedin account')
+    facebook = models.CharField(max_length=70, null=True, blank=True, verbose_name=u'Facebook account')
+    eth = models.CharField(max_length=100, null=True, blank=True, verbose_name=u'Eth account')
+    tokens_to_buy = models.CharField(max_length=70, null=True, blank=True, verbose_name=u'Tokens to buy')
     phoneNumber = models.CharField(max_length=20, null=True, blank=True, verbose_name=u'Phone number')
     documentNumber = models.CharField(max_length=10, null=True, blank=True, verbose_name=u'Серия и номер паспорта')
     documentIssueDate = models.DateTimeField(blank=True, null=True, verbose_name=u'Дата выдачи')
     documentIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
-    #docIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
+    # docIssuedBy = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Кем выдан')
     order = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Лицевой счет')
     bank = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Банк')
     bik = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'БИК')
@@ -109,7 +111,7 @@ class PM_User(models.Model):
 
     premium_till = models.DateTimeField(blank=True, null=True, verbose_name=u'Оплачен до')
     verification_code = models.CharField(max_length=100, blank=True, null=True)
-    paid = models.IntegerField(blank=True, null=True, default=0) #todo: deprecated
+    paid = models.IntegerField(blank=True, null=True, default=0)  # todo: deprecated
     specialty = models.ForeignKey(Specialty, blank=True, null=True)  # TODO: deprecated
     specialties = models.ManyToManyField(Specialty, blank=True, null=True, related_name='profiles',
                                          verbose_name=u'Специальности')
@@ -138,15 +140,17 @@ class PM_User(models.Model):
     @property
     def rating(self):
         rAll = RatingHistory.objects.filter(
-                user=self.user
-            ).aggregate(Sum('value'))
+            user=self.user
+        ).aggregate(Sum('value'))
         return rAll['value__sum'] or 0
 
     @property
     def account_total(self):
         qText = """
                   SELECT
-                      sum(CASE WHEN user_id=""" + str(self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where user_id=""" + str(self.user.id) + """
+                      sum(CASE WHEN user_id=""" + str(
+            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where user_id=""" + str(
+            self.user.id) + """
                       or payer_id=""" + str(self.user.id) + """
               """
         cursor = connection.cursor()
@@ -162,8 +166,8 @@ class PM_User(models.Model):
 
     @property
     def allTasksQty(self):
-        return self.user.todo.filter(active=True, closed=False).exclude(project__closed=True, project__locked=True, status__code='ready').count()
-
+        return self.user.todo.filter(active=True, closed=False).exclude(project__closed=True, project__locked=True,
+                                                                        status__code='ready').count()
 
     def is_donator(self):
         return self.opengifter_level in [self.DONATOR, self.BACKER, self.OPENGIFTER]
@@ -209,7 +213,9 @@ class PM_User(models.Model):
 
         qText = """
                   SELECT
-                      sum(CASE WHEN user_id=""" + str(self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where (user_id=""" + str(self.user.id) + """
+                      sum(CASE WHEN user_id=""" + str(
+            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where (user_id=""" + str(
+            self.user.id) + """
                       or payer_id=""" + str(self.user.id) + """)
                       AND project_id=""" + str(project.id) + """
               """
@@ -241,6 +247,14 @@ class PM_User(models.Model):
         return avatar
 
     @property
+    def avatarSquare(self):
+        return '<div style="background: url(' + self.avatarSrc + ');background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>'
+
+    @property
+    def avatarCircle(self):
+        return '<div style="border-radius: 50%;background: url(' + self.avatarSrc + ');background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>'
+
+    @property
     def avatar_rel(self):
         if self.avatarSrc:
             return {
@@ -266,7 +280,7 @@ class PM_User(models.Model):
             return None
 
     @staticmethod
-    def getCurrent(request):  #возвращает текущего пользователя
+    def getCurrent(request):  # возвращает текущего пользователя
         if headers.TRACKER and request.user.is_authenticated():
             return PM_User.getByUser(request.user)
 
@@ -288,7 +302,7 @@ class PM_User(models.Model):
     @staticmethod
     def getOrCreateByEmail(email, project, role, password=None):
         try:
-            user = User.objects.filter(username=email).get()  #достанем пользователя по логину
+            user = User.objects.filter(username=email).get()  # достанем пользователя по логину
             is_new = False
         except User.DoesNotExist:
             is_new = True
@@ -332,8 +346,8 @@ class PM_User(models.Model):
 
     def getFine(self):
         rAll = FineHistory.objects.filter(
-                user=self.user
-            ).aggregate(Sum('value'))
+            user=self.user
+        ).aggregate(Sum('value'))
         return rAll['value__sum'] or 0
 
     def getRating(self, project=None):
@@ -470,7 +484,7 @@ class PM_User(models.Model):
                 #        or task.subTasks.filter(author=self.user.id, active=True).exists()
 
             elif rule == 'change':
-                #todo: разделить по конкретным изменениям
+                # todo: разделить по конкретным изменениям
                 # (разработчики могут только принимать задачи без ответственного)
                 return self.isEmployee(task.project) and not task.resp \
                        or self.user.id == task.resp.id
@@ -528,6 +542,7 @@ def remove_keys(sender, instance, **kwargs):
 def create_user_profile(sender, instance, created, **kwargs):
     if created:
         profile, created = PM_User.objects.get_or_create(user=instance)
+
 
 pre_delete.connect(remove_keys, sender=User)
 post_save.connect(create_user_profile, sender=User)

@@ -178,7 +178,7 @@
                         Monetize your open-source projects<br />or crowd fund new software to reduce cost!
                     </h1>
 
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">GIFT Token Seed Crowdsale is <a href="/ico/">started</a>!</p>
+{#                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">GIFT Token Seed Crowdsale is <a href="/ico/">started</a>!</p>#}
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
                         <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://twitter.com/OpenGift_io" class="icon fa fa-twitter"></a>&nbsp;&nbsp;
@@ -248,6 +248,19 @@
             <path id="feel-the-wave" d=""/>
         </svg>
     </section>
+    <section class="u-py-100">
+    <div style="padding: 0 6.25rem;">
+        <div class="row">
+            <div class="col-lg-12 m-auto text-center">
+                <h2 class="h1 js-h1">
+                    OpenGift weekly free hackathon
+                </h2>
+                <p class="js-p">Next <a href="/hackathon/">hackathon task</a> will be announced at 1 pm on 09/01/2018.</p>
+{#                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
+            </div>
+        </div>
+    </div>
+</section>
     <section class="u-pb-80 u-pt-0  relative" id="demo">
         <div class="container">
 {#            <div class="row">#}
@@ -430,25 +443,25 @@
             </div> <!--END row-->
         </div> <!-- END container-->
     </section>
-    <section class="u-py-100">
-    <div style="padding: 0 6.25rem;">
-        <div class="row">
-            <div class="col-lg-12 m-auto text-center">
-                <h2 class="h1 js-h1">
-                    Let's reduce software development costs by 10 for organizations
-                </h2>
-                <p class="js-p">Companies are spending billions of dollars to make the same features.</p>
-                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
-            </div>
-        </div>
-        <div class="js-bg-change" style="position: relative;width: 100%;">
-            <img src="/static/img/promo/png-2.png" width="100%" />
-
+{#<section class="u-py-100">#}
+{#    <div style="padding: 0 6.25rem;">#}
+{#        <div class="row">#}
+{#            <div class="col-lg-12 m-auto text-center">#}
+{#                <h2 class="h1 js-h1">#}
+{#                    Let's reduce software development costs by 10 for organizations#}
+{#                </h2>#}
+{#                <p class="js-p">Companies are spending billions of dollars to make the same features.</p>#}
+{#                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="js-bg-change" style="position: relative;width: 100%;">#}
+{#            <img src="/static/img/promo/png-2.png" width="100%" />#}
+{##}
 {#                <div style="position:absolute;background-size: cover;background-image: url('/static/img/promo/png-1.png');width:100%;overflow:visible;height: 500px;" ></div>#}
-            <div class="js-bg" style="position:absolute;overflow: hidden;top:0;left:0;right:0;bottom:0;border-left: 2px solid #efefef;" >
-                <img class="js-bg-img" src="/static/img/promo/png-1.png" style="right:0;position: absolute;"/>
-            </div>
-        </div>
+{#            <div class="js-bg" style="position:absolute;overflow: hidden;top:0;left:0;right:0;bottom:0;border-left: 2px solid #efefef;" >#}
+{#                <img class="js-bg-img" src="/static/img/promo/png-1.png" style="right:0;position: absolute;"/>#}
+{#            </div>#}
+{#        </div>#}
 {#        <br>#}
 {##}
 {#        <div class="row u-mt-80">#}
@@ -466,26 +479,26 @@
 {#                <div style="position:absolute;background-size: cover;background-image: url('/static/img/promo/png-1.png');width:100%;overflow:visible;height: 500px;" ></div>#}
 {#                <div style="position:absolute;background-size: cover;background-image: url('/static/img/promo/png-2.png');width:100%;overflow:visible;height: 500px;" ></div>#}
 {#        </div>#}
-    </div>
-</section>
-<script>
-$(function() {
-    $('.js-bg-img')
-        .css('width', $('.js-bg').width())
-        .css('max-width', $('.js-bg').width());
-    $('.js-bg-change').mousemove(function(e) {
-        $(this).find('.js-bg').css('left', e.pageX-parseInt($(this).closest('.u-py-100').find('> div').css('padding-left')));
-        if (e.pageX > $(window).width() / 2) {
-            $('.js-h1').html('OpenGift Changes Everything');
-            $('.js-p').text('With OpenGift organizations can collectively fund development of new features in open-source software.');
-        } else {
-            $('.js-h1').text('Let\'s reduce software development costs by 10 for organizations');
-            $('.js-p').text('Companies are spending billions of dollars to make the same features.');
-        }
-    });
-
-})
-</script>
+{#    </div>#}
+{#</section>#}
+{#<script>#}
+{#$(function() {#}
+{#    $('.js-bg-img')#}
+{#        .css('width', $('.js-bg').width())#}
+{#        .css('max-width', $('.js-bg').width());#}
+{#    $('.js-bg-change').mousemove(function(e) {#}
+{#        $(this).find('.js-bg').css('left', e.pageX-parseInt($(this).closest('.u-py-100').find('> div').css('padding-left')));#}
+{#        if (e.pageX > $(window).width() / 2) {#}
+{#            $('.js-h1').html('OpenGift Changes Everything');#}
+{#            $('.js-p').text('With OpenGift organizations can collectively fund development of new features in open-source software.');#}
+{#        } else {#}
+{#            $('.js-h1').text('Let\'s reduce software development costs by 10 for organizations');#}
+{#            $('.js-p').text('Companies are spending billions of dollars to make the same features.');#}
+{#        }#}
+{#    });#}
+{##}
+{#})#}
+{#</script>#}
 
 
 {#    <section class="u-py-100 relative quadro-relative hidden-md-down" style="#}
@@ -547,49 +560,9 @@ $(function() {
 {#            </div>#}
 {#        </div>#}
 {#    </section>#}
-    <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/success01.svg') repeat fixed;background-position: right;" >
 
-    <a name="partners"></a>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12">
-                <h2 class="u-mb-30 u-fw-500 text-white" align="center">Our Partners</h2>
-                <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
-
-                <div class="row align-items-center" align="center">
-                    <div class="col-md-20 u-mb-20">
-                        <img src="/static/img/itsphere.png" class="u-mb-20" alt="itsphere.io">
-                        <h3 class="text-white">ITSphere</h3>
-                        <a href="https://itsphere.io/" rel="nofollow" target="_blank">itsphere.io/</a>
-                    </div>
-                    <div class="col-md-20 u-mb-20">
-                        <img src="/static/img/gitcoin.png" class="u-mb-20" alt="gitcoin.co">
-                        <h3 class="text-white">gitcoin</h3>
-                        <a href="https://gitcoin.co/" rel="nofollow" target="_blank">gitcoin.co</a>
-                    </div>
-                    <div class="col-md-20 u-mb-20">
-                        <img src="/static/img/korporatio.png" class="u-mb-20" alt="korporatio.com">
-                        <h3 class="text-white">korporatio</h3>
-                        <a href="http://korporatio.com/" rel="nofollow" target="_blank">korporatio.com</a>
-                    </div>
-                    <div class="col-md-20 u-mb-20">
-                        <img src="/static/img/wealthman.png" class="u-mb-20" alt="wealthman.io">
-                        <h3 class="text-white">wealthman</h3>
-                        <a href="https://wealthman.io/" rel="nofollow" target="_blank">wealthman.io</a>
-                    </div>
-                </div>
-
-            </div> <!-- END col-md-6-->
-
-        </div>
-
-
-
-
-    </div>
-</section>
-    <section class="u-py-100 relative with-waves" style="padding-bottom: 60px !important;" id="howitworks">
-        <div class="container u-pt-50">
+{#    <section class="u-py-100 relative with-waves" style="padding-bottom: 60px !important;" id="howitworks">#}
+{#        <div class="container u-pt-50">#}
 {#            {% compressed_js 'howitworks' %}#}
 {#            <script>#}
 {#                $(function () {#}
@@ -606,73 +579,74 @@ $(function() {
 {#                    })#}
 {#                })#}
 {#            </script>#}
-            <h2 class="h1 u-mt-50 text-center">How it works</h2>
+{#            <h2 class="h1 u-mt-50 text-center">How it works</h2>#}
+{##}
+{#            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto"></div>#}
+{#            <div class="row u-mt-50">#}
+{#                <!--<div class="col-md-12 hidden-md-down">#}
+{#                    <div id="animation_container"#}
+{#                         style="background-color:rgba(255, 255, 255, 1.00); width:283px; height:602px; margin: 0 auto;">#}
+{#                        <canvas id="canvas" width="283" height="602"#}
+{#                                style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>#}
+{#                        <div id="dom_overlay_container"#}
+{#                             style="pointer-events:none; overflow:hidden; width:283px; height:602px; position: absolute; left: 0px; top: 0px; display: block;">#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>-->#}
+{#                <div class="u-mb-80 mx-auto" align="center">#}
+{#                    <img src="/static/img/scheme.png">#}
+{#                </div>#}
+{#                <div class="col-md-12">#}
+{#                    <div class="row">#}
+{##}
+{#                        <div class="col-md-4">#}
+{#                            <div class="text-center">#}
+{#                                <img class="u-w-100" src="/static/public/assets/img/svg/dollar-bag.svg" alt="">#}
+{#                                <h4 class="u-fs-22 u-my-20">#}
+{#                                    Special-purpose financing#}
+{#                                </h4>#}
+{##}
+{#                                <p class="mb-0">#}
+{#                                    Backers support the development of new specific features they are interested in.#}
+{#                                </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-4">#}
+{#                            <div class="text-center">#}
+{#                                <img class="u-w-100" src="/static/public/assets/img/svg/pie-chart.svg" alt="">#}
+{#                                <h4 class="u-fs-22 u-my-20">#}
+{#                                    Frictionless income distribution#}
+{#                                </h4>#}
+{##}
+{#                                <p class="mb-0">#}
+{#                                    Each team member receives a share of project earnings exchange their GIFT.#}
+{#                                </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="col-md-4">#}
+{#                            <div class="text-center">#}
+{#                                <img class="u-w-100" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">#}
+{#                                <h4 class="u-fs-22 u-my-20">#}
+{#                                    Guaranteed liquidity#}
+{#                                </h4>#}
+{##}
+{#                                <p class="mb-0">#}
+{#                                    Users can exchange their GIFTs for other currencies with a 0% comission on the Platform's#}
+{#                                    exchange.#}
+{#                                </p>#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#        <p align="center">#}
+{#            <a href="/ico/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">#}
+{#                Fund this platform#}
+{#            </a>#}
+{#        </p>#}
+{#    </section>#}
 
-            <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mx-auto"></div>
-            <div class="row u-mt-50">
-                <!--<div class="col-md-12 hidden-md-down">
-                    <div id="animation_container"
-                         style="background-color:rgba(255, 255, 255, 1.00); width:283px; height:602px; margin: 0 auto;">
-                        <canvas id="canvas" width="283" height="602"
-                                style="position: absolute; display: block; background-color:rgba(255, 255, 255, 1.00);"></canvas>
-                        <div id="dom_overlay_container"
-                             style="pointer-events:none; overflow:hidden; width:283px; height:602px; position: absolute; left: 0px; top: 0px; display: block;">
-                        </div>
-                    </div>
-                </div>-->
-                <div class="u-mb-80 mx-auto" align="center">
-                    <img src="/static/img/scheme.png">
-                </div>
-                <div class="col-md-12">
-                    <div class="row">
-
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <img class="u-w-100" src="/static/public/assets/img/svg/dollar-bag.svg" alt="">
-                                <h4 class="u-fs-22 u-my-20">
-                                    Special-purpose financing
-                                </h4>
-
-                                <p class="mb-0">
-                                    Backers support the development of new specific features they are interested in.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <img class="u-w-100" src="/static/public/assets/img/svg/pie-chart.svg" alt="">
-                                <h4 class="u-fs-22 u-my-20">
-                                    Frictionless income distribution
-                                </h4>
-
-                                <p class="mb-0">
-                                    Each team member receives a share of project earnings exchange their GIFT.
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <div class="text-center">
-                                <img class="u-w-100" src="/static/public/assets/img/svg/shopping-bag.svg" alt="">
-                                <h4 class="u-fs-22 u-my-20">
-                                    Guaranteed liquidity
-                                </h4>
-
-                                <p class="mb-0">
-                                    Users can exchange their GIFTs for other currencies with a 0% comission on the Platform's
-                                    exchange.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <p align="center">
-            <a href="/ico/" class="btn btn btn-rounded btn-primary m-2 px-md-5 py-3">
-                Fund this platform
-            </a>
-        </p>
-    </section>
     <section class="u-pt-100 u-pb-100 relative text-white bg-primary">
         <a name="partners"></a>
         <div class="container">
@@ -732,6 +706,43 @@ $(function() {
             </div>
         </div>
     </section>
+    <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/success01.svg') repeat fixed;background-position: right;" >
+
+    <a name="partners"></a>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12">
+                <h2 class="u-mb-30 u-fw-500 text-white" align="center">Our Partners</h2>
+                <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+                <div class="row align-items-center" align="center">
+                    <div class="col-md-20 u-mb-20">
+                        <img src="/static/img/itsphere.png" class="u-mb-20" alt="itsphere.io">
+                        <h3 class="text-white">ITSphere</h3>
+                        <a href="https://itsphere.io/" rel="nofollow" target="_blank">itsphere.io/</a>
+                    </div>
+                    <div class="col-md-20 u-mb-20">
+                        <img src="/static/img/gitcoin.png" class="u-mb-20" alt="gitcoin.co">
+                        <h3 class="text-white">gitcoin</h3>
+                        <a href="https://gitcoin.co/" rel="nofollow" target="_blank">gitcoin.co</a>
+                    </div>
+                    <div class="col-md-20 u-mb-20">
+                        <img src="/static/img/korporatio.png" class="u-mb-20" alt="korporatio.com">
+                        <h3 class="text-white">korporatio</h3>
+                        <a href="http://korporatio.com/" rel="nofollow" target="_blank">korporatio.com</a>
+                    </div>
+                    <div class="col-md-20 u-mb-20">
+                        <img src="/static/img/wealthman.png" class="u-mb-20" alt="wealthman.io">
+                        <h3 class="text-white">wealthman</h3>
+                        <a href="https://wealthman.io/" rel="nofollow" target="_blank">wealthman.io</a>
+                    </div>
+                </div>
+
+            </div> <!-- END col-md-6-->
+
+        </div>
+
+    </div>
+</section>
     <script>
         $(function () {
             var liked = {}, $mstcnt;

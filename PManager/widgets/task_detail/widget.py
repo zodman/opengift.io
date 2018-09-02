@@ -174,6 +174,7 @@ def widget(request, headerValues, arFilter, q):
         else:
             # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
             if not request.user.is_superuser:
+                messages = messages.exclude(code="RESULT")
                 if prof.isEmployee(task.project) or prof.isManager(task.project) or True:
                     messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
                 else:
@@ -181,7 +182,6 @@ def widget(request, headerValues, arFilter, q):
 
 
             if not prof.isManager(task.project):
-                messages = messages.exclude(code="RESULT")
                 if prof.isClient(task.project):
                     messages = messages.filter(hidden_from_clients=False)
                 if prof.isEmployee(task.project):

@@ -11,13 +11,17 @@ class Public:
     @staticmethod
     def hackathon(request):
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+        hackathons = []
+        for h in PM_Hackathon.objects.filter(date__lt=now).order_by('date'):
+            setattr(h, 'winners', h.hackathon_winners.order_by('sort'))
+            hackathons.append(h)
 
         c = RequestContext(request, {
-            'users': PM_User.objects.filter(hackathon_registered__isnull=False),
+            'users': PM_User.objects.filter(hackathon_reg_date__isnull=False),
             'user_registered': request.user.is_authenticated()
                                and request.user.get_profile().hackathon_reg_date
                                and request.user.get_profile().hackathon_reg_date > now,
-            'hackathons': PM_Hackathon.objects.filter(date__gt=now).order_by('date')
+            'hackathons': hackathons
         })
         return HttpResponse(loader.get_template('public/hackathon.html').render(c))
 
@@ -27,7 +31,8 @@ class Public:
         if request.POST.get('stack', ''):
             from PManager.viewsExt.tools import emailMessage
             prof = request.user.get_profile()
-            prof.hackathon_reg_date = datetime.datetime(2018, 8, 1, 13, 0, 0)
+            prof.hackathon_reg_date = datetime.datetime(2018, 9, 1, 13, 0, 0)
+            prof.hackathon_registered = request.POST.get('stack', '')
             prof.save()
 
             message = emailMessage(

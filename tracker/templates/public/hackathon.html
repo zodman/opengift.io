@@ -224,11 +224,11 @@
                                 var currentDate = new Date();
                                 if (currentDate > date) {
 
-                                    date = new Date(Date.UTC(2018, 8, 2, 13, 0, 0));
+                                    date = new Date(Date.UTC(2018, 8, 3, 13, 0, 0));
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
-                                        $('.js-timer-title').html('The hackathon results should be sent till <br />26 of August at 1 pm GMT.');
+                                        $('.js-timer-title').html('The hackathon results should be sent till <br />3rd of September at 1 pm GMT.');
                                     } else {
                                         date = false;
                                     }
@@ -287,7 +287,7 @@
     <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
         <div class="container">
 
-            <h2 class="h1 u-mt-50 text-center">The second OpenGift online-hackathon has started!</h2>
+            <h2 class="h1 u-mt-50 text-center">The 3rd OpenGift online-hackathon has started!</h2>
 
             <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
             <div class="row">
@@ -299,24 +299,23 @@
                         </h4>
 
                         <p class="text-center text-dark u-t-u">
-                            <a href="/task_detail/?number=1&project=1067" target="_blank">The shortest path</a>
-                        </p>
-
-                        <p>
-                            An application is required that can find a shortest cheapest path from city A to city B.
+                            <a href="/task_detail/?number=1&project=1064" target="_blank">Web user activity recorder</a>
                         </p>
                         <p>
-                            Two dictionaries exist: the first one contains the set of path time from city to city in minutes. The second one contains the costs in $.
+                            When was the last time you explained to someone how to cope with a sophisticated interface? It’s a common problem, right?
                         </p>
-                        <p>
-                            You should provide a fast algorithm to find an optimal speed and cost path from one city to another. We assume that customer rather will pay 100$ then spend 2 hours more on the flight.
+                        <p>We offer you the opportunity to test yourself in the development of a simple solution, which becomes a good assistant to any programmer or support manager in similar situations.
+                        The solution is a simple JS code that might be integrated into any website (you also can develop some python or PHP backend if necessary).</p>
+
+                        <p>Installed to a website it must provide an simple administration GUI which can enable capturing all administrator activity (scrolling, web-form fields filling, clicks, links follow etc.).
+                        After recording the activity, it should be easy to send someone (to mom, for example :) ) the link, which shows the receiver all captured activity teaching him/her how to handle with the mentioned interface.
                         </p>
-
-                        <p>Your algorithm must be faster than others to win the hackathon.</p>
-
 
                         <p>That’s it! Easy, right?</p>
 
+                        <p>We believe that such utility is strongly required for all open source community and for other developers.</p>
+
+                        <p>To win the hackathon you don't need to comply with all the requirements. You just need to create a better version of service than others! We also don't expect from you to test all browsers and platforms. Just create a good skeleton.</p>
                     </div>
                 </div>
                 <div class="col-lg-12 ">
@@ -326,9 +325,10 @@
                         </h4>
 
                         <div style="text-align: left;">
+
                             <p>1. You need to upload the result to the GitHub open repository and publish it as a result
                                 of OpenGift hackathon <a href="/task_detail/?number=1&project=1067">task</a>; you have
-                                until 26 Aug 2018 1 pm.</p>
+                                until 09/03/2018 1 pm.</p>
 
                             <p>2. Anything that isn’t mentioned in the requirements are up to you. Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
 
@@ -392,14 +392,13 @@
             </div>
         </div>
     </section>
-    {% if request.user.is_superuser %}
-    <section class="bg-gray-v2 u-pb-0">
+    <section class="bg-gray-v2 u-pb-0 umb-0 ">
         <div class="container">
             <div class="row">
 
                 <div class="col-12 text-center">
                     <h2 class="h1">
-                        Developers
+                        Current hackathon developers
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
@@ -409,15 +408,13 @@
 
             <div class="row align-items-left">
                 {% for dev in users %}
-                    {% if not dev.user.is_superuser and dev.user.last_name and dev.hackathon_registered %}
+                    {% if not dev.user.is_superuser and dev.user.last_name %}
                     <div class="col-lg-4 col-md-12 mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
                                 <div class="row">
                                     <div class="col-md-5 user-img-wrapper">
-                                        <img class="w-100 rounded-circle images-grey u-mb-10"
-                                             src="{{ dev.avatarSrc }}"
-                                             alt="">
+                                        {{ dev.avatarCircle|safe }}
                                     </div>
                                     <div class="col-md-7">
 
@@ -426,7 +423,7 @@
                                         </h4>
 
                                         <p class="text-muted mb-0 u-fs-13">
-                                            {{ dev.hackathon_registered }}
+                                            {{ dev.hackathon_registered|default_if_none:"" }}
                                         </p>
                                     </div>
                                 </div> <!-- END row-->
@@ -439,56 +436,83 @@
             </div>
         </div>
     </section>
-    {% endif %}
-    {% if request.user.is_superuser %}
+    <section class="bg-gray-v2 u-pb-0 u-mb-0 u-pt-0">
+        <div class="container text-center">
+            <a name="winners"></a>
+            <h2 class="h1"> Previous hackathons winners</h2>
+        </div>
+    </section>
+    {% for hackathon in hackathons %}
     <section class="bg-gray-v2 u-pb-0">
         <div class="container">
             <div class="row">
 
                 <div class="col-12 text-center">
-                    <h2 class="h1">
-                        Top developers
+                    <h2>
+                        Best of <a href="/task_detail/?number=1&project=1067">"{{ hackathon.name }}"</a>
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
 
+                    <p>An application that can find a shortest cheapest path from city A to city B.</p>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
-            {% for hackathon in hackathons %}
-            <div class="row align-items-left">
-                {% for dev in hackathon.users %}
-                    {% if not dev.user.is_superuser and dev.user.last_name and dev.hackathon_registered %}
+
+            <div class="row align-items-left u-mb-30">
+                {% for winner in hackathon.winners %}
+
                     <div class="col-lg-4 col-md-12 mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
                                 <div class="row">
-                                    <div class="col-md-5 user-img-wrapper">
-                                        <img class="w-100 rounded-circle images-grey u-mb-10"
-                                             src="{{ dev.avatarSrc }}"
-                                             alt="">
+                                    <div class="col-md-5 user-img-wrapper relative">
+                                        {{ winner.winner.get_profile.avatarCircle|safe }}
+                                        <h4 class="place orange-gr" style="
+            width: 90px;
+            height: 30px;
+            line-height: 30px;
+            color:  #fff;
+            border-radius: 30px;
+            font-size: 13px;
+            margin: -20px auto 0;
+            position:  relative;
+            z-index: 6;
+        ">
+                                        {{ winner.sort }}
+                                        place</h4>
+
+{#                                        <span class="winner-score">{{ winner.score }} points</span>#}
+
                                     </div>
                                     <div class="col-md-7">
-
-                                        <h4 class="u-mb-10">
-                                            {{ dev.user.first_name }} {{ dev.user.last_name }}
+                                        <h4 class="u-mb-10" style="overflow: hidden;height:30px;">
+                                            {{ winner.winner.first_name }} {{ winner.winner.last_name }}
                                         </h4>
+                                        {% for param in winner.params %}
+                                            <div class="media" style="display: block;">
+                                                <div class="mr-3 d-flex u-w-70" style="text-align: right !important;">{{ param.name }}</div>
 
-                                        <p class="text-muted mb-0 u-fs-13">
-                                            {{ dev.hackathon_registered }}
-                                        </p>
+                                                <div class="media-body">
+                                                    <span class="text-yellow">
+                                                        {% for ux in param.stars %}
+                                                            <i class="fa fa-star"></i>
+                                                        {% endfor %}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
                                     </div>
-                                </div> <!-- END row-->
+                                </div>
                             </div>
                         </div>
 
                     </div>
-                    {% endif %}
                 {% endfor %}
             </div>
-        {% endfor %}
         </div>
     </section>
-    {% endif %}
+    {% endfor %}
+
     <section class="bg-gray-v2 u-pt-0">
         <div class="container">
             <div class="row">
@@ -757,7 +781,7 @@
               title: 'OpenGift Weekly Hackathon',
               start: new Date(Date.UTC(2018, 8, 1, 13, 0, 0)),
               duration: 60*24,
-              end: new Date(Date.UTC(2018, 8, 2, 13, 0, 0)),
+              end: new Date(Date.UTC(2018, 8, 3, 13, 0, 0)),
               address: 'https://opengift.io/hackathon/',
               description: 'Just go there and become a winner.'
             }
