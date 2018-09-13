@@ -10,6 +10,7 @@ from django.utils import timezone
 class Public:
     @staticmethod
     def hackathon(request):
+
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
         hackathons = []
         for h in PM_Hackathon.objects.filter(date__lt=now).order_by('date'):
@@ -27,11 +28,12 @@ class Public:
 
     @staticmethod
     def hackathon_register(request):
+
         c = RequestContext(request, {})
         if request.POST.get('stack', ''):
             from PManager.viewsExt.tools import emailMessage
             prof = request.user.get_profile()
-            prof.hackathon_reg_date = datetime.datetime(2018, 9, 1, 13, 0, 0)
+            prof.hackathon_reg_date = datetime.datetime(2018, 9, 15, 13, 0, 0)
             prof.hackathon_registered = request.POST.get('stack', '')
             prof.save()
 

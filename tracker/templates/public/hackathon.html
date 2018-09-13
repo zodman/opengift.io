@@ -204,7 +204,7 @@
                     <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
 
                         <h2 class="u-fw-600 text-black u-mb-40 js-timer-title">The task for the hackathon will be
-                            announced on<br/> 1st
+                            announced on<br/> 15th
                             of September at 1 pm GMT.</h2>
 
                         <div class="clock u-mb-40"></div>
@@ -220,11 +220,11 @@
                                         }
                                     }
                                 });
-                                var date = new Date(Date.UTC(2018, 8, 1, 13, 0, 0));
+                                var date = new Date(Date.UTC(2018, 8, 15, 13, 0, 0));
                                 var currentDate = new Date();
                                 if (currentDate > date) {
 
-                                    date = new Date(Date.UTC(2018, 8, 3, 13, 0, 0));
+                                    date = new Date(Date.UTC(2018, 8, 17, 13, 0, 0));
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
@@ -251,6 +251,7 @@
                                 REGISTER FOR HACKATHON
                             </a>
                         {% endif %}
+
                         <div class="js-hackaton-calendar-add"></div>
                         {#                        <a href="#current"#}
                         {#                           class="btn btn-gray m-2 px-md-5 py-3">#}
@@ -392,6 +393,7 @@
             </div>
         </div>
     </section>
+    {% if users %}
     <section class="bg-gray-v2 u-pb-0 umb-0 ">
         <div class="container">
             <div class="row">
@@ -408,7 +410,7 @@
 
             <div class="row align-items-left">
                 {% for dev in users %}
-                    {% if not dev.user.is_superuser and dev.user.last_name %}
+                    {% if not dev.user.is_superuser %}
                     <div class="col-lg-4 col-md-12 mb-5">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
@@ -419,7 +421,11 @@
                                     <div class="col-md-7">
 
                                         <h4 class="u-mb-10">
+                                            {% if dev.user.last_name %}
                                             {{ dev.user.first_name }} {{ dev.user.last_name }}
+                                            {% else %}
+                                                Unnamed Developer
+                                            {% endif %}
                                         </h4>
 
                                         <p class="text-muted mb-0 u-fs-13">
@@ -436,7 +442,8 @@
             </div>
         </div>
     </section>
-    <section class="bg-gray-v2 u-pb-0 u-mb-0 u-pt-0">
+    {% endif %}
+    <section class="bg-gray-v2 u-pb-0 u-mb-0 {% if users %}u-pt-0{% endif %}">
         <div class="container text-center">
             <a name="winners"></a>
             <h2 class="h1"> Previous hackathons winners</h2>
@@ -779,9 +786,9 @@
             },
             data: {
               title: 'OpenGift Weekly Hackathon',
-              start: new Date(Date.UTC(2018, 8, 1, 13, 0, 0)),
+              start: new Date(Date.UTC(2018, 8, 15, 13, 0, 0)),
               duration: 60*24,
-              end: new Date(Date.UTC(2018, 8, 3, 13, 0, 0)),
+              end: new Date(Date.UTC(2018, 8, 17, 13, 0, 0)),
               address: 'https://opengift.io/hackathon/',
               description: 'Just go there and become a winner.'
             }

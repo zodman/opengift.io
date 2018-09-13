@@ -278,7 +278,7 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
                 var qa = this.template(this.model.toJSON());
                 this.$el.html(qa).addClass('task-message');
-                if (!this.model.get('userTo')) this.$('.js-to').remove();
+                if (!this.model.get('userTo')) this.$el.find('.js-to').remove();
 //                var $messageTextBlock = this.$el.find('.js-taskMessageText');
 
                 if (!this.model.get('text') && !this.model.get('files')) {

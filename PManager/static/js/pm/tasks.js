@@ -10,6 +10,17 @@ var CRITICALLY_THRESHOLD = 0.7;
         $('<div></div>').addClass('popup system').append('<a href="#" class="popup-close" onclick="$(this).closest(\'.popup\').remove();return false;"><i class="fa fa-times"></i></a>').append(text).appendTo('body').show();
     };
 
+    function formatMoney(n, c, d, t) {
+        var c = isNaN(c = Math.abs(c)) ? 0 : c,
+            d = d == undefined ? "." : d,
+            t = t == undefined ? "," : t,
+            s = n < 0 ? "-" : "",
+            i = String(parseInt(n = Math.abs(Number(n) || 0).toFixed(c))),
+            j = (j = i.length) > 3 ? j % 3 : 0;
+
+        return s + (j ? i.substr(0, j) + t : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t) + (c ? d + Math.abs(n - i).toFixed(c).slice(2) : "");
+    };
+
     window.taskClass = Backbone.Model.extend({
         'url': function () {
             return '/task/' + this.id + '/';
@@ -51,10 +62,10 @@ var CRITICALLY_THRESHOLD = 0.7;
             var arItems = [];
             if (this.get('canEdit')) {
                 arItems.push({
-                   'itemClass': 'Edit',
-                   'itemText': 'Change',
-                   'itemMethod': 'editTask',
-                   'icon': 'edit'
+                    'itemClass': 'Edit',
+                    'itemText': 'Change',
+                    'itemMethod': 'editTask',
+                    'icon': 'edit'
                 });
 
                 arItems.push({
@@ -164,11 +175,11 @@ var CRITICALLY_THRESHOLD = 0.7;
             }
 
             arItems.push({
-                    'itemClass': 'Donate',
-                    'itemText': 'Donate',
-                    'itemMethod': 'donate',
-                    'icon': 'dollar'
-                });
+                'itemClass': 'Donate',
+                'itemText': 'Donate',
+                'itemMethod': 'donate',
+                'icon': 'dollar'
+            });
 
             if (this.get('canRemove')) {
                 arItems.push({
@@ -324,21 +335,21 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (taskInfo.donated || taskInfo.asked) {
                 var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
                 var color = 'green';
-                if (percent > 100)  {
+                if (percent > 100) {
                     percent = 100;
                     color = 'orange';
                 }
                 oTaskContainers.$reward.append('<div class="progress-item donation-progress">' +
-                    '                    <span>Donated <b>$'+Math.round(parseFloat(taskInfo.donated))+'</b> out of <b>$'+Math.round(parseFloat(taskInfo.asked))+'</b></span>' +
+                    '                    <span>' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') + 'Donated <b style="color:#ff5466;">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</span>' +
                     '                    ' +
                     '                    <div class="progress w-100">' +
-                    '                        <div class="progress-bar ' + color + '-gr' + '" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>' +
+                    '                        <div class="progress-bar ' + color + '-gr' + '" aria-valuenow="' + percent + '" style="width: ' + percent + '%;"></div>' +
                     '                    </div>' +
                     '                </div>');
             }
 
             if (taskInfo.onPlanning) {
-                oTaskContainers.$bountyStatus.show().addClass('text-'+taskInfo.color);
+                oTaskContainers.$bountyStatus.show().addClass('text-' + taskInfo.color);
             } else {
                 oTaskContainers.$bountyStatus.hide();
             }
@@ -1156,7 +1167,7 @@ var CRITICALLY_THRESHOLD = 0.7;
         },
         'donate': function () {
             var obj = this;
-            document.location.href = '/project/'+obj.model.get('project').id+'/donate/?t='+obj.model.id;
+            document.location.href = '/project/' + obj.model.get('project').id + '/donate/?t=' + obj.model.id;
         },
         'setColor': function () {
             var obj = this;

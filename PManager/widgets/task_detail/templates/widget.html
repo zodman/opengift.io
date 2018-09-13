@@ -88,18 +88,22 @@
       {% endif %}
 
       {% if task_detail.task.asked %}
-      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Estimated price: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b></li>
+      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Developers prices: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b>{% if request.user.is_superuser %}..<b>$1,000</b>{% endif %}</li>
       {% endif %}
 
-      <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Donated: <b>${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
-      <li>You can get up to 20% project shares donating to this task
-          <a href="#" data-toggle="tooltip" title="Shares of project gives you a part of the income from all its tasks eternaly.">?</a></li>
+      <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Money raised: <b style="color: red;">${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
+
     </ul>
 
     {% if not task_detail.task.closed %}
     <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
        class="donate-button btn orange-gr">Donate (min. ${{ task_detail.avgDonate|floatformat:"0" }})<img src="/static/img/investment.svg" height="18"></a>
     {% endif %}
+  {% if request.user.is_superuser %}
+        <li>You will get 1% of project "{{ task_detail.task.project.name }}" tokens for each $10 of donation (max 20%)
+          <a href="#" data-toggle="tooltip" title="Tokens of project gives you a part of the income from all its tasks eternaly.">?</a></li>
+          <li style="border: 1px solid black;">Crowd funding company ends in <b>3</b> days</li>
+        {% endif %}
   </div>
     <div class="bakers-wrapper">
       <!--estimates-->
@@ -127,6 +131,13 @@
         {% endfor %}
       </div>
     {% endif %}
+    <div style="float:right;">
+        <h2>For developers:</h2>
+    <div>
+        <a href="#">Set your price</a><br />
+        <a href="#">Add your result</a>
+    </div>
+    </div>
     <div class="grey-600">
           <!--users-->
 
@@ -479,11 +490,29 @@
     {% if task_detail.solutions %}
     <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
     {% endif %}
+  {% if request.user.is_superuser %}
+    <h3 class="hidden-768-down">Additional requirements</h3>
+    <div>
+        <ul>
+            <li><b>Ivan Petrov</b> we need more buttons and play with colors</li>
+            <li><b>Sergey Fedotov</b> please, add the integration with a facebook.</li>
+        </ul>
+    </div>
+  {% endif %}
     {% if task_detail.results %}
           <h3 class="hidden-768-down">Published results</h3>
             <ul style="padding-left: 25px;margin-bottom: 25px;">
             {% for result in task_detail.results %}
-                <li>{{ result.text }}</li>
+                <li>
+                    <b style="margin-right: 20px">{{ result.author.last_name }} {{ result.author.first_name }}</b>
+                    <br />{{ result.text }}
+                    <br />
+                    <a class="js-confirm-result"
+                       href="#" data-author="{{ result.author.id }}"
+                       data-author-name="{{ result.author.last_name }} {{ result.author.first_name }}">
+                        Confirm result
+                    </a>
+                </li>
             {% endfor %}
             </ul>
     {% endif %}
@@ -513,14 +542,22 @@
                   $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
                   return false;
               });
+
+              $('.js-confirm-result').click(function() {
+                  $('.js-task-message-tab').click();
+                  $('[name=task_message]').focus();
+                  $('[name=winner]').val($(this).data('author'));
+                  $('.js-winner').val($(this).data('authorName'));
+                  return false;
+              })
           });
       </script>
       <div class="message-tabs">
             <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
-            <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Estimate the task</a>
-            <a data-type="result" class="js-task-message-tab message-tab" href="#">Post result code</a>
+            <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
+            <a data-type="result" class="js-task-message-tab message-tab" href="#">Add the result</a>
             {% if task_detail.candidates %}
-            <a data-type="vote" class="js-task-message-tab message-tab" href="#">Accept the result</a>
+            <a data-type="vote" class="js-task-message-tab message-tab" href="#">Confirm the result</a>
             {% endif %}
       </div>
       <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">

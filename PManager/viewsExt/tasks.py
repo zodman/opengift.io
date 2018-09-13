@@ -1156,7 +1156,7 @@ class taskAjaxManagerCreator(object):
                 )
                 mess.send()
             else:
-                if profile.isManager(t.project) or t.author.id == user.id:
+                if profile.isManager(t.project) or t.author.id == user.id or user.is_superuser():
                     if t.donations.exists():
                         donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
                             .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
@@ -1171,21 +1171,30 @@ class taskAjaxManagerCreator(object):
 
                         t.winner = t.getWinner()
                         closingDesc = 'Task closed'
-                        if t.winner:
-                            closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + ')'
+                        if t.donations.exists():
+                            closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + \
+                                           ', prize: $' + str(round(t.donated * 0.85, 2)) + \
+                                           ', share holders comission: $' + str(round(t.donated * 0.1, 2)) + ')'
+
+                            if t.winner and t.winner.get_profile().blockchain_wallet:
+                                from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
+                                blockchain_goal_confirmation_request(
+                                    user.username,
+                                    t.project.blockchain_name,
+                                    'opengift.io:task-' + str(t.id),
+                                    t.winner.get_profile().blockchain_wallet
+                                )
+                            else:
+                                return json.dumps({
+                                    'closed': t.closed,
+                                    'status': t.status.code if t.status else None,
+                                    'error': 'Choose registered winner before closing task.'
+                                })
 
                         t.Close(user)
                         t.systemMessage(closingDesc, user, 'TASK_CLOSE')
                         if t.winner and not t.winner.get_profile().hasRole(t.project):
                             t.winner.get_profile().setRole('guest', t.project)
-
-                        if t.donations.exists():
-                            from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
-                            blockchain_goal_confirmation_request(
-                                user.username,
-                                t.project.blockchain_name,
-                                'opengift.io:task-' + str(t.id)
-                            )
 
                         #TODO: данный блок дублируется 4 раза
                         if t.milestone and not t.milestone.closed:
@@ -1204,32 +1213,15 @@ class taskAjaxManagerCreator(object):
                                         t.milestone.token_price
                                     )
 
-                        if t.parentTask and not t.parentTask.closed:
-                            c = t.parentTask.subTasks.filter(closed=False, active=True).count()
-                            if c == 0:
-                                t.parentTask.Close(user)
-                                if t.parentTask.milestone and not t.parentTask.milestone.closed:
-                                    qtyInMS = PM_Task.objects.filter(active=True, milestone=t.parentTask.milestone,
-                                                                     closed=False).count()
-                                    if not qtyInMS:
-                                        t.parentTask.milestone.closed = True
-                                        t.parentTask.milestone.save()
-
-
-                        else:
-                            for stask in t.subTasks.all():
-                                if stask.started:
-                                    stask.Stop()
-                                    stask.endTimer(user, u'Закрытие задачи')
-
-                                stask.Close(user)
-
                         net = TaskMind()
                         net.train([t])
 
                         sendMes = emailMessage('task_closed',
                            {
-                               'task': t
+                               'task': t,
+                               'winner': t.getWinner().last_name + ' ' + t.getWinner().first_name if t.getWinner() else '',
+                               'prize': t.donated * 0.85,
+                               'share_holders_comission': t.donated * 0.1
                            },
                            u'Task was closed: ' + t.name
                         )

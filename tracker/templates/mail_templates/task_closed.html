@@ -6,7 +6,16 @@
     <strong>{{ task.author.first_name }} {{ task.author.last_name }}</strong><br>{{ task.dateCreate }}
 {% endblock %}
 
-{% block title %}Task has been closed!{% endblock %}
+{% block title %}
+    Task has been closed!<br />
+    {% if winner %}
+    The winner: {{ winner }}<br />
+    Prize: {{ prize|floatformat:2 }}<br />
+    Share holders fee: {{ share_holders_comission|floatformat:2 }}
+    {% else %}
+        No results provided. All donations was returned to the donors.
+    {% endif %}
+{% endblock %}
 
 {% block content %}
     <p></p>

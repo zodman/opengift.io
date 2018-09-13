@@ -122,7 +122,7 @@ def widget(request, headerValues, arFilter, q):
             setattr(task, 'canSetReady', prof.hasRole(task.project))
             setattr(task, 'canEdit', task.canEdit(cur_user))
             setattr(task, 'canRemove', task.canPMUserRemove(prof))
-            setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project))
+            setattr(task, 'canApprove', cur_user.id == task.author.id or prof.isManager(task.project) or cur_user.is_superuser)
             setattr(task, 'canClose', task.canApprove)
             setattr(task, 'canConfirm', cur_user.is_authenticated() and task.donations.filter(user=cur_user).count())
 

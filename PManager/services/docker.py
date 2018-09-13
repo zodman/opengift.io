@@ -30,8 +30,8 @@ def blockchain_token_move_request(username, project, wallet, qty):
 
     return 'ok'
 
-def blockchain_goal_confirmation_request(username, project, goal):
-    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal})
+def blockchain_goal_confirmation_request(username, project, goal, winner):
+    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal, 'arg3': winner})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to confirm the goal ' + goal
 
