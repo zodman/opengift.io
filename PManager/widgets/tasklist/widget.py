@@ -223,7 +223,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 not 'pk' in filter and \
                 not 'isParent' in filter and \
                 not 'all' in filter:
-            filter['parentTask__isnull'] = True
+            filter['parentTask_id__isnull'] = True
         else:
             if 'pageCount' in arPageParams:
                 del arPageParams['pageCount'] #выводим все подзадачи, а не только кусок, как для задач

@@ -108,6 +108,7 @@ def blockchainAjax(request):
                     result = blockchain_user_newproject_request(request.user.username, name)
                     if result == 'ok':
                         project.blockchain_name = name
+                        project.blockchain_registered = True
                         project.save()
             except PM_Project.DoesNotExist:
                 result = 'error'

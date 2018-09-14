@@ -1108,22 +1108,22 @@
                 }
             });
 
-            $('.js-confirm-donation').click(function () {
-                $.post(
-                    '/blockchain/ajax/',
-                    {
-                        'action': 'confirmGoal',
-                        'projectId': {{ project.id }},
-                        'goalId': $(this).data('id')
-                    },
-                    function (data) {
-                        if (data == 'ok') {
-                            ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
-                        }
-                    }
-                );
-                return false;
-            });
+{#            $('.js-confirm-donation').click(function () {#}
+{#                $.post(#}
+{#                    '/blockchain/ajax/',#}
+{#                    {#}
+{#                        'action': 'confirmGoal',#}
+{#                        'projectId': {{ project.id }},#}
+{#                        'goalId': $(this).data('id')#}
+{#                    },#}
+{#                    function (data) {#}
+{#                        if (data == 'ok') {#}
+{#                            ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);#}
+{#                        }#}
+{#                    }#}
+{#                );#}
+{#                return false;#}
+{#            });#}
         })
     </script>
     <script type="application/javascript" src="/static/js/libs/charts.2.7.1.js"></script>

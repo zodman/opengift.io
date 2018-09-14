@@ -1462,7 +1462,13 @@ class PM_Task(models.Model):
 
         excludeFilter = {}
         if 'bounty' in filter or not user.is_authenticated():
-            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False, closed=False)]
+            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False)]
+            if 'closed' not in filter:
+                filter['closed'] = False
+
+            if filter['closed'] == True:
+                order_by = '-dateClose'
+
             if 'bounty' in filter:
                 del filter['bounty']
 
@@ -1499,6 +1505,11 @@ class PM_Task(models.Model):
                 filterQArgs = [Q(*filterQArgs) | Q(
                     id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
                 filter = {}
+
+        import logging
+        logger = logging.getLogger('blockchain')
+        logger.debug(json.dumps(filter))
+        logger.debug(json.dumps(str(PM_Task.objects.filter(*filterQArgs, **filter).query)))
 
         try:
             tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,

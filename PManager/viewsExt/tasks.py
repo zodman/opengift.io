@@ -1156,7 +1156,7 @@ class taskAjaxManagerCreator(object):
                 )
                 mess.send()
             else:
-                if profile.isManager(t.project) or t.author.id == user.id or user.is_superuser():
+                if profile.isManager(t.project) or t.author.id == user.id or user.is_superuser:
                     if t.donations.exists():
                         donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
                             .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
@@ -1172,24 +1172,27 @@ class taskAjaxManagerCreator(object):
                         t.winner = t.getWinner()
                         closingDesc = 'Task closed'
                         if t.donations.exists():
-                            closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + \
-                                           ', prize: $' + str(round(t.donated * 0.85, 2)) + \
-                                           ', share holders comission: $' + str(round(t.donated * 0.1, 2)) + ')'
-
+                            from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
                             if t.winner and t.winner.get_profile().blockchain_wallet:
-                                from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
                                 blockchain_goal_confirmation_request(
                                     user.username,
                                     t.project.blockchain_name,
                                     'opengift.io:task-' + str(t.id),
                                     t.winner.get_profile().blockchain_wallet
                                 )
+
+                                closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + \
+                                           ', prize: $' + str(round(t.donated * 0.85, 2)) + \
+                                           ', share holders comission: $' + str(round(t.donated * 0.1, 2)) + ')'
                             else:
-                                return json.dumps({
-                                    'closed': t.closed,
-                                    'status': t.status.code if t.status else None,
-                                    'error': 'Choose registered winner before closing task.'
-                                })
+                                blockchain_goal_confirmation_request(
+                                    user.username,
+                                    t.project.blockchain_name,
+                                    'opengift.io:task-' + str(t.id),
+                                    ''
+                                )
+
+                                closingDesc += ' (no winner, all money were returned to the donors)'
 
                         t.Close(user)
                         t.systemMessage(closingDesc, user, 'TASK_CLOSE')

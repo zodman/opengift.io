@@ -31,7 +31,8 @@ def blockchain_token_move_request(username, project, wallet, qty):
     return 'ok'
 
 def blockchain_goal_confirmation_request(username, project, goal, winner):
-    result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal, 'arg3': winner})
+    result = __blockchain_request_raw('/blockchain/write',
+                                      {'user': username, 'fcn': 'confirmGoal', 'arg1': project, 'arg2': goal, 'arg3': winner})
     if result.find('success') == -1:
         return 'Fatal Error: Failed to confirm the goal ' + goal
 
@@ -53,7 +54,7 @@ def blockchain_pay_request(username, wallet, sum):
 def blockchain_user_newproject_request(username, projectName):
     result = __blockchain_request_raw('/blockchain/write', {'user': username, 'fcn': 'addProject', 'arg1': projectName.lower()})
     if result.find('success') == -1:
-        return 'Fatal Error: Failed to add project ' + projectName
+        return 'Fatal Error: Failed to add project ' + projectName + '. ' + result
 
     # result = result.replace('success', '').replace("\r", '').replace("\n",'').strip()
     # result = json.loads(result)
@@ -135,6 +136,7 @@ def __blockchain_request_raw(service_url, data):
     d = {'app_key': DOCKER_APP_KEY}
     for k in data:
         d[k] = data[k]
+
     data = urllib.urlencode(d)
     url = "http://" + DOCKER_HOST + service_url
     req = urllib2.Request(url, data)

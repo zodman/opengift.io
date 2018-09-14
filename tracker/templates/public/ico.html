@@ -199,20 +199,24 @@
 {#                    <p class="text-white ">Smart Contract address: 0x5591f699b7b170b800faa435ccf21ed5f5d98772</p>#}
 {#                    {% endif %}#}
                     <div class="progress-item mb-5" style="position: relative;">
-                        <h4 class="float-right text-white  u-mb-0  u-mt-20">1 351 200 out of 10 000 000 GIFT</h4>
+                        <h4 class="float-right text-white  u-mb-0  u-mt-20">1 980 020 out of 5 000 000 GIFT</h4>
                         <div class="clearfix"></div>
                         <div class="progress w-100 green-gr u-mt-20" style="overflow: visible;position: relative;">
                             <div class="progress-pointer" style="left: 10%; right: auto;z-index: 2;top:-11px;"></div>
-                            <div class="progress-bar orange-gr relative" aria-valuenow="12.95" style="width: 0%;">
+                            <div class="progress-bar orange-gr relative" aria-valuenow="39.60" style="width: 0%;">
 
                             </div>
                         </div>
                     </div>
 
                     {% if not request.user.is_authenticated %}
-                    <a href="/login/?wl=1&backurl=/ico/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
-                        REGISTER TO BUY TOKENS
-                    </a>
+                        <a href="/login/?wl=1&backurl=/ico/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">
+                            REGISTER TO BUY TOKENS
+                        </a>
+                    {% else %}
+{#                        <a href="/buy_tokens/" class="btn btn btn-rounded btn-white m-2 px-md-5 py-3">#}
+{#                            BUY TOKENS#}
+{#                        </a>#}
                     {% endif %}
                 </div> <!-- END col-lg-6-->
 {#                <div class="col-lg-4 u-mt-80" align="center">#}
@@ -296,10 +300,11 @@
                             MVP ready
                         </h4>
                         <p class="text-center text-dark u-t-u">
-                            <a href="https://www.youtube.com/watch?v=Bme1lTX6gQ4" target="_blank">Video presentation</a>
+                            <a href="/offer/">Try it</a>
                         </p>
                         <p class="mb-0">
                             The platform has been launched with all the basic functions ready. The first stage of customer development has been completed. First participants have registered on the platform.
+                            <br /><a href="/bounty/">Donate to open source software features</a>
                         </p>
                     </div>
                 </div>
@@ -651,35 +656,35 @@
                                         "dataProvider": [
                                             {
                                                 "country": "Main Sale",
-                                                "litres": "43.75"
+                                                "litres": "70000000"
                                             },
                                             {
                                                 "country": "Project team",
-                                                "litres": "15.63"
+                                                "litres": "25000000"
                                             },
                                             {
                                                 "country": "Legal & Advisory & Partners",
-                                                "litres": "9.38"
+                                                "litres": "15000000"
                                             },
                                             {
                                                 "country": "First exchange",
-                                                "litres": "3.13"
+                                                "litres": "5000000"
                                             },
                                             {
                                                 "country": "Marketing Bounty",
-                                                "litres": "3.13"
+                                                "litres": "5000000"
                                             },
                                             {
                                                 "country": "PreSale",
-                                                "litres": "15.63"
+                                                "litres": "30000000"
                                             },
                                             {
                                                 "country": "Seed Round",
-                                                "litres": "6.25"
+                                                "litres": "5000000"
                                             },
                                             {
                                                 "country": "Development Bounty",
-                                                "litres": "3.13"
+                                                "litres": "5000000"
                                             }
                                         ]
                                     }
@@ -695,42 +700,29 @@
                                 <thead class="bg-primary border-0 text-white">
                                 <tr>
                                     <th scope="col" class="text-center text-md-left"></th>
-                                    <th scope="col" class="text-center text-md-left">GIFT&nbsp;price (ETH)</th>
+                                    <th scope="col" class="text-center text-md-left">GIFT&nbsp;price</th>
                                     <th scope="col" class="text-center text-md-left">Bonus</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr>
-                                    <th scope="row">Seed Sale round (10% of whole public sale)</th>
-                                    <td>0,00012</td>
-                                    <td>15% for everyone</td>
+                                    <th scope="row">Seed Sale round (5&nbsp;000&nbsp;000&nbsp;GIFTs) till 25th of December</th>
+                                    <td>$ 0.1</td>
+                                    <td>15% when buying no less than 100&nbsp;000&nbsp;GIFTs</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">Less than 20% GIFTs* have been sold</th>
+                                    <th scope="row">Pre Sale round (30&nbsp;000&nbsp;000&nbsp;GIFTs)</th>
                                     <td>to be announced</td>
-                                    <td>10% when buying no less than 1 000 GIFTs</td>
+                                    <td>10% when buying no less than 1&nbsp;000&nbsp;000&nbsp;GIFTs</td>
                                 </tr>
                                 <tr>
-                                    <th scope="row">From 20% to 40% GIFTs have been sold</th>
+                                    <th scope="row">Main Sale (70&nbsp;000&nbsp;000&nbsp;GIFTs)</th>
                                     <td>to be announced</td>
-                                    <td>7.5% when buying no less than 2 000 GIFTs</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">From 40% to 60% GIFTs have been sold</th>
-                                    <td>to be announced</td>
-                                    <td>5% when buying no less than 3 000 GIFTs</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">From 60% to 80% GIFTs have been sold</th>
-                                    <td>to be announced</td>
-                                </tr>
-                                <tr>
-                                    <th scope="row">More than 80% GIFTs have been sold</th>
-                                    <td>to be announced</td>
+                                    <td>7.5% when buying no less than 3&nbsp;000&nbsp;000&nbsp;GIFTs</td>
                                 </tr>
                                 </tbody>
                             </table>
-                            <p>*- of the Main Sale amount of coins</p>
+                            <p>*- addtional bonuses might be announced</p>
 
                         </div>
                         <div class="col-md-4">
@@ -738,10 +730,10 @@
                                 <p>You can buy EthGIFTs by transfering Ethereum to our smart-contract</p>
                                 <h5>Seed Round rate</h5>
                                 <h2 class="my-4">
-                                    <span class="text-primary">0,00012 ETH</span> = <span class="text-red">1&nbsp;ERC20&nbsp;GIFT</span>
+                                    <span class="text-primary">$ 0.1</span> = <span class="text-red">1&nbsp;ERC20&nbsp;GIFT</span>
                                 </h2>
                                 <p>You can exchange EthGIFT for GIFT 1-to-1 at any moment.</p>
-                                <h2>All Seed Round<br />10M EthGIFT</h2>
+                                <h2>All Seed Round<br />5M EthGIFT</h2>
                             </div>
                         </div>
                     </div>
@@ -1481,7 +1473,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
 
                 <div class="roadmap-container-content">
 
-                    <p>Improved donations functionality. Token closed pre-sale starts.</p>
+                    <p>Customers and tasks attraction started. Improved donations functionality. Token closed pre-sale starts.</p>
 
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
@@ -1493,7 +1485,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
 
                 <div class="roadmap-container-content">
 
-                    <p>GIFT offline wallet. GIFT-USD Exchange. Main Token Sale. Investment scoring for OSS projects. Investment portfolio and metrics visualisation. Gamefication and social incentives functionality</p>
+                    <p>Weekly Open Source hackathons for development of free software started. GIFT-USD Exchange. </p>
 
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
@@ -1504,7 +1496,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
                 </div>
 
                 <div class="roadmap-container-content">
-                    <p>GIFT-coin listed on external exchanges. Paid OSS modifications and documentation sale made possible. Paying for new features with project tokens</p>
+                    <p>Investment portfolio and metrics visualisation. Gamefication and social incentives functionality. Paid OSS modifications and documentation sale made possible. Paying for new features with project tokens</p>
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
             <div class="roadmap-container-block clearfix">
@@ -1514,7 +1506,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
                 </div>
 
                 <div class="roadmap-container-content">
-                    <p>Donation to an industry/stack with automatic distribution of the amount between most promising projects. Projects dependancies tree: projects to receive a share of donations from other projects useing their code</p>
+                    <p>GIFT offline wallet. GIFT-coin listed on external exchanges. Donation to an industry/stack with automatic distribution of the amount between most promising projects. Projects dependancies tree: projects to receive a share of donations from other projects useing their code</p>
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
             <div class="roadmap-container-block clearfix">
@@ -1524,7 +1516,7 @@ Ryan is the founding partner of Experience Legal, a California law firm focused 
                 </div>
 
                 <div class="roadmap-container-content">
-                    <p>One can buy goods and services with GIFT in OpenGift partnership network. Enhanced partnership API</p>
+                    <p> Main Token Sale. Investment scoring for OSS projects. One can buy goods and services with GIFT in OpenGift partnership network. Enhanced partnership API</p>
                 </div> <!-- cd-timeline-content -->
             </div> <!-- cd-timeline-block -->
             <div class="roadmap-container-block clearfix">

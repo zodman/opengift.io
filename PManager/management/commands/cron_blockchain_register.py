@@ -29,8 +29,9 @@ class Command(NoArgsCommand):
                     uProf.blockchain_wallet = wallet
                     uProf.save()
 
-            res = blockchain_user_newproject_request(p.author.username, p.blockchain_name)
-            print res
-            if res == 'ok':
-                p.blockchain_registered = True
-                p.save()
+            if p.blockchain_name:
+                res = blockchain_user_newproject_request(p.author.username, p.blockchain_name)
+                print res
+                if res == 'ok':
+                    p.blockchain_registered = True
+                    p.save()
