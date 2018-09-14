@@ -16,699 +16,1135 @@
     });
   });
 </script>
-<div class="widget inner Task_Detail" id="task_detail">
-  <div class="widget-title clearfix" style="border: 0;">
-    <div class="widget-title-info clearfix">
-      <div class="widget-title-info-left">
-        <ul class="widget-title-info-left-ul clearfix">
-          {% if task_detail.task.project.id != 1013 %}
-          <li class="active">
-            <a href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a>
-              / <a href="/project/{{ task_detail.task.project.id }}/tasks/">tasks</a>
-          </li>
-          {% endif %}
-          {% if not request.GET.frame_mode %}
-          {% if task_detail.task.parentTask %}
-          {% with task_detail.task.parentTask as parent %}
-          <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
-          {% endwith %}
-          {% endif %}
-          {% endif %}
-
-          <li><i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Task #{{ task_detail.task.number }}</li>
-          <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Created: {{ task_detail.task.dateCreate }}</li>
-          <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Author: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></li>
-        </ul>
-
-      </div>
-      <div class="widget-title-info-right task-manage">
-        {% if task_detail.subtasks|length == 0 %}
-        <a href="javascript:void(0);" title="Approve task" style="display: none" class="js-task_approve  fa fa-check-circle {% if task_detail.task.closed %}closed{% endif %}"></a>
-        <a href="javascript:void(0);" title="Close task" class="js-task_done  fa fa-{% if task_detail.task.canClose %}close{% else %}check{% endif %} {% if task_detail.task.closed %}closed{% endif %}"></a>
-        {% endif %}
-
-        <!--{#                    <span class="dropdown pull-right close-task-wrapper">#}
-        {#                        <a href="javascript:void(0);" class="js-task_play task_play{% if task_detail.subtasks|length %} disabled{% endif %}"><span class="fa {% if task_detail.startedTimerExist %}fa-pause{% else %}fa-play-circle{% if task_detail.subtasks|length %} disabled{% endif %}{% endif %}"></span></a>#}
-        {#                        <div class="dropdown-menu pull-right pause_dialog">#}
-        {#                            <h3>Введите комментарий</h3>#}
-        {#                            <textarea name="comment" class="form-control"></textarea>#}
-        {#                            <label class="checkbox">#}
-        {#                                <input type="checkbox" name="solution" disabled="disabled" value="Y"> To wiki#}
-        {#                            </label>#}
-        {#                            <a class="btn btn-success pause_comment_success" >Ок</a>#}
-        {#                            <a class="btn btn-danger pause_comment_cancel" >Cancel</a>#}
-        {#                        </div>#}
-        {#                    </span>#}-->
-
-        <span class="dropdown pull-right js-options_popup">
-          <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-cog js-task_menu"></a>
-        </span>
-
-      </div>
-    </div>
-    <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}</h2>
-  </div><!--widget-title-->
-
-  <div class="widget-title-bottom-info clearfix color-bg {{ task_detail.task.color }}">
-    <ul class="widget-title-info-left-ul clearfix">
+<style>
+    .breadcrumbs-ns {
+        font-size: 16px;
+        list-style: none;
+        margin: -15px 0 20px;
+        color: #cdd1d6;
+    }
+    }
+    .breadcrumbs-ns li {}
+    .breadcrumbs-ns li a {
+        color: #a1a9b3;
+    }
+    .breadcrumbs-ns li a.active {
+        color: #54667a;
+    }
 
 
-      {#<li>Spent time: <b id="js-td_time"></b></li>#}
+    .task-info-ul {
+        color: #cdd1d6;
+        margin: 15px 0 25px;
+        font-size: 12px;
+        list-style: none;
+    }
+    .task-info-ul li {
+        margin-right: 35px;
+        margin-bottom: 10px;;
+        float: left;
+        color: #a1a9b3;
+    }
+    .task-info-ul li a {
+        color: #a1a9b3;
+    }
 
-      {% if task_detail.task.resp %}
-      <li>
-        Curator: <strong>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }} </strong>
-      </li>
-      {% endif %}
+    .light-blue-bg {
+        background: #F3F6FB;
+    }
+    .pink-gr {
+        background: #ffeeef; /* Old browsers */
+        background: -moz-linear-gradient(top, #ffeeef 0%, #fef1ed 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, #ffeeef 0%,#fef1ed 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, #ffeeef 0%,#fef1ed 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffeeef', endColorstr='#fef1ed',GradientType=0 ); /* IE6-9 */
+    }
 
-      {% if task_detail.task.currentWinner %}
-      <li>
-        Current Winner: <strong>{{ task_detail.task.currentWinner.last_name }} {{ task_detail.task.currentWinner.first_name }}</strong>
-      </li>
-      {% endif %}
+    .up-3 {padding: 25px 30px;}
 
-      {% if task_detail.task.asked %}
-      <li><img src="/static/img/get-money-white.svg" height="18">&nbsp;&nbsp;Developers prices: <b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b>{% if request.user.is_superuser %}..<b>$1,000</b>{% endif %}</li>
-      {% endif %}
+    .pb-0 {padding-bottom: 0px;}
 
-      <li><img src="/static/img/donate-white.svg" height="18">&nbsp;&nbsp;Money raised: <b style="color: red;">${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></li>
+    .mb-0 {
+        margin-bottom: 0px;
+    }
+    .mb-3 {
+        margin-bottom: 30px;
+    }
+    .radius-5 {
+      border-radius:5px;
+    }
 
-    </ul>
+    .pink-color {color:#ff5466;}
 
-    {% if not task_detail.task.closed %}
-    <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
-       class="donate-button btn orange-gr">Donate (min. ${{ task_detail.avgDonate|floatformat:"0" }})<img src="/static/img/investment.svg" height="18"></a>
+    .requirements {
+        margin: 30px 0;
+    }
+    .requirements-ul {
+        list-style: none;
+    }
+
+    .requirements-ul li {
+        margin-bottom: 20px;
+    }
+    .requirements-ul li:last-child {
+        margin-bottom: 0px;
+    }
+    .requirements-ul li h6 {
+        margin-bottom: 0px;
+    }
+
+    .requirements-ul li.active .requirements-item-icon {
+        fill: #61bb97;
+    }
+
+    .requirements-item-icon {
+        fill: #ddd;
+        width: 50px;
+        height: 50px;
+        display: block;
+        float: left;
+        border: 1px solid #cdd1d6;
+        border-radius: 50%;
+        text-align: center;
+        margin-right: 20px;
+    }
+
+    .requirements-item-icon svg {
+        width: 20px !important;
+        height: 20px;
+        margin-top: 14px;
+    }
+
+    .task-details-text {
+        margin-bottom: 30px;
+    }
+
+    .task-details-text-cut {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+25,1+39,1+39 */
+        background: -moz-linear-gradient(top, rgba(255,255,255,0) 0%, rgba(255,255,255,1) 25%, rgba(255,255,255,1) 39%, rgba(255,255,255,1) 100%); /* FF3.6-15 */
+        background: -webkit-linear-gradient(top, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,1) 39%,rgba(255,255,255,1) 100%); /* Chrome10-25,Safari5.1-6 */
+        background: linear-gradient(to bottom, rgba(255,255,255,0) 0%,rgba(255,255,255,1) 25%,rgba(255,255,255,1) 39%,rgba(255,255,255,1) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00ffffff', endColorstr='#ffffff',GradientType=0 ); /* IE6-9 */
+        padding: 20px 0; text-align:center; position: relative;
+        margin-top: -20px;
+    }
+    .task-details-text-cut:after {
+        content: "";
+        top:50%;
+        left: 0;
+        right: 0px;
+        height: 1px;
+        position: absolute;
+        background: #eeeff1;
+    }
+
+    .task-details-text-cut-button {
+        position: absolute;
+        background: #eeeff1;
+        display: inline-block;
+        border-radius: 25px;
+        padding: 5px 15px;
+        margin-top: -15px;
+        font-size: 12px;
+        color: #a1a9b3;
+        z-index: 1;
+    }
+
+    .tast-details-desc {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+    }
+
+    .tast-details-desc li {
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+        -webkit-box-pack: justify !important;
+        -ms-flex-pack: justify !important;
+        justify-content: space-between !important;
+        display: -webkit-box !important;
+        display: -ms-flexbox !important;
+        display: flex !important;
+        border-bottom: 1px solid #e3e7ee;
+        padding: 0 0 15px;
+        margin: 0 0 15px;
+    }
+
+    .token-info {
+        width: 36px;
+        float: left;
+        fill: #54667a;
+        margin-right: 15px;;
+    }
+    .token-info svg {
+        width: 36px;
+    }
+
+    .confirm-result-button {
+        display: inline-block;
+        border-radius: 3px;
+        padding: 5px 15px;
+        font-size: 12px;
+        color: #54667a;
+        border: 1px solid #54667a;
+    }
+    .confirm-result-button:hover,
+    .confirm-result-button:hover,
+    .confirm-result-button:active {
+        color: #60bb98;
+        border: 1px solid #60bb98;
+    }
+
+    .published-results {
+        border-top: 1px solid #e3e7ee;
+        margin: 30px -30px 0;
+    }
+
+    .published-results-ul {
+        margin: 0px;
+        padding: 0px;
+        list-style: none;
+    }
+    .published-results-ul-li {padding: 0 0 20px;}
+
+    .published-results-ul-li:last-child {padding: 0px;}
+
+    .published-results-ul-li-info {
+        font-size: 12px;
+        color: #a1a9b3;
+        margin-bottom: 5px;
+    }
+
+    .published-results h6 {
+    margin-bottom: 10px;
+    }
+    .published-results-ul-li-link {
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+</style>
+<ul class="breadcrumbs-ns">
+    {% if task_detail.task.project.id != 1013 %}
+    <li>
+        <a href="/project/{{ task_detail.task.project.id }}/tasks/">Tasks</a> /
+        <a class="active" href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a>
+    </li>
     {% endif %}
-  {% if request.user.is_superuser %}
-        <li>You will get 1% of project "{{ task_detail.task.project.name }}" tokens for each $10 of donation (max 20%)
-          <a href="#" data-toggle="tooltip" title="Tokens of project gives you a part of the income from all its tasks eternaly.">?</a></li>
-          <li style="border: 1px solid black;">Crowd funding company ends in <b>3</b> days</li>
-        {% endif %}
-  </div>
-    <div class="bakers-wrapper">
-      <!--estimates-->
-    {% if task_detail.backers %}
-    <div class="bakers-list hidden-768-up">
-        <h3>Backers:</h3>
-        <ul class="project-team-items clearfix">
-        {% for backer in task_detail.backers %}
-          <li class="team-item">
-            <a class="avatar avatar-sm">
-              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-            </a>
-          </li>
-        {% endfor %}
-        </ul>
-    </div>
-    <div class="bakers-list hidden-768-down" style="margin-bottom: 50px;">
-    <span><b>Backers:</b></span>
-        {% for backer in task_detail.backers %}
-          <div style="display: inline;position: relative;float: inherit;margin: 0;bottom: 0; top: 14px;" class="team-item bakers-avatar">
-            <a class="avatar avatar-sm" title="{{ backer.last_name }} {{ backer.first_name }} (${{ backer.donated|floatformat:"0" }})" data-toggle="tooltip">
-              <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-            </a>
-          </div>
-        {% endfor %}
-      </div>
+    {% if not request.GET.frame_mode %}
+    {% if task_detail.task.parentTask %}
+    {% with task_detail.task.parentTask as parent %}
+    <li class="active"><a href="{{ parent.url }}">{{ parent.name }}</a></li>
+    {% endwith %}
     {% endif %}
-    <div style="float:right;">
-        <h2>For developers:</h2>
-    <div>
-        <a href="#">Set your price</a><br />
-        <a href="#">Add your result</a>
-    </div>
-    </div>
-    <div class="grey-600">
-          <!--users-->
-
-          <style>
-            .project-team-items {
-              list-style: none;
-              padding: 0;
-              margin-bottom: 0;
-            }
-
-            .project-team-items .team-item {
-              float: left;
-              margin-right: 15px;
-              margin-bottom: 15px;
-            }
-
-
-            .avatar {
-              position: relative;
-              display: inline-block;
-              white-space: nowrap;
-              vertical-align: bottom;
-              border-radius: 50%;
-              -moz-border-radius: 50%;
-              -webkit-border-radius: 50%;
-            }
-
-            .avatar img {
-              width: 100%;
-              max-width: 100%;
-              height: auto;
-              border: 0 none;
-            }
-
-            .progress {
-              height: 15px;
-              overflow: hidden;
-              background-color: #e4eaec;
-              border-radius: .215rem;
-            }
-
-            .progress-price {
-              overflow: visible;
-              margin-bottom: 35px;
-              margin-left: 0;
-              /*background: none;*/
-            }
-
-
-            .progress-bar-price {
-              position: absolute;
-              right: 0;
-              top: -26px;
-              color: #54667a;
-              font-size: 15px !important;
-            }
-            .progress-price .progress-item {
-              position: absolute;
-              top: 30px;
-              right: -35px;
-              color: #ff5466;
-              font-size: 14px;
-              width: 75px;
-              font-weight: bold;
-            }
-
-            .progress-users {
-              overflow: visible;
-              margin-top: 37px;
-              background: none;
-            }
-
-            .progress-users .progress-bar {
-              position: relative;
-              background: none;
-            }
-
-            .progress-users .avatar {
-              position: absolute;
-              top: -31px;
-              right: -15px;
-            }
-
-
-            .bakers-avatar {
-              position: absolute;
-{#              background: url(/static/img/avatar.png) 0px 0px no-repeat;#}
-              height: 60px;
-              width: 46px;
-              bottom: -26px;
-              z-index: 7;
-              margin-left: -23px;
-            }
-
-            .avatar-sm {
-              width: 50px;
-            }
-
-            .bakers-avatar .avatar-sm {
-              margin-left: 6px;
-              margin-top: 6px;
-              border: 3px solid #fff;
-              box-shadow: 0 0px 7px rgba(1,1,1,0.2);
-              width: 46px;
-              border-radius: 50%;
-            }
-
-            .bakers-avatar.active .avatar-sm {
-                border: 3px solid #62bb94;
-                box-shadow: 0 0px 7px rgba(1,1,1,0.5);
-            }
-
-            .bakers-avatar .avatar-sm img {
-              border-radius: 50%;
-            }
-
-
-            span.avatar-sm-spa {
-              height: 50px;
-              width: 50px;
-              display: block;
-              background-repeat: no-repeat;
-              background-size: cover;
-              background-position: center;
-              background-color: white;
-            }
-
-            .bakers-avatar span.avatar-sm-spa {
-               height: 40px;
-               width: 40px;
-               border-radius: 50%;
-             }
-
-            .bakers-list {
-              margin-bottom: 15px;
-            }
-
-
-            .progress-xs {
-              height: 7px;
-              border-radius: 25px;
-              margin-top: 35px;
-            }
-
-            .progress-xs .progress-bar {
-              line-height: 4px;
-              border-radius: 25px;
-            }
-
-            .progress-bar {
-              position: relative;
-              float: left;
-              width: 0%;
-              height: 100%;
-              font-size: .858rem;
-              line-height: 15px;
-              color: #fff;
-              text-align: center;
-              background-color: #3e8ef7;
-              -webkit-transition: width .6s ease;
-              transition: width .6s ease;
-            }
-
-            .progress-bar-warning {
-              background-color: #f5914b;
-            }
-
-            .progress-bar-info {
-              background: #62bb94;
-              background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-              background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
-              background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
-              background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
-              background-repeat: repeat-x;
-              filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
-            }
-
-            .progress-bar-success {
-              background-color: #11c26d;
-            }
-
-            .progress-custom {
-              margin-bottom: 25px;
-            }
-            .progress-custom:last-child {
-              margin-bottom: 0px;
-            }
-
-
-            .progress-custom .progress-bar {
-              padding: 2px;
-              margin: 2px 0;
-              border-radius: 4px;
-              display: block;
-              float: none;
-              text-align: left;
-              min-width: 80px;
-            }
-
-            .progress-custom .progress-bar-price {
-              line-height: 2rem;
-              font-size: 1rem;
-            }
-
-            .bakers-list-mobile {
-              margin-bottom: 30px;
-            }
-
-            @media (max-width: 767px) {
-              .hidden-768-down {
-                display: none;
-              }
-            }
-
-            @media (min-width: 768px) {
-              .hidden-768-up {
-                display: none;
-              }
-            }
-
-            .float-left {
-              float: left;
-            }
-
-            .avatar-name {overflow: hidden;}
-            .avatar-name .avatar {
-              float: left;
-              width: 50px;
-              margin-right: 15px;
-            }
-            .avatar-name .name {
-              float: left;
-              width: calc(100% - 130px);
-              margin-top: 4px;
-            }
-
-            .name-rating {
-              font-size: 11px;
-              opacity: 0.8;
-              text-transform: uppercase;
-            }
-
-            @media only screen and (max-width: 568px) {
-
-
-              .widget-title-info {
-                margin: -15px -15px 20px;
-              }
-            }
-
-
-          </style>
-          {% if task_detail.askers %}
-          <!--prices-->
-              <h3 class="hidden-768-down">Developer estimations</h3>
-          <div class="progress progress-price progress-xs user-progress hidden-768-down">
-            {% for asker in task_detail.askers %}
-            <div class="bakers-avatar {% if asker.percent < task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">
-              <a class="avatar avatar-sm" title="{{ asker.user.last_name }} {{ asker.user.first_name }}" data-toggle="tooltip">
-                <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-              </a>
-                <span class="sum" style="width: 100%;text-align: center;display:block;">${{ asker.ask|floatformat:"f" }}</span>
-            </div>
-          {% endfor %}
-
-            <span class="progress-bar progress-bar-{% if task_detail.donatedPercent > 100 %}warning{% else %}info{% endif %}" style="width: {% if task_detail.donatedPercent > 100 %}100{% else %}{{ task_detail.donatedPercent|floatformat:"f" }}{% endif %}%;">
-{#                {% if task_detail.task.donated %}#}
-{#              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>#}
-{#                {% endif %}#}
-            </span>
-          </div>
-
-          <!--media-400-->
-          <div class="hidden-768-up bakers-list-mobile clearfix">
-          <h3>Developer estimations:</h3>
-            {% for asker in task_detail.askers %}
-            <div class="progress-custom clearfix">
-
-              <div class="avatar-name">
-                <div class="avatar float-left avatar-sm">
-                  <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
-                </div>
-                <div class="name">
-                  <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
-                  <h5>{{ asker.user.last_name }} {{ asker.user.first_name }}</h5>
-                </div>
-              </div>
-              <div class="clearfix"></div>
-              <div class="progress-bar orange-gr" style="width: {{ asker.percent | floatformat:"f" }}%;">
-                <div class="progress-bar-price">${{ asker.ask | floatformat }}</div>
-              </div>
-            </div>
-          {% endfor %}
-          </div>
-            {% endif %}
-        </div>
-      <!--backers-->
-
-    </div>
-
-  {# ---- TASK BODY #}
-  <div class="widget-body">
-    <div class="task-details-text">{{ task_detail.task.text_formatted|safe }}</div>
-    {% if task_detail.files %}
-    {% for file in task_detail.files %}
-    {% if file.is_picture %}
-    <div class="task-details-pictures">
-      <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
-    </div>
     {% endif %}
-    {% endfor %}
+</ul>
 
-    {% for file in task_detail.files %}
-    {% if not file.is_picture %}
-    <div class="task-details-files">
-      <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}"></span> {{ file.name }}</a><br />
-    </div>
-    {% endif %}
-    {% endfor %}
 
-    {% endif %}
+<div class="widget inner Task_Detail new" id="task_detail">
 
-    <!--{#        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>#}
-    {#        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">#}
-    {##}
-    {#            <span class="js-todo-list todo-list">#}
-    {#            {% if task_detail.task.todo %}#}
-    {#                {% for todo in task_detail.task.todo %}#}
-    {#                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">#}
-    {#                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}#}
-    {#                    {{ todo.text }}#}
-    {#                </button>#}
-    {#                {% endfor %}#}
-    {#            {% endif %}#}
-    {#            </span>#}
-    {#            <span class="js-bug-list bug-list">#}
-    {#                {% if task_detail.task.bug %}#}
-    {#                    {% for bug in task_detail.task.bug %}#}
-    {#                        <button data-placement="top" data-toggle="popover"#}
-    {#                                data-container="body" class="js-bug-checkbox checkbox-bug" rel="{{ bug.id }}" type="button"#}
-    {#                                data-original-title="" title="">#}
-    {#                            {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}#}
-    {#                                <i class="fa fa-square-o"></i>{% endif %}#}
-    {#                            {{ bug.text }}#}
-    {#                        </button>#}
-    {#                    {% endfor %}#}
-    {#                {% endif %}#}
-    {#            </span>#}
-    {#        </div>#}-->
-    {% if task_detail.solutions %}
-    <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
-    {% endif %}
-  {% if request.user.is_superuser %}
-    <h3 class="hidden-768-down">Additional requirements</h3>
-    <div>
-        <ul>
-            <li><b>Ivan Petrov</b> we need more buttons and play with colors</li>
-            <li><b>Sergey Fedotov</b> please, add the integration with a facebook.</li>
-        </ul>
-    </div>
-  {% endif %}
-    {% if task_detail.results %}
-          <h3 class="hidden-768-down">Published results</h3>
-            <ul style="padding-left: 25px;margin-bottom: 25px;">
-            {% for result in task_detail.results %}
+    <div class="row">
+        <div class="col-xs-8 col-sm-8 col-md-8">
+
+            <ul class="task-info-ul clearfix">
+
+
+                <li><i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Task #{{ task_detail.task.number }}</li>
+                <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Created: {{ task_detail.task.dateCreate }}</li>
+                <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Author: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></li>
+
                 <li>
-                    <b style="margin-right: 20px">{{ result.author.last_name }} {{ result.author.first_name }}</b>
-                    <br />{{ result.text }}
-                    <br />
-                    <a class="js-confirm-result"
-                       href="#" data-author="{{ result.author.id }}"
-                       data-author-name="{{ result.author.last_name }} {{ result.author.first_name }}">
-                        Confirm result
-                    </a>
+                <span class="dropdown js-options_popup">
+                  <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-cog js-task_menu"></a>
+                </span>
+                    Task Settings
                 </li>
-            {% endfor %}
+
             </ul>
-    {% endif %}
-    {% if request.user.is_authenticated %}
+            <h2 class="{{ task_detail.lamp }}">{{ task_detail.task.name }}</h2>
 
-      <div class="task_add-message">
-      <style>
-          .message-tabs {
-              width: 100%;
-              padding: 0 0 15px;
-          }
-          .message-tab {
-              display: inline-block;
-              padding: 10px 20px 10px 0;
-          }
-          .message-tab.active {
-              cursor: default;
-              color: #444;
-              font-weight: bold;
-          }
-      </style>
-      <script>
-          $(function() {
-              $('.js-task-message-tab').click(function() {
-                  $(this).addClass('active').siblings().removeClass('active');
-                  $('[name="message_type"]').val($(this).data('type'));
-                  $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
-                  return false;
-              });
+            {# ---- TASK BODY #}
+            <div class="widget-body">
 
-              $('.js-confirm-result').click(function() {
-                  $('.js-task-message-tab').click();
-                  $('[name=task_message]').focus();
-                  $('[name=winner]').val($(this).data('author'));
-                  $('.js-winner').val($(this).data('authorName'));
-                  return false;
-              })
-          });
-      </script>
-      <div class="message-tabs">
-            <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
-            <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
-            <a data-type="result" class="js-task-message-tab message-tab" href="#">Add the result</a>
-            {% if task_detail.candidates %}
-            <a data-type="vote" class="js-task-message-tab message-tab" href="#">Confirm the result</a>
-            {% endif %}
-      </div>
-      <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-      <input type="hidden" name="message_type" value="message" />
-      <div style="display: inline-block;" data-type="message"
-                class="js-message-options">
-        <select class="js-recipient combobox"
-                onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}"
-                name="to">
-          <option value="">To:</option>
-          {% for resp_user in task_detail.users %}
-          <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      {% if task_detail.candidates %}
-      <div style="display: none;" data-type="vote"
-                class="js-message-options message-select">
-        <select class="js-winner combobox" name="winner">
-          <option value="">Winner:</option>
-          {% for resp_user in task_detail.candidates %}
-          <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
-          {% endfor %}
-        </select>
-      </div>
-      {% endif %}
-        <style>
-            .message-select {
-                display: inline-block;
-            }
-          .need-time-hours {
-            margin-left: 5px;
-            margin-right: 5px;
-            position: relative;
-            top: -2px;
-            width: 160px;
-            height: 30px;
-            display: inline-block;
-            height: 34px;
-            padding: 6px 12px;
-            font-size: 14px;
-            line-height: 1.428571429;
-            color: #555;
-            vertical-align: middle;
-            background-color: #fff;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-            box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
-            -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
-            transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
-          }
+                <div class="task-details-text">
+                    {{ task_detail.task.text_formatted|safe }}
+                    <div class="task-details-text-cut"><a href="" class="task-details-text-cut-button">Read More</a></div>
+                </div>
+                {% if task_detail.files %}
+                {% for file in task_detail.files %}
+                {% if file.is_picture %}
+                <div class="task-details-pictures">
+                    <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                </div>
+                {% endif %}
+                {% endfor %}
 
-            .need-time-hours:focus {
-              border-color: #66afe9;
-              outline: 0;
-              -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
-              box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
-            }
-        </style>
-        <div class="left clearfix">
-          <label class="left_check js-message-options" data-type="message" style="display: none;">
-              <input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message
-          </label>
-          {% if not task_detail.task.closed %}
-          {#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
-          <label class="left_check js-message-options" data-type="estimation" style="display: none;">
+                {% for file in task_detail.files %}
+                {% if not file.is_picture %}
+                <div class="task-details-files">
+                    <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}"></span> {{ file.name }}</a><br />
+                </div>
+                {% endif %}
+                {% endfor %}
+
+                {% endif %}
+
+                <!--{#        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>#}
+                {#        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">#}
+                {##}
+                {#            <span class="js-todo-list todo-list">#}
+                {#            {% if task_detail.task.todo %}#}
+                {#                {% for todo in task_detail.task.todo %}#}
+                {#                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">#}
+                {#                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}#}
+                {#                    {{ todo.text }}#}
+                {#                </button>#}
+                {#                {% endfor %}#}
+                {#            {% endif %}#}
+                {#            </span>#}
+                {#            <span class="js-bug-list bug-list">#}
+                {#                {% if task_detail.task.bug %}#}
+                {#                    {% for bug in task_detail.task.bug %}#}
+                {#                        <button data-placement="top" data-toggle="popover"#}
+                {#                                data-container="body" class="js-bug-checkbox checkbox-bug" rel="{{ bug.id }}" type="button"#}
+                {#                                data-original-title="" title="">#}
+                {#                            {% if bug.checked %}<i class="fa fa-check-square-o"></i>{% else %}#}
+                {#                                <i class="fa fa-square-o"></i>{% endif %}#}
+                {#                            {{ bug.text }}#}
+                {#                        </button>#}
+                {#                    {% endfor %}#}
+                {#                {% endif %}#}
+                {#            </span>#}
+                {#        </div>#}-->
+                {% if task_detail.solutions %}
+                <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
+                {% endif %}
+                {% if request.user.is_superuser %}
+                <div class="requirements">
+                    <h3>Additional requirements</h3>
+                    <ul class="requirements-ul">
+                        <li class="requirements-ul-li active clearfix">
+                            <span class="requirements-item-icon">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="352.62px" height="352.62px" viewBox="0 0 352.62 352.62" style="enable-background:new 0 0 352.62 352.62;"
+	 xml:space="preserve">
+<g>
+	<path d="M337.222,22.952c-15.912-8.568-33.66,7.956-44.064,17.748c-23.867,23.256-44.063,50.184-66.708,74.664
+		c-25.092,26.928-48.348,53.856-74.052,80.173c-14.688,14.688-30.6,30.6-40.392,48.96c-22.032-21.421-41.004-44.677-65.484-63.648
+		c-17.748-13.464-47.124-23.256-46.512,9.18c1.224,42.229,38.556,87.517,66.096,116.28c11.628,12.24,26.928,25.092,44.676,25.704
+		c21.42,1.224,43.452-24.48,56.304-38.556c22.645-24.48,41.005-52.021,61.812-77.112c26.928-33.048,54.468-65.485,80.784-99.145
+		C326.206,96.392,378.226,44.983,337.222,22.952z M26.937,187.581c-0.612,0-1.224,0-2.448,0.611
+		c-2.448-0.611-4.284-1.224-6.732-2.448l0,0C19.593,184.52,22.653,185.132,26.937,187.581z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></span>
+                            <h6>Ivan Petrov</h6>
+                            <p>we need more buttons and play with colors</p>
+                        </li>
+                        <li class="requirements-ul-li clearfix">
+                            <span class="requirements-item-icon">
+<svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="352.62px" height="352.62px" viewBox="0 0 352.62 352.62" style="enable-background:new 0 0 352.62 352.62;"
+	 xml:space="preserve">
+<g>
+	<path d="M337.222,22.952c-15.912-8.568-33.66,7.956-44.064,17.748c-23.867,23.256-44.063,50.184-66.708,74.664
+		c-25.092,26.928-48.348,53.856-74.052,80.173c-14.688,14.688-30.6,30.6-40.392,48.96c-22.032-21.421-41.004-44.677-65.484-63.648
+		c-17.748-13.464-47.124-23.256-46.512,9.18c1.224,42.229,38.556,87.517,66.096,116.28c11.628,12.24,26.928,25.092,44.676,25.704
+		c21.42,1.224,43.452-24.48,56.304-38.556c22.645-24.48,41.005-52.021,61.812-77.112c26.928-33.048,54.468-65.485,80.784-99.145
+		C326.206,96.392,378.226,44.983,337.222,22.952z M26.937,187.581c-0.612,0-1.224,0-2.448,0.611
+		c-2.448-0.611-4.284-1.224-6.732-2.448l0,0C19.593,184.52,22.653,185.132,26.937,187.581z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></span>
+                            <h6>Sergey Fedotov</h6>
+                            <p>please, add the integration with a facebook.</p>
+                        </li>
+                    </ul>
+                </div>
+                {% endif %}
+
+                {% if request.user.is_authenticated %}
+
+                <div class="task_add-message">
+                    <style>
+                        .message-tabs {
+                            width: 100%;
+                            padding: 0 0 15px;
+                        }
+                        .message-tab {
+                            display: inline-block;
+                            padding: 10px 20px 10px 0;
+                        }
+                        .message-tab.active {
+                            cursor: default;
+                            color: #444;
+                            font-weight: bold;
+                        }
+                    </style>
+                    <script>
+                        $(function() {
+                            $('.js-task-message-tab').click(function() {
+                                $(this).addClass('active').siblings().removeClass('active');
+                                $('[name="message_type"]').val($(this).data('type'));
+                                $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
+                                return false;
+                            });
+
+                            $('.js-confirm-result').click(function() {
+                                $('.js-task-message-tab').click();
+                                $('[name=task_message]').focus();
+                                $('[name=winner]').val($(this).data('author'));
+                                $('.js-winner').val($(this).data('authorName'));
+                                return false;
+                            })
+                        });
+                    </script>
+                    <div class="message-tabs">
+                        <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
+                        <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
+                        <a data-type="result" class="js-task-message-tab message-tab" href="#">Add the result</a>
+                        {% if task_detail.candidates %}
+                        <a data-type="vote" class="js-task-message-tab message-tab" href="#">Confirm the result</a>
+                        {% endif %}
+                    </div>
+                    <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" name="message_type" value="message" />
+                        <div style="display: inline-block;" data-type="message"
+                             class="js-message-options">
+                            <select class="js-recipient combobox"
+                                    onchange="if ($(this).val()) {$('.js-change_resp').removeAttr('disabled');}else{$('.js-change_resp').attr('disabled','disabled');}"
+                                    name="to">
+                                <option value="">To:</option>
+                                {% for resp_user in task_detail.users %}
+                                <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% if task_detail.candidates %}
+                        <div style="display: none;" data-type="vote"
+                             class="js-message-options message-select">
+                            <select class="js-winner combobox" name="winner">
+                                <option value="">Winner:</option>
+                                {% for resp_user in task_detail.candidates %}
+                                <option value="{{ resp_user.id }}">{{ resp_user.last_name }} {{ resp_user.first_name }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        {% endif %}
+                        <style>
+                            .message-select {
+                                display: inline-block;
+                            }
+                            .need-time-hours {
+                                margin-left: 5px;
+                                margin-right: 5px;
+                                position: relative;
+                                top: -2px;
+                                width: 160px;
+                                height: 30px;
+                                display: inline-block;
+                                height: 34px;
+                                padding: 6px 12px;
+                                font-size: 14px;
+                                line-height: 1.428571429;
+                                color: #555;
+                                vertical-align: middle;
+                                background-color: #fff;
+                                border: 1px solid #ccc;
+                                border-radius: 4px;
+                                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+                                box-shadow: inset 0 1px 1px rgba(0,0,0,0.075);
+                                -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+                                transition: border-color ease-in-out .15s,box-shadow ease-in-out .15s;
+                            }
+
+                            .need-time-hours:focus {
+                                border-color: #66afe9;
+                                outline: 0;
+                                -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
+                                box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,0.6);
+                            }
+                        </style>
+                        <div class="left clearfix">
+                            <label class="left_check js-message-options" data-type="message" style="display: none;">
+                                <input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message
+                            </label>
+                            {% if not task_detail.task.closed %}
+                            {#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
+                            <label class="left_check js-message-options" data-type="estimation" style="display: none;">
             <span class="js-need-time-hours" >
               <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
             </span>
-          </label>
-          {% endif %}
-          {#                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>#}
-          <a href="#" title="Drow" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
-          <a title="Attach a file" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
+                            </label>
+                            {% endif %}
+                            {#                    <label class="left_check"><input type="checkbox" name="solution" value="Y" class="js-solution-set" /> Add to wiki <a href="#" data-toggle="tooltip" title="This comment will appear in similar tasks.">?</a></label>#}
+                            <a href="#" title="Drow" class="new-message-icon js-addPic" onclick="return false"><i class="fa fa-picture-o"></i></a>
+                            <a title="Attach a file" class="new-message-icon" onclick="$('.qq-upload-button input').trigger('click');return false;"><i class="fa fa-paperclip"></i></a>
+                        </div>
+                        <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
+                        <div class="form-group">
+                            <div class="col-xs-12">
+                                <textarea name="task_message" rows="5" class="form-control" placeholder="Add comment or file."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="task-file-upload" style="position: relative;"></div>
+                        <div class="uploaded_file clearfix" style="display: none">
+                        </div>
+
+
+                        <div class="row-fluid show-grid task-add-btns">
+                            <button class="btn btn-primary sendTaskMessage" type="button">Send (Ctrl+Enter)</button>
+                            {% if not task_detail.task.closed and False %}
+                            <input type="hidden" name="close" value="" />
+                            <button class="btn btn-danger btn-close sendTaskMessage" type="button">Send and close task</button>
+                            {% endif %}
+                            {#                    <input type="hidden" name="responsible_change" value="" />#}
+                            {#                    <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Send and change responsible</button>#}
+                        </div>
+                    </form>
+                </div>
+                {% else %}
+                <p style="margin-left: 10px;">
+                    <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to download the result.
+                </p>
+                {% endif %}
+                <!--{#        <div class="chat-nav chat-nav-simple">#}
+                {#            <div class="radio-checkbox-block">#}
+                {#                <label class="checkbox-inline clearfix">#}
+                {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" checked="checked"> All messages#}
+                {#                </label>#}
+                {#                <label class="checkbox-inline clearfix js-tab">#}
+                {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" > Todo#}
+                {#                    <sup class="filter-sup">#}
+                {#                        <span class="green-text js-done">0</span>#}
+                {#                        <span class="filter-sup-separator"></span>#}
+                {#                        <span class="red-text js-exist">0</span>#}
+                {#                    </sup>#}
+                {#                </label>#}
+                {#                <label class="checkbox-inline clearfix js-tab">#}
+                {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" > Bugs#}
+                {#                    <sup class="filter-sup">#}
+                {#                        <span class="green-text js-done">0</span>#}
+                {#                        <span class="filter-sup-separator"></span>#}
+                {#                        <span class="red-text js-exist">0</span>#}
+                {#                    </sup>#}
+                {#                </label>#}
+                {#                <label class="checkbox-inline clearfix">#}
+                {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" > Files#}
+                {#                    <sup class="filter-sup"><span class="green-text js-files-exist"></span></sup>#}
+                {#                </label>#}
+                {#            </div>#}
+                {#        </div>#}-->
+
+                <a href="#" class="js-show-all" style="display: none;">Show previous messages</a>
+                <div class="messages js-container js-commentsContainer" data-type="ALL">
+
+                </div>
+                <div class="messages js-container js-todo-list to-do-list warning-inside" style="display: none" data-type="TODO">
+
+                </div>
+                <div class="messages js-container js-bug-list to-do-list bug-list danger-inside" style="display: none" data-type="BUGS">
+
+                </div>
+                <div class="messages js-container js-file-list file-list" style="display: none" data-type="FILES">
+
+                </div>
+
+                {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
+
+            </div>
         </div>
-        <input type="hidden" name="task_id" value="{{ task_detail.task.id }}" />
-        <div class="form-group">
-          <div class="col-xs-12">
-            <textarea name="task_message" rows="5" class="form-control" placeholder="Add comment or file."></textarea>
-          </div>
+        <div class="col-xs-4 col-sm-4 col-md-4">
+            <div class="pink-gr up-3 mb-3 radius-5">Crowd funding company ends <b class="pink-color">in 3 days</b></div>
+
+            <div class="light-blue-bg up-3 mb-3 radius-5">
+                <ul class="tast-details-desc clearfix">
+
+                    {#<li><div>Spent time:</div><div><b id="js-td_time"></b></div></li>#}
+
+                    {% if task_detail.task.resp %}
+                    <li>
+                        <div>Curator:</div>
+                        <div><b>{{ task_detail.task.resp.last_name }} {{ task_detail.task.resp.first_name }}</b></div>
+                    </li>
+                    {% endif %}
+
+
+                    {% if task_detail.task.asked %}
+                    <li><div>Developers prices:</div><div><b>${{ task_detail.task.asked|default_if_none:'0'|floatformat:"0" }}</b>{% if request.user.is_superuser %}..<b>$1,000</b>{% endif %}</div> </li>
+                    {% endif %}
+
+                    <li><div>Money raised:</div><div><h3 class="mb-0"><b class="pink-color">${{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b></h3></div></li>
+
+
+                    {% if task_detail.task.currentWinner %}
+                    <li>
+                        <div>Current Winner:</div>
+                        <div><b>{{ task_detail.task.currentWinner.last_name }} {{ task_detail.task.currentWinner.first_name }}</b>
+                        </div>
+                    </li>
+                    {% endif %}
+                </ul>
+
+
+
+                {% if not task_detail.task.closed %}
+                <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
+                class="donate-button btn orange-gr">Donate <img src="/static/img/investment.svg" height="18"></a>
+                {% endif %}
+<div class="donate-desc">(min. ${{ task_detail.avgDonate|floatformat:"0" }})</div>
+                <div class="clearfix"></div>
+
+
+                {% if task_detail.results %}
+                <div class="published-results up-3 pb-0">
+                    <h6>Published results</h6>
+                    <ul class="published-results-ul">
+                        {% for result in task_detail.results %}
+                        <li class="published-results-ul-li">
+                            <div class="published-results-ul-li-info">
+                                {{ result.author.last_name }} {{ result.author.first_name }}
+                                &nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;
+                                30.04.2018
+                            </div>
+                            <div class="published-results-ul-li-link">{{ result.text }}</div>
+                            <a class="js-confirm-result confirm-result-button"
+                               href="#" data-author="{{ result.author.id }}"
+                               data-author-name="{{ result.author.last_name }} {{ result.author.first_name }}">
+                                Аdd Your Result
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            {% if request.user.is_superuser %}
+            <span class="token-info">
+            <svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+<g id="Question-mark">
+	<circle cx="31.9781132" cy="50.3625984" r="2"/>
+	<path d="M31.5331993,13.3799c-6.2685986,0-10.1620865,3.8936005-10.1620865,10.1620998c0,0.5527,0.4471874,1,1,1
+		c0.5526867,0,1-0.4473,1-1c0-5.1875,2.9745865-8.1620998,8.1620865-8.1620998c7.8759995,0,9.0517006,5.6718998,9.0517006,9.0527
+		c0,3.2880993-2.7020988,7.0293007-6.285099,8.7012005c-4.0556889,1.8915977-3.3466873,8.5283012-3.3145008,8.8096008
+		c0.0576992,0.5107002,0.4902992,0.8866997,0.9922009,0.8866997c0.0380974,0,0.0761986-0.0020027,0.1142998-0.0068016
+		c0.5487976-0.0625,0.9433136-0.5577011,0.8798981-1.1064987c-0.0058975-0.0546989-0.5478973-5.5009995,2.1738014-6.7705002
+		c4.3105011-2.0116997,7.4393997-6.4336014,7.4393997-10.5137005C42.5848999,17.5116997,38.4531136,13.3799,31.5331993,13.3799z"/>
+	<path d="M32,0c-17.6730995,0-32,14.3268995-32,32s14.3268995,32,32,32s32-14.3269005,32-32S49.673111,0,32,0z M32,62
+		c-16.542099,0-30-13.457901-30-30c0-16.5419998,13.4578991-30,30-30c16.5419998,0,30,13.4580002,30,30
+		C62,48.542099,48.5419998,62,32,62z"/>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+<g>
+</g>
+</svg></span>
+
+            You will get 1% of project "{{ task_detail.task.project.name }}" tokens for each $10 of donation (max 20%)
+            <a href="#" data-toggle="tooltip" title="Tokens of project gives you a part of the income from all its tasks eternaly.">?</a>
+            {% endif %}
+<style>
+    .bakers-wrapper {
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        border: 1px solid #e3e7ee;
+        border-radius: 5px;
+        margin: 30px 0;
+    }
+
+
+    .bakers-wrapper-header {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        width: 100%;
+        -webkit-box-align: center;
+        -ms-flex-align: center;
+        align-items: center;
+        -ms-flex-wrap: wrap;
+        flex-wrap: wrap;
+        padding: 15px 30px;
+        margin-bottom: 0;
+        background-color: transparent;
+        border-bottom: 1px solid #e3e7ee;
+    }
+
+
+    .bakers-list {
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-orient: vertical;
+        -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+        flex-direction: column;
+        padding-left: 0;
+        margin-bottom: 0;
+        list-style: none;
+        padding: 10px 0;
+    }
+
+
+    li.bakers-list-item {
+        padding: 15px 0;
+        border-bottom: 1px solid #e3e7ee;
+        margin: 0 30px;
+    }
+
+    li.bakers-list-item:last-child {
+        border-bottom: 0;
+    }
+
+    .align-items-center {
+        -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+        align-items: center !important;
+    }
+
+    .bakers-list-item-media {
+        -ms-flex-negative: 1;
+        flex-shrink: 1;
+        display: -webkit-box;
+        display: -ms-flexbox;
+        display: flex;
+        -webkit-box-align: start;
+        -ms-flex-align: start;
+        align-items: flex-start;
+        margin-right: 15px;
+    }
+
+    .ui-w-30 {
+        width: 30px !important;
+        height: auto;
+    }
+
+    html:not([dir=rtl]) .rounded-circle {
+        border-radius: 50% !important;
+    }
+</style>
+            {% if task_detail.backers %}
+            <div class="bakers-wrapper card mb-4">
+                <h6 class="bakers-wrapper-header with-elements">
+                    <span class="card-header-title">Backers:</span>
+                </h6>
+                <ul class="bakers-list list-group-flush">
+                    {% for backer in task_detail.backers %}
+                    <li class="bakers-list-item">
+                        <div class="bakers-list-item-media bakers-avatar align-items-center">
+
+                            <a class="avatar avatar-sm" title="" data-toggle="tooltip" data-original-title="Maslov Yegor">
+                                <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+                            </a>
+
+                            <div class="media-body px-2">
+                                <a href="" class="text-dark">{{ backer.last_name }} {{ backer.first_name }} (${{ backer.donated|floatformat:"0" }})</a>
+                            </div>
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+
+
+
+                <div class="grey-600">
+                    <!--users-->
+
+                    <style>
+                        .project-team-items {
+                            list-style: none;
+                            padding: 0;
+                            margin-bottom: 0;
+                        }
+
+                        .project-team-items .team-item {
+                            float: left;
+                            margin-right: 15px;
+                            margin-bottom: 15px;
+                        }
+
+
+                        .avatar {
+                            position: relative;
+                            display: inline-block;
+                            white-space: nowrap;
+                            vertical-align: bottom;
+                            border-radius: 50%;
+                            -moz-border-radius: 50%;
+                            -webkit-border-radius: 50%;
+                        }
+
+                        .avatar img {
+                            width: 100%;
+                            max-width: 100%;
+                            height: auto;
+                            border: 0 none;
+                        }
+
+                        .progress {
+                            height: 15px;
+                            overflow: hidden;
+                            background-color: #e4eaec;
+                            border-radius: .215rem;
+                        }
+
+                        .progress-price {
+                            overflow: visible;
+                            margin-bottom: 35px;
+                            margin-left: 0;
+                            /*background: none;*/
+                        }
+
+
+                        .progress-bar-price {
+                            position: absolute;
+                            right: 0;
+                            top: -26px;
+                            color: #54667a;
+                            font-size: 15px !important;
+                        }
+                        .progress-price .progress-item {
+                            position: absolute;
+                            top: 30px;
+                            right: -35px;
+                            color: #ff5466;
+                            font-size: 14px;
+                            width: 75px;
+                            font-weight: bold;
+                        }
+
+                        .progress-users {
+                            overflow: visible;
+                            margin-top: 37px;
+                            background: none;
+                        }
+
+                        .progress-users .progress-bar {
+                            position: relative;
+                            background: none;
+                        }
+
+                        .progress-users .avatar {
+                            position: absolute;
+                            top: -31px;
+                            right: -15px;
+                        }
+
+
+
+                        .avatar-sm {
+                            width: 50px;
+                        }
+
+                        .bakers-avatar .avatar-sm {
+                            margin-right: 15px;
+                            border: 3px solid #fff;
+                            width: 50px;
+                            border-radius: 50%;
+                        }
+
+                        .bakers-avatar.active .avatar-sm {
+                            border: 3px solid #62bb94;
+                        }
+
+                        .bakers-avatar .avatar-sm img {
+                            border-radius: 50%;
+                        }
+
+                        span.avatar-sm-spa {
+                            height: 50px;
+                            width: 50px;
+                            display: block;
+                            background-repeat: no-repeat;
+                            background-size: cover;
+                            background-position: center;
+                            background-color: white;
+                        }
+
+                        .bakers-avatar span.avatar-sm-spa {
+                            height: 44px;
+                            width: 44px;
+                            border-radius: 50%;
+                        }
+
+
+                        .progress-xs {
+                            height: 7px;
+                            border-radius: 25px;
+                            margin-top: 35px;
+                        }
+
+                        .progress-xs .progress-bar {
+                            line-height: 4px;
+                            border-radius: 25px;
+                        }
+
+                        .progress-bar {
+                            position: relative;
+                            float: left;
+                            width: 0%;
+                            height: 100%;
+                            font-size: .858rem;
+                            line-height: 15px;
+                            color: #fff;
+                            text-align: center;
+                            background-color: #3e8ef7;
+                            -webkit-transition: width .6s ease;
+                            transition: width .6s ease;
+                        }
+
+                        .progress-bar-warning {
+                            background-color: #f5914b;
+                        }
+
+                        .progress-bar-info {
+                            background: #62bb94;
+                            background-image: -webkit-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+                            background-image: -o-linear-gradient(left, #38c1d1 0%, #62bb94 100%);
+                            background-image: -webkit-gradient(linear, left top, right top, from(#38c1d1), to(#62bb94));
+                            background-image: linear-gradient(to right, #38c1d1 0%, #62bb94 100%);
+                            background-repeat: repeat-x;
+                            filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF38c1d1', endColorstr='#FF62bb94', GradientType=1);
+                        }
+
+                        .progress-bar-success {
+                            background-color: #11c26d;
+                        }
+
+                        .progress-custom {
+                            margin-bottom: 25px;
+                        }
+                        .progress-custom:last-child {
+                            margin-bottom: 0px;
+                        }
+
+
+                        .progress-custom .progress-bar {
+                            padding: 2px;
+                            margin: 2px 0;
+                            border-radius: 4px;
+                            display: block;
+                            float: none;
+                            text-align: left;
+                            min-width: 80px;
+                        }
+
+                        .progress-custom .progress-bar-price {
+                            line-height: 2rem;
+                            font-size: 1rem;
+                        }
+
+                        .bakers-list-mobile {
+                            margin-bottom: 30px;
+                        }
+
+                        @media (max-width: 767px) {
+                            .hidden-768-down {
+                                display: none;
+                            }
+                        }
+
+                        @media (min-width: 768px) {
+                            .hidden-768-up {
+                                display: none;
+                            }
+                        }
+
+                        .float-left {
+                            float: left;
+                        }
+
+                        .avatar-name {overflow: hidden;}
+                        .avatar-name .avatar {
+                            float: left;
+                            width: 50px;
+                            margin-right: 15px;
+                        }
+                        .avatar-name .name {
+                            float: left;
+                            width: calc(100% - 130px);
+                            margin-top: 4px;
+                        }
+
+                        .name-rating {
+                            font-size: 11px;
+                            opacity: 0.8;
+                            text-transform: uppercase;
+                        }
+
+                        @media only screen and (max-width: 568px) {
+
+
+                            .widget-title-info {
+                                margin: -15px -15px 20px;
+                            }
+                        }
+
+
+                    </style>
+                    {% if task_detail.askers %}
+                    <!--prices-->
+                    <h3 class="hidden-768-down">Developer estimations</h3>
+                    <div class="progress progress-price progress-xs user-progress hidden-768-down">
+                        {% for asker in task_detail.askers %}
+                        <div class="bakers-avatar {% if asker.percent < task_detail.donatedPercent %}active{% endif %}" style="left:{{ asker.percent|floatformat:"f" }}%;">
+                        <a class="avatar avatar-sm" title="{{ asker.user.last_name }} {{ asker.user.first_name }}" data-toggle="tooltip">
+                            <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+                        </a>
+                        <span class="sum" style="width: 100%;text-align: center;display:block;">${{ asker.ask|floatformat:"f" }}</span>
+                    </div>
+                    {% endfor %}
+
+                    <a href="#">Set your price</a><br />
+                    <a href="#">Add your result</a>
+
+                </div>
+
+            <!--<span class="progress-bar progress-bar-{% if task_detail.donatedPercent > 100 %}warning{% else %}info{% endif %}" style="width: {% if task_detail.donatedPercent > 100 %}100{% else %}{{ task_detail.donatedPercent|floatformat:"f" }}{% endif %}%;">
+                    {#                {% if task_detail.task.donated %}#}
+                    {#              <span class="progress-item">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</span>#}
+                    {#                {% endif %}#}
+                    </span>-->
+
+                <!--media-400-->
+                <div class="hidden-768-up bakers-list-mobile clearfix">
+                    <h3>Developer estimations:</h3>
+                    {% for asker in task_detail.askers %}
+                    <div class="progress-custom clearfix">
+
+                        <div class="avatar-name">
+                            <div class="avatar float-left avatar-sm">
+                                <span class="avatar-sm-spa" style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
+                            </div>
+                            <div class="name">
+                                <div class="name-rating">Rating: {{ asker.user.get_profile.rating }}</div>
+                                <h5>{{ asker.user.last_name }} {{ asker.user.first_name }}</h5>
+                            </div>
+                        </div>
+                        <div class="clearfix"></div>
+                        <div class="progress-bar orange-gr" style="width: {{ asker.percent | floatformat:"f" }}%;">
+                        <div class="progress-bar-price">${{ asker.ask | floatformat }}</div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
         </div>
+        <!--backers-->
 
-        <div class="task-file-upload" style="position: relative;"></div>
-        <div class="uploaded_file clearfix" style="display: none">
-        </div>
-
-
-        <div class="row-fluid show-grid task-add-btns">
-          <button class="btn btn-primary sendTaskMessage" type="button">Send (Ctrl+Enter)</button>
-          {% if not task_detail.task.closed and False %}
-          <input type="hidden" name="close" value="" />
-          <button class="btn btn-danger btn-close sendTaskMessage" type="button">Send and close task</button>
-          {% endif %}
-          {#                    <input type="hidden" name="responsible_change" value="" />#}
-          {#                    <button class="btn btn-warning js-change_resp sendTaskMessage" onClick="$('[name=responsible_change]').val('Y');" disabled type="button">Send and change responsible</button>#}
-        </div>
-      </form>
-    </div>
-    {% else %}
-        <p style="margin-left: 10px;">
-            <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to download the result.
-        </p>
-    {% endif %}
-    <!--{#        <div class="chat-nav chat-nav-simple">#}
-    {#            <div class="radio-checkbox-block">#}
-    {#                <label class="checkbox-inline clearfix">#}
-    {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="ALL" checked="checked"> All messages#}
-    {#                </label>#}
-    {#                <label class="checkbox-inline clearfix js-tab">#}
-    {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="TODO" > Todo#}
-    {#                    <sup class="filter-sup">#}
-    {#                        <span class="green-text js-done">0</span>#}
-    {#                        <span class="filter-sup-separator"></span>#}
-    {#                        <span class="red-text js-exist">0</span>#}
-    {#                    </sup>#}
-    {#                </label>#}
-    {#                <label class="checkbox-inline clearfix js-tab">#}
-    {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="BUGS" > Bugs#}
-    {#                    <sup class="filter-sup">#}
-    {#                        <span class="green-text js-done">0</span>#}
-    {#                        <span class="filter-sup-separator"></span>#}
-    {#                        <span class="red-text js-exist">0</span>#}
-    {#                    </sup>#}
-    {#                </label>#}
-    {#                <label class="checkbox-inline clearfix">#}
-    {#                    <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" > Files#}
-    {#                    <sup class="filter-sup"><span class="green-text js-files-exist"></span></sup>#}
-    {#                </label>#}
-    {#            </div>#}
-    {#        </div>#}-->
-
-    <a href="#" class="js-show-all" style="display: none;">Show previous messages</a>
-    <div class="messages js-container js-commentsContainer" data-type="ALL">
 
     </div>
-    <div class="messages js-container js-todo-list to-do-list warning-inside" style="display: none" data-type="TODO">
-
-    </div>
-    <div class="messages js-container js-bug-list to-do-list bug-list danger-inside" style="display: none" data-type="BUGS">
-
-    </div>
-    <div class="messages js-container js-file-list file-list" style="display: none" data-type="FILES">
-
     </div>
 
-    {# ---- УПРАВЛЕНИЕ ЗАДАЧЕЙ #}
 
-  </div>
-</div>
+
+
+
+
+
+
+
 {% if task_detail.solutions %}
 <div class="modal fade" id="similar-solutions" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">

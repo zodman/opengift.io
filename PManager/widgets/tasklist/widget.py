@@ -348,7 +348,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'canObserve': cur_user.is_authenticated(),
                 'canApprove': arBIsManager[task.id] or cur_user.id == task.author.id,
                 #todo: разрешать платным пользователям только если денег хватает
-                'canClose': cur_user.id == task.author.id if cur_user else False,
+                'canClose': (cur_user.is_superuser or cur_user.id == task.author.id) if cur_user else False,
                 'canSetReady': cur_prof.hasRole(task.project) and task.messages.filter(author=cur_user).exists() if cur_prof else False,
                 'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id if cur_user.is_authenticated() else False,
                 'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof) if cur_prof else False,

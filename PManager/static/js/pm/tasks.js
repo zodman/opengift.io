@@ -340,7 +340,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     color = 'orange';
                 }
                 oTaskContainers.$reward.append('<div class="progress-item donation-progress">' +
-                    '                    <span>' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') + 'Donated <b style="color:#ff5466;">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</span>' +
+                    '                    <span>' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') + 'Donated <b style="color:' + (taskInfo.donated > taskInfo.asked ? 'rgb(61, 195, 61)' : '#ff5466') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</span>' +
                     '                    ' +
                     '                    <div class="progress w-100">' +
                     '                        <div class="progress-bar ' + color + '-gr' + '" aria-valuenow="' + percent + '" style="width: ' + percent + '%;"></div>' +

@@ -1158,12 +1158,19 @@ class taskAjaxManagerCreator(object):
             else:
                 if profile.isManager(t.project) or t.author.id == user.id or user.is_superuser:
                     if t.donations.exists():
-                        donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
-                            .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
-                            .exclude(pk=user.id)
+                        if t.messages.filter(code='RESULT').exists():
+                            donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
+                                .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
+                                .exclude(pk=user.id)
 
-                        if donatedUsers.exists():
-                            error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' for gratitude before the closing.'
+                            if donatedUsers.exists():
+                                unvotedDonations = t.donations.filter(user__in=donatedUsers)
+                                unvotedDonationSum = 0
+                                for unvotedDonation in unvotedDonations:
+                                    unvotedDonationSum += unvotedDonation.sum
+
+                                if unvotedDonationSum > float(t.donated) / 2:
+                                    error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' for voting before the closing.'
 
                     if not error:
                         if not t.closedInTime:
