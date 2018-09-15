@@ -225,6 +225,8 @@
     }
     .published-results-ul-li {padding: 0 0 20px;}
 
+    .published-results-ul-li.winner {font-weight: bold;}
+
     .published-results-ul-li:last-child {padding: 0px;}
 
     .published-results-ul-li-info {
@@ -576,7 +578,7 @@
             </div>
         </div>
         <div class="col-xs-4 col-sm-4 col-md-4">
-            <div class="pink-gr up-3 mb-3 radius-5">Crowd funding company ends <b class="pink-color">in 3 days</b></div>
+            <div class="pink-gr up-3 mb-3 radius-5">Crowd funding company ends <b class="pink-color">in 4 days</b></div>
 
             <div class="light-blue-bg up-3 mb-3 radius-5">
                 <ul class="tast-details-desc clearfix">
@@ -613,8 +615,9 @@
                 {% if not task_detail.task.closed %}
                 <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
                 class="donate-button btn orange-gr">Donate <img src="/static/img/investment.svg" height="18"></a>
-                {% endif %}
+
                 <div class="donate-desc">minimal donation value is  ${{ task_detail.avgDonate|floatformat:"0" }} for now</div>
+                {% endif %}
                 <div class="clearfix"></div>
             <div class="donation-bonus" style="padding: 30px 0 0">
             <span class="token-info"  data-toggle="tooltip" title="Tokens of project give you a part of the income from all its tasks eternaly.">
@@ -641,18 +644,20 @@
                     <h2 style="margin-bottom: 20px;">Proposed solutions</h2>
                     <ul class="published-results-ul">
                         {% for result in task_detail.results %}
-                        <li class="published-results-ul-li">
+                        <li class="published-results-ul-li {% if result.author.id = task_detail.task.currentWinner.id %}winner{% endif %}">
                             <div class="published-results-ul-li-info">
                                 {{ result.author.last_name }} {{ result.author.first_name }}
                                 &nbsp;&nbsp;&nbsp;&#8226;&nbsp;&nbsp;&nbsp;
-                                {{ result.dateCreate | date:"M d Y, H:i:s" }}
+                                {{ result.dateCreate | date:"d.m.Y, H:i:s" }}
                             </div>
                             <div class="published-results-ul-li-link">{{ result.text | htmlemail }}</div>
+                            {% if not task_detail.task.closed %}
                             <a class="js-confirm-result confirm-result-button"
                                href="#" data-author="{{ result.author.id }}"
                                data-author-name="{{ result.author.last_name }} {{ result.author.first_name }}">
                                 Confirm result
                             </a>
+                            {% endif %}
                         </li>
                         {% endfor %}
                     </ul>
@@ -1050,6 +1055,7 @@
             </div>
             <ul class="bakers-list list-group-flush">
                 {% for owner in task_detail.projectTeam %}
+                    {% if owner.percent %}
                     <li class="bakers-list-item">
                         <div class="bakers-list-item-media bakers-avatar align-items-center">
 
@@ -1064,6 +1070,7 @@
                             </div>
                         </div>
                     </li>
+                    {% endif %}
                 {% endfor %}
             </ul>
         </div>

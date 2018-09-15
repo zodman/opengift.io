@@ -167,7 +167,19 @@
 
 
 {% block content %}
-
+    <style>
+    .left-slide .icon {
+        font-size: 36px;
+        margin-bottom: 10px;
+    }
+    </style>
+    <div class="left-slide hidden-md-down" style="position: fixed; left: 0; top: 200px;z-index:10000;padding: 30px;">
+        <div><a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a></div>
+        <div><a target="_blank" href="https://twitter.com/OpenGift_io" class="icon fa fa-twitter"></a></div>
+        <div><a target="_blank" href="mailto:info@opengift.io" class="icon fa fa-envelope"></a></div>
+        <div><a target="_blank" href="https://medium.com/@opengift" class="icon fa fa-medium"></a></div>
+        <div><a target="_blank" href="https://github.com/opengift-io/" class="icon fa fa-github"></a></div>
+    </div>
     <section class="u-py-100 u-h-100vh u-flex-center" data-dark-overlay="6"
              style="background:url(/static/public/assets/img/banner.jpg) no-repeat; background-size: cover; background-position: top center;">
         <div class="container">
@@ -175,11 +187,15 @@
             <div class="row">
                 <div class="col-12 u-mt-80 text-center">
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        Monetize your open-source projects<br />or crowd fund new software to reduce cost!
+                        New model of software development.
                     </h1>
-
+                    <h2 class="display-6 u-fw-600 text-white u-mb-40">
+                        <span class="text-white" data-type-speed="40" data-back-speed="10"
+                                   data-type="Competitive development, Collective financing of software components, Open source projects securitization, Recurring passive income for open source contributors"></span>
+                        <span class="typed-curcor text-white">|</span>
+                    </h2>
 {#                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">GIFT Token Seed Crowdsale is <a href="/ico/">started</a>!</p>#}
-                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">
+                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40 hidden-md-up">
                         <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://twitter.com/OpenGift_io" class="icon fa fa-twitter"></a>&nbsp;&nbsp;
                         <a target="_blank" href="mailto:info@opengift.io" class="icon fa fa-envelope"></a>&nbsp;&nbsp;
@@ -199,7 +215,7 @@
                         </h2>
 
                         <p>
-                            Projects
+                            Open-source solutions
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
@@ -228,11 +244,11 @@
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            ${{ donated }}
+                            {{ tasks_qty }}
                         </h2>
 
                         <p>
-                            Donated
+                            Active tasks
                         </p>
                     </div>
                 </div> <!-- END col-md-6 col-lg-3 mt-5-->
@@ -255,8 +271,19 @@
                 <h2 class="h1 js-h1">
                     OpenGift weekly free hackathon
                 </h2>
-                <p class="js-p">Next <a href="/hackathon/">hackathon task</a> will be announced at 1 pm on 09/15/2018.</p>
+                <p class="js-p">Weekly <a href="/hackathon/">hackathon</a> is started!</p>
 {#                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
+            </div>
+        </div>
+    </div>
+</section>
+    <section class="u-pt-50" style="padding-bottom: 0;">
+    <div>
+        <div class="row">
+            <div class="col-lg-12 m-auto text-center">
+                <h2 class="h1 js-h1">
+                    How to use this platform
+                </h2>
             </div>
         </div>
     </div>
@@ -289,8 +316,8 @@
                         <p>
                             Just place the request for software product you need. We will find someone else who finance it with you. All of you will get high quality code for the minor part of its cost.
                         </p>
-                        <a href="/task/add/" class="btn btn bg-red btn-rounded btn-secondary m-2 px-md-5 py-3">
-                            CREATE A TASK
+                        <a href="/offer/" class="btn btn bg-red btn-rounded btn-secondary m-2 px-md-5 py-3">
+                            FIND DEVLOPERS
                         </a>
                     </div>
                 </div>
@@ -303,8 +330,8 @@
                         <p>
                             Take tasks for develop which become more expensive by getting many customers for each of them.  And make the world better creating free to use open source solutions.
                         </p>
-                        <a href="/bounty/" class="btn btn bg-purple btn-rounded text-white  m-2 px-md-5 py-3">
-                            EXPLORE TASKS
+                        <a href="/dev/" class="btn btn bg-purple btn-rounded text-white  m-2 px-md-5 py-3">
+                            START EARNING
                         </a>
                     </div>
                 </div>
@@ -312,137 +339,86 @@
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/img/projects.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
-                            Open Source
+                            Investors
                         </h4>
 
                         <p>
-                            Place your project here and attract funding for it. Users might pay for your project directly or order bugfix, support or integration.
+                            Take part in our token sale. Get GIFT tokens to purchase software development service up to 5 times cheaper in future.
                         </p>
-                        <a href="/project/add/" class="btn btn btn-rounded bg-blue text-white m-2 px-md-5 py-3">
-                            ADD GITHUB PROJECT
+                        <br />
+                        <br />
+                        <a href="/ico/" class="btn btn btn-rounded bg-blue text-white m-2 px-md-5 py-3">
+                            OPENGIFT TOKEN SALE
                         </a>
                     </div>
                 </div>
             </div>
         </div> <!-- END container-->
     </section>
-    <section class="bg-gray-v2 u-pb-80">
-        <div class="container">
-            <div class="row">
-                <div class="col-12 u-mb-70">
-                    <h2 class="h1 text-primary text-center">
-                        Want more?
-                    </h2>
-                </div>
+{#    <section class="bg-gray-v2 u-pb-80">#}
+{#        <div class="container">#}
+{#            <div class="row">#}
+{#                <div class="col-12 u-mb-70">#}
+{#                    <h2 class="h1 text-primary text-center">#}
+{#                        Want more?#}
+{#                    </h2>#}
+{#                </div>#}
 {#                <div class="col-lg-4 col-md-6 u-mb-70">#}
 {#                    <div class="media">#}
-{#                        <span class="icon icon-Notebook text-primary u-fs-42 mr-4"></span>#}
+{#                        <span class="icon icon-Users text-primary u-fs-42 mr-4"></span>#}
 {##}
 {#                        <div class="media-body">#}
 {#                            <h4 class="mb-4">#}
-{#                                Developers#}
+{#                                Businesses#}
 {#                            </h4>#}
 {##}
 {#                            <p>#}
-{#                                Donation buttons simply don’t work unless developers turn into marketers. OpenGift gives#}
-{#                                you a tool to attract substantial funding without being distracted from coding.#}
-{#                                <a href="/faq/" class="js-anchor">Have a look at what makes OpenGift different</a>#}
+{#                                Want to cut software development costs? Get rid of the middlemen, work directly with#}
+{#                                open-source development teams.#}
+{#                                <br />Get a software solution by financing its development together with other organizations.#}
+{#                            </p>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{##}
+{#                <div class="col-lg-4 col-md-6 u-mb-70">#}
+{#                    <div class="media">#}
+{#                        <span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>#}
+{##}
+{#                        <div class="media-body">#}
+{#                            <h4 class="mb-4">#}
+{#                                Investors#}
+{#                            </h4>#}
+{##}
+{#                            <p>#}
+{#                                You spend too much time searching for potential unicorns? Find promising projects by#}
+{#                                problems they solve, assess their chances by looking at hard data, and secure a share of#}
+{#                                their future profits in just a few clicks.#}
 {#                            </p>#}
 {#                        </div>#}
 {#                    </div>#}
 {#                </div> <!-- END col-lg-4 col-md-6-->#}
-<div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Users text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Businesses
-                            </h4>
-
-                            <p>
-                                Want to cut software development costs? Get rid of the middlemen, work directly with
-                                open-source development teams.
-                                <br />Get a software solution by financing its development together with other organizations.
-                            </p>
-                        </div>
-                    </div>
-                </div>
+{##}
 {#                <div class="col-lg-4 col-md-6 u-mb-70">#}
 {#                    <div class="media">#}
-{#                        <span class="icon icon-User text-primary u-fs-42 mr-4"></span>#}
+{#                        <span class="icon icon-Speedometter text-primary u-fs-42 mr-4"></span>#}
 {##}
 {#                        <div class="media-body">#}
 {#                            <h4 class="mb-4">#}
-{#                                OpenSource software users#}
+{#                                Marketers#}
 {#                            </h4>#}
 {##}
 {#                            <p>#}
-{#                                You use OSS and need a new feature or a bug fix? Now you can set priorities for#}
-{#                                projects' workflow and get updates within foreseeable deadlines.#}
+{#                                Wish your brand was associated with a project everyone likes? Check out sponsorship#}
+{#                                opportunities.#}
 {#                            </p>#}
 {#                        </div>#}
 {#                    </div>#}
 {#                </div> <!-- END col-lg-4 col-md-6-->#}
-
-{#                <div class="col-lg-4 col-md-6 u-mb-70">#}
-{#                    <div class="media">#}
-{#                        <span class="icon icon-Wallet text-primary u-fs-42 mr-4"></span>#}
 {##}
-{#                        <div class="media-body">#}
-{#                            <h4 class="mb-4">#}
-{#                                Backers#}
-{#                            </h4>#}
-{##}
-{#                            <p>#}
-{#                                What if you could ask Google to find a solution for a tech problem you care about? With#}
-{#                                OpenGift you can. Navigate through OSS projects easily and see how they solve issues you#}
-{#                                are interested in; see their previous work to make sure they are serious about it.#}
-{#                            </p>#}
-{#                        </div>#}
-{#                    </div>#}
-{#                </div> <!-- END col-lg-4 col-md-6-->#}
-
-                 <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Briefcase text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Investors
-                            </h4>
-
-                            <p>
-                                You spend too much time searching for potential unicorns? Find promising projects by
-                                problems they solve, assess their chances by looking at hard data, and secure a share of
-                                their future profits in just a few clicks.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-                <div class="col-lg-4 col-md-6 u-mb-70">
-                    <div class="media">
-                        <span class="icon icon-Speedometter text-primary u-fs-42 mr-4"></span>
-
-                        <div class="media-body">
-                            <h4 class="mb-4">
-                                Marketers
-                            </h4>
-
-                            <p>
-                                Wish your brand was associated with a project everyone likes? Check out sponsorship
-                                opportunities.
-                            </p>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6-->
-
-            </div> <!--END row-->
-        </div> <!-- END container-->
-    </section>
+{#            </div> <!--END row-->#}
+{#        </div> <!-- END container-->#}
+{#    </section>#}
 {#<section class="u-py-100">#}
 {#    <div style="padding: 0 6.25rem;">#}
 {#        <div class="row">#}
@@ -735,6 +711,11 @@
                         <h3 class="text-white">wealthman</h3>
                         <a href="https://wealthman.io/" rel="nofollow" target="_blank">wealthman.io</a>
                     </div>
+                    <div class="col-md-20 u-mb-20">
+                        <img src="/static/img/credits.png" class="u-mb-20" alt="credits.com">
+                        <h3 class="text-white">credits</h3>
+                        <a href="https://credits.com/" rel="nofollow" target="_blank">credits.com</a>
+                    </div>
                 </div>
 
             </div> <!-- END col-md-6-->
@@ -775,7 +756,9 @@
         <p class="mb-0">
             2018 <span class="icon icon-Heart text-primary mx-2"></span> OpenGift
         </p>
-        <p>Contacts: +7 (499) 346-0617, info@opengift.io, Address: Intershore Chambers, Road Town, Tortola, British Virgin Islands</p>
+        <p>Contacts: +7 (499) 346-0617, info@opengift.io, OpenGift Inc.
+{#            , Address: Intershore Chambers, Road Town, Tortola, British Virgin Islands#}
+        </p>
     </div>
 </footer>
 
