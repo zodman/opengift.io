@@ -495,7 +495,7 @@
 
         </div> <!-- END row-->
         <div class="text-center u-pt-15 u-pb-50">
-            <a class="btn btn-red btn-rounded" href="/project/{{ project.id }}/tasks/">Manage tasks</a>
+            <a class="btn btn-red btn-rounded" href="/project/{{ project.id }}/donate/">Donate</a>
         </div>
     </div> <!-- END container-->
 </section>
@@ -979,7 +979,7 @@
                         project.
                     </p>
                 </div> <!-- END col-lg-7-->
-
+                <a name="shares"></a>
                 <div class="col-lg-6">
                     <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
                         <h2 class="bg-primary m-0 py-3 text-white">Get project tokens</h2>
@@ -1008,7 +1008,7 @@
                                        placeholder="Expected percentage of project tokens">
                             </div>
                             <div class="u-pb-20">
-                                <p>How do you want to participate in the project?</p>
+                                <p>How do you want to contribute to the project?</p>
                                 {#                        <div class="input-group">#}
                                 {#                            <label><input type="radio" style="display: inline-block; width: 30px;" name="invest_model" value="money" /> Invest money</label>#}
                                 {#                        </div>#}
@@ -1017,14 +1017,14 @@
                                                   name="invest_model" value="doc"/> Become a documentator for the
                                         project</label>
                                 </div>
-                                <div class="input-group">
-                                    <label><input type="radio" style="display: inline-block; width: 30px;"
-                                                  name="invest_model" value="support"/> Do support tasks</label>
-                                </div>
-                                <div class="input-group">
-                                    <label><input type="radio" style="display: inline-block; width: 30px;"
-                                                  name="invest_model" value="integration"/> Do integration tasks</label>
-                                </div>
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="invest_model" value="support"/> Do support tasks</label>#}
+{#                                </div>#}
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="invest_model" value="integration"/> Do integration tasks</label>#}
+{#                                </div>#}
                                 <div class="input-group">
                                     <label><input type="radio" style="display: inline-block; width: 30px;"
                                                   name="invest_model" value="translate"/> Localization</label>
@@ -1032,6 +1032,10 @@
                                 <div class="input-group">
                                     <label><input type="radio" style="display: inline-block; width: 30px;"
                                                   name="invest_model" value="develop"/> Become a developer</label>
+                                </div>
+                                <div class="input-group">
+                                    <label><input type="radio" style="display: inline-block; width: 30px;"
+                                                  name="invest_model" value="develop"/> Become a sponsor</label>
                                 </div>
                             </div>
                             <button class="btn btn-primary btn-rounded">
@@ -1067,18 +1071,19 @@
             getProjectState('{{ project.blockchain_name }}', function () {
                 $('.js-donate').show();
             });
-            {#            getProjectVals('{{ project.blockchain_name }}', function(data) {#}
-            {#                $('.js-team-member[data-wallet]').each(function() {#}
-            {#                    if ($(this).data('wallet')) {#}
-            {#                        var share = data['Users'][$(this).data('wallet')];#}
-            {#                        (function(s, t) {#}
-            {#                            if (s) {#}
-            {#                                $(t).find('.js-share').show().find('.js-share-percent').text(s)#}
-            {#                            }#}
-            {#                        })(share, this);#}
-            {#                    }#}
-            {#                });#}
-            {#            });#}
+
+{#            getProjectVals('{{ project.blockchain_name }}', function(data) {#}
+{#                $('.js-team-member[data-wallet]').each(function() {#}
+{#                    if ($(this).data('wallet')) {#}
+{#                        var share = data['Users'][$(this).data('wallet')];#}
+{#                        (function(s, t) {#}
+{#                            if (s) {#}
+{#                                $(t).find('.js-share').show().find('.js-share-percent').text(s)#}
+{#                            }#}
+{#                        })(share, this);#}
+{#                    }#}
+{#                });#}
+{#            });#}
             var liked = {}, $mstcnt;
             $('.js-milestone-like').click(function () {
                 if (!liked[$(this).data('id')]) {

@@ -334,13 +334,13 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             if (taskInfo.donated || taskInfo.asked) {
                 var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
-                var color = 'green';
+                var color = 'orange';
                 if (percent > 100) {
                     percent = 100;
-                    color = 'orange';
+                    color = 'green';
                 }
                 oTaskContainers.$reward.append('<div class="progress-item donation-progress">' +
-                    '                    <span>' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') + 'Donated <b style="color:' + (taskInfo.donated > taskInfo.asked ? 'rgb(61, 195, 61)' : '#ff5466') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</span>' +
+                    '                    <span>' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') + 'Donated <b style="color:' + (parseFloat(taskInfo.donated) < parseFloat(taskInfo.asked) ? '#ff5466' : '#39c2d3') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</span>' +
                     '                    ' +
                     '                    <div class="progress w-100">' +
                     '                        <div class="progress-bar ' + color + '-gr' + '" aria-valuenow="' + percent + '" style="width: ' + percent + '%;"></div>' +

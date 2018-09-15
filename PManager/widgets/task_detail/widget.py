@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Task, Agreement, PM_Timer, PM_Task_Message, PM_User_PlanTime, PM_ProjectRoles, PM_Project_Donation
+from PManager.models import PM_User, PM_Task, Agreement, PM_Task_Message, PM_User_PlanTime, PM_Project_Donation
 import datetime, json
 from PManager.viewsExt.tools import TextFilters, taskExtensions
 from PManager.widgets.tasklist.widget import widget as taskList
@@ -239,7 +239,10 @@ def widget(request, headerValues, arFilter, q):
         setattr(task, 'bug', arBugs)
         templates = templateTools.getMessageTemplates()
         taskTemplate = templateTools.get_task_template()
-        backers = User.objects.filter(pk__in=PM_Project_Donation.objects.filter(task=task).values_list('user__id', flat=True))
+        backers = User.objects.filter(
+            pk__in=PM_Project_Donation.objects.filter(task=task)
+                .values_list('user__id', flat=True)
+        )
 
         aBackers = []
         from tracker.settings import GIFT_USD_RATE
@@ -251,8 +254,12 @@ def widget(request, headerValues, arFilter, q):
             arDonateQty += 1
             aBackers.append(backer)
 
+        aBackers.sort(key=lambda x: -x.donated)
+
         askers = []
         maxRequested = 100
+        askedMin = 0
+        askedMax = 0
         for m in task.messages.filter(requested_time_approved=True):
             if maxRequested < m.requested_time:
                 maxRequested = m.requested_time
@@ -260,6 +267,14 @@ def widget(request, headerValues, arFilter, q):
                 'user': m.author,
                 'ask': m.requested_time
             })
+
+            if not askedMin or askedMin > m.requested_time:
+                askedMin = m.requested_time
+
+            if askedMax < m.requested_time:
+                askedMax = m.requested_time
+
+        askers.sort(key=lambda x: x['ask'])
 
         results = []
         if request.user.is_superuser:
@@ -274,10 +289,30 @@ def widget(request, headerValues, arFilter, q):
         for asker in askers:
             asker['percent'] = asker['ask'] * 100 / maxRequested
 
+        team = []
+        userShares = {}
+        if task.project.blockchain_state:
+            try:
+                state = json.loads(task.project.blockchain_state)
+                userShares = state['Users']
+                teamWallets = userShares.keys()
+            except ValueError:
+                teamWallets = []
+
+            t = PM_User.objects.filter(blockchain_wallet__in=teamWallets)
+            for u in t:
+                setattr(u, 'percent', userShares[u.blockchain_wallet])
+                team.append(u)
+
+
         # brain = TaskMind()
         return {
+            'projectTeam': team,
             'title': task.name,
             'task': task,
+            'todo': task.messages.filter(todo=True),
+            'asked_min': askedMin,
+            'asked_max': askedMax,
             'donatedPercent': task.donated * 100 / maxRequested,
             'startedTimerExist': startedTimer != None,
             'startedTimerUserId': startedTimer.user.id if startedTimer else None,
@@ -287,7 +322,7 @@ def widget(request, headerValues, arFilter, q):
             'user_roles': cur_user.get_profile().getRoles(task.project) if cur_user.is_authenticated() else False,
             'files': files,
             'time': allTime,
-            'avgDonate': (arDonateSum * 1.0 / (arDonateQty or 1)) if arDonateSum else 5,
+            'avgDonate': (arDonateSum * 0.5 / (arDonateQty or 1)) if arDonateSum else 5,
             'backers': aBackers,
             'askers': askers,
             'results': results,

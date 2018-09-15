@@ -1506,10 +1506,10 @@ class PM_Task(models.Model):
                     id__in=aTasksIdFromSubTasks)]  # old conditions array | ID of parent tasks of match subtasks
                 filter = {}
 
-        import logging
-        logger = logging.getLogger('blockchain')
-        logger.debug(json.dumps(filter))
-        logger.debug(json.dumps(str(PM_Task.objects.filter(*filterQArgs, **filter).query)))
+        # import logging
+        # logger = logging.getLogger('blockchain')
+        # logger.debug(json.dumps(filter))
+        # logger.debug(json.dumps(str(PM_Task.objects.filter(*filterQArgs, **filter).query)))
 
         try:
             tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,

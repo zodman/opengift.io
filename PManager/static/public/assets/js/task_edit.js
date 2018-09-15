@@ -46,9 +46,8 @@
     var value = e.target.value;
     value = value.replace(/[^A-z0-9_А-я]+/g,'_');
     var _translit = translit(value);
-    $('[name="project_code"]').val(_translit);
+    $('[name="project_code"]').val(_translit.toLowerCase());
   });
-
 
   $('.js-submit').unbind('click').click(function () {
     if (form.validate()) {
