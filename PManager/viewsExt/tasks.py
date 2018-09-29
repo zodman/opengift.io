@@ -445,6 +445,9 @@ def __task_message(request):
     text = request.POST.get('task_message', '')
     task_id = request.POST.get('task_id', '')
     to = request.POST.get('to', None)
+    if not to:
+        to = request.POST.get('winner', None)
+
     task_close = request.POST.get('close', '') == 'Y'
     b_resp_change = request.POST.get('responsible_change', '') == 'Y'
     hidden = (request.POST.get('hidden', '') == 'Y' and to)
@@ -465,6 +468,7 @@ def __task_message(request):
             hidden_from_clients = True
         elif profile.isClient(task.project):
             hidden_from_employee = True
+
     status = request.POST.get('status', '') if request.POST.get('status', '') in ['ready', 'revision'] else None
     uploaded_files = request.POST.getlist('files') if 'files' in request.POST else []
     author = request.user
@@ -475,6 +479,10 @@ def __task_message(request):
         message = PM_Task_Message(text=text, task=task, author=author, solution=solution)
         message.hidden = hidden
         if type == 'vote' and to and to != request.user.id:
+            m = PM_Task_Message.objects.filter(code='VOTE', author=request.user.id, task=task)
+            if m.exists():
+                raise Exception('You can not vote twice.')
+
             message.vote = True
             message.code = 'VOTE'
 

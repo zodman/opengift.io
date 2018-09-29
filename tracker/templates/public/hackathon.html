@@ -204,7 +204,7 @@
                     <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
 
                         <h2 class="u-fw-600 text-black u-mb-40 js-timer-title">The task for the hackathon will be
-                            announced on<br/> 15th
+                            announced on<br/> 29
                             of September at 1 pm GMT.</h2>
 
                         <div class="clock u-mb-40"></div>
@@ -220,15 +220,15 @@
                                         }
                                     }
                                 });
-                                var date = new Date(Date.UTC(2018, 8, 15, 13, 0, 0));
+                                var date = new Date(Date.UTC(2018, 8, 29, 13, 0, 0));
                                 var currentDate = new Date();
                                 if (currentDate > date) {
 
-                                    date = new Date(Date.UTC(2018, 8, 19, 13, 0, 0));
+                                    date = new Date(Date.UTC(2018, 9, 1, 13, 0, 0));
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
-                                        $('.js-timer-title').html('The hackathon results should be sent till <br />18 of September at 1 pm GMT.');
+                                        $('.js-timer-title').html('The hackathon results should be sent till <br />1 of October at 1 pm GMT.');
                                     } else {
                                         date = false;
                                     }
@@ -288,7 +288,7 @@
     <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
         <div class="container">
 
-            <h2 class="h1 u-mt-50 text-center">The 4th OpenGift online-hackathon has started!</h2>
+            <h2 class="h1 u-mt-50 text-center">The 6th OpenGift online-hackathon has started!</h2>
 
             <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
             <div class="row">
@@ -300,16 +300,28 @@
                         </h4>
 
                         <p class="text-center text-dark u-t-u">
-                            <a href="/task_detail/?number=1&project=1068" target="_blank">AR Objects Disappearing</a>
+                            <a href="/task_detail/?number=1&project=1070" target="_blank">Front-end JS Image Optimizer</a>
                         </p>
                         <p>Hello!</p>
 
-<p>What do you think about augmented reality? Is it the future?  We think, definitely, yes!   We know a lot about AR, for now, right? We have many open source libraries that can help us to create some virtual objects in real life like this: https://github.com/artoolkit . So where is the challenge?</p>
-
-<p>OK, what if we make a REAL object DISAPPEAR on the smartphone screen? No, I’m not talking about complicated objects or surfaces. Let it be, for example, a pencil on the table or an A4 document.  But it also might be anything you want! Just turn on your imagination! Don’t try to create something big, the tiny prototype might be enough to get the prize!</p>
-
-<p>We encourage you to start creating your own open source project with a promising future!  With OpenGift you’ll be able to monetize this project or any others on our platform.  It will be a useful utility for many cases and for many industries. We’ll help promote your application to attract financing for its development.  Your application will be unique, and we hope you have a lot of fun! Good luck and Let’s start!
+                        <p>
+                            How do you know about the image optimization patterns?
+                            Of course, we are talking about image optimization which doesn't lead to the visible quality degradation.
+                            Considering the JPEG format we have dozens of them.
+                            But what is the best technique for JPEG file size optimization?
                         </p>
+                        <p>
+                            The truth is that the best optimization pattern for one category of images might be lesser effective for the other categories.
+                            That's why we offer you to test yourself in optimizing of concrete images.
+                        </p>
+                        <p>
+                            Please, provide the client-side JS solution that will reduce the size of this file without visible quality reducing.
+                        </p>
+                        <p>The main criteria for referees will be the total percent of two files optimization:
+                            <a href="/static/img/contest/jsoptim/1.jpg">image 1</a> and <a href="/static/img/contest/jsoptim/2.jpg">image 2</a>
+                        </p>
+
+                        <p>Good luck!</p>
 
                     </div>
                 </div>
@@ -321,18 +333,18 @@
 
                         <div style="text-align: left;">
 
-                            <p>1. You need to upload the result to the GitHub open repository and publish it as a result
-                                of OpenGift hackathon <a href="/task_detail/?number=1&project=1068">task</a>; you have
-                                until 09/19/2018 1 pm.</p>
+                            <p>1. You need to upload your solution to a public repository and publish it as a result
+                                on the OpenGift hackathon <a href="/task_detail/?number=1&project=1070">task page</a>;
+                                the deadline 10/01/2018 1 pm.</p>
 
-                            <p>2. Anything that isn’t mentioned in the requirements are up to you. Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
+                            <p>2. Anything that isn’t mentioned in the requirements is up to you.
+                                Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
 
-                            <p>3. Referees will choose the best 1 developer who will get the prize fund in GIFT
-                                tokens. * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the
-                                requirements.</p>
+                            <p>3. Referees will choose the best developer, who will get the prize fund in GIFT tokens.
+                                * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the requirements.</p>
 
-                            <p>4. The author of the best solution will get the 100% ownership of the new software
-                                solution on the OpenGift platform. **</p>
+                            <p>4. The author of the best solution will get the 100% ownership of the new software solution
+                                on the OpenGift platform. **</p>
                         </div>
 
                         <h4 class="u-mt-50 ">We wish you a good luck. Let the best developer win!</h4>
@@ -340,13 +352,12 @@
                 </div>
             </div>
             <div>
-                <p><small>** The owners of open-source project in OpenGift receives a 10% of other contributors income from
-                    new features development and bug fixes. The owner may give part or full of his/her ownership to
-                    any other member of OpenGift community.</small></p>
+                <p><small>** Owners of an open-source project on the OpenGift platform receive 10% of all payments (for new features, buf fixes, etc.) towards the project just for having the 'owner' status and up to 95% if they do the actual job.
+                    The owner may give away his/her ownership stake (or a part of it) to any other member of the OpenGift community.</small></p>
 
-                <p><small>*GIFT tokens is an inner currency of OpenGift platform. It can be used to pay or donate the
-                    developers. The network of independent interchange points will exchange GIFTs to fiat money but
-                    in the context of financial operations with tasks on the OpenGift platform.</small></p>
+                <p><small>*GIFT token is an inner currency of the OpenGift platform.
+                    It can be used to pay developers or donate towards open source projects.
+                    The network of independent exchange points will buy back GIFTs from developers.</small></p>
             </div>
         </div>
     </section>
@@ -455,7 +466,7 @@
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
 
-                    <p>An application that can find a shortest cheapest path from city A to city B.</p>
+                    <p>{{ hackathon.text }}</p>
                 </div> <!-- END col-12-->
             </div> <!-- END row-->
 
@@ -780,9 +791,9 @@
             },
             data: {
               title: 'OpenGift Weekly Hackathon',
-              start: new Date(Date.UTC(2018, 8, 15, 13, 0, 0)),
+              start: new Date(Date.UTC(2018, 8, 29, 13, 0, 0)),
               duration: 60*24,
-              end: new Date(Date.UTC(2018, 8, 19, 13, 0, 0)),
+              end: new Date(Date.UTC(2018, 9, 1, 13, 0, 0)),
               address: 'https://opengift.io/hackathon/',
               description: 'Just go there and become a winner.'
             }
