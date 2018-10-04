@@ -181,7 +181,7 @@
                     </p>
                     {% if project.link_demo %}
                         <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
-                            View Demo
+                            Demo
                         </a>
                     {% elif project.link_github %}
                         <a href="{{ project.link_github }}" class="btn btn btn-rounded btn-white px-md-5">
@@ -266,6 +266,21 @@
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
 
+<section class="u-py-100" style="background-size: cover;background-position: center center;">
+    <div class="overlay orange-gr"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-12  d-flex  align-items-center justify-content-center">
+                <h2 class="h1 text-white" style="white-space: nowrap">
+                    Support <br>project team!
+
+                </h2><div class="mx-md-5"><p class="text-white h5 mb-4">You can fund project tasks and help project development. Some funders receive project tokens.</p><p class="h5"><a href="#" class="btn btn-rounded btn-outline-white mr-xl-3">Why do I need project tokens?</a>
+                <a href="" class="btn btn-white btn-rounded">Fund Tasks</a></p>
+            </div>
+            </div>
+        </div>
+    </div>
+</section>
     <section class="bg-gray-v1  with-waves">
         <svg width="100%" height="100%" version="1.1" xmlns="http://www.w3.org/2000/svg" class="wave wave-4"
              style="position: absolute;"><title>Wave</title>
@@ -273,63 +288,69 @@
             <path id="feel-the-wave-four" d=""/>
         </svg>
         <div class="container">
-            <h2 class="h1 mb-4 u-pt-50">
+            <h2 class="h1 mb-4 u-pt-50 text-center">
                 Target groups
             </h2>
+            <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
 
             <div class="row">
-                <div class="col-md-3 col-lg-3">
-                    <div class="nav flex-column nav-pills nav-vertical" role="tablist" aria-orientation="vertical">
+                <div class="col-12">
+                    <ul class="nav nav-tabs tabs-v3 text-center u-ff-dosis u-fw-600 u-fs-20" role="tablist">
                         {% for problem in project.problems.all %}
-                            <a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="pill" href="#v-problems-{{ problem.id }}" role="tab"
-                               aria-controls="v-problems-{{ problem.id }}" aria-selected="true" aria-expanded="false">
+                        <li class="nav-item mr-xl-3">
+                            <a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="pill" href="#v-problems-{{ problem.id }}" role="tab" aria-controls="v-problems-{{ problem.id }}" aria-selected="true" aria-expanded="false">
                                 <h4 class="text-white">{{ problem.target_group|default_if_none:''}}</h4>
                             </a>
+                        </li>
                         {% endfor %}
-                    </div>
-                </div>
-                <div class="col-md-9 col-lg-9">
-                    <div class="tab-content" id="v-pills-tabContent">
+                    </ul>
+                </div> <!-- END col-12 -->
+                <div class="col-12">
+                    <div class="tab-content">
                         {% for problem in project.problems.all %}
-                            <div class="tab-pane fade  {% if forloop.first %}active show{% endif %}" id="v-problems-{{ problem.id }}" role="tabpanel"
-                                 aria-labelledby="v-problems-{{ problem.id }}-tab"
-                                 aria-expanded="true">
-                                <div>
-                                    <div class="row u-mb-40">
-                                        <div class="col-3 col-md-2">
+                        <div class="tab-pane fade  {% if forloop.first %}active show{% endif %}" id="v-problems-{{ problem.id }}" role="tabpanel"
+                             aria-labelledby="v-problems-{{ problem.id }}-tab"
+                             aria-expanded="true">
+
+                            <div class="row u-my-30">
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-5">
                                             <img src="/static/img/problem.svg">
-                                        </div>
-                                        <div class="col-9 col-md-10">
+                                        </div> <!-- END col-md-6 -->
+                                        <div class="col-md-10">
+
                                             <h2 class="mb-4">
                                                 Problem
                                             </h2>
                                             <p>
                                                 {{ problem.problem|default_if_none:''|linebreaksbr }}
                                             </p>
-                                        </div>
-                                    </div>
-                                </div> <!-- END col-md-6 -->
-                                <div>
 
-                                    <div class="row u-mb-40">
-                                        <div class="col-3 col-md-2">
+                                        </div> <!-- END col-md-6 -->
+                                    </div> <!-- END row-->
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-2 mb-5">
                                             <img src="/static/img/decision.svg">
-                                        </div>
-                                        <div class="col-9 col-md-10">
+                                        </div> <!-- END col-md-6 -->
+                                        <div class="col-md-10">
                                             <h2 class="mb-4">
                                                 Solution
                                             </h2>
                                             <p>
                                                 {{ problem.solution|default_if_none:''|linebreaksbr }}
                                             </p>
-                                        </div>
-                                    </div>
-                                </div> <!-- END col-md-6 -->
+                                        </div> <!-- END col-md-6 -->
+                                    </div> <!-- END row-->
+                                </div>
                             </div>
+                        </div> <!-- END tab-pane-->
                         {% endfor %}
-                    </div>
-                </div>
-            </div>
+                    </div> <!-- END tab-content-->
+                </div> <!-- END col-12-->
+            </div> <!--END row-->
 
                 <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
                 <div class="text-center">
@@ -348,6 +369,9 @@
                 </div>
             </div> <!-- END container-->
     </section>
+
+
+
 <section class="bg-gray-v1">
         <div class="container">
             <div class="row">
