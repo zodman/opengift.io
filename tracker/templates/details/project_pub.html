@@ -80,6 +80,46 @@
         <div class="container">
             <div class="row">
                 <div class="col-lg-{% if project.files.count or project.link_video %}6{% else %}12 text-center{% endif %} u-mt-80">
+
+                    <div id="share-buttons" class="u-pb-55">
+
+
+                        <!-- Facebook -->
+                        <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
+                        </a>
+
+                        <!-- Google+ -->
+                        <a href="https://plus.google.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=gplus"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google"/>
+                        </a>
+
+                        <!-- LinkedIn -->
+                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://opengift.io/project/{{ project.id }}/public/?share=li"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn"/>
+                        </a>
+
+                        <!-- Reddit -->
+                        <a href="http://reddit.com/submit?url=https://opengift.io/project/{{ project.id }}/public/?share=reddit&amp;title=Help {{ project.name }} to make the software world extremely better with OpenGift."
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit"/>
+                        </a>
+
+                        <!-- Twitter -->
+                        <a href="https://twitter.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=twitter&amp;text=Help {{ project.name }} to make the software world extremely better with @OpenGift.&amp;hashtags=opengift"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter"/>
+                        </a>
+
+                        <!-- VK -->
+                        <a href="http://vkontakte.ru/share.php?url=https://opengift.io/project/{{ project.id }}/public/?share=vk"
+                           target="_blank">
+                            <img src="https://simplesharebuttons.com/images/somacro/vk.png" alt="VK"/>
+                        </a>
+
+                    </div>
                     <div class="project-rate clearfix">
                         <div class="js-project-rating-stars-container project-stars{% if user_voted %} voted{% endif %} pull-left">
                             <a href="#" data-rating="1"
@@ -156,12 +196,17 @@
                             {% endfor %}
                         {% endif %}
                     </h1>
+                    <p class="lead text-white u-mb-40">
+                        {{ project.description }}
+                    </p>
+
+                    <div class="u-h-4 u-w-50 bg-white rounded {% if not project.files.count or project.link_video %}mx-auto{% endif %} my-4"></div>
                     {% if project.blockchain_name %}
                         <div class="text-white u-mb-25">
                             Blockchain name: <b>{{ project.blockchain_name }}</b>
                             {% if project.share_link_enabled %}
                                 <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
-                                   class="u-px-15 text-white"
+                                   class="btn btn-sm btn-rounded btn-outline-white ml-xl-3"
                                    {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal"
                                    data-target="#partners-link" {% endif %}>
                                     Get partners link
@@ -170,75 +215,7 @@
                         </div>
 
                     {% endif %}
-                    {% if long_industries_list %}
-                        {% for tag in tagList %}
-                            <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
-                        {% endfor %}
-                    {% endif %}
-                    <div class="u-h-4 u-w-50 bg-white rounded {% if not project.files.count or project.link_video %}mx-auto{% endif %} my-4"></div>
-                    <p class="lead text-white u-mb-40">
-                        {{ project.description }}
-                    </p>
-                    {% if project.link_demo %}
-                        <a href="{{ project.link_demo }}" class="btn btn btn-rounded btn-white px-md-5">
-                            Demo
-                        </a>
-                    {% elif project.link_github %}
-                        <a href="{{ project.link_github }}" class="btn btn btn-rounded btn-white px-md-5">
-                            <i class="fa fa-github"></i> GitHub
-                        </a>
-                    {% endif %}
-                    {% if project.blockchain_name %}
-                        <a href="/project/{{ project.id }}/donate/"
-                           class="btn btn btn-rounded btn-primary ml-3 px-md-5">
-                            Donate
-                        </a>
-                    {% endif %}
-                    {% if project.projectTasks.exists %}
-                        <a href="/project/{{ project.id }}/tasks/"
-                           class="btn btn btn-rounded btn-secondary ml-3 px-md-5">
-                            Tasks
-                        </a>
-                    {% endif %}
-                    <div id="share-buttons" class="u-py-30">
 
-
-                        <!-- Facebook -->
-                        <a href="http://www.facebook.com/sharer.php?u=https://simplesharebuttons.com" target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/facebook.png" alt="Facebook"/>
-                        </a>
-
-                        <!-- Google+ -->
-                        <a href="https://plus.google.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=gplus"
-                           target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/google.png" alt="Google"/>
-                        </a>
-
-                        <!-- LinkedIn -->
-                        <a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https://opengift.io/project/{{ project.id }}/public/?share=li"
-                           target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/linkedin.png" alt="LinkedIn"/>
-                        </a>
-
-                        <!-- Reddit -->
-                        <a href="http://reddit.com/submit?url=https://opengift.io/project/{{ project.id }}/public/?share=reddit&amp;title=Help {{ project.name }} to make the software world extremely better with OpenGift."
-                           target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/reddit.png" alt="Reddit"/>
-                        </a>
-
-                        <!-- Twitter -->
-                        <a href="https://twitter.com/share?url=https://opengift.io/project/{{ project.id }}/public/?share=twitter&amp;text=Help {{ project.name }} to make the software world extremely better with @OpenGift.&amp;hashtags=opengift"
-                           target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/twitter.png" alt="Twitter"/>
-                        </a>
-
-                        <!-- VK -->
-                        <a href="http://vkontakte.ru/share.php?url=https://opengift.io/project/{{ project.id }}/public/?share=vk"
-                           target="_blank">
-                            <img src="https://simplesharebuttons.com/images/somacro/vk.png" alt="VK"/>
-                        </a>
-
-                    </div>
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count or project.link_video %}
                     <div class="col-lg-6 u-mt-80">
@@ -263,6 +240,104 @@
                     </div> <!-- END col-lg-6-->
                 {% endif %}
             </div> <!-- END row-->
+
+
+            {% if long_industries_list %}
+            {% for tag in tagList %}
+            <sup class="small-text-label btn-yellow btn btn-sm btn-rounded">{{ tag.name }}</sup>
+            {% endfor %}
+            {% endif %}
+<style>
+
+
+    .preview-user-title {
+        text-align: center;
+        color: #fff;
+        white-space: nowrap;
+    }
+    .preview-user-body {
+        white-space: nowrap;
+        overflow: hidden;
+        height: 3.125rem !important;
+        text-align: center;
+    }
+    .preview-user-avatar {
+        overflow: hidden;
+        margin: 0 auto;
+        background-size: cover !important;
+        background-repeat: no-repeat !important;
+        width: 3.125rem !important;
+        height: 3.125rem !important;
+        margin-right: -15px;
+        border: 3px solid #fff;
+        display: inline-block;
+    }
+
+    .preview-user-numbers {
+        font-size: 60px;
+        color: #fff;
+        font-weight: bold;
+    }
+
+    .preview-user-avatar-count {
+        background: #fff;
+        line-height: 50px;
+        font-size: 21px;
+        color: #62bb94;
+    }
+</style>
+            <div class="row u-mt-50 u-mb-40">
+                <div class="col-md-3 u-mb-30">
+                    <h5 class="preview-user-title">Owners (Core Team) </h5>
+                    <div class="preview-user-body">
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+4</div>
+                    </div>
+                </div>
+                <div class="col-md-3 u-mb-50" style="text-align: center;">
+                    <h5 class="preview-user-title">Sponsors</h5>
+                    <div class="preview-user-body">
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></div>
+                        <div class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+99</div>
+                    </div>
+                </div>
+                <div class="col-md-3 u-mb-50" style="text-align: center;">
+                    <h5 class="preview-user-title">Tasks Done</h5>
+                    <div class="preview-user-numbers">12</div>
+                </div>
+                <div class="col-md-3" style="text-align: center;">
+                    <h5 class="preview-user-title">Funded, $</h5>
+                    <div class="preview-user-numbers">
+                        10000
+                    </div>
+                </div>
+            </div>
+
+
+
+<p align="center">
+
+
+            {% if project.blockchain_name %}
+            <a href="/project/{{ project.id }}/donate/"
+               class="btn btn btn-rounded btn-primary ml-3 px-md-5">
+                Donate
+            </a>
+            {% endif %}
+
+            {% if project.projectTasks.exists %}
+            <a href="/project/{{ project.id }}/tasks/"       class="btn btn btn-rounded btn-secondary ml-3 px-md-5">
+                Tasks
+            </a>
+            {% endif %}
+</p>
+
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
 
