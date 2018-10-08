@@ -174,7 +174,7 @@
                         {% if request.user.get_profile.blockchain_wallet %}
                             getBalance();
                         {% endif %}
-                        ERROR_REPORTER.showMessage('Thank you!', MESSAGE_TYPE_SUCCESS);
+                        ERROR_REPORTER.showMessage('Thank you! You will be redirected to payment gateway.', MESSAGE_TYPE_SUCCESS);
                         if (currency == 'btc') {
                             data = $.parseJSON(data);
                             $('.js-donate-form').replaceWith(

@@ -108,6 +108,8 @@ def projectList(request, **kwargs):
     return HttpResponse(t.render(c))
 
 def projectDetailDonate(request, project_id):
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/?backurl=/project/' + str(project_id) + '/donate/')
 
     project = get_object_or_404(PM_Project, id=project_id)
     milestoneId = request.GET.get('m', None)
