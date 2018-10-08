@@ -288,33 +288,34 @@
 </style>
             <div class="row u-mt-50 u-mb-40">
                 <div class="col-md-3 u-mb-30">
-                    <h5 class="preview-user-title">Owners (Core Team) </h5>
+                    <h5 class="preview-user-title">Token holders</h5>
                     <div class="preview-user-body">
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+4</a>
+                        {% for user in team %}
+                        {% if user.get_profile and user.last_name %}
+                            <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('{{ user.get_profile.avatarSrc }}');"></a>
+                        {% endif %}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="col-md-3 u-mb-50" style="text-align: center;">
                     <h5 class="preview-user-title">Sponsors</h5>
                     <div class="preview-user-body">
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/126.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('/media/users/1.jpg');"></a>
-                        <a href="" class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+99</a>
+                        {% for user in sponsors %}
+                        {% if user.get_profile and user.last_name %}
+                            <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('{{ user.get_profile.avatarSrc }}');"></a>
+                        {% endif %}
+                        {% endfor %}
+{#                        <a href="" class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+99</a>#}
                     </div>
                 </div>
                 <div class="col-md-3 u-mb-50" style="text-align: center;">
                     <h5 class="preview-user-title">Tasks Done</h5>
-                    <div class="preview-user-numbers">12</div>
+                    <div class="preview-user-numbers">{{ project.projectTasks.count }}</div>
                 </div>
                 <div class="col-md-3" style="text-align: center;">
-                    <h5 class="preview-user-title">Funded, $</h5>
+                    <h5 class="preview-user-title">Paid, $</h5>
                     <div class="preview-user-numbers">
-                        10000
+                        {{ donated|floatformat:2 }}
                     </div>
                 </div>
             </div>
@@ -324,16 +325,18 @@
 <p align="center">
 
 
-            {% if project.blockchain_name %}
-            <a href="/project/{{ project.id }}/donate/"
-               class="btn btn btn-rounded btn-primary ml-3 px-md-5">
-                Donate
+
+
+            {% if project.projectTasks.exists %}
+            <a href="/project/{{ project.id }}/tasks/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
+                Explore tasks
             </a>
             {% endif %}
 
-            {% if project.projectTasks.exists %}
-            <a href="/project/{{ project.id }}/tasks/"       class="btn btn btn-rounded btn-secondary ml-3 px-md-5">
-                Tasks
+            {% if project.blockchain_name %}
+            <a href="/project/{{ project.id }}/donate/"
+               class="btn btn-rounded btn-secondary ml-3 px-md-5">
+                Donate
             </a>
             {% endif %}
 </p>
@@ -599,203 +602,7 @@
     </div> <!-- END container-->
 </section>
 
-    <section>
-        <div class="container">
-            <div class="row">
 
-                <div class="col-12 text-center">
-                    <h2 class="h1">
-                        Core Team
-                    </h2>
-
-                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-                </div> <!-- END col-12-->
-            </div> <!-- END row-->
-
-
-            <div class="align-items-center">
-                <div data-init="carousel" data-slick='{
-				"slidesToShow":3,
-				"slidesToScroll": 1,
-				"arrows":true,
-				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
-				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
-				"responsive": [
-						{
-						 "breakpoint":1024,
-						 "settings":{
-							"slidesToShow": 2,
-							"arrows":true,
-							"dots":true,
-							"dotsClass":"slick-dots dots-white mt-4 text-center"
-						 }
-						},
-						{
-						 "breakpoint":600,
-						 "settings":{
-							"slidesToShow": 1,
-							"arrows":false,
-							"dots":true,
-							"dotsClass":"slick-dots dots-white mt-4 text-center"
-						 }
-						}
-					]
-				}'
-                     data-slick-margin="30">
-
-
-                    {% for user in team %}
-                        {% if user.get_profile and user.last_name %}
-                            <div class="rounded bg-white text-center js-team-member"
-                                 data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
-                                <div class="rounded-circle u-w-90-wrapper mb-4"
-                                     style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
-                                </div>
-
-
-                                <h4 class="u-mb-5 relative user-name">
-                                    {{ user.first_name }} {{ user.last_name }}
-                                    <div class="user-rating">
-                                        <i class="fa fa-star"></i> {{ user.rating|floatformat }}
-                                    </div>
-                                </h4>
-
-                                <div>
-                                    {% for spec in user.get_profile.specialties.all %}<span>{{ spec.name }}</span>
-                                        {% if not forloop.last %}, {% endif %}{% endfor %}
-                                    <div style="display: none;width:40px; position: absolute;top: 110px; font-size: 12px;line-height: 16px;margin-left: 240px;"
-                                         class="bg-primary text-white text-center rounded user-share js-share" ><span
-                                            class="js-share-percent"></span>%
-                                    </div>
-                                </div>
-
-                                <ul class="list-inline social social-rounded social-default social-sm mt-4">
-                                    {% if user.get_profile.skype %}
-                                        <li class="list-inline-item">
-                                            <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
-                                        </li>
-                                    {% endif %}
-                                    {% if user.get_profile.telegram %}
-                                        <li class="list-inline-item">
-                                            <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
-                                                    class="fa fa-telegram"></i></a>
-                                        </li>
-                                    {% endif %}
-                                    {% if user.get_profile.linkedin %}
-                                        <li class="list-inline-item">
-                                            <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
-                                        </li>
-                                    {% endif %}
-                                </ul>
-                            </div>
-                        {% endif %}
-                    {% endfor %}
-                </div>
-
-            </div> <!-- END row-->
-        </div> <!-- END container-->
-    </section>
-
-    <section class="bg-gray-v1">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 text-center">
-                    <h2 class="h1">
-                        Sponsors
-                    </h2>
-
-                    <div class="u-h-4 u-w-50 orange-gr rounded mx-auto mt-4 mb-5"></div>
-                </div> <!-- END col-12-->
-            </div> <!-- END row-->
-            <div data-init="carousel" data-slick='{
-				"slidesToShow":3,
-				"slidesToScroll": 1,
-				"arrows":true,
-				"prevArrow":"<div class=\"slick-prev box-shadow-v1\"><i class=\"fa fa-angle-left\"></i></div>",
-				"nextArrow":"<div class=\"slick-next box-shadow-v1\"><i class=\"fa fa-angle-right\"></i></div>",
-				"responsive": [
-						{
-						 "breakpoint":1024,
-						 "settings":{
-							"slidesToShow": 2,
-							"arrows":true,
-							"dots":true,
-							"dotsClass":"slick-dots dots-white mt-4 text-center"
-						 }
-						},
-						{
-						 "breakpoint":600,
-						 "settings":{
-							"slidesToShow": 1,
-							"arrows":false,
-							"dots":true,
-							"dotsClass":"slick-dots dots-white mt-4 text-center"
-						 }
-						}
-					]
-				}'
-                 data-slick-margin="30">
-
-
-                {% for user in sponsors %}
-                    {% if user.get_profile and user.last_name %}
-                        <div class="rounded text-center js-team-member"
-                             data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
-                            <div class="rounded-circle u-w-90-wrapper mb-4"
-                                 style="background: url('{% if user.get_profile.avatarSrc %}{{ user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}');">
-                            </div>
-
-                            <h4 class="u-mb-5 relative user-name">
-                                {{ user.first_name }} {{ user.last_name }}
-                                <div class="user-rating orange-gr">
-                                    <i class="fa fa-dollar"></i> {{ user.donated|floatformat }}
-                                </div>
-                            </h4>
-
-
-                            <ul class="list-inline social social-rounded social-default social-sm mt-4">
-                                {% if user.get_profile.skype %}
-                                    <li class="list-inline-item">
-                                        <a href="skype:{{ user.get_profile.skype }}"><i class="fa fa-skype"></i></a>
-                                    </li>
-                                {% endif %}
-                                {% if user.get_profile.telegram %}
-                                    <li class="list-inline-item">
-                                        <a href="https://t.me/@{{ user.get_profile.telegram }}"><i
-                                                class="fa fa-telegram"></i></a>
-                                    </li>
-                                {% endif %}
-                                {% if user.get_profile.linkedin %}
-                                    <li class="list-inline-item">
-                                        <a href="{{ user.get_profile.linkedin }}"><i class="fa fa-linkedin"></i></a>
-                                    </li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                    {% endif %}
-                {% endfor %}
-                <div class="rounded text-center js-team-member"
-                     data-wallet="{{ user.get_profile.blockchain_wallet|default_if_none:'' }}">
-                    <div class="rounded-circle u-w-90-wrapper mb-4 orange-gr pointer"
-                         onclick="document.location.href='/project/{{ project.id }}/donate/';">
-                        <i class="fa fa-plus icon-avatar"></i>
-                    </div>
-
-                    <h4 class="u-mb-5 relative user-name">
-                        <a href="/project/{{ project.id }}/donate/" class="red-text">Become a sponsor</a>
-                    </h4>
-
-
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-4 text-center mx-auto">
-                    <a href="/project/{{ project.id }}/donate/" class="btn btn-red btn-rounded">Become a sponsor</a>
-                </div>
-            </div>
-        </div>
-    </section>
 
     <section class="">
         <div class="container">
@@ -803,7 +610,7 @@
 
                 <div class="col-12 text-center">
                     <h2 class="h1">
-                        Bounty / Contributors
+                        Developers
                     </h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
@@ -890,7 +697,7 @@
             </div> <!-- END row-->
             <div class="row">
                 <div class="col-4 text-center mx-auto">
-                    <a href="/project/{{ project.id }}/tasks/" class="btn btn-lg btn-rounded green-gr">Become a contributor</a>
+                    <a href="/project/{{ project.id }}/tasks/" class="btn btn-lg btn-rounded green-gr">Start doing a task</a>
                 </div>
             </div>
         </div>
