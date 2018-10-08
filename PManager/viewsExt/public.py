@@ -33,7 +33,7 @@ class Public:
         if request.POST.get('stack', ''):
             from PManager.viewsExt.tools import emailMessage
             prof = request.user.get_profile()
-            prof.hackathon_reg_date = datetime.datetime(2018, 9, 29, 13, 0, 0)
+            prof.hackathon_reg_date = datetime.datetime(2018, 10, 13, 13, 0, 0)
             prof.hackathon_registered = request.POST.get('stack', '')
             prof.save()
 
