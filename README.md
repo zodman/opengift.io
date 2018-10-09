@@ -60,7 +60,7 @@ This README would normally document whatever steps are necessary to get your app
 
         cp /vagrant/tracker/settings.py.dist /vagrant/tracker/settings.py
 
-9. Apply migrations if necessarily.
+9. Apply migrations if necessarily
 
         cd /vagrant
         python manage.py schemamigration PManager --auto
