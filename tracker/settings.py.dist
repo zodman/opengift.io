@@ -201,11 +201,11 @@ HTTP_ROOT_URL = 'http://opengift.dev'
 SERVER_IP = '192.168.33.13'
 
 # Site default email url
-SITE_EMAIL = 'admin@opengift.dev'
-ADMIN_EMAIL = 'admin@opengift.dev'
-INFO_EMAIL = 'admin@opengift.dev'
-NO_REPLY_EMAIL = 'no-reply@opengift.dev'
-FEEDBACK_EMAIL = 'feedback@opengift.dev'
+SITE_EMAIL = 'admin@heliard.ru'
+ADMIN_EMAIL = 'admin@heliard.ru'
+INFO_EMAIL = 'admin@heliard.ru'
+NO_REPLY_EMAIL = 'no-reply@heliard.ru'
+FEEDBACK_EMAIL = 'feedback@heliard.ru'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION
@@ -233,22 +233,51 @@ ORDERS_REDIS_PASSWORD = None
 # REDIS SERVER DB NAME
 ORDERS_REDIS_DB = None
 
+# #################### ROBOKASSA SETTINGS ##################################
+# ROBOKASSA_LOGIN
+ROBOKASSA_LOGIN = 'HeliardErp'
+
+# ROBOKASSA PASS
+ROBOKASSA_PASSWORD1 = ''
+
+# ROBOKASSA PASS 2
+ROBOKASSA_PASSWORD2 = ''
+
+# ROBOKASSA TEST MODE
+ROBOKASSA_TEST_MODE = True
+
+# ROBOKASSA EXTRA PARAMS ARRAY
+ROBOKASSA_EXTRA_PARAMS = ['user']
+
+# todo: ADD DESCRIPTION
 COMISSION = 1
 
+# ########################## YANDEX MONEY SETTINGS ######################################
+
+YANDEX_MONEY_DEBUG = False
+YANDEX_MONEY_SCID = 12345
+YANDEX_MONEY_SHOP_ID = 56789
+YANDEX_MONEY_SHOP_PASSWORD = 'password'
+YANDEX_MONEY_FAIL_URL = 'https://heliard.ru/fail-payment/'
+YANDEX_MONEY_SUCCESS_URL = 'https://heliard.ru/success-payment/'
+# информировать о случаях, когда модуль вернул Яндекс.Кассе ошибку
+YANDEX_MONEY_MAIL_ADMINS_ON_PAYMENT_ERROR = True
+
+# ########################## GIT MODULE SETTINGS ######################################
 # GIT MODULE IS ENABLED
 USE_GIT_MODULE = False
 
 #DOCKER
 DOCKER_USER_NAME = 'dockhost'
 DOCKER_HOST = 'heliard-cloud.ru'
-DOCKER_APP_KEY = 'q253kjhAS(*Fln2q34i6ts7dlSIHF3948657A>SKLSJFHl3895647aiojf.kerht89&ETIEt.jweht987'
+DOCKER_APP_KEY = '-'
 
 # Gitolite admin repository path
-GITOLITE_ADMIN_REPOSITORY = '/home/opengift/gitolite-admin'
+GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 # Gitolite ssh url credentials and domain string
-GITOLITE_ACCESS_URL = 'opengift@opengift.dev'
+GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
 # Gitolite users repositories path
-GITOLITE_REPOS_PATH = '/home/opengift/repositories'
+GITOLITE_REPOS_PATH = '/home/heliard/repositories'
 # Gitolite default user for docker
 GITOLITE_DEFAULT_USER = 'id_rsa'
 
@@ -304,4 +333,9 @@ if DEBUG:
     EMAIL_PORT = 1025
     EMAIL_USE_TLS = False
 
-CRYPTO_HOST = '0.0.0.0'
+CRYPTO_HOST = '188.166.237.19'
+
+
+PAYPAL_MODE = 'sandbox'
+PAYPAL_CLIENT_ID = '-'
+PAYPAL_SECRET = '-'
