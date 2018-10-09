@@ -43,7 +43,7 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = True
 
-GIFT_USD_RATE = 0.06
+GIFT_USD_RATE = 0.2
 # ####################### PATHS_SETTINGS ###############################
 # ROOT PATH
 PROJECT_ROOT = '/vagrant/'
@@ -189,23 +189,23 @@ AUTH_PROFILE_MODULE = 'PManager.PM_User'
 
 # Allowed hosts for this application
 ALLOWED_HOSTS = [
-    'opengift.dev', 'opengift'
+    'opengift.srv', 'opengift'
 ]
 
 # Socket server address
-SOCKET_SERVER_ADDRESS = 'opengift.dev'
+SOCKET_SERVER_ADDRESS = 'opengift.srv'
 
 # Server root url
-SERVER_ROOT_URL = 'opengift.dev'
-HTTP_ROOT_URL = 'http://opengift.dev'
+SERVER_ROOT_URL = 'opengift.srv'
+HTTP_ROOT_URL = 'http://opengift.srv'
 SERVER_IP = '192.168.33.13'
 
 # Site default email url
-SITE_EMAIL = 'admin@heliard.ru'
-ADMIN_EMAIL = 'admin@heliard.ru'
-INFO_EMAIL = 'admin@heliard.ru'
-NO_REPLY_EMAIL = 'no-reply@heliard.ru'
-FEEDBACK_EMAIL = 'feedback@heliard.ru'
+SITE_EMAIL = 'admin@opengift.io'
+ADMIN_EMAIL = 'admin@opengift.io'
+INFO_EMAIL = 'admin@opengift.io'
+NO_REPLY_EMAIL = 'no-reply@opengift.io'
+FEEDBACK_EMAIL = 'feedback@opengift.io'
 
 # ######################### COOKIES SETTINGS #############################
 # todo: ADD DESCRIPTION
@@ -218,7 +218,7 @@ SESSION_COOKIE_SECURE = False
 SET_COOKIE = {}
 
 # todo: ADD DESCRIPTION
-SESSION_COOKIE_DOMAIN = 'opengift.dev'
+SESSION_COOKIE_DOMAIN = 'opengift.srv'
 
 # ######################### REDIS SETTINGS ##############################
 # REDIS SERVER HOST
@@ -258,8 +258,8 @@ YANDEX_MONEY_DEBUG = False
 YANDEX_MONEY_SCID = 12345
 YANDEX_MONEY_SHOP_ID = 56789
 YANDEX_MONEY_SHOP_PASSWORD = 'password'
-YANDEX_MONEY_FAIL_URL = 'https://heliard.ru/fail-payment/'
-YANDEX_MONEY_SUCCESS_URL = 'https://heliard.ru/success-payment/'
+YANDEX_MONEY_FAIL_URL = 'https://opengift.io/fail-payment/'
+YANDEX_MONEY_SUCCESS_URL = 'https://opengift.io/success-payment/'
 # информировать о случаях, когда модуль вернул Яндекс.Кассе ошибку
 YANDEX_MONEY_MAIL_ADMINS_ON_PAYMENT_ERROR = True
 
@@ -275,7 +275,7 @@ DOCKER_APP_KEY = '-'
 # Gitolite admin repository path
 GITOLITE_ADMIN_REPOSITORY = '/home/heliard/gitolite-admin'
 # Gitolite ssh url credentials and domain string
-GITOLITE_ACCESS_URL = 'heliard@heliard.ru'
+GITOLITE_ACCESS_URL = 'heliard@opengift.io'
 # Gitolite users repositories path
 GITOLITE_REPOS_PATH = '/home/heliard/repositories'
 # Gitolite default user for docker
