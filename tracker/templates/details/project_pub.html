@@ -294,6 +294,8 @@
                         {% if user.get_profile and user.last_name %}
                             <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('{{ user.get_profile.avatarSrc }}');"></a>
                         {% endif %}
+                        {% empty %}
+                            <b class="text-white">-</b>
                         {% endfor %}
                     </div>
                 </div>
@@ -304,6 +306,8 @@
                         {% if user.get_profile and user.last_name %}
                             <a href="" class="rounded-circle u-w-50 preview-user-avatar" style="background: url('{{ user.get_profile.avatarSrc }}');"></a>
                         {% endif %}
+                        {% empty %}
+                            <b class="text-white">-</b>
                         {% endfor %}
 {#                        <a href="" class="rounded-circle u-w-50 preview-user-avatar preview-user-avatar-count">+99</a>#}
                     </div>
@@ -333,7 +337,7 @@
             </a>
             {% endif %}
 
-            {% if project.blockchain_name %}
+            {% if project.blockchain_state %}
             <a href="/project/{{ project.id }}/donate/"
                class="btn btn-rounded btn-secondary ml-3 px-md-5">
                 Donate
@@ -598,7 +602,9 @@
 
         </div> <!-- END row-->
         <div class="text-center u-pt-15 u-pb-50">
+            {% if project.blockchain_state %}
             <a class="btn btn-red btn-rounded" href="/project/{{ project.id }}/donate/">Donate</a>
+            {% endif %}
         </div>
     </div> <!-- END container-->
 </section>

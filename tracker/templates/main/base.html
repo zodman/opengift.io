@@ -274,13 +274,13 @@
                     {% endfor %}
                     <div class="projects-item clearfix">
                         <div class="projects-list-img">
-                            <a style="background-color: rgb(71, 164, 71);" href="/project/add/">
+                            <a style="background-color: rgb(71, 164, 71);" href="/task/add/">
                                 <i class="fa fa-plus"></i>
                             </a>
                         </div>
                         <div class="projects-list-text">
                             <h4>
-                                <a href="/project/add/">
+                                <a href="/task/add/">
                                     Add project
                                 </a>
                             </h4>
@@ -495,7 +495,7 @@
                                 <a href="/project/{{ main.CURRENT_PROJECT.id }}/edit/" class="fa fa-cog"
                                    title="Edit project"></a>
                             {% endif %}
-                            <a href="/project/add/" class="fa fa-plus" title="Add project"></a>
+                            <a href="/task/add/" class="fa fa-plus" title="Add project"></a>
 
                             <a href="#" class="js-invite-popup {% if not main.CAN_INVITE %}disabled{% endif %}" data-target="#invite-popup" data-toggle="modal" title="Invite members"><i class="fa fa-user-plus"></i></a>
                             <a href="/user_list/" class="fa fa-users" title="Team"></a>

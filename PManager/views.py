@@ -284,7 +284,7 @@ class MainPage:
         projectId = int(request.GET.get('project', 0))
 
         if not widgetList:
-            widgetList = ['chat', 'tasklist']
+            widgetList = ['tasklist']
 
         # uAchievement = PM_User_Achievement.objects.filter(user=request.user, read=False)
         # userAchievement = uAchievement[0] if uAchievement and uAchievement[0] else None
@@ -297,6 +297,7 @@ class MainPage:
         #         userAchievement.save()
 
         if request.user.is_authenticated():
+            widgetList.append('chat')
             messages = PM_Task_Message.objects.filter(
                 userTo=request.user,
                 read=False
@@ -418,7 +419,7 @@ class MainPage:
 
             'agreementForApprove': agreementForApprove,
             'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
-                'COOKIES'] else None
+                'COOKIES'] and request.user.is_authenticated() else None
         })
 
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)

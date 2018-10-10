@@ -9,7 +9,7 @@ from django.utils import timezone
 
 class Public:
     @staticmethod
-    def hackathon(request):
+    def hackathon(request, need_inverse=False):
 
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
         hackathons = []
@@ -22,7 +22,8 @@ class Public:
             'user_registered': request.user.is_authenticated()
                                and request.user.get_profile().hackathon_reg_date
                                and request.user.get_profile().hackathon_reg_date > now,
-            'hackathons': hackathons
+            'hackathons': hackathons,
+            'need_inverse': need_inverse
         })
         return HttpResponse(loader.get_template('public/hackathon.html').render(c))
 
