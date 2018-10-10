@@ -37,7 +37,7 @@ This README would normally document whatever steps are necessary to get your app
     
     Добавьте строчку
 
-        192.168.33.13     opengift.dev
+        192.168.33.13     opengift.srv
 
     в файл /etc/hosts
 
@@ -50,10 +50,20 @@ This README would normally document whatever steps are necessary to get your app
 
     Добавьте строчку
 
-        192.168.33.13     opengift.dev
+        192.168.33.13     opengift.srv
 
 7. Когда виртуальная машина запустится выполните в bash терминале
 
         vagrant provision
 
-8. Откройте в браузере страницу [opengift.dev](http://opengift.dev)
+8. Rename settings file
+
+        cp /vagrant/tracker/settings.py.dist /vagrant/tracker/settings.py
+
+9. Apply migrations if necessarily
+
+        cd /vagrant
+        python manage.py schemamigration PManager --auto
+        python manage.py migrate PManager
+
+10. Откройте в браузере страницу [opengift.srv](http://opengift.srv)
