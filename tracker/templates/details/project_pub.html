@@ -378,7 +378,7 @@
                         {% for problem in project.problems.all %}
                         <li class="nav-item mr-xl-3">
                             <a class="nav-link {% if forloop.first %}active{% endif %}" data-toggle="pill" href="#v-problems-{{ problem.id }}" role="tab" aria-controls="v-problems-{{ problem.id }}" aria-selected="true" aria-expanded="false">
-                                <h4 class="text-white">{{ problem.target_group|default_if_none:''}}</h4>
+                                <span class="text-white">{{ problem.target_group|default_if_none:''}}</span>
                             </a>
                         </li>
                         {% endfor %}

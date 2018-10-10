@@ -17,44 +17,56 @@ img {
 
 h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .h5, .h6 {
   color: #273f5b;
-  line-height: 1.37em;
   font-weight: 600;
 }
 
 h1, .h1 {
-  font-size: 40px;
+  font-size: 36px;
+  line-height: 50px;
 }
 
 @media (max-width: 767px) {
   h1, .h1 {
     font-size: 30px;
+    line-height: 50px;
   }
 }
 
 h2, .h2 {
   font-size: 30px;
+  line-height: 40px;
 }
 
 @media (max-width: 767px) {
   h2, .h2 {
-    font-size: 28px;
+    font-size: 24px;
+    line-height: 36px;
   }
 }
 
 h3, .h3 {
-  font-size: 26px;
+  font-size: 24px;
+  line-height: 36px;
 }
 
 h4, .h4 {
-  font-size: 24px;
-}
-
-h5, .h5 {
   font-size: 22px;
+  line-height: 30px;
 }
 
 h5, .h5 {
-  font-size: 20px;
+  font-size: 18px;
+  line-height: 30px;
+}
+
+
+.fw-normal {
+  font-weight: normal;
+}
+
+h6, .h6 {
+  font-size: 16px;
+  line-height: 28px;
 }
 
 a {
@@ -602,8 +614,6 @@ input, textarea {
   -o-transition: .3s;
   transition: .3s;
   text-transform: capitalize;
-  font-weight: 600;
-  font-size: 18px !important;
   padding: 0.8125rem 2rem;
   border: none;
 }
@@ -5583,7 +5593,8 @@ input, textarea {
 }
 
 .u-fs-20 {
-  font-size: 1.25rem !important;
+  font-size: 20px !important;
+  line-height: 30px;
 }
 
 .u-fs-21 {
@@ -5639,7 +5650,8 @@ input, textarea {
 }
 
 .u-fs-36 {
-  font-size: 2.25rem !important;
+  font-size: 36px !important;
+  line-height: 50px;
 }
 
 .u-fs-38 {
@@ -8931,4 +8943,14 @@ select {
     max-width: 18%;
     margin: 0 1%;
   }
+}
+
+
+.sponsor-logos {
+  vertical-align: middle;
+}
+.sponsor-logos svg,
+.sponsor-logos img {
+  margin: 20px;
+  vertical-align: middle;
 }
