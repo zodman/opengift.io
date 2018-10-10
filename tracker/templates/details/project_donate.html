@@ -145,7 +145,7 @@
             var donate = function (project, qty, currency, milestone, task) {
                 var form = new Form('.js-donate-form'),
                     minDonationUSD = $('[name=min_donation]').val(),
-                    valToCheck = qty,
+                    valToCheck = parseFloat(qty),
                     $donateBtn = $('.js-donate');
 
                 if (form.validate()) {
