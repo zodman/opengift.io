@@ -21,8 +21,8 @@
                 {{ tasklist.header | safe }}
             </h2>
         </div>
-    {% if request.user.is_authenticated %}
-        <ul class="widget-tasklist-functions clearfix">
+
+        <ul class="widget-tasklist-functions clearfix {% if not request.user.is_authenticated %}hidden{% endif %}">
             <li>
                 <a href="#" class="widget-tab active js-widgets-tab btn" data-widget="tasklist"><i class="fa fa-list-ol" aria-hidden="true"></i><span class="to-hide-768">&nbsp;&nbsp;Task list</span></a>
             </li>
@@ -33,7 +33,7 @@
             </li>
 
         </ul>
-        {% endif %}
+
     </div>
     {% if tasklist.project and request.user.is_authenticated %}
         {# -=========== ДОБАВЛЕНИЕ НОВОЙ ЗАДАЧИ ===========- #}

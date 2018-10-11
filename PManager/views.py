@@ -505,7 +505,7 @@ class MainPage:
                 aMessages.append(mes)
 
             if not widgetList:
-                widgetList = ['chat', 'tasklist']
+                widgetList = ['tasklist']
 
             unapprovedAgreements = Agreement.objects.filter(payer=request.user, approvedByPayer=False)
             unapprovedAgreementsResp = Agreement.objects.filter(resp=request.user, approvedByResp=False)

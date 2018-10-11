@@ -16,7 +16,7 @@
     });
 
     $('.js-read-more').click(function() {
-        $(this).toggleClass('text-cut-button-toggle');
+        $(this).toggleClass('text-cut-button-toggle').closest('.js-read-more-block').toggleClass('fold')
         return false;
     })
   });
@@ -122,6 +122,18 @@
 
     .task-details-text {
         margin-bottom: 30px;
+        position: relative;
+    }
+
+    .task-details-text.fold {
+        max-height: 50px;
+        overflow: hidden;
+    }
+
+    .task-details-text.fold .task-details-text-cut {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
     }
 
     .task-details-text-cut {/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#ffffff+0,ffffff+100&0+0,1+25,1+39,1+39 */
@@ -541,31 +553,32 @@
             {# ---- TASK BODY #}
             <div class="widget-body">
                 {% if task_detail.task.text_formatted %}
-                <div class="task-details-text">
+                <div class="task-details-text fold js-read-more-block">
                     {{ task_detail.task.text_formatted|safe }}
+                    {% if task_detail.files %}
+                        <br />
+                    {% for file in task_detail.files %}
+                        {% if file.is_picture %}
+                        <div class="task-details-pictures">
+                            <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+
+                    {% for file in task_detail.files %}
+                        {% if not file.is_picture %}
+                        <div class="task-details-files">
+                            <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}"></span> {{ file.name }}</a><br />
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
                     <div class="task-details-text-cut js-read-more"><a href="#" class="task-details-text-cut-button">Read More</a></div>
                 </div>
                 {% endif %}
-                {% if task_detail.files %}
-                {% for file in task_detail.files %}
-                    {% if file.is_picture %}
-                    <div class="task-details-pictures">
-                        <a class="fnc" href="{{ file.url }}" target="_blank"><img class="img-polaroid" width="130" src="{{ file.url }}" /></a>
-                    </div>
-                    {% endif %}
-                {% endfor %}
 
-                {% for file in task_detail.files %}
-                    {% if not file.is_picture %}
-                    <div class="task-details-files">
-                        <a class="item-list" href="{{ file.url }}"><span class="icon-download-alt icon-{{ file.ext }}" href="{{ file.url }}"></span> {{ file.name }}</a><br />
-                    </div>
-                    {% endif %}
-                {% endfor %}
 
-                {% endif %}
-
-                <!--{#        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>#}
+                {#        <h6 class="js-todo-title {% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">Нужно сделать:</h6>#}
                 {#        <div class="clearfix js-todo-container to-do-list{% if not task_detail.task.todo and not task_detail.task.bug %} hidden{% endif %}">#}
                 {##}
                 {#            <span class="js-todo-list todo-list">#}
@@ -591,7 +604,7 @@
                 {#                    {% endfor %}#}
                 {#                {% endif %}#}
                 {#            </span>#}
-                {#        </div>#}-->
+                {#        </div>#}
                 {% if task_detail.solutions %}
                 <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
                 {% endif %}
@@ -645,6 +658,7 @@
                     <script>
                         $(function() {
                             $('.js-task-message-tab').click(function() {
+                                if ($(this).is('.disabled')) return false;
                                 $(this).addClass('active').siblings().removeClass('active');
                                 $('[name="message_type"]').val($(this).data('type'));
                                 $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
@@ -652,7 +666,12 @@
                             });
 
                             $('.js-confirm-result').click(function() {
-                                $('.js-task-message-tab').click();
+                                var $tab = $('.js-task-message-tab[data-type=vote]');
+                                if ($tab.is('.disabled')) {
+                                    alert($tab.attr('data-original-title'));
+                                    return;
+                                }
+                                $tab.trigger('click');
                                 $('[name=task_message]').focus();
                                 $('[name=winner]').val($(this).data('author'));
                                 $('.js-winner').val($(this).data('authorName'));
@@ -664,10 +683,11 @@
                         <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
                         <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
                         <a data-type="result" class="js-task-message-tab message-tab" href="#"><b>Post result</b></a>
-                        {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1070 %}
-                        <a data-type="vote" class="js-task-message-tab message-tab" href="#">Confirm result</a>
+                        {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1071 %}
+                        <a data-type="vote" class="js-task-message-tab message-tab {% if not task_detail.donated %}disabled{% endif %}" href="#"
+                        {% if not task_detail.donated %}data-toggle="tooltip" title="You should donate to this task to be able to choose a winner."{% endif %}>Select the best result</a>
                         {% endif %}
-                    </div>
+                        </div>
                     <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="message_type" value="message" />
@@ -692,6 +712,9 @@
                         </div>
                         {% endif %}
                         <style>
+                            a.disabled {
+                                color: grey;
+                            }
                             .message-select {
                                 display: inline-block;
                             }
@@ -733,7 +756,7 @@
                             {#                    <label class="left_check"><input class="js-allow" type="radio" name="message_type" value="allow_closing" /> Allow task closing</label>#}
                             <label class="left_check js-message-options" data-type="estimation" style="display: none;">
             <span class="js-need-time-hours" >
-              <input type="number" maxlength="2" name="need-time-hours" class="need-time-hours" /> $
+              <input type="number" maxlength="2" placeholder="Your estimation" name="need-time-hours" class="need-time-hours" /> $
             </span>
                             </label>
                             {% endif %}
@@ -894,7 +917,7 @@
                             <a class="js-confirm-result confirm-result-button"
                                href="#" data-author="{{ result.author.id }}"
                                data-author-name="{{ result.author.last_name }} {{ result.author.first_name }}">
-                                Confirm result
+                                Select
                             </a>
                             {% endif %}
                         </li>
@@ -1256,6 +1279,10 @@
                     margin: -15px -15px 20px;
                 }
             }
+
+            .task-details-pictures {
+                display: inline-block;
+            }
         </style>
         <div class="bakers-wrapper card mb-4">
             <h6 class="bakers-wrapper-header with-elements">
@@ -1409,7 +1436,7 @@
         $('.js-personal')
                 .prop('checked', false)
                 .prop('disabled', true);
-      }else{
+      } else {
         $('.js-personal').prop('disabled', false);
       }
     });

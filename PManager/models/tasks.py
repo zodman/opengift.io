@@ -101,9 +101,10 @@ class PM_Tracker(models.Model):
 
 class PM_Hackathon(models.Model):
     name = models.CharField(max_length=255)
+    url = models.CharField(max_length=255, blank=True, null=True)
     text = models.CharField(max_length=1000)
     date = models.DateTimeField(blank=True)
-    description = models.TextField(null=True)
+    description = models.TextField(null=True, blank=True)
 
     def __unicode__(self):
         return self.name

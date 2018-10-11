@@ -8,6 +8,8 @@ from tracker import settings
 
 def widget(request, headerValues=None, ar=None, qargs=None):
 
+    if not request.user.is_authenticated():
+        return {}
 
     last_id = request.REQUEST.get('last_id', 0)
     if request.user.is_superuser:

@@ -18,6 +18,7 @@ def widget(request, headerValues, arFilter, q):
     widgetManager = TaskWidgetManager()
     cur_user = request.user
 
+
     prof = None
     if cur_user.is_authenticated():
         prof = request.user.get_profile()
@@ -277,7 +278,7 @@ def widget(request, headerValues, arFilter, q):
         askers.sort(key=lambda x: x['ask'])
 
         results = []
-        if task.project.id != 1070:
+        if task.project.id != 1071:
             for m in task.messages.filter(code='RESULT'):
                 if maxRequested < m.requested_time:
                     maxRequested = m.requested_time
@@ -311,6 +312,7 @@ def widget(request, headerValues, arFilter, q):
             'title': task.name,
             'task': task,
             'voted': PM_Task_Message.objects.filter(code='VOTE', author=request.user.id, task=task).exists(),
+            'donated': PM_Task_Message.objects.filter(code='DONATION', author=request.user.id, task=task).exists(),
             'todo': task.messages.filter(todo=True),
             'asked_min': askedMin,
             'asked_max': askedMax,
