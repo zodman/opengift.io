@@ -47,7 +47,7 @@ def taskDetail(request):
     from django.shortcuts import render
     if not request.user.is_authenticated():
         return HttpResponseRedirect('/login/?backurl=/task/add/')
-    title = _('Create new task for community')
+    title = _('Create new project / Post new problem')
     return render(request, 'details/task_edit.html', {'title':title})
 
 
@@ -1315,6 +1315,8 @@ class taskAjaxManagerCreator(object):
 
     @task_ajax_action
     def process_fastCreate(self):
+        projectName = self.getRequestData('project_name')
+        projectDescription = self.getRequestData('project_description')
         taskInputText = self.getRequestData('task_name')
         taskDesc = self.getRequestData('task_description')
         projectId = self.getRequestData('project_id')
@@ -1330,8 +1332,6 @@ class taskAjaxManagerCreator(object):
 
         bIsNewProject = False
         if not self.taskManager.project:
-            projectName = taskInputText
-            projectDescription = taskDesc
             project, created = PM_Project.objects.get_or_create(
                 name=projectName,
                 author=self.currentUser,

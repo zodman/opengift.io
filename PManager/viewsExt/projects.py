@@ -137,10 +137,10 @@ def projectDetailDonate(request, project_id):
     t = loader.get_template('details/project_donate.html')
     return HttpResponse(t.render(c))
 
-def projectDetailEdit(request, project_id):
+def projectDetailEdit(request, project_id, need_inverse=False):
     project = get_object_or_404(PM_Project, id=project_id)
     if not request.user.is_authenticated() or not request.user.get_profile().isManager(project):
-        return HttpResponseRedirect('/login/')
+        return HttpResponseRedirect('/login/?backurl=/project/'+str(project_id)+'/edit/')
 
     if request.method == 'POST':
         p_form = ProjectFormEdit(
@@ -303,6 +303,7 @@ def projectDetailEdit(request, project_id):
         'milestones': project.milestones.filter(closed=False, donated=False).order_by('date'),
         'project': project,
         'e': sprojectSpec,
+        'need_inverse': need_inverse,
         'industries': aSpecialties,
         'industriesList': recursiveTreeDraw({'subitems': aSpecialties.values()})
     })

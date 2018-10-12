@@ -789,7 +789,8 @@
                 </div>
                 {% else %}
                 <p style="margin-left: 10px;">
-                    <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a> to see all task conversation and to be able to post/download the result.
+                    <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a>
+                    or <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Register</a> to see all task conversation and to be able to post/download the results.
                 </p>
                 {% endif %}
                 <!--{#        <div class="chat-nav chat-nav-simple">#}
@@ -839,7 +840,7 @@
             </div>
         </div>
         <div class="col-lg-4 col-md-12">
-            <div class="pink-gr up-3 mb-3 radius-5">Crowd funding company ends <b class="pink-color">in 4 days</b></div>
+{#            <div class="pink-gr up-3 mb-3 radius-5">Crowd funding company ends <b class="pink-color">in 4 days</b></div>#}
 
             <div class="light-blue-bg up-3 mb-3 radius-5">
                 <ul class="tast-details-desc clearfix">
@@ -855,8 +856,8 @@
 
 
                     {% if task_detail.task.asked %}
-                    <li><div>Developers prices:</div>
-                        <div><b>$ {{ task_detail.asked_min|default_if_none:'0'|floatformat:"0" }}</b>{% if task_detail.asked_min != task_detail.asked_max %}...<b>$ {{ task_detail.asked_min | floatformat:"0" }}</b>{% endif %}</div> </li>
+                    <li><div>Posted prices:</div>
+                        <div><b>$ {{ task_detail.asked_min|default_if_none:'0'|floatformat:"0" }}</b>{% if task_detail.asked_min != task_detail.asked_max %} ... <b>$ {{ task_detail.asked_max | floatformat:"0" }}</b>{% endif %}</div> </li>
                     {% endif %}
 
                     <li><div>Raised budget:</div><div><h1 class="mb-0"><b class="pink-color">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b> <span style="color: grey;">*</span></h1></div></li>

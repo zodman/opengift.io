@@ -22,9 +22,9 @@
         <a href="#" class="RollUp"></a>
         <a href="#" class="Close"></a>
     </div>
-    
+    {% if main.CURRENT_PROJECT %}
     <div class="clearfix chat-nav js-feed-options">
-        {% if main.CURRENT_PROJECT %}
+
         <div class="pull-left radio-checkbox-block">
             {% if main.CURRENT_PROJECT %}
             <label class="checkbox-inline">
@@ -56,9 +56,9 @@
               <input type="radio" class="js-comments-filter-input" name="MESSAGE_TYPE" value="FILES" {% if chat.options.MESSAGE_TYPE == 'FILES' %}checked="checked"{% endif %}> Files
             </label>
         </div>
-        {% endif %}
-    </div>
 
+    </div>
+    {% endif %}
     
     <div class="Chat">
         <table width="100%">

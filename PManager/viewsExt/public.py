@@ -27,6 +27,7 @@ class Public:
         })
         return HttpResponse(loader.get_template('public/hackathon.html').render(c))
 
+
     @staticmethod
     def hackathon_register(request):
 

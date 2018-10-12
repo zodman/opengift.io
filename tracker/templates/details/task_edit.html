@@ -27,22 +27,35 @@
                                 <!--task-->
                                 <input type="hidden" name="project_id"
                                        value="{{ request.GET.pid | default_if_none:'' }}"/>
-                                <h4 class="u-py-15 text-center">Creating a Task</h4>
+                                {% if not request.GET.pid %}
+                                <h4 class="u-py-15 text-center">Describe your project</h4>
 
-                                <p>Create your task in the project. You may want to be specific enough, so developers
-                                    return you something you can install and test.</p>
+                                <p class="text-center">Add an existing open-source project or describe a new one. You will get 100 <a href="#" data-toggle="tooltip" title="Project tokens give you a part of its income, forever.">tokens</a> of the new project.</p>
 
                                 <!--task_name-->
-                                <input type="text" name="task_name" value=""
+                                <input type="text" name="project_name" value=""
                                        class="form-control u-rounded-50 p-3 u-mb-30 js-required"
-                                       placeholder="Task title" required="">
+                                       placeholder="Project title" required="">
 
                                 <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
-                                            name="task_description"
-                                            placeholder="Short task description" required=""
+                                            name="project_description"
+                                            placeholder="Short project description" required=""
                                             style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
 
                                 <input name="project_code" readonly class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Project unique code (only letters, underlines and dots allowed)">
+                                {% endif %}
+                                <h4 class="u-py-15 text-center">Add first task for community</h4>
+
+                                <p class="text-center">Create your first task in the project. It might be financed and developed by community.</p>
+
+                                <input type="text" name="task_name" value=""
+                                       class="form-control u-rounded-50 p-3 u-mb-30 js-required"
+                                       placeholder="First task title" required="">
+
+                                <textarea class="form-control u-rounded-15 p-3 u-mb-30 js-required" rows="6"
+                                            name="task_description"
+                                            placeholder="First task short description" required=""
+                                            style="margin-top: 0px; margin-bottom: 30px; height: 189px;"></textarea>
                                 <!--form-footer-->
                                 <div class="text-center">
 
@@ -55,6 +68,17 @@
                         </div>
                     </form>
                 </div>
+            </div>
+        </div>
+    </section>
+
+    <section style="display: none;" class="js-task-created">
+        <div class="container">
+            <h1 class="text-center">Your task is created.</h1>
+            <p class="text-center">Attract the developers making a first minimal donation.</p>
+            <div class="text-center u-p-25">
+                <a href="#" class="js-donate-for-task btn btn-primary">Donate for the task</a>
+                <a href="#" class="js-manage-project btn btn-secondary">Manage your project</a>
             </div>
         </div>
     </section>
