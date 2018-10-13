@@ -112,7 +112,7 @@
   var generateMarkup = function(calendars, clazz, calendarId) {
     var result = document.createElement('div');
 
-    result.innerHTML = '<a href="#" id="'+params.options.id+'" class="js-add-to-calendar text-primary add-to-calendar-checkbox">Add to my Calendar</a>';
+    result.innerHTML = '<a href="#" id="'+calendarId+'" class="js-add-to-calendar text-primary add-to-calendar-checkbox">Add to my Calendar</a>';
     var html = '<div class="js-add-to-calendar-container calendars-list">';
 
     Object.keys(calendars).forEach(function(services) {

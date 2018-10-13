@@ -1331,7 +1331,7 @@ class taskAjaxManagerCreator(object):
                 pass
 
         bIsNewProject = False
-        if not self.taskManager.project:
+        if not projectId:
             project, created = PM_Project.objects.get_or_create(
                 name=projectName,
                 author=self.currentUser,
@@ -1355,7 +1355,7 @@ class taskAjaxManagerCreator(object):
 
         if taskInputText:
             if taskDesc:
-                taskInputText += '///' + str(taskDesc)
+                taskInputText += '///' + unicode(taskDesc)
 
             task = self.taskManager.fastCreateAndGetTask(taskInputText)
             if task:

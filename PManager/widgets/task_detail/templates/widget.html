@@ -683,7 +683,7 @@
                         <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
                         <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
                         <a data-type="result" class="js-task-message-tab message-tab" href="#"><b>Post result</b></a>
-                        {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1071 %}
+                        {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1075 %}
                         <a data-type="vote" class="js-task-message-tab message-tab {% if not task_detail.donated %}disabled{% endif %}" href="#"
                         {% if not task_detail.donated %}data-toggle="tooltip" title="You should donate to this task to be able to choose a winner."{% endif %}>Select the best result</a>
                         {% endif %}

@@ -278,7 +278,7 @@ def widget(request, headerValues, arFilter, q):
         askers.sort(key=lambda x: x['ask'])
 
         results = []
-        if task.project.id != 1071:
+        if task.project.id != 1075:
             for m in task.messages.filter(code='RESULT'):
                 if maxRequested < m.requested_time:
                     maxRequested = m.requested_time
