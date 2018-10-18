@@ -2095,6 +2095,9 @@ input, textarea {
 .margin-top-u-h-100 {
   margin-top: -6.25rem !important;
 }
+.margin-top-u-h-50 {
+  margin-top: -3.125rem !important;
+}
 
 .u-h-100 {
   height: 6.25rem;

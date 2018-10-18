@@ -35,7 +35,44 @@
         <div class="container u-pt-50">
             <h1 class="text-center">Projects</h1>
             <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+            <!----------------СОРТИРОВКА
+            <style>
+                .sorting-list ul {
+                    list-style: none;
+                    padding: 0;
+                    margin: 0;
+                }
 
+                .sorting-list ul li {
+                    float: left;
+                    margin-right: 26px;
+                }
+                .sorting-list ul li.active a {
+                    color: #5a6671;
+                }
+            </style>
+
+            <div class="sorting-list clearfix u-mb-20">
+                <ul>
+                    <li>Order by</li>
+                    <li class="active">
+                        <a class="" href="#">Rating</a><i class="lnr lnr-chevron-down u-fs-12 ml-1"></i>
+                    </li>
+                    <li class="">
+                        <a class="" href="#">Budget</a><i class="lnr lnr-chevron-up u-fs-12 ml-1"></i>
+                    </li>
+                </ul>
+            </div>
+            ---->
+
+
+<style>
+    .search-category-select {
+        border: 0 !important;
+        background: none;
+        margin: 0 10px;
+    }
+</style>
             <div class="row">
                 <div class="col-lg-12">
                     <div class="input-group u-rounded-4 border u-of-hidden u-mb-20">
@@ -45,12 +82,111 @@
                         <input type="text" class="form-control border-0 p-3 js-search" placeholder="Type the name of project">
                     </div>
                 </div>
-{#                <div class="col-lg-4">#}
-{#                    <select class="js-search-category u-mb-20">#}
-{#                        <option value="">Category</option>#}
-{#                        {{ spectree|safe }}#}
-{#                    </select>#}
-{#                </div>#}
+
+                <!--
+                МУЛЬТИСЕЛЕКТ + ВЫБОР КАТЕГОРИЙ
+                НЕ ЗАБУДЬ КЛАСС ВЫШЕ col-lg-12 заменить на col-lg-4
+                <div class="col-lg-4">
+                    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.common-material.min.css" />
+                    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.min.css" />
+                    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2018.3.1017/styles/kendo.material.mobile.min.css" />
+
+                    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/jquery.min.js"></script>
+                    <script src="https://kendo.cdn.telerik.com/2018.3.1017/js/kendo.all.min.js"></script>
+                    <style>
+
+                        .categoryselect {
+                            position: absolute;
+                            left: 15px;
+                            right: 15px;
+                            box-sizing: border-box;
+                            z-index: 10;
+                        }
+
+                        .k-multiselect-wrap {
+                            z-index: 10;
+                            border-color: #e9ecef!important;
+                            height: 56px;
+                            overflow: hidden;
+                            padding: 8px;
+                            border-radius: 4px;
+                            width: 100%;
+                            box-sizing: border-box;
+                            -moz-box-sizing: border-box;
+                            -webkit-box-sizing: border-box;
+                        }
+
+                        .k-multiselect-wrap .k-input {
+                            min-width: 25px;
+                            min-height: auto;
+                            text-indent: .8em;
+                            background-color: transparent;
+                            border: 0;
+                            float: left;
+                            margin: 9px 0 9px 0;
+                            padding: 0;
+                            height: 20px;
+                        }
+
+                        .k-list>.k-state-focused,
+                        .k-listview>.k-state-focused,
+                        .k-listview>.k-state-focused.k-state-selected,
+                        .k-state-focused, td.k-state-focused {
+                            box-shadow: none;
+                        }
+                        .k-multiselect-wrap.k-state-focused,
+                        .k-state-focused>.k-multiselect-wrap {
+                            box-shadow: none;
+                        }
+                        .k-multiselect-wrap:hover {
+                            height: auto;
+                        }
+
+                        .k-multiselect>.k-multiselect-wrap>.k-i-close {
+                            top: 21px;
+                        }
+
+
+                        .k-multiselect-wrap li {
+                            margin: 3px 0 0px 3px;
+                        }
+
+
+                        .k-autocomplete, .k-block, .k-calendar .k-link, .k-calendar td, .k-calendar-container, .k-colorpicker, .k-combobox, .k-datepicker, .k-datetimepicker, .k-drag-clue, .k-dropdown, .k-dropdown-wrap, .k-editor-inline, .k-grid .k-filter-options, .k-grouping-header .k-group-indicator, .k-inline-block, .k-list-container, .k-multiselect, .k-notification, .k-numeric-wrap, .k-numerictextbox, .k-picker-wrap, .k-slider-selection, .k-slider-track, .k-textbox, .k-tile, .k-timepicker, .k-tooltip, .k-touch-scrollbar, .k-treeview .k-in, .k-upload, .k-window, .k-window-action, .k-window-titleless .k-window-content {
+                            border-radius: 4px;
+                        }
+                    </style>
+                <div class="categoryselect" role="application">
+                    <div class="demo-section k-content">
+                        <select id="required" multiple="multiple" data-placeholder="Select attendees...">
+                            <option>SEO</option>
+                            <option>PHP</option>
+                            <option>jQuery</option>
+                            <option>Python</option>
+                            <option>Javascript</option>
+                            <option>Bitrix</option>
+                            <option>Joomla</option>
+                        </select>
+                    </div>
+
+                    <script>
+                        $(document).ready(function() {
+                            // create MultiSelect from select HTML element
+                            var required = $("#required").kendoMultiSelect().data("kendoMultiSelect");
+
+                        });
+                    </script>
+                </div>
+                </div>
+                <div class="col-lg-4">
+
+                    <div class="input-group u-rounded-4 border u-of-hidden">
+                    <select class="js-search-category search-category-select">
+                        <option value="">Category</option>
+                        {{ spectree|safe }}
+                    </select>
+                    </div>
+                </div>-->
             </div>
 {#            <div class="mb-5 sorting-block bg-gray-v1 p-2 border rounded">#}
 {#                    <ul class="list-inline mb-0">#}
@@ -71,6 +207,8 @@
 {#                        </li>#}
 {#                    </ul>#}
 {#            </div>#}
+
+
             <div class="row">
                 {% for project in project_list %}
                 <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper js-project-item">
@@ -78,21 +216,84 @@
                         <h4 class="d-flex u-w-100 u-h-100 {{ project.color }}-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
                             {{ project.firstLetter|capfirst }}
                         </h4>
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100 ">
+
+                        <!--
+                        АВАТАРЫ - СТРОКУ ВЫШЕ (<h4>...</h4>) УДАЛИТЬ ПОСЛЕ РАСКОММЕНТИРОВАНИЯ
+                        <style>
+                            .project-item-img-wrapper {
+                                white-space: nowrap;
+                                overflow: hidden;
+                                height: 6.250rem !important;
+                                text-align: center;
+                                position: relative;
+                                z-index: 10;
+                                margin-left: -45px;
+                            }
+                            .project-item-img-wrapper-avatar {
+                                overflow: hidden;
+                                margin: 0 auto;
+                                background-size: cover !important;
+                                background-repeat: no-repeat !important;
+                                width: 6.250rem !important;
+                                height: 6.250rem !important;
+                                margin-right: -45px;
+                                border: 3px solid #fff;
+                                display: inline-block;
+                                background: #fff;
+                            }
+                        </style>
+                        <div class="project-item-img-wrapper">
+                            <a href="" class="rounded-circle u-w-50 project-item-img-wrapper-avatar" style="background: url('/media/users/1474.jpg');"></a>
+                            <a href="" class="rounded-circle u-w-50 project-item-img-wrapper-avatar" style="background: url('/media/users/1474.jpg');"></a>
+                        </div>
+                            <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-50">
+
+                            СЛЕДУЮЩУЮ СТРОКУ УДАТЬ ПОСЛЕ РАСКОММЕНТИРОВАНИЯ КОДА ВЫШЕ-->
+                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100">
                             <h4 class="u-fs-26 u-mb-10 u-mt-20">
                                 <a href="/project/{{ project.id }}/public/" class="js-project-name">{{ project.name }}</a>
                             </h4>
-                            <div class="clearfix u-mb-15">
+                            <div class="clearfix">
                                 <div class="float-left">
                                     <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star color-primary mr-2"></i>Goals: {{ project.milestones.count|default_if_none:'0'|floatformat }}</div>
                                 </div>
                                 <div class="float-left">
                                     <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card color-primary mr-2" aria-hidden="true"></i>Donations: {{ project.donations.count }}</div>
                                 </div>
-                                <div class="float-left">
+                                <!--<div class="float-left">
                                     <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users color-primary mr-2"></i>Contributors: {{ project.getUsers.count }}</div>
-                                </div>
+                                </div>-->
                             </div>
+
+                            <!---ТРЕБУЮТСЯ - ВАКАНСИИ
+                            <div>
+                                <div class="text-muted u-fs-15 u-mb-5 mr-2">
+                                    <i class="icon icon-Users color-primary mr-2"></i>Required: Паша, Игорь, Сергей</div>
+                            </div>
+                            -->
+
+                            <!---ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ
+                            <style>
+
+                                .tags-list > a {
+                                    padding: 1px 15px;
+                                    margin-right: 5px;
+                                    border-radius: 3px;
+                                    margin-bottom: 5px;
+                                    font-size: 11px;
+                                    line-height: 20px;
+                                }
+                            </style>
+                            <div class="widget-content tags-list u-mb-15">
+                                <a href="" style="background: #fff7f1;">Ruby</a>
+                                <a href="" style="background: #f0f6ff;">Python</a>
+                                <a href="" style="background: #e8ffee;">JS</a>
+                                <a href="" style="background: #f9fdd8;">CSS</a>
+                                <a href="" style="background: rgba(1, 1, 1, 0.05);">PHP</a>
+                                <a href="" style="background: #f3ffe7;">SCSS</a>
+                                <a href="" style="background: lavenderblush;">HTML</a>
+                            </div>
+                            -->
                             <p class="project-hidden-desc js-project-desc">
                             {{ project.description }}
                             </p>
