@@ -899,7 +899,7 @@
 </g>
 <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></span>
             <b style="color: #ff5466;">Extra bonus:</b>
-                A developer who provides a <b>winning solution</b> gets <b>1%</b> of the project "{{ task_detail.task.project.name }}" project tokens.<br />
+                A developer providing <b>the best solution</b> gets <b>1%</b> of the project "{{ task_detail.task.project.name }}" project tokens.<br />
                 You can also get <b>1%</b> of the project tokens for <b>co-sponsoring</b> the task.
             </div>
                 {% if task_detail.results %}
@@ -1039,7 +1039,7 @@
                     <li class="bakers-list-item">
                         <div class="bakers-list-item-media bakers-avatar align-items-center">
 
-                            <a class="avatar avatar-sm" title="" data-toggle="tooltip" data-original-title="Maslov Yegor">
+                            <a class="avatar avatar-sm" title="" data-toggle="tooltip" data-original-title="{{ backer.last_name }} {{ backer.first_name }}">
                                 <span class="avatar-sm-spa" style="background-image:url('{% if backer.get_profile.avatarSrc %}{{ backer.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') "></span>
                             </a>
 
@@ -1294,7 +1294,7 @@
                 <li class="bakers-list-item {% if task_detail.task.donated < asker.ask %}disabled{% endif %}">
                     <div class="bakers-list-item-media bakers-avatar align-items-center">
 
-                        <a class="avatar avatar-sm" title="" data-toggle="tooltip" data-original-title="Maslov Yegor">
+                        <a class="avatar avatar-sm" title="" data-toggle="tooltip" data-original-title="{{ asker.user.last_name }} {{ asker.user.first_name }}">
                             <span class="avatar-sm-spa"
                                   style="background-image:url('{% if asker.user.get_profile.avatarSrc %}{{ asker.user.get_profile.avatarSrc }}{% else %}/static/images/avatar_unknown.png{% endif %}') ">
                             </span>

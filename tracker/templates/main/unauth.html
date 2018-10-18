@@ -50,7 +50,21 @@
           {% if request.GET.skip_recaptcha %}
           <input type="hidden" name="skip_recaptcha" value="Y" />
           {% endif %}
-
+          {% if request.GET.wl %}
+          <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+                <span>Enter amount of GIFTs that you want to receive. 1 GIFT = 0.2 $</span>
+              <div class="input-group u-rounded-50 border u-of-hidden u-mb-30">
+                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                  <span class="icon icon-Mail text-primary"></span>
+                </div>
+                <input type="text" class="form-control border-0 p-3"
+                       name="token_amount"
+                       placeholder="Supposed amount of tokens" required="">
+              </div>
+            </div>
+          </div>
+          {% endif %}
           <!--username-->
           <div class="row">
             <div class="col-lg-4 text-center mx-auto">
@@ -77,6 +91,7 @@
               </div>
             </div>
           </div>
+
 
           <!--g-recaptcha-->
           <div class="row">
@@ -185,7 +200,12 @@
               </div>
             </div>
           </div>
-
+        <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <input type="checkbox" checked style="float:left;width: auto;margin-top: 8px;" />&nbsp;I agree to receive the information about new platform tasks and projects.
+            </div>
+            <div style="clear:both;"></div>
+        </div>
           <!--g-recaptcha-->
           <div class="row">
             <div class="col-lg-4 text-center mx-auto">

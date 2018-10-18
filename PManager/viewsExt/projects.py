@@ -6,7 +6,8 @@ from django.http import Http404
 from django.db.models import Q
 from django.template import loader, RequestContext
 from PManager.models import PM_Task, PM_Project, PM_Achievement, SlackIntegration, ObjectTags, PM_Timer
-from PManager.models import LikesHits, PM_Project_Problem, RatingHits, PM_Project_Achievement, PM_ProjectRoles, PM_Milestone, PM_Files
+from PManager.models import LikesHits, PM_Project_Problem, RatingHits, PM_Project_Achievement, PM_ProjectRoles, \
+    PM_Milestone, PM_Files
 from PManager.models import AccessInterface, Credit, PM_Project_Industry
 from django import forms
 from django.utils import timezone
@@ -21,6 +22,7 @@ from django.core.context_processors import csrf
 from django.db.models import Sum
 from PManager.viewsExt.tools import templateTools
 from tracker.settings import GIFT_USD_RATE
+
 
 class InterfaceForm(forms.ModelForm):
     class Meta:
@@ -50,6 +52,7 @@ class ProjectFormEdit(forms.ModelForm):
         if USE_GIT_MODULE:
             fields.append("repository")
 
+
 def getIndustriesTree():
     specialties = PM_Project_Industry.objects.filter()
     aSpecialties = {}
@@ -72,12 +75,11 @@ def getIndustriesTree():
     for id in aSpecialtiesTree:
         del aSpecialties[id]
 
-
     return aSpecialties
+
 
 def projectList(request, **kwargs):
     aSpec = getIndustriesTree()
-
 
     def recursiveTreeDraw(treeItem, depth=1):
         s = ''
@@ -94,7 +96,7 @@ def projectList(request, **kwargs):
 
         if treeItem['subitems']:
             for item in treeItem['subitems']:
-                s += recursiveTreeDraw(item, depth+1)
+                s += recursiveTreeDraw(item, depth + 1)
 
         return s
 
@@ -107,13 +109,19 @@ def projectList(request, **kwargs):
     t = loader.get_template('details/project_list.html')
     return HttpResponse(t.render(c))
 
-def projectDetailDonate(request, project_id):
-    if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/?backurl=/project/' + str(project_id) + '/donate/')
 
+def projectDetailDonate(request, project_id):
     project = get_object_or_404(PM_Project, id=project_id)
     milestoneId = request.GET.get('m', None)
     taskId = request.GET.get('t', None)
+    import urllib
+    params = {
+        'backurl': '/project/' + str(project_id) + '/donate/?t=' + (str(taskId) if taskId else '')
+                   + '&m=' + (str(milestoneId) if milestoneId else '')
+    }
+    if not request.user.is_authenticated():
+        return HttpResponseRedirect('/login/?' + urllib.urlencode(params))
+
     milestone = None
     task = None
     if milestoneId:
@@ -137,10 +145,11 @@ def projectDetailDonate(request, project_id):
     t = loader.get_template('details/project_donate.html')
     return HttpResponse(t.render(c))
 
+
 def projectDetailEdit(request, project_id, need_inverse=False):
     project = get_object_or_404(PM_Project, id=project_id)
     if not request.user.is_authenticated() or not request.user.get_profile().isManager(project):
-        return HttpResponseRedirect('/login/?backurl=/project/'+str(project_id)+'/edit/')
+        return HttpResponseRedirect('/login/?backurl=/project/' + str(project_id) + '/edit/')
 
     if request.method == 'POST':
         p_form = ProjectFormEdit(
@@ -164,16 +173,17 @@ def projectDetailEdit(request, project_id, need_inverse=False):
                 project.files.add(f)
 
             for m in project.milestones.filter(closed=False):
-                name = request.POST.get('milestone_'+str(m.id)+'_name', None)
+                name = request.POST.get('milestone_' + str(m.id) + '_name', None)
                 if name:
                     m.name = name
-                    m.date = templateTools.dateTime.convertToDateTime(request.POST.get('milestone_'+str(m.id)+'_date', ''))
-                    m.description = request.POST.get('milestone_'+str(m.id)+'_desc', '')
-                    m.closed = request.POST.get('milestone_'+str(m.id)+'_closed', False)
+                    m.date = templateTools.dateTime.convertToDateTime(
+                        request.POST.get('milestone_' + str(m.id) + '_date', ''))
+                    m.description = request.POST.get('milestone_' + str(m.id) + '_desc', '')
+                    m.closed = request.POST.get('milestone_' + str(m.id) + '_closed', False)
 
                     try:
-                        m.min_donate=float(request.POST.get('milestone_'+str(m.id)+'_min_donate', 0))
-                        m.conditioned_time=int(request.POST.get('milestone_'+str(m.id)+'_conditioned_time', 0))
+                        m.min_donate = float(request.POST.get('milestone_' + str(m.id) + '_min_donate', 0))
+                        m.conditioned_time = int(request.POST.get('milestone_' + str(m.id) + '_conditioned_time', 0))
                     except ValueError:
                         pass
 
@@ -211,11 +221,11 @@ def projectDetailEdit(request, project_id, need_inverse=False):
                 i += 1
 
             for m in project.problems.all():
-                name = request.POST.get('problem_'+str(m.id)+'_problem', None)
+                name = request.POST.get('problem_' + str(m.id) + '_problem', None)
                 if name:
                     m.problem = name
-                    m.target_group = request.POST.get('problem_'+str(m.id)+'_target_group', '')
-                    m.solution = request.POST.get('problem_'+str(m.id)+'_solution', '')
+                    m.target_group = request.POST.get('problem_' + str(m.id) + '_target_group', '')
+                    m.solution = request.POST.get('problem_' + str(m.id) + '_solution', '')
                     m.save()
                 else:
                     project.problems.remove(m)
@@ -243,7 +253,6 @@ def projectDetailEdit(request, project_id, need_inverse=False):
 
                 i += 1
 
-
             return HttpResponse('ok')
         else:
             return HttpResponse(p_form.errors)
@@ -258,23 +267,26 @@ def projectDetailEdit(request, project_id, need_inverse=False):
             percent = str(treeItem['item'].getPercent())
             s += '<li class="js-section-item project-form--specialties-container-ul-li">'
             s += '<div class="progress-item">'
-            s += '<label class="custom-control custom-checkbox text-left"><input '+(
-                'checked ' if treeItem['item'].id in sprojectSpec else '')+' type="checkbox" name="industries" value="' + str(
-                treeItem['item'].id) + '" class="custom-control-input"><span class="custom-control-indicator mt-1"></span>'
-            s += '<span class="custom-control-description">'+treeItem['item'].name+'</span>'
+            s += '<label class="custom-control custom-checkbox text-left"><input ' + (
+                'checked ' if treeItem[
+                                  'item'].id in sprojectSpec else '') + ' type="checkbox" name="industries" value="' + str(
+                treeItem[
+                    'item'].id) + '" class="custom-control-input"><span class="custom-control-indicator mt-1"></span>'
+            s += '<span class="custom-control-description">' + treeItem['item'].name + '</span>'
             s += '</label>'
             if treeItem['subitems']:
                 s += '<div class="js-toggle-section float-right up-down-icon"><i class="fa fa-angle-down"></i></div>'
-            s += '<h4 class="float-right text-primary">'+percent+'%</h4>'
+            s += '<h4 class="float-right text-primary">' + percent + '%</h4>'
             s += '<div class="progress w-100">'
-            s += '<div class="progress-bar" aria-valuenow="'+percent+'" style="width: '+percent+'%;"></div>'
+            s += '<div class="progress-bar" aria-valuenow="' + percent + '" style="width: ' + percent + '%;"></div>'
             s += '</div>'
 
             s += '</div>'
 
         if treeItem['subitems']:
 
-            s += '<ul class="project-form--specialties-container-ul js-subitems-list" '+('style="display:none;"' if 'item' in treeItem else '')+'>'
+            s += '<ul class="project-form--specialties-container-ul js-subitems-list" ' + (
+            'style="display:none;"' if 'item' in treeItem else '') + '>'
             for item in treeItem['subitems']:
                 s += recursiveTreeDraw(item)
 
@@ -287,7 +299,8 @@ def projectDetailEdit(request, project_id, need_inverse=False):
                 s += u'<input type="text" class="input-sm js-category-name" placeholder="Add your option..." />'
                 s += '</div>'
                 s += '<div class="col-md-6 u-mb-30">'
-                s += u'<button data-id="'+str(curId)+u'" class="js-add-category-btn btn btn-primary btn-sm"> Add</button>'
+                s += u'<button data-id="' + str(
+                    curId) + u'" class="js-add-category-btn btn btn-primary btn-sm"> Add</button>'
                 s += '</div>'
                 s += '</div>'
                 s += '</div>'
@@ -371,10 +384,11 @@ def projectDetailAjax(request, project_id):
 
     return HttpResponse('ok')
 
+
 def projectDetailAdd(request):
     import urllib
     if not request.user.is_authenticated():
-        return HttpResponseRedirect('/login/?backurl='+urllib.quote(request.get_full_path()))
+        return HttpResponseRedirect('/login/?backurl=' + urllib.quote(request.get_full_path()))
 
     post = request.POST if request.method == 'POST' else {}
 
