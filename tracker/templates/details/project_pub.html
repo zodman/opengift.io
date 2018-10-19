@@ -201,20 +201,20 @@
                     </p>
 
                     <div class="u-h-4 u-w-50 bg-white rounded {% if not project.files.count or project.link_video %}mx-auto{% endif %} my-4"></div>
-                    {% if project.blockchain_name %}
-                        <div class="text-white u-mb-25">
-                            Blockchain name: <b>{{ project.blockchain_name }}</b>
-                            {% if project.share_link_enabled %}
-                                <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"
-                                   class="btn btn-sm btn-rounded btn-outline-white ml-xl-3"
-                                   {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal"
-                                   data-target="#partners-link" {% endif %}>
-                                    Get partners link
-                                </a>
-                            {% endif %}
-                        </div>
-
-                    {% endif %}
+{#                    {% if project.blockchain_name %}#}
+{#                        <div class="text-white u-mb-25">#}
+{#                            Blockchain name: <b>{{ project.blockchain_name }}</b>#}
+{#                            {% if project.share_link_enabled %}#}
+{#                                <a href="{% if request.user.get_profile.blockchain_wallet %}#{% else %}/login/?backurl=/project/{{ project.id }}/public/{% endif %}"#}
+{#                                   class="btn btn-sm btn-rounded btn-outline-white ml-xl-3"#}
+{#                                   {% if request.user.get_profile.blockchain_wallet %}data-toggle="modal"#}
+{#                                   data-target="#partners-link" {% endif %}>#}
+{#                                    Get partners link#}
+{#                                </a>#}
+{#                            {% endif %}#}
+{#                        </div>#}
+{##}
+{#                    {% endif %}#}
 
                 </div> <!-- END col-lg-6-->
                 {% if project.files.count or project.link_video %}
@@ -313,13 +313,13 @@
                     </div>
                 </div>
                 <div class="col-md-3 u-mb-50" style="text-align: center;">
-                    <h5 class="preview-user-title">Tasks Done</h5>
+                    <h5 class="preview-user-title">Tasks</h5>
                     <div class="preview-user-numbers">{{ project.projectTasks.count }}</div>
                 </div>
                 <div class="col-md-3" style="text-align: center;">
-                    <h5 class="preview-user-title">Paid, $</h5>
+                    <h5 class="preview-user-title">Budget</h5>
                     <div class="preview-user-numbers">
-                        {{ donated|floatformat:2 }}
+                        $ {{ donated|floatformat }}
                     </div>
                 </div>
             </div>

@@ -213,12 +213,12 @@
                 {% for project in project_list %}
                 <div class="col-lg-4 col-md-6 u-mb-100 project-item-big-wrapper js-project-item">
                     <div class="project-item-wrapper relative">
-                        <h4 class="d-flex u-w-100 u-h-100 {{ project.color }}-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">
-                            {{ project.firstLetter|capfirst }}
-                        </h4>
+{#                        <h4 class="d-flex u-w-100 u-h-100 {{ project.color }}-gr rounded-circle u-flex-center text-white margin-auto u-mb-50 project-item-avatar">#}
+{#                            {{ project.firstLetter|capfirst }}#}
+{#                        </h4>#}
 
-                        <!--
-                        АВАТАРЫ - СТРОКУ ВЫШЕ (<h4>...</h4>) УДАЛИТЬ ПОСЛЕ РАСКОММЕНТИРОВАНИЯ
+
+{#                        АВАТАРЫ - СТРОКУ ВЫШЕ (<h4>...</h4>) УДАЛИТЬ ПОСЛЕ РАСКОММЕНТИРОВАНИЯ#}
                         <style>
                             .project-item-img-wrapper {
                                 white-space: nowrap;
@@ -243,22 +243,25 @@
                             }
                         </style>
                         <div class="project-item-img-wrapper">
-                            <a href="" class="rounded-circle u-w-50 project-item-img-wrapper-avatar" style="background: url('/media/users/1474.jpg');"></a>
-                            <a href="" class="rounded-circle u-w-50 project-item-img-wrapper-avatar" style="background: url('/media/users/1474.jpg');"></a>
+                            {% for user in project.getUsers %}
+                                {% if forloop.counter < 5 %}
+                                    {% if user.first_name != 'Yegor' %}
+                                <a href="#" class="rounded-circle u-w-50 project-item-img-wrapper-avatar" style="background-color: #39c2d3; background-image: url('{{ user.get_profile.avatarSrc }}');"></a>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
                         </div>
                             <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-50">
 
-                            СЛЕДУЮЩУЮ СТРОКУ УДАТЬ ПОСЛЕ РАСКОММЕНТИРОВАНИЯ КОДА ВЫШЕ-->
-                        <div class="p-4 py-5 border rounded box-shadow-v2--onHover project-item-inner margin-top-u-h-100">
                             <h4 class="u-fs-26 u-mb-10 u-mt-20">
                                 <a href="/project/{{ project.id }}/public/" class="js-project-name">{{ project.name }}</a>
                             </h4>
                             <div class="clearfix">
                                 <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star color-primary mr-2"></i>Goals: {{ project.milestones.count|default_if_none:'0'|floatformat }}</div>
+                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="icon icon-Star color-primary mr-2"></i>Tasks: {{ project.projectTasks.count|default_if_none:'0'|floatformat }}</div>
                                 </div>
                                 <div class="float-left">
-                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card color-primary mr-2" aria-hidden="true"></i>Donations: {{ project.donations.count }}</div>
+                                    <div class="text-muted u-fs-15 u-mb-5 mr-3"><i class="fa fa-credit-card color-primary mr-2" aria-hidden="true"></i>Budget: {{ project.donated | floatformat }}</div>
                                 </div>
                                 <!--<div class="float-left">
                                     <div class="text-muted u-fs-15 u-mb-5 mr-2"><i class="icon icon-Users color-primary mr-2"></i>Contributors: {{ project.getUsers.count }}</div>
@@ -272,7 +275,7 @@
                             </div>
                             -->
 
-                            <!---ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ ТЕГИ
+
                             <style>
 
                                 .tags-list > a {
@@ -285,15 +288,10 @@
                                 }
                             </style>
                             <div class="widget-content tags-list u-mb-15">
-                                <a href="" style="background: #fff7f1;">Ruby</a>
-                                <a href="" style="background: #f0f6ff;">Python</a>
-                                <a href="" style="background: #e8ffee;">JS</a>
-                                <a href="" style="background: #f9fdd8;">CSS</a>
-                                <a href="" style="background: rgba(1, 1, 1, 0.05);">PHP</a>
-                                <a href="" style="background: #f3ffe7;">SCSS</a>
-                                <a href="" style="background: lavenderblush;">HTML</a>
+                                {% for tag in project.tagList %}
+                                    <a href="" style="background: rgba(1, 1, 1, 0.05);">{{ tag.name }}</a>
+                                {% endfor %}
                             </div>
-                            -->
                             <p class="project-hidden-desc js-project-desc">
                             {{ project.description }}
                             </p>

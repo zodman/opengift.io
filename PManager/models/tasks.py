@@ -243,6 +243,17 @@ class PM_Project(models.Model):
                                       verbose_name=u'Решаемые проблемы')
 
     @property
+    def donated(self):
+        from tracker.settings import GIFT_USD_RATE
+        donated = 0
+        for m in self.donations.all():
+            donated += m.sum or 0
+
+        donated = donated * GIFT_USD_RATE
+
+        return donated
+
+    @property
     def color(self):
         if not self.milestones.exists():
             return 'grey'

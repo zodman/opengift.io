@@ -100,10 +100,16 @@ def projectList(request, **kwargs):
 
         return s
 
+    aProjects = []
+    projects = PM_Project.objects.filter(public=True).order_by('-id')
+    for project in projects:
+        setattr(project, 'tagList', [p for p in project.industries.filter(active=True)])
+        aProjects.append(project)
+
     c = RequestContext(request, {
         'specialties': aSpec,
         'spectree': recursiveTreeDraw({'subitems': aSpec.values()}),
-        'project_list': PM_Project.objects.filter(public=True).order_by('-id')
+        'project_list': aProjects
     })
     c.update(kwargs)
     t = loader.get_template('details/project_list.html')
@@ -574,7 +580,7 @@ def projectDetailPublic(request, project_id):
         reward += d.sum
 
     donated = 0
-    for d in project.donations.filter(Q(Q(task__onPlanning=False) | Q(task__closed=True) | Q(task__isnull=True))):
+    for d in project.donations.all():#filter(Q(Q(task__onPlanning=False) | Q(task__closed=True) | Q(task__isnull=True))):
         donated += d.sum
 
     c = RequestContext(request, {
