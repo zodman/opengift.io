@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="496px" height="496px" viewBox="0 0 496 496" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>speed_1</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="speed_1" fill-rule="nonzero">
+            <circle id="Oval" fill="#5FBA97" cx="248" cy="248" r="128"></circle>
+            <g id="Group" fill="#333333">
+                <path d="M248,72 C150.952,72 72,150.952 72,248 C72,345.048 150.952,424 248,424 C345.048,424 424,345.048 424,248 C424,150.952 345.048,72 248,72 Z M248,408 C159.776,408 88,336.224 88,248 C88,159.776 159.776,88 248,88 C336.224,88 408,159.776 408,248 C408,336.224 336.224,408 248,408 Z" id="Shape"></path>
+                <polygon id="Shape" points="240 240 136 240 136 256 256 256 256 136 240 136"></polygon>
+                <circle id="Oval" cx="248" cy="112" r="8"></circle>
+                <circle id="Oval" cx="248" cy="384" r="8"></circle>
+                <circle id="Oval" cx="384" cy="248" r="8"></circle>
+                <circle id="Oval" cx="112" cy="248" r="8"></circle>
+                <path d="M56.568,341.032 L47.32,364.16 C26.824,328.888 16,289.056 16,248 C16,120.08 120.08,16 248,16 C300.904,16 352.68,34.32 393.8,67.584 L403.864,55.144 C359.904,19.584 304.552,0 248,0 C111.248,0 0,111.248 0,248 C0,292.232 11.776,335.12 34.024,373.048 L9.568,368.16 L6.432,383.84 L52.952,393.144 L71.432,346.968 L56.568,341.032 Z" id="Shape"></path>
+                <circle id="Oval" cx="72" cy="408" r="8"></circle>
+                <path d="M461.976,122.952 L486.432,127.84 L489.576,112.152 L443.056,102.848 L424.576,149.024 L439.432,154.96 L448.68,131.832 C469.176,167.112 480,206.944 480,248 C480,375.92 375.92,480 248,480 C195.096,480 143.32,461.68 102.2,428.416 L92.136,440.856 C136.096,476.416 191.448,496 248,496 C384.752,496 496,384.752 496,248 C496,203.768 484.224,160.88 461.976,122.952 Z" id="Shape"></path>
+                <circle id="Oval" cx="424" cy="88" r="8"></circle>
+            </g>
+        </g>
+    </g>
+</svg>
