@@ -9,7 +9,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # options are documented and commented below. For a complete reference,
   # please see the online documentation at vagrantup.com.
   # Every Vagrant virtual environment requires a box to build off of.
-  #config.vm.box = "opengift_ubuntu1204_x64_git"
+  config.vm.box = "opengift_ubuntu1204_x64_git"
   config.vm.box_url = "https://opengift.io/static/package.box"
 
   # Disable automatic box update checking. If you disable this, then

@@ -10,7 +10,6 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from PManager.viewsExt.tools import templateTools
 from django.db.models import Q
-from PManager.models.morphy import trackMorphy
 from django.conf import settings
 from django.core.validators import MaxLengthValidator
 from PManager.viewsExt.tools import emailMessage
@@ -46,6 +45,7 @@ class Tags(models.Model):
     tagText = models.CharField(max_length=100, db_index=True)
     frequency = models.FloatField(default=0)
     parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
+    allowed = models.BooleanField(default=False, blank=True)
 
     weight = 0
 
@@ -1075,6 +1075,7 @@ class PM_Task(models.Model):
         })
 
     def saveTaskTags(self):
+        from PManager.models.morphy import trackMorphy
         textManager = trackMorphy()
 
         tags = textManager.parseTags(self.name + u' ' + self.text)
@@ -1544,7 +1545,7 @@ class PM_Task(models.Model):
         order.append('-critically')
         order.append('-dateStart')
         order.append('-dateClose')
-        order.append('-number')
+        order.append('-id')
         if tasks is not None:
             tasks = tasks.order_by(*order)
             if excludeFilter:
@@ -1559,6 +1560,7 @@ class PM_Task(models.Model):
 
     @staticmethod
     def getSimilar(text, project):
+        from PManager.models.morphy import trackMorphy
         SIMILARITY_PERCENT = 40
 
         def sortByTagsCount(task):

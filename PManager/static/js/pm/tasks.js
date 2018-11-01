@@ -308,6 +308,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 '$addSubtaskColumn': $row.find('.add-subtask'),
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
+                '$resultsContainer': $row.find('.js-task-results'),
                 '$planTime': $row.find('.task-plantime'),
                 '$reward': $row.find('.js-reward'),
                 '$bountyStatus': $row.find('.js-task-bounty')
@@ -455,6 +456,8 @@ var CRITICALLY_THRESHOLD = 0.7;
             var $respLink = $('<' + params.responsibleTag + '></' + params.responsibleTag + '>').attr({
                 'data-toggle': 'dropdown'
             }).addClass('js-select_resp').appendTo(oTaskContainers.$responsibleLink);
+
+            oTaskContainers.$resultsContainer.append(taskInfo.resultsQty);
 
             var rName = [];
             if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']) {
