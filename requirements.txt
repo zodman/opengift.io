@@ -23,7 +23,6 @@ medusa==0.5.4
 meld3==0.6.10
 ping==0.2
 ply==3.4
-pymorphy==0.5.6
 redis==2.10.3
 simplejson==3.6.3
 smmap==0.8.2
@@ -31,6 +30,7 @@ sorl-thumbnail==11.12.1b
 supervisor==3.0a8
 tornado==4.3
 numpy==1.8.2
+pattern==3.6.0
 theano
 scipy==0.13.3
 tornado-redis==2.4.1
@@ -44,7 +44,7 @@ maildump
 django-pipeline==1.3.24
 docx2html==0.2.3
 xlsxwriter
-openpyxl==2.3.0-b1
+openpyxl==2.3.1
 lxml==3.5
 django-yandex-money
 django-notify

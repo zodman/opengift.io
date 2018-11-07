@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Rayleigh'
 
-
+PIPELINE_ENABLED = False
 STATICFILES_STORAGE = 'pipeline.storage.PipelineCachedStorage'
 PIPELINE_JS_COMPRESSOR = 'pipeline.compressors.uglifyjs.UglifyJSCompressor'
 PIPELINE_JS = {

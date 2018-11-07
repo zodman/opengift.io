@@ -80,7 +80,7 @@ def widget(request, headerValues, ar, qargs):
             arSaveFields['tags'] = task.tags.all()
             
         arEmail = task.getUsersEmail([request.user.id])
-        task.sendTaskEmail('task_changed', arEmail, 'Задача изменена')
+        task.sendTaskEmail('task_changed', arEmail, 'Task has been changed.')
 
         backurl = request.GET.get('backurl', None)
         if backurl:

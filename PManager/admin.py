@@ -10,7 +10,7 @@ from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, 
     PM_User_Achievement, PM_Achievement, AccessInterface, \
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
     RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges, \
-    FaqQuestions, FaqQuestionsCategory
+    FaqQuestions, FaqQuestionsCategory, Tags
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -109,6 +109,7 @@ admin.site.register(FaqQuestionsCategory)
 admin.site.register(FaqQuestions)
 admin.site.register(PM_Hackathon)
 admin.site.register(PM_Hackathon_Winner)
+admin.site.register(Tags)
 admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin

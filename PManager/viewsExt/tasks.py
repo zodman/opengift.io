@@ -204,6 +204,7 @@ def __search_filter(header_values, request):
         ar_filter['closed'] = False
     elif action == 'donated':
         ar_filter['donate_exists'] = True
+        ar_filter['closed'] = False
     elif action == 'documented':
         ar_filter['resp__isnull'] = False
     elif action == 'started':
@@ -1321,6 +1322,9 @@ class taskAjaxManagerCreator(object):
         taskDesc = self.getRequestData('task_description')
         projectId = self.getRequestData('project_id')
         projectCode = self.getRequestData('project_code')
+
+        if not projectId:
+            projectId = self.getRequestData('project')
 
         if projectId:
             try:

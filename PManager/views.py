@@ -297,7 +297,7 @@ class MainPage:
         #         userAchievement.save()
 
         if request.user.is_authenticated():
-            if not 'chat' in widgetList:
+            if (not 'chat' in widgetList) and ('tasklist' in widgetList):
                 widgetList.append('chat')
 
             messages = PM_Task_Message.objects.filter(

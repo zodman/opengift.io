@@ -383,6 +383,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'parent': task.parentTask.id if task.parentTask and hasattr(task.parentTask, 'id') else None,
                 'parentName': task.parentTask.name if task.parentTask and hasattr(task.parentTask, 'name') else '',
                 'subtasksQty': subtasksQty,
+                'resultsQty': task.messages.filter(code='RESULT').count(),
                 'subtasksActiveQty': subtasksActiveQty,
                 'observer': True if task.observers.filter(id=cur_user.id) else False,
                 'avatar': task.resp.get_profile().avatar_rel if task.resp else {},
