@@ -15,3 +15,6 @@ gunicornsudo.pid
 npm-debug.log.*
 /.vs/config
 /.vs/opengift.git/v14
+tags
+
+tracker/local_settings.py

@@ -89,7 +89,11 @@ class Public:
         try:
             project = PM_Project.objects.get(pk=495)
         except PM_Project.DoesNotExist:
-            project = PM_Project.objects.all()[0]
+            all_projects = PM_Project.objects.all()
+            if all_projects.count() > 0:
+                project = all_projects[0]
+            else:
+                project = None
 
         if request.GET.get('logout', None) == 'yes':
             from django.contrib.auth import logout
@@ -104,18 +108,24 @@ class Public:
         for d in PM_Project_Donation.objects.filter(task__isnull=True):
             donated += d.sum
 
-        donated = int(donated)
+        donated = int(donated or 0)
 
         bounty_fund = int(bounty_fund)
-        c = RequestContext(request, {
+        
+        context = {
             'tasks_qty': PM_Task.objects.filter(closed=False, active=True).count(),
             'projects_qty': PM_Project.objects.filter(public=True).count(),
             'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
             'donated': donated,
             'bounty_fund': bounty_fund,
-            'milestones': project.milestones.order_by('date'),
             'w': request.GET.get('w', '')
-        })
+        }
+        if project:
+            context.update({
+                'milestones': project.milestones.order_by('date'),
+            })
+
+        c = RequestContext(request, context)
 
         return HttpResponse(loader.get_template('public/index.html').render(c))
 

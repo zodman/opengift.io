@@ -11,6 +11,7 @@ This README would normally document whatever steps are necessary to get your app
 ### How do I get set up? ###
 
 * Summary of set up
+
 ####Для установки локальной дев копии нужно:
 
 1. Установить VirtualBox ( https://www.virtualbox.org/wiki/Downloads )
@@ -67,3 +68,21 @@ This README would normally document whatever steps are necessary to get your app
         python manage.py migrate PManager
 
 10. Откройте в браузере страницу [opengift.srv](http://opengift.srv)
+
+
+
+# for work from zero
+
+
+```
+mkvirtualenv env --python /usr/bin/python2.7
+git clone git@github.com:opengift-io/opengift.io.git opengift
+cd opengift
+pip install requirements.txt
+python manage.py syncdb --all
+python manage.py migrate --fake
+
+```
+
+
+
