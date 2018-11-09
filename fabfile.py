@@ -7,4 +7,12 @@ def timing(ctx):
 
 @task
 def test(ctx):
-    local(' python  -W ignore  manage.py  test  PManager.ViewsTest --traceback --failfast')
+    cmds = [
+        "coverage run --source=.  manage.py test PManager.ViewsTest",
+        "coverage report  --skip-covered",
+        "coverage html  --skip-covered",
+    ]
+    for cmd in cmds:
+        local(cmd, echo=True)
+
+    #local(' python  -W ignore  manage.py  test  PManager.ViewsTest --traceback --failfast')
