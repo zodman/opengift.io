@@ -1,12 +1,13 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from PManager.models import PM_Project, PM_ProjectRoles
+from PManager.models import PM_Project, PM_ProjectRoles, PM_Tracker
 from PManager.viewsExt.forms import WhoAreYou, sendFeedBackEmail
 from django.contrib.auth import logout
 from PManager.services.trackers import get_tracker
 from django.http import Http404
+from django.utils.functional import SimpleLazyObject
 
-TRACKER = get_tracker(1)
+TRACKER = SimpleLazyObject(lambda: get_tracker(1))
 
 
 def set_project_in_session(project_id, projects, request):

@@ -40,6 +40,7 @@ def blockchainMain(request):
 
 def userRegisterAndUpdate(request):
     result = blockchain_user_register_request(request.user.username)
+    import q; q(result)
     if result.find('Error') == -1:
         res = result.split("\n\n")
         profile = request.user.get_profile()
