@@ -19,5 +19,32 @@
         "tracker": 1, 
         "name": "manager"
     }
+},
+{
+    "pk": 2, 
+    "model": "PManager.pm_role", 
+    "fields": {
+        "code": "employee", 
+        "tracker": 1, 
+        "name": "employee"
+    }
+},
+{
+    "pk": 3, 
+    "model": "PManager.pm_role", 
+    "fields": {
+        "code": "client", 
+        "tracker": 1, 
+        "name": "client"
+    }
+},
+{
+    "pk": 4, 
+    "model": "PManager.pm_role", 
+    "fields": {
+        "code": "guest", 
+        "tracker": 1, 
+        "name": "guest"
+    }
 }
 ]
