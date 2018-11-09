@@ -1,0 +1,23 @@
+[
+{
+    "pk": 1, 
+    "model": "PManager.pm_tracker", 
+    "fields": {
+        "code": "1", 
+        "name": "Tracker1", 
+        "admin": 2, 
+        "dateCreate": "2018-11-09T01:02:39Z", 
+        "logo": "tracker/media/trackers/2018-05-08-100323.jpg", 
+        "description": "test"
+    }
+},
+{
+    "pk": 1, 
+    "model": "PManager.pm_role", 
+    "fields": {
+        "code": "manager", 
+        "tracker": 1, 
+        "name": "manager"
+    }
+}
+]
