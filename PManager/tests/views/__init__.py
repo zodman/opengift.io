@@ -4,8 +4,10 @@ from django.contrib.auth.models import User
 from PManager.models import PM_Project, PM_Tracker, PM_Role
 from PManager.viewsExt.public import Public
 from PManager.viewsExt.tasks import taskListAjax
+from PManager.views import MainPage
 from tracker.urls import taskDetail
 from django.utils.text import slugify
+from django.utils.http import urlencode
 import json
 
 class ViewsTest(TestCase):
@@ -39,3 +41,9 @@ class ViewsTest(TestCase):
             json_response = json.loads(resp.content)
             self.assertEqual(u"Project 1 - task 1", json_response.get("name"), msg=json_response)
 
+            data = {'widgetList': ["task_edit"], 'activeMenuItem': 'tasks'}
+            url = self.reverse(MainPage.indexRender, **data)
+            querystring = {'id': json_response.get("id")}
+            full_url = "{}?{}".format(url, urlencode(querystring))
+            self.get_check_200(full_url)
+            

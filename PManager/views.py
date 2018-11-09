@@ -528,6 +528,9 @@ class MainPage:
             }
 
             for widgetName in widgetList:
+
+
+                # TODO: change this!!
                 str = 'widget = widgets.%s' % widgetName
                 exec (str)
                 if widgetName == 'tasklist':
