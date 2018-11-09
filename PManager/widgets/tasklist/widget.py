@@ -31,16 +31,19 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
                     strFilterUsers += ', '
             strFilterUsers += ')'
 
-        r = ObjectTags.objects.raw(
-            'SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id` from PManager_objecttags WHERE tag_id in (' + ', '.join(
-                arTagsId) + ') AND content_type_id=' + str(
-                ContentType.objects.get_for_model(User).id) +
-            strFilterUsers +
-            ' GROUP BY object_id ORDER BY weight_sum DESC')
-
-        for obj1 in r:
-            if obj1.content_object:
-                userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+        if ObjectTags.objects.filter(object_id__in=users_id).exists():
+            table_name = ObjectTags._meta.db_table
+            content_type_id = ContentType.objects.get_for_model(User).id
+            arTagsIds_arg = ', '.join(arTagsId)
+            sql = ('SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`'
+                  ' from {} WHERE tag_id in (' + arTagsIds_arg + ') AND content_type_id=' + str(
+                  content_type_id) +
+                strFilterUsers +
+                ' GROUP BY object_id ORDER BY weight_sum DESC').format(table_name)
+            r = ObjectTags.objects.raw(sql)
+            for obj1 in r:
+                if obj1.content_object:
+                    userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
 
         minTagCount, maxTagCount = False, 0
 
