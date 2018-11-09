@@ -9,4 +9,4 @@ class ViewsTest(TestCase):
         self.project = mommy.make(PM_Project)
 
     def test_pub(self):
-        self.get_check_200('PManager.viewsExt.public.Public.MainPage')
+        self.get_check_200('Public.mainPage')

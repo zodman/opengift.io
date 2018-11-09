@@ -231,7 +231,6 @@ class PM_User(models.Model):
               """
         cursor = connection.cursor()
         sql = qText % table_name
-        assert False, sql
         cursor.execute(sql)
 
         for x in cursor.fetchall():

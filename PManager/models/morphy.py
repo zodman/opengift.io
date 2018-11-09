@@ -1,6 +1,5 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from pattern.en import lemma, tag
 import re
 
 class trackMorphy():
@@ -10,6 +9,8 @@ class trackMorphy():
 
     # parse text and returns array of tags
     def parseTags(self, text=u''):
+
+        from pattern.en import lemma, tag
 
         if text:
             self.text = text
