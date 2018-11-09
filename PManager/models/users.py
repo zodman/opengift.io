@@ -146,16 +146,23 @@ class PM_User(models.Model):
 
     @property
     def account_total(self):
+        from PManager.models import Credit
+
+        table_name = Credit._meta.db_table
+
+        if not Credit.objects.filter(user_id=self.user.id).count() > 0:
+            return 0
         qText = """
                   SELECT
-                      sum(CASE WHEN user_id=""" + str(
-            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where user_id=""" + str(
+                      sum(
+                        CASE WHEN user_id=""" + str(
+            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM %s where user_id=""" + str(
             self.user.id) + """
                       or payer_id=""" + str(self.user.id) + """
               """
         cursor = connection.cursor()
-
-        cursor.execute(qText)
+        sql = qText % table_name
+        cursor.execute(sql.strip())
 
         for x in cursor.fetchall():
             if not x[0]:
@@ -208,20 +215,24 @@ class PM_User(models.Model):
             self.save()
 
     def account_total_project(self, project):
+        from PM_Project.models import Credit
         if not project:
             return 0
+
+        table_name = Credit._meta.db_table
 
         qText = """
                   SELECT
                       sum(CASE WHEN user_id=""" + str(
-            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM pmanager_credit where (user_id=""" + str(
+            self.user.id) + """ THEN value ELSE -value END) as summ, user_id FROM %s where (user_id=""" + str(
             self.user.id) + """
                       or payer_id=""" + str(self.user.id) + """)
                       AND project_id=""" + str(project.id) + """
               """
         cursor = connection.cursor()
-
-        cursor.execute(qText)
+        sql = qText % table_name
+        assert False, sql
+        cursor.execute(sql)
 
         for x in cursor.fetchall():
             if not x[0]:

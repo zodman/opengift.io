@@ -28,7 +28,9 @@ def get_head_variables(request):
     }
 
     if request.user.is_authenticated():
-        result['account_total'] = request.user.get_profile().account_total
+        profile = request.user.get_profile()
+        if profile:
+            result['account_total'] = profile.account_total
         projects = request.user.get_profile().getProjects(only_managed=False, locked=True).order_by('name')
         result['projects'] = []
         for project in projects:
