@@ -1,88 +1,48 @@
-# README #
+# OpenGift.io
 
-This README would normally document whatever steps are necessary to get your application up and running.
+GET SOFTWARE 
+DEVELOPMENT SERVICES  
+UP TO 10 TIMES CHEAPER 
+AND FASTER  
 
-### What is this repository for? ###
+#### DEVELOPMENT StarterKIT
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+1. Download VirtualBox ( https://www.virtualbox.org/wiki/Downloads )
 
-### How do I get set up? ###
+2. Download Vagrant ( http://www.vagrantup.com/downloads.html )
 
-* Summary of set up
+3. Download git ( http://git-scm.com/ )
 
-####Для установки локальной дев копии нужно:
-
-1. Установить VirtualBox ( https://www.virtualbox.org/wiki/Downloads )
-
-2. Установить Vagrant ( http://www.vagrantup.com/downloads.html )
-
-3. Установить git ( http://git-scm.com/ )
-
-4. В терминале (В Windows можно воспользоваться Git Bash )
-   перейдите в папку с проектами. И скачайте репозиторий.
-   Например:
+4. Clone the project
 
         cd /home/user/Projects
         git clone git@github.com:opengift-io/opengift.io.git opengift
 
-5. Перейдите в папку с проектом и запустите виртуальную машину (В первый раз должен будет скачаться образ.
+5. Start vagrant up
 
-        vagrant up
+        vagrant up --provision
 
-6. Для работы нужно указать что opengift.dev является именем ресурса 192.168.33.13.
-    Проще всего сделать это в файле hosts.
-    
-    **Linux**
-    
-    Добавьте строчку
+this will install all packages necesary to run from zero  
+take a look to provision.sh to see all deps
+** vagrant provision will drop your database and recreate a new one **
 
-        192.168.33.13     opengift.srv
+6.- Run the runserver
 
-    в файл /etc/hosts
-
-     **Windows**
-     
-     Откройте командную строку в режиме администратора (Правой кнопкой на ярлыке - Запустить от имени администратора).
-     Выполните
-
-        notepad %WINDIR%\System32\drivers\etc\hosts
-
-    Добавьте строчку
-
-        192.168.33.13     opengift.srv
-
-7. Когда виртуальная машина запустится выполните в bash терминале
-
-        vagrant provision
-
-8. Rename settings file
-
-        cp /vagrant/tracker/settings.py.dist /vagrant/tracker/settings.py
-
-9. Apply migrations if necessarily
-
+        vagrant ssh 
         cd /vagrant
-        python manage.py schemamigration PManager --auto
-        python manage.py migrate PManager
-
-10. Откройте в браузере страницу [opengift.srv](http://opengift.srv)
+        python manage.py runserver 0:8000
 
 
+Open your firefox/chrome with http://localhost:8000
 
-# for work from zero
+you can visit the admin http://localhost:8000/admin/ 
+access: admin/admin
 
+its done ready to hack!
 
-```
-mkvirtualenv env --python /usr/bin/python2.7
-git clone git@github.com:opengift-io/opengift.io.git opengift
-cd opengift
-pip install requirements.txt
-python manage.py syncdb --all
-python manage.py migrate --fake
+** Plus run new unittest:
+        fab test
 
-```
-
-
-
+## TODO:
+- [ ] add running async_server (websockets) 
+- [ ] run blockchain  local (wallet didnt work right now) So when register a user by pass the wallet

@@ -18,3 +18,5 @@ npm-debug.log.*
 tags
 
 tracker/local_settings.py
+.coverage
+htmlcov

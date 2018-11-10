@@ -1383,6 +1383,7 @@ class taskAjaxManagerCreator(object):
                 if tasks:
                     redisSendTaskAdd(tasks[0])
                     return json.dumps(tasks[0])
+                return json.dumps({'errorText': 'No tasks created'})
         else:
             return json.dumps({'errorText': 'Empty task name'})
 

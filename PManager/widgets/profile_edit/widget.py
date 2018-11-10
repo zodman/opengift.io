@@ -67,9 +67,12 @@ def widget(request, headerValues, ar, qargs):
     try:
         if profile.avatar:
             profile.avatar = str(profile.avatar).replace('PManager', '')
-
-        timers = PM_Timer.objects.raw(
-            'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer WHERE `user_id`=' + str(int(user.id)))
+        timers = []
+        if PM_Timer.objects.filter(user=user).exists():
+            table_name = PM_Timer._meta.db_table
+            sql = ('SELECT SUM(`seconds`) as summ, id, user_id'
+                   'from %s WHERE `user_id`=%s').format(table_name)
+            timers = PM_Timer.objects.raw(sql, [int(user.id)])
         sum = 0
         if timers:
             for timer in timers:

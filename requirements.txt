@@ -53,3 +53,5 @@ pytelegrambotapi
 # missing modules
 pymorphy
 fabric
+-e git+https://github.com/zodman/django-test-plus/#egg=djang-test-plus
+coverage

@@ -531,12 +531,19 @@ def projectDetailPublic(request, project_id):
 
     for user in project.getUsers():
         taskTagCoefficient = 0
-        for obj1 in ObjectTags.objects.raw(
-                                                'SELECT SUM(`weight`) as weight_sum, `id` from PManager_objecttags WHERE object_id=' + str(
-                                            user.id) + ' AND content_type_id=' + str(
-                            ContentType.objects.get_for_model(User).id) + ''):
-            taskTagCoefficient += (obj1.weight_sum or 0)
-            break
+        table_name = ObjectTags._meta.db_table
+        content_type = ContentType.objects.get_for_model(User).id
+
+        objects_usertagged = ObjectTags.objects.filter(object_id=user.id, content_type_id=content_type)
+        if objects_usertagged.exists():
+            sql = (' SELECT SUM(`weight`) as weight_sum, `id` from {} '
+                   ' WHERE object_id=%s '
+                   ' AND content_type_id=%s').format(table_name)
+            sql_data = [user.id,  content_type]
+            object_tags = ObjectTags.objects.raw(sql, sql_data)
+            for obj1 in object_tags:
+                taskTagCoefficient += (obj1.weight_sum or 0)
+                break
 
         setattr(user, 'rating', taskTagCoefficient)
         if user.get_profile().isGuest(project):

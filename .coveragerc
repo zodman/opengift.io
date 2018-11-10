@@ -1,0 +1,12 @@
+[run]
+branch = true
+omit = */tests/*, */migrations/*, */urls.py, *settings*, */wsgi.py, manage.py, fabfile.py, tracker/local_settings.py, *autofixtures*, *translation*
+source = .
+
+[report]
+show_missing = true
+
+exclude_lines = 
+    pragma: no cover
+    def __str__
+
