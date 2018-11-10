@@ -1,8 +1,7 @@
 # -*- coding:utf-8 -*-
 # Django settings for tracker project.
 __author__ = 'Rayleigh'
-
-import os.path
+import os
 from pipeline_settings import *
 # SITE ID
 # todo: ADD PURPOSE TO THIS
@@ -46,11 +45,7 @@ USE_TZ = True
 GIFT_USD_RATE = 0.2
 # ####################### PATHS_SETTINGS ###############################
 # ROOT PATH
-
-PROJECT_ROOT = '/vagrant/'
-import os
-if not os.path.exists(PROJECT_ROOT):
-    PROJECT_ROOT =  os.path.dirname(os.path.dirname(os.path.abspath(__file__))) +'/'
+PROJECT_ROOT =  os.path.dirname(os.path.dirname(os.path.abspath(__file__))) +'/'
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
 MEDIA_ROOT = PROJECT_ROOT + 'tracker/media/'
@@ -87,7 +82,7 @@ TEMPLATE_DIRS = (
     PROJECT_ROOT + 'wiking/templates',
     PROJECT_ROOT + 'PManager/widgets'
 )
-assert False, TEMPLATE_DIRS
+
 
 # ######################### DJANGO CONFIGURATIONS ################################
 # List of finder classes that know how to find static files in
