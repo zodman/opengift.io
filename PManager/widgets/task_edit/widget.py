@@ -12,6 +12,7 @@ from django.http import HttpResponse
 
 
 def widget(request, headerValues, ar, qargs):
+    """ Edit task POST Method """
     widgetManager = TaskWidgetManager()
     post = request.POST
     deadline = post.get('deadline', time.strftime('%d.%m.%Y'))

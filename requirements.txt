@@ -36,7 +36,7 @@ scipy==0.13.3
 tornado-redis==2.4.1
 virtualenv==1.11.6
 wsgiref==0.1.2
-model_mommy
+model_mommy==1.2.6
 robot
 robotframework==2.8.7
 robotframework-selenium2library==1.6.0
@@ -50,3 +50,8 @@ django-yandex-money
 django-notify
 pika==0.11.2
 pytelegrambotapi
+# missing modules
+pymorphy
+fabric
+-e git+https://github.com/zodman/django-test-plus/#egg=djang-test-plus
+coverage

@@ -102,16 +102,15 @@
                        
                        <hr>
 
-            {# -------- ТЕГИ #}
-{#                       <h5>Тэги:</h5>#}
-{#                       <ul class="add-tags">#}
-{#                           {% for tag in task_edit.post.tags %}#}
-{#                               <li><span>{{ tag.tag }}#}
-{#                                   &nbsp;<a class="js-icon-remove fa fa-times"></a>#}
-{#                               </span></li>#}
-{#                           {% endfor %}#}
-{#                            <li><input name="additional_tags" type="text" /></li>#}
-{#                       </ul><!--add-tags-->#}
+                       <h5>Tags:</h5>
+                       <ul class="add-tags">
+                           {% for tag in task_edit.post.tags %}
+                               <li><span>{{ tag.tag }}
+                                   &nbsp;<a class="js-icon-remove fa fa-times"></a>
+                               </span></li>
+                           {% endfor %}
+                            <li><input name="additional_tags" type="text" /></li>
+                       </ul><!--add-tags-->
 
   						<hr>
 

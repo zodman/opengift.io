@@ -23,12 +23,14 @@ def get_head_variables(request):
         'is_detail_page': 'detail' in currentPath or 'wiki' in currentPath or 'project' in currentPath,
         'referrer': request.GET.get('r', None),
         'taskdrafts_cnt': draft_cnt(request.user),
-        'extends': 'public/index.html' if request.META['HTTP_HOST'] == 'opengift.io' else 'main/base.html',
-        'is_opengift': request.META['HTTP_HOST'] == 'opengift.io'
+        'extends': 'public/index.html' if request.META.get('HTTP_HOST') == 'opengift.io' else 'main/base.html',
+        'is_opengift': request.META.get('HTTP_HOST') == 'opengift.io'
     }
 
     if request.user.is_authenticated():
-        result['account_total'] = request.user.get_profile().account_total
+        profile = request.user.get_profile()
+        if profile:
+            result['account_total'] = profile.account_total
         projects = request.user.get_profile().getProjects(only_managed=False, locked=True).order_by('name')
         result['projects'] = []
         for project in projects:
