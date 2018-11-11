@@ -3,7 +3,7 @@ sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password passwor
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password root'
 
 # install deps
-sudo apt install -y --force-yes python-dev mysql-server libxml2-dev git libmysqlclient-dev python-pip mysql-server git git-core curl software-properties-common python-setuptools  python-docutils libxml2-dev libxslt-dev redis-server
+sudo apt install -y --force-yes python-dev mysql-server libxml2-dev git libmysqlclient-dev python-pip mysql-server git git-core curl  software-properties-common python-setuptools python-docutils libxml2-dev libxslt-dev redis-server 
 # install nodejs
 wget -qO- https://deb.nodesource.com/setup_10.x | sudo bash -
 sudo  apt install -y nodejs 
