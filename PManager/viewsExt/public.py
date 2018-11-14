@@ -9,6 +9,25 @@ from django.utils import timezone
 
 class Public:
     @staticmethod
+    def credits_hackathon(request, need_inverse=False):
+
+        now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
+        hackathons = []
+        for h in PM_Hackathon.objects.filter(date__lt=now).order_by('date'):
+            setattr(h, 'winners', h.hackathon_winners.order_by('sort'))
+            hackathons.append(h)
+
+        c = RequestContext(request, {
+            'users': PM_User.objects.filter(hackathon_reg_date=datetime.datetime(2018, 11, 3, 13, 0, 0)),
+            'user_registered': request.user.is_authenticated()
+                               and request.user.get_profile().hackathon_reg_date
+                               and request.user.get_profile().hackathon_reg_date > now,
+            'hackathons': hackathons,
+            'need_inverse': need_inverse
+        })
+        return HttpResponse(loader.get_template('public/credits_hackathon.html').render(c))\
+
+    @staticmethod
     def hackathon(request, need_inverse=False):
 
         now = timezone.make_aware(datetime.datetime.now(), timezone.get_default_timezone())
