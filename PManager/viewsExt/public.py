@@ -37,7 +37,7 @@ class Public:
             hackathons.append(h)
 
         c = RequestContext(request, {
-            'users': PM_User.objects.filter(hackathon_reg_date=datetime.datetime(2018, 11, 3, 13, 0, 0)),
+            'users': PM_User.objects.filter(hackathon_reg_date=datetime.datetime(2018, 12, 1, 13, 0, 0)),
             'user_registered': request.user.is_authenticated()
                                and request.user.get_profile().hackathon_reg_date
                                and request.user.get_profile().hackathon_reg_date > now,
@@ -46,7 +46,6 @@ class Public:
         })
         return HttpResponse(loader.get_template('public/hackathon.html').render(c))
 
-
     @staticmethod
     def hackathon_register(request):
 
@@ -54,7 +53,7 @@ class Public:
         if request.POST.get('stack', ''):
             from PManager.viewsExt.tools import emailMessage
             prof = request.user.get_profile()
-            prof.hackathon_reg_date = datetime.datetime(2018, 11, 3, 13, 0, 0)
+            prof.hackathon_reg_date = datetime.datetime(2018, 12, 1, 13, 0, 0)
             prof.hackathon_registered = request.POST.get('stack', '')
             prof.save()
 

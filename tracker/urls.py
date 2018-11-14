@@ -86,7 +86,7 @@ urlpatterns = patterns('',
                        url(r'^opengifters/(?P<user_id>[0-9_]+)/', Public.backerProfile),
                        url(r'^profile/edit/', MainPage.indexRender,
                            {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile', 'template': 'new'}),
-                       # Proyect URLS {{{
+                       # Project URLS {{{
                        url(r'^project/(?P<project_id>[0-9_]+)/server-setup', project_server_setup),
                        url(r'^project/(?P<project_id>[0-9_]+)/server-status', project_server_status),
                        url(r'^project/(?P<project_id>[0-9_]+)/public/', projectDetailPublic),
