@@ -65,7 +65,7 @@ class Public:
                         'name': request.user.first_name + ' ' + request.user.last_name
                     }
                 },
-                'OpenGift Hackathon registration'
+                'Credits Hackathon registration'
             )
 
             message.send([request.user.email])
