@@ -169,25 +169,27 @@
 
     <section class="u-py-100 u-h-100vh u-flex-center bg-white">
         <div class="container">
-
+            <div align="center">
+                <div class="u-fs-20 u-fw-500 u-lh-2"><b>OpenGift presents</b></div>
+                <h2 class="display-6 u-fw-600 text-dark u-mb-0 u-ff-os">
+                    <a href="https://credits.com/" target="_blank"><img style="position: relative; top: -5px; left: -7px;" src="/static/promo/img/partners/credits.png" height="60px" /></a>
+                </h2>
+                <div class="u-fs-24 u-fw-500 u-lh-2 text-dark u-ff-os fw-normal">
+                    <div class="u-mt-10 u-mb-50">
+                        <p>The total prize pool of the competition is <b>USD 10,000</b> worth of Credits (CS) tokens <br>according to price of 6th January, 2019.
+                        </p>
+                    </div>
+                </div>
+            </div>
             <div class="row">
-                <div class="col-lg-7 u-mt-80 text-center u-pr-35">
+                <div class="col-lg-7 text-center u-pr-35">
                    <!-- <p class="u-fs-22 text-dark u-lh-1_8 u-mb-40">
                         <a target="_blank" href="https://www.facebook.com/OpenGift.io/" class="icon fa fa-facebook"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
                         <a target="_blank" href="https://github.com/opengift-io/" class="icon fa fa-github"></a>
                     </p> -->
-                     <div class="u-fs-20 u-fw-500 u-lh-2"><b>OpenGift presents</b></div>
-                    <h2 class="display-6 u-fw-600 text-dark u-mb-0 u-ff-os">
-                        <a href="https://credits.com/" target="_blank"><img style="position: relative; top: -5px; left: -7px;" src="/static/promo/img/partners/credits.png" height="60px" /></a> online-hackathon<br />
-                    </h2>
-                <div class="u-fs-18 u-fw-500 u-lh-2 text-dark u-mb-40 u-ff-os fw-normal">
-                    <div class="u-mt-10 u-mb-30">
-                        <p>The total prize pool of the competition is <b>USD 10,000</b> worth of Credits (CS) tokens according to price of 6th January, 2019.
-                            <br /><span class="u-fs-24 u-fw-500 u-lh-2"> </span></p>
-                    </div>
+
                     <img src="/static/img/prize.png" alt="Credits Developers Online Hackathon">
-                </div>
 
 {#                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">#}
 {#                        <img src="/static/img/languages/005-python.png" style="width: 40px"/>#}
@@ -202,9 +204,6 @@
                     <p><a href="#current" style="display: none;" class="js-current-task-btn btn btn-primary">Current task</a></p>
                 </div> <!-- END col-lg-6-->
                 <div class="col-lg-5 text-center">
-                    <br/>
-                    <br/>
-                    <br/>
 
                     <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
                         <div class="h4 fw-normal">The hackathon starts</div>
@@ -250,7 +249,7 @@
                         {% else %}
                             <a href="{% if request.user.is_authenticated %}/hackathon_register/{% else %}/login/?backurl=/hackathon_register/{% endif %}"
                                id="registerhackathonpage" style="background-color: #2a2a2a"
-                               class="btn btn-secondary m-2 px-md-5 py-3 green-gr">
+                               class="btn btn-secondary m-2 px-md-5 py-3 orange-gr">
                                 REGISTER FOR HACKATHON
                             </a>
                         {% endif %}
@@ -280,13 +279,13 @@
                     {#                        What’s an OpenGift + Credits hackathon?#}
                     {#                    </h2>#}
 
-                    <p class="u-fs-18 u-fw-500 u-lh-2 u-mb-30">
+                    <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-30">
                         To all the Credits developers community out there and everyone who wishes to try out their skills at using the world’s fastest and most scalable blockchain platform!</p>
-                    <p class="u-fs-18 u-fw-500 u-lh-2 u-mb-30">
+                    <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-30">
                         We are glad to announce the first Credits Developers Online Hackathon starting on December, 1.
                     </p>
 
-                    <a id="tghackathon" href="https://t.me/creditstechnical " class="btn btn-secondary py-3 u-fs-18 u-fw-500 green-gr">
+                    <a id="tghackathon" href="https://t.me/creditstechnical " class="btn btn-secondary py-3 u-fs-20 u-fw-500 green-gr">
                         Join us in telegram to stay tuned!
                     </a>
 
@@ -302,34 +301,37 @@
             </div>
         </div>
     </section>
-    <section class="bg-dark u-pt-50 u-pb-50">
+    <section class="u-pt-100 u-pb-100" style="
+    background: #2c364c url('/static/img/webinars.jpg') no-repeat fixed;
+    background-position: center;
+    background-size: cover;">
         <div class="container">
 
             <div class="row">
                 <div class="col-md-12 u-pl-50 text-center text-light">
-                    <h2 class="mb-4 u-fw-500 u-lh-1_8 text-primary">
+                    <h2 class="mb-4 u-fw-500 u-lh-2">
                         Technical Webinars helps you further<br> understand hackathon's basic technology
-                    </h2>
-                    <p class="u-fs-24 u-mb-30">Online sessions will be conducted via official Twitch channel and all videos will be uploaded to Youtube channel.</p>
+                    </h2><div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                    <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-50">Online sessions will be conducted via official Twitch channel and all videos will be uploaded to Youtube channel.</p>
 
                     <div class="row u-fs-24" align="center">
                         <div class="col-md-4">
-                            <h3 class="text-primary">15th of November</h3>
-                            <p>How to use Credits API</p>
-                           <a target="_blank" href="https://www.twitch.tv/creditscom" class="btn btn btn-rounded btn-white py-2">
+                            <h6 class="text-primary">15th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">How to use Credits API</p>
+                           <a target="_blank" href="https://www.twitch.tv/creditscom" class="btn btn btn-rounded orange-gr py-2">
                                 Watch
                             </a>
                         </div>
                         <div class="col-md-4">
-                            <h3 class="text-primary">22th of November</h3>
-                            <p>Development of smart contracts using Credits platform</p>
+                            <h6 class="text-primary">22th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of smart contracts using Credits platform</p>
 {#                            <a target="_blank" href="https://youtu.be/BLo7aBDC5pQ" class="btn btn btn-rounded btn-white py-2">#}
 {#                                Watch#}
 {#                            </a>#}
                         </div>
                         <div class="col-md-4">
-                            <h3 class="text-primary">29th of November</h3>
-                            <p>Development of decentralized applications using Credits platform</p>
+                            <h6 class="text-primary">29th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of decentralized applications using Credits platform</p>
                         </div>
                     </div>
 
@@ -405,189 +407,434 @@ Let’s set this weekend on fire! Good luck!
         </div>
     </section>
 
-    <section class="u-mt-50 u-pt-0 u-pb-0">
+    <section class="u-pt-0 u-pb-0 u-mb-0 u-mt-0">
         <div class="container">
             <div class="row">
-                <div class="col-md-6 ">
-                    <div class="container">
-                        <h2 class="h1 u-mb-30">
-                            Technical task requirements
-                        </h2>
-                        <ul class="u-list">
-                            <li>Make solution open-sourced and publish it in a dedicated <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">repository on Credits Github</a>;</li>
-                            <li>The final result needs to match the definition of a minimal viable product (MVP) -
-                                <a href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a> ;</li>
-                            <li>Final result of your development should interact with Credits blockchain - send transactions, deploy smart contracts and be connected with our network;</li>
-                            <li>You should use the latest software version. Probably it will be Testnet 3.0 release. You will be available to check exact information in <a href="https://t.me/creditstechnical" target="_blank">Credits Technical chat</a>.
-                                <a href="https://developers.credits.com/en/Articles/11" target="_blank">Link for download</a>.</li>
-                        </ul>
+
+                <div class="col-lg-6 col-md-6 u-mb-50 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/requirements.svg" alt="Price">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30">Technical task requirements</h4>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Make solution open-sourced and publish it in a dedicated <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">repository on Credits Github</a>;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>The final result needs to match the definition of a minimal viable product (MVP) -
+                                    <a href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a> ;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Final result of your development should interact with Credits blockchain - send transactions, deploy smart contracts and be connected with our network;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>You should use the latest software version. Probably it will be Testnet 3.0 release. You will be available to check exact information in <a href="https://t.me/creditstechnical" target="_blank">Credits Technical chat</a>.
+                                    <a href="https://developers.credits.com/en/Articles/11" target="_blank">Link for download</a>.</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="container">
-                        <h2 class="h1 u-mb-30">Development process</h2>
-                        <p>There are two main ways to focus on during the hackathon:</p>
-                        <ul>
-                            <li>
-                                Development of decentralized applications for the industries including, but not limited to Internet of Things, banking, logistics, insurance, payments, medicine, copyright protection, industrial and consumer goods. You are able to check some ideas on Credits website - tab “Use Cases”.
-                            </li>
-                            <li>
-                                Development of useful infrastructure services which will be helpful for future of Credits ecosystem, for example: web wallet, hardware wallet, blockchain explorer, decentralized exchange, various cross-chain and atomic swaps decisions, escrow, etc.
-                            </li>
-                        </ul>
+                </div> <!-- END col-lg-4 col-md-6 -->
+
+                <div class="col-lg-6 col-md-6 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/process.svg" alt="Speed">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30">Development process</h4>
+                            <p>There are two main ways to focus on during the hackathon:</p>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>
+                                    Development of decentralized applications for the industries including, but not limited to Internet of Things, banking, logistics, insurance, payments, medicine, copyright protection, industrial and consumer goods. You are able to check some ideas on Credits website - tab “Use Cases”.
+                                </li>
+                                <li><i class="fa fa-check mr-2 color-primary"></i>
+                                    Development of useful infrastructure services which will be helpful for future of Credits ecosystem, for example: web wallet, hardware wallet, blockchain explorer, decentralized exchange, various cross-chain and atomic swaps decisions, escrow, etc.
+                                </li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
+                </div> <!-- END col-lg-4 col-md-6 -->
+
+
             </div>
         </div>
     </section>
-    <section class="u-mt-50 u-pt-50 u-pb-50 text-white bg-dark">
+
+
+
+        <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/questions-pattern.svg') repeat fixed;background-position: center;
+    background-size: 20%;">
         <div class="container">
-            <div class="row">
+            <h2 class="mb-4 u-fw-500 u-lh-2 " align="center">What need to be done on GitHub?</h2>
+            <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+            <div class="row align-items-center">
+
+                <div class="col-md-6 mb-5" align="center">
+                    <img src="/static/img/star.svg" alt="What need to be done on GitHub">
+                </div> <!-- END col-md-6 -->
                 <div class="col-md-6">
                     <div class="container">
-                        <h2 class="h1 u-mb-30">
-                            What need to be done on GitHub?
-                        </h2>
-                        <ul class="u-list">
-                            <li>Create a fork of
+                        <ul class="list-unstyled">
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a fork of
                                 <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">Third party Integrations and Solutions</a>;</li>
-                            <li>Create a branch in you forked repository (the branch name must match your project name);</li>
-                            <li>Develop your project and put the source code in your forked repository. Act according to deadlines!</li>
-                            <li>Put you project in separate directory (the name must match the project name);</li>
-                            <li>When the project will be finished, create a pull request to merge your branch with master brunch</li>
-                            <li>After the pull request will be confirmed and and possibly discussed, you project will be added to Credits repository.
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a branch in you forked repository (the branch name must match your project name);</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Develop your project and put the source code in your forked repository. Act according to deadlines!</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Put you project in separate directory (the name must match the project name);</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>When the project will be finished, create a pull request to merge your branch with master brunch</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>After the pull request will be confirmed and and possibly discussed, you project will be added to Credits repository.
                                 If your project is not finished, but you make a pull request before the deadline, your project will be added to the repository</li>
                         </ul>
                     </div>
                 </div>
-                <div class="col-md-6">
-                    <div class="container">
-                        <h2 class="h1 u-mb-30">
-                            Hackathon schedule
-                        </h2>
-                        <ul class="u-list">
-                            <li>1 step - registration. Deadline - 00:00 UTC, December, 9. All submissions are done through OpenGift platform.</li>
 
-                            <li>2 step - concept creation. Deadline - 00:00 UTC, December, 9. During this stage you should create a brief introduction of your future development. It must contain the following points - dApps/service name, estimated target audience, problems which are solved, estimated MVP functionality, final release functionality. You can also add any information which helps to deeper understand your concept. This information should be presented in pdf, ppt or pptx format and uploaded to OpenFift website.
-
-                            <li>3 step - development process. Deadline - 00:00 UTC,December, 30. By the end of this stage you should publish source code of your development in dedicated Github repository and send link to website or mobile app for testing of your development in real time mode. We will chose ten finalists at the end of 3rd round for participation in 4th round.
-
-                            <li>4 step - presentation. Deadline - 00:00 UTC, January, 6, 2019. During this stage you should create a short video - 5 minutes max - containing the  information about your development - concept, process of interaction with users, key features and benefits. All information should be presented in most clear and understandable way.</li>
-                        </ul>
-                    </div>
-                </div>
             </div>
         </div>
     </section>
-    <section class="u-mt-50 u-pt-0 u-pb-0">
+
+<section class="u-py-60 relative" style="background: #eef8f5;">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h2 class="mb-4 u-fw-500 u-lh-2 text-center">Hackathon schedule</h2>
+
+                <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+                <style>
+                    ol.step-circles {
+                        list-style: none;
+                        counter-reset: li;
+                        padding: 50px 0 0
+                    }
+                    ol.step-circles>li {
+                        position: relative;
+                        padding: 50px 20px 20px 20px;
+                        border: 1px solid #bee4d7;
+                        margin-bottom: 60px
+                    }
+                    ol.step-circles>li:before {
+                        position: absolute;
+                        display: block;
+                        content: counter(li)!important;
+                        counter-increment: li;
+                        line-height: 70px;
+                        text-align: center;
+                        border-radius: 50%;
+                        color: #ffffff;
+                        font-size: 36px;
+                        box-sizing: border-box;
+                        left: 50%;
+                        top: -35px;
+                        margin-left: -35px;
+                        outline: 6px solid #eef8f5;
+                        background: #dff1eb;
+                        width: 70px;
+                        height: 70px;
+                    }
+                    ol.step-circles>li:after {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        bottom: -28px;
+                        height: 20px;
+                        left: 50%;
+                        border-left: 1px solid #bee4d7;
+                    }
+                    ol.step-circles>li:nth-child(2):before {
+                        background: #bfe3d7;
+                    }
+                    ol.step-circles>li:nth-child(3):before {
+                        background: #9ed6c2;
+                    }
+                    ol.step-circles>li:nth-child(4):before {
+                        background: #6ec1a4;
+                    }
+                    ol.step-circles>li:last-child {
+                        margin-bottom: 0
+                    }
+                    ol.step-circles>li:last-child:after {
+                        display: none
+                    }
+                    @media (min-width:768px) {
+                        ol.step-circles>li {
+                            width: 50%;
+                            border-width: 0;
+                            margin-bottom: 0;
+                            padding: 0 80px 30px 0;
+                            text-align: right;
+                            min-height: 90px
+                        }
+                        ol.step-circles>li:before {
+                            right: -35px;
+                            left: auto;
+                            top: -25px;
+                            z-index: 1;
+                        }
+                        ol.step-circles>li:after {
+                            border-left: 1px solid #bee4d7;
+                            top: 15px;
+                            right: 0;
+                            left: auto;
+                            bottom: 0;
+                            height: auto;
+                            width: 68px;
+                            border-right: 1px solid #bee4d7;
+                            border-top: 1px solid #bee4d7;
+                            border-left: 0;
+                            z-index: 0
+                        }
+                        ol.step-circles>li:nth-child(even) {
+                            margin-left: 50%;
+                            padding: 0 0 30px 80px;
+                            text-align: left
+                        }
+                        ol.step-circles>li:nth-child(even):before {
+                            left: 0;
+                            right: auto
+                        }
+                        ol.step-circles>li:nth-child(even):after {
+                            right: auto;
+                            left: 0;
+                            border-left-width: 1px;
+                            border-left-style: solid;
+                            border-right: 0;
+                            border-color:#bee4d7;
+                        }
+                        ol.step-circles>li:last-child {
+                            width: 100%!important;
+                            text-align: center!important;
+                            padding: 80px 0 0;
+                            margin: 0
+                        }
+                        ol.step-circles>li:last-child:before {
+                            left: 0;
+                            right: 0;
+                            margin: auto
+                        }
+                        ol.step-circles>li:last-child:after {
+                            display: block;
+                            height: 60px;
+                            width: 0;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            bottom: auto
+                        }
+                    }
+                </style>
+                <ol class="step-circles u-fs-16 u-fw-500 u-lh-2">
+                    <li><div class="tags-list">
+                        <span class="tag orange-gr text-white">1 step</span>
+                    </div>
+                        <h4 class="u-fw-500">Registration.</h4><p>Deadline - 00:00 UTC, December, 9. All submissions are done through OpenGift platform.</p></li>
+                    <li><div class="tags-list">
+                        <span class="tag orange-gr text-white">2 step</span>
+                    </div>
+                        <h4 class="u-fw-500">Concept Creation.</h4><p>Deadline - 00:00 UTC, December, 9. During this stage you should create a brief introduction of your future development. It must contain the following points - dApps/service name, estimated target audience, problems which are solved, estimated MVP functionality, final release functionality. You can also add any information which helps to deeper understand your concept. This information should be presented in pdf, ppt or pptx format and uploaded to OpenFift website.</p></li>
+                    <li><div class="tags-list">
+                        <span class="tag orange-gr text-white">3 step</span>
+                    </div>
+                        <h4 class="u-fw-500">Development Process.</h4><p>Deadline - 00:00 UTC,December, 30. By the end of this stage you should publish source code of your development in dedicated Github repository and send link to website or mobile app for testing of your development in real time mode. We will chose ten finalists at the end of 3rd round for participation in 4th round.</p></li>
+                    <li><div class="tags-list">
+                        <span class="tag orange-gr text-white">4 step</span>
+                    </div>
+                        <h4 class="u-fw-500">Presentation.</h4><p>Deadline - 00:00 UTC, January, 6, 2019. During this stage you should create a short video - 5 minutes max - containing the  information about your development - concept, process of interaction with users, key features and benefits. All information should be presented in most clear and understandable way.</p></li>
+
+                </ol>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+    <section class="">
         <div class="container">
             <div class="row">
-                <div class="col-md-6">
-                    <div class="container">
-                        <h2 class="h1 u-mb-30">
-                            Judging criteria
-                        </h2>
-                        <p>All process of selecting winners will be held by Credits developers team, the
-                            CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos.
-                            We will evaluate development according to below criteria</p>
-                        <ul class="u-list">
-                            <li>Applications need to match the needs of target audience</li>
-                            <li>Easy implementation process and ability to solve problems of target audience</li>
-                            <li>Creativity and innovative approach will be a huge benefit</li>
-                            <li>Opportunity to expansion and growth</li>
-                            <li>Quality and clarity of development code</li>
-                            <li>UX/UI</li>
-                            <li>Speed of interaction with users</li>
-                        </ul>
+
+                <div class="col-lg-6 col-md-6 u-mb-50 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/requirements.svg" alt="Price">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30"> Judging criteria</h4>
+                            <p>All process of selecting winners will be held by Credits developers team, the
+                                CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos.
+                                We will evaluate development according to below criteria</p>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>All process of selecting winners will be held by Credits developers team, the CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos. We will evaluate development according to below criteria</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Applications need to match the needs of target audience</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Easy implementation process and ability to solve problems of target audience</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Creativity and innovative approach will be a huge benefit</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Opportunity to expansion and growth</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Quality and clarity of development code</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>UX/UI</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Speed of interaction with users</li>
+                            </ul>
+                        </div>
                     </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="container">
-                        <h2 class="h1 u-mb-30">
-                            Useful links
-                        </h2>
-                        <p>General links</p>
-                        <ul class="u-list">
-                            <li>
- <a href="https://t.me/creditstechnical">Credits Technical Discussion chat</a> for questions and answers</li>
-	<li>
- <a href="https://developers.credits.com/en">Credits Developers Portal</a> for all technical documentation
- </li>
- <li><a href="https://www.youtube.com/channel/UC7kjX_jgauCqmf_a4fqLGOQ">Credits Youtube channel</a> for technical webinars</li>
-                        </ul>
-                        <p>Links to Credits platform use cases</p>
-                        <ul class="u-list">
-                            <li>
+                </div> <!-- END col-lg-4 col-md-6 -->
 
- <a href="https://credits.com/en/Home/case/1">Lending</a>
+                <div class="col-lg-6 col-md-6 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/process.svg" alt="Speed">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30">Useful links</h4>
+                            <p>General links</p>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
+                                <a href="https://t.me/creditstechnical">Credits Technical Discussion chat</a> for questions and answers</li>
+                                <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
+                                    <a href="https://developers.credits.com/en">Credits Developers Portal</a> for all technical documentation
+                                </li>
+                                <li class="u-mb-30"><i class="fa fa-check mr-2 color-primary"></i><a href="https://www.youtube.com/channel/UC7kjX_jgauCqmf_a4fqLGOQ">Credits Youtube channel</a> for technical webinars</li>
+                            </ul>
+<p>Links to Credits platform use cases</p>
+                            <ul class="list-unstyled">
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/case/1">Lending</a>
 
- <a href="https://credits.com/en/Home/case/6">Bond issuance</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/case/6">Bond issuance</a>
 
- <a href="https://credits.com/en/Home/case/7">Stablecoin unit of account</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/case/7">Stablecoin unit of account</a>
 
- <a href="https://credits.com/en/Home/Industries/78">Insurance – Payment of Compensation</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/Industries/78">Insurance – Payment of Compensation</a>
 
- <a href="https://credits.com/en/Home/Industries/75">Delayed Departure Insurance</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/Industries/75">Delayed Departure Insurance</a>
 
- <a href="https://credits.com/en/Home/otras/5">Gambling</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/otras/5">Gambling</a>
 
- <a href="https://credits.com/en/Home/otras/1">Logistic sphere</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/otras/1">Logistic sphere</a>
 
- <a href="https://credits.com/en/Home/case/4">Goods origin</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/case/4">Goods origin</a>
 
- <a href="https://credits.com/en/Home/case/5">Copyright protection</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/case/5">Copyright protection</a>
 
- <a href="https://credits.com/en/Home/Industries/79">Medicine</a>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
 
- </li>
-	<li>
+                                <a href="https://credits.com/en/Home/Industries/79">Medicine</a>
 
- <a href="https://credits.com/en/Home/case/2">Loyalty programs</a>
-
- </li>
-                        </ul>
+                            </li>
+                            <li class="u-mb-10"><i class="fa fa-check mr-2 color-primary"></i>
+                                <a href="https://credits.com/en/Home/case/2">Loyalty programs</a>
+                            </li>
+                                </ul>
+                        </div>
                     </div>
-                </div>
+                </div> <!-- END col-lg-4 col-md-6 -->
+
+
             </div>
+
         </div>
     </section>
 
+<section class="u-pb-0 bg-gray-v2">
+    <div class="container">
+        <div class="row">
+
+            <div class="col-12 text-center">
+                <h2 class="mb-4 u-fw-500 u-lh-2 text-center">
+                    The Referee Team
+                </h2>
+
+                <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+
+            </div> <!-- END col-12-->
+        </div> <!-- END row-->
+
+        <div class="row align-items-left">
+            <div class="col-lg-4 col-md-12 mb-5">
+                <div class="with-hidden-text-wrapper">
+                    <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+
+                                <div style="border-radius: 50%; background-color:#ffffff;background: url('https://credits.com//uploads/ap/team//f4cce6d6860245599791093443a7a99a.png');  background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/chugunov-igor/" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+
+                                <h4 class="u-mb-10">
+                                    Eugeniy Butyaev
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    CTO at Credits.com
+                                </p>
+                            </div>
+                        </div> <!-- END row-->
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-lg-4 col-md-12 mb-5">
+                <div class="with-hidden-text-wrapper">
+                    <div class="with-hidden-text-wrapper-inner">
+                        <div class="row">
+                            <div class="col-md-5 user-img-wrapper">
+
+                                <div style="border-radius: 50%; background-color:#ffffff; background: url('https://credits.com//uploads/ap/team//51ca9345d1a946259776e6c1189ca2bc.jpg'); background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>
+                                <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
+                                    <li class="list-inline-item">
+                                        <a href="https://www.linkedin.com/in/sotiropouloskostas" target="_blank"><i
+                                                class="fa fa-linkedin"></i></a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="col-md-7">
+
+                                <h4 class="u-mb-10">
+                                    Konstantinos Sotiropoulos
+                                </h4>
+
+                                <p class="text-muted mb-0 u-fs-13">
+                                    Deputy CTO at Credits.com
+                                </p>
+                            </div>
+                        </div> <!-- END row-->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</section>
+
     {% if users %}
-    <section class="bg-gray-v2 u-pb-0 umb-0 ">
+    <section class="bg-gray-v2 u-pb-0 u-pt-0 ">
         <div class="container">
             <div class="row">
 
                 <div class="col-12 text-center">
-                    <h2 class="h1">
-                        Current hackathon developers
-                    </h2>
+                    <h2 class="mb-4 u-fw-500 u-lh-2 text-center">Current hackathon developers</h2>
 
                     <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
 
@@ -597,7 +844,7 @@ Let’s set this weekend on fire! Good luck!
             <div class="row align-items-left">
                 {% for dev in users %}
                     {% if not dev.user.is_superuser %}
-                    <div class="col-lg-4 col-md-12 mb-5">
+                    <div class="col-lg-4 col-md-12">
                         <div class="with-hidden-text-wrapper">
                             <div class="with-hidden-text-wrapper-inner">
                                 <div class="row">
@@ -629,161 +876,8 @@ Let’s set this weekend on fire! Good luck!
         </div>
     </section>
     {% endif %}
-    <section class="bg-gray-v2 u-pt-0">
-        <div class="container">
-            <div class="row">
 
-                <div class="col-12 text-center">
-                    <h2 class="h1">
-                        The Referee Team
-                    </h2>
 
-                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-
-                </div> <!-- END col-12-->
-            </div> <!-- END row-->
-
-            <div class="row align-items-left">
-                <div class="col-lg-4 col-md-12 mb-5">
-                    <div class="with-hidden-text-wrapper">
-                        <div class="with-hidden-text-wrapper-inner">
-                            <div class="row">
-                                <div class="col-md-5 user-img-wrapper">
-                                    <img class="w-100 rounded-circle images-grey u-mb-10"
-                                         src="https://credits.com//uploads/ap/team//f4cce6d6860245599791093443a7a99a.png"
-                                         alt="">
-
-                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-                                        <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/chugunov-igor/" target="_blank"><i
-                                                    class="fa fa-linkedin"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-7">
-
-                                    <h4 class="u-mb-10">
-                                        Eugeniy Butyaev
-                                    </h4>
-
-                                    <p class="text-muted mb-0 u-fs-13">
-                                        CTO at Credits.com
-                                    </p>
-                                </div>
-                            </div> <!-- END row-->
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-lg-4 col-md-12 mb-5">
-                    <div class="with-hidden-text-wrapper">
-                        <div class="with-hidden-text-wrapper-inner">
-                            <div class="row">
-                                <div class="col-md-5 user-img-wrapper">
-                                    <img class="w-100 rounded-circle images-grey u-mb-10" src="https://credits.com//uploads/ap/team//51ca9345d1a946259776e6c1189ca2bc.jpg"
-                                         alt="">
-
-                                    <ul class="list-inline social social-rounded social-default social-sm user-list-socials">
-                                        <li class="list-inline-item">
-                                            <a href="https://www.linkedin.com/in/sotiropouloskostas" target="_blank"><i
-                                                    class="fa fa-linkedin"></i></a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="col-md-7">
-
-                                    <h4 class="u-mb-10">
-                                        Konstantinos Sotiropoulos
-                                    </h4>
-
-                                    <p class="text-muted mb-0 u-fs-13">
-                                        Deputy CTO at Credits.com
-                                    </p>
-                                </div>
-                            </div> <!-- END row-->
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </section>
-    <section class="bg-gray-v2 u-pb-50 u-mb-0 {% if users %}u-pt-0{% endif %}">
-        <div class="container text-center">
-            <a name="winners"></a>
-            <h2 class="h1"> Previous hackathons winners</h2>
-        </div>
-    </section>
-    {% for hackathon in hackathons %}
-    <section class="bg-gray-v2 u-pb-0">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-12 text-center">
-                    <h2>
-                        Best of <a href="{{ hackathon.url }}">"{{ hackathon.name }}"</a>
-                    </h2>
-
-                    <div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-
-                    <p>{{ hackathon.text }}</p>
-                </div> <!-- END col-12-->
-            </div> <!-- END row-->
-
-            <div class="row align-items-left u-mb-30">
-                {% for winner in hackathon.winners %}
-
-                    <div class="col-lg-4 col-md-12 mb-5">
-                        <div class="with-hidden-text-wrapper">
-                            <div class="with-hidden-text-wrapper-inner">
-                                <div class="row">
-                                    <div class="col-md-5 user-img-wrapper relative">
-                                        {{ winner.winner.get_profile.avatarCircle|safe }}
-                                        <h4 class="place orange-gr" style="
-            width: 90px;
-            height: 30px;
-            line-height: 30px;
-            color:  #fff;
-            border-radius: 30px;
-            font-size: 13px;
-            margin: -20px auto 0;
-            position:  relative;
-            z-index: 6;
-        ">
-                                        {{ winner.sort }}
-                                        place</h4>
-
-{#                                        <span class="winner-score">{{ winner.score }} points</span>#}
-
-                                    </div>
-                                    <div class="col-md-7">
-                                        <h4 class="u-mb-10" style="overflow: hidden;height:30px;">
-                                            {{ winner.winner.first_name }} {{ winner.winner.last_name }}
-                                        </h4>
-                                        {% for param in winner.params %}
-                                            <div class="media" style="display: block;">
-                                                <div class="mr-3 d-flex u-w-70" style="text-align: right !important;">{{ param.name }}</div>
-
-                                                <div class="media-body">
-                                                    <span class="text-yellow">
-                                                        {% for ux in param.stars %}
-                                                            <i class="fa fa-star"></i>
-                                                        {% endfor %}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        {% endfor %}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                {% endfor %}
-            </div>
-        </div>
-    </section>
-    {% endfor %}
 
 {% endblock %}
 
