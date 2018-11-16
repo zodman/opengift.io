@@ -46,6 +46,7 @@ class Tags(models.Model):
     frequency = models.FloatField(default=0)
     parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
     allowed = models.BooleanField(default=False, blank=True)
+    is_public = models.BooleanField(default=False)
 
     weight = 0
 

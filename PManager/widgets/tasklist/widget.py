@@ -73,8 +73,10 @@ def get_task_tag_rel_array(task):
     arTagsId = [str(tagRel.tag.id) for tagRel in taskTagRelArray]
     return arTagsId
 
-
+import q; 
+@q
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, addFields=[]):
+    
 
     widgetManager = TaskWidgetManager()
     filter = {}
@@ -103,7 +105,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if 'allProjects' in filter:
             del filter['allProjects']
         project = None
-
+    """ # TODO: CHECK if milestone defined
     if pst('add-to-milestone'):
         tasksId = request.POST.getlist('task')
         mId = int(pst('milestone')) if pst('milestone') else 0
@@ -147,6 +149,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         return {'redirect': ''}
 
     elif pst('add-to-release'):
+    
         tasksId = request.POST.getlist('task')
         mId = int(pst('release')) if pst('release') else 0
         mName = pst('release_name')
@@ -177,8 +180,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 task.save()
 
         return {'redirect': ''}
-
-    elif pst('add-observers'):
+    
+    #elif pst('add-observers'):
+    """
+    if pst('add-observers'):
         #todo: объединить с выше
         tasksId = request.POST.getlist('task')
         mId = int(pst('observer')) if pst('observer') else 0

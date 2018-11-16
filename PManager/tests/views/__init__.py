@@ -46,4 +46,13 @@ class ViewsTest(TestCase):
             querystring = {'id': json_response.get("id")}
             full_url = "{}?{}".format(url, urlencode(querystring))
             self.get_check_200(full_url)
+
+    def test_task_handler_action_all(self):
+        with self.login(username='user1'):
+            post_data = {
+                'page':1,
+                'action':'all',
+                'project':0
+            }
+            self.post('task-handler', **post_data)
             
