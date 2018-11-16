@@ -3,6 +3,7 @@
 from django.shortcuts import HttpResponse, HttpResponseRedirect
 from django.db.models import Sum
 from PManager.models import PM_User, PM_Task, PM_Notice, PM_Timer, PM_User_Achievement, PM_Task_Message, Fee, Agreement
+from PManager.models import Tags
 from PManager import widgets
 from django.template import loader, RequestContext
 from PManager.viewsExt.tools import emailMessage
@@ -418,12 +419,10 @@ class MainPage:
             # 'userAchievement': userAchievement,
             'messages': aMessages,
             'messages_qty': messages_qty,
-
             'agreementForApprove': agreementForApprove,
             'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
                 'COOKIES'] and request.user.is_authenticated() else None
         })
-
         response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
         if bXls:
             response['Content-Disposition'] = 'attachment; filename="file.xls"'
@@ -630,7 +629,6 @@ class MainPage:
 
         for key in headerValues['SET_COOKIE']:
             set_cookie(response, key, headerValues['SET_COOKIE'][key])
-
         return response
 
     @staticmethod

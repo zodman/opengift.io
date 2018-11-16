@@ -20,6 +20,7 @@ class ViewsTest(TestCase):
     def test_pub(self):
         url = self.reverse(Public.mainPage)
         self.get_check_200(url)
+
     def test_create_project_task(self):
         with self.login(username='user1'):
             url = self.reverse(taskDetail)
@@ -63,6 +64,12 @@ class ViewsTest(TestCase):
             self.response_200(resp)
             json_response = json.loads(resp.content)
             self.assertTrue(json_response.get("project"), msg=json_response.get("project"))
+
+
+            # check if load
+            self.get_check_200(MainPage.projectWidgets)
+
+
             project_id = json_response.get("project").get("id")
             post_data = {
                 'page':1,

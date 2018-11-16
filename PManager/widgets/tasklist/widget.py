@@ -48,7 +48,6 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
         minTagCount, maxTagCount = False, 0
 
         for userId in userTagSums:
-
             if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
             if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
 

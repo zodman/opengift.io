@@ -11,6 +11,8 @@ from PManager.models import Credit, Specialty, RatingHits, PM_Project_Donation, 
     PM_Reminder, PM_Project_Achievement, Conditions, Test, Fee, TaskDraft, PaymentRequest, \
     RatingHistory, FineHistory, Release, Integration, SlackIntegration, PM_MilestoneChanges, \
     FaqQuestions, FaqQuestionsCategory, Tags
+from PManager.models import ObjectTags
+
 
 class UserRolesInline(admin.TabularInline):
     fieldsets = (
@@ -119,3 +121,7 @@ admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 from django.contrib.auth.admin import UserAdmin
 
 UserAdmin.list_display += ('id',)
+
+
+admin.site.register(ObjectTags)
+
