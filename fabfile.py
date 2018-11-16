@@ -8,7 +8,7 @@ def timing(ctx):
 @task
 def test(ctx):
     cmds = [
-        "coverage run --source=.  manage.py test PManager.ViewsTest --traceback",
+        "coverage run --source=.  manage.py test PManager.ViewsTest --traceback -v 3" ,
         "coverage report  --skip-covered",
         "coverage html  --skip-covered",
     ]

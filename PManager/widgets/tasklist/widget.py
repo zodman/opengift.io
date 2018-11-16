@@ -35,7 +35,7 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
             table_name = ObjectTags._meta.db_table
             content_type_id = ContentType.objects.get_for_model(User).id
             arTagsIds_arg = ', '.join(arTagsId)
-            sql = ('SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`'
+            sql = ('SELECT SUM(`weight`) as weight_sum, id '
                   ' from {} WHERE tag_id in (' + arTagsIds_arg + ') AND content_type_id=' + str(
                   content_type_id) +
                 strFilterUsers +
@@ -244,12 +244,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         }
         if arTaskOrderParams['group'] == 'milestones':
             filter['closed'] = False
-
         tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
-
         try:
             tasks = tasks['tasks']
-            tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status','tag')
+            tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status','tag', 'tags__tag')
             qty = tasks.count()
 
         except AttributeError:
@@ -532,7 +530,8 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
         'canInvite': cur_prof.isManager(project) if project and cur_prof else False,
-        'template': template
+        'template': template,
+        'tags': list(Tags.objects.filter(is_public=True).values('id', 'tagText')),
     }
 
     if cur_user.is_authenticated():

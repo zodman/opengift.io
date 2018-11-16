@@ -9,11 +9,10 @@
         });
     });
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
-    window.tags_list = {{ tags|jsonify|safe}};
-
+    window.tags_list = {{tasklist.tags|json|safe}};
 
 /*
-        */
+*/
 
 </script>
 
@@ -146,6 +145,18 @@
                                 <input type="text" placeholder="Search" class="search-input form-control{% if request.user.is_authenticated %} with-filter{% endif %}"/>
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
+                            
+                                               
+                        </td>
+                        <td>
+                         <select name="tag_selected" id="tag_list" class="search-input form-control input-large">
+                                    <option value=""> ---- </option>
+                                    {% for tag in tasklist.tags %}
+                                        <option value="{{tag.tagText}}"> {{tag.tagText}}</option>
+                                    {% endfor %}
+                                </select>
+
+
                         </td>
                         {% if request.user.is_authenticated and False %}
                         <td style="vertical-align:top; padding-right: 10px;">

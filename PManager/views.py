@@ -395,11 +395,8 @@ class MainPage:
                 t = loader.get_template('index_new.html')
             else:
                 t = loader.get_template('index.html')
-
         c.update({'widget_header': u" ".join(headerWidgets)})
         c.update({'widgets': widgetsInTabs})
-
-
         if not headerValues['FIRST_STEP_FORM']:
             cur_notice = PM_Notice.getForUser(
                 request.user,
@@ -423,7 +420,10 @@ class MainPage:
             'activeWidget': headerValues['COOKIES']['ACTIVE_WIDGET'] if 'ACTIVE_WIDGET' in headerValues[
                 'COOKIES'] and request.user.is_authenticated() else None
         })
-        response = HttpResponse(t.render(c), content_type=cType, mimetype=mimeType)
+
+        render = t.render(c)
+        response = HttpResponse(render, content_type=cType, mimetype=mimeType)
+       
         if bXls:
             response['Content-Disposition'] = 'attachment; filename="file.xls"'
 
