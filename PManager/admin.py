@@ -109,7 +109,11 @@ admin.site.register(FaqQuestionsCategory)
 admin.site.register(FaqQuestions)
 admin.site.register(PM_Hackathon)
 admin.site.register(PM_Hackathon_Winner)
-admin.site.register(Tags)
+class TagsAdmin(admin.ModelAdmin):
+    list_display = ("tagText", "is_public")
+    search_fields = ("tagText",)
+
+admin.site.register(Tags, TagsAdmin)
 admin.site.register(PM_MilestoneChanges, PM_MilestoneChangesInline)
 
 from django.contrib.auth.admin import UserAdmin
