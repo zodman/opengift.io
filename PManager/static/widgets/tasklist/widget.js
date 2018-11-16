@@ -981,7 +981,9 @@ var widget_tl, currentGroup;
                 if (!parent) {
                     var $task_el = $('<div></div>').addClass('task-wrapper')
                         .append(view.$el)
-                        .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Add subtask..."></div>')
+                        .append('<div class="add-task-input" style="display: none;">' +
+                        '<input maxlength="1000" class="input-block-level form-control" data-parent="' +
+                         view.model.id + '" type="text" placeholder="Add subtask..."></div>')
                         .append('<div class="subtask" style="display: none;"></div>');
 
                     if (is_new) {
