@@ -45,7 +45,7 @@
 
     <div class="tab-content" id="v-pills-tabContent">
       <div class="tab-pane fade  {% if not request.isPromo and not request.GET.wl %}active show{% endif %}" id="v-pills-Sign" role="tabpanel" aria-labelledby="v-pills-Sign-tab" aria-expanded="true">
-        <form name="authform" action="/login/" method="POST">
+        <form name="authform" action="" method="POST">
           {% csrf_token %}
           {% if request.GET.skip_recaptcha %}
           <input type="hidden" name="skip_recaptcha" value="Y" />
@@ -119,7 +119,7 @@
       </div>
 
       <div class="tab-pane fade {% if request.isPromo or request.GET.wl %}active show{% endif %}" id="v-pills-Register" role="tabpanel" aria-labelledby="v-pills-Register-tab" aria-expanded="false">
-        <form name="authform" action="/login/" method="POST">
+        <form name="authform" action="" method="POST">
           {% csrf_token %}
           {% if request.GET.skip_recaptcha %}
           <input type="hidden" name="skip_recaptcha" value="Y" />

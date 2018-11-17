@@ -8423,6 +8423,9 @@ select {
   position: relative;
 }
 
+.user-img-wrapper > div {
+  background-color: #ffffff !important;
+}
 .user-logo-wrapper {
   margin-top: -25px;
   display: block;
