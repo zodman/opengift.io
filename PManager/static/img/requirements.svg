@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="496px" height="496px" viewBox="0 0 496 496" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 50.2 (55047) - http://www.bohemiancoding.com/sketch -->
+    <title>warranty</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="warranty" fill-rule="nonzero">
+            <path d="M328,96 L56,96 C51.576,96 48,92.424 48,88 L48,40 C48,35.576 51.576,32 56,32 L328,32 C332.424,32 336,35.576 336,40 L336,88 C336,92.424 332.424,96 328,96 Z" id="Shape" fill="#5FBA97"></path>
+            <rect id="Rectangle-path" fill="#333333" x="320" y="112" width="16" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="320" y="144" width="16" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="320" y="176" width="16" height="16"></rect>
+            <path d="M0,0 L0,347.312 L116.688,464 L320.96,464 L320.96,448 L128,448 L128,416 L232,416 L232,272 L64,272 L64,336 L16,336 L16,16 L368,16 L368,160 L384,160 L384,0 L0,0 Z M112,436.688 L27.312,352 L112,352 L112,436.688 Z M80,288 L216,288 L216,400 L128,400 L128,336 L80,336 L80,288 Z" id="Shape" fill="#333333"></path>
+            <rect id="Rectangle-path" fill="#333333" x="96" y="304" width="104" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="144" y="336" width="56" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="144" y="368" width="56" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="48" y="112" width="256" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="48" y="144" width="256" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="48" y="176" width="256" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="48" y="208" width="152" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="48" y="240" width="152" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="216" y="208" width="16" height="16"></rect>
+            <rect id="Rectangle-path" fill="#333333" x="216" y="240" width="16" height="16"></rect>
+            <path d="M376,496 C374.632,496 373.256,495.648 372.032,494.944 L308.4,458.584 C276.08,440.112 256,405.512 256,368.288 L256,248 C256,243.576 259.576,240 264,240 L286.312,240 C319.752,240 350.792,223.392 369.344,195.56 C372.312,191.104 379.688,191.104 382.656,195.56 C401.208,223.392 432.248,240 465.688,240 L488,240 C492.424,240 496,243.576 496,248 L496,368.288 C496,405.512 475.92,440.112 443.6,458.584 L379.968,494.944 C378.744,495.648 377.368,496 376,496 Z" id="Shape" fill="#5FBA97"></path>
+            <path d="M427.72,430.808 L419.784,416.92 C437.184,406.968 448,388.336 448,368.288 L448,352 L464,352 L464,368.288 C464,394.064 450.096,418.016 427.72,430.808 Z" id="Shape" fill="#333333"></path>
+            <rect id="Rectangle-path" fill="#333333" x="448" y="320" width="16" height="16"></rect>
+            <polygon id="Shape" fill="#333333" points="336 403.312 298.344 365.656 309.656 354.344 336 380.688 442.344 274.344 453.656 285.656"></polygon>
+        </g>
+    </g>
+</svg>
