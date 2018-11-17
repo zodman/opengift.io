@@ -149,7 +149,7 @@
                                                
                         </td>
                         <td>
-                         <select name="tag_selected" id="tag_list" class="search-input form-control input-large">
+                         <select name="tag_selected" id="tag_list" class="search-input form-control input-large" multiple> 
                                     <option value=""> ---- </option>
                                     {% for tag in tasklist.tags %}
                                         <option value="{{tag.tagText}}"> {{tag.tagText}}</option>
