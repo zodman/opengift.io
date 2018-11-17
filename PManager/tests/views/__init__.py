@@ -68,13 +68,10 @@ class ViewsTest(TestCase):
 
             # check if load
             self.get_check_200(MainPage.projectWidgets)
-
-
-            project_id = json_response.get("project").get("id")
             post_data = {
                 'page':1,
                 'action':'all',
-                'project':0
+                'project':0,
             }
             resp = self.post('task-handler', data=post_data)
             self.response_200()
@@ -88,4 +85,16 @@ class ViewsTest(TestCase):
             tags = [i['tagText'] for i in task.get("tags")]
             self.assertTrue('FOOBAR' in tags , msg=task.get("tags"))
 
-            
+           # check if search
+
+            post_data = {
+                'page':1,
+                'action':'all',
+                'project':0,
+                'tag_search':'FOOBAR',
+            }
+            resp = self.post('task-handler', data=post_data)
+            self.response_200()
+            data = json.loads(resp.content)
+            self.assertEqual(len(data.get("tasks")), 1, msg='notasks')
+
