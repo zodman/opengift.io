@@ -2,14 +2,23 @@
 {% compressed_js 'fileup' %}
 {% compressed_js 'tasklist' %}
 <script src="/static/js/jquery.fancyform.min.js"></script>
+<link rel="stylesheet" href="/static/js/multiselect/bootstrap-multiselect.css" type="text/css">
+<script src="/static/js/multiselect/bootstrap-multiselect.js"></script>
+
 <script>
     $(function () {
         $("input:radio").transformRadio({
             base: "class" // Can be image or class, if class a span will be added
         });
+        $('.multiselect').multiselect({
+         numberDisplayed: 3,
+         buttonWidth:'100%',
+         includeSelectAllOption: true,
+        });
     });
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
 </script>
+
 
 
 <div class="widget tasklist" data-tab-title="Task list">
@@ -132,13 +141,25 @@
             <div class="search-filter js-searchFilterBlock">
                 <table width="100%" cellpadding="0" cellspacing="0">
                     <tr>
-                        <td style="vertical-align:top;">
+                        <td style="vertical-align:top;" class="left">
                             <div class="find-container">
                                 <i class="fa fa-search"
                                    style="color: #d9d9d9; font-size: 17px; left: 11px; position: absolute; top: 8px;"></i>
                                 <input type="text" placeholder="Search" class="search-input form-control{% if request.user.is_authenticated %} with-filter{% endif %}"/>
                                 <a class="icon-remove fa fa-times"></a>
                             </div>
+                            
+                                               
+                        </td>
+                        <td class="right">
+                         <select name="tag_selected" id="tag_list" class="multiselect form-control" multiple> 
+                                 
+                                    {% for tag in tasklist.tags %}
+                                        <option value="{{tag.id}}"> {{tag.tagText}}</option>
+                                    {% endfor %}
+                                </select>
+
+
                         </td>
                         {% if request.user.is_authenticated and False %}
                         <td style="vertical-align:top; padding-right: 10px;">

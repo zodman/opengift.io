@@ -184,7 +184,15 @@ def __search_filter(header_values, request):
             ar_filter['number'] = number
         else:
             ar_filter['name__icontains'] = search_text
+    # user select tagsearch
     qArgs = []
+    tag_search = request.POST.getlist("tag_search[]",[u''])
+    import q; q(tag_search)
+    if tag_search != [u''] :
+        ar_filter["tags__tag__id__in"] = tag_search
+        ar_filter["tags__tag__is_public"] = True
+        
+
     if action == 'not_approved':
         ar_filter['status__code'] = 'not_approved'
         ar_filter['closed'] = False
