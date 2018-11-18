@@ -277,18 +277,22 @@
         {% else %}
             <ul class="task-tab-filter list-inline pull-right to-hide-768 clearfix">
                 <li class="active"><a>All</a></li>
+                <li class=""><a rel="sq">$?</a></li>
+                <li class=""><a rel="s">$</a></li>
+                <li class=""><a rel="ss">$$</a></li>
+                <li class=""><a rel="sss">$$$</a></li>
 {#                <li class="hide-on-mobile"><a rel="started">Started{% if tasklist.qty.started %}#}
 {#                    <span class="micro-circle-with-number">{{ tasklist.qty.started }}</span>{% endif %}</a></li>#}
-                <li><a rel="ready">Complete</a></li>
+{#                <li><a rel="ready">Complete</a></li>#}
 {#                <li><a rel="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}#}
 {#                    <span class="micro-circle-with-number">{{ tasklist.qty.not_approved }}</span>{% endif %}</a></li>#}
-                <li class="hide-on-mobile"><a rel="not_ready">Incomplete</a></li>
+{#                <li class="hide-on-mobile"><a rel="not_ready">Incomplete</a></li>#}
 {#                <li class="hide-on-mobile"><a rel="donated">Donated</a></li>#}
 {#                <li class="hide-on-mobile"><a rel="documented">Documented</a></li>#}
 {#                <li class="hide-on-mobile"><a rel="only_bounty">Bounty</a></li>#}
 {#                <li class="hide-on-mobile"><a rel="deadline">Overdue{% if tasklist.qty.deadline %}#}
 {#                    <span class="micro-circle-with-number">{{ tasklist.qty.deadline }}</span>{% endif %}</a></li>#}
-                <li class="hide-on-mobile"><a rel="arc">Closed</a></li>
+                <li class="hide-on-mobile"><a rel="arc">Complete</a></li>
             </ul>
             <script>
                 $(function () {
