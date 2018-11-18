@@ -32,18 +32,21 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
             strFilterUsers += ')'
 
         if ObjectTags.objects.filter(object_id__in=users_id).exists():
+            from django.db import connection, transaction
+            cursor = connection.cursor()
             table_name = ObjectTags._meta.db_table
             content_type_id = ContentType.objects.get_for_model(User).id
             arTagsIds_arg = ', '.join(arTagsId)
-            sql = ('SELECT SUM(`weight`) as weight_sum, id '
+            sql = ('SELECT SUM(`weight`) as weight_sum, object_id '
                   ' from {} WHERE tag_id in (' + arTagsIds_arg + ') AND content_type_id=' + str(
                   content_type_id) +
                 strFilterUsers +
                 ' GROUP BY object_id ORDER BY weight_sum DESC').format(table_name)
-            r = ObjectTags.objects.raw(sql)
+            cursor.execute(sql)
+            r= cursor.fetchall()
             for obj1 in r:
-                if obj1.content_object:
-                    userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+                if obj1:
+                    userTagSums[str(obj1[1])] = int(obj1[0])
 
         minTagCount, maxTagCount = False, 0
 
