@@ -187,7 +187,7 @@ def __search_filter(header_values, request):
     # user select tagsearch
     qArgs = []
     tag_search = request.POST.getlist("tag_search[]",[u''])
-    import q; q(tag_search)
+    #import q; q(tag_search)
     if tag_search != [u''] :
         ar_filter["tags__tag__id__in"] = tag_search
         ar_filter["tags__tag__is_public"] = True
