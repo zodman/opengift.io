@@ -19,19 +19,22 @@ class Credit(models.Model):
 
     @staticmethod
     def getUsersDebt(projects=None):
-        if projects:
-            projects = ' WHERE project_id IN (' + ','.join([str(s.id) for s in projects]) + ')'
+        table_name = Credit.objects.model._meta.db_table
+        if  not projects:
+            projects = []
+            qText = """ 
+            SELECT   sum(value) as summ, user_id 
+            FROM {} GROUP BY user_id
+              """.format(table_name)    
         else:
-            projects = ''
-
-        qText = """
-                  SELECT
-                      sum(value) as summ, user_id FROM pmanager_credit """ + projects + """ GROUP BY user_id
-              """
+            qText = """
+                    SELECT
+                        sum(value) as summ, user_id FROM {} where project_id in (%s) GROUP BY user_id
+                """.format(table_name)
         cursor = connection.cursor()
 
-        cursor.execute(qText)
-
+        args = [ ','.join([str(s.id) for s in projects])]
+        cursor.execute(qText, args)
         arElems = []
         for x in cursor.fetchall():
             if not x[1]:

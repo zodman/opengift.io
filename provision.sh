@@ -15,8 +15,14 @@ echo "drop database if exists tracker" | mysql -u root -proot
 echo "create database tracker" | mysql -u root -proot 
 
 cd /vagrant/
-cp tracker/settings.py.dist tracker/settings.py
-cp tracker/local_settings.py.ini tracker/local_settings.py
+if [ ! -f tracker/settings ]; then
+    cp tracker/settings.py.dist tracker/settings.py
+fi
+if [ ! -f tracker/local_settings.py ]; then
+    cp tracker/local_settings.py.ini tracker/local_settings.py
+fi 
+rm  PManager/migrations/* -rf
 python manage.py schemamigration PManager --initial
 python manage.py syncdb --all --noinput
+python manage.py migrate --fake
 python manage.py loaddata PManager/fixtures/init_data.json
