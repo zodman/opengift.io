@@ -57,7 +57,8 @@
                 setTimeout(function () {
                     $('#task_edit_form').hide();
                     $('.js-donate-for-task').attr('href', '/project/' + data.project.id + '/donate/?t=' + data.id + '&min=5');
-                    $('.js-manage-project').attr('href', '/project/' + data.project.id + '/edit/');
+                    $('.js-go-task-detail').attr('href', '/task_detail/?number=' + data.number + '&project=' + data.project.id);
+                    $('.js-manage-project').attr('href', '/project/' + data.project.id + '/');
                     $('.js-task-created').show();
                 }, 500);
             });

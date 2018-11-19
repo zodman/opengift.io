@@ -612,7 +612,7 @@ input, textarea {
   -webkit-transition: .3s;
   -o-transition: .3s;
   transition: .3s;
-  text-transform: capitalize;
+  text-transform: uppercase;
   padding: 0.8125rem 2rem;
   border: none;
 }
@@ -8423,6 +8423,9 @@ select {
   position: relative;
 }
 
+.user-img-wrapper > div {
+  background-color: #ffffff !important;
+}
 .user-logo-wrapper {
   margin-top: -25px;
   display: block;

@@ -687,6 +687,7 @@ class PM_Task(models.Model):
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
     donate_exists = models.BooleanField(blank=True)
+    donate_sum = models.FloatField(blank=True, default=0)
     planTime = models.FloatField(blank=True, null=True, default=0)
     realTime = models.BigIntegerField(blank=True, null=True)
     realDateStart = models.DateTimeField(blank=True, null=True)

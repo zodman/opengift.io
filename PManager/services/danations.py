@@ -2,7 +2,7 @@
 __author__ = 'rayleigh'
 from PManager.models.tasks import PM_Project_Donation, PM_Task_Message
 from django.contrib.auth.models import User
-
+from tracker.settings import GIFT_USD_RATE
 
 def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=None, task=None):
     from PManager.services.docker import blockchain_donate_request
@@ -53,7 +53,7 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
             task=task,
             code='DONATION',
             donated=sum,
-            text='Donated ' + str(sum) + ' GIFTs'
+            text='Made a deposit $ ' + str(sum * GIFT_USD_RATE) + ''
         )
         message.save()
 
@@ -64,6 +64,7 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
             from django.utils import timezone
 
             task.donate_exists = True
+            task.donate_sum += sum
             task.save()
 
             task_data = {
@@ -76,7 +77,7 @@ def donate(sum, project, user=None, milestone=None, exchangeUser=None, refUser=N
                     'new_donation_received',
                     {
                         'task': task_data,
-                        'sum': sum,
+                        'sum': sum * GIFT_USD_RATE,
                         'donator': {
                             'first_name': user.first_name,
                             'last_name': user.last_name,

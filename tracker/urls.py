@@ -26,6 +26,7 @@ from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 
 admin.autodiscover()
 
@@ -86,7 +87,7 @@ urlpatterns = patterns('',
                        url(r'^opengifters/(?P<user_id>[0-9_]+)/', Public.backerProfile),
                        url(r'^profile/edit/', MainPage.indexRender,
                            {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile', 'template': 'new'}),
-                       # Proyect URLS {{{
+                       # Project URLS {{{
                        url(r'^project/(?P<project_id>[0-9_]+)/server-setup', project_server_setup),
                        url(r'^project/(?P<project_id>[0-9_]+)/server-status', project_server_status),
                        url(r'^project/(?P<project_id>[0-9_]+)/public/', projectDetailPublic),
@@ -197,6 +198,7 @@ urlpatterns = patterns('',
                        url(r'^ref/$', TemplateView.as_view(template_name='public/ref.html'), {'need_inverse': True}),
                        url(r'^dev/$', TemplateView.as_view(template_name='public/developers.html'), {'need_inverse': True}),
                        url(r'^hackathon/$', Public.hackathon, {'need_inverse': True}),
+                       url(r'^credits-hackathon/$', Public.credits_hackathon, {'need_inverse': True}),
                        url(r'^hackaton/$', RedirectView.as_view(url='/hackathon/', permanent=False), {'need_inverse': True}),
                        url(r'^faq/$', faq_list),
                        url(r'^paypal/$', paypalExecute),
@@ -204,3 +206,12 @@ urlpatterns = patterns('',
                        url(r'^wiki/', include('wiking.urls'))
                        )
 urlpatterns += staticfiles_urlpatterns()
+
+
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   )

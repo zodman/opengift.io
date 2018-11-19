@@ -11,6 +11,7 @@ from django.db.models.signals import post_save, pre_delete
 from PManager.customs.storages import path_and_rename
 from django.db import connection
 from django.db.models import Sum
+from sorl.thumbnail import get_thumbnail
 
 
 class Specialty(models.Model):
@@ -103,6 +104,7 @@ class PM_User(models.Model):
     bik = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'БИК')
     referrer = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Referrer')
     hackathon_registered = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'Hackathon')
+    github = models.CharField(max_length=255, blank=True, null=True, verbose_name=u'GitHub')
     hackathon_reg_date = models.DateTimeField(blank=True, null=True, verbose_name=u'Hackathon date')
 
     birthday = models.DateTimeField(blank=True, null=True)
@@ -246,16 +248,13 @@ class PM_User(models.Model):
 
     @property
     def avatarSrc(self):
-        avatar = str(self.avatar.url) if self.avatar else ''
-        if avatar:
-            if avatar.find('media') < 0:
-                avatar = '/media/' + avatar
-
+        if self.avatar:
+            avatar = get_thumbnail(self.avatar, '120x120')    
+            return avatar.url
         else:
             avatar = 'https://robohash.org/opengift_' + str(self.id) + '.png'
-
-        return avatar
-
+            return avatar
+        
     @property
     def avatarSquare(self):
         return '<div style="background: url(' + self.avatarSrc + ');background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>'
