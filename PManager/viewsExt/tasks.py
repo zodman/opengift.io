@@ -213,6 +213,20 @@ def __search_filter(header_values, request):
     elif action == 'donated':
         ar_filter['donate_exists'] = True
         ar_filter['closed'] = False
+    elif action == 'sq':
+        ar_filter['donate_sum'] = 0
+        ar_filter['closed'] = False
+    elif action == 's':
+        ar_filter['donate_sum__lte'] = 1000
+        ar_filter['donate_sum__gt'] = 0
+        ar_filter['closed'] = False
+    elif action == 'ss':
+        ar_filter['donate_sum__gt'] = 1000
+        ar_filter['donate_sum__lte'] = 2000
+        ar_filter['closed'] = False
+    elif action == 'sss':
+        ar_filter['donate_sum__gt'] = 3000
+        ar_filter['closed'] = False
     elif action == 'documented':
         ar_filter['resp__isnull'] = False
     elif action == 'started':
@@ -1211,7 +1225,9 @@ class taskAjaxManagerCreator(object):
 
                                 closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + \
                                            ', prize: $' + str(round(t.donated * 0.85, 2)) + \
-                                           ', share holders comission: $' + str(round(t.donated * 0.1, 2)) + ')'
+                                           ', token holders fee: $' + str(round(t.donated * 0.1, 2)) + \
+                                           ', community fee: $' + str(round(t.donated * 0.05, 2)) + ')'
+
                             else:
                                 blockchain_goal_confirmation_request(
                                     user.username,
@@ -1252,7 +1268,8 @@ class taskAjaxManagerCreator(object):
                                'task': t,
                                'winner': t.getWinner().last_name + ' ' + t.getWinner().first_name if t.getWinner() else '',
                                'prize': t.donated * 0.85,
-                               'share_holders_comission': t.donated * 0.1
+                               'share_holders_comission': t.donated * 0.1,
+                               'community_comission': t.donated * 0.05
                            },
                            u'Task was closed: ' + t.name
                         )

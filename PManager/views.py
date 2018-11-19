@@ -173,7 +173,9 @@ class MainPage:
 
             except User.DoesNotExist:
                 error = None
-                if not emailMessage.validateEmail(username):
+                if not request.POST.get('registration', None):
+                    error = u'Enter correct email'
+                elif not emailMessage.validateEmail(username):
                     error = u'Enter correct email'
                 else:
                     user = PM_User.getOrCreateByEmail(username, None, None, password)

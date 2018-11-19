@@ -124,7 +124,7 @@
           {% if request.GET.skip_recaptcha %}
           <input type="hidden" name="skip_recaptcha" value="Y" />
           {% endif %}
-
+          <input type="hidden" name="registration" value="Y" />
           <!--name-->
           <div class="row">
             <div class="col-lg-4 text-center mx-auto">
@@ -200,6 +200,13 @@
               </div>
             </div>
           </div>
+        <div class="row">
+            <div class="col-lg-4 text-center mx-auto">
+              <input type="checkbox" required style="float:left;width: auto;margin-top: 8px;" />&nbsp;I agree with <a href="/static/documents/user_agreement.pdf">OpenGift User Agreement</a>
+                terms and conditions.
+            </div>
+            <div style="clear:both;"></div>
+        </div>
         <div class="row">
             <div class="col-lg-4 text-center mx-auto">
               <input type="checkbox" checked style="float:left;width: auto;margin-top: 8px;" />&nbsp;I agree to receive the information about new platform tasks and projects.
