@@ -31,6 +31,7 @@ PIPELINE_JS = {
             # 'js/bootstrap/bootstrap.min.js',
             'js/bootstrap/typehead.js',
             'js/bootstrap/bootstrap-combobox.js',
+            "js/multiselect/bootstrap-multiselect.js",
             'js/pm/script.js',
             'js/pm/main.js',
             'js/pm/timer.js',
@@ -49,6 +50,8 @@ PIPELINE_JS = {
             'js/pm/csrf_protector.js',
             'public/js/libs/jquery.waipoints.min.js',
             'js/bootstrap/bootstrap-tooltip.js'
+            
+
         ),
         'output_filename': 'js_compressed/base.js',
     },
@@ -284,6 +287,7 @@ PIPELINE_CSS = {
             'css/drowCanvas.css',
             'js/libs/timepicker/jquery.datetimepicker.css',
             'css/toastr.css',
+            "js/multiselect/bootstrap-multiselect.css",
         ),
         'output_filename': 'css_compressed/base.css',
     },

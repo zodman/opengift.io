@@ -1,12 +1,9 @@
 # -*- coding:utf-8 -*-
 __author__ = 'Gvammer'
-from pybrain.datasets import SupervisedDataSet
-from pybrain.tools.shortcuts import buildNetwork
-from pybrain.structure import TanhLayer
-from pybrain.supervised.trainers import BackpropTrainer
+
 from PManager.models import PM_Task, LogData
 import pickle, os
-from scipy import stats
+
 
 class TaskMind:
     _instance = None
@@ -21,6 +18,8 @@ class TaskMind:
         return cls._instance
     
     def __init__(self):
+        from pybrain.structure import TanhLayer
+        from pybrain.tools.shortcuts import buildNetwork
         if os.path.isfile(self._container):
             fileObj = open(self._container, 'rb')
             self._net = pickle.load(fileObj)
@@ -30,6 +29,7 @@ class TaskMind:
             self.save()
 
     def getInputParams(self, task):
+        from scipy import stats
         similar = PM_Task.getSimilar(task.name+(task.text or u''), task.project)
 
         if task.resp and len(similar):
@@ -92,6 +92,8 @@ class TaskMind:
         return 0
 
     def train(self, tasks):
+        from pybrain.datasets import SupervisedDataSet
+        from pybrain.supervised.trainers import BackpropTrainer
         ds = SupervisedDataSet(6, 1)
         for task in tasks:
             setIn = self.getInputParams(task)
