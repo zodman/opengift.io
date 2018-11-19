@@ -1,6 +1,5 @@
 __author__ = 'rayleigh'
-
-from django.conf.urls import *
+from django.conf.urls import patterns
 from views import ArticleView
 urlpatterns = patterns('wiking.views',
    (r'^project/(?P<project_slug>[0-9_]+)/$', ArticleView.index),

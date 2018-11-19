@@ -767,6 +767,7 @@ var widget_tl, currentGroup;
                         params.task_search = this.TL_GetSearchText();
                     }
 
+
                     var $activeTab = this.$tabContainer.find('li.active > a');
                     if ($activeTab.attr('rel') == 'bounty') params.action = 'bounty';
 
@@ -817,6 +818,10 @@ var widget_tl, currentGroup;
                 }
                 if (!params.parent && !params.page) {
                     obj.TL_Tasks.reset();
+                }
+                var tag = $("#tag_list").val();
+                if (tag !== "") {
+                    params.tag_search= tag;
                 }
                 PM_AjaxPost(
                     '/task_handler',
@@ -981,7 +986,9 @@ var widget_tl, currentGroup;
                 if (!parent) {
                     var $task_el = $('<div></div>').addClass('task-wrapper')
                         .append(view.$el)
-                        .append('<div class="add-task-input" style="display: none;"><input maxlength="1000" class="input-block-level form-control" data-parent="' + view.model.id + '" type="text" placeholder="Add subtask..."></div>')
+                        .append('<div class="add-task-input" style="display: none;">' +
+                        '<input maxlength="1000" class="input-block-level form-control" data-parent="' +
+                         view.model.id + '" type="text" placeholder="Add subtask..."></div>')
                         .append('<div class="subtask" style="display: none;"></div>');
 
                     if (is_new) {
@@ -1311,6 +1318,13 @@ var widget_tl, currentGroup;
             });
 
         var search_timeout = false;
+
+        // On select DO TL_SEACH
+        
+        $("#tag_list").change(function(){
+
+                widget_tl.TL_Search();
+        });
 
         $('.search-input').keyup(function () {
             if (search_timeout) clearTimeout(search_timeout);

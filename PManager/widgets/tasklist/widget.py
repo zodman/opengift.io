@@ -32,23 +32,25 @@ def get_user_tag_sums(arTagsId, currentRecommendedUser, users_id=[]):
             strFilterUsers += ')'
 
         if ObjectTags.objects.filter(object_id__in=users_id).exists():
+            from django.db import connection, transaction
+            cursor = connection.cursor()
             table_name = ObjectTags._meta.db_table
             content_type_id = ContentType.objects.get_for_model(User).id
             arTagsIds_arg = ', '.join(arTagsId)
-            sql = ('SELECT SUM(`weight`) as weight_sum, `id`, `object_id`, `content_type_id`'
+            sql = ('SELECT SUM(`weight`) as weight_sum, object_id '
                   ' from {} WHERE tag_id in (' + arTagsIds_arg + ') AND content_type_id=' + str(
                   content_type_id) +
                 strFilterUsers +
                 ' GROUP BY object_id ORDER BY weight_sum DESC').format(table_name)
-            r = ObjectTags.objects.raw(sql)
+            cursor.execute(sql)
+            r= cursor.fetchall()
             for obj1 in r:
-                if obj1.content_object:
-                    userTagSums[str(obj1.content_object.id)] = int(obj1.weight_sum)
+                if obj1:
+                    userTagSums[str(obj1[1])] = int(obj1[0])
 
         minTagCount, maxTagCount = False, 0
 
         for userId in userTagSums:
-
             if maxTagCount < userTagSums[userId]: maxTagCount = userTagSums[userId]
             if minTagCount > userTagSums[userId] or minTagCount == False: minTagCount = userTagSums[userId]
 
@@ -75,13 +77,16 @@ def get_task_tag_rel_array(task):
 
 
 def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, addFields=[]):
+    
 
     widgetManager = TaskWidgetManager()
     filter = {}
 
+    """ # TODO REDUNDANT filter=False ever
     if filter:
         lManager = listManager(PM_Task)
         filter = lManager.parseFilter(filter)
+    """
 
     needTaskList = False
     if 'filter' in widgetParams:
@@ -103,7 +108,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         if 'allProjects' in filter:
             del filter['allProjects']
         project = None
-
+    """ # TODO: CHECK if milestone defined
     if pst('add-to-milestone'):
         tasksId = request.POST.getlist('task')
         mId = int(pst('milestone')) if pst('milestone') else 0
@@ -147,6 +152,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         return {'redirect': ''}
 
     elif pst('add-to-release'):
+    
         tasksId = request.POST.getlist('task')
         mId = int(pst('release')) if pst('release') else 0
         mName = pst('release_name')
@@ -177,8 +183,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 task.save()
 
         return {'redirect': ''}
-
-    elif pst('add-observers'):
+    
+    #elif pst('add-observers'):
+    """
+    if pst('add-observers'):
         #todo: объединить с выше
         tasksId = request.POST.getlist('task')
         mId = int(pst('observer')) if pst('observer') else 0
@@ -239,12 +247,10 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         }
         if arTaskOrderParams['group'] == 'milestones':
             filter['closed'] = False
-
         tasks = PM_Task.getForUser(cur_user, project, filter, qArgs, arTaskOrderParams)
-
         try:
             tasks = tasks['tasks']
-            tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status')
+            tasks = tasks.select_related('resp', 'project', 'milestone', 'parentTask__id', 'author', 'status','tag', 'tags__tag')
             qty = tasks.count()
 
         except AttributeError:
@@ -287,10 +293,12 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 )
             last_message_q = last_message_q.order_by("-pk")
 
-            try:
-                startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
-            except PM_Timer.DoesNotExist:
-                startedTimer = None
+            # Yegor comment PM_Timer Deprecated
+            # try:
+            #     startedTimer = PM_Timer.objects.get(task=task, dateEnd__isnull=True)
+            # except PM_Timer.DoesNotExist:
+            #     startedTimer = None
+
 
             if 'parentTask' not in filter:
                 # subtasksQuery = PM_Task.objects.filter(parentTask=task, active=True)
@@ -356,8 +364,9 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'canSetCritically': arBIsManager[task.id] or cur_user.id == task.author.id if cur_user.is_authenticated() else False,
                 'canSetPlanTime': task.canPMUserSetPlanTime(cur_prof) if cur_prof else False,
                 'canBaneUser': bCanBaneUser,
-                'startedTimerExist': startedTimer != None,
-                'startedTimerUserId': startedTimer.user.id if startedTimer else None,
+                # PM_TIMER deprecated
+                #'startedTimerExist': startedTimer != None,
+                #'startedTimerUserId': startedTimer.user.id if startedTimer else None,
                 'status': task.status.code if task.status else '',
                 'todo': [
                     {
@@ -417,6 +426,17 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 not addTasks[task.id]['resp'][0]
             )
 
+            task_tags = task.tags.filter(tag__is_public=True)
+            list_tags =[]
+            if task_tags.exists():
+                
+                for tag in task_tags.values('tag__id','tag__tagText'):
+                    list_tags.append({
+                        'tagText':tag['tag__tagText'],
+                        'id':tag['tag__id']
+                        })
+            addTasks[task.id]['tags']=list_tags
+
             if cur_user.is_authenticated():
                 reminder = PM_Reminder.objects.filter(task=task, user=cur_user).order_by('-date').values_list('date', flat=True)
                 if reminder.exists():
@@ -433,18 +453,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             #             'id': int(currentRecommendedUser),
             #             'name': recommendedUserArray['name']
             #         }
+            # TODO: DISABLE PLANTIME ? 
+            # planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
+            # for obj in planTimes:
+            #     addTasks[task.id]['planTimes'].append({
+            #         'user_url': obj.user.get_profile().url,
+            #         'user_id': obj.user.id,
+            #         'user_name': obj.user.first_name + ' ' + obj.user.last_name,
+            #         'time': obj.time
+            #     })
 
-            planTimes = PM_User_PlanTime.objects.filter(task=task).distinct()
-            for obj in planTimes:
-                addTasks[task.id]['planTimes'].append({
-                    'user_url': obj.user.get_profile().url,
-                    'user_id': obj.user.id,
-                    'user_name': obj.user.first_name + ' ' + obj.user.last_name,
-                    'time': obj.time
-                })
-
-                if not task.planTime and obj.user.id == cur_user.id:
-                    addTasks[task.id]['planTime'] = obj.time
+            #     if not task.planTime and obj.user.id == cur_user.id:
+            #         addTasks[task.id]['planTime'] = obj.time
 
     aUserLinks = dict()
     resps = widgetManager.getResponsibleList(cur_user, project)
@@ -503,15 +523,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
         'tab': True,
         'name': u'Tasks',
         'paginator': paginator,
-        'milestones': PM_Milestone.objects.filter(project=project, closed=False),
-        'releases': Release.objects.filter(project=project, status='new'),
+        # TODO: milestones disabled 
+        #'milestones': PM_Milestone.objects.filter(project=project, closed=False),
+        # TODO: releases disabled 
+        #'releases': Release.objects.filter(project=project, status='new'),
         'nextPage': arPageParams.get('startPage', 0) + 1 if 'startPage' in arPageParams else None,
         'filterDates': {
             'today': templateTools.dateTime.convertToSite(today, '%d.%m.%Y'),
             'yesterday': templateTools.dateTime.convertToSite(yesterday, '%d.%m.%Y'),
         },
         'canInvite': cur_prof.isManager(project) if project and cur_prof else False,
-        'template': template
+        'template': template,
+        'tags': list(Tags.objects.filter(is_public=True).values('id', 'tagText')),
     }
 
     if cur_user.is_authenticated():

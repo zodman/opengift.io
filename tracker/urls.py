@@ -80,7 +80,7 @@ urlpatterns = patterns('',
                        url(r'^pro/', MainPage.likeAPro),
                        url(r'^achievements/', MainPage.indexRender, {'widgetList': ["achievements"]}),
                        url(r'^user_detail/', MainPage.indexRender, {'widgetList': ["user_detail"], 'template': 'new'}, name='user-detail'),
-                       url(r'^task_handler', taskListAjax, name='task-handler'),
+                       
                        url(r'^sendfile/', fileSave),
                        url(r'^calendar/', MainPage.indexRender,
                            {'widgetList': ["project_calendar"], 'activeMenuItem': 'calendar'}),
@@ -105,6 +105,7 @@ urlpatterns = patterns('',
                        url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
                        # }}}
                        #  Tasks {{{
+                       url(r'^task_handler', taskListAjax, name='task-handler'),
                        url(r'^task/add/', taskDetail),
                        url(r'^task_edit/$', MainPage.indexRender,
                            {'widgetList': ["task_edit"], 'activeMenuItem': 'tasks'}),

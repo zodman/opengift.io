@@ -269,6 +269,10 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#TASK\_URL\#/ig, taskInfo.url);
             html = html.replace(/\#TASK\_NAME\#/ig, taskInfo.name);
             html = html.replace(/\#PARENT\_NAME\#/ig, taskInfo.parentName);
+            var tags_str = taskInfo.tags.map(function(elem){
+                return elem.tagText
+            }).join(', ')
+            html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
             if (taskInfo.hasOwnProperty('messages')) {
                 html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);
             }
@@ -486,7 +490,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     '<i class="fa fa' + (todo.checked ? '-check' : '') + '-square-o ' + (todo.bug ? 'bug' : '') + '"></i>'
                 )
             }
-
+            //console.log("$row", $row.html(), taskInfo)
             return $row.html();
         },
         'disableTimerButton': function () {

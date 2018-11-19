@@ -184,7 +184,15 @@ def __search_filter(header_values, request):
             ar_filter['number'] = number
         else:
             ar_filter['name__icontains'] = search_text
+    # user select tagsearch
     qArgs = []
+    tag_search = request.POST.getlist("tag_search[]",[u''])
+    #import q; q(tag_search)
+    if tag_search != [u''] :
+        ar_filter["tags__tag__id__in"] = tag_search
+        ar_filter["tags__tag__is_public"] = True
+        
+
     if action == 'not_approved':
         ar_filter['status__code'] = 'not_approved'
         ar_filter['closed'] = False
@@ -232,7 +240,7 @@ def __search_filter(header_values, request):
 
     ar_filter['bounty'] = True
 
-
+    """ # kanban disabled
     kanbanFilter = None
     if 'gantt_props[]' in request.POST:
         propCodesKanban = request.POST.getlist('gantt_props[]')
@@ -252,6 +260,7 @@ def __search_filter(header_values, request):
     if 'withoutParent' in request.POST:
         if request.POST['withoutParent'] == 'Y':
             ar_filter['isParent'] = False
+    """
 
     if 'responsible[]' in request.POST:
         ar_filter['resp__in'] = request.POST.getlist('responsible[]')
@@ -317,9 +326,10 @@ def __search_filter(header_values, request):
                 Q(closed=False)
             ) | Q(dateClose__lt=datetime.datetime.now())
         )
-
-    needXlsOutput = request.POST.get('xls') and header_values['CURRENT_PROJECT'] or False
     ar_page_params = {}
+    # TODO: XLS enabled ?
+    """
+    needXlsOutput = request.POST.get('xls') and header_values['CURRENT_PROJECT'] or False
     if not needXlsOutput:
         page, count, start_page = int(request.POST.get('page', 1)), 10, int(request.POST.get('startPage', 0))
         if start_page:
@@ -344,8 +354,8 @@ def __search_filter(header_values, request):
             'startPage': start_page,
             'group': group
         }
-
-
+    """
+    
     tasks = task_list(
         request,
         header_values,
@@ -356,8 +366,9 @@ def __search_filter(header_values, request):
         qArgs,
         ar_page_params
     )
-
-    if needXlsOutput:
+    # TODO: XLS enabled ?
+    #if needXlsOutput:
+    if False:
         response_text = simplejson.dumps(
             {
                 'file':
@@ -650,6 +661,7 @@ def taskListAjax(request):
     elif 'resp' in request.POST:  # смена ответственного
         response_text = __change_resp(request)
 
+    # actio=all
     elif request.POST.get('task_search', False) or \
             request.POST.get('action', False) or \
             request.POST.get('parent', False):

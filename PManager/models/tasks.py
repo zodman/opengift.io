@@ -46,6 +46,7 @@ class Tags(models.Model):
     frequency = models.FloatField(default=0)
     parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
     allowed = models.BooleanField(default=False, blank=True)
+    is_public = models.BooleanField(default=False)
 
     weight = 0
 
@@ -1464,7 +1465,6 @@ class PM_Task(models.Model):
         from django.db.models import Count
 
         order_by = arOrderParams.get('order_by', 'closed')
-
         if user.is_authenticated():
             pm_user = user.get_profile()
 
@@ -1476,7 +1476,7 @@ class PM_Task(models.Model):
 
         excludeFilter = {}
         if 'bounty' in filter or not user.is_authenticated():
-            filterQArgs = [Q(onPlanning=True, project__closed=False, project__locked=False)]
+            filterQArgs += [Q(onPlanning=True, project__closed=False, project__locked=False)]
             if 'closed' not in filter:
                 filter['closed'] = False
 
@@ -1524,7 +1524,8 @@ class PM_Task(models.Model):
         # logger = logging.getLogger('blockchain')
         # logger.debug(json.dumps(filter))
         # logger.debug(json.dumps(str(PM_Task.objects.filter(*filterQArgs, **filter).query)))
-
+        #assert False, (str( PM_Task.objects.filter(*filterQArgs, **filter).query) )
+        #import q; q([i.children for i in filterQArgs], filter)
         try:
             tasks = PM_Task.objects.filter(*filterQArgs, **filter).exclude(project__closed=True,
                                                                            project__locked=True).distinct()
