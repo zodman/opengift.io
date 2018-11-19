@@ -50,8 +50,6 @@ PIPELINE_JS = {
             'js/pm/csrf_protector.js',
             'public/js/libs/jquery.waipoints.min.js',
             'js/bootstrap/bootstrap-tooltip.js'
-            
-
         ),
         'output_filename': 'js_compressed/base.js',
     },

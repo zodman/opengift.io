@@ -1320,7 +1320,7 @@ var widget_tl, currentGroup;
         var search_timeout = false;
 
         // On select DO TL_SEACH
-        $('.multiselect').multiselect({
+        $('#tag_list').multiselect({
             numberDisplayed: 3,
             buttonWidth:'100%',
             includeSelectAllOption: true,
