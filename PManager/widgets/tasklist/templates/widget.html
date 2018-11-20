@@ -145,8 +145,7 @@
                                                
                         </td>
                         <td class="right">
-                         <select name="tag_selected" id="tag_list" class="multiselect form-control" multiple> 
-                                 
+                         <select name="tag_selected" id="tag_list" multiple class="multiselect form-control" >
                                     {% for tag in tasklist.tags %}
                                         <option value="{{tag.id}}"> {{tag.tagText}}</option>
                                     {% endfor %}
@@ -319,11 +318,11 @@
                 <select class="select-transform js-task-tab-mobile">
                     <option value="">All</option>
 {#                    <option value="started">Started{% if tasklist.qty.started %}({{ tasklist.qty.started }}){% endif %}</option>#}
-                    <option value="ready">Complete{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>
+{#                    <option value="ready">Complete{% if tasklist.qty.ready %}({{ tasklist.qty.ready }}){% endif %}</option>#}
 {#                    <option value="not_approved">Unconfirmed{% if tasklist.qty.not_approved %}({{ tasklist.qty.not_approved }}){% endif %}</option>#}
-                    <option value="not_ready">Incomplete</option>
-                    <option value="donated">Donated</option>
-                    <option value="documented">Documented</option>
+{#                    <option value="not_ready">Incomplete</option>#}
+{#                    <option value="donated">Donated</option>#}
+{#                    <option value="documented">Documented</option>#}
 {#                    <option value="only_bounty">Bounty</option>#}
 {#                    <option value="deadline">Overdue{% if tasklist.qty.deadline %}({{ tasklist.qty.deadline }}){% endif %}</option>#}
                     <option value="arc">Closed</option>
@@ -361,39 +360,39 @@
 
     <p class="text-center"><a class="btn btn-success show-more">Show more</a></p>
 </div>
-<div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content green-popup">
-            <div class="modal-header">
-                <h2 class="modal-title" id="myModalLabel">Новое приглашение исполнителей</h2>
-            </div>
-            <form role="form" class="js-invite-form" method="post" action="/task_handler">
-                <div class="modal-body">
-                    <p>Приглашение специалистов в задачи для обсуждения.</p>
-                    {% csrf_token %}
-                    <div class="dropdown js-specialties_search_wrapper margin-bottom-5">
-                        <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"
-                               placeholder="Укажите необходимые навыки (необязательно)" id="skillsDropdown"
-                               class="form-control js-save_specialty" autocomplete="off">
-                        <ul class="dropdown-menu js-search_specialties" role="dropdown"
-                            aria-labelledby="skillsDropdown">
-                        </ul>
-                    </div>
-                    <ul class="posibilities clearfix js-specialties" style="margin: 0;">
-                    </ul>
-                </div>
-                <div class="modal-footer">
-                    <div class="js-tasks-for-developers"></div>
-                    <input type="hidden" name="action" value="inviteUsers"/>
-                    <input type="hidden" name="add-developers" value="Y"/>
-                    <button type="button" class="btn btn-success js-add-developers">Найти исполнителей</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+{#<div class="modal fade" id="invite-developers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"#}
+{#     aria-hidden="true">#}
+{#    <div class="modal-dialog">#}
+{#        <div class="modal-content green-popup">#}
+{#            <div class="modal-header">#}
+{#                <h2 class="modal-title" id="myModalLabel">Новое приглашение исполнителей</h2>#}
+{#            </div>#}
+{#            <form role="form" class="js-invite-form" method="post" action="/task_handler">#}
+{#                <div class="modal-body">#}
+{#                    <p>Приглашение специалистов в задачи для обсуждения.</p>#}
+{#                    {% csrf_token %}#}
+{#                    <div class="dropdown js-specialties_search_wrapper margin-bottom-5">#}
+{#                        <input type="text" name="additional_tags" data-user-id="{{ user_detail.user.id }}"#}
+{#                               placeholder="Укажите необходимые навыки (необязательно)" id="skillsDropdown"#}
+{#                               class="form-control js-save_specialty" autocomplete="off">#}
+{#                        <ul class="dropdown-menu js-search_specialties" role="dropdown"#}
+{#                            aria-labelledby="skillsDropdown">#}
+{#                        </ul>#}
+{#                    </div>#}
+{#                    <ul class="posibilities clearfix js-specialties" style="margin: 0;">#}
+{#                    </ul>#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <div class="js-tasks-for-developers"></div>#}
+{#                    <input type="hidden" name="action" value="inviteUsers"/>#}
+{#                    <input type="hidden" name="add-developers" value="Y"/>#}
+{#                    <button type="button" class="btn btn-success js-add-developers">Найти исполнителей</button>#}
+{#                    <button type="button" class="btn btn-danger" data-dismiss="modal">Закрыть</button>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 <div class="modal fade green-popup" id="add-to-milestone" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
      aria-hidden="true">
     <div class="modal-dialog">
@@ -551,36 +550,36 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content green-popup">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>
-            </div>
-            <form role="form" class="js-observers-form" method="post">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <div class="form-group">
-                        <select class="form-control" name="observer">
-                            <option value="">Выбрать</option>
-                            {% for resp_user in tasklist.users %}
-                                <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>
-                            {% endfor %}
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <div class="js-tasks-for-observers"></div>
-                    <input type="submit" name="add-observers" class="btn btn-success js-add-observers"
-                           value="Добавить"/>
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
+{#<div class="modal fade" id="add-observers" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"#}
+{#     aria-hidden="true">#}
+{#    <div class="modal-dialog">#}
+{#        <div class="modal-content green-popup">#}
+{#            <div class="modal-header">#}
+{#                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>#}
+{#                <h2 class="modal-title" id="myModalLabel">Добавить наблюдателя</h2>#}
+{#            </div>#}
+{#            <form role="form" class="js-observers-form" method="post">#}
+{#                {% csrf_token %}#}
+{#                <div class="modal-body">#}
+{#                    <div class="form-group">#}
+{#                        <select class="form-control" name="observer">#}
+{#                            <option value="">Выбрать</option>#}
+{#                            {% for resp_user in tasklist.users %}#}
+{#                                <option value="{{ resp_user.id }}">{{ resp_user.first_name }} {{ resp_user.last_name }}</option>#}
+{#                            {% endfor %}#}
+{#                        </select>#}
+{#                    </div>#}
+{#                </div>#}
+{#                <div class="modal-footer">#}
+{#                    <div class="js-tasks-for-observers"></div>#}
+{#                    <input type="submit" name="add-observers" class="btn btn-success js-add-observers"#}
+{#                           value="Добавить"/>#}
+{#                    <button type="button" class="btn btn-default" data-dismiss="modal">Закрыть</button>#}
+{#                </div>#}
+{#            </form>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 {% if tasklist.invite %}
     <script>
         $(function () {
