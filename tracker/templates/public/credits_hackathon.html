@@ -207,7 +207,7 @@
 
                     <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
                         <div class="h4 fw-normal">The hackathon starts</div>
-                        <h4 class="u-fw-600 text-black u-mb-40 js-timer-title">1st of December at 1 pm GMT.</h4>
+                        <h4 class="u-fw-600 text-black u-mb-40 js-timer-title">1st of December at midnight GMT.</h4>
 
                         <div class="clock u-mb-40"></div>
                         <script type="text/javascript">
@@ -222,11 +222,11 @@
                                         }
                                     }
                                 });
-                                var date = new Date(Date.UTC(2018, 11, 1, 13, 0, 0));
+                                var date = new Date(Date.UTC(2018, 11, 1, 0, 0, 0));
                                 var currentDate = new Date();
                                 if (currentDate > date) {
 
-                                    date = new Date(Date.UTC(2018, 11, 15, 13, 0, 0));
+                                    date = new Date(Date.UTC(2018, 11, 15, 0, 0, 0));
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
@@ -270,23 +270,23 @@
         <div class="container">
 
             <div class="row align-items-center">
-                <div class="col-md-5 mb-5" align="center">
+                <div class="col-md-4 mb-5" align="center">
                     <img src="/static/img/programmers.png" alt="Credits Developers Online Hackathon">
                 </div> <!-- END col-md-6 -->
-                <div class="col-md-7 u-pr-lg-100">
+                <div class="col-md-8 u-pr-lg-100">
 
                     {#                    <h2 class="h1 u-mb-30">#}
                     {#                        What’s an OpenGift + Credits hackathon?#}
                     {#                    </h2>#}
 
                     <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-30">
-                        To all the Credits developers community out there and everyone who wishes to try out their skills at using the world’s fastest and most scalable blockchain platform!</p>
+                        Credits Blockchain Platform launches its first Online Hackathon on 1st, December. This competition is aimed at the development of decentralized applications and services that will expand the Credits Platform ecosystem.</p>
                     <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-30">
-                        We are glad to announce the first Credits Developers Online Hackathon starting on December, 1.
+                        Smart contracts are written in Java on the Credits Platform. We use Apache Thrift technology in API module, so you can use any of the following programming languages for development of your web page or mobile app - <b>ActionScript</b>, <b>C</b>, <b>C++</b>, <b>C#</b>, <b>Cappuccino</b>, <b>Cocoa</b>, <b>Delphi</b>, <b>Erlang</b>, <b>Go</b>, <b>Haskell</b>, <b>Java</b>, <b>Node.js</b>, <b>Objective-C</b>, <b>OCaml</b>, <b>Perl</b>, <b>PHP</b>, <b>Python</b>, <b>Ruby</b>. 
                     </p>
 
                     <a id="tghackathon" href="https://t.me/creditstechnical " class="btn btn-secondary py-3 u-fs-20 u-fw-500 green-gr">
-                        Join us in telegram to stay tuned!
+                        Join Technical chat in Telegram
                     </a>
 
                 </div> <!-- END col-md-6 -->
@@ -301,192 +301,7 @@
             </div>
         </div>
     </section>
-    <section class="u-pt-100 u-pb-100" style="
-    background: #2c364c url('/static/img/webinars.jpg') no-repeat fixed;
-    background-position: center;
-    background-size: cover;">
-        <div class="container">
-
-            <div class="row">
-                <div class="col-md-12 u-pl-50 text-center text-light">
-                    <h2 class="mb-4 u-fw-500 u-lh-2">
-                        Technical Webinars helps you further<br> understand hackathon's basic technology
-                    </h2><div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
-                    <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-50">Online sessions will be conducted via official Twitch channel and all videos will be uploaded to Youtube channel.</p>
-
-                    <div class="row u-fs-24" align="center">
-                        <div class="col-md-4">
-                            <h6 class="text-primary">15th of November</h6>
-                            <p class="u-fs-20 u-fw-500 u-lh-2">How to use Credits API</p>
-                           <a target="_blank" href="https://www.twitch.tv/creditscom" class="btn btn btn-rounded orange-gr py-2">
-                                Watch
-                            </a>
-                        </div>
-                        <div class="col-md-4">
-                            <h6 class="text-primary">22th of November</h6>
-                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of smart contracts using Credits platform</p>
-{#                            <a target="_blank" href="https://youtu.be/BLo7aBDC5pQ" class="btn btn btn-rounded btn-white py-2">#}
-{#                                Watch#}
-{#                            </a>#}
-                        </div>
-                        <div class="col-md-4">
-                            <h6 class="text-primary">29th of November</h6>
-                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of decentralized applications using Credits platform</p>
-                        </div>
-                    </div>
-
-                </div> <!-- END col-md-6 -->
-            </div>
-        </div>
-    </section>
-
-    <a name="current"></a>
-    <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
-        <div class="container">
-
-            <h2 class="h1 u-mt-50 text-center">The 8th OpenGift online-hackathon has started!</h2>
-
-            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
-            <div class="row">
-                <div class="col-lg-12 ">
-                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                        <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
-                        <h4 class="u-fs-26 u-my-35">
-                            8th OpenGift Hackathon Task:
-                        </h4>
-
-                        <p class="text-center text-dark u-t-u">
-                            <a href="/task_detail/?number=1&project=1115" target="_blank">Web On Fire</a>
-                        </p>
-                        <p>
-                            Hello, guys!
-                        </p>
-                        <p>
-Today’s task is pretty simple. You should create maximally realistic fire on JS. Paper burning effect on the webpage would be a bonus.
-</p>
-                        <p>
-Let’s set this weekend on fire! Good luck!
-                        </p>
-
-                    </div>
-                </div>
-                <div class="col-lg-12 ">
-                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center bg-gray-v2">
-                        <h4 class="u-fs-26 u-my-35">
-                            Current hackathon rules
-                        </h4>
-
-                        <div style="text-align: left;">
-
-                            <p>1. You need to upload your solution to a public repository and publish it as a result
-                                on the OpenGift hackathon <a href="/task_detail/?number=1&project=1115">task page</a>;
-                                the deadline 5 of November 2018 1 pm.</p>
-
-                            <p>2. Anything that isn’t mentioned in the requirements is up to you.
-                                Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
-
-                            <p>3. Referees will choose the best developer, who will get the prize fund in GIFT tokens.
-                                * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the requirements.</p>
-
-                            <p>4. The author of the best solution will get the 100% ownership of the new software solution
-                                on the OpenGift platform. **</p>
-                        </div>
-
-                        <h4 class="u-mt-50 ">We wish you a good luck. Let the best developer win!</h4>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <p><small>** Owners of an open-source project on the OpenGift platform receive 10% of all payments (for new features, buf fixes, etc.) towards the project just for having the 'owner' status and up to 95% if they do the actual job.
-                    The owner may give away his/her ownership stake (or a part of it) to any other member of the OpenGift community.</small></p>
-
-                <p><small>*GIFT token is an inner currency of the OpenGift platform.
-                    It can be used to pay developers or donate towards open source projects.
-                    The network of independent exchange points will buy back GIFTs from developers.</small></p>
-            </div>
-        </div>
-    </section>
-
-    <section class="u-pt-0 u-pb-0 u-mb-0 u-mt-0">
-        <div class="container">
-            <div class="row">
-
-                <div class="col-lg-6 col-md-6 u-mb-50 u-mt-50">
-                    <div class="media">
-                        <div class="u-w-50 d-flex mr-4">
-                            <img class="u-h-50" src="/static/img/requirements.svg" alt="Price">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="u-mb-30">Technical task requirements</h4>
-                            <ul class="list-unstyled">
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Make solution open-sourced and publish it in a dedicated <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">repository on Credits Github</a>;</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>The final result needs to match the definition of a minimal viable product (MVP) -
-                                    <a href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a> ;</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Final result of your development should interact with Credits blockchain - send transactions, deploy smart contracts and be connected with our network;</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>You should use the latest software version. Probably it will be Testnet 3.0 release. You will be available to check exact information in <a href="https://t.me/creditstechnical" target="_blank">Credits Technical chat</a>.
-                                    <a href="https://developers.credits.com/en/Articles/11" target="_blank">Link for download</a>.</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6 -->
-
-                <div class="col-lg-6 col-md-6 u-mt-50">
-                    <div class="media">
-                        <div class="u-w-50 d-flex mr-4">
-                            <img class="u-h-50" src="/static/img/process.svg" alt="Speed">
-                        </div>
-                        <div class="media-body">
-                            <h4 class="u-mb-30">Development process</h4>
-                            <p>There are two main ways to focus on during the hackathon:</p>
-                            <ul class="list-unstyled">
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>
-                                    Development of decentralized applications for the industries including, but not limited to Internet of Things, banking, logistics, insurance, payments, medicine, copyright protection, industrial and consumer goods. You are able to check some ideas on Credits website - tab “Use Cases”.
-                                </li>
-                                <li><i class="fa fa-check mr-2 color-primary"></i>
-                                    Development of useful infrastructure services which will be helpful for future of Credits ecosystem, for example: web wallet, hardware wallet, blockchain explorer, decentralized exchange, various cross-chain and atomic swaps decisions, escrow, etc.
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> <!-- END col-lg-4 col-md-6 -->
-
-
-            </div>
-        </div>
-    </section>
-
-
-
-        <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/questions-pattern.svg') repeat fixed;background-position: center;
-    background-size: 20%;">
-        <div class="container">
-            <h2 class="mb-4 u-fw-500 u-lh-2 " align="center">What need to be done on GitHub?</h2>
-            <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
-            <div class="row align-items-center">
-
-                <div class="col-md-6 mb-5" align="center">
-                    <img src="/static/img/star.svg" alt="What need to be done on GitHub">
-                </div> <!-- END col-md-6 -->
-                <div class="col-md-6">
-                    <div class="container">
-                        <ul class="list-unstyled">
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a fork of
-                                <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">Third party Integrations and Solutions</a>;</li>
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a branch in you forked repository (the branch name must match your project name);</li>
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Develop your project and put the source code in your forked repository. Act according to deadlines!</li>
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Put you project in separate directory (the name must match the project name);</li>
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>When the project will be finished, create a pull request to merge your branch with master brunch</li>
-                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>After the pull request will be confirmed and and possibly discussed, you project will be added to Credits repository.
-                                If your project is not finished, but you make a pull request before the deadline, your project will be added to the repository</li>
-                        </ul>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-    </section>
-
-<section class="u-py-60 relative" style="background: #eef8f5;">
+	<section class="u-py-60 relative" style="background: #eef8f5;">
     <div class="container">
         <div class="row">
             <div class="col-md-12">
@@ -619,19 +434,19 @@ Let’s set this weekend on fire! Good luck!
                     <li><div class="tags-list">
                         <span class="tag orange-gr text-white">1 step</span>
                     </div>
-                        <h4 class="u-fw-500">Registration.</h4><p>Deadline - 00:00 UTC, December, 9. All submissions are done through OpenGift platform.</p></li>
+                        <h4 class="u-fw-500">Registration.</h4><p>Deadline - 00:00 UTC, December, 1. All submissions are done through OpenGift platform.</p></li>
                     <li><div class="tags-list">
                         <span class="tag orange-gr text-white">2 step</span>
                     </div>
-                        <h4 class="u-fw-500">Concept Creation.</h4><p>Deadline - 00:00 UTC, December, 9. During this stage you should create a brief introduction of your future development. It must contain the following points - dApps/service name, estimated target audience, problems which are solved, estimated MVP functionality, final release functionality. You can also add any information which helps to deeper understand your concept. This information should be presented in pdf, ppt or pptx format and uploaded to OpenFift website.</p></li>
+                        <h4 class="u-fw-500">Concept Creation.</h4><p>Deadline - 00:00 UTC, December, 9. During this stage you should create a brief introduction of your future project. It must contain the following points - dApps/service name, estimated target audience, problems that can be solved, estimated MVP functionality, final release functionality. You can also add any information which helps to understand your concept deeper. This information should be presented in pdf, ppt or pptx format and uploaded to OpenGift website.</p></li>
                     <li><div class="tags-list">
                         <span class="tag orange-gr text-white">3 step</span>
                     </div>
-                        <h4 class="u-fw-500">Development Process.</h4><p>Deadline - 00:00 UTC,December, 30. By the end of this stage you should publish source code of your development in dedicated Github repository and send link to website or mobile app for testing of your development in real time mode. We will chose ten finalists at the end of 3rd round for participation in 4th round.</p></li>
+                        <h4 class="u-fw-500">Development Process.</h4><p>Deadline - 00:00 UTC,December, 30. By the end of this stage you should publish source code of your project in the dedicated Github repository and send a link to the developed website or mobile app via OpenGift. We will chose ten finalists at the end of 3rd round for participation in 4th round.</p></li>
                     <li><div class="tags-list">
                         <span class="tag orange-gr text-white">4 step</span>
                     </div>
-                        <h4 class="u-fw-500">Presentation.</h4><p>Deadline - 00:00 UTC, January, 6, 2019. During this stage you should create a short video - 5 minutes max - containing the  information about your development - concept, process of interaction with users, key features and benefits. All information should be presented in most clear and understandable way.</p></li>
+                        <h4 class="u-fw-500">Presentation.</h4><p>Deadline - 00:00 UTC, January, 6, 2019. During this stage you should create a short video (5 minutes max) containing the information about your project: concept, process of interaction with users, key features and benefits. The presentation should be clear and understandable for listeners.</p></li>
 
                 </ol>
             </div>
@@ -641,6 +456,193 @@ Let’s set this weekend on fire! Good luck!
     </div>
 </section>
 
+	
+    <section class="u-pt-100 u-pb-100" style="
+    background: #2c364c url('/static/img/webinars.jpg') no-repeat fixed;
+    background-position: center;
+    background-size: cover;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-md-12 u-pl-50 text-center text-light">
+                    <h2 class="mb-4 u-fw-500 u-lh-2">
+                        Technical Webinars help you better understand<br> a platform you'll be working with during the hackathon
+                    </h2><div class="u-h-4 u-w-50 bg-primary rounded mx-auto mt-4 mb-5"></div>
+                    <p class="u-fs-20 u-fw-500 u-lh-2 u-mb-50">Online sessions will be conducted via official <a href="https://www.twitch.tv/creditscom" target="_blank">Twitch channel</a>.<br> All videos will be uploaded on Credit's <a href="http://www.youtube.com/c/CreditsBlockchain" target="_blank">Youtube channel</a>.</p>
+
+                    <div class="row u-fs-24" align="center">
+                        <div class="col-md-4">
+                            <h6 class="text-primary">15th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">How to use Credits API</p>
+                           <a target="_blank" href="https://www.twitch.tv/videos/336154207" class="btn btn btn-rounded orange-gr py-2" style="background: #4b367c!important;">
+                                Watch
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-primary">22th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of smart contracts using Credits platform</p>
+                            <a target="_blank" href="https://www.twitch.tv/creditscom" class="btn btn btn-rounded btn-white py-2">
+                                Watch
+                            </a>
+                        </div>
+                        <div class="col-md-4">
+                            <h6 class="text-primary">29th of November</h6>
+                            <p class="u-fs-20 u-fw-500 u-lh-2">Development of decentralized applications using Credits platform</p>
+                             <a target="_blank" href="https://www.twitch.tv/creditscom" class="btn btn btn-rounded btn-white py-2">
+                                Watch
+                            </a>							
+                        </div>
+                    </div>
+
+                </div> <!-- END col-md-6 -->
+            </div>
+        </div>
+    </section>
+
+    <a name="current"></a>
+    <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50 text-center">The 8th OpenGift online-hackathon has started!</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                            8th OpenGift Hackathon Task:
+                        </h4>
+
+                        <p class="text-center text-dark u-t-u">
+                            <a href="/task_detail/?number=1&project=1115" target="_blank">Web On Fire</a>
+                        </p>
+                        <p>
+                            Hello, guys!
+                        </p>
+                        <p>
+Today’s task is pretty simple. You should create maximally realistic fire on JS. Paper burning effect on the webpage would be a bonus.
+</p>
+                        <p>
+Let’s set this weekend on fire! Good luck!
+                        </p>
+
+                    </div>
+                </div>
+                <div class="col-lg-12 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center bg-gray-v2">
+                        <h4 class="u-fs-26 u-my-35">
+                            Current hackathon rules
+                        </h4>
+
+                        <div style="text-align: left;">
+
+                            <p>1. You need to upload your solution to a public repository and publish it as a result
+                                on the OpenGift hackathon <a href="/task_detail/?number=1&project=1115">task page</a>;
+                                the deadline 5 of November 2018 1 pm.</p>
+
+                            <p>2. Anything that isn’t mentioned in the requirements is up to you.
+                                Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
+
+                            <p>3. Referees will choose the best developer, who will get the prize fund in GIFT tokens.
+                                * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the requirements.</p>
+
+                            <p>4. The author of the best solution will get the 100% ownership of the new software solution
+                                on the OpenGift platform. **</p>
+                        </div>
+
+                        <h4 class="u-mt-50 ">We wish you a good luck. Let the best developer win!</h4>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <p><small>** Owners of an open-source project on the OpenGift platform receive 10% of all payments (for new features, buf fixes, etc.) towards the project just for having the 'owner' status and up to 95% if they do the actual job.
+                    The owner may give away his/her ownership stake (or a part of it) to any other member of the OpenGift community.</small></p>
+
+                <p><small>*GIFT token is an inner currency of the OpenGift platform.
+                    It can be used to pay developers or donate towards open source projects.
+                    The network of independent exchange points will buy back GIFTs from developers.</small></p>
+            </div>
+        </div>
+    </section>
+
+    <section class="u-pt-0 u-pb-0 u-mb-0 u-mt-0">
+        <div class="container">
+            <div class="row">
+
+                <div class="col-lg-6 col-md-6 u-mb-50 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/requirements.svg" alt="Price">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30">Technical task requirements</h4>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Make an open-sourced solution and publish it in a dedicated <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">repository on Credits Github</a>;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>The final result needs to match the definition of a minimal viable product (MVP) -
+                                    <a href="https://en.wikipedia.org/wiki/Minimum_viable_product">https://en.wikipedia.org/wiki/Minimum_viable_product</a> ;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Final result of your development should interact with Credits blockchain - send transactions, deploy smart contracts and be connected with our network;</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>You should use the latest version of our software. Probably, at the time of hackathon it will be Testnet 3.0 release. Information about version releases will be published in <a href="https://t.me/creditstechnical" target="_blank">Credits Technical chat</a>.
+                                    <a href="https://developers.credits.com/en/Articles/11" target="_blank">Link for download</a>.</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- END col-lg-4 col-md-6 -->
+
+                <div class="col-lg-6 col-md-6 u-mt-50">
+                    <div class="media">
+                        <div class="u-w-50 d-flex mr-4">
+                            <img class="u-h-50" src="/static/img/process.svg" alt="Speed">
+                        </div>
+                        <div class="media-body">
+                            <h4 class="u-mb-30">Development process</h4>
+                            <p>There are two main areas to focus on during the hackathon:</p>
+                            <ul class="list-unstyled">
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>
+                                    Development of decentralized applications various industries, including: Internet of Things, banking, logistics, insurance, payments, medicine, copyright protection, industrial and consumer goods. You can get some inspiration on the Credits website (tab 'Use Cases'.)
+                                </li>
+                                <li><i class="fa fa-check mr-2 color-primary"></i>
+                                    Development of useful infrastructure services, which will be helpful for the Credits ecosystem, for example: a web wallet, a hardware wallet, a blockchain explorer, a decentralized exchange, various cross-chain and atomic swaps solutions, escrow, etc. 
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> <!-- END col-lg-4 col-md-6 -->
+
+
+            </div>
+        </div>
+    </section>
+
+
+
+        <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/questions-pattern.svg') repeat fixed;background-position: center;
+    background-size: 20%;">
+        <div class="container">
+            <h2 class="mb-4 u-fw-500 u-lh-2 " align="center">What needs to be done on GitHub?</h2>
+            <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+            <div class="row align-items-center">
+
+                <div class="col-md-6 mb-5" align="center">
+                    <img src="/static/img/star.svg" alt="What need to be done on GitHub">
+                </div> <!-- END col-md-6 -->
+                <div class="col-md-6">
+                    <div class="container">
+                        <ul class="list-unstyled">
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a fork of
+                                <a href="https://github.com/CREDITSCOM/CS-Third-party-Integrations-and-Solutions" target="_blank">Third party Integrations and Solutions</a>;</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Create a branch in you forked repository (the branch name must match your project name);</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Develop your project and put the source code in your forked repository. Please keep the deadlines in mind!</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>Put you project in a separate directory (the name must match the project name);</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>When the project is finished, create a pull request to merge your branch with the master branch;</li>
+                            <li class="u-mb-20"><span class="lnr lnr-checkmark-circle mr-2 color-primary u-fs-20"></span>After the pull request is confirmed, your project will be added to the Credits' repository. If your project is not finished, but you make a pull request before the deadline, your project will be added to the repository.</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
     <section class="">
         <div class="container">
             <div class="row">
@@ -652,16 +654,13 @@ Let’s set this weekend on fire! Good luck!
                         </div>
                         <div class="media-body">
                             <h4 class="u-mb-30"> Judging criteria</h4>
-                            <p>All process of selecting winners will be held by Credits developers team, the
-                                CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos.
-                                We will evaluate development according to below criteria</p>
+                            <p>Credits developers team, the CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos, will be in charge of selecting winners. We will evaluate development according to criteria below</p>
                             <ul class="list-unstyled">
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>All process of selecting winners will be held by Credits developers team, the CTO - Evgeniy Butyaev and Deputy CTO - Konstantinos Sotiropulos. We will evaluate development according to below criteria</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Applications need to match the needs of target audience</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Easy implementation process and ability to solve problems of target audience</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Creativity and innovative approach will be a huge benefit</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Opportunity to expansion and growth</li>
-                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Quality and clarity of development code</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Meeting a target audience needs</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Easiness of an implementation process and ability to solve problems of a target audience</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Creativity and innovative approach will be a huge advantage</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Opportunity for expansion and growth</li>
+                                <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Quality and clarity of the development code</li>
                                 <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>UX/UI</li>
                                 <li class="u-mb-20"><i class="fa fa-check mr-2 color-primary"></i>Speed of interaction with users</li>
                             </ul>
@@ -827,7 +826,18 @@ Let’s set this weekend on fire! Good luck!
         </div>
     </div>
 </section>
-
+<section class="u-pt-50 u-pb-50 relative text-white" style="background:#2c364c;">
+        <div class="container">
+		 <p class="text-dark u-lh-1_8 text-center" style="margin-bottom: 0px; font-size: 3rem !important;">
+                        <a target="_blank" href="https://www.facebook.com/creditscom/" class="icon fa fa-facebook"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://twitter.com/creditscom" class="icon fa fa-twitter"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://t.me/creditscom" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
+						<a target="_blank" href="https://www.reddit.com/r/CreditsOfficial/" class="icon fa fa-reddit"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="http://www.youtube.com/c/CreditsBlockchain" class="icon fa fa-youtube"></a>&nbsp;&nbsp;
+                        <a target="_blank" href="https://www.instagram.com/credits_com/" class="icon fa fa-instagram"></a>
+           </p>
+		</div>
+</section>		
     {% if users %}
     <section class="bg-gray-v2 u-pb-0 u-pt-0 ">
         <div class="container">
@@ -1026,9 +1036,9 @@ Let’s set this weekend on fire! Good luck!
             },
             data: {
               title: 'OpenGift Weekly Hackathon',
-              start: new Date(Date.UTC(2018, 11, 1, 13, 0, 0)),
+              start: new Date(Date.UTC(2018, 11, 1, 0, 0, 0)),
               duration: 60*24,
-              end: new Date(Date.UTC(2018, 11, 17, 13, 0, 0)),
+              end: new Date(Date.UTC(2018, 11, 17, 0, 0, 0)),
               address: 'https://opengift.io/hackathon/',
               description: 'Just go there and become a winner.'
             }
