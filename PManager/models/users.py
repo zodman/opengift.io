@@ -11,6 +11,7 @@ from django.db.models.signals import post_save, pre_delete
 from PManager.customs.storages import path_and_rename
 from django.db import connection
 from django.db.models import Sum
+from sorl.thumbnail import get_thumbnail
 
 
 class Specialty(models.Model):
@@ -247,16 +248,21 @@ class PM_User(models.Model):
 
     @property
     def avatarSrc(self):
-        avatar = str(self.avatar.url) if self.avatar else ''
-        if avatar:
-            if avatar.find('media') < 0:
-                avatar = '/media/' + avatar
+        if self.avatar:
+            try:
+                avatar = get_thumbnail(self.avatar, '120x120')
+                return avatar.url
+            except IOError:
+                avatar = str(self.avatar.url) if self.avatar else ''
+                if avatar:
+                    if avatar.find('media') < 0:
+                        avatar = '/media/' + avatar
 
+            return avatar
         else:
             avatar = 'https://robohash.org/opengift_' + str(self.id) + '.png'
-
-        return avatar
-
+            return avatar
+        
     @property
     def avatarSquare(self):
         return '<div style="background: url(' + self.avatarSrc + ');background-repeat: no-repeat;background-size: cover;height: 120px;width: 120px;"></div>'

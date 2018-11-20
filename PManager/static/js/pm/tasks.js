@@ -313,6 +313,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 '$timer': $row.find('.js-time'),
                 '$responsibleLink': $row.find('.js_task_responsibles .dropdown'),
                 '$resultsContainer': $row.find('.js-task-results'),
+                '$resultsContainerTitle': $row.find('.js-task-results-title'),
                 '$planTime': $row.find('.task-plantime'),
                 '$reward': $row.find('.js-reward'),
                 '$bountyStatus': $row.find('.js-task-bounty')
@@ -457,11 +458,16 @@ var CRITICALLY_THRESHOLD = 0.7;
                     $buttonStart.removeClass('started').find('.fa').removeClass('fa-pause').addClass('fa-play-circle');
             }
             if (!params.responsibleTag) params.responsibleTag = 'a';
+
             var $respLink = $('<' + params.responsibleTag + '></' + params.responsibleTag + '>').attr({
                 'data-toggle': 'dropdown'
             }).addClass('js-select_resp').appendTo(oTaskContainers.$responsibleLink);
 
-            oTaskContainers.$resultsContainer.append(taskInfo.resultsQty);
+            if (taskInfo.resultsQty) {
+                oTaskContainers.$resultsContainer.append(taskInfo.resultsQty);
+            } else {
+                oTaskContainers.$resultsContainerTitle.hide();
+            }
 
             var rName = [];
             if (taskInfo.resp && taskInfo.resp[0] && taskInfo.resp[0]['name']) {

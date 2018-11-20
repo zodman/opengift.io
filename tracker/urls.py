@@ -26,6 +26,7 @@ from robo.views import paysystems, payment
 from PManager.xml_import.xml_import import XML_Import
 from django.shortcuts import HttpResponse
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from django.conf import settings
 
 admin.autodiscover()
 
@@ -205,3 +206,12 @@ urlpatterns = patterns('',
                        url(r'^wiki/', include('wiking.urls'))
                        )
 urlpatterns += staticfiles_urlpatterns()
+
+
+
+if settings.DEBUG:
+    urlpatterns += patterns('',
+        url(r'^media/(?P<path>.*)$', 'django.views.static.serve', {
+            'document_root': settings.MEDIA_ROOT,
+        }),
+   )

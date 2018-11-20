@@ -20,4 +20,4 @@ tags
 tracker/local_settings.py
 .coverage
 htmlcov
-.vscode/
+.vscode

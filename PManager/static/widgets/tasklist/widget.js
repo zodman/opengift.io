@@ -1320,10 +1320,13 @@ var widget_tl, currentGroup;
         var search_timeout = false;
 
         // On select DO TL_SEACH
-        
-        $("#tag_list").change(function(){
-
-                widget_tl.TL_Search();
+        $('#tag_list').multiselect({
+            numberDisplayed: 3,
+            buttonWidth:'100%',
+            includeSelectAllOption: true,
+            onChange: function( option, check, select){
+                widget_tl.TL_Search();   
+            }
         });
 
         $('.search-input').keyup(function () {
@@ -1355,6 +1358,7 @@ var widget_tl, currentGroup;
         $('input[name=group]').click(function () {
             widget_tl.TL_Search();
         });
+
         $(widget_tl.tabsSelector).click(function () {
             $(this).parent().activateListItem();
             if ($(this).hasClass('userTab')) {

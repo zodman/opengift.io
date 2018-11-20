@@ -876,7 +876,7 @@
 
                 {% if not task_detail.task.closed %}
                 <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
-                class="donate-button btn orange-gr">Donate <img src="/static/img/investment.svg" height="18"></a>
+                class="donate-button btn orange-gr">Make a deposit <img src="/static/img/investment.svg" height="18"></a>
 
                 <div class="donate-desc">minimal donation value is  ${{ task_detail.avgDonate|floatformat:"0" }} for now</div>
                 {% endif %}
