@@ -91,7 +91,7 @@ class ViewsTest(TestCase):
                 'page':1,
                 'action':'all',
                 'project':0,
-                'tag_search':'FOOBAR',
+                'tag_search':['FOOBAR',],
             }
             resp = self.post('task-handler', data=post_data)
             self.response_200()

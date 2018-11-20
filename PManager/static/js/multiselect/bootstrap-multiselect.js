@@ -1770,7 +1770,7 @@
     $.fn.multiselect.Constructor = Multiselect;
 
     $(function() {
-        $("select[data-role=multiselect]").multiselect();
+      //  $("select[data-role=multiselect]").multiselect();
     });
 
 });

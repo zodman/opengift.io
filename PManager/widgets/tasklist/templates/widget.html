@@ -2,18 +2,11 @@
 {% compressed_js 'fileup' %}
 {% compressed_js 'tasklist' %}
 <script src="/static/js/jquery.fancyform.min.js"></script>
-<link rel="stylesheet" href="/static/js/multiselect/bootstrap-multiselect.css" type="text/css">
-<script src="/static/js/multiselect/bootstrap-multiselect.js"></script>
 
 <script>
     $(function () {
         $("input:radio").transformRadio({
             base: "class" // Can be image or class, if class a span will be added
-        });
-        $('.multiselect').multiselect({
-             numberDisplayed: 3,
-             buttonWidth:'100%',
-             includeSelectAllOption: true
         });
     });
     window.taskHtml = {{ tasklist.template|jsonify|safe }};
