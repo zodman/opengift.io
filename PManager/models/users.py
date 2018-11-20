@@ -249,8 +249,16 @@ class PM_User(models.Model):
     @property
     def avatarSrc(self):
         if self.avatar:
-            avatar = get_thumbnail(self.avatar, '120x120')    
-            return avatar.url
+            try:
+                avatar = get_thumbnail(self.avatar, '120x120')
+                return avatar.url
+            except IOError:
+                avatar = str(self.avatar.url) if self.avatar else ''
+                if avatar:
+                    if avatar.find('media') < 0:
+                        avatar = '/media/' + avatar
+
+            return avatar
         else:
             avatar = 'https://robohash.org/opengift_' + str(self.id) + '.png'
             return avatar

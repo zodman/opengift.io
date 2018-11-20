@@ -428,7 +428,7 @@
             filterBehavior: 'text',
             includeFilterClearBtn: true,
             preventInputChangeEvent: false,
-            nonSelectedText: 'None selected',
+            nonSelectedText: 'Categories',
             nSelectedText: 'selected',
             allSelectedText: 'All selected',
             numberDisplayed: 3,

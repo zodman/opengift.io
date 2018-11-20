@@ -219,78 +219,78 @@
 {#        </div>#}
 {#    </div>#}
 {% endif %}
-<div class="modal fade js-projects" id="projects-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-     aria-hidden="true">
-    <div class="modal-dialog projects-popup">
-        <div class="modal-content green-popup">
-            <div class="modal-header">
-                <button type="button" class="close" onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();" data-dismiss="modal" aria-hidden="true">×</button>
-                <h2 class="modal-title">Your projects</h2>
-            </div>
-            <div class="modal-body clearfix">
-
-                <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td>
-                            <div class="form-group find-a-project">
-                                <form>
-                                    <input type="email" placeholder="Search..." id=""
-                                           class="form-control js-inputProjectList">
-                                    <button class="find-a-project-button"><i class="fa fa-search"></i></button>
-                                </form>
-                            </div>
-                        </td>
-                        <td class="all-projects-link"><a href="{% if is_detail_page %}/{% endif %}?project=0">All projects<i class="fa fa-list-ul"></i></a></td>
-                    </tr>
-                </table>
-                <hr>
-                <div class="clearfix"></div>
-
-                <div class="projects-list">
-                    {% for project in projects %}
-                        <div class="projects-item clearfix">
-                            <div class="projects-list-img">
-                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}"
-                                   style="background-image: url(
-                                           {% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %});">
-                                    <!--<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />-->
-                                </a>
-                            </div>
-                            <div class="projects-list-text">
-                                <span class="projects-list-control">
-                                    <a class="fa fa-cog" href="/project/{{ project.id }}/edit/"></a>
-                                    <a class="fa fa-pencil" href="/project/{{ project.id }}/edit/"></a>
-                                </span>
-                                <h4>
-                                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}"
-                                       class="js-itemProjectName">
-                                        {{ project.name }}
-                                    </a>
-                                </h4>
-                                {% if project.tasksQty %}Tasks: <b>{{ project.tasksQty }}</b>{% endif %}
-                                {% if project.readyTaskQty %}Ready: <b>{{ project.readyTaskQty }}</b>{% endif %}
-                            </div>
-                        </div>
-                    {% endfor %}
-                    <div class="projects-item clearfix">
-                        <div class="projects-list-img">
-                            <a style="background-color: rgb(71, 164, 71);" href="/task/add/">
-                                <i class="fa fa-plus"></i>
-                            </a>
-                        </div>
-                        <div class="projects-list-text">
-                            <h4>
-                                <a href="/task/add/">
-                                    Add project
-                                </a>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+{#<div class="modal fade js-projects" id="projects-popup" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"#}
+{#     aria-hidden="true">#}
+{#    <div class="modal-dialog projects-popup">#}
+{#        <div class="modal-content green-popup">#}
+{#            <div class="modal-header">#}
+{#                <button type="button" class="close" onclick="$('.overflow, .js-projects').hide(); $('.js-inputProjectList').val(''); $('.projects-item').show();" data-dismiss="modal" aria-hidden="true">×</button>#}
+{#                <h2 class="modal-title">Your projects</h2>#}
+{#            </div>#}
+{#            <div class="modal-body clearfix">#}
+{##}
+{#                <table width="100%" cellpadding="0" cellspacing="0">#}
+{#                    <tr>#}
+{#                        <td>#}
+{#                            <div class="form-group find-a-project">#}
+{#                                <form>#}
+{#                                    <input type="email" placeholder="Search..." id=""#}
+{#                                           class="form-control js-inputProjectList">#}
+{#                                    <button class="find-a-project-button"><i class="fa fa-search"></i></button>#}
+{#                                </form>#}
+{#                            </div>#}
+{#                        </td>#}
+{#                        <td class="all-projects-link"><a href="{% if is_detail_page %}/{% endif %}?project=0">All projects<i class="fa fa-list-ul"></i></a></td>#}
+{#                    </tr>#}
+{#                </table>#}
+{#                <hr>#}
+{#                <div class="clearfix"></div>#}
+{##}
+{#                <div class="projects-list">#}
+{#                    {% for project in projects %}#}
+{#                        <div class="projects-item clearfix">#}
+{#                            <div class="projects-list-img">#}
+{#                                <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}"#}
+{#                                   style="background-image: url(#}
+{#                                           {% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %});">#}
+{#                                    <!--<img src="{% if project.imagePath %}{{ project.imagePath|thumbnail:"116x94" }}{% else %}/static/img/no-photo.png{% endif %}" />-->#}
+{#                                </a>#}
+{#                            </div>#}
+{#                            <div class="projects-list-text">#}
+{#                                <span class="projects-list-control">#}
+{#                                    <a class="fa fa-cog" href="/project/{{ project.id }}/edit/"></a>#}
+{#                                    <a class="fa fa-pencil" href="/project/{{ project.id }}/edit/"></a>#}
+{#                                </span>#}
+{#                                <h4>#}
+{#                                    <a href="{% if is_detail_page %}/{% endif %}?project={{ project.id }}"#}
+{#                                       class="js-itemProjectName">#}
+{#                                        {{ project.name }}#}
+{#                                    </a>#}
+{#                                </h4>#}
+{#                                {% if project.tasksQty %}Tasks: <b>{{ project.tasksQty }}</b>{% endif %}#}
+{#                                {% if project.readyTaskQty %}Ready: <b>{{ project.readyTaskQty }}</b>{% endif %}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                    {% endfor %}#}
+{#                    <div class="projects-item clearfix">#}
+{#                        <div class="projects-list-img">#}
+{#                            <a style="background-color: rgb(71, 164, 71);" href="/task/add/">#}
+{#                                <i class="fa fa-plus"></i>#}
+{#                            </a>#}
+{#                        </div>#}
+{#                        <div class="projects-list-text">#}
+{#                            <h4>#}
+{#                                <a href="/task/add/">#}
+{#                                    Add project#}
+{#                                </a>#}
+{#                            </h4>#}
+{#                        </div>#}
+{#                    </div>#}
+{#                </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</div>#}
 <header>
     <div class="header clearfix">
         <div class="logo">

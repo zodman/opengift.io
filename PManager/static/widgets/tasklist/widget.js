@@ -1355,6 +1355,7 @@ var widget_tl, currentGroup;
         $('input[name=group]').click(function () {
             widget_tl.TL_Search();
         });
+
         $(widget_tl.tabsSelector).click(function () {
             $(this).parent().activateListItem();
             if ($(this).hasClass('userTab')) {
