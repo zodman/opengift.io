@@ -1585,7 +1585,10 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .task-info .task-info-time span.js-time, .tasklist-plan-time {border-bottom: 1px dashed #47a447; color: #47a447 !important; cursor: pointer;}
 .task-info .task-info-time .dropdown .caret {margin-top:13px; vertical-align:top; margin-left:5px; display:inline-block;}
-.task-info .task-info-author {position:relative; text-align: left; float: left; width:250px; margin-left: 50px; text-align:left; white-space:nowrap; overflow: hidden;}
+.task-info .task-info-author {
+    position:relative; text-align: left; float: left; width:250px; margin-left: 50px;
+    text-align:left; white-space:nowrap; overflow: hidden;
+    height: 34px;}
 .task-info .task-info-author .js-select_resp {
     max-width: 148px;
     overflow: hidden;
@@ -6473,3 +6476,11 @@ body {
     padding-bottom: 60px;
 }
 
+.task-tag {
+    font-size: 10px;
+    padding: 5px;
+    background: white;
+    border-radius: 3px;
+    margin-right: 5px;
+    float: left;
+}

@@ -332,17 +332,15 @@
 
 
             {% if project.projectTasks.exists %}
-            <a href="/project/{{ project.id }}/tasks/" class="btn btn btn-rounded btn-primary ml-3 px-md-5">
-                Explore tasks
+            <a href="/project/{{ project.id }}/tasks/" class="btn btn btn-rounded btn-dark ml-3 px-md-5">
+                Create a task for project team
             </a>
             {% endif %}
+            <a href="/project/{{ project.id }}/tasks/" class="btn btn btn-rounded btn-white ml-3 px-md-5">
+                Do the tasks and get rewarded
+            </a>
 
-            {% if project.blockchain_state %}
-            <a href="/project/{{ project.id }}/donate/"
-               class="btn btn-rounded btn-secondary ml-3 px-md-5">
-                Donate
-            </a>
-            {% endif %}
+
 </p>
 
         </div> <!-- END container-->
@@ -357,8 +355,13 @@
                     Support <br>project team!
 
                 </h2><div class="mx-md-5"><p class="text-white h5 mb-4">You can fund project tasks and help project development. Some funders receive project tokens.</p>
-                <p class="h5"><a href="#shares" class="btn btn-rounded btn-outline-white mr-xl-3">Why do I need project tokens?</a>
-                <a href="/project/{{ project.id }}/tasks/" class="btn btn-white btn-rounded">Fund Tasks</a></p>
+                <p class="h5">
+                    {% if project.blockchain_state %}
+                    <a href="#roadmap" class="btn btn-white btn-rounded  mr-xl-3">See the roadmap</a>
+                {% endif %}
+                    <a href="#shares" class="btn btn-rounded btn-outline-white">Why do I need project tokens?</a>
+            </p>
+
             </div>
             </div>
         </div>
@@ -454,8 +457,9 @@
     </section>
 
 
-
+<a name="roadmap"></a>
 <section class="bg-gray-v1">
+
         <div class="container">
             <div class="row">
                 <div class="col-12 text-center">
