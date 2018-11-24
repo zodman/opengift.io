@@ -271,7 +271,8 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#PARENT\_NAME\#/ig, taskInfo.parentName);
             var tags_str = taskInfo.tags.map(function(elem){
                 return '<span class="task-tag">' + elem.tagText + '</span>'
-            }).join('')
+            }).join('');
+
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
             if (taskInfo.hasOwnProperty('messages')) {
                 html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);
