@@ -1322,6 +1322,8 @@ var widget_tl, currentGroup;
         // On select DO TL_SEACH
         $('#tag_list').multiselect({
             numberDisplayed: 3,
+            enableFiltering: true,
+            maxHeight: 200,
             buttonWidth:'100%',
             includeSelectAllOption: true,
             onChange: function( option, check, select){
