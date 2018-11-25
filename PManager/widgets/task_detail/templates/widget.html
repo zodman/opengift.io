@@ -1342,7 +1342,16 @@
             </ul>
         </div>
 
-        <a href="/project/{{ task_detail.task.project.id }}/public/#shares" class="btn btn-secondary">Get project tokens</a>
+            <div class="task-buttons">
+                <div class="pull-left">
+                    <a href="/project/{{ task_detail.task.project.id }}/public/#shares" class="btn btn-primary">
+                        Get project tokens
+                    </a>
+                </div>
+                <div class="pull-right">
+                    <a href="" class="btn btn-red">Delete Task</a>
+                </div>
+            </div>
         <!--backers-->
     </div>
 </div>
