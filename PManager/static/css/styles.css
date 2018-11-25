@@ -1276,7 +1276,11 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-left: 4px solid transparent;
 }
 .btn-dark:hover,
-.btn-dark:active {
+.btn-dark:active,
+.btn-dark:focus,
+.btn.btn-dark:hover,
+.btn.btn-dark:active,
+.btn.btn-dark:focus {
     color: #fff;
     background: #465464;
 }
