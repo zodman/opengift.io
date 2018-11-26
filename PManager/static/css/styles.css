@@ -1150,13 +1150,23 @@ div.taskWizard-required .taskWizard-question-title:after {
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
 .task-tab-filter {margin: 0px; margin: 0;}
-.task-tab-filter > li {padding: 0; display:block; float:left; margin-right: 5px;}
+.task-tab-filter > li {padding: 0; display:block; float:left;}
 .task-tab-filter a {
     color: #54667a;
     display: block;
     float: left;
-    padding: 7px 10px;
+    padding: 7px 15px;
     position: relative;
+    border: 1px solid #e7e8eb;
+    margin-right: -1px;
+}
+.task-tab-filter li:last-child a {
+    border-radius: 0 4px 4px 0;
+}
+
+
+.task-tab-filter li:first-child a {
+    border-radius: 4px 0 0 4px;
 }
 
 .task-tab-filter a.userTab,
@@ -1188,14 +1198,16 @@ div.taskWizard-required .taskWizard-question-title:after {
 [rel=deadline] .micro-circle-with-number {
     background: none repeat scroll 0 0 #c00f00;
 }
+
 .task-tab-filter > .active > a {
     color: #F3F6FB;
-    background-color: #54667a;
-    border-radius: 5px;
-    padding: 7px 10px;
+    background-color: #60bb98;
+    padding: 7px 15px;
     text-align: center;
     text-decoration: none;
+    border-color: #60bb98;
 }
+
 .task-tab-filter li:not(.active) a:hover { text-decoration: none; color: #60bb98;}
 
 .remove-tab {
@@ -1300,8 +1312,40 @@ div.taskWizard-required .taskWizard-question-title:after {
     width: 100%;
 }
 .multiselect-container>li>a>label {
-    padding: 10px 20px 10px 30px !important;
+    padding: 10px !important;
     text-transform: lowercase;
+}
+
+.multiselect-container>li>a {
+    color: #768595;
+}
+.multiselect-container>li>a:hover {
+    background: #F3F6FB;
+    color: #54667a;
+}
+
+.multiselect-container>li>a>label:before {
+    content: "\f00c";
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    margin-right: 5px;
+    color: #e7e8eb;
+}
+
+.multiselect-container>li>a>label input[type="checkbox"] {display: none;}
+
+
+.multiselect-container>li.active>a {
+    color: #54667a !important;
+    background: #FFF !important;
+}
+
+.multiselect-container>li.active >a>label:before {
+    color: #60bb98;
 }
 
     /* закругление кнопок справа */
