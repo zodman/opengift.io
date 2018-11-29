@@ -268,6 +268,8 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#TASK\_NUMBER\#/ig, taskInfo.number);
             html = html.replace(/\#TASK\_URL\#/ig, taskInfo.url);
             html = html.replace(/\#TASK\_NAME\#/ig, taskInfo.name);
+            html = html.replace(/\#TASK\_PROJECT\_NAME\#/ig, taskInfo.project.name);
+            html = html.replace(/\#TASK\_PROJECT\_LINK\#/ig, '/bounty/?project=' + taskInfo.project.id);
             html = html.replace(/\#PARENT\_NAME\#/ig, taskInfo.parentName);
             var tags_str = taskInfo.tags.map(function(elem){
                 return '<span class="task-tag">' + elem.tagText + '</span>'
@@ -488,7 +490,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             for (v in taskInfo.todo) {
                 todo = taskInfo.todo[v];
                 $row.find('.js-todo').append(
-                    '<i class="fa fa' + (todo.checked ? '-check' : '') + '-square-o ' + (todo.bug ? 'bug' : '') + '"></i>'
+                    '<i class="fa fa' + (todo.checked ? '-check' : '') + '-check' + (todo.bug ? 'bug' : '') + '"></i>'
                 )
             }
             //console.log("$row", $row.html(), taskInfo)
