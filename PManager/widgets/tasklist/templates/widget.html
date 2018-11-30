@@ -126,30 +126,11 @@
     {% endif %}
     {# -=========== ПОИСК И ФИЛЬТРАЦИЯ ===========- #}
 
-    <div class="row tasks-toolbar js-search-block" style="display: none; margin-top: 23px;">
-        <div class="col-xs-6">
-            <!--<div class="input-group">-->
-            <div class="search-filter js-searchFilterBlock">
-                <table width="100%" cellpadding="0" cellspacing="0">
-                    <tr>
-                        <td style="vertical-align:top;" class="left">
-                            <div class="find-container">
-                                <i class="fa fa-search"></i>
-                                <input type="text" placeholder="Search" class="search-input form-control{% if request.user.is_authenticated %} with-filter{% endif %}"/>
-                                <a class="icon-remove fa fa-times"></a>
-                            </div>
-                            
-                                               
-                        </td>
-                        <td class="right">
-                         <select name="tag_selected" id="tag_list" multiple class="multiselect form-control" >
-                                    {% for tag in tasklist.tags %}
-                                        <option value="{{tag.id}}"> {{tag.tagText}}</option>
-                                    {% endfor %}
-                                </select>
+    <div class="row tasks-toolbar js-search-block" style="display: none;">
 
 
-                        </td>
+                        <!-- ЕСЛИ ЭТО НЕ НУЖНО, МОЖНО УДАЛИТЬ <table width="100%" cellpadding="0" cellspacing="0">
+                        <tr>
                         {% if request.user.is_authenticated and False %}
                         <td style="vertical-align:top; padding-right: 10px;">
                             <div class="big-filter-wrapper">
@@ -277,9 +258,27 @@
                             </td>
                         {% endif %}
                     </tr>
-                </table>
+                </table>-->
+
+
+
+        <div class="col-xs-4 clearfix">
+            <div class="search-filter js-searchFilterBlock">
+
+            <div class="find-container">
+                <i class="fa fa-search"></i>
+                <input type="text" placeholder="Search" class="search-input form-control{% if request.user.is_authenticated %} with-filter{% endif %}"/>
+                <a class="icon-remove fa fa-times"></a>
             </div>
-            <!--</div> /.input-group -->
+
+            </div>
+        </div>
+        <div class="col-xs-2 clearfix">
+            <select name="tag_selected" id="tag_list" multiple class="multiselect form-control" >
+                {% for tag in tasklist.tags %}
+                <option value="{{tag.id}}"> {{tag.tagText}}</option>
+                {% endfor %}
+            </select>
         </div>
         <div class="col-xs-6 clearfix">
         {% if tasklist.bounty and False %}

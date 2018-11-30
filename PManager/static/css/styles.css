@@ -149,12 +149,12 @@ h4, h5, h6,
                                 ШАПКА
     ###############################################################*/
 
+header .header .logo {float: left;}
 header {background:#fff; box-shadow:0px 0px 15px #ccc; -moz-box-shadow:0px 0px 15px #ccc; -ms-box-shadow:0px 0px 15px #ccc; -o-box-shadow:0px 0px 15px #ccc; -webkit-box-shadow:0px 0px 15px #ccc; margin-bottom:15px; padding:15px; position:fixed; width:100%; top:0px; z-index:1000;}
 header .header {position:relative; max-width:1600px; margin:0 auto;}
 /*ЛОГО*/
-header .header .logo {float:left; width:15%;}
 /*МЕНЮ*/
-header .header > nav {float:left;  height:29px; line-height:29px;}
+header .header > nav {float:left;  height:29px; line-height:29px; width: 55%; text-align: center;}
 header .header > nav > ul {display: inline-block;zoom: 1; margin:0px; height:29px; line-height:29px;}
 header .header > nav > ul > li {display:inline; height:29px; line-height:29px;}
 header .header > nav > ul > li > a {display: block; padding:0 40px 0 0 ; font-size:14px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; color:#54667a;}
@@ -235,15 +235,12 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
 
 
 @media (max-width: 1340px) {
-    header .header .logo {width:16%;}
-    header .header > nav {width:55.5%;}
 
     header .header .timer-wrapper {width:28.5%;}
 }
 
 @media (max-width: 1190px) {
-    header .header .logo {width:30%;}
-    header .header > nav {width:25%; text-align: center;}
+    header .header > nav {text-align: center;}
     header .header > nav > ul > li > a > .fa { font-size: 22px;}
     header .header .timer-wrapper {width:45%;}
 }
@@ -786,21 +783,17 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 .transformSelect > li > span {
     display: block;
-    height: 34px;
-    line-height: 34px;
+    height: 36px;
+    line-height: 36px;
     padding: 0 35px 0 10px;
     position: relative;
     cursor: pointer;
     font-size: 14px;
     font-weight: normal;
-    color: #333;
-    border: 1px solid #ddd;
+    border: 1px solid #E4EBF0;
     border-radius: 4px;
 }
 
-.transformSelect > li > span:hover {
-    color: #000;
-}
 
 .transformSelect > li > span:before {
     content: "\f078";
@@ -913,26 +906,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 
 /* ====================== ДОБАВИТЬ ЗАДАЧУ */
 
-/*.tasks-toolbar .search-filter input.search-input.with-filter {display:block; float:left;*/
-    /*-webkit-border-top-right-radius: 0px;*/
-    /*-webkit-border-bottom-right-radius: 0px;*/
-    /*-moz-border-radius-topright: 0px;*/
-    /*-moz-border-radius-bottomright: 0px;*/
-    /*-o-border-radius-topright: 0px;*/
-    /*-o-border-radius-bottomright: 0px;*/
-    /*border-top-right-radius: 0px;*/
-    /*border-bottom-right-radius: 0px;*/
-/*}*/
-.tasks-toolbar .search-filter .btn-default {width:40px;}
-.tasks-toolbar .search-filter .btn-success .name {padding-left:10px;}
-.tasks-toolbar .search-filter .btn-info {margin-left:0px;}
-.tasks-toolbar .search-filter .btn-info .fa {margin-right: 8px;}
-.tasks-toolbar .search-filter .btn {margin-bottom:0px;}
-.tasks-toolbar .search-filter .dropdown-menu {margin:0px;}
 
-.big-filter-wrapper > .btn {
-    border-radius: 0 4px 4px 0;
-}
 
 .dropdown-menu {
     border: 0;
@@ -1127,7 +1101,14 @@ div.taskWizard-required .taskWizard-question-title:after {
 .widget-tasklist-functions li .widget-tab {margin-right: 0px;}
 .widget-tasklist-functions li .widget-tab .micro-circle-with-number {margin-left: 5px;}
 
-
+.tasks-toolbar {
+    margin-top: 25px;
+}
+@media screen and (max-width: 1100px) {
+    .tasks-toolbar > div {
+        margin-bottom: 5px;
+    }
+}
 
 /* ====================== СТАТУСЫ ЗАДАЧ - которые справа от фильтра */
 
@@ -1253,7 +1234,7 @@ div.taskWizard-required .taskWizard-question-title:after {
 /* убираем в ИЕ кнопку сброса фильтра */
 
 .search-input::-ms-clear { display: none; }
-.find-container {position: relative; padding-right: 20px;}
+.find-container {position: relative;}
 .find-container .form-control {
     padding: 6px 35px;
     height: 36px;
@@ -1269,25 +1250,33 @@ div.taskWizard-required .taskWizard-question-title:after {
 .find-container .fa-search {color: #CDDBE3;font-size: 17px; left: 11px; position: absolute; top: 9px;}
 .form-control {border-color: #E4EBF0; color: #54667a;}
 
-.btn-dark {
+@media only screen and (max-width: 768px) {
+    .col-xs-2,
+    .col-xs-4,
+    .col-xs-6 {
+        width: 100%;
+    }
+}
+
+.multiselect.btn-dark {
     background: #fff;
     color: #54667a;
     height: 36px;
     border: 1px solid #E4EBF0;
 }
 
-.btn-dark .caret {
+.multiselect.btn-dark .caret {
     border-top: 6px solid #CDDBE3;
     border-right: 6px solid transparent;
     border-left: 6px solid transparent;
     margin-left: 5px;
 }
-.btn-dark:hover,
-.btn-dark:active,
-.btn-dark:focus,
-.btn.btn-dark:hover,
-.btn.btn-dark:active,
-.btn.btn-dark:focus {
+.multiselect.btn-dark:hover,
+.multiselect.btn-dark:active,
+.multiselect.btn-dark:focus,
+.multiselect.btn.btn-dark:hover,
+.multiselect.btn.btn-dark:active,
+.multiselect.btn.btn-dark:focus {
     color: #fff;
     background: #465464;
 }
@@ -1496,8 +1485,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     align-items: center;
 }
 .task-title {
-    font-size:14px;
-    width:35%;
+    width:65%;
     position:relative;
     padding-right:35px;
 }
@@ -1509,130 +1497,6 @@ div.taskWizard-required .taskWizard-question-title:after {
 .task-title-name {font-size: 20px; margin-bottom: 5px;}
 .task-title-name-a {color:#54667a;}
 .task-title-name-a:hover {color: #39c2d3;}
-
-.task-checkbox {opacity: 0;}
-.task-checkbox + label {
-    cursor: pointer;
-    display: inline-block;
-    height: 20px;
-    left: 0px;
-    margin: 0;
-    padding: 0;
-    position: absolute;
-    top: -2px;
-    width: 20px;
-}
-.task-checkbox + label:before {
-    background: #fff none repeat scroll 0 0;
-    border: 2px solid #ccc;
-    border-radius: 10%;
-    -moz-border-radius: 10%;
-    -webkit-border-radius: 10%;
-    color: #ccc;
-    content: "\f00c";
-    display: inline-block;
-    font-family: FontAwesome;
-    font-size: 12px;
-    font-weight: normal;
-    height: 20px;
-    line-height: 17px;
-    margin: 0;
-    padding: 0;
-    text-align: center;
-    width: 20px;
-}
-
-.task-checkbox:not(checked) {
-
-}
-
-.task-checkbox:checked + label:before {
-    border: 2px solid #39c2d3;
-    color: #39c2d3;
-}
-
-
-
-.input-with-label-wrapper {margin-bottom: 20px; position: relative;}
-.input-with-label-wrapper:last-child {margin-bottom: 0px;}
-.input-with-input {float: left; width: calc(100% - 160px); position: relative;}
-.input-with-input input {height: 44px;}
-.input-with-button {
-    float: left;
-    width: 150px;
-    margin-left: 10px;
-}
-.input-with-button .btn {
-    height: 44px;
-    width: 100%;
-}
-
-.input-with-icon {position: absolute; right: 20px; color: #47a447; font-size: 20px; top: 12px; right: 13px;}
-
-@media only screen and (max-width: 768px) {
-    .input-with-label,
-    .input-with-input {width: 100%; float: none;}
-
-    .input-with-button {margin-left: 0px; margin-top: 10px;}
-}
-
-.checkbox-wrapper {
-    margin-bottom: 20px;
-}
-
-.checkbox-wrapper-item {
-    display: block; float: left; margin-right: 30px; position: relative;
-    cursor: pointer;
-}
-
-
-.checkbox-wrapper-item input {
-    position: absolute;
-    left: 0px;
-    top: 0px;
-    width: 20px;
-    height: 20px;
-    margin: 0;
-    padding: 0;
-    opacity: 0;
-}
-
-
-.checkbox-wrapper-item input:checked + .checkbox-wrapper-item-checkbox:before {
-    border: 2px solid #39c2d3;
-    color: #39c2d3;
-}
-
-.checkbox-wrapper-item-checkbox:before {
-    background: #fff none repeat scroll 0 0;
-    border: 2px solid #ccc;
-    border-radius: 50%;
-    -moz-border-radius: 50%;
-    -webkit-border-radius: 50%;
-    color: #ccc;
-    content: "\f00c";
-    display: inline-block;
-    font-family: FontAwesome;
-    font-size: 12px;
-    font-weight: normal;
-    height: 20px;
-    line-height: 17px;
-    margin: 0 5px 0 0;
-    padding: 0;
-    text-align: center;
-    width: 20px;
-}
-
-.task.newEvent .task-title > a {
-    color:#54667a;
-    font-size: 16px;
-    text-transform: capitalize;
-    font-size: 18px;
-}
-.task.newEvent .task-title > a:hover {
-    color:#39c2d3;
-}
-
 
 .to-do-buttons {
     display: inline-block;
@@ -1646,12 +1510,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     color: #bb0500;
 }
 
-.task-title a:hover {color:#60bb98;}
-.task_add-subtask {position: absolute; top:1px; right:0px;}
-.show-subtasks {color:#47a447 !important; text-decoration:none !important; display:inline-block; line-height:22px; cursor:pointer; font-weight:bold; height:20px; position:relative;}
-.task-title input {position:absolute; left:9px; top:4px;}
-.task-info {width:65%;}
-
+.task-info {width:35%;}
 
 .task-info-progress {
     position: relative;
@@ -1677,7 +1536,6 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-radius: 4px;
 }
 
-
 .donation-progress-inner-item {
     width: 6px;
     display: block;
@@ -1686,57 +1544,19 @@ div.taskWizard-required .taskWizard-question-title:after {
     border-radius: 5px;
 }
 
-.title-to-hide {float: left;}
-.tasklist-plan-time:hover {text-decoration: none;}
 
-
-.fa.fa-thumbs-o-up.fa-lg.fa-border.js-resp-approve {color:#c00f00 !important; border: none !important;}
-
-
-.how-much-time.dropdown-menu {width: 260px !important; padding: 15px 20px !important;}
-.how-much-time.dropdown-menu p {margin-bottom: 5px;}
-.how-much-time .on-mobile {display: none;}
-
-@media only screen and (max-width : 1024px) {
-    .how-much-time .on-mobile {display: block;}
-    .how-much-time .on-desktop {display: none;}
-}
-
-.task-info .task-info-control {position:absolute; top:22px; right:15px;}
-.task-info .task-info-control > a,
-.task-info .task-info-control .js-options_popup > a {font-size:18px; color:#54667a; float: right; padding:0 8px; text-decoration:none;}
-
-.task-info .task-info-control > a:hover,
-.task-info .task-info-control .js-options_popup > a:hover {color:#6c7e93;}
-.add-task-input {padding:15px 15px 15px 17px; border-left:3px solid rgba(1, 1, 1, 0.15);}
-
-.subtasks .task {}
-.subtasks .task .task-border {border-bottom:1px solid rgba(1,1,1,0.1); border-top:1px solid #fff;}
-
-.subtasks .task:first-child .task-border {border-top:none;}
-.subtasks .task:last-child .task-border {border-bottom:none;}
-
-
-@media only screen and (max-width: 1130px) {
-    .task-title {width:35%;}
-    .task-info .title-to-hide {display:none;}
-}
-
-
-.donation-progress {
-    position: relative;
-    width: 100%;
-    top: -5px;
-    margin-bottom: 0 !important;
-}
 @media only screen and (max-width: 960px) {
-    .task-title {
-        padding-right:120px;
-        margin-bottom: 10px;
+    .task .task-border {
+        flex-flow: column;
     }
-    .task_add-subtask {right:90px;}
-
-    .donation-progress {top:0px;}
+    .task-title {
+        width:100%;
+        padding-right:0;
+        margin-bottom: 15px;
+    }
+    .task-info {
+        width:100%;
+    }
 
 }
 
@@ -3481,16 +3301,11 @@ input.alert-error:focus, textarea.alert-error:focus {border-color:#B94A48; box-s
 @media screen and (max-width: 1100px) {
     .sub-menu_line_section-user li {width:42px;}
     .sub-menu_line_section-user li > a {text-indent:-99999em; padding-left:33px;}
-    .tasks-toolbar > div.col-xs-1.checkbox input {margin-left:-5px; margin-right:5px;}
 
-    .tasks-toolbar > div {width:100%;}
-    .tasks-toolbar > div.col-xs-8 {margin-top:10px;}
-    .tasks-toolbar > div.col-xs-8 ul.pull-right {float:none !important;}
 }
 
 
 @media only screen and (max-width: 568px) {
-    .tasks-toolbar .search-filter .btn-success {width:40px;}
     .input-group .fa-plus {padding-right:0px;}
     .input-group-btn .name {text-indent:-9999em; display:inline-block; display:none;}
 

@@ -204,11 +204,22 @@
         </h2>
     </div>
 </section>
-<section class="bg-gray-v2 u-py-100 " style="background:url(/static/img/rightside.jpg) right center no-repeat;">
+<style>
+    @media (min-width: 992px) {
+        .rightside {background:url("/static/img/rightside.jpg") right center no-repeat;}
+    }
+    @media (max-width: 991px) {
+        .rightside {
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+    }
+</style>
+<section class="u-py-100 rightside">
     <div class="container">
 
         <div class="row align-items-center">
-            <div class="col-md-6 u-pr-lg-100">
+            <div class="col-lg-6 u-pr-lg-100">
                 <h2 class="mb-4 u-fw-500 u-lh-2">What kind of software can I get?</h2>
                 <p class="u-fs-20 u-fw-500 u-lh-2">
                     Web applications, mobile applications, parsers, tools for Linux, mobile applications,
@@ -217,9 +228,6 @@
                     Request a quote
                 </a></p>
 
-            </div> <!-- END col-md-6 -->
-            <div class="col-md-6 mb-5">
-                &nbsp;
             </div> <!-- END col-md-6 -->
         </div>
     </div>
