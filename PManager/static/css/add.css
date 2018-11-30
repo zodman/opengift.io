@@ -203,6 +203,7 @@ a {
     text-align: center;
     margin-top: 50px;
     text-transform: capitalize;
+    display: none;
 }
 
 rect.selected {

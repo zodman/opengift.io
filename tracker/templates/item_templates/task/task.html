@@ -3,27 +3,37 @@
     	<!--<span class="task-id js-number-link">#TASK_NUMBER#</span><!-- ===== НОМЕР ЗАДАЧИ -->
        	<!--<span class="task-drag task-name_status"></span><!-- ===== ПЕРЕТЯГИВАТЕЛЬ -->
 
-       <div class="task-title"><!--<i class="js-task-bounty fa fa-star" ></i> <label for="taskid#TASK_ID#"></label>-->
-       <a class="js-name-link" href="#TASK_URL#">#TASK_NAME#</a>
-       #FILE_LIST#
-       <b class="red-text">#DEADLINE#</b>
-            <div class="clr clearfix"></div>
-           <div class="task-tags-wraper">
-                <span class="js-task-tags">
-                    #TASK_TAG#
-                </span>
+       <div class="task-title">
+           <!--<i class="js-task-bounty fa fa-star" ></i> <label for="taskid#TASK_ID#"></label>-->
+           <div class="task-title-projectname">
+                <a href="#TASK_PROJECT_LINK#" class="task-title-projectname-a">#TASK_PROJECT_NAME#</a>
            </div>
+           <div class="task-title-name">
+               <a class="js-name-link task-title-name-a" href="#TASK_URL#">#TASK_NAME#</a>
+           </div>
+
+           <div class="task-title-tags-wrapper">
+                <div class="js-task-tags">
+                    #TASK_TAG#
+                </div>
+           </div>
+
+           <!--#FILE_LIST#-->
+           <b class="red-text">#DEADLINE#</b>
+
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
 
 		<div class="task-info">
-            <div class="to-do-buttons js-todo"></div>
+            <!--
+            <div class="to-do-buttons js-tod">
+            </div>
+            -->
 
-            
-            <!--<div class="task-info-time task_play-wrap">
-            	<span class="dropdown">
-            		<span class="js-reward"></span>
-                </span>
-            </div><!--task-info-time-->
+            <div class="task-info-progress">
+            	<span class="js-reward"></span>
+            </div>
+
+            <!--
             <div class="task-info-control clearfix">
                 <span class="js-options_popup">
                     <a class="btn_manage dropdown-toggle js-task_menu">
