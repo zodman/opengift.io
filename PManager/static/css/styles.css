@@ -268,12 +268,6 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
 
 
 
-@media (max-width: 1190px) {
-    header .header > nav {text-align: center;}
-    header .header > nav > ul > li > a > .fa { font-size: 22px;}
-}
-
-
 @media (max-width:1024px) {
     .sub-menu_line_section-user {top: -3px;}
     .sub-menu_line_section-user a {font-size: 18px !important;}
@@ -281,7 +275,7 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
 }
 
 
-@media (max-width:666px) {
+@media (max-width:668px) {
     header .header .timer-wrapper {
         width: 25%;
     }
@@ -296,14 +290,10 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
     }
     header .header .timer-wrapper {position:absolute; top:0px; right:0px; width:60%; line-height:22px; height:22px;}
     header .header .logo img {max-width:100%; display:block;}
-    header .header > nav {width:100%; float:none; margin-top:40px; clear:both;}
-    header .header > nav:before {content:""; display:block; clear:both;}
 
-    header .header > nav > ul {display:table; width:100%; margin:0px; padding:0px;}
-    header .header > nav > ul > li {display:table-cell; width:25%; text-align:center; margin:0px; padding:0px;}
-    header .header > nav > ul > li > a span {font-size: 12px;}
-    header .header > nav > ul > li > a > .fa {margin-right: 7px; font-size: 18px; position: relative; top: 2px;}
-    header .header > nav > ul > li > a {display: block; float: none; margin:0px; padding:0px; font-size: 12px;}
+    header .header > nav {width:100%; float:none; margin-top:40px; clear:both; text-align: left;}
+    header .header > nav:before {content:""; display:block; clear:both;}
+    header .header > nav > ul > li {margin-left: 0; margin-right: 25px;}
 
 }
 
