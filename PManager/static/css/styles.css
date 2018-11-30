@@ -154,10 +154,37 @@ header {background:#fff; box-shadow:0px 0px 15px #ccc; -moz-box-shadow:0px 0px 1
 header .header {position:relative; max-width:1600px; margin:0 auto;}
 /*ЛОГО*/
 /*МЕНЮ*/
-header .header > nav {float:left; white-space: nowrap; height:29px; line-height:29px; width: 45%; text-align: center;}
-header .header > nav > ul {display: inline-block;zoom: 1; margin:0px; height:29px; line-height:29px;}
-header .header > nav > ul > li {display:inline; height:29px; line-height:29px; margin-left: 30px;}
-header .header > nav > ul > li > a {display: block; padding:0; font-size:14px; font-weight:bold; height:29px; line-height:29px; vertical-align: middle; color:#54667a;}
+header .header > nav {
+    float: left;
+    white-space: nowrap;
+    height: 29px;
+    line-height: 29px;
+    width: 45%;
+    text-align: center;
+}
+header .header > nav > ul {
+    display: block;
+    margin: 0px;
+    height: 29px;
+    line-height: 29px;
+    overflow: hidden;
+}
+header .header > nav > ul > li {
+    display: inline-block;
+    height: 29px;
+    line-height: 29px;
+    margin-left: 30px;
+}
+header .header > nav > ul > li > a {
+    display: inline-block;
+    padding: 0;
+    font-size: 14px;
+    font-weight: bold;
+    height: 29px;
+    line-height: 29px;
+    vertical-align: middle;
+    color:#54667a;
+}
 header .header > nav > ul > li > a:hover, header .header >nav > ul > li > a:focus, header .header >nav > ul > li.active > a {background-color: #fff; color: #60bb98; text-decoration:none; }
 header .header > nav > ul > li > a > .fa { font-size: 22px; margin-right:5px; position:relative; top:3px;}
 
@@ -225,7 +252,17 @@ header .header .timer-wrapper .timer .dropdown-menu.timer-popup a {color:#57A957
 header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn {color:#fff; font-size:13px; width:48%; margin-right:2%;}
 header .header .timer-wrapper .timer .dropdown-menu.timer-popup a.btn:last-child {margin-bottom:0px;}
 
-header .header .timer-wrapper .user-menu a {line-height:1.42857; color: #54667a; font-size: 14px; padding:5px 10px; position:relative; top:-2px; display:inline-block; vertical-align:middle;}
+header .header .timer-wrapper .user-menu a {
+    line-height: 1.42857;
+    color: #54667a;
+    font-size: 14px;
+    padding: 5px 10px;
+    position: relative;
+    top: 0px;
+    display: inline-block;
+    vertical-align: middle;
+    font-weight: bold;
+}
 header .header .timer-wrapper .user-menu a.fa {padding:2px 0px; color:#ffa500; text-decoration:none; font-size: 1.3em;}
 header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
 
@@ -243,6 +280,15 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
     .sub-menu_line_section-user a span {display: none;}
 }
 
+
+@media (max-width:666px) {
+    header .header .timer-wrapper {
+        width: 25%;
+    }
+.timer-wrapper .notifications,
+.user-menu .btn {display:none !important;}
+}
+
 @media (max-width:567px) {
     header .header .logo {width:40%;}
     .sub-menu_line {
@@ -258,6 +304,7 @@ header .header .timer-wrapper .user-menu a i {margin-left: 8px;}
     header .header > nav > ul > li > a span {font-size: 12px;}
     header .header > nav > ul > li > a > .fa {margin-right: 7px; font-size: 18px; position: relative; top: 2px;}
     header .header > nav > ul > li > a {display: block; float: none; margin:0px; padding:0px; font-size: 12px;}
+
 }
 
 
@@ -6055,6 +6102,7 @@ ul.colors {
 .modal-backdrop.in {
     display: none;
 }
+
 
 
 @media (max-width: 1280px) {
