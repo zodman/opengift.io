@@ -230,7 +230,8 @@
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
-                                        $('.js-timer-title').html('The hackathon results should be sent till <br />23 of October at 1 pm GMT.');
+                                        $('.js-timer-title').html('Current stage: idea crowd-sourcing.');
+                                        date = false;
                                     } else {
                                         date = false;
                                     }
@@ -265,6 +266,37 @@
 
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
+    <a name="current"></a>
+    <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
+        <div class="container">
+
+            <h2 class="h1 u-mt-50 text-center">The 9th OpenGift+Credits online-hackathon has started!</h2>
+
+            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
+            <div class="row">
+                <div class="col-lg-12 ">
+                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
+                        <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
+                        <h4 class="u-fs-26 u-my-35">
+                             Stage 1: Concept creation
+                        </h4>
+
+                        <p class="text-center text-dark u-t-u">
+                            <a href="/task_detail/?number=1&project=1131" target="_blank">Post your idea here</a>
+                        </p>
+                        <p>
+                            Hello, guys!
+                        </p>
+                        <p>
+                        In frame of 1st Stage of current hackathon just post your idea of new solution as a result in the hackathon task.
+                            All good ideas will go further to the 2nd round.
+                        </p>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
     <section class="bg-gray-v2 u-pt-50 u-pb-50">
 
         <div class="container">
@@ -499,72 +531,7 @@
         </div>
     </section>
 
-    <a name="current"></a>
-    <section class="js-current-hackaton u-pt-50 u-pb-0 relative" style="display: none;">
-        <div class="container">
 
-            <h2 class="h1 u-mt-50 text-center">The 8th OpenGift online-hackathon has started!</h2>
-
-            <div class="u-h-4 u-w-50 bg-white rounded mt-4 mx-auto"></div>
-            <div class="row">
-                <div class="col-lg-12 ">
-                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                        <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
-                        <h4 class="u-fs-26 u-my-35">
-                            8th OpenGift Hackathon Task:
-                        </h4>
-
-                        <p class="text-center text-dark u-t-u">
-                            <a href="/task_detail/?number=1&project=1115" target="_blank">Web On Fire</a>
-                        </p>
-                        <p>
-                            Hello, guys!
-                        </p>
-                        <p>
-Today’s task is pretty simple. You should create maximally realistic fire on JS. Paper burning effect on the webpage would be a bonus.
-</p>
-                        <p>
-Let’s set this weekend on fire! Good luck!
-                        </p>
-
-                    </div>
-                </div>
-                <div class="col-lg-12 ">
-                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center bg-gray-v2">
-                        <h4 class="u-fs-26 u-my-35">
-                            Current hackathon rules
-                        </h4>
-
-                        <div style="text-align: left;">
-
-                            <p>1. You need to upload your solution to a public repository and publish it as a result
-                                on the OpenGift hackathon <a href="/task_detail/?number=1&project=1115">task page</a>;
-                                the deadline 5 of November 2018 1 pm.</p>
-
-                            <p>2. Anything that isn’t mentioned in the requirements is up to you.
-                                Please note that you don't need to meet ALL the specified requirements to qualify for the prize!</p>
-
-                            <p>3. Referees will choose the best developer, who will get the prize fund in GIFT tokens.
-                                * The winner will be chosen by 3 criteria: code clarity, UX, compliance with the requirements.</p>
-
-                            <p>4. The author of the best solution will get the 100% ownership of the new software solution
-                                on the OpenGift platform. **</p>
-                        </div>
-
-                        <h4 class="u-mt-50 ">We wish you a good luck. Let the best developer win!</h4>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <p><small>** Owners of an open-source project on the OpenGift platform receive 10% of all payments (for new features, buf fixes, etc.) towards the project just for having the 'owner' status and up to 95% if they do the actual job.
-                    The owner may give away his/her ownership stake (or a part of it) to any other member of the OpenGift community.</small></p>
-
-                <p><small>*GIFT token is an inner currency of the OpenGift platform.
-                    It can be used to pay developers or donate towards open source projects.
-                    The network of independent exchange points will buy back GIFTs from developers.</small></p>
-            </div>
-        </div>
-    </section>
 
     <section class="u-pt-0 u-pb-0 u-mb-0 u-mt-0">
         <div class="container">

@@ -176,10 +176,7 @@ def widget(request, headerValues, arFilter, q):
             # userRoles = PM_ProjectRoles.objects.filter(user=request.user, role__code='manager')
             if not request.user.is_superuser:
                 messages = messages.exclude(code="RESULT")
-                if prof.isEmployee(task.project) or prof.isManager(task.project) or True:
-                    messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
-                else:
-                    messages = messages.filter(Q(userTo=request.user.id) | Q(author=request.user.id))
+                messages = messages.filter(Q(hidden=False) | Q(userTo=request.user.id) | Q(author=request.user.id))
 
 
             if not prof.isManager(task.project):
@@ -278,11 +275,12 @@ def widget(request, headerValues, arFilter, q):
         askers.sort(key=lambda x: x['ask'])
 
         results = []
-        # if task.project.id != 1115:
-        for m in task.messages.filter(code='RESULT'):
-            if maxRequested < m.requested_time:
-                maxRequested = m.requested_time
-            results.append(m)
+        if task.project.id != 1131 or request.user.is_superuser:
+            for m in task.messages.filter(code='RESULT'):
+                if maxRequested < m.requested_time:
+                    maxRequested = m.requested_time
+
+                results.append(m)
 
         if maxRequested:
             maxRequested += maxRequested * 0.1

@@ -1285,6 +1285,7 @@
                 display: inline-block;
             }
         </style>
+        {% if task_detail.askers %}
         <div class="bakers-wrapper card mb-4">
             <h6 class="bakers-wrapper-header with-elements">
                 <span class="card-header-title">Developers estimations</span>
@@ -1310,9 +1311,11 @@
                     {% endfor %}
             </ul>
         </div>
+        {% endif %}
         {% if request.user.is_authenticated %}
         <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=estimation]').trigger('click');" class="btn btn-default">Set your price</a>&nbsp;
-        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Add your result</a>
+        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Post result</a>&nbsp;
+        <a href="#" class="btn btn-red js-close-task">Close task</a>
         {% endif %}
         <div class="bakers-wrapper card mb-4">
 
@@ -1347,9 +1350,6 @@
                     <a href="/project/{{ task_detail.task.project.id }}/public/#shares" class="btn btn-primary">
                         Get project tokens
                     </a>
-                </div>
-                <div class="pull-right">
-                    <a href="" class="btn btn-red">Delete Task</a>
                 </div>
             </div>
         <!--backers-->
