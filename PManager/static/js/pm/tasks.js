@@ -349,8 +349,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                     color = 'green';
                 }
                 oTaskContainers.$reward.append(
-                        '                    <div class="donations-text">' + (taskInfo.asked ? 'Estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ' / ' : '') +
-                    'Donated <b style="color:' + (parseFloat(taskInfo.donated) < parseFloat(taskInfo.asked) ? '#ff5466' : '#39c2d3') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' + '</div>' +
+                        '                    <div class="donations-text">' +
+                    '<b style="color:' + (parseFloat(taskInfo.donated) < parseFloat(taskInfo.asked) ? '#ff5466' : '#39c2d3') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' +
+                        (taskInfo.asked ? ' (estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ')' : '') + '</div>' +
                     '                    ' +
                     '<div class="donation-progress-wrapper">' +
                     '                    <div class="donation-progress-inner">' +
