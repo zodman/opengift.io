@@ -201,7 +201,7 @@
 {#                    </p>#}
 
 
-                    <p><a href="#current" style="display: none;" class="js-current-task-btn btn btn-primary">Current task</a></p>
+{#                    <p><a href="#current" style="display: none;" class="js-current-task-btn btn btn-primary">Current task</a></p>#}
                 </div> <!-- END col-lg-6-->
                 <div class="col-lg-5 text-center">
 
@@ -230,7 +230,7 @@
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
-                                        $('.js-timer-title').html('Current stage: idea crowd-sourcing.');
+                                        $('.js-timer-title').html('Current stage: Concept creation.');
                                         date = false;
                                     } else {
                                         date = false;
@@ -247,6 +247,7 @@
                         </script>
                         {% if user_registered %}
                             <p>You are registered for the next hackathon.</p>
+                            <a href="#current" class="js-current-task-btn btn btn-primary">Current task</a>
                         {% else %}
                             <a href="{% if request.user.is_authenticated %}/hackathon_register/{% else %}/login/?backurl=/hackathon_register/{% endif %}"
                                id="registerhackathonpage" style="background-color: #2a2a2a"
@@ -834,6 +835,30 @@
                          <div class="row">
                             <div class="col-md-12">
                                  <a href="https://hacksociety.tech/" target="_blank"><img src="/static/img/hacksociety2.png" alt="Hacksociety"></a>
+                            </div>
+                        </div> <!-- END row-->
+                    </div>
+                </div>
+
+            </div>
+			<div class="col-lg-4 col-md-6 mb-5">
+                <div class="with-hidden-text-wrapper">
+                    <div class="with-hidden-text-wrapper-inner">
+                         <div class="row">
+                            <div class="col-md-12">
+                                 <a href="https://tproger.ru/" target="_blank"><img src="/static/img/tproger_transparent_big.png" alt="Tproger"></a>
+                            </div>
+                        </div> <!-- END row-->
+                    </div>
+                </div>
+
+            </div>
+			<div class="col-lg-4 col-md-6 mb-5">
+                <div class="with-hidden-text-wrapper">
+                    <div class="with-hidden-text-wrapper-inner">
+                         <div class="row">
+                            <div class="col-md-12">
+                                 <a href="https://russianhackers.org/" target="_blank"><img src="/static/img/ruhackers.png" alt="Russianhackers"></a>
                             </div>
                         </div> <!-- END row-->
                     </div>

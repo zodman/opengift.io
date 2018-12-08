@@ -515,7 +515,8 @@
     {% if task_detail.task.project.id != 1013 %}
     <li>
         <a class="active" href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a> /
-        <a href="/project/{{ task_detail.task.project.id }}/tasks/">Tasks</a>
+        <a class="active" href="/project/{{ task_detail.task.project.id }}/tasks/">Tasks</a> /
+        #{{ task_detail.task.number }}
     </li>
     {% endif %}
     {% if not request.GET.frame_mode %}
@@ -585,7 +586,7 @@
                 {#            {% if task_detail.task.todo %}#}
                 {#                {% for todo in task_detail.task.todo %}#}
                 {#                <button data-placement="top" data-toggle="popover" data-container="body" class="js-todo-checkbox checkbox-todo" rel="{{ todo.id }}" type="button" data-original-title="" title="">#}
-                {#                    {% if todo.checked %}<i class="fa fa-check"></i>{% else %}<i class="fa fa-check fa-checked"></i>{% endif %}#}
+                {#                    {% if todo.checked %}<i class="fa fa-check-square-o"></i>{% else %}<i class="fa fa-square-o"></i>{% endif %}#}
                 {#                    {{ todo.text }}#}
                 {#                </button>#}
                 {#                {% endfor %}#}
@@ -605,8 +606,8 @@
                 {#                {% endif %}#}
                 {#            </span>#}
                 {#        </div>#}
-                {% if task_detail.solutions %}
-                <p><a href="#" class="similar_solutions" data-toggle="modal" data-target="#similar-solutions">Доступные решения похожих задач</a></p>
+                {% if task_detail.project.link_github %}
+                    <p><a href="{{ task_detail.project.link_github }}">{{ task_detail.project.link_github }}</a></p>
                 {% endif %}
                 {% if task_detail.todo %}
                 <div class="requirements">
@@ -749,7 +750,7 @@
                             }
                         </style>
                         <div class="left clearfix">
-                            <label class="left_check js-message-options" data-type="message" style="display: none;">
+                            <label class="left_check js-message-options" data-type="message" >
                                 <input class="js-personal" type="checkbox" name="hidden" value="Y" /> Private message
                             </label>
                             {% if not task_detail.task.closed %}
@@ -1285,7 +1286,6 @@
                 display: inline-block;
             }
         </style>
-        {% if task_detail.askers %}
         <div class="bakers-wrapper card mb-4">
             <h6 class="bakers-wrapper-header with-elements">
                 <span class="card-header-title">Developers estimations</span>
@@ -1311,11 +1311,9 @@
                     {% endfor %}
             </ul>
         </div>
-        {% endif %}
         {% if request.user.is_authenticated %}
         <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=estimation]').trigger('click');" class="btn btn-default">Set your price</a>&nbsp;
-        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Post result</a>&nbsp;
-        <a href="#" class="btn btn-red js-close-task">Close task</a>
+        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Add your result</a>
         {% endif %}
         <div class="bakers-wrapper card mb-4">
 
@@ -1345,13 +1343,7 @@
             </ul>
         </div>
 
-            <div class="task-buttons">
-                <div class="pull-left">
-                    <a href="/project/{{ task_detail.task.project.id }}/public/#shares" class="btn btn-primary">
-                        Get project tokens
-                    </a>
-                </div>
-            </div>
+        <a href="/project/{{ task_detail.task.project.id }}/public/#shares" class="btn btn-secondary">Get project tokens</a>
         <!--backers-->
     </div>
 </div>
