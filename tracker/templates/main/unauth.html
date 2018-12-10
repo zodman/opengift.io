@@ -39,6 +39,13 @@
         {% ifequal error "incorrect_captcha" %}
         <div class="label-danger">Please confirm you are not a robot</div>
         {% endifequal %}
+
+        {% ifequal error "github" %}
+        <div class="label-danger">
+          <h2>Github</h2>
+          {{error_description}}
+        </div>
+        {% endifequal %}
       </div>
       {% endif %}
     </div>
@@ -234,6 +241,7 @@
           </div>
         </form>
       </div>
+      <a href="/login/github">GITHUB</a>
     </div>
   </div>
 

@@ -339,6 +339,17 @@ CRYPTO_HOST = '188.166.237.19'
 PAYPAL_MODE = 'sandbox'
 PAYPAL_CLIENT_ID = '-'
 PAYPAL_SECRET = '-'
+
+GITHUB_CLIENT_ID=""
+GITHUB_CLIENT_SECRET=""
+GITHUB_REDIR_URI="http://localhost:8000/login"
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'PManager.github_auth.GithubAuth',
+)
+
+
 try:
     from .local_settings import *
 except ImportError:

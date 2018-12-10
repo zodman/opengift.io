@@ -15,6 +15,8 @@ from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
+import requests
+from github import Github
 
 
 class Brains:
@@ -127,17 +129,60 @@ class MainPage:
         setattr(request, 'isPromo', True)
         return MainPage.auth(request)
 
+
+    @staticmethod
+    def github_callback(request):
+        code = request.GET.get("code")
+        return HttpResponseRedirect('/login/?code={}' % code) 
+
+
+    @staticmethod
+    def github_auth(request):
+        import urllib
+
+        redirect_uri = settings.GITHUB_REDIR_URI
+        params = {
+            'client_id': getattr(settings, "GITHUB_CLIENT_ID"),
+            'redirect_uri': redirect_uri,
+            #'scope': 'repo'
+        }
+        qs = urllib.urlencode(params)
+        url = "https://github.com/login/oauth/authorize?"
+        return HttpResponseRedirect(url + qs)
+
     @staticmethod
     def auth(request):
-
+        from django.contrib.auth import authenticate, login
         from PManager.viewsExt.tools import emailMessage
+
         if request.user.is_authenticated():
             return HttpResponseRedirect('/')
 
-        if request.method == 'POST' and 'username' in request.POST and 'password' in request.POST:
+        if request.GET.get("code"):
+            code = request.GET.get("code")
+            user = authenticate(code=code)
+            if user and user.is_active:
+                login(request, user)
+                import q; q("login", user)
+                return HttpResponseRedirect( '/wallet/')           
+            else:
+                from PManager.github_auth import GithubAuth
+                resp = GithubAuth.get_token(code)
+                if 'error' in resp:
+                    return HttpResponse(
+                        loader.get_template('main/unauth.html').render(
+                            RequestContext(request, {"error": "github", 'error_description': resp.get("error_description")})
+                    )
+                )
+
+                    
+
+        if ( request.method == 'POST' and 
+           'username' in request.POST and 
+           'password' in request.POST):    
             username = request.POST['username']
             password = request.POST['password']
-
+    
             from PManager.services.recaptcha import validate as validate_recaptcha
             if not validate_recaptcha(request.POST['g-recaptcha-response'], request.POST.get('skip_recaptcha', None)):
                 return HttpResponse(
@@ -150,7 +195,7 @@ class MainPage:
             if not backurl:
                 backurl = '/wallet/'
 
-            from django.contrib.auth import authenticate, login
+            
 
             try:
                 u = User.objects.filter(username=username).get()
@@ -223,8 +268,6 @@ class MainPage:
                             RequestContext(request, {"error": "incorrect_email"})
                         )
                     )
-
-
         elif 'logout' in request.GET and request.GET['logout'] == 'Y':
             from django.contrib.auth import logout
             logout(request)

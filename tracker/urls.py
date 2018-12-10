@@ -87,7 +87,7 @@ urlpatterns = patterns('',
                        url(r'^opengifters/(?P<user_id>[0-9_]+)/', Public.backerProfile),
                        url(r'^profile/edit/', MainPage.indexRender,
                            {'widgetList': ["profile_edit"], 'activeMenuItem': 'profile', 'template': 'new'}),
-                       # Project URLS {{{
+                       # {{{ Project URLS 
                        url(r'^project/(?P<project_id>[0-9_]+)/server-setup', project_server_setup),
                        url(r'^project/(?P<project_id>[0-9_]+)/server-status', project_server_status),
                        url(r'^project/(?P<project_id>[0-9_]+)/public/', projectDetailPublic),
@@ -104,7 +104,7 @@ urlpatterns = patterns('',
                        url(r'^project/list/', projectList, {'need_inverse': True}),
                        url(r'^project/edit/check_repository_name', checkUniqRepNameResponder),
                        # }}}
-                       #  Tasks {{{
+                       # {{{ Tasks
                        url(r'^task_handler', taskListAjax, name='task-handler'),
                        url(r'^task/add/', taskDetail),
                        url(r'^task_edit/$', MainPage.indexRender,
@@ -153,7 +153,12 @@ urlpatterns = patterns('',
                        url(r'^cost/$', MainPage.paymentReport),
                        url(r'^credits/$', MainPage.creditReport),
                        url(r'^credit_chart/$', MainPage.creditChart),
+                       # {{{ AUTHS VIEWS
+                       url(r'^login/github/callback$', MainPage.github_callback),
+                       url(r'^login/github/$', MainPage.github_auth),
                        url(r'^login/$', MainPage.auth),
+                       # }}}
+                       
                        url(r'^take_your_gift/$', MainPage.takeGift),
                        url(r'^change_password/$', MainPage.changePassword),
                        url(r'^add_timer/', add_timer),
