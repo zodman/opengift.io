@@ -321,8 +321,8 @@ class PM_Project(models.Model):
         from github import Github
         import github
         from django.conf import settings
-        github = Github(settings.GITHUB_SUDO_TOKEN_SECRET)
-        admin_user = github.get_user()
+        gh = Github(settings.GITHUB_SUDO_TOKEN_SECRET)
+        admin_user = gh.get_user()
         for org in admin_user.get_orgs():
             # search eht opengift organization
             if "opengift" in org.login:
