@@ -155,6 +155,7 @@ urlpatterns = patterns('',
                        url(r'^credit_chart/$', MainPage.creditChart),
                        # {{{ AUTHS VIEWS
                        url(r'^login/github/callback$', MainPage.github_callback),
+                       url(r'^login/github/connect$', MainPage.github_connect),
                        url(r'^login/github/$', MainPage.github_auth),
                        url(r'^login/$', MainPage.auth),
                        # }}}

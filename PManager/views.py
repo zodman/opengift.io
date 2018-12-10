@@ -15,6 +15,7 @@ from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
+from PManager.github_auth import GithubAuth
 
 
 class Brains:
@@ -133,12 +134,33 @@ class MainPage:
         code = request.GET.get("code")
         return HttpResponseRedirect('/login/?code={}' % code) 
 
+    @staticmethod
+    def github_connect(request):
+        code = request.GET.get("code")
+        if code and request.user.is_authenticated():
+            resp = GithubAuth.get_token(code)
+            access_token = resp.get("access_token")
+            user_data = GithubAuth.get_user_info(access_token)
+            profile = request.user.profile
+            profile.github_id = user_data.id
+            profile.github = user_data.login
+            profile.save()
+            return HttpResponseRedirect('/profile/edit/') 
+        else:
+            return HttpResponseRedirect('/profile/edit/?error=no_auth')
+        
+        
 
     @staticmethod
     def github_auth(request):
         import urllib
+        redirect = request.GET.get("redirect", None)
+        if redirect and redirect == "connect":
+            redirect_uri = settings.GITHUB_REDIR_URI + '/github/connect'
+        else:
+            redirect_uri = settings.GITHUB_REDIR_URI
+    
 
-        redirect_uri = settings.GITHUB_REDIR_URI
         params = {
             'client_id': getattr(settings, "GITHUB_CLIENT_ID"),
             'redirect_uri': redirect_uri,
@@ -163,7 +185,6 @@ class MainPage:
                 login(request, user)
                 return HttpResponseRedirect( '/wallet/')           
             else:
-                from PManager.github_auth import GithubAuth
                 resp = GithubAuth.get_token(code)
                 if 'error' in resp:
                     return HttpResponse(
@@ -569,8 +590,6 @@ class MainPage:
             }
 
             for widgetName in widgetList:
-
-
                 # TODO: change this!!
                 str = 'widget = widgets.%s' % widgetName
                 exec (str)
