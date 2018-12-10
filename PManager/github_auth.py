@@ -46,7 +46,7 @@ class GithubAuth:
                 user_data = GithubAuth.get_user_info(access_token)
                 github_id = user_data.id
                 profiles = PM_User.objects.filter(github_id=github_id)
-                import q; q(profiles.exists())
+                
                 if profiles.exists():
                     user= profiles[0].user
                     return user

@@ -15,8 +15,6 @@ from django.shortcuts import redirect
 # from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from PManager.services.mind.task_mind_core import TaskMind
-import requests
-from github import Github
 
 
 class Brains:
@@ -163,7 +161,6 @@ class MainPage:
             user = authenticate(code=code)
             if user and user.is_active:
                 login(request, user)
-                import q; q("login", user)
                 return HttpResponseRedirect( '/wallet/')           
             else:
                 from PManager.github_auth import GithubAuth
