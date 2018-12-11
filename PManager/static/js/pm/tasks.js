@@ -274,8 +274,26 @@ var CRITICALLY_THRESHOLD = 0.7;
             var tags_str = taskInfo.tags.map(function(elem){
                 return '<span class="task-tag">' + elem.tagText + '</span>'
             }).join('');
-
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
+
+            users_limit = 2;
+            var users_str = taskInfo.users.slice(0,users_limit).map(function(elem){
+                return '<span class="user_message">' + 
+                            '<img src="'+ elem.avatar+'" class="pull-left img-circle" style="height:40px;">' +
+                        '</span>'
+                    ;
+            }).join('');
+
+            if( taskInfo.users.length >= users_limit) {
+                image = 'http://via.placeholder.com/40x40.png?text=%2B' + (taskInfo.users.length - users_limit)
+                users_str += '<span class="user_message">' + 
+                            '<img src="'+ image +'" class="pull-left img-circle" style="height:40px;">' +
+                        '</span>'
+                    ;
+
+            }
+
+            html = html.replace(/\#TASK\_USERS\#/ig, users_str);
             if (taskInfo.hasOwnProperty('messages')) {
                 html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);
             }

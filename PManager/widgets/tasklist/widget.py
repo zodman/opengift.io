@@ -341,6 +341,18 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 bCanBaneUser = True
 
             last_mes = last_message_q[0] if last_message_q else None
+
+            users_messages = []
+            messages = task.messages.all()
+            for message in messages:
+                d = {
+                    'id': message.author.id,
+                    'name': message.author.get_full_name(),
+                    'avatar': message.author.profile.avatarSrc
+                }
+                if not d in users_messages:
+                    users_messages.append(d)
+
             addTasks[task.id] = {
                 'url': task.url,
                 'project': {
@@ -400,6 +412,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'observer': True if task.observers.filter(id=cur_user.id) else False,
                 'avatar': task.resp.get_profile().avatar_rel if task.resp else {},
                 'milestoneId': task.milestone.id if task.milestone else None,
+                'users': users_messages,
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,
