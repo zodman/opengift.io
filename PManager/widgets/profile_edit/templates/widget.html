@@ -68,6 +68,16 @@
                                 <input type="submit" value="Save" class="btn badge-success">
                             </div>
                         </div>
+                        {% if not profile_edit.profile.github_id %}
+
+                        User disconnected from github:
+                        <a href="/login/github/?redirect=connect">
+                            <i class="fa fa-github fa-5x"></i><br>
+                            Connect
+                        </a>
+                        {% else %}
+                            <i class="fa fa-github fa-5x"></i> connected {{profile_edit.profile.github}}
+                        {% endif %}
                     </form>
 {#					<form action="" method="POST">#}
 {##}
