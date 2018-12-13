@@ -317,6 +317,28 @@ class PM_Project(models.Model):
             closed=0,
         )
 
+    def create_githubrepo(self):
+        from github import Github
+        import github
+        from django.conf import settings
+        gh = Github(settings.GITHUB_SUDO_TOKEN_SECRET)
+        admin_user = gh.get_user()
+        for org in admin_user.get_orgs():
+            # search eht opengift organization
+            if "opengift" in org.login:
+                try:
+                    # try to create the project on the organization
+                    repo_obj = org.create_repo(self.name)
+                    self.repository = repo_obj.clone_url
+                    return True
+                except github.GithubException:
+                    import traceback
+                    traceback.print_exc()
+                    return False
+                
+
+
+
     def getUsers(self):
         return User.objects.filter(pk__in=[role.user.id for role in
                                            PM_ProjectRoles.objects.filter(project=self)]).distinct()
