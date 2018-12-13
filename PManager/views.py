@@ -164,7 +164,7 @@ class MainPage:
         params = {
             'client_id': getattr(settings, "GITHUB_CLIENT_ID"),
             'redirect_uri': redirect_uri,
-            #'scope': 'repo'
+            'scope': 'read:user, user:email'
         }
         qs = urllib.urlencode(params)
         url = "https://github.com/login/oauth/authorize?"
@@ -181,6 +181,7 @@ class MainPage:
         if request.GET.get("code"):
             code = request.GET.get("code")
             user = authenticate(code=code)
+
             if user and user.is_active:
                 login(request, user)
                 return HttpResponseRedirect( '/wallet/')           

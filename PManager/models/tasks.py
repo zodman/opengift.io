@@ -330,6 +330,7 @@ class PM_Project(models.Model):
                     # try to create the project on the organization
                     repo_obj = org.create_repo(self.name)
                     self.repository = repo_obj.clone_url
+                    self.link_github = repo_obj.clone_url
                     return True
                 except github.GithubException:
                     import traceback

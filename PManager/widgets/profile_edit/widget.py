@@ -67,22 +67,22 @@ def widget(request, headerValues, ar, qargs):
     try:
         if profile.avatar:
             profile.avatar = str(profile.avatar).replace('PManager', '')
-        timers = []
-        if PM_Timer.objects.filter(user=user).exists():
-            table_name = PM_Timer._meta.db_table
-            sql = ('SELECT SUM(`seconds`) as summ, id, user_id'
-                   'from %s WHERE `user_id`=%s').format(table_name)
-            timers = PM_Timer.objects.raw(sql, [int(user.id)])
-        sum = 0
-        if timers:
-            for timer in timers:
-                if timer.summ:
-                    sum += float("%.2f" % (float(timer.summ) / 3600))
+        # timers = []
+        # if PM_Timer.objects.filter(user=user).exists():
+        #     table_name = PM_Timer._meta.db_table
+        #     sql = ('SELECT SUM(`seconds`) as summ, id, user_id'
+        #            'from %s WHERE `user_id`=%s').format(table_name)
+        #     timers = PM_Timer.objects.raw(sql, [int(user.id)])
+        # sum = 0
+        # if timers:
+        #     for timer in timers:
+        #         if timer.summ:
+        #             sum += float("%.2f" % (float(timer.summ) / 3600))
 
-        setattr(profile, 'sp', {
-            'summ': sum,
-            'rest': sum * int(profile.sp_price) if profile.sp_price else 0
-        })
+        # setattr(profile, 'sp', {
+        #     'summ': sum,
+        #     'rest': sum * int(profile.sp_price) if profile.sp_price else 0
+        # })
 
     except User.DoesNotExist:
         pass
