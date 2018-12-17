@@ -72,8 +72,8 @@ class GithubAuth:
                     profile.save()
                     user.first_name = user_data.name or 'Unknown Github User'
                     user.save()
-                    # img_temp = self.get_image_to_file(user_data.avatar_url)
-                    # profile.avatar.save("avatar_github.jpg", File(img_temp))
+                    img_temp = self.get_image_to_file(user_data.avatar_url)
+                    profile.avatar.save("avatar_github.jpg", File(img_temp))
                     profile.save()
                     return user
                     
