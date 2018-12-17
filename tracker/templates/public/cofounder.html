@@ -14,7 +14,7 @@
     {% block header %}
         <meta name="description" content="Special offer for startups December 2018.">
         <!-- Title-->
-        <title>OpenGift.io - For startups</title>
+        <title>OpenGift.io - Technical co-founder for you</title>
     {% endblock %}
     <!--Google fonts-->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
@@ -160,7 +160,7 @@
                     <span class="lnr lnr-cross nav-close"></span>
                 </div>
 
-                {% include "public/menu.html" %}
+{#                {% include "public/menu.html" %}#}
 
             </nav>
         </div> <!-- END container-->
@@ -175,36 +175,23 @@
 
             <div class="row">
                 <div class="col-lg-12 u-mt-80 text-center">
-                    <h4 class="text-white u-mb-40">Stop looking for developers!</h4>
-
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        Boost your software project!
+                        Technical cofounder you don’t need to give equity to
                     </h1>
 
                     <h4 class="u-mx-30 mb-4 u-fw-500 u-lh-1_6 text-center text-white">
-                        Just place your task and developers will provide you ready-to-download results.
+                        We assign an experienced project manager for you, who acts as your tech cofounder.
                     </h4>
 
 
-                    <a href="/task/add/" class="btn btn btn-rounded btn-secondary orange-gr m-2 px-md-5 py-3">
-                        Start your software project
+                    <a href="#block" class="btn btn btn-rounded btn-secondary orange-gr m-2 px-md-5 py-3">
+                        Learn mode
                     </a>
                 </div> <!-- END col-lg-6-->
             </div> <!-- END row-->
         </div> <!-- END container-->
     </section> <!-- END intro-hero-->
 
-
-<section class="bg-dark">
-    <div class="container">
-        <h2 class="text-primary text-center">
-            OpenGift is a collaborative software development platform:<br />
-            <span class="text-white" data-type-speed="40" data-back-speed="10"
-                                   data-type="Community-powered project management, Competitive development, Collective financing of software components, Highly experienced open-source project teams, Powered by Hyperledger"></span>
-                        <span class="typed-curcor text-white">|</span>
-        </h2>
-    </div>
-</section>
 <style>
     @media (min-width: 992px) {
         .rightside {background:url("/static/img/rightside.jpg") right center no-repeat;}
@@ -216,19 +203,22 @@
         }
     }
 </style>
-<section class="u-py-100 rightside">
+<section class="u-pt-70 rightside">
     <div class="container">
-
+        <a name="block"></a>
         <div class="row align-items-center">
-            <div class="col-lg-6 u-pr-lg-100">
-                <h2 class="mb-4 u-fw-500 u-lh-2">Competitions vs Tasks</h2>
-                <p class="u-fs-20 u-fw-500 u-lh-2">
-                    Each software task and project on OpenGift is a competition.
-                    You just explain what you want and developers try to provide you the best solution.
-                </p>
+            <div class="col-lg-8 u-pr-lg-100">
+{#                <h2 class="mb-4 u-fw-500 u-lh-2">Community of project managers</h2>#}
+                <ul class="u-fs-20 u-fw-500 u-lh-2">
+                    <li>Takes care of all boring technical documentation</li>
+                    <li>Talks the same language with developers</li>
+                    <li>Saves your time and money by using ready-made open source modules</li>
+                    <li>Knows people who rock at programming, can get them work on your project</li>
+                    <li>Makes sure you don’t do stupid architecture & implementation mistakes</li>
+                </ul>
                 <p>
-                    <a href="/task/add/" class="btn btn btn-rounded btn-secondary green-gr m-2 px-md-5 py-3">
-                        Add a competition
+                    <a href="#form" class="btn btn btn-rounded btn-secondary green-gr m-2 px-md-5 py-3">
+                        Talk to us
                     </a>
                 </p>
 
@@ -240,300 +230,74 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="mb-4 u-fw-500 u-lh-2 text-center">How to make your web-site or mobile app several times cheaper with OpenGift</h2>
+                    <a name="form"></a>
+                    <h2 class="mb-4 u-fw-500 u-lh-2 text-center">
+                        Drop us a line, and we’ll contact you to schedule a call. First consultation is free.
+                    </h2>
 
-            <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
-                    <style>
-                        ol.step-circles {
-                        list-style: none;
-                        counter-reset: li;
-                        padding: 50px 0 0
-                    }
-                    ol.step-circles>li {
-                        position: relative;
-                        padding: 50px 20px 20px 20px;
-                        border: 1px solid #bee4d7;
-                        margin-bottom: 60px
-                    }
-                    ol.step-circles>li:before {
-                        position: absolute;
-                        display: block;
-                        content: counter(li)!important;
-                        counter-increment: li;
-                        line-height: 70px;
-                        text-align: center;
-                        border-radius: 50%;
-                        color: #ffffff;
-                        font-size: 36px;
-                        box-sizing: border-box;
-                        left: 50%;
-                        top: -35px;
-                        margin-left: -35px;
-                        outline: 6px solid #eef8f5;
-                        background: #dff1eb;
-                        width: 70px;
-                        height: 70px;
-                    }
-                    ol.step-circles>li:after {
-                        content: '';
-                        display: block;
-                        position: absolute;
-                        bottom: -28px;
-                        height: 20px;
-                        left: 50%;
-                        border-left: 1px solid #bee4d7;
-                    }
-                    ol.step-circles>li:nth-child(2):before {
-                        background: #ceeae1;
-                    }
-                    ol.step-circles>li:nth-child(3):before {
-                        background: #bfe3d7;
-                    }
-                    ol.step-circles>li:nth-child(4):before {
-                        background: #aedccc;
-                    }
-                    ol.step-circles>li:nth-child(5):before {
-                        background: #9ed6c2;
-                    }
-                    ol.step-circles>li:nth-child(6):before {
-                        background: #8ecfb8;
-                    }
-                    ol.step-circles>li:nth-child(7):before {
-                        background: #7ec8ae;
-                    }
-                    ol.step-circles>li:nth-child(8):before {
-                        background: #6ec1a4;
-                    }
-                    ol.step-circles>li:last-child {
-                        margin-bottom: 0
-                    }
-                    ol.step-circles>li:last-child:after {
-                        display: none
-                    }
-                    @media (min-width:768px) {
-                        ol.step-circles>li {
-                            width: 50%;
-                            border-width: 0;
-                            margin-bottom: 0;
-                            padding: 0 80px 30px 0;
-                            text-align: right;
-                            min-height: 90px
-                        }
-                        ol.step-circles>li:before {
-                            right: -35px;
-                            left: auto;
-                            top: -25px;
-                            z-index: 1;
-                        }
-                        ol.step-circles>li:after {
-                            border-left: 1px solid #bee4d7;
-                            top: 15px;
-                            right: 0;
-                            left: auto;
-                            bottom: 0;
-                            height: auto;
-                            width: 68px;
-                            border-right: 1px solid #bee4d7;
-                            border-top: 1px solid #bee4d7;
-                            border-left: 0;
-                            z-index: 0
-                        }
-                        ol.step-circles>li:nth-child(even) {
-                            margin-left: 50%;
-                            padding: 0 0 30px 80px;
-                            text-align: left
-                        }
-                        ol.step-circles>li:nth-child(even):before {
-                            left: 0;
-                            right: auto
-                        }
-                        ol.step-circles>li:nth-child(even):after {
-                            right: auto;
-                            left: 0;
-                            border-left-width: 1px;
-                            border-left-style: solid;
-                            border-right: 0;
-                            border-color:#bee4d7;
-                        }
-                        ol.step-circles>li:last-child {
-                            width: 100%!important;
-                            text-align: center!important;
-                            padding: 80px 0 0;
-                            margin: 0
-                        }
-                        ol.step-circles>li:last-child:before {
-                            left: 0;
-                            right: 0;
-                            margin: auto
-                        }
-                        ol.step-circles>li:last-child:after {
-                            display: block;
-                            height: 60px;
-                            width: 0;
-                            left: 0;
-                            right: 0;
-                            margin: auto;
-                            bottom: auto
-                        }
-                    }
-                    </style>
-            <ol  class="step-circles u-fs-18 u-fw-500 u-lh-2">
-                <li>Post a brief description of your project.</li>
-                <li>Add a first task & a small deposit to attract developers attention. </li>
-                <li><div class="tags-list">
-                    <span class="tag orange-gr text-white">Reducing Costs</span>
-                </div>Put your budget to the task deposit and receive a bonus 5$ for each task.</li>
-                <li><div class="tags-list">
-                    <span class="tag orange-gr text-white">Reducing Costs</span>
-                </div>Developers starts working and offer their price estimations for each task;
-                    Other companies may co-sponsor the parts of your project if your project's code might be useful for them.</li>
-                <li>You receive one or several solutions from developers.
-                    Choose the best one or ask project manager to help you.</li>
-                <li>You money get released from special deposit only when you approve the task.</li>
-                <li><div class="tags-list">
-                    <span class="tag orange-gr text-white">Reducing Costs</span>
-                </div>Share your automatically received
-                    <a href="#" data-toggle="tooltip" title="Project tokens give you a part of the tasks financing, forever.">project tokens</a>
-                    with the developers to extra motivate them and to reduce project costs much more.</li>
-            </ol>
+                    <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+                    <form action="" method="POST" class="p-4 p-md-5">
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-User text-primary"></span>
+                                </div>
+                                <input type="text" name="name" class="form-control border-0 p-3"
+                                       placeholder="Your fullname">
+                            </div>
+
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Mail text-primary"></span>
+                                </div>
+                                <input type="text" name="email" class="form-control border-0 p-3"
+                                       placeholder="Your email">
+                            </div>
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Share text-primary"></span>
+                                </div>
+                                <input type="text" name="phone" class="form-control border-0 p-3"
+                                       placeholder="Your phone number">
+                            </div>
+{#                            <div class="u-pb-20">#}
+{#                                <p>What kind of project do you have?</p>#}
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="app_type" value="web"/> Web application</label>#}
+{#                                </div>#}
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="app_type" value="movile"/> Mobile application</label>#}
+{#                                </div>#}
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="app_type" value="service"/> Service</label>#}
+{#                                </div>#}
+{#                                <div class="input-group">#}
+{#                                    <label><input type="radio" style="display: inline-block; width: 30px;"#}
+{#                                                  name="app_type" value="other"/> Other</label>#}
+{#                                </div>#}
+{#                            </div>#}
+                            <input type="submit" name="submit" class="btn btn-primary btn-rounded btn-fixed"
+                                   value="Get a co-founder" />
+                        </form>
+
                 </div>
 
             </div>
 
-        </div><br>
-        <p align="center">
-            <a href="/task/add/" class="btn btn btn-rounded btn-secondary green-gr m-2 px-md-5 py-3">
-                Start a project
-            </a>
-        </p>
+        </div>
     </section>
-<section>
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h2 class="mb-4 u-fw-500 u-lh-2 text-center">Try all our benefits.</h2>
-                <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
-            </div>
-        </div> <!-- END row-->
-
-        <div class="row">
-
-            <div class="col-lg-4 col-md-6 u-mb-70">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50" src="/static/img/price.svg" alt="Price">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Price
-                        </h4>
-                        <p>
-                            Сut your budget by sharing costs with other companies and utilizing open source modules
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-            <div class="col-lg-4 col-md-6 u-mb-70">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50" src="/static/img/speed_1.svg" alt="Speed">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Speed
-                        </h4>
-                        <p>
-                            Start a competition for the developers! They will work on the best solution ASAP to get a reward
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-            <div class="col-lg-4 col-md-6 u-mb-70">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50 m-auto" src="/static/img/guarantee_1.svg" alt="Quality">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Quality
-                        </h4>
-                        <p>
-                            Our community consist mainly of open source developers, who generally provide solutions of a higher quality
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-            <div class="col-lg-4 col-md-6 u-mb-70">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50 m-auto" src="/static/img/convenience.svg" alt="Convenience">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Convenience
-                        </h4>
-                        <p>
-                            Project managers assist you throughout the development process
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-            <div class="col-lg-4 col-md-6 u-mb-70">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50 m-auto" src="/static/img/moneyback.svg" alt="Money back guarantee">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Money back guarantee
-                        </h4>
-                        <p>
-                            We return your money if you're not satisfied with the results
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-            <div class="col-lg-4 col-md-6">
-                <div class="media">
-                    <div class="u-w-50 d-flex mr-4">
-                        <img class="u-h-50 m-auto" src="/static/img/support.svg" alt="Free maintenance">
-                    </div>
-                    <div class="media-body">
-                        <h4>
-                            Free maintenance
-                        </h4>
-                        <p>
-                            Grow an open source community around your project right from its creation and hand over its support
-                        </p>
-                    </div>
-                </div>
-            </div> <!-- END col-lg-4 col-md-6 -->
-
-        </div> <!-- END row-->
-        <p align="center">
-            <a href="/task/add/" class="btn btn btn-rounded btn-secondary green-gr m-2 px-md-5 py-3">
-                Request a quote
-            </a>
-        </p>
-    </div> <!-- END container-->
-</section>
 
 {% endblock %}
 
 <footer>
-
     <div class="container text-center p-4">
         <p class="mb-0">
             2018 <span class="icon icon-Heart text-primary mx-2"></span> OpenGift Inc.
         </p>
     </div>
 </footer>
-
 <div class="scroll-top bg-white box-shadow-v1">
     <i class="fa fa-angle-up" aria-hidden="true"></i>
 </div>

@@ -663,6 +663,7 @@
                                 $(this).addClass('active').siblings().removeClass('active');
                                 $('[name="message_type"]').val($(this).data('type'));
                                 $('.js-message-options').hide().filter('[data-type='+$(this).data('type')+']').show();
+                                $('.js-task-message-form').show();
                                 return false;
                             });
 
@@ -681,15 +682,16 @@
                         });
                     </script>
                     <div class="message-tabs">
-                        <a data-type="message" class="js-task-message-tab message-tab active" href="#">Post a message</a>
-                        <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Set your price</a>
-                        <a data-type="result" class="js-task-message-tab message-tab" href="#"><b>Post result</b></a>
+                        <a data-type="message" class="js-task-message-tab message-tab" href="#">Add message</a>
+                        <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Offer your price</a>
+                        <a data-type="result" class="js-task-message-tab message-tab" href="#">Add result</a>
                         {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1075 %}
                         <a data-type="vote" class="js-task-message-tab message-tab {% if not task_detail.donated %}disabled{% endif %}" href="#"
                         {% if not task_detail.donated %}data-toggle="tooltip" title="You should donate to this task to be able to choose a winner."{% endif %}>Select the best result</a>
                         {% endif %}
                         </div>
-                    <form class="newMessage form-horizontal" action="/task_handler" method="POST" enctype="multipart/form-data">
+                    <form class="js-task-message-form newMessage form-horizontal" style="display: none;"
+                          action="/task_handler" method="POST" enctype="multipart/form-data">
                         {% csrf_token %}
                         <input type="hidden" name="message_type" value="message" />
                         <div style="display: inline-block;" data-type="message"
@@ -861,7 +863,7 @@
                         <div><b>$ {{ task_detail.asked_min|default_if_none:'0'|floatformat:"0" }}</b>{% if task_detail.asked_min != task_detail.asked_max %} ... <b>$ {{ task_detail.asked_max | floatformat:"0" }}</b>{% endif %}</div> </li>
                     {% endif %}
 
-                    <li><div>Raised budget:</div><div><h1 class="mb-0"><b class="pink-color">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b> <span style="color: grey;">*</span></h1></div></li>
+                    <li><div>Current budget:</div><div><h1 class="mb-0"><b class="pink-color">$ {{ task_detail.task.donated|default_if_none:'0'|floatformat:"0" }}</b> <span style="color: grey;">*</span></h1></div></li>
 
 
                     {% if task_detail.task.currentWinner %}
@@ -877,7 +879,7 @@
 
                 {% if not task_detail.task.closed %}
                 <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
-                class="donate-button btn orange-gr">Make a deposit <img src="/static/img/investment.svg" height="18"></a>
+                class="donate-button btn orange-gr">Credit this task <img src="/static/img/investment.svg" height="18"></a>
 
                 <div class="donate-desc">minimal donation value is  ${{ task_detail.avgDonate|floatformat:"0" }} for now</div>
                 {% endif %}
@@ -899,9 +901,8 @@
 		C62,48.542099,48.5419998,62,32,62z"/>
 </g>
 <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></span>
-            <b style="color: #ff5466;">Extra bonus:</b>
-                A developer providing <b>the best solution</b> gets <b>1%</b> of the project "{{ task_detail.task.project.name }}" project tokens.<br />
-                You can also get <b>1%</b> of the project tokens for <b>co-sponsoring</b> the task.
+            <b style="color: #ff5466;">No risk deposits!</b>
+                All money will be automatically returned in case of no results are provided.
             </div>
                 {% if task_detail.results %}
                 <div class="published-results up-3 pb-0">
@@ -928,7 +929,9 @@
                 </div>
 
                 {% endif %}
-                <small style="color: grey; margin-top: 20px;display: block;">* in GIFT tokens, 1 GIFT = $ 0.2</small>
+                <small style="color: grey; margin-top: 20px;display: block;">
+                    * including 10% fee taken by the project's digital share holders and 5% fee taken by OpenGift community.
+                </small>
             </div>
 
 
@@ -1311,14 +1314,14 @@
                     {% endfor %}
             </ul>
         </div>
-        {% if request.user.is_authenticated %}
-        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=estimation]').trigger('click');" class="btn btn-default">Set your price</a>&nbsp;
-        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Add your result</a>
-        {% endif %}
+{#        {% if request.user.is_authenticated %}#}
+{#        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=estimation]').trigger('click');" class="btn btn-default">Set your price</a>&nbsp;#}
+{#        <a href="#post_comment" onclick="$('.js-task-message-tab[data-type=result]').trigger('click');" class="btn btn-success">Add your result</a>#}
+{#        {% endif %}#}
         <div class="bakers-wrapper card mb-4">
 
             <div class="bakers-wrapper-header with-elements" style="display: block;">
-                <div>Project tokens owners <a href="#"  data-toggle="tooltip" data-original-title="The team of project owners receive 10% of each project tasks donation.">?</a></div>
+                <div>Project digital share holders <a href="#"  data-toggle="tooltip" data-original-title="The team of project owners receive 10% of each project tasks donation.">?</a></div>
                 <h6 class="card-header-title" style="margin-bottom: 10px;">{{ task_detail.task.project.name }}</h6>
             </div>
             <ul class="bakers-list list-group-flush">

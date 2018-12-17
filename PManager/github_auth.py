@@ -37,8 +37,11 @@ class GithubAuth:
 
     def authenticate(self, **kwargs):
         code = kwargs.get("code")
+
         if code:
             resp = GithubAuth.get_token(code)
+
+
             if u'error' in resp:
                 return None
             else:
@@ -52,16 +55,19 @@ class GithubAuth:
                     return user
                 else:
                     # CREATE THE USER If not EXIST
-                    user = PM_User.getOrCreateByEmail(user_data.email, None, None, None)
+                    email = user_data.email
+                    if not email:
+                        email = user_data.login + '@opengift.io'
+
+                    user = PM_User.getOrCreateByEmail(email, None, None, None)
                     profile = user.profile
                     profile.github = user_data.login
                     profile.github_id = user_data.id
                     profile.save()
-
-                    user.first_name = user_data.name
+                    user.first_name = user_data.name or 'Unknown Github User'
                     user.save()
-                    img_temp = self.get_image_to_file(user_data.avatar_url)
-                    profile.avatar.save("avatar_github.jpg", File(img_temp))
+                    # img_temp = self.get_image_to_file(user_data.avatar_url)
+                    # profile.avatar.save("avatar_github.jpg", File(img_temp))
                     profile.save()
                     return user
                     
