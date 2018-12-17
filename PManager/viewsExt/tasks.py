@@ -169,6 +169,8 @@ def __search_filter(header_values, request):
 
     ar_filter = {}
     ar_exclude = {}
+    qArgs = []
+
     if search_text:
         number = None
         if search_text.startswith(u'#') or search_text.startswith(u'№'):
@@ -183,9 +185,8 @@ def __search_filter(header_values, request):
         if number:
             ar_filter['number'] = number
         else:
-            ar_filter['name__icontains'] = search_text
+            qArgs.append(Q(name__icontains=search_text) | Q(text__icontains=search_text))
     # user select tagsearch
-    qArgs = []
     tag_search = request.POST.getlist("tag_search[]",[u''])
     #import q; q(tag_search)
     if tag_search != [u''] :
@@ -1371,6 +1372,9 @@ class taskAjaxManagerCreator(object):
                 blockchain_name=projectCode,
                 tracker_id=1
             )
+            if created: # project was created!! create github repository
+                project.create_githubrepo()
+
             project.description = projectDescription
             project.save()
 

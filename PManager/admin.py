@@ -65,7 +65,7 @@ class PM_MilestoneChangesInline(admin.ModelAdmin):
     list_display = ['date', 'value', 'milestone']
 
 class PM_UserInline(admin.ModelAdmin):
-    list_display = ['user', 'id', 'in_whitelist', 'in_promo']
+    list_display = ['user', 'id', 'in_whitelist', 'in_promo','github_id','github','avatar']
 
 admin.site.register(PM_Role)
 admin.site.register(PM_Task, TaskInline)

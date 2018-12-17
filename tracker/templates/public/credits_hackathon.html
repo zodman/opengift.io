@@ -199,14 +199,12 @@
 {#                        <img src="/static/img/languages/031-css.png" style="width: 40px"/>#}
 {#                        <img src="/static/img/languages/016-c-1.png" style="width: 40px"/>#}
 {#                    </p>#}
-
-
-{#                    <p><a href="#current" style="display: none;" class="js-current-task-btn btn btn-primary">Current task</a></p>#}
+                 
                 </div> <!-- END col-lg-6-->
                 <div class="col-lg-5 text-center">
 
                     <div class="box-shadow-v2 bg-white p-4 p-md-5 rounded">
-                        <div class="h4 fw-normal">The hackathon starts</div>
+                        <div class="h4 fw-normal">The hackathon has started</div>
                         <h4 class="u-fw-600 text-black u-mb-40 js-timer-title">1st of December at midnight GMT.</h4>
 
                         <div class="clock u-mb-40"></div>
@@ -230,7 +228,7 @@
 
                                     if (currentDate < date) {
                                         $('.js-current-hackaton, .js-current-task-btn').show();
-                                        $('.js-timer-title').html('Current stage: Concept creation.');
+                                        $('.js-timer-title').html('Current stage: Development Process.');
                                         date = false;
                                     } else {
                                         date = false;
@@ -245,16 +243,8 @@
                                 }
                             });
                         </script>
-                        {% if user_registered %}
-                            <p>You are registered for the next hackathon.</p>
-                            <a href="#current" class="js-current-task-btn btn btn-primary">Current task</a>
-                        {% else %}
-                            <a href="{% if request.user.is_authenticated %}/hackathon_register/{% else %}/login/?backurl=/hackathon_register/{% endif %}"
-                               id="registerhackathonpage" style="background-color: #2a2a2a"
-                               class="btn btn-secondary m-2 px-md-5 py-3 orange-gr">
-                                REGISTER FOR HACKATHON
-                            </a>
-                        {% endif %}
+                            
+							<p><a href="#current" class="js-current-task-btn btn btn-primary">Current task</a></p>
 
                         <div class="js-hackaton-calendar-add"></div>
                         {#                        <a href="#current"#}
@@ -279,18 +269,17 @@
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/public/assets/img/svg/target.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
-                             Stage 1: Concept creation
+                             Stage 2: Development Process
                         </h4>
 
                         <p class="text-center text-dark u-t-u">
-                            <a href="/task_detail/?number=1&project=1131" target="_blank">Post your idea here</a>
-                        </p>
+                            <a href="/task_detail/?number=2&project=1131" target="_blank">Post your solution here</a>
+                        </p> 
                         <p>
                             Hello, guys!
                         </p>
                         <p>
-                        In frame of 1st Stage of current hackathon just post your idea of new solution as a result in the hackathon task.
-                            All good ideas will go further to the 2nd round.
+                        By the end of this stage you should publish source code of your project in the dedicated Github repository and send a link to the developed website or mobile app via OpenGift.<br>Deadline - 00:00 UTC,December, 30.
                         </p>
 
                     </div>
@@ -514,7 +503,7 @@
                         <div class="col-md-4">
                             <h6 class="text-primary">22th of November</h6>
                             <p class="u-fs-20 u-fw-500 u-lh-2">Development of smart contracts using Credits platform</p>
-                            <a target="_blank" href="https://www.twitch.tv/videos/339607523" class="btn btn btn-rounded orange-gr py-2" style="background: #4b367c!important;">
+                            <a target="_blank" href="https://www.youtube.com/watch?v=KY6KkenxJJM" class="btn btn btn-rounded orange-gr py-2" style="background: #4b367c!important;">
                                 Watch
                             </a>
                         </div>
@@ -1012,14 +1001,6 @@
         speed: .25
     });
 </script>
-<script>
-  window.intercomSettings = {
-    email: "{{ request.user.email }}",
-    user_id: "{{ request.user.last_name }} {{ request.user.first_name }}",
-    app_id: "ryh8lewr"
-  };
-</script>
-<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ryh8lewr';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
 <!-- Yandex.Metrika counter -->
 <script type="text/javascript"> (function (d, w, c) {
     (w[c] = w[c] || []).push(function () {

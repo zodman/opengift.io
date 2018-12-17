@@ -83,7 +83,21 @@
                     <span class="custom-control-indicator mt-1"></span>
                     <span class="custom-control-description">Make the project's page public</span>
                   </label>
+                  
+                  {% if project.repository %}
+                    
+                    <label for="repository" class="">
+                      <i class="fa fa-github "></i>
+                      <a  class="small" href="{{project.repository}}" target="_blank">{{project.repository}}</a>
+                    </label>                    
+                    {% endif %}
+                  
                 </div>
+                
+
+                    
+                
+
                 <input type="text" name="name" value="{{ project.name }}"
                        class="form-control u-rounded-50 p-3 u-mb-30" placeholder="Title"
                        required="">
