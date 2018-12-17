@@ -23,7 +23,7 @@ AND FASTER
         vagrant up --provision
 
 this will install all packages necesary to run from zero  
-take a look to provision.sh to see all deps
+take a look to provision.sh to see all deps  
 ** vagrant provision will drop your database and recreate a new one **
 
 6.- Run the runserver
@@ -40,8 +40,8 @@ access: admin/admin
 
 its done ready to hack!
 
-** Plus run new unittest:
-        fab test
+** Plus run new unittest:  
+       ´ fab test ´
 
 ## TODO:
 - [ ] add running async_server (websockets) 
