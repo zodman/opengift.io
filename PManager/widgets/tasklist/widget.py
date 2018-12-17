@@ -430,10 +430,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
             list_tags =[]
             if task_tags.exists():
                 
-                for tag in task_tags.values('tag__id','tag__tagText'):
+                for tag in task_tags.values('tag__id','tag__tagText','tag__color'):
                     list_tags.append({
                         'tagText':tag['tag__tagText'],
-                        'id':tag['tag__id']
+                        'id':tag['tag__id'],
+                        'color': tag["tag__color"]
                         })
             addTasks[task.id]['tags']=list_tags
 

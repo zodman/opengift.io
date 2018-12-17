@@ -47,6 +47,7 @@ class Tags(models.Model):
     parent = models.ForeignKey('self', blank=True, null=True, related_name="subtags")
     allowed = models.BooleanField(default=False, blank=True)
     is_public = models.BooleanField(default=False)
+    color = models.CharField(max_length=30, null=True, blank=True)
 
     weight = 0
 
