@@ -278,22 +278,22 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             users_limit = 2;
             var users_str = taskInfo.users.slice(0,users_limit).map(function(elem){
-                return '<span class="user_message">' + 
-                            '<img src="'+ elem.avatar+'" class="pull-left img-circle" style="height:40px;">' +
-                        '</span>'
+                return '<li class="user_message">' + 
+                            '<img src="'+ elem.avatar+'" class="pull-left img-circle" >' +
+                        '</li>'
                     ;
             }).join('');
 
-            if( taskInfo.users.length >= users_limit) {
-                image = 'http://via.placeholder.com/40x40.png?text=%2B' + (taskInfo.users.length - users_limit)
-                users_str += '<span class="user_message">' + 
-                            '<img src="'+ image +'" class="pull-left img-circle" style="height:40px;">' +
-                        '</span>'
+            if( taskInfo.users.length >  users_limit) {
+                image = '//via.placeholder.com/40/ddd/?text=%2B' + (taskInfo.users.length - users_limit)
+                users_str += '<li class="user_message">' + 
+                            '<img src="'+ image +'" class="pull-left img-circle" >' +
+                        '</li>'
                     ;
 
             }
-
             html = html.replace(/\#TASK\_USERS\#/ig, users_str);
+
             if (taskInfo.hasOwnProperty('messages')) {
                 html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);
             }
