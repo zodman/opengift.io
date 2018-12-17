@@ -47,6 +47,7 @@ class GithubAuth:
             else:
                 access_token = resp.get("access_token")
                 user_data = GithubAuth.get_user_info(access_token)
+
                 github_id = user_data.id
                 profiles = PM_User.objects.filter(github_id=github_id)
                 
@@ -55,10 +56,15 @@ class GithubAuth:
                     return user
                 else:
                     # CREATE THE USER If not EXIST
-                    email = user_data.email
+                    # email user perms (user:email perms needed)
+                    # https://developer.github.com/v3/users/emails/
+                    email = None
+                    for email_dict in user_data.get_emails():
+                        if email_dict.get("primary", False):
+                            email = email_dict.get("email")
+                            break
                     if not email:
-                        email = user_data.login + '@opengift.io'
-
+                        return None
                     user = PM_User.getOrCreateByEmail(email, None, None, None)
                     profile = user.profile
                     profile.github = user_data.login

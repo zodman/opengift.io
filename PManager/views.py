@@ -132,47 +132,7 @@ class MainPage:
     @staticmethod
     def github_callback(request):
         code = request.GET.get("code")
-        return HttpResponseRedirect('/login/?code={}' % code) 
-<<<<<<< HEAD
-
-    @staticmethod
-    def github_connect(request):
-        code = request.GET.get("code")
-        if code and request.user.is_authenticated():
-            resp = GithubAuth.get_token(code)
-            access_token = resp.get("access_token")
-            user_data = GithubAuth.get_user_info(access_token)
-            profile = request.user.profile
-            profile.github_id = user_data.id
-            profile.github = user_data.login
-            profile.save()
-            return HttpResponseRedirect('/profile/edit/') 
-        else:
-            return HttpResponseRedirect('/profile/edit/?error=no_auth')
-        
-        
-
-    @staticmethod
-    def github_auth(request):
-        import urllib
-        redirect = request.GET.get("redirect", None)
-        if redirect and redirect == "connect":
-            redirect_uri = settings.GITHUB_REDIR_URI + '/github/connect'
-        else:
-            redirect_uri = settings.GITHUB_REDIR_URI
-    
-
-        params = {
-            'client_id': getattr(settings, "GITHUB_CLIENT_ID"),
-            'redirect_uri': redirect_uri,
-            #'scope': 'repo'
-        }
-        qs = urllib.urlencode(params)
-        url = "https://github.com/login/oauth/authorize?"
-        return HttpResponseRedirect(url + qs)
-
-    @staticmethod
-=======
+        return HttpResponseRedirect('/login/?code=%s' % code) 
 
     @staticmethod
     def github_connect(request):
@@ -211,7 +171,6 @@ class MainPage:
         return HttpResponseRedirect(url + qs)
 
     @staticmethod
->>>>>>> upstream/master
     def auth(request):
         from django.contrib.auth import authenticate, login
         from PManager.viewsExt.tools import emailMessage
@@ -222,10 +181,6 @@ class MainPage:
         if request.GET.get("code"):
             code = request.GET.get("code")
             user = authenticate(code=code)
-<<<<<<< HEAD
-=======
-
->>>>>>> upstream/master
             if user and user.is_active:
                 login(request, user)
                 return HttpResponseRedirect( '/wallet/')           
