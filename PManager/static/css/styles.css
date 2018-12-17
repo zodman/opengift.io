@@ -6407,7 +6407,12 @@ body {
 
 /* css hack https://www.bennadel.com/blog/3369-css-flexbox-creating-the-invision-avatar-row-widget.htm */
 .task-title-users-wrapper {
- 
+ width: 40%;
+ float:right;
+}
+.task-title-users-wrapper p {
+    padding: 0;
+    margin:0;
 }
 .js-task-users {
     display: flex ; /* Causes LI items to display in row. */
@@ -6427,6 +6432,13 @@ body {
 
 }
 
+.winner .fa {
+    position: absolute;
+    right:-15px;    
+    padding:5px 10px;
+    
+}
+
 .user_message  img {
             background-color: #ddd ;
             border: 2px solid white ;
@@ -6440,6 +6452,15 @@ body {
             line-height: 45px ;
             text-align: center ;
             width: 45px ;
+}
+
+.js-task-users .winner {
+    z-index: 10;
+
+}
+.winner img  {
+    border: 2px solid #90c090 ;
+
 }
 
 .user_message:nth-child( 1 ) { z-index: 1 ; }

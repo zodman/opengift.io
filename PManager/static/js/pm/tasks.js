@@ -276,7 +276,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             }).join('');
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
 
-            users_limit = 2;
+            users_limit = 5;
             var users_str = taskInfo.users.slice(0,users_limit).map(function(elem){
                 return '<li class="user_message">' + 
                             '<img src="'+ elem.avatar+'" class="pull-left img-circle" >' +
@@ -292,7 +292,18 @@ var CRITICALLY_THRESHOLD = 0.7;
                     ;
 
             }
+            
+            if( taskInfo.winner.avatar ) {
+                image = taskInfo.winner.avatar;
+                users_str += '<li class="user_message winner">' + 
+                    ' <i class="fa fa-check-square-o" aria-hidden="true"></i>' +
+                   '<img src="'+ image +'" class="pull-left img-circle" >' +
+                    '</li>';
+            }
+
+
             html = html.replace(/\#TASK\_USERS\#/ig, users_str);
+
 
             if (taskInfo.hasOwnProperty('messages')) {
                 html = html.replace(/\#MESSAGES\#/ig, taskInfo.messages);

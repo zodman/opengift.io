@@ -353,6 +353,11 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 if not d in users_messages:
                     users_messages.append(d)
 
+            winner = task.getWinner()
+            winner_dict = {}
+            if winner:
+                winner_dict =  {'id': winner.author.id , 'avatar': winner.author.profile.avatarSrc}
+
             addTasks[task.id] = {
                 'url': task.url,
                 'project': {
@@ -413,6 +418,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'avatar': task.resp.get_profile().avatar_rel if task.resp else {},
                 'milestoneId': task.milestone.id if task.milestone else None,
                 'users': users_messages,
+                'winner': winner_dict, 
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,
