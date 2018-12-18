@@ -1,9 +1,8 @@
-<div id="taskLine_#TASK_ID#" class="task clearfix" data-taskid="#TASK_ID#" >
-	<div class="task-border clearfix ">
+<div id="taskLine_#TASK_ID#" class="task clearfix " data-taskid="#TASK_ID#" >
+	<div class="task-border clearfix  ">
     	<!--<span class="task-id js-number-link">#TASK_NUMBER#</span><!-- ===== НОМЕР ЗАДАЧИ -->
        	<!--<span class="task-drag task-name_status"></span><!-- ===== ПЕРЕТЯГИВАТЕЛЬ -->
-
-       <div class="task-title">
+       <div class="task-title ">
            <!--<i class="js-task-bounty fa fa-star" ></i> <label for="taskid#TASK_ID#"></label>-->
            <div class="task-title-projectname">
                 <a href="#TASK_PROJECT_LINK#" class="task-title-projectname-a">#TASK_PROJECT_NAME#</a>
@@ -17,19 +16,29 @@
                     #TASK_TAG#
                 </div>
            </div>
+          
+
 
            <!--#FILE_LIST#-->
            <b class="red-text">#DEADLINE#</b>
 
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
 
-		<div class="task-info">
-            <!--
+		<div class="task-info ">
+           
+
+                <!--
             <div class="to-do-buttons js-tod">
             </div>
             -->
+            <div class="task-title-users-wrapper ">
+                    <p> Developers involved </p>
+                     <ul class="js-task-users">
+                         #TASK_USERS#
+                     </ul>
+                </div>
 
-            <div class="task-info-progress">
+            <div class="task-info-progress ">
             	<span class="js-reward"></span>
             </div>
 
@@ -47,6 +56,9 @@
                     <span class="fa fa-check-circle" title="Approve"></span>
                 </a>
 			</div><!--task-info-control-->
+
+
+            
 		</div><!--task-info-->
 
 	</div>
