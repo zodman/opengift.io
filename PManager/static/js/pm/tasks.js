@@ -272,7 +272,11 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#TASK\_PROJECT\_LINK\#/ig, '/bounty/?project=' + taskInfo.project.id);
             html = html.replace(/\#PARENT\_NAME\#/ig, taskInfo.parentName);
             var tags_str = taskInfo.tags.map(function(elem){
-                return '<span class="task-tag">' + elem.tagText + '</span>'
+                color = "";
+                if(elem.color){
+                    color = "style=' background:" +elem.color +"'";
+                }
+                return '<span class="task-tag" ' +color+ '>' + elem.tagText + '</span>'
             }).join('');
 
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
