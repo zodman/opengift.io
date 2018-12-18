@@ -132,7 +132,7 @@ class MainPage:
     @staticmethod
     def github_callback(request):
         code = request.GET.get("code")
-        return HttpResponseRedirect('/login/?code={}' % code) 
+        return HttpResponseRedirect('/login/?code=%s' % code) 
 
     @staticmethod
     def github_connect(request):
@@ -181,7 +181,6 @@ class MainPage:
         if request.GET.get("code"):
             code = request.GET.get("code")
             user = authenticate(code=code)
-
             if user and user.is_active:
                 login(request, user)
                 return HttpResponseRedirect( '/wallet/')           
