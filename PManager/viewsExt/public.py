@@ -64,7 +64,36 @@ class Public:
                            'result': result
             })
 
-        return HttpResponse(loader.get_template('public/startups.html').render(c))
+        return HttpResponse(loader.get_template('public/startups.html').render(c))\
+
+    @staticmethod
+    def christmas(request, need_inverse=False):
+        result = ''
+        if request.POST.get('submit', None):
+            from PManager.viewsExt.tools import emailMessage
+
+            message = emailMessage(
+                'landing',
+                {
+                    'user': {
+                        'name': request.POST.get('name', ''),
+                        'email': request.POST.get('email', ''),
+                        'phone': request.POST.get('phone', ''),
+                        'comment': request.POST.get('phone', ''),
+                    },
+                    'app_type': request.POST.get('app_type', '')
+                },
+                'Landing request - Startups'
+            )
+
+            message.send(['info@opengift.io'])
+            result = 'sent'
+
+        c = RequestContext(request, {
+                           'result': result
+            })
+
+        return HttpResponse(loader.get_template('public/christmas.html').render(c))
 
     @staticmethod
     def credits_hackathon(request, need_inverse=False):

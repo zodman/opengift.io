@@ -281,7 +281,18 @@ var CRITICALLY_THRESHOLD = 0.7;
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
 
             users_limit = 5;
-            var users_str = taskInfo.users.slice(0,users_limit).map(function(elem){
+            var users_str = '';
+            if( taskInfo.winner.avatar ) {
+                image = taskInfo.winner.avatar;
+                users_str += '<li class="user_message winner">' +
+                    ' <i class="fa fa-check winner-selector" aria-hidden="true"></i>' +
+                   '<img src="'+ image +'" class="pull-left img-circle" >' +
+                    '</li>';
+            }
+
+            users_str += taskInfo.users.slice(0, users_limit).map(function(elem){
+                if (taskInfo.winner && taskInfo.winner.id == elem.id) return '';
+
                 return '<li class="user_message">' + 
                             '<img src="'+ elem.avatar+'" class="pull-left img-circle" >' +
                         '</li>'
@@ -289,21 +300,15 @@ var CRITICALLY_THRESHOLD = 0.7;
             }).join('');
 
             if( taskInfo.users.length >  users_limit) {
-                image = '//via.placeholder.com/40/ddd/?text=%2B' + (taskInfo.users.length - users_limit)
-                users_str += '<li class="user_message">' + 
+                image = '//via.placeholder.com/40/ddd/?text=%2B' + (taskInfo.users.length - users_limit);
+                users_str += '<li class="user_message">' +
                             '<img src="'+ image +'" class="pull-left img-circle" >' +
                         '</li>'
                     ;
 
             }
             
-            if( taskInfo.winner.avatar ) {
-                image = taskInfo.winner.avatar;
-                users_str += '<li class="user_message winner">' + 
-                    ' <i class="fa fa-check-square-o" aria-hidden="true"></i>' +
-                   '<img src="'+ image +'" class="pull-left img-circle" >' +
-                    '</li>';
-            }
+
 
 
             html = html.replace(/\#TASK\_USERS\#/ig, users_str);

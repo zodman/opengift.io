@@ -74,8 +74,8 @@ $(function () {
             t.model = new window.taskClass(taskDetail);
 
             t.view = new window.taskViewClass({
-                el: widget_td.$container.find('.widget-title').get(0),
-                $el: widget_td.$container.find('.widget-title').eq(0),
+                el: widget_td.$container.get(0),
+                $el: widget_td.$container.eq(0),
                 model: t.model
             });
             t.view.render = function () {

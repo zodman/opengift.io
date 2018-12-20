@@ -515,7 +515,7 @@
     {% if task_detail.task.project.id != 1013 %}
     <li>
         <a class="active" href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a> /
-        <a class="active" href="/project/{{ task_detail.task.project.id }}/tasks/">Tasks</a> /
+        <a class="active" href="/project/{{ task_detail.task.project.id }}/tasks/">Contests</a> /
         #{{ task_detail.task.number }}
     </li>
     {% endif %}
@@ -546,6 +546,12 @@
                 </span>
                     <a href="/task_edit/?id={{ task_detail.task.id }}">Task Settings</a>
                 </li>
+                    <li class="js-task_done">
+                <span class="dropdown js-options_popup">
+                  <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-close "></a>
+                </span>
+                    <a href="#">Close task</a>
+                </li>
                 {% endif %}
 
             </ul>
@@ -554,7 +560,7 @@
             {# ---- TASK BODY #}
             <div class="widget-body">
                 {% if task_detail.task.text_formatted %}
-                <div class="task-details-text fold js-read-more-block">
+                <div class="task-details-text {% if task_detail.task.text_formatted|length|get_digit:"-1" > 300 %}fold{% endif %} js-read-more-block">
                     {{ task_detail.task.text_formatted|safe }}
                     {% if task_detail.files %}
                         <br />
@@ -574,7 +580,9 @@
                         {% endif %}
                     {% endfor %}
                 {% endif %}
+                    {% if task_detail.task.text_formatted|length|get_digit:"-1" > 300 %}
                     <div class="task-details-text-cut js-read-more"><a href="#" class="task-details-text-cut-button">Read More</a></div>
+                    {% endif %}
                 </div>
                 {% endif %}
 

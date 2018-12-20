@@ -6,8 +6,9 @@
 {% block title %}{{ subject }}{% endblock %}
 
 {% block content %}
-    <strong>{{ name }}</strong><br>
-    <p>{{ email }}</p>
-    <p>{{ phone }}</p>
-    <p>{{ comment }}</p>
+    <strong>{{ user.name }}</strong><br>
+    <p>Email: {{ user.email }}</p>
+    <p>Phone: {{ user.phone }}</p>
+    <p>Comment: {{ user.comment }}</p>
+    <p>App: {{ app_type }}</p>
 {% endblock %}

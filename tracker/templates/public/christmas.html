@@ -1,0 +1,538 @@
+{% load thumbnail i18n jsonify less get_settings compressed %}{% load url from future %}
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+
+    <!--Meta-->
+    <meta charset="UTF-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--Favicon-->
+    <link rel="icon" href="/static/public/assets/img/favicon/144x144.png">
+    {% block header %}
+        <meta name="description" content="Special offer for startups December 2018.">
+        <!-- Title-->
+        <title>OpenGift.io - For startups</title>
+    {% endblock %}
+    <!--Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i&amp;subset=cyrillic"
+          rel="stylesheet">
+    <!--Icon fonts-->
+
+    {#    {% compressed_css 'base' %}#}
+    {% block stylesheets %}{% endblock %}
+    <link rel="stylesheet" href="/static/public/assets/vendor/strokegap/style.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/static/public/assets/vendor/linearicons/style.css?v1">
+
+
+    <link rel="stylesheet" href="/static/public/assets/css/flipclock.css">
+
+
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+    <link rel="stylesheet" href="/static/public/assets/css/bundle.css">
+    <link rel="stylesheet" href="/static/public/assets/css/style.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/form.css?v4">
+    <link rel="stylesheet" href="/static/public/assets/css/timeline.css">
+
+
+    <link rel="stylesheet" href="/static/public/assets/css/opensans.css">
+
+    <script src="/static/public/assets/js/bundle.js"></script>
+    {% block scripts %}{% endblock %}
+    <!-- Stylesheet-->
+    <!--
+  // ////////////////////////////////////////////////
+  // To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/css/bundle.css
+  // If you wanna add those manually bellow is the sequence
+  // ///////////////////////////////////////////////
+  -->
+    <!--  <link rel="stylesheet" href="/static/public/assets/vendor/bootstrap/dist/css/bootstrap.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/slick-carousel/slick/slick.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.css">
+      <link rel="stylesheet" href="/static/public/assets/vendor/animate.css/animate.min.css">-->
+
+
+</head>
+
+<body id="top">
+
+
+<!--[if lt IE 8]>
+<p>You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+<div class="top-panel-error animated js-error-container label-danger" style="display: none;">
+    <div class="container">
+        <div class="pull-left">
+            <div class="container js-error-container-text"></div>
+        </div>
+
+        <div class="pull-right">
+            <a href="#" class="close-btn js-error-container-close">
+                <i class="fa fa-remove"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+{% block head %}
+    <header class="header header-shrink {% if not need_inverse %}header-inverse{% endif %} fixed-top">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg px-md-0">
+                <a class="navbar-brand" href="/">
+				<span class="logo-default">
+					<img src="/static/public/assets/img/logo-white.svg" alt="" height="60">
+				</span>
+				<span class="logo-inverse">
+					<img src="/static/public/assets/img/logo-gradient.svg" alt="" height="60">
+				</span>
+                </a>
+
+                <div class="navbar-toggler js-navbar-toggler">
+                    <span class="lnr lnr-text-align-right nav-hamburger"></span>
+                    <span class="lnr lnr-cross nav-close"></span>
+                </div>
+
+                {% include "public/menu.html" %}
+
+            </nav>
+        </div> <!-- END container-->
+    </header> <!-- END header -->
+{% endblock %}
+
+
+{% block content %}
+
+<section class="u-py-100 u-h-100vh u-flex-center" data-dark-overlay="6" style="background:url(/static/img/bg_2.jpg) 0px 0px fixed; background-size: cover;">
+        <div class="container">
+
+            <div class="row">
+                <div class="col-lg-12 u-mt-80 text-center">
+                    <h4 class="text-white u-mb-40">Special Christmas offer from OpenGift</h4>
+
+                    <h1 class="display-4 u-fw-600 text-white u-mb-40">
+                        Enterprise level software<br />based on your idea.
+                    </h1>
+
+                    <a href="#form" class="btn btn btn-rounded btn-secondary orange-gr m-2 px-md-5 py-3">
+                        Create application or website
+                    </a>
+                </div> <!-- END col-lg-6-->
+            </div> <!-- END row-->
+        </div> <!-- END container-->
+    </section> <!-- END intro-hero-->
+
+
+<section class="bg-dark">
+    <div class="container">
+        <h2 class="text-primary text-center">
+            OpenGift is an online platform where you can run contests for development. Simple applications and enterprise software solutions can be easily developed from scratch with a several contests!
+        </h2>
+    </div>
+</section>
+<style>
+    @media (min-width: 992px) {
+        .rightside {background:url("/static/img/rightside.jpg") right center no-repeat;}
+    }
+    @media (max-width: 991px) {
+        .rightside {
+            padding-top: 3rem !important;
+            padding-bottom: 3rem !important;
+        }
+    }
+</style>
+<section class="u-py-100 rightside">
+    <div class="container">
+
+        <div class="row align-items-center">
+            <div class="col-lg-7 u-pr-lg-100">
+                <h2 class="mb-4 u-fw-500 u-lh-2">Only in December!</h2>
+                <h3 class="mb-4 u-fw-500 u-lh-2">Start a contest on OpenGift and get <b class="text-red">free</b>:</h3>
+                <ol class="u-fs-20 u-fw-500 u-lh-2">
+                    <li><b>Personal system analyst.</b> Our expert helps you with describing the technical tasks, taking care of all security and UI requirements.</li>
+
+                    <li><b>Professional code review.</b> We check all solutions sumitted within the contests and help you choose the best ones.</li>
+                </ol>
+            </div> <!-- END col-md-6 -->
+        </div>
+    </div>
+</section>
+    <section class="u-py-60 relative" style="background: #eef8f5;">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="mb-4 u-fw-500 u-lh-2 text-center">3 reasons t give it a try</h2>
+
+            <div class="u-h-4 u-w-50 bg-primary rounded u-mt-40 u-mb-40 mx-auto"></div>
+                    <style>
+                        ol.step-circles {
+                        list-style: none;
+                        counter-reset: li;
+                        padding: 50px 0 0
+                    }
+                    ol.step-circles>li {
+                        position: relative;
+                        padding: 50px 20px 20px 20px;
+                        border: 1px solid #bee4d7;
+                        margin-bottom: 60px
+                    }
+                    ol.step-circles>li:before {
+                        position: absolute;
+                        display: block;
+                        content: counter(li)!important;
+                        counter-increment: li;
+                        line-height: 70px;
+                        text-align: center;
+                        border-radius: 50%;
+                        color: #ffffff;
+                        font-size: 36px;
+                        box-sizing: border-box;
+                        left: 50%;
+                        top: -35px;
+                        margin-left: -35px;
+                        outline: 6px solid #eef8f5;
+                        background: #dff1eb;
+                        width: 70px;
+                        height: 70px;
+                    }
+                    ol.step-circles>li:after {
+                        content: '';
+                        display: block;
+                        position: absolute;
+                        bottom: -28px;
+                        height: 20px;
+                        left: 50%;
+                        border-left: 1px solid #bee4d7;
+                    }
+                    ol.step-circles>li:nth-child(2):before {
+                        background: #ceeae1;
+                    }
+                    ol.step-circles>li:nth-child(3):before {
+                        background: #bfe3d7;
+                    }
+                    ol.step-circles>li:nth-child(4):before {
+                        background: #aedccc;
+                    }
+                    ol.step-circles>li:nth-child(5):before {
+                        background: #9ed6c2;
+                    }
+                    ol.step-circles>li:nth-child(6):before {
+                        background: #8ecfb8;
+                    }
+                    ol.step-circles>li:nth-child(7):before {
+                        background: #7ec8ae;
+                    }
+                    ol.step-circles>li:nth-child(8):before {
+                        background: #6ec1a4;
+                    }
+                    ol.step-circles>li:last-child {
+                        margin-bottom: 0
+                    }
+                    ol.step-circles>li:last-child:after {
+                        display: none
+                    }
+                    @media (min-width:768px) {
+                        ol.step-circles>li {
+                            width: 50%;
+                            border-width: 0;
+                            margin-bottom: 0;
+                            padding: 0 80px 30px 0;
+                            text-align: right;
+                            min-height: 90px
+                        }
+                        ol.step-circles>li:before {
+                            right: -35px;
+                            left: auto;
+                            top: -25px;
+                            z-index: 1;
+                        }
+                        ol.step-circles>li:after {
+                            border-left: 1px solid #bee4d7;
+                            top: 15px;
+                            right: 0;
+                            left: auto;
+                            bottom: 0;
+                            height: auto;
+                            width: 68px;
+                            border-right: 1px solid #bee4d7;
+                            border-top: 1px solid #bee4d7;
+                            border-left: 0;
+                            z-index: 0
+                        }
+                        ol.step-circles>li:nth-child(even) {
+                            margin-left: 50%;
+                            padding: 0 0 30px 80px;
+                            text-align: left
+                        }
+                        ol.step-circles>li:nth-child(even):before {
+                            left: 0;
+                            right: auto
+                        }
+                        ol.step-circles>li:nth-child(even):after {
+                            right: auto;
+                            left: 0;
+                            border-left-width: 1px;
+                            border-left-style: solid;
+                            border-right: 0;
+                            border-color:#bee4d7;
+                        }
+                        ol.step-circles>li:last-child {
+                            width: 100%!important;
+                            text-align: center!important;
+                            padding: 80px 0 0;
+                            margin: 0
+                        }
+                        ol.step-circles>li:last-child:before {
+                            left: 0;
+                            right: 0;
+                            margin: auto
+                        }
+                        ol.step-circles>li:last-child:after {
+                            display: block;
+                            height: 60px;
+                            width: 0;
+                            left: 0;
+                            right: 0;
+                            margin: auto;
+                            bottom: auto
+                        }
+                    }
+                    </style>
+            <ol  class="step-circles u-fs-18 u-fw-500 u-lh-2">
+                <li>Our community consists of more than <b style="white-space: nowrap;">1000 coding champions</b>. We carifully selected the best developers to participate in our contests.</li>
+                <li><b>Pay only for results.</b> You can rapidly return your money if appropriate solution hasn’t been provided. </li>
+                <li><b>Time.</b><br /> All contests are time-limited. Developers gain money only if they submit their solutions in time.</li>
+            </ol>
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+<section class="u-py-60 relative bg-primary text-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 mx-auto">
+                    <a name="form"></a>
+                    <h2 class="mb-4 u-fw-500 u-lh-2 text-center">
+                        Let us create the first contest for you!
+                    </h2>
+                    <p class="text-center">Leave your contacts here and we will get back to you soon.</p>
+                    <div class="u-h-4 u-w-50 bg-white rounded u-mt-40 mx-auto"></div>
+                    <form action="" method="POST" class="p-4 p-md-5">
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-User text-primary"></span>
+                                </div>
+                                <input type="text" name="name" class="form-control border-0 p-3"
+                                       placeholder="Your fullname">
+                            </div>
+
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Mail text-primary"></span>
+                                </div>
+                                <input type="text" name="email" class="form-control border-0 p-3"
+                                       placeholder="Your email">
+                            </div>
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Phone text-primary"></span>
+                                </div>
+                                <input type="text" name="phone" class="form-control border-0 p-3"
+                                       placeholder="Your phone number (optional)">
+                            </div>
+                            <div class="input-group u-rounded-50 border u-of-hidden u-mb-20">
+                                <div class="input-group-addon bg-white border-0 pl-4 pr-0">
+                                    <span class="icon icon-Share text-primary"></span>
+                                </div>
+                                <input type="text" name="phone" class="form-control border-0 p-3"
+                                       placeholder="Your skype login (optional)">
+                            </div>
+                            <p class="text-center">
+                            <input type="submit" name="submit" style="width: auto;"
+                                   class="px-md-5 m-2 btn btn-info btn-rounded"
+                                   value="Run your software project" />
+                        </p>
+
+                        </form>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+{% endblock %}
+
+<footer>
+
+    <div class="container text-center p-4">
+        <p class="mb-0">
+            2018 <span class="icon icon-Heart text-primary mx-2"></span> OpenGift Inc.
+        </p>
+    </div>
+</footer>
+
+<div class="scroll-top bg-white box-shadow-v1">
+    <i class="fa fa-angle-up" aria-hidden="true"></i>
+</div>
+
+
+<!--
+// ////////////////////////////////////////////////
+// To Reduce server request and improved page speed drastically all third-party plugin bundle in assets/js/bundle.js
+// If you wanna add those manually bellow is the sequence 
+// ///////////////////////////////////////////////
+-->
+<!--
+		<script src="/static/public/assets/vendor/jquery/dist/jquery.min.js"></script>
+		<script src="/static/public/assets/vendor/popper.js/dist/popper.min.js"></script>
+		<script src="/static/public/assets/vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+		<script src="/static/public/assets/vendor/slick-carousel/slick/slick.min.js"></script>
+		<script src="/static/public/assets/vendor/fancybox/dist/jquery.fancybox.min.js"></script>
+		<script src="/static/public/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/isotope/dist/isotope.pkgd.min.js"></script>
+		<script src="/static/public/assets/vendor/parallax.js/parallax.min.js"></script>
+		<script src="/static/public/assets/vendor/wow/dist/wow.min.js"></script>
+		<script src="/static/public/assets/vendor/vide/dist/jquery.vide.min.js"></script>
+		<script src="/static/public/assets/vendor/typed.js/lib/typed.min.js"></script>
+		<script src="/static/public/assets/vendor/appear-master/dist/appear.min.js"></script>
+		<script src="/static/public/assets/vendor/jquery.countdown/dist/jquery.countdown.min.js"></script>
+		<script src="/static/public/assets/js/smoothscroll.js"></script>
+-->
+
+<script src="/static/js/libs/jquery.waipoints.min.js"></script>
+<script src="/static/public/assets/js/fury.js"></script>
+<script src="/static/public/assets/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
+
+<script src="/static/public/assets/js/jquery.wavify.js"></script>
+<script src="/static/js/pm/form.js?v4"></script>
+
+<script src="/static/public/assets/js/flipclock.min.js"></script>
+<script>
+    $('#feel-the-wave').wavify({
+        height: 10,
+        bones: 4,
+        amplitude: 20,
+        color: '#ee882c',
+        speed: .15
+    });
+
+    $('#feel-the-wave-two').wavify({
+        height: 13,
+        bones: 3,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+
+    $('#feel-the-wave-three').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#fd5663',
+        speed: .25
+    });
+    $('#feel-the-wave-four').wavify({
+        height: 10,
+        bones: 5,
+        amplitude: 20,
+        color: '#ffffff',
+        speed: .25
+    });
+</script>
+<script>
+  window.intercomSettings = {
+    email: "{{ request.user.email }}",
+    user_id: "{{ request.user.last_name }} {{ request.user.first_name }}",
+    app_id: "ryh8lewr"
+  };
+</script>
+<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/ryh8lewr';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>
+
+<!-- Yandex.Metrika counter -->
+<script type="text/javascript"> (function (d, w, c) {
+    (w[c] = w[c] || []).push(function () {
+        try {
+            w.yaCounter47053188 = new Ya.Metrika({
+                id: 47053188,
+                clickmap: true,
+                trackLinks: true,
+                accurateTrackBounce: true,
+                webvisor: true,
+                trackHash: true
+            });
+        } catch (e) {
+        }
+    });
+    var n = d.getElementsByTagName("script")[0], s = d.createElement("script"), f = function () {
+        n.parentNode.insertBefore(s, n);
+    };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = "https://mc.yandex.ru/metrika/watch.js";
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else {
+        f();
+    }
+})(document, window, "yandex_metrika_callbacks"); </script>
+<noscript>
+    <div><img src="https://mc.yandex.ru/watch/47053188" style="position:absolute; left:-9999px;" alt=""/></div>
+</noscript> <!-- /Yandex.Metrika counter -->
+<!-- Facebook Pixel Code -->
+<script>
+    !function (f, b, e, v, n, t, s) {
+        if (f.fbq)return;
+        n = f.fbq = function () {
+            n.callMethod ?
+                    n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+        };
+        if (!f._fbq)f._fbq = n;
+        n.push = n;
+        n.loaded = !0;
+        n.version = '2.0';
+        n.queue = [];
+        t = b.createElement(e);
+        t.async = !0;
+        t.src = v;
+        s = b.getElementsByTagName(e)[0];
+        s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+            'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '895148243996073');
+    fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+               src="https://www.facebook.com/tr?id=895148243996073&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Facebook Pixel Code -->
+{#<script>#}
+{#  window.intercomSettings = {#}
+{#    app_id: "jcdkru1n",#}
+{#  name: '{{ request.user.first_name }} {{ request.user.last_name }}',#}
+{#  email: '{{ request.user.email|default_if_none:'' }}',#}
+{#  created_at: '{{ request.user.date_joined|date:"U"|default_if_none:'' }}'#}
+{#  };#}
+{#</script>#}
+{#<script>(function(){var w=window;var ic=w.Intercom;if(typeof ic==="function"){ic('reattach_activator');ic('update',intercomSettings);}else{var d=document;var i=function(){i.c(arguments)};i.q=[];i.c=function(args){i.q.push(args)};w.Intercom=i;function l(){var s=d.createElement('script');s.type='text/javascript';s.async=true;s.src='https://widget.intercom.io/widget/jcdkru1n';var x=d.getElementsByTagName('script')[0];x.parentNode.insertBefore(s,x);}if(w.attachEvent){w.attachEvent('onload',l);}else{w.addEventListener('load',l,false);}}})()</script>#}
+
+</body>
+</html>

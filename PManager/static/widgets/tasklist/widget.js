@@ -796,8 +796,8 @@ var widget_tl, currentGroup;
                     if (!silent) {
                         var paramsForHistory = params;
                         if (paramsForHistory.startPage) {
-                            widget_tl.nextPage = paramsForHistory.startPage + 1;
-                            paramsForHistory.page = paramsForHistory.startPage;
+                            //widget_tl.nextPage = paramsForHistory.startPage + 1;
+                            //paramsForHistory.page = paramsForHistory.startPage;
                             delete paramsForHistory.startPage;
                             //startPage генерируется при первом вызове фильтра по хэшу и не должна в нем сохраняться
                             //так как она нужна только для инициации стартового кол-ва задач при загрузке страницы

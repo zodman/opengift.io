@@ -5,7 +5,7 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link" href="/bounty/">Task list</a>
+            <a class="nav-link" href="/bounty/">Contests</a>
         </li>
         <li class="nav-item">
             <a class="nav-link" href="/project/list/">Projects</a>
@@ -14,25 +14,25 @@
 {#        <li class="nav-item">#}
 {#            <a class="nav-link" href="/faq/">FAQ</a>#}
 {#        </li>#}
-        <li class="nav-item dropdown">
-            <a class="nav-link js-nav-link " href="#">About us</a>
-            <div class="dropdown-menu box-shadow-v2 js-nav-dropdown" aria-labelledby="navbarDropdown">
-
-
-                <a class="dropdown-item u-d-block" target="_blank" href="/static/documents/presentation-opengift-en.pdf">Presentation</a>
-                <a class="dropdown-item u-d-block" target="_blank" href="/static/documents/presentation-opengift-ru.pdf">Presentation (RU)</a>
-
-                <a class="dropdown-item u-d-block" href="/ico/#team">Team</a>
-                <a class="dropdown-item u-d-block" href="/ico/#advisors">Advisory board</a>
-                <a class="dropdown-item u-d-block" href="/ico/#roadmap">Our Roadmap</a>
+{#        <li class="nav-item dropdown">#}
+{#            <a class="nav-link js-nav-link " href="#">About us</a>#}
+{#            <div class="dropdown-menu box-shadow-v2 js-nav-dropdown" aria-labelledby="navbarDropdown">#}
+{##}
+{##}
+{#                <a class="dropdown-item u-d-block" target="_blank" href="/static/documents/presentation-opengift-en.pdf">Presentation</a>#}
+{#                <a class="dropdown-item u-d-block" target="_blank" href="/static/documents/presentation-opengift-ru.pdf">Presentation (RU)</a>#}
+{##}
+{#                <a class="dropdown-item u-d-block" href="/ico/#team">Team</a>#}
+{#                <a class="dropdown-item u-d-block" href="/ico/#advisors">Advisory board</a>#}
+{#                <a class="dropdown-item u-d-block" href="/ico/#roadmap">Our Roadmap</a>#}
 {#							    <a class="dropdown-item u-d-block" href="/pub/#clients">Clients</a>#}
-                <a class="dropdown-item u-d-block" href="/pub/#partners">Our Partners</a>
-                <a class="dropdown-item u-d-block" target="_blank"
-                   href="http://explorer.opengift.io">Our blockchain</a>
-                <a class="dropdown-item u-d-block" target="_blank"
-                   href="https://github.com/opengift-io/">Our GitHub</a>
-            </div>
-        </li>
+{#                <a class="dropdown-item u-d-block" href="/pub/#partners">Our Partners</a>#}
+{#                <a class="dropdown-item u-d-block" target="_blank"#}
+{#                   href="http://explorer.opengift.io">Our blockchain</a>#}
+{#                <a class="dropdown-item u-d-block" target="_blank"#}
+{#                   href="https://github.com/opengift-io/">Our GitHub</a>#}
+{#            </div>#}
+{#        </li>#}
         <li class="nav-item dropdown">
             <a class="nav-link js-nav-link" href="#">Services</a>
             <div class="dropdown-menu box-shadow-v2 js-nav-dropdown" aria-labelledby="navbarDropdown">
@@ -55,9 +55,9 @@
 {#        </li>#}
         <li class="nav-item dropdown">
 
-            <a class="nav-link" {% if not request.user.is_authenticated %}id="topsignin"{% endif %} href="/wallet/">{% if request.user.is_authenticated %}Wallet{% else %}Sign in / Sign up{% endif %}</a>
+            <a class="nav-link" {% if not request.user.is_authenticated %}id="topsignin"{% endif %} href="/wallet/">{% if request.user.is_authenticated %}Personal account{% else %}Sign in / Sign up{% endif %}</a>
             <div class="dropdown-menu box-shadow-v2" aria-labelledby="navbarDropdown">
-                <a class="dropdown-item u-d-block" href="/wallet/">Online Wallet</a>
+                <a class="dropdown-item u-d-block" href="/wallet/">Personal account</a>
                 {% if request.user.is_authenticated %}
                     {% for p in request.user.createdProjects.all %}
                     <a class="dropdown-item u-d-block" href="/project/{{ p.id }}/edit/">{{ p.name }}</a>
