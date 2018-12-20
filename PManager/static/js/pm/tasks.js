@@ -280,7 +280,7 @@ var CRITICALLY_THRESHOLD = 0.7;
             }).join('');
             html = html.replace(/\#TASK\_TAG\#/ig, tags_str);
 
-            users_limit = 5;
+            users_limit = 4;
             var users_str = '';
             if( taskInfo.winner.avatar ) {
                 image = taskInfo.winner.avatar;
