@@ -112,7 +112,7 @@ admin.site.register(FaqQuestions)
 admin.site.register(PM_Hackathon)
 admin.site.register(PM_Hackathon_Winner)
 class TagsAdmin(admin.ModelAdmin):
-    list_display = ("tagText", "is_public")
+    list_display = ("tagText", "is_public", "color")
     search_fields = ("tagText",)
 
 admin.site.register(Tags, TagsAdmin)

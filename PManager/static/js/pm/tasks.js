@@ -208,7 +208,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                     "click a.pause_comment_cancel": "taskStop",
                     "click a.add-subtask": "addSubTask",
                     "click a.js-task_menu": "showMenu",
-                    "click a.js-task_done:not('.closed')": "closeTask",
+                    "click .js-task_done:not('.closed')": "closeTask",
                     "click a.js-task_done.closed": "openTask",
                     "click a.js-select_resp": "showResponsibleMenu",
                     "click a.js-resp-approve": "responsibleApprove",
