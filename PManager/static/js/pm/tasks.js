@@ -347,7 +347,7 @@ var CRITICALLY_THRESHOLD = 0.7;
                 //console.log(days_left)
                 taskInfo.deadline = '&nbsp;' +  d.fromNow();
                 taskInfo.enable_deadline_percent = ''; 
-                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100);; 
+                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100); 
                 console.log(taskInfo.deadline_percent)
             }
             html = html.replace(/\#DEADLINE\_PERCENT\#/ig, taskInfo.deadline_percent);
