@@ -1,7 +1,7 @@
 from test_plus.test import TestCase
 from model_mommy import mommy
 from django.contrib.auth.models import User
-from PManager.models import PM_Project, PM_Tracker, PM_Role
+from PManager.models import PM_Project, PM_Tracker, PM_Role, PM_Task
 from PManager.viewsExt.public import Public
 from PManager.viewsExt.tasks import taskListAjax
 from PManager.views import MainPage
@@ -25,7 +25,6 @@ class ViewsTest(TestCase):
         with self.login(username='user1'):
             url = self.reverse(taskDetail)
             self.get_check_200(url)
-
             data = {
                 'action': 'fastCreate',
                 'project_id': '',
@@ -40,12 +39,15 @@ class ViewsTest(TestCase):
             self.assertFalse("None" in resp.content, msg=resp.content)
             json_response = json.loads(resp.content)
             self.assertEqual(u"Project 1 - task 1", json_response.get("name"), msg=json_response)
-
             data = {'widgetList': ["task_edit"], 'activeMenuItem': 'tasks'}
             url = self.reverse(MainPage.indexRender, **data)
             querystring = {'id': json_response.get("id")}
             full_url = "{}?{}".format(url, urlencode(querystring))
             self.get_check_200(full_url)
+
+            # check deadline
+            pm_task = PM_task.objects.all()[0]
+            self.assertEqual(pm_task.deadline, None)
 
     def test_task_handler_action_all(self):
         #Make public the tag FooBAR

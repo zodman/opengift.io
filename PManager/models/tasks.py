@@ -706,7 +706,7 @@ class PM_Task(models.Model):
     dateModify = models.DateTimeField(auto_now=True, blank=True)
     dateClose = models.DateTimeField(blank=True, null=True)
     dateStart = models.DateTimeField(blank=True, null=True)
-    deadline = models.DateTimeField(blank=True, null=True, verbose_name=u'Дедлайн')
+    deadline = models.DateTimeField(blank=True, null=True)
 
     milestone = models.ForeignKey(PM_Milestone, related_name='tasks', null=True, blank=True)
     onPlanning = models.BooleanField(blank=True)
@@ -1369,7 +1369,12 @@ class PM_Task(models.Model):
                     #         task.responsible.add(resp) #17.04.2014 task #553
 
         task.lastModifiedBy = currentUser
-        # set deadline 
+        # set deadline https://opengift.io/task_detail/?number=64&project=495
+
+        if not task.deadline:
+            two_weeks_date = timezone.now() + datetime.timedelta(days=15)
+            task.deadline = two_weeks_date
+
         task.save()
 
         for file in arFiles:

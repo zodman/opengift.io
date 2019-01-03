@@ -20,7 +20,7 @@
 
 
            <!--#FILE_LIST#-->
-           <b class="red-text">#DEADLINE#</b>
+           
 
        </div><!-- ===== ИМЯ ЗАДАЧИ -->
 
@@ -40,6 +40,44 @@
 
             <div class="task-info-progress ">
             	<span class="js-reward"></span>
+            </div>
+
+            <div class="task-info-deadline"  #ENABLE_DEADLINE_PERCENT#>
+                <span>
+                     Due 
+                    <span class="green-text">#DEADLINE#</span>
+                </span>
+
+                <style>
+
+.task-info-deadline {
+ width: 50%;
+}
+.circular-chart {
+  display: block;
+  margin: 0px;
+  max-width: 42px;
+  max-height: 42px;
+  float:right;
+
+}
+
+.circle {
+  stroke: #4CC790;
+  fill: #e3e3e3;
+  stroke-width: 2.8;  
+}
+
+                </style>
+
+                <svg viewBox="0 0 36 36" class="circular-chart" #ENABLE_DEADLINE_PERCENT#>
+                        <path class="circle"
+                          stroke-dasharray="#DEADLINE_PERCENT#, 100"
+                          d="M18 2.0845
+                            a 15.9155 15.9155 0 0 1 0 31.831
+                            a 15.9155 15.9155 0 0 1 0 -31.831"
+                        />
+                      </svg>
             </div>
 
             <!--

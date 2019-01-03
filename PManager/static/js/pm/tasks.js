@@ -331,8 +331,21 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (!taskInfo.subtasksQty) taskInfo.subtasksQty = '';
             html = html.replace(/\#ACTIVE\_SUBTASK\_QTY\#/ig, taskInfo.subtasksQty);
 
-            if (!taskInfo.deadline) taskInfo.deadline = '';
-            if (taskInfo.deadline) taskInfo.deadline = 'deadline&nbsp;' + taskInfo.deadline;
+            if (!taskInfo.deadline) { 
+                taskInfo.deadline = '';
+                taskInfo.enable_deadline_percent= 'style=display:none;';
+                taskInfo.deadline_percent = '0'; 
+            }
+            if (taskInfo.deadline) { 
+                var now = moment();
+                var d = moment(taskInfo.deadline, "DD.MM.YYYY HH:mm");
+                var days_left = d.diff(now, "days");
+                taskInfo.deadline = '&nbsp;' +  d.fromNow();
+                taskInfo.enable_deadline_percent = ''; 
+                taskInfo.deadline_percent = 100 - days_left; 
+            }
+            html = html.replace(/\#DEADLINE\_PERCENT\#/ig, taskInfo.deadline_percent);
+            html = html.replace(/\#ENABLE\_DEADLINE\_PERCENT\#/ig, taskInfo.enable_deadline_percent);
             html = html.replace(/\#DEADLINE#/ig, taskInfo.deadline);
 
             var sFileList = '';
