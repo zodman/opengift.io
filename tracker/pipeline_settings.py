@@ -28,6 +28,7 @@ PIPELINE_JS = {
             'js/libs/jquery.imgareaselect.min.js',
             'js/libs/jquery.cookie.js',
             'js/libs/moment/moment.js',
+            'js/libs/moment/moment-timezone-with-data-2012-2022.min.js',
             # 'js/bootstrap/bootstrap.min.js',
             'js/bootstrap/typehead.js',
             'js/bootstrap/bootstrap-combobox.js',

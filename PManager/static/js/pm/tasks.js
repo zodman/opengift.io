@@ -337,12 +337,18 @@ var CRITICALLY_THRESHOLD = 0.7;
                 taskInfo.deadline_percent = '0'; 
             }
             if (taskInfo.deadline) { 
-                var now = moment();
+                // TODO: timezonese
+                var now = moment().tz("Europe/Moscow");
+                var createdAt = moment(taskInfo.createdAt, "DD.MM.YYYY HH:mm"); 
                 var d = moment(taskInfo.deadline, "DD.MM.YYYY HH:mm");
-                var days_left = d.diff(now, "days");
+                var days_left = (now - createdAt)/(d-createdAt)*100;
+               // var days_left = d.diff(createdAt,'days')
+               //debugger;
+                //console.log(days_left)
                 taskInfo.deadline = '&nbsp;' +  d.fromNow();
                 taskInfo.enable_deadline_percent = ''; 
-                taskInfo.deadline_percent = 100 - days_left; 
+                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100);; 
+                console.log(taskInfo.deadline_percent)
             }
             html = html.replace(/\#DEADLINE\_PERCENT\#/ig, taskInfo.deadline_percent);
             html = html.replace(/\#ENABLE\_DEADLINE\_PERCENT\#/ig, taskInfo.enable_deadline_percent);
