@@ -345,6 +345,11 @@ GITHUB_CLIENT_ID=""
 GITHUB_CLIENT_SECRET=""
 GITHUB_REDIR_URI="http://localhost:8000/login"
 
+# DEADLINE days offset
+# https://opengift.io/task_detail/?number=64&project=495
+DEADLINE_DAYS = 15
+
+
 # this token its for the owner of the organization it had perms to create 
 # repositories it can generated at:  https://github.com/settings/tokens
 GITHUB_SUDO_TOKEN_SECRET="POWERTOKENWITHSUPERPOWERS"

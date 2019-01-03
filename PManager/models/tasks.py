@@ -1372,7 +1372,8 @@ class PM_Task(models.Model):
         # set deadline https://opengift.io/task_detail/?number=64&project=495
 
         if not task.deadline:
-            two_weeks_date = timezone.now() + datetime.timedelta(days=15)
+            days_offset = getattr(settings, "DEADLINE_DAYS", 15)
+            two_weeks_date = timezone.now() + datetime.timedelta(days=days_offset)
             task.deadline = two_weeks_date
 
         task.save()
