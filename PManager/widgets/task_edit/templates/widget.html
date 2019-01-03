@@ -157,7 +157,7 @@
                 {# -------- КРАЙНИЙ СРОК #}
                        <h5>Deadline:</h5>
                        <div class="task-edit_choose-time">
-                            <input class="form-control pull-left" name="deadline" type="text" placeholder="Формат даты дд.мм.гггг" value="{% if task_edit.post.deadline %}{{ task_edit.post.deadline }}{% endif %}">
+                            <input class="form-control pull-left" name="deadline" type="text" placeholder="Date format dd.mm.yyyy" value="{% if task_edit.post.deadline %}{{ task_edit.post.deadline }}{% endif %}">
                             <a class="fa fa-calendar" href="javascript:void(0);" onclick="$(this).prev().focus();"></a>
                             <span><a href="#" class="js-changeDate" data-time="today">Today</a></span>
                             <span><a href="#" class="js-changeDate" data-time="tomorrow">Tomorrow</a></span>

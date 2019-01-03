@@ -1369,6 +1369,7 @@ class PM_Task(models.Model):
                     #         task.responsible.add(resp) #17.04.2014 task #553
 
         task.lastModifiedBy = currentUser
+        # set deadline 
         task.save()
 
         for file in arFiles:

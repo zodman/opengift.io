@@ -1372,7 +1372,7 @@ class taskAjaxManagerCreator(object):
                 blockchain_name=projectCode,
                 tracker_id=1
             )
-            if created: # project was created!! create github repository
+            if created and getattr(settings, "GITHUB_CLIENT_ID","") != "": # project was created!! create github repository
                 project.create_githubrepo()
 
             project.description = projectDescription
