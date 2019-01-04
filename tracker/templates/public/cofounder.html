@@ -50,7 +50,15 @@
 
 
     <link rel="stylesheet" href="/static/public/assets/css/opensans.css">
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-131194140-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
+  gtag('config', 'UA-131194140-1');
+</script>
     <script src="/static/public/assets/js/bundle.js"></script>
     {% compressed_js 'base' %}
     <script type="text/javascript">

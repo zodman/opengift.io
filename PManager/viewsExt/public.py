@@ -237,6 +237,8 @@ class Public:
 
     @staticmethod
     def icoPage(request):
+        return HttpResponseRedirect('/pub/')
+
         try:
             project = PM_Project.objects.get(pk=495)
         except PM_Project.DoesNotExist:

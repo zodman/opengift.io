@@ -220,9 +220,9 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 arKeys['PROJECT_LINE'] = '';
                 arKeys['CONFIRMATION'] = '';
                 arKeys['REPLY_BTN'] = '';
-                arKeys['TODO_BTN'] = messageInfo.canEdit ? '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">Requirement</a>' : '';
+                arKeys['TODO_BTN'] = messageInfo.canEdit ? '<a class="to-do-button ' + (messageInfo.todo ? 'checked' : '') + ' js-set-todo" href="#">Pin as a requirement</a>' : '';
 
-                arKeys['BUG_BTN'] = messageInfo.canEdit ? '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Bug</a>' : '';
+                arKeys['BUG_BTN'] = '';//messageInfo.canEdit ? '<a class="bug-button ' + (messageInfo.bug ? 'checked' : '') + ' js-set-bug" href="#">Bug</a>' : '';
                 //<label><input type="checkbox" '+(messageInfo.todo?'disabled':'')+' '+(messageInfo.checked?'checked':'')+' class=js-check-todo""/>
                 if (messageInfo.confirmation) arKeys['CONFIRMATION'] = messageInfo.confirmation;
 
@@ -240,7 +240,8 @@ var SYSTEM_AVATAR_SRC = '/static/images/avatar_red_eye.png';
                 }
 
                 if (messageInfo.author.id != document.mainController.userId)
-                    arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="' + (messageInfo.hidden ? 1 : 0) + '" href="' + messageInfo.task.url + '" rel="' + messageInfo.author.id + '">Reply</a>';
+                    arKeys['REPLY_BTN'] = '<a class="link js-reply" data-hidden="' + (messageInfo.hidden ? 1 : 0) +
+                        '" href="' + messageInfo.task.url + '" rel="' + messageInfo.author.id + '">Reply</a>';
 
 
                 if (messageInfo.system) {
