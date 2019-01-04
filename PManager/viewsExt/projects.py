@@ -109,7 +109,7 @@ def projectList(request, **kwargs):
     if request.user.is_authenticated():
         user_projects = PM_Project.objects.filter(public=False, author=request.user)
         if user_projects.exists():
-            aProjects += user_projects
+            aProjects = list(user_projects) + aProjects
 
     c = RequestContext(request, {
         'specialties': aSpec,
