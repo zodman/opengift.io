@@ -877,11 +877,15 @@ class PM_Task(models.Model):
         allSum = 0
         allRealTime = 0
         # responsibles real time
-        timers = PM_Timer.objects.raw(
-            'SELECT SUM(`seconds`) as summ, id, user_id from PManager_pm_timer' +
-            ' WHERE `task_id`=' + str(self.id) +
-            ' GROUP BY user_id'
-        )
+        table_name = PM_Timer._meta.db_table
+        if PM_Timer.objects.filter(task__id=self.id).exists():
+            timers = PM_Timer.objects.raw(
+                ( 'SELECT SUM(`seconds`) as summ, id, user_id FROM {}'
+                ' WHERE `task_id`= %s' 
+                ' GROUP BY user_id'.format(table_name)), [ self.id,]
+            )
+        else:
+            timers = []
 
         bugsQty = self.messages.filter(bug=True).count()
         for obj in timers:
