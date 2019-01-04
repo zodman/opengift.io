@@ -46,8 +46,22 @@ class ViewsTest(TestCase):
             self.get_check_200(full_url)
 
             # check deadline
-            pm_task = PM_task.objects.all()[0]
-            self.assertEqual(pm_task.deadline, None)
+            pm_task = PM_Task.objects.all()[0]
+            self.assertNotEqual(pm_task.deadline, None)
+            # when first result send the deadline will removed
+            data = {
+                'message_type':"result",
+                'to':'',
+                'winner':'',
+                'need-time-hours':'', 
+                'task_id': pm_task.id,
+                'task_message': 'Message result',
+                'file':'' 
+            }
+            resp = self.post(taskListAjax,data=data)
+            self.response_200(resp)
+            pmtask = PM_Task.objects.get(id=pm_task.id)
+            self.assertEqual(pmtask.deadline,None)
 
     def test_task_handler_action_all(self):
         #Make public the tag FooBAR
