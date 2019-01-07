@@ -420,6 +420,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
                 'milestoneId': task.milestone.id if task.milestone else None,
                 'users': users_messages,
                 'winner': winner_dict,
+                'createdAt':  templateTools.dateTime.convertToSite(task.dateCreate, '%d.%m.%Y %H:%M'),
                 'group': {
                     'name': task.milestone.name,
                     'id': task.milestone.id,

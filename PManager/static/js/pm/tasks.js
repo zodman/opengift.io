@@ -331,8 +331,27 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (!taskInfo.subtasksQty) taskInfo.subtasksQty = '';
             html = html.replace(/\#ACTIVE\_SUBTASK\_QTY\#/ig, taskInfo.subtasksQty);
 
-            if (!taskInfo.deadline) taskInfo.deadline = '';
-            if (taskInfo.deadline) taskInfo.deadline = 'deadline&nbsp;' + taskInfo.deadline;
+            if (!taskInfo.deadline) { 
+                taskInfo.deadline = '';
+                taskInfo.enable_deadline_percent= 'style=display:none;';
+                taskInfo.deadline_percent = '0'; 
+            }
+            if (taskInfo.deadline) { 
+                // TODO: timezonese
+                var now = moment().tz("Europe/Moscow");
+                var createdAt = moment(taskInfo.createdAt, "DD.MM.YYYY HH:mm"); 
+                var d = moment(taskInfo.deadline, "DD.MM.YYYY HH:mm");
+                var days_left = (now - createdAt)/(d-createdAt)*100;
+               // var days_left = d.diff(createdAt,'days')
+               //debugger;
+                //console.log(days_left)
+                taskInfo.deadline = '&nbsp;' +  d.fromNow();
+                taskInfo.enable_deadline_percent = ''; 
+                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100); 
+                console.log(taskInfo.deadline_percent)
+            }
+            html = html.replace(/\#DEADLINE\_PERCENT\#/ig, taskInfo.deadline_percent);
+            html = html.replace(/\#ENABLE\_DEADLINE\_PERCENT\#/ig, taskInfo.enable_deadline_percent);
             html = html.replace(/\#DEADLINE#/ig, taskInfo.deadline);
 
             var sFileList = '';
