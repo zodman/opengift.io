@@ -8,11 +8,11 @@ from PManager.models import PM_Task
 class Command(NoArgsCommand):
     def handle_noargs(self, **options):
         now = timezone.now()
-        # TODO: Create user: robot_checker
-        user = User.objects.get(username="admin")
+        user = User.objects.get(username="opengift@opengift.io")
         tasks = PM_Task.objects.exclude(deadline__isnull=True)
         for task in tasks:
             if task.deadline > now:
-                task.Close(user=user)
-                text_desc = "Task id %s  was close because deadline expire" % task.id    
+                text_desc = "Task deadline expired"
                 task.systemMessage(text=text_desc,user=user,code="DEADLINE_EXPIRED")
+                task.Close(user=user)
+                print "Task %s closed" % task.id

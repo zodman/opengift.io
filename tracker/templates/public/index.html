@@ -186,13 +186,13 @@
             <div class="row">
                 <div class="col-12 u-mt-80 text-center">
                     <h1 class="display-4 u-fw-600 text-white u-mb-40">
-                        Collaborative software development platform based on smart-contracts
+                        Build software collectively
                     </h1>
-                    <h2 class="display-6 u-fw-600 text-white u-mb-40">
-                        <span class="text-white" data-type-speed="40" data-back-speed="10"
-                                   data-type="Competitive development, Collective financing of software components, Open source projects securitization, Recurring passive income for open source contributors"></span>
-                        <span class="typed-curcor text-white">|</span>
-                    </h2>
+                    <h3 class="display-6 u-fw-600 text-white u-mb-40">
+                        competitive development process<br />
+                        collective financing of software components<br />
+                        recurring passive income for open source contributors
+                    </h3>
 {#                    <p class="u-fs-22 text-white u-lh-1_8 u-mb-40">GIFT Token Seed Crowdsale is <a href="/ico/">started</a>!</p>#}
                     <p class="u-fs-22 text-white u-lh-1_8 u-mb-40 hidden-md-up">
                         <a target="_blank" href="https://t.me/opengift" class="icon fa fa-telegram"></a>&nbsp;&nbsp;
@@ -216,17 +216,6 @@
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
-                            {{ projects_qty|default_if_none:"0"|floatformat }}
-                        </h2>
-
-                        <p>
-                            Open source libraries
-                        </p>
-                    </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
-                <div class="col-md-6 col-lg-3 mt-5">
-                    <div class="text-center border p-4 rounded text-white">
-                        <h2 class="text-white u-fs-48">
                             {{ developers_qty|default_if_none:"0"|floatformat }}
                         </h2>
 
@@ -234,7 +223,19 @@
                             Developers
                         </p>
                     </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
+                </div>
+
+                <div class="col-md-6 col-lg-3 mt-5">
+                    <div class="text-center border p-4 rounded text-white">
+                        <h2 class="text-white u-fs-48">
+                            {{ projects_qty|default_if_none:"0"|floatformat }}
+                        </h2>
+
+                        <p>
+                            Open software parts
+                        </p>
+                    </div>
+                </div>
 
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
@@ -243,10 +244,11 @@
                         </h2>
 
                         <p>
-                            Active tasks
+                            Closed tasks
                         </p>
                     </div>
-                </div> <!-- END col-md-6 col-lg-3 mt-5-->
+                </div>
+
                 <div class="col-md-6 col-lg-3 mt-5">
                     <div class="text-center border p-4 rounded text-white">
                         <h2 class="text-white u-fs-48">
@@ -283,39 +285,26 @@
     </section>
     <section class="u-pb-80 u-pt-0  relative" id="demo">
         <div class="container">
-{#            <div class="row">#}
-{#                <div class="col-12 text-center">#}
-{#                    <h3 align="center" class=" u-fs-48">#}
-{#                        OpenGift helps#}
-{#                        <br/><span class="text-green" data-type-speed="30" data-back-speed="100"#}
-{#                                   data-type="PHP, JAVA, Python, HTML, JavaScript, C++, WEB, MOBILE"></span><span#}
-{#                            class="typed-curcor text-green">|</span><span class="text-green"> developers</span>#}
-{#                        like you<br/>to make an extra $ for their code#}
-{#                    </h3>#}
-{##}
-{#                    <div class="u-h-4 u-w-50 green-gr rounded mt-4 u-mb-40 mx-auto"></div>#}
-{#                    <p>#}
-{#                        Have a project that makes the world a better place? Join OpenGift and start earning.#}
-{#                    </p>#}
-{#                </div>#}
-{#            </div> <!-- END row-->#}
             <div class="row">
-                <div class="col-lg-4 ">
+                <div class="col-lg-6">
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/img/team.svg" alt="">
                         <h4 class="u-fs-26 u-my-35">
                             Companies and users
                         </h4>
                         <p>
-                            Just place a request for a software product you need and a dedicated project manager will help you to prepare a technical brief.
-                            Get multiple solutions for a price of one. We return your money, if you are not satisfied with the results.
+                            Integrate software that you need or create a new one.
+                            Get multiple solutions for choosing for a price of one.
+                            Build your software faster creating contests for developers.
+                            Use the community of product managers helping you to prepare a technical task.
+                            Pay to developers through secure deposits which eliminate the risks.
                         </p>
-                        <a href="/offer/" class="btn btn bg-red btn-rounded btn-secondary m-2 px-md-5 py-3">
+                        <a href="/task/add/" class="btn btn bg-red btn-rounded btn-secondary m-2 px-md-5 py-3">
                             FIND DEVELOPERS
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4">
+                <div class="col-lg-6">
                     <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
                         <img class="u-w-70" src="/static/img/programmer.svg" alt="">
                         <h4 class="u-fs-26 u-mt-35 u-mb-35">
@@ -333,23 +322,6 @@ Make the world a better place by creating free to use open source solutions.
                         </a>
                     </div>
                 </div>
-                <div class="col-lg-4">
-                    <div class="px-5 u-py-50 u-my-50 rounded box-shadow-v2 text-center">
-                        <img class="u-w-70" src="/static/img/projects.svg" alt="">
-                        <h4 class="u-fs-26 u-my-35">
-                            Investors
-                        </h4>
-
-                        <p>
-                            Get GIFT tokens on early stage to purchase software development service up to 5 times cheaper in future.
-                            We use this money to improve the security and speed of the services.
-                            Also, we use it to popularize creating free software instead of proprietary one.
-                        </p>
-                        <a href="/ico/" class="btn btn btn-rounded bg-blue text-white m-2 px-md-5 py-3">
-                            OPENGIFT TOKEN SALE
-                        </a>
-                    </div>
-                </div>
             </div>
         </div> <!-- END container-->
     </section>
@@ -360,7 +332,7 @@ Make the world a better place by creating free to use open source solutions.
                 <h2 class="h1 js-h1">
                     OpenGift weekly free hackathon
                 </h2>
-                <p class="js-p">Next weekly <a href="/credits-hackathon/">hackathon</a> is coming! Register <a href="/hackathon/">here</a>.</p>
+                <p class="js-p">Next weekly <a href="/credits-hackathon/">hackathon</a> is coming! Register <a href="/credits-hackathon/">here</a>.</p>
 {#                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>#}
             </div>
         </div>
@@ -696,22 +668,22 @@ Make the world a better place by creating free to use open source solutions.
         </div>
     </section>
 
-    <section class="u-py-100">
-    <div style="padding: 0 6.25rem;">
-        <div class="row">
-            <div class="col-lg-12 m-auto text-center">
-                <h2 class="h1 js-h1">
-                    Why do we love open source?
-                </h2>
-                <p class="js-p">We believe that all software must be free to use.
-                    We also believe that any developers work should be rewarded.</p>
-                <p>
-                    And we are absolutely sure, that the collective financing can make software development up to 10 times cheaper for companies and users.</p>
-                <h2>That's why we created OpenGift for you.</h2>
-            </div>
-        </div>
-    </div>
-</section>
+{#     <section class="u-py-100">#}
+{#    <div style="padding: 0 6.25rem;">#}
+{#        <div class="row">#}
+{#            <div class="col-lg-12 m-auto text-center">#}
+{#                <h2 class="h1 js-h1">#}
+{#                    Why do we love open source?#}
+{#                </h2>#}
+{#                <p class="js-p">We believe that all software must be free to use.#}
+{#                    We also believe that any developers work should be rewarded.</p>#}
+{#                <p>#}
+{#                    And we are absolutely sure, that the collective financing can make software development up to 10 times cheaper for companies and users.</p>#}
+{#                <h2>That's why we created OpenGift for you.</h2>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+{#</section>#}
 
     <section class="u-pt-100 u-pb-100 relative text-white" style="background:#2c364c url('/static/img/success01.svg') repeat fixed;background-position: right;" >
 

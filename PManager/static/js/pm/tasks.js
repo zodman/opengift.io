@@ -333,7 +333,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             if (!taskInfo.deadline) { 
                 taskInfo.deadline = '';
-                taskInfo.enable_deadline_percent= 'style=display:none;';
+                taskInfo.enable_deadline_percent= '';//'style=display:none;';
                 taskInfo.deadline_percent = '0'; 
             }
             if (taskInfo.deadline) { 
@@ -342,13 +342,9 @@ var CRITICALLY_THRESHOLD = 0.7;
                 var createdAt = moment(taskInfo.createdAt, "DD.MM.YYYY HH:mm"); 
                 var d = moment(taskInfo.deadline, "DD.MM.YYYY HH:mm");
                 var days_left = (now - createdAt)/(d-createdAt)*100;
-               // var days_left = d.diff(createdAt,'days')
-               //debugger;
-                //console.log(days_left)
-                taskInfo.deadline = '&nbsp;' +  d.fromNow();
+                taskInfo.deadline = d.fromNow();
                 taskInfo.enable_deadline_percent = ''; 
-                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100); 
-                console.log(taskInfo.deadline_percent)
+                taskInfo.deadline_percent = (Math.round(days_left * 100) / 100);
             }
             html = html.replace(/\#DEADLINE\_PERCENT\#/ig, taskInfo.deadline_percent);
             html = html.replace(/\#ENABLE\_DEADLINE\_PERCENT\#/ig, taskInfo.enable_deadline_percent);
@@ -401,14 +397,14 @@ var CRITICALLY_THRESHOLD = 0.7;
             if (taskInfo.donated || taskInfo.asked) {
                 var percent = parseFloat(taskInfo.donated) * 100 / parseFloat(taskInfo.asked || 1);
                 var color = 'orange';
-                if (percent > 100) {
+                if (percent >= 100) {
                     percent = 100;
                     color = 'green';
                 }
                 oTaskContainers.$reward.append(
                         '                    <div class="donations-text">' +
                     '<b style="color:' + (parseFloat(taskInfo.donated) < parseFloat(taskInfo.asked) ? '#ff5466' : '#39c2d3') + ';">$' + formatMoney(Math.round(parseFloat(taskInfo.donated))) + '</b>' +
-                        (taskInfo.asked ? ' (estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ')' : '') + '</div>' +
+                        (taskInfo.asked ? '<br />(estimated $' + formatMoney(Math.round(parseFloat(taskInfo.asked))) + ')' : '') + '</div>' +
                     '                    ' +
                     '<div class="donation-progress-wrapper">' +
                     '                    <div class="donation-progress-inner">' +

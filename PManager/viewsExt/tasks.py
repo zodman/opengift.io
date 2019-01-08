@@ -1215,35 +1215,8 @@ class taskAjaxManagerCreator(object):
                         if not t.closedInTime:
                             t.setIsInTime()
 
-                        t.winner = t.getWinner()
-                        closingDesc = 'Task closed'
-                        if t.donations.exists():
-                            from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
-                            if t.winner and t.winner.get_profile().blockchain_wallet:
-                                blockchain_goal_confirmation_request(
-                                    user.username,
-                                    t.project.blockchain_name,
-                                    'opengift.io:task-' + str(t.id),
-                                    t.winner.get_profile().blockchain_wallet
-                                )
-
-                                closingDesc += ' (winner: ' + t.winner.last_name + ' ' + t.winner.first_name + \
-                                           ', prize: $' + str(round(t.donated * 0.85, 2)) + \
-                                           ', token holders fee: $' + str(round(t.donated * 0.1, 2)) + \
-                                           ', community fee: $' + str(round(t.donated * 0.05, 2)) + ')'
-
-                            else:
-                                blockchain_goal_confirmation_request(
-                                    user.username,
-                                    t.project.blockchain_name,
-                                    'opengift.io:task-' + str(t.id),
-                                    ''
-                                )
-
-                                closingDesc += ' (no winner, all money were returned to the donors)'
-
                         t.Close(user)
-                        t.systemMessage(closingDesc, user, 'TASK_CLOSE')
+
                         if t.winner and not t.winner.get_profile().hasRole(t.project):
                             t.winner.get_profile().setRole('guest', t.project)
 

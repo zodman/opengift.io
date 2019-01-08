@@ -840,6 +840,33 @@ class PM_Task(models.Model):
                 tagRelUser.weight = int(tagRelUser.weight) + 1
                 tagRelUser.save()
 
+        self.winner = self.getWinner()
+        closingDesc = 'Task closed'
+        if self.donations.exists():
+            from PManager.viewsExt.blockchain import blockchain_goal_confirmation_request
+            if self.winner and self.winner.get_profile().blockchain_wallet:
+                blockchain_goal_confirmation_request(
+                    user.username,
+                    self.project.blockchain_name,
+                    'opengift.io:task-' + str(self.id),
+                    self.winner.get_profile().blockchain_wallet
+                )
+
+                closingDesc += ' (winner: ' + self.winner.last_name + ' ' + self.winner.first_name + \
+                           ', prize: $' + str(round(self.donated * 0.85, 2)) + \
+                           ', token holders fee: $' + str(round(self.donated * 0.1, 2)) + \
+                           ', community fee: $' + str(round(self.donated * 0.05, 2)) + ')'
+
+            else:
+                blockchain_goal_confirmation_request(
+                    user.username,
+                    self.project.blockchain_name,
+                    'opengift.io:task-' + str(self.id),
+                    ''
+                )
+
+                closingDesc += ' (no winner, all rewards were returned to the donors)'
+
         if not self.resp and user:
             self.resp = user
 
@@ -869,6 +896,7 @@ class PM_Task(models.Model):
             'closed': True
         })
         self.save()
+        self.systemMessage(closingDesc, user, 'TASK_CLOSE')
 
     def setCreditForTime(self):
         from PManager.models import Credit, PM_Achievement, PM_Task_Message, Fee

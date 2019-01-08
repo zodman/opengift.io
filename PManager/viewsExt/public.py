@@ -219,7 +219,7 @@ class Public:
         bounty_fund = int(bounty_fund)
         
         context = {
-            'tasks_qty': PM_Task.objects.filter(closed=False, active=True).count(),
+            'tasks_qty': PM_Task.objects.filter(active=True).count(),
             'projects_qty': PM_Project.objects.filter(public=True).count(),
             'developers_qty': PM_User.objects.filter(blockchain_wallet__isnull=False).count(),
             'donated': donated,

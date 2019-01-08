@@ -6478,16 +6478,17 @@ body {
 
 
 .task-info-deadline {
-    width: 50%;
+    float: right;
+    width: 140px;
    }
    .circular-chart {
      display: block;
-     margin: 0px;
-     max-width: 42px;
-     max-height: 42px;
-     float:right;
-   
+     max-width: 32px;
+     max-height: 32px;
+     float:left;
+     margin: 10px 10px 0 0;
    }
+
    
    .circle {
      stroke: #4CC790;
