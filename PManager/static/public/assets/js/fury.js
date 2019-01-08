@@ -12,11 +12,15 @@
       });
     },
     carouselsInit:function(){
-      $('[data-init="carousel"]').slick({
-				customPaging: function(){
-					return "<span class='slick-dot'></span>";
-				}
-			});
+
+			if( $('[data-init="carousel"]').length > 0  ) {
+				$('[data-init="carousel"]').slick({
+					customPaging: function(){
+						return "<span class='slick-dot'></span>";
+					}
+				});
+			}
+      		
     },
 					
 			slickMargin: function(){

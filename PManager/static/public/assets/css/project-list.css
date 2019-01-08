@@ -1,0 +1,123 @@
+
+
+/* Project list*/
+
+.project-list 
+.project-item-img-wrapper {
+    white-space: nowrap;
+    overflow: hidden;
+    height: 6.250rem !important;
+    text-align: center;
+    position: relative;
+    z-index: 10;
+    margin-left: -45px;
+}
+.project-list 
+.project-item-img-wrapper-avatar {
+    overflow: hidden;
+    margin: 0 auto;
+    background-size: cover !important;
+    background-repeat: no-repeat !important;
+    width: 6.250rem !important;
+    height: 6.250rem !important;
+    margin-right: -45px;
+    border: 3px solid #fff;
+    display: inline-block;
+    background: #fff;
+}
+
+.project-list 
+.project-item-wrapper  .tags-list > a {
+    padding: 1px 15px;
+    margin-right: 5px;
+    border-radius: 3px;
+    margin-bottom: 5px;
+    font-size: 11px;
+    line-height: 20px;
+}
+
+.project-list 
+.search-category-select {
+    border: 0 !important;
+    background: none;
+    margin: 0 10px;
+}
+.project-list 
+.sorting-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+.project-list 
+.sorting-list ul li {
+    float: left;
+    margin-right: 26px;
+}
+.project-list 
+.sorting-list ul li.active a {
+    color: #5a6671;
+}
+
+
+
+
+.categoryselect {
+    position: absolute;
+    left: 15px;
+    right: 15px;
+    box-sizing: border-box;
+    z-index: 10;
+}
+
+.k-multiselect-wrap {
+    z-index: 10;
+    border-color: #e9ecef!important;
+    height: 56px;
+    overflow: hidden;
+    padding: 8px;
+    border-radius: 4px;
+    width: 100%;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+}
+
+.k-multiselect-wrap .k-input {
+    min-width: 25px;
+    min-height: auto;
+    text-indent: .8em;
+    background-color: transparent;
+    border: 0;
+    float: left;
+    margin: 9px 0 9px 0;
+    padding: 0;
+    height: 20px;
+}
+
+.k-list>.k-state-focused,
+.k-listview>.k-state-focused,
+.k-listview>.k-state-focused.k-state-selected,
+.k-state-focused, td.k-state-focused {
+    box-shadow: none;
+}
+.k-multiselect-wrap.k-state-focused,
+.k-state-focused>.k-multiselect-wrap {
+    box-shadow: none;
+}
+.k-multiselect-wrap:hover {
+    height: auto;
+}
+
+.k-multiselect>.k-multiselect-wrap>.k-i-close {
+    top: 21px;
+}
+
+
+.k-multiselect-wrap li {
+    margin: 3px 0 0px 3px;
+}
+
+
+.k-autocomplete, .k-block, .k-calendar .k-link, .k-calendar td, .k-calendar-container, .k-colorpicker, .k-combobox, .k-datepicker, .k-datetimepicker, .k-drag-clue, .k-dropdown, .k-dropdown-wrap, .k-editor-inline, .k-grid .k-filter-options, .k-grouping-header .k-group-indicator, .k-inline-block, .k-list-container, .k-multiselect, .k-notification, .k-numeric-wrap, .k-numerictextbox, .k-picker-wrap, .k-slider-selection, .k-slider-track, .k-textbox, .k-tile, .k-timepicker, .k-tooltip, .k-touch-scrollbar, .k-treeview .k-in, .k-upload, .k-window, .k-window-action, .k-window-titleless .k-window-content {
+    border-radius: 4px;
+}

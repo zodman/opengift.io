@@ -105,6 +105,11 @@ def projectList(request, **kwargs):
     for project in projects:
         setattr(project, 'tagList', [p for p in project.industries.filter(active=True)])
         aProjects.append(project)
+    
+    if request.user.is_authenticated():
+        user_projects = PM_Project.objects.filter(public=False, author=request.user)
+        if user_projects.exists():
+            aProjects = list(user_projects) + aProjects
 
     c = RequestContext(request, {
         'specialties': aSpec,
@@ -538,7 +543,7 @@ def projectDetailPublic(request, project_id):
         if objects_usertagged.exists():
             sql = (' SELECT SUM(`weight`) as weight_sum, `id` from {} '
                    ' WHERE object_id=%s '
-                   ' AND content_type_id=%s').format(table_name)
+                   ' AND content_type_id=%s group by id ').format(table_name)
             sql_data = [user.id,  content_type]
             object_tags = ObjectTags.objects.raw(sql, sql_data)
             for obj1 in object_tags:
