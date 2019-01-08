@@ -6474,3 +6474,24 @@ body {
 .user_message:nth-child( 7 ) { z-index: 7 ; }
 .user_message:nth-child( 8 ) { z-index: 8 ; }
 .user_message:nth-child( 9 ) { z-index: 9 ; }
+
+
+
+
+.task-info-deadline {
+    width: 50%;
+   }
+   .circular-chart {
+     display: block;
+     margin: 0px;
+     max-width: 42px;
+     max-height: 42px;
+     float:right;
+   
+   }
+   
+   .circle {
+     stroke: #4CC790;
+     fill: #e3e3e3;
+     stroke-width: 2.8;  
+   }

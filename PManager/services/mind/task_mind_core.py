@@ -57,12 +57,13 @@ class TaskMind:
                 similarTimeUser = float(similarTimeUser) / float(similarQtyUser)
 
             timeUser = 0
-            for l in LogData.objects.raw(
+            if LogData.objects.filter(user__id=task.resp.id).exists():
+                for l in LogData.objects.raw(
                     'SELECT SUM(`value`) as summ, id, user_id from PManager_logdata WHERE `user_id`=' +
                             str(int(task.resp.id)) + '' +
                     ' AND code = \'DAILY_TIME\''
-                ):
-                timeUser += l.summ if l.summ else 0
+                    ):
+                    timeUser += l.summ if l.summ else 0
             timeUser = float(timeUser) / 3600.
             tasksUserQty = PM_Task.objects.filter(resp=task.resp, realDateStart__isnull=False).count()
             if tasksUserQty:

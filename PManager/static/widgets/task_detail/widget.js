@@ -311,6 +311,7 @@ $(function () {
                 }
                 widget_td.$messageForm.find('[name=to]').val($(this).attr('rel'));
                 widget_td.$messageForm.find('textarea').focus();
+                $('.js-task-message-tab').not('.active').trigger('click');
                 return false;
             });
 

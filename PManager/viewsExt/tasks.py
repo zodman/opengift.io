@@ -515,6 +515,8 @@ def __task_message(request):
 
         if type == 'result':
             message.code = 'RESULT'
+            task.deadline = None
+            task.save()
 
         message.hidden_from_clients = hidden_from_clients
         message.hidden_from_employee = hidden_from_employee
@@ -669,6 +671,7 @@ def taskListAjax(request):
         response_text = __search_filter(header_values, request)
 
     elif 'task_message' in request.POST:
+        # send a result 
         response_text = __task_message(request)
 
     elif 'get_endtime' in request.POST:

@@ -22,6 +22,9 @@
   });
 </script>
 <style>
+    /*
+    TODO:
+     Move this style to css file*/
     .breadcrumbs-ns {
         font-size: 16px;
         list-style: none;
@@ -538,6 +541,9 @@
 
                 <li><i class="fa fa-folder-open" aria-hidden="true"></i>&nbsp;&nbsp;Task #{{ task_detail.task.number }}</li>
                 <li><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Created: {{ task_detail.task.dateCreate }}</li>
+                {% if task_detail.task.deadline %}
+                <li class="text-red"><i class="fa fa-calendar" aria-hidden="true"></i>&nbsp;&nbsp;Deadline: {{ task_detail.task.deadline }}</li>
+                {% endif %}
                 <li><i class="fa fa-user" aria-hidden="true"></i>&nbsp;&nbsp;Author: <a href="/user_detail/?id={{ task_detail.task.author.id }}">{{ task_detail.task.author.last_name }} {{ task_detail.task.author.first_name }}</a></li>
                 {% if task_detail.task.canEdit %}
                 <li>
@@ -547,9 +553,9 @@
                     <a href="/task_edit/?id={{ task_detail.task.id }}">Task Settings</a>
                 </li>
                     <li class="js-task_done">
-                <span class="dropdown js-options_popup">
-                  <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-close "></a>
-                </span>
+                        <span class="dropdown js-options_popup">
+                          <a data-toggle="dropdown" href="javascript:void(0);" class="fa fa-close "></a>
+                        </span>
                     <a href="#">Close task</a>
                 </li>
                 {% endif %}
