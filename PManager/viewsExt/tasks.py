@@ -185,7 +185,7 @@ def __search_filter(header_values, request):
         if number:
             ar_filter['number'] = number
         else:
-            qArgs.append(Q(name__icontains=search_text) | Q(text__icontains=search_text))
+            qArgs.append(Q(name__icontains=search_text) | Q(text__icontains=search_text) | Q(project__name__icontains=search_text))
     # user select tagsearch
     tag_search = request.POST.getlist("tag_search[]",[u''])
     #import q; q(tag_search)
@@ -1171,7 +1171,6 @@ class taskAjaxManagerCreator(object):
     def process_taskClose(self):
         t = self.taskManager.task
         user = self.currentUser
-        error = ''
 
         if t.started:
             t.Stop()
@@ -1196,26 +1195,10 @@ class taskAjaxManagerCreator(object):
                 mess.send()
             else:
                 if profile.isManager(t.project) or t.author.id == user.id or user.is_superuser:
-                    if t.donations.exists():
-                        if t.messages.filter(code='RESULT').exists():
-                            donatedUsers = User.objects.filter(pk__in=t.donations.values_list('user__id', flat=True))\
-                                .exclude(pk__in=t.messages.filter(code='VOTE').values_list('author__id', flat=True))\
-                                .exclude(pk=user.id)
-
-                            if donatedUsers.exists():
-                                unvotedDonations = t.donations.filter(user__in=donatedUsers)
-                                unvotedDonationSum = 0
-                                for unvotedDonation in unvotedDonations:
-                                    unvotedDonationSum += unvotedDonation.sum
-
-                                if unvotedDonationSum > float(t.donated) / 2:
-                                    error = 'Ask ' + ', '.join([u.last_name + ' ' +u.first_name for u in donatedUsers]) + ' for voting before the closing.'
-
-                    if not error:
+                    t.Close(user)
+                    if not t.last_error:
                         if not t.closedInTime:
                             t.setIsInTime()
-
-                        t.Close(user)
 
                         if t.winner and not t.winner.get_profile().hasRole(t.project):
                             t.winner.get_profile().setRole('guest', t.project)
@@ -1265,7 +1248,7 @@ class taskAjaxManagerCreator(object):
         return json.dumps({
             'closed': t.closed,
             'status': t.status.code if t.status else None,
-            'error': error
+            'error': t.last_error
         })
 
     @task_ajax_action

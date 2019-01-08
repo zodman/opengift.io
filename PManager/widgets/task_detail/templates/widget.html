@@ -893,9 +893,10 @@
 
                 {% if not task_detail.task.closed %}
                 <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
-                class="donate-button btn orange-gr">Credit this task <img src="/static/img/investment.svg" height="18"></a>
-
-                <div class="donate-desc">minimal donation value is  ${{ task_detail.avgDonate|floatformat:"0" }} for now</div>
+                class="donate-button btn orange-gr">Credit this contest <img src="/static/img/investment.svg" height="18"></a>
+                <a href="#post_comment"
+                   onclick="$('.js-task-message-tab:eq(0)').not('.active').trigger('click');$('[name=task_message]').val('I started this task. I will provide the solution ASAP.');setTimeout(function() {$('[name=task_message]').focus()}, 500);"
+                class="donate-button btn btn-primary" >Try to win</a>
                 {% endif %}
                 <div class="clearfix"></div>
             <div class="donation-bonus" style="padding: 30px 0 0">

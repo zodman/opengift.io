@@ -333,7 +333,7 @@ var CRITICALLY_THRESHOLD = 0.7;
 
             if (!taskInfo.deadline) { 
                 taskInfo.deadline = '';
-                taskInfo.enable_deadline_percent= '';//'style=display:none;';
+                taskInfo.enable_deadline_percent= 'style="height:1px;overflow:hidden;"';
                 taskInfo.deadline_percent = '0'; 
             }
             if (taskInfo.deadline) { 
