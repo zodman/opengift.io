@@ -532,7 +532,7 @@ def widget(request, headerValues, widgetParams={}, qArgs=[], arPageParams={}, ad
     template = templateTools.get_task_template()
 
     title = u'All contests' if not project else project.name + ' / Contests'
-    header = u'All contests' if not project else '<a href="/project/'+str(project.id)+'/public/">' + project.name + '</a>' + ' / Contests'
+    header = u'Active contests' if not project else '<a href="/project/'+str(project.id)+'/public/">' + project.name + '</a>' + ' / Contests'
 
     result = {
         'title': title,
