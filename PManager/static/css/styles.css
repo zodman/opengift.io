@@ -1514,7 +1514,7 @@ div.taskWizard-required .taskWizard-question-title:after {
     align-items: center;
 }
 .task-title {
-    width:65%;
+    width:50%;
     position:relative;
     padding-right:35px;
 }
@@ -1539,10 +1539,11 @@ div.taskWizard-required .taskWizard-question-title:after {
     color: #bb0500;
 }
 
-.task-info {width:35%;}
+.task-info {width:50%;}
 
 .task-info-progress {
     position: relative;
+    float: left;
 }
 
 .donations-text {
@@ -1574,20 +1575,10 @@ div.taskWizard-required .taskWizard-question-title:after {
 }
 
 
-@media only screen and (max-width: 960px) {
-    .task .task-border {
-        flex-flow: column;
-    }
-    .task-title {
-        width:100%;
-        padding-right:0;
-        margin-bottom: 15px;
-    }
-    .task-info {
-        width:100%;
-    }
 
-}
+
+
+
 
 
 
@@ -6408,8 +6399,11 @@ body {
 /* css hack https://www.bennadel.com/blog/3369-css-flexbox-creating-the-invision-avatar-row-widget.htm */
 .task-title-users-wrapper {
  width: 40%;
- float:right;
+ float:left;
 }
+
+
+
 .task-title-users-wrapper p {
     padding: 0;
     margin:0;
@@ -6424,20 +6418,20 @@ body {
 }
 
 .user_message {
-    height: 49px ;
-    margin: 0px -12px 0px 0px ;
-    padding: 0px 0px 0px 0px ;
-    position: relative ;
-    width: 42px ; /* Forces flex items to be smaller than their contents. */
-
+    height: 44px;
+    margin: 0px -12px 0px 0px;
+    padding: 0px 0px 0px 0px;
+    position: relative;
+    width: 44px;
 }
 
 .winner .winner-selector {
     position: absolute;
-    margin-left: -8px;
     width: 100%;
-    font-size: 30px;
-    color: #39c2d3;
+    font-size: 24px;
+    color: #fff;
+    text-align: center;
+    top: 12px;
 }
 
 
@@ -6458,11 +6452,13 @@ body {
 
 .js-task-users .winner {
     z-index: 10;
-
+    background: #90c090;
+    border-radius: 50px;
 }
-.winner img  {
-    border: 2px solid #90c090 ;
 
+.winner img  {
+    border: 2px solid #90c090;
+    opacity: 0.1;
 }
 
 .user_message:nth-child( 1 ) { z-index: 1 ; }
@@ -6483,11 +6479,11 @@ body {
     width: 140px;
    }
    .circular-chart {
-     display: block;
-     max-width: 32px;
-     max-height: 32px;
-     float:left;
-     margin: 10px 10px 0 0;
+       display: block;
+       max-width: 42px;
+       max-height: 42px;
+       float: left;
+       margin: 1px 10px 0 0;
    }
 
    
@@ -6496,3 +6492,36 @@ body {
      fill: #e3e3e3;
      stroke-width: 2.8;  
    }
+
+
+@media only screen and (max-width: 768px) {
+    .task-info {
+        flex-direction: column;
+    }
+    .task-info-deadline,
+    .task-title-users-wrapper,
+    .task-info-progress {
+        width: 100%;
+    }
+
+    .task-title-users-wrapper {
+        margin: 15px 0;
+    }
+
+}
+
+@media only screen and (max-width: 960px) {
+    .task .task-border {
+        flex-flow: column;
+    }
+    .task-title {
+        width:100%;
+        padding-right:0;
+        margin-bottom: 15px;
+    }
+    .task-info {
+        width:100%;
+        display: flex;
+    }
+
+}
