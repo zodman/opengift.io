@@ -15,7 +15,10 @@
                                 <input type="hidden" name="milestone" class="js-milestone"
                                        value="{{ milestone.id }}"/>
                                 <h4>Milestone</h4>
-                                <p><small>By donating on a goal, you motivate a team to complete a specific task. The donation amount will be automatically released once the goal is achieved.</small></p>
+                                <p><small>
+                                    By donating on a goal, you motivate a team to complete a specific task.
+                                    The donation amount will be automatically released once the goal is achieved.
+                                </small></p>
                                 <p class="text-muted">
                                         <span><i
                                                 class="icon icon-Time mr-1 u-mr-15"></i> {{ milestone.date|date:"d.m.Y" }}</span>
@@ -26,7 +29,10 @@
                                 <input type="hidden" name="task" class="js-task"
                                        value="{{ task.id }}"/>
                                 <h4>Task</h4>
-                                <p><small>By donating on a task, you motivate a team to complete it faster. The donation amount will be automatically released once the task is closed.</small></p>
+                                <p><small>
+                                    By donating on the contest, you motivate participants to complete it faster.
+                                    The donation amount will be automatically released once the task is closed.
+                                </small></p>
                                 <p class="text-muted">
                                     &nbsp;&nbsp;{{ task.name }}
                                 </p>
@@ -47,7 +53,7 @@
 
                             <div class="row align-items-center">
                                 <div class="col-lg-6 js-form-group">
-                                    <input type="hidden" name="min_donation" value="{{ request.GET.min }}" />
+                                    <input type="hidden" name="min_donation" value="1" />
                                     <input type="text" name="" data-number-from="0.00001"
                                            class="js-required js-target-project-sum" value="{{ request.GET.min }}"
                                            placeholder="Sum"/>
@@ -85,7 +91,6 @@
                     </div>
                 </div> <!-- END col-lg-5-->
             </div> <!-- END row-->
-            <p style="text-align: center;margin-top: 20px;"><small>Processing done through "WEB PAY" S.R.L., MD-4801, str. Pacii, 4, or. Criuleni, Republica Moldova, tel. 069272600. </small></p>
         </div> <!-- END container-->
 
         <script>

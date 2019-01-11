@@ -192,7 +192,7 @@ def blockchainAjax(request):
         mtId = milestone.id if milestone else 't'+str(task.id) if task else '-1'
         if currency == 'gift':
             if refUser and refUser.id != uid:
-                qtyRef = qty * 0.2
+                qtyRef = qty * GIFT_USD_RATE
                 blockchain_pay_request(
                     request.user.username,
                     refUser.blockchain_wallet,
@@ -344,8 +344,9 @@ def paypalExecute(request):
                 except PM_Project.DoesNotExist:
                     raise Http404
 
-                qty = float(payment.transactions[0].amount.total) * 0.95
-                giftQty = round(qty / 0.06)
+                qty = float(payment.transactions[0].amount.total) * 1
+                giftQty = round(qty / GIFT_USD_RATE)
+
                 if donate(
                     giftQty,
                     project,

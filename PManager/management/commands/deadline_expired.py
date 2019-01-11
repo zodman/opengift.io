@@ -19,5 +19,5 @@ class Command(NoArgsCommand):
 
         tasks = PM_Task.objects.filter(onPlanning=True, deadline__isnull=True, closed=False)
         for task in tasks:
-            task.Close(user=task.getWinner())
+            task.Close(user=user)
             print "Contest %s closed by result" % task.id

@@ -249,11 +249,12 @@ class PM_User(models.Model):
 
     @property
     def avatarSrc(self):
+        # from django.core.exceptions import SuspiciousOperation
         if self.avatar:
             try:
                 avatar = get_thumbnail(self.avatar, '120x120')
                 return avatar.url
-            except IOError:
+            except Exception:
                 avatar = str(self.avatar.url) if self.avatar else ''
                 if avatar:
                     if avatar.find('media') < 0:
