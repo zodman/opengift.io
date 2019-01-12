@@ -775,7 +775,7 @@ var widget_tl, currentGroup;
                         var $activeTab = this.$tabContainer.find('li.active > a');
                         if ($activeTab.attr('rel'))
                             params.action = $activeTab.attr('rel');
-                        else params.action = 'all';
+                        else params.action = 'sq';
                     }
                     if (!params.group) {
                         var $group = this.container.find('input[name=group]:checked');

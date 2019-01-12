@@ -14,10 +14,15 @@ class Command(NoArgsCommand):
             if task.deadline < now:
                 text_desc = "Task deadline expired"
                 task.systemMessage(text=text_desc, user=user, code="DEADLINE_EXPIRED")
-                task.Close(user=user)
+                task.Close(user)
                 print "Contest %s closed by deadline" % task.id
 
         tasks = PM_Task.objects.filter(onPlanning=True, deadline__isnull=True, closed=False)
         for task in tasks:
-            task.Close(user=user)
+            donorMessage = task.messages.filter(code='DONATION')
+            if donorMessage.exists():
+                task.Close(donorMessage[0].author)
+            else:
+                task.Close(user)
+
             print "Contest %s closed by result" % task.id

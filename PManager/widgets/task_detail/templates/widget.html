@@ -518,7 +518,7 @@
     {% if task_detail.task.project.id != 1013 %}
     <li>
         <a class="active" href="/project/{{ task_detail.task.project.id }}/public/">{{ task_detail.task.project.name }}</a> /
-        <a class="active" href="/project/{{ task_detail.task.project.id }}/tasks/">Contests</a> /
+        <a class="active" href="/project/{{ task_detail.task.project.id }}/tasks/">Challenges</a> /
         #{{ task_detail.task.number }}
     </li>
     {% endif %}
@@ -698,10 +698,10 @@
                     <div class="message-tabs">
                         <a data-type="message" class="js-task-message-tab message-tab" href="#">Add message</a>
                         <a data-type="estimation" class="js-task-message-tab message-tab" href="#">Offer your price</a>
-                        <a data-type="result" class="js-task-message-tab message-tab" href="#">Add result</a>
+                        <a data-type="result" class="js-task-message-tab message-tab" href="#">Add solution</a>
                         {% if task_detail.candidates and not task_detail.voted and task_detail.task.project.id != 1075 %}
                         <a data-type="vote" class="js-task-message-tab message-tab {% if not task_detail.donated %}disabled{% endif %}" href="#"
-                        {% if not task_detail.donated %}data-toggle="tooltip" title="You should donate to this task to be able to choose a winner."{% endif %}>Select the best result</a>
+                        {% if not task_detail.donated %}data-toggle="tooltip" title="You should donate to this task to be able to choose a winner."{% endif %}>Select the best solution</a>
                         {% endif %}
                         </div>
                     <form class="js-task-message-form newMessage form-horizontal" style="display: none;"
@@ -807,7 +807,7 @@
                 {% else %}
                 <p style="margin-left: 10px;">
                     <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Sign in</a>
-                    or <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Register</a> to see all task conversation and to be able to post/download the results.
+                    or <a href="/login/?backurl=/task_detail/%3Fproject={{ task_detail.task.project.id }}%26number={{ task_detail.task.number }}">Register</a> to see all task conversation and to be able to post/download the solutions.
                 </p>
                 {% endif %}
                 <!--{#        <div class="chat-nav chat-nav-simple">#}
@@ -893,10 +893,10 @@
 
                 {% if not task_detail.task.closed %}
                 <a href="/project/{{ task_detail.task.project.id }}/donate/?t={{task_detail.task.id  }}&min={{ task_detail.avgDonate|floatformat:"0" }}"
-                class="donate-button btn orange-gr">Credit this contest <img src="/static/img/investment.svg" height="18"></a>
+                class="donate-button btn orange-gr">Finance it <img src="/static/img/investment.svg" height="18"></a>
                 <a href="#post_comment"
                    onclick="$('.js-task-message-tab:eq(0)').not('.active').trigger('click');$('[name=task_message]').val('I started this task. I will provide the solution ASAP.');setTimeout(function() {$('[name=task_message]').focus()}, 500);"
-                class="donate-button btn btn-primary" >Try to win</a>
+                class="donate-button btn btn-primary" >Develop it</a>
                 {% endif %}
                 <div class="clearfix"></div>
             <div class="donation-bonus" style="padding: 30px 0 0">
@@ -917,11 +917,11 @@
 </g>
 <g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g><g></g></svg></span>
             <b style="color: #ff5466;">No risk deposits!</b>
-                All money will be automatically returned in case of no results are provided.
+                All money will be automatically returned in case of no solutions are provided.
             </div>
-                {% if task_detail.results %}
+
                 <div class="published-results up-3 pb-0">
-                    <h2 style="margin-bottom: 20px;">Proposed solutions</h2>
+                    <h3 style="margin-bottom: 20px;">Provided solutions</h3>
                     <ul class="published-results-ul">
                         {% for result in task_detail.results %}
                         <li class="published-results-ul-li {% if result.author.id == task_detail.task.currentWinner.id %}winner{% endif %}">
@@ -939,11 +939,14 @@
                             </a>
                             {% endif %}
                         </li>
+                        {% empty %}
+                            <li class="nothing-to-show" style="text-align: left;">No solutions here,
+                                <a href="#post_comment" onclick="$('.js-task-message-tab:eq(0)').not('.active').trigger('click');$('[name=task_message]').val('I started this task. I will provide the solution ASAP.');setTimeout(function() {$('[name=task_message]').focus()}, 500);" >provide</a> it and get the budget.</li>
                         {% endfor %}
                     </ul>
                 </div>
 
-                {% endif %}
+
                 <small style="color: grey; margin-top: 20px;display: block;">
                     * including 10% fee taken by the project's digital share holders and 5% fee taken by OpenGift community.
                 </small>

@@ -52,7 +52,9 @@
                         <div class="card box-shadow-v2 bg-white u-of-hidden text-center">
                             <div class="bg-gradient wallet-title m-0 p-4 p-md-5 u-pb-20 u-pt-25 text-white clearfix">
                                 <div class="pull-left"><h2>My wallet</h2></div>
-                                <div class="pull-right">Balance: <h2 class="js-wallet-balance"></h2> Gift</div>
+                                <div class="pull-right">Balance: <h2 class="js-wallet-balance"></h2> Gift
+                                     / $ <span class="js-wallet-balance-dollars"></span>
+                                </div>
                             </div>
                             <div class="p-4 p-md-5 bg-gray-v1 u-mb-35">
                                 <form class="" action="" method="POST">
@@ -230,6 +232,7 @@
                         $('.js-open-send, .js-open-donate').removeAttr('disabled');
                     }
                     $('.js-wallet-balance').html(Math.round(data.Balance * 10000) / 10000);
+                    $('.js-wallet-balance-dollars').html(Math.round(data.BalanceDollars * 10000) / 10000);
                     if (data.Projects) {
                         $('.js-project-list .slick-track').empty();
                         var sp = '', n = 0;

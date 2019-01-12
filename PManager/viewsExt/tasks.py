@@ -215,7 +215,7 @@ def __search_filter(header_values, request):
         ar_filter['donate_exists'] = True
         ar_filter['closed'] = False
     elif action == 'sq':
-        ar_filter['donate_sum'] = 0
+        ar_filter['donate_sum__gt'] = 0
         ar_filter['closed'] = False
     elif action == 's':
         ar_filter['donate_sum__lte'] = 1000

@@ -65,6 +65,7 @@ def blockchainIncome(request):
 def blockchainAjax(request):
     action = request.POST.get('action')
     result = ''
+    import json
     if action == 'register':
         result = userRegisterAndUpdate(request)
 
@@ -81,6 +82,10 @@ def blockchainAjax(request):
         profile = request.user.get_profile()
         wallet = profile.blockchain_wallet
         result = blockchain_user_getbalance_request(request.user.username, wallet)
+        res = json.loads(result)
+        if 'Balance' in res:
+            res['BalanceDollars'] = res['Balance'] * GIFT_USD_RATE
+            result = json.dumps(res)
 
 
     elif action == 'confirmGoal':
@@ -152,7 +157,7 @@ def blockchainAjax(request):
         result = blockchain_token_move_request(request.user.username, project, wallet, qty)
 
     elif action == 'donate':
-        import json
+
         # profile = request.user.get_profile()
         project = request.POST.get('project')
         milestone = request.POST.get('milestone', None)
